@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace App\View;
 
 use Cake\View\View;
+use CakeLte\View\CakeLteTrait;
 
 /**
  * Application View
@@ -26,6 +27,10 @@ use Cake\View\View;
  */
 class AppView extends View
 {
+    use CakeLteTrait;
+
+    public $layout = 'CakeLte.default';
+  
     /**
      * Initialization hook method.
      *
@@ -37,5 +42,9 @@ class AppView extends View
      */
     public function initialize(): void
     {
+        $this->initializeCakeLte([
+            'app-name' => 'coseca<b>AIS</b>',
+            'app-logo' => 'CakeLte.cake.icon.svg',        
+        ]);  
     }
 }
