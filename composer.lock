@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "91e2a72f85be3fb9723bdd6531b1a3d9",
+    "content-hash": "93b121d37d95cf184a993fe1475032b3",
     "packages": [
         {
             "name": "arodu/cakelte",
-            "version": "dev-develop",
+            "version": "dev-2.next",
             "source": {
                 "type": "git",
                 "url": "https://github.com/arodu/cakelte.git",
-                "reference": "5c7f9384b79cba68387765c9e27fdbcff6d89492"
+                "reference": "17c04783741fed2eb2f575a82dbab1747885f684"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/arodu/cakelte/zipball/5c7f9384b79cba68387765c9e27fdbcff6d89492",
-                "reference": "5c7f9384b79cba68387765c9e27fdbcff6d89492",
+                "url": "https://api.github.com/repos/arodu/cakelte/zipball/17c04783741fed2eb2f575a82dbab1747885f684",
+                "reference": "17c04783741fed2eb2f575a82dbab1747885f684",
                 "shasum": ""
             },
             "require": {
@@ -40,9 +40,9 @@
             "description": "CakeLTE: AdminLTE plugin for CakePHP 4.x",
             "support": {
                 "issues": "https://github.com/arodu/cakelte/issues",
-                "source": "https://github.com/arodu/cakelte/tree/develop"
+                "source": "https://github.com/arodu/cakelte/tree/2.next"
             },
-            "time": "2022-10-23T20:24:08+00:00"
+            "time": "2022-10-24T01:21:36+00:00"
         },
         {
             "name": "cakephp/cakephp",

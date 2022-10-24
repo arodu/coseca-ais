@@ -6,7 +6,7 @@
     "license": "MIT",
     "require": {
         "php": ">=7.4",
-        "arodu/cakelte": "dev-develop",
+        "arodu/cakelte": "dev-2.next",
         "cakephp/cakephp": "4.4.*",
         "cakephp/migrations": "^3.2",
         "cakephp/plugin-installer": "^1.3",
