@@ -421,4 +421,8 @@ return [
     'Session' => [
         'defaults' => 'php',
     ],
+
+    'DebugKit' => [
+        'forceEnable' => true,
+    ],
 ];

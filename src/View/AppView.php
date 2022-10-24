@@ -42,9 +42,6 @@ class AppView extends View
      */
     public function initialize(): void
     {
-        $this->initializeCakeLte([
-            'app-name' => 'coseca<b>AIS</b>',
-            'app-logo' => 'CakeLte.cake.icon.svg',        
-        ]);  
+        $this->initializeCakeLte();
     }
 }
