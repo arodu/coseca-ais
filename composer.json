@@ -7,9 +7,13 @@
     "require": {
         "php": ">=7.4",
         "arodu/cakelte": "dev-2.next",
+        "cakedc/users": "^11.1",
         "cakephp/cakephp": "4.4.*",
         "cakephp/migrations": "^3.2",
         "cakephp/plugin-installer": "^1.3",
+        "google/recaptcha": "@stable",
+        "league/oauth2-facebook": "@stable",
+        "league/oauth2-google": "@stable",
         "mobiledetect/mobiledetectlib": "^2.8"
     },
     "require-dev": {

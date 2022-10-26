@@ -65,6 +65,9 @@ class Application extends BaseApplication
 
         // Load more plugins here
         $this->addPlugin('CakeLte');
+
+        $this->addPlugin(\CakeDC\Users\Plugin::class);
+        Configure::write('Users.config', ['users']);
     }
 
     /**
