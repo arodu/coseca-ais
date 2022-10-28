@@ -73,18 +73,14 @@ return static function (RouteBuilder $routes) {
         $builder->fallbacks();
     });
 
-    $routes->prefix('Student', function (RouteBuilder $routes) {
-
-
-
-        $routes->fallbacks(DashedRoute::class);
+    $routes->prefix('Student', function (RouteBuilder $builder) {
+        $builder->connect('/', ['controller' => 'Stages', 'action' => 'index']);
+        $builder->fallbacks(DashedRoute::class);
     });
 
 
-    $routes->prefix('Admin', function (RouteBuilder $routes) {
-
-
-        $routes->fallbacks(DashedRoute::class);
+    $routes->prefix('Admin', function (RouteBuilder $builder) {
+        $builder->fallbacks(DashedRoute::class);
     });
 
     /*

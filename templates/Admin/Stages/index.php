@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Stage[]|\Cake\Collection\CollectionInterface $stages
@@ -14,16 +13,17 @@ $this->Breadcrumbs->add([
 ?>
 
 <div class="card card-primary card-outline">
-    <div class="card-header d-sm-flex">
+    <div class="card-header d-flex flex-column flex-md-row">
         <h2 class="card-title">
             <!-- -->
         </h2>
-        <div class="card-toolbox">
+        <div class="d-flex ml-auto">
             <?= $this->Paginator->limitControl([], null, [
                 'label' => false,
                 'class' => 'form-control-sm',
+                'templates' => ['inputContainer' => '{{content}}']
             ]); ?>
-            <?= $this->Html->link(__('New Stage'), ['action' => 'add'], ['class' => 'btn btn-primary btn-sm']) ?>
+            <?= $this->Html->link(__('New Stage'), ['action' => 'add'], ['class' => 'btn btn-primary btn-sm ml-2']) ?>
         </div>
     </div>
     <!-- /.card-header -->
@@ -58,12 +58,11 @@ $this->Breadcrumbs->add([
         </table>
     </div>
     <!-- /.card-body -->
-
-    <div class="card-footer d-md-flex paginator">
-        <div class="mr-auto" style="font-size:.8rem">
+    <div class="card-footer d-flex flex-column flex-md-row">
+        <div class="text-muted">
             <?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?>
         </div>
-        <ul class="pagination pagination-sm">
+        <ul class="pagination pagination-sm mb-0 ml-auto">
             <?= $this->Paginator->first('<i class="fas fa-angle-double-left"></i>', ['escape' => false]) ?>
             <?= $this->Paginator->prev('<i class="fas fa-angle-left"></i>', ['escape' => false]) ?>
             <?= $this->Paginator->numbers() ?>

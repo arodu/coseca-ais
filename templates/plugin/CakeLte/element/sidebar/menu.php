@@ -1,5 +1,13 @@
 <?php
 $menu = [
+    'home' => [
+        'label' => 'Inicio',
+        'uri' => ['controller' => 'Stages', 'action' => 'index', 'plugin' => false, 'prefix' => 'Student'],
+        'show' => function () {
+            // logic condition to show item, return a bool
+            return true;
+        }
+    ],
     'startPages' => [
         'label' => 'Start Pages',
         'icon' => 'fas fa-tachometer-alt',
