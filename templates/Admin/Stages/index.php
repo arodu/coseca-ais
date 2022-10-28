@@ -27,6 +27,7 @@ $this->Breadcrumbs->add([
         </div>
     </div>
     <!-- /.card-header -->
+
     <div class="card-body table-responsive p-0">
         <table class="table table-hover text-nowrap">
             <thead>
@@ -46,7 +47,7 @@ $this->Breadcrumbs->add([
                         <td><?= h($stage->name) ?></td>
                         <td><?= $this->Number->format($stage->position) ?></td>
                         <td><?= ($stage->active) ? __('Yes') : __('No') ?></td>
-                        <td><?= h($stage->code) ?></td>
+                        <td><code><?= h($stage->code) ?></code></td>
                         <td class="actions">
                             <?= $this->Html->link(__('View'), ['action' => 'view', $stage->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
                             <?= $this->Html->link(__('Edit'), ['action' => 'edit', $stage->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
@@ -58,6 +59,7 @@ $this->Breadcrumbs->add([
         </table>
     </div>
     <!-- /.card-body -->
+
     <div class="card-footer d-flex flex-column flex-md-row">
         <div class="text-muted">
             <?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?>
