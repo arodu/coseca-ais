@@ -14,10 +14,7 @@ class RegisterStage implements StageInterface
     use LocatorAwareTrait;
 
     public function initialize(): void
-    {
-        /** @var \App\Model\Table\StudentStagesTable $StudentStages */
-        $this->StudentStages = $this->fetchTable('StudentStages');
-    }
+    {}
     
     public function create($options = []): StudentStage
     {
@@ -28,7 +25,7 @@ class RegisterStage implements StageInterface
         }
 
         $data = array_merge([
-            'student_id' => $this->student->id,
+            'student_id' => $this->getStudent()->id,
             'lapse_id' => $this->StudentStages->Lapses->getCurrentLapse()->id,
             'created_by' => 1,
             'modified_by' => 1,
@@ -38,5 +35,23 @@ class RegisterStage implements StageInterface
         $stage = $this->StudentStages->newEntity($data);
 
         return $this->StudentStages->saveOrFail($stage);
+    }
+
+    public function close(string $status)
+    {
+        $stage = $this->getStudentStage();
+        $stage->status = $status;
+        
+        $this->StudentStages->saveOrFail($stage);
+
+        if ($status === Stages::STATUS_SUCCESS) {
+            $nextStageKey = Stages::getNextStage($this->getKey());
+            if ($nextStageKey) {
+                $nextStage = $this->getStudent()->getStageInstance($nextStageKey);
+                $nextStage->create([
+                    'lapse_id' => $stage->lapse_id,
+                ]);
+            }
+        }
     }
 }

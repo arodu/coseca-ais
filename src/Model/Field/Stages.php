@@ -92,6 +92,7 @@ class Stages
     public const STATUS_WAITING = 'waiting';
     public const STATUS_IN_PROGRESS = 'in-progress';
     public const STATUS_SUCCESS = 'success';
+    public const STATUS_FAIL = 'fail';
 
     /**
      * @return array
@@ -103,6 +104,7 @@ class Stages
             static::STATUS_WAITING => __('En espera'),
             static::STATUS_IN_PROGRESS => __('En progreso'),
             static::STATUS_SUCCESS => __('Realizado'),
+            static::STATUS_FAIL => __('Fallido'),
         ];
     }
 

@@ -18,6 +18,11 @@ class CreateStudents extends AbstractMigration
         $table->addColumn('user_id', 'uuid', [
             'null' => false,
         ]);
+        $table->addColumn('dni', 'string', [
+            'default' => null,
+            'limit' => 255,
+            'null' => true,
+        ]);
         $table->addColumn('created', 'datetime', [
             'default' => null,
             'null' => false,

@@ -7,6 +7,11 @@ $this->assign('title', __('Stages'));
 $this->Breadcrumbs->add([
     ['title' => 'Home'],
 ]);
+
+if (!isset($infoVars)) {
+    $infoVars = [];
+}
+
 ?>
 
 <div class="row">
@@ -22,10 +27,16 @@ $this->Breadcrumbs->add([
                         </a>
                     </h4>
                 </div>
-                <?php if ($studentStage) : ?>
-                    <div id="<?= 'collapse-' . $stageKey ?>" class="collapse <?= $this->App->statusShow($studentStage->status ?? null) ?>" data-parent="#accordion">
+                <?php if ($studentStage->status ?? false) : ?>
+                    <div id="<?= 'collapse-' . $stageKey ?>" class="collapse <?= $this->App->statusShow($studentStage->status) ?>" data-parent="#accordion">
                         <div class="card-body">
-                            <?= $this->element("stages/$stageKey/info", ['status' => $studentStage->status ?? null]) ?>
+                            <?php
+                            $element = 'stages/' . $stageKey . '/' . $studentStage->status;
+                            if (!$this->elementExists($element)) {
+                                $element = 'stages/default/' . $studentStage->status;
+                            }
+                            echo $this->element($element, ['infoVars' => $infoVars]);
+                            ?>
                         </div>
                     </div>
                 <?php endif; ?>

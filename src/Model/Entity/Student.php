@@ -3,6 +3,10 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
+use App\Model\Field\Stages;
+use App\Stage\StageFactory;
+use App\Stage\StageInterface;
+use Cake\Log\Log;
 use Cake\ORM\Entity;
 
 /**
@@ -31,6 +35,7 @@ class Student extends Entity
      */
     protected $_accessible = [
         'user_id' => true,
+        'dni' => true,
         'created' => true,
         'created_by' => true,
         'modified' => true,
@@ -38,4 +43,63 @@ class Student extends Entity
         'app_user' => true,
         'student_stages' => true,
     ];
+
+    protected $_virtual = [
+        'first_name',
+        'last_name',
+        'email',
+    ];
+
+    protected function _getFirstName()
+    {
+        if (empty($this->app_user)) {
+            Log::alert('AppUser not loaded on StudentEntity');
+            return null;
+        }
+
+        return $this->app_user->first_name;
+    }
+
+    protected function _getLastName()
+    {
+        if (empty($this->app_user)) {
+            Log::alert('AppUser not loaded on StudentEntity');
+            return null;
+        }
+
+        return $this->app_user->last_name;
+    }
+
+    protected function _getEmail()
+    {
+        if (empty($this->app_user)) {
+            Log::alert('AppUser not loaded on StudentEntity');
+            return null;
+        }
+
+        return $this->app_user->email;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCurrentStageKey(): string
+    {
+        // @todo buscar el StudentStage actual
+
+        return Stages::STAGE_REGISTER;
+    }
+
+    /**
+     * @param string|null $stage
+     * @return StageInterface
+     */
+    public function getStageInstance(?string $stage = null): StageInterface
+    {
+        if (empty($stage)) {
+            $stage = $this->getCurrentStageKey();
+        }
+
+        return StageFactory::getInstance($stage, $this);
+    }
 }

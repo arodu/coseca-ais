@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\Controller\Student;
 
 use App\Controller\AppController;
+use App\Model\Entity\Student;
+use Cake\Cache\Cache;
 
 class AppStudentController extends AppController
 {
@@ -15,16 +17,17 @@ class AppStudentController extends AppController
     }
 
 
-    public function getCurrentStudent($reset = false)
+    public function getCurrentStudent($reset = false): ?Student
     {
-        $identity = $this->Authentication->getIdentity();
+        $user_id = $this->Authentication->getIdentity()->getIdentifier();
 
-        if ($reset || empty($identity->student)) {
-            $user = $identity->getOriginalData();
-            $this->fetchTable('Users')->loadInto($user, ['Students']);
-            $this->Authentication->setIdentity($user);
-        }
-
-        return $identity->student;
+        return Cache::remember('student-user-' . $user_id, function() use ($user_id) {
+            return $this->fetchTable('Students')
+                ->find('complete')
+                ->where([
+                    'user_id' => $user_id
+                ])
+                ->first();
+        });
     }
 }

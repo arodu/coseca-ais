@@ -1,0 +1,1 @@
+<p><?= __('El proceso se encuentra en progreso, esperando fecha para continuar') ?></p>

@@ -46,10 +46,13 @@ class AppHelper extends Helper
                 return 'warning';
                 break;
             case Stages::STATUS_WAITING: 
-                return 'danger';
+                return 'info';
                 break;
             case Stages::STATUS_SUCCESS: 
                 return 'success';
+                break;
+            case Stages::STATUS_FAIL:
+                return 'danger';
                 break;
             case Stages::STATUS_PENDING:
             default:
@@ -62,6 +65,7 @@ class AppHelper extends Helper
     {
         switch($status) {
             case Stages::STATUS_IN_PROGRESS:
+            case Stages::STATUS_WAITING:
                 return 'show';
                 break;
 

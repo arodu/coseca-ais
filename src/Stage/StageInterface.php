@@ -9,13 +9,13 @@ use Cake\Datasource\EntityInterface;
 
 interface StageInterface
 {
-    public function __construct(Student $student);
+    public function __construct(string $stageKey, Student $student);
     public function initialize(): void;
     public function create(): StudentStage;
     public function getKey();
     public function getStudent(): Student;
     public function getStudentStage(): ?StudentStage;
-    //public function show();
-
-    public function end();
+    public function close(string $status);
+    public function getLastError(): string;
+    public function setLastError(string $error);
 }

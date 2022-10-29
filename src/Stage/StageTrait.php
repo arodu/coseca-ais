@@ -5,12 +5,15 @@ namespace App\Stage;
 
 use App\Model\Entity\Student;
 use App\Model\Entity\StudentStage;
-use App\Model\Field\Stages;
+use Cake\ORM\Locator\LocatorAwareTrait;
 
 trait StageTrait
 {
+    use LocatorAwareTrait;
+
     protected Student $_student;
     protected string $_key;
+    protected string $_lastError;
 
     /**
      * @param string $stageKey
@@ -20,6 +23,9 @@ trait StageTrait
     {
         $this->_key = $stageKey;
         $this->_student = $student;
+
+        /** @var \App\Model\Table\StudentStagesTable $StudentStages */
+        $this->StudentStages = $this->fetchTable('StudentStages');
 
         $this->initialize();
     }
@@ -45,19 +51,21 @@ trait StageTrait
      */
     public function getStudentStage(): ?StudentStage
     {
-        return $this->StudentStages->find([
-                'student_id' => $this->student->id,
+        return $this->StudentStages->find()
+            ->where([
+                'student_id' => $this->getStudent()->id,
                 'stage' => $this->getKey(),
             ])
             ->first();
     }
 
-    /**
-     * @return void
-     */
-    public function end()
+    public function getLastError(): string
     {
-        $nextStage = Stages::getNextStage($this->getKey());
-        $stage = StageFactory::getInstance($nextStage, $this->getStudent());
+        return $this->_lastError;
+    }
+
+    public function setLastError(string $error)
+    {
+        $this->_lastError = $error;
     }
 }

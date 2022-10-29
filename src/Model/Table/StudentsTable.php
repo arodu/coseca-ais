@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Model\Table;
 
 use App\Model\Field\Stages;
-use App\Stage\StageFactory;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -97,6 +96,21 @@ class StudentsTable extends Table
         return $rules;
     }
 
+    /**
+     * @param Query $query
+     * @return Query
+     */
+    public function findComplete(Query $query): Query
+    {
+        return $query->contain(['AppUsers']);
+    }
+
+    /**
+     * Create an Student and the first stage
+     * 
+     * @param string $user_id
+     * @return void
+     */
     public function createNewStudent(string $user_id)
     {
         $student = $this->newEntity([
@@ -106,7 +120,7 @@ class StudentsTable extends Table
         ]);
         $this->saveOrFail($student);
 
-        $stage = StageFactory::getInstance(Stages::defaultStage(), $student);
+        $stage = $student->getStageInstance(Stages::defaultStage());
         $stage->create();
     }
 
