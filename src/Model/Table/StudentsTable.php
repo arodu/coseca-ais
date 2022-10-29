@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use App\Model\Field\Stages;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -11,7 +12,6 @@ use Cake\Validation\Validator;
 /**
  * Students Model
  *
- * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
  * @property \App\Model\Table\StudentStagesTable&\Cake\ORM\Association\HasMany $StudentStages
  *
  * @method \App\Model\Entity\Student newEmptyEntity()
@@ -48,7 +48,7 @@ class StudentsTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('Users', [
+        $this->belongsTo('AppUsers', [
             'foreignKey' => 'user_id',
             'joinType' => 'INNER',
         ]);
@@ -66,7 +66,7 @@ class StudentsTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->integer('user_id')
+            ->uuid('user_id')
             ->notEmptyString('user_id');
 
         $validator
@@ -91,8 +91,30 @@ class StudentsTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn('user_id', 'Users'), ['errorField' => 'user_id']);
+        $rules->add($rules->existsIn('user_id', 'AppUsers'), ['errorField' => 'user_id']);
 
         return $rules;
     }
+
+    public function createNewStudent(string $user_id)
+    {
+        $student = $this->newEntity([
+            'user_id' => $user_id,
+            'created_by' => 1,
+            'modified_by' => 1,
+        ]);
+        $this->saveOrFail($student);
+
+        $stage = $this->StudentStages->newEntity([
+            'student_id' => $student->id,
+            'stage' => Stages::defaultStage(),
+            'lapse_id' => $this->StudentStages->Lapses->getCurrentLapse()->id,
+            'status' => Stages::STATUS_IN_PROGRESS,
+            'created_by' => 1,
+            'modified_by' => 1,
+        ]);
+
+        $this->StudentStages->saveOrFail($stage);
+    }
+
 }

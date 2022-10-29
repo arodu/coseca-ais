@@ -15,9 +15,7 @@ class CreateStudents extends AbstractMigration
     public function change()
     {
         $table = $this->table('students');
-        $table->addColumn('user_id', 'integer', [
-            'default' => null,
-            'limit' => 11,
+        $table->addColumn('user_id', 'uuid', [
             'null' => false,
         ]);
         $table->addColumn('created', 'datetime', [

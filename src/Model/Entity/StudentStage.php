@@ -10,7 +10,6 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property int $student_id
- * @property int $stage_id
  * @property int $lapse_id
  * @property string $status
  * @property \Cake\I18n\FrozenTime $created
@@ -18,8 +17,8 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\FrozenTime $modified
  * @property int $modified_by
  *
- * @property \App\Model\Entity\Student $student
  * @property \App\Model\Entity\Stage $stage
+ * @property \App\Model\Entity\Student $student
  * @property \App\Model\Entity\Lapse $lapse
  */
 class StudentStage extends Entity
@@ -35,7 +34,7 @@ class StudentStage extends Entity
      */
     protected $_accessible = [
         'student_id' => true,
-        'stage_id' => true,
+        'stage' => true,
         'lapse_id' => true,
         'status' => true,
         'created' => true,
@@ -43,7 +42,6 @@ class StudentStage extends Entity
         'modified' => true,
         'modified_by' => true,
         'student' => true,
-        'stage' => true,
         'lapse' => true,
     ];
 }

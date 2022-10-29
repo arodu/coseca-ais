@@ -9,6 +9,8 @@
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
+use App\Model\Field\Users;
+
 /*
  * IMPORTANT:
  * This is an example configuration file. Copy this file into your config directory and edit to
@@ -99,7 +101,7 @@ return [
         ],
 
         [
-            'role' => 'student',
+            'role' => Users::getStudentRoles(),
             'prefix' => 'Student',
             'extension' => '*',
             'plugin' => '*',
@@ -107,7 +109,7 @@ return [
             'action' => '*',
         ],
         [
-            'role' => ['admin', 'asistand'],
+            'role' => Users::getAdminRoles(),
             'prefix' => 'Admin',
             'extension' => '*',
             'plugin' => '*',
@@ -136,6 +138,7 @@ return [
                 return false;
             }
         ],
+
         //all roles allowed to Pages/display
         [
             'role' => '*',

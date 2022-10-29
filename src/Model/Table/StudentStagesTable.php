@@ -12,7 +12,6 @@ use Cake\Validation\Validator;
  * StudentStages Model
  *
  * @property \App\Model\Table\StudentsTable&\Cake\ORM\Association\BelongsTo $Students
- * @property \App\Model\Table\StagesTable&\Cake\ORM\Association\BelongsTo $Stages
  * @property \App\Model\Table\LapsesTable&\Cake\ORM\Association\BelongsTo $Lapses
  *
  * @method \App\Model\Entity\StudentStage newEmptyEntity()
@@ -53,10 +52,6 @@ class StudentStagesTable extends Table
             'foreignKey' => 'student_id',
             'joinType' => 'INNER',
         ]);
-        $this->belongsTo('Stages', [
-            'foreignKey' => 'stage_id',
-            'joinType' => 'INNER',
-        ]);
         $this->belongsTo('Lapses', [
             'foreignKey' => 'lapse_id',
             'joinType' => 'INNER',
@@ -76,8 +71,10 @@ class StudentStagesTable extends Table
             ->notEmptyString('student_id');
 
         $validator
-            ->integer('stage_id')
-            ->notEmptyString('stage_id');
+            ->scalar('stage')
+            ->maxLength('stage', 255)
+            ->requirePresence('stage', 'create')
+            ->notEmptyString('stage');
 
         $validator
             ->integer('lapse_id')
@@ -112,7 +109,6 @@ class StudentStagesTable extends Table
     public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->existsIn('student_id', 'Students'), ['errorField' => 'student_id']);
-        $rules->add($rules->existsIn('stage_id', 'Stages'), ['errorField' => 'stage_id']);
         $rules->add($rules->existsIn('lapse_id', 'Lapses'), ['errorField' => 'lapse_id']);
 
         return $rules;

@@ -9,13 +9,13 @@ use Cake\ORM\Entity;
  * Student Entity
  *
  * @property int $id
- * @property int $user_id
+ * @property string $user_id
  * @property \Cake\I18n\FrozenTime $created
  * @property int $created_by
  * @property \Cake\I18n\FrozenTime $modified
  * @property int $modified_by
  *
- * @property \App\Model\Entity\User $user
+ * @property \App\Model\Entity\AppUser $app_user
  * @property \App\Model\Entity\StudentStage[] $student_stages
  */
 class Student extends Entity
@@ -35,7 +35,7 @@ class Student extends Entity
         'created_by' => true,
         'modified' => true,
         'modified_by' => true,
-        'user' => true,
+        'app_user' => true,
         'student_stages' => true,
     ];
 }

@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Student;
 
+use App\Model\Field\Stages;
+
 /**
  * Stages Controller
  *
@@ -18,7 +20,7 @@ class StagesController extends AppStudentController
      */
     public function index()
     {
-        $stages = $this->paginate($this->Stages);
+        $stages = Stages::getStages();
 
         $this->set(compact('stages'));
     }

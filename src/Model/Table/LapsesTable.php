@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use App\Model\Entity\Lapse;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -29,6 +30,8 @@ use Cake\Validation\Validator;
  */
 class LapsesTable extends Table
 {
+    use BasicTableTrait;
+
     /**
      * Initialize method
      *
@@ -74,4 +77,18 @@ class LapsesTable extends Table
 
         return $validator;
     }
+
+    /**
+     * @return Lapse|null
+     */
+    public function getCurrentLapse(): ?Lapse
+    {
+        return $this->find()
+            ->find('active')
+            ->order([
+                'date' => 'DESC',
+            ])
+            ->first();
+    }
+
 }
