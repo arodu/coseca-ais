@@ -1,4 +1,5 @@
 <?php
+
 use App\Model\Field\Stages;
 
 $this->MenuLte->activeItem('home');
@@ -21,11 +22,13 @@ $this->Breadcrumbs->add([
                         </a>
                     </h4>
                 </div>
-                <div id="<?= 'collapse-' . $stageKey ?>" class="collapse <?= $this->App->statusShow($studentStage->status ?? null) ?>" data-parent="#accordion">
-                    <div class="card-body">
-                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum
+                <?php if ($studentStage) : ?>
+                    <div id="<?= 'collapse-' . $stageKey ?>" class="collapse <?= $this->App->statusShow($studentStage->status ?? null) ?>" data-parent="#accordion">
+                        <div class="card-body">
+                            <?= $this->element("stages/$stageKey/info", ['status' => $studentStage->status ?? null]) ?>
+                        </div>
                     </div>
-                </div>
+                <?php endif; ?>
             </div>
         <?php endforeach; ?>
     </div>

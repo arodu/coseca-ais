@@ -17,6 +17,6 @@ class StageFactory
             throw new NotFoundException();
         }
 
-        return new $stages[$stageKey][Stages::DATA_CLASS]($student);
+        return new $stages[$stageKey][Stages::DATA_CLASS]($stageKey, $student);
     }
 }
