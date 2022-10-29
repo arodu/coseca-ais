@@ -3,12 +3,13 @@ declare(strict_types=1);
 
 namespace App\Stage;
 
+use App\Model\Entity\Student;
 use App\Model\Field\Stages;
 use Cake\Http\Exception\NotFoundException;
 
 class StageFactory
 {
-    public static function create(string $stageKey, $options = []): StageInterface
+    public static function getInstance(string $stageKey, Student $student): StageInterface
     {
         $stages = Stages::getStages();
 
@@ -16,6 +17,6 @@ class StageFactory
             throw new NotFoundException();
         }
 
-        return new $stages[$stageKey][Stages::DATA_CLASS]($options);
+        return new $stages[$stageKey][Stages::DATA_CLASS]($student);
     }
 }

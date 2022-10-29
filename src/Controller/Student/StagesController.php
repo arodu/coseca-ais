@@ -21,7 +21,18 @@ class StagesController extends AppStudentController
     public function index()
     {
         $stages = Stages::getStages();
+        $student = $this->getCurrentStudent();
 
-        $this->set(compact('stages'));
+        $studentStagesResult = $this->fetchTable('StudentStages')
+            ->find()
+            ->where(['student_id' => $student->id]);
+
+        $studentStages = [];
+        foreach ($studentStagesResult as $studenStage) {
+            $studentStages[$studenStage->stage] = $studenStage;
+        }
+
+        $this->set(compact('stages', 'student', 'studentStages'));
     }
+
 }

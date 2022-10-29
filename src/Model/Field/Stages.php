@@ -73,6 +73,21 @@ class Stages
         return $output;
     }
 
+    public static function getNextStage($currentStage): ?string
+    {
+        $stages = static::getStages(static::DATA_KEY);
+        $prev = null;
+
+        foreach ($stages as $next) {
+            if ($prev === $currentStage) {
+                return $next;
+            }
+            $prev = $next;
+        }
+
+        return null;
+    }
+
     public const STATUS_PENDING = 'pending';
     public const STATUS_WAITING = 'waiting';
     public const STATUS_IN_PROGRESS = 'in-progress';

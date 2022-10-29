@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Model\Table;
 
 use App\Model\Field\Stages;
+use App\Stage\StageFactory;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -105,16 +106,8 @@ class StudentsTable extends Table
         ]);
         $this->saveOrFail($student);
 
-        $stage = $this->StudentStages->newEntity([
-            'student_id' => $student->id,
-            'stage' => Stages::defaultStage(),
-            'lapse_id' => $this->StudentStages->Lapses->getCurrentLapse()->id,
-            'status' => Stages::STATUS_IN_PROGRESS,
-            'created_by' => 1,
-            'modified_by' => 1,
-        ]);
-
-        $this->StudentStages->saveOrFail($stage);
+        $stage = StageFactory::getInstance(Stages::defaultStage(), $student);
+        $stage->create();
     }
 
 }

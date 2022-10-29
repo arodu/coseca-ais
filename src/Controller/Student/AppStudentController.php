@@ -12,4 +12,18 @@ class AppStudentController extends AppController
         parent::initialize();
         $this->viewBuilder()->setLayout('CakeLte.top-nav');
     }
+
+
+    public function getCurrentStudent($reset = false)
+    {
+        $identity = $this->Authentication->getIdentity();
+
+        if ($reset || empty($identity->student)) {
+            $user = $identity->getOriginalData();
+            $this->fetchTable('Users')->loadInto($user, ['Students']);
+            $this->Authentication->setIdentity($user);
+        }
+
+        return $identity->student;
+    }
 }
