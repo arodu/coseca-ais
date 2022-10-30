@@ -1,15 +1,16 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Stage[]|\Cake\Collection\CollectionInterface $stages
+ * @var \App\Model\Entity\Student[]|\Cake\Collection\CollectionInterface $students
  */
 ?>
 <?php
-$this->assign('title', __('Stages'));
+$this->assign('title', __('Students'));
 $this->Breadcrumbs->add([
     ['title' => 'Home', 'url' => '/'],
-    ['title' => 'List Stages'],
+    ['title' => 'List Students'],
 ]);
+$this->MenuLte->activeItem('students');
 ?>
 
 <div class="card card-primary card-outline">
@@ -23,35 +24,38 @@ $this->Breadcrumbs->add([
                 'class' => 'form-control-sm',
                 'templates' => ['inputContainer' => '{{content}}']
             ]); ?>
-            <?= $this->Html->link(__('New Stage'), ['action' => 'add'], ['class' => 'btn btn-primary btn-sm ml-2']) ?>
+            <?= $this->Html->link(__('New Student'), ['action' => 'add'], ['class' => 'btn btn-primary btn-sm ml-2']) ?>
         </div>
     </div>
     <!-- /.card-header -->
-
     <div class="card-body table-responsive p-0">
         <table class="table table-hover text-nowrap">
             <thead>
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
-                    <th><?= $this->Paginator->sort('name') ?></th>
-                    <th><?= $this->Paginator->sort('position') ?></th>
-                    <th><?= $this->Paginator->sort('active') ?></th>
-                    <th><?= $this->Paginator->sort('code') ?></th>
+                    <th><?= $this->Paginator->sort('user_id') ?></th>
+                    <th><?= $this->Paginator->sort('dni') ?></th>
+                    <th><?= $this->Paginator->sort('created') ?></th>
+                    <th><?= $this->Paginator->sort('created_by') ?></th>
+                    <th><?= $this->Paginator->sort('modified') ?></th>
+                    <th><?= $this->Paginator->sort('modified_by') ?></th>
                     <th class="actions"><?= __('Actions') ?></th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($stages as $stage) : ?>
+                <?php foreach ($students as $student) : ?>
                     <tr>
-                        <td><?= $this->Number->format($stage->id) ?></td>
-                        <td><?= h($stage->name) ?></td>
-                        <td><?= $this->Number->format($stage->position) ?></td>
-                        <td><?= ($stage->active) ? __('Yes') : __('No') ?></td>
-                        <td><code><?= h($stage->code) ?></code></td>
+                        <td><?= $this->Number->format($student->id) ?></td>
+                        <td><?= $student->has('app_user') ? $this->Html->link($student->app_user->username, ['controller' => 'AppUsers', 'action' => 'view', $student->app_user->id]) : '' ?></td>
+                        <td><?= h($student->dni) ?></td>
+                        <td><?= h($student->created) ?></td>
+                        <td><?= h($student->created_by) ?></td>
+                        <td><?= h($student->modified) ?></td>
+                        <td><?= h($student->modified_by) ?></td>
                         <td class="actions">
-                            <?= $this->Html->link(__('View'), ['action' => 'view', $stage->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
-                            <?= $this->Html->link(__('Edit'), ['action' => 'edit', $stage->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
-                            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $stage->id], ['class' => 'btn btn-xs btn-outline-danger', 'escape' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $stage->id)]) ?>
+                            <?= $this->Html->link(__('View'), ['action' => 'view', $student->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
+                            <?= $this->Html->link(__('Edit'), ['action' => 'edit', $student->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
+                            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $student->id], ['class' => 'btn btn-xs btn-outline-danger', 'escape' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $student->id)]) ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

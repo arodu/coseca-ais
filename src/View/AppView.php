@@ -43,5 +43,6 @@ class AppView extends View
     public function initialize(): void
     {
         $this->initializeCakeLte();
+        $this->loadHelper('Authentication.Identity');
     }
 }

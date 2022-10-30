@@ -81,6 +81,7 @@ return static function (RouteBuilder $routes) {
 
 
     $routes->prefix('Admin', function (RouteBuilder $builder) {
+        $builder->connect('/', ['controller' => 'Lapses', 'action' => 'index']);
         $builder->fallbacks(DashedRoute::class);
     });
 

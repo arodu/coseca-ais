@@ -2,26 +2,26 @@
 
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Stage $stage
+ * @var \App\Model\Entity\Lapse $lapse
  */
 ?>
 <?php
-$this->assign('title', __('Add Stage'));
+$this->assign('title', __('Add Lapse'));
 $this->Breadcrumbs->add([
     ['title' => 'Home', 'url' => '/'],
-    ['title' => 'List Stages', 'url' => ['action' => 'index']],
+    ['title' => 'List Lapses', 'url' => ['action' => 'index']],
     ['title' => 'Add'],
 ]);
+$this->MenuLte->activeItem('lapses');
 ?>
 
 <div class="card card-primary card-outline">
-  <?= $this->Form->create($stage) ?>
+  <?= $this->Form->create($lapse) ?>
   <div class="card-body">
     <?php
       echo $this->Form->control('name');
-      echo $this->Form->control('position');
       echo $this->Form->control('active', ['custom' => true]);
-      echo $this->Form->control('code');
+      echo $this->Form->control('date');
     ?>
   </div>
 

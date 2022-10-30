@@ -3,15 +3,13 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use App\Controller\AppController;
-
 /**
- * Stages Controller
+ * Lapses Controller
  *
- * @property \App\Model\Table\StagesTable $Stages
- * @method \App\Model\Entity\Stage[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @property \App\Model\Table\LapsesTable $Lapses
+ * @method \App\Model\Entity\Lapse[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class StagesController extends AppController
+class LapsesController extends AppAdminController
 {
     /**
      * Index method
@@ -20,25 +18,25 @@ class StagesController extends AppController
      */
     public function index()
     {
-        $stages = $this->paginate($this->Stages);
+        $lapses = $this->paginate($this->Lapses);
 
-        $this->set(compact('stages'));
+        $this->set(compact('lapses'));
     }
 
     /**
      * View method
      *
-     * @param string|null $id Stage id.
+     * @param string|null $id Lapse id.
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null)
     {
-        $stage = $this->Stages->get($id, [
+        $lapse = $this->Lapses->get($id, [
             'contain' => ['StudentStages'],
         ]);
 
-        $this->set(compact('stage'));
+        $this->set(compact('lapse'));
     }
 
     /**
@@ -48,58 +46,58 @@ class StagesController extends AppController
      */
     public function add()
     {
-        $stage = $this->Stages->newEmptyEntity();
+        $lapse = $this->Lapses->newEmptyEntity();
         if ($this->request->is('post')) {
-            $stage = $this->Stages->patchEntity($stage, $this->request->getData());
-            if ($this->Stages->save($stage)) {
-                $this->Flash->success(__('The stage has been saved.'));
+            $lapse = $this->Lapses->patchEntity($lapse, $this->request->getData());
+            if ($this->Lapses->save($lapse)) {
+                $this->Flash->success(__('The lapse has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The stage could not be saved. Please, try again.'));
+            $this->Flash->error(__('The lapse could not be saved. Please, try again.'));
         }
-        $this->set(compact('stage'));
+        $this->set(compact('lapse'));
     }
 
     /**
      * Edit method
      *
-     * @param string|null $id Stage id.
+     * @param string|null $id Lapse id.
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function edit($id = null)
     {
-        $stage = $this->Stages->get($id, [
+        $lapse = $this->Lapses->get($id, [
             'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $stage = $this->Stages->patchEntity($stage, $this->request->getData());
-            if ($this->Stages->save($stage)) {
-                $this->Flash->success(__('The stage has been saved.'));
+            $lapse = $this->Lapses->patchEntity($lapse, $this->request->getData());
+            if ($this->Lapses->save($lapse)) {
+                $this->Flash->success(__('The lapse has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The stage could not be saved. Please, try again.'));
+            $this->Flash->error(__('The lapse could not be saved. Please, try again.'));
         }
-        $this->set(compact('stage'));
+        $this->set(compact('lapse'));
     }
 
     /**
      * Delete method
      *
-     * @param string|null $id Stage id.
+     * @param string|null $id Lapse id.
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $stage = $this->Stages->get($id);
-        if ($this->Stages->delete($stage)) {
-            $this->Flash->success(__('The stage has been deleted.'));
+        $lapse = $this->Lapses->get($id);
+        if ($this->Lapses->delete($lapse)) {
+            $this->Flash->success(__('The lapse has been deleted.'));
         } else {
-            $this->Flash->error(__('The stage could not be deleted. Please, try again.'));
+            $this->Flash->error(__('The lapse could not be deleted. Please, try again.'));
         }
 
         return $this->redirect(['action' => 'index']);

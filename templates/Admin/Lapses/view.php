@@ -2,44 +2,41 @@
 
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Stage $stage
+ * @var \App\Model\Entity\Lapse $lapse
  */
 ?>
 
 <?php
-$this->assign('title', __('Stage'));
+$this->assign('title', __('Lapse'));
 $this->Breadcrumbs->add([
     ['title' => 'Home', 'url' => '/'],
-    ['title' => 'List Stages', 'url' => ['action' => 'index']],
+    ['title' => 'List Lapses', 'url' => ['action' => 'index']],
     ['title' => 'View'],
 ]);
+$this->MenuLte->activeItem('lapses');
 ?>
 
 <div class="view card card-primary card-outline">
   <div class="card-header d-sm-flex">
-    <h2 class="card-title"><?= h($stage->name) ?></h2>
+    <h2 class="card-title"><?= h($lapse->name) ?></h2>
   </div>
   <div class="card-body table-responsive p-0">
     <table class="table table-hover text-nowrap">
         <tr>
             <th><?= __('Name') ?></th>
-            <td><?= h($stage->name) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Code') ?></th>
-            <td><?= h($stage->code) ?></td>
+            <td><?= h($lapse->name) ?></td>
         </tr>
         <tr>
             <th><?= __('Id') ?></th>
-            <td><?= $this->Number->format($stage->id) ?></td>
+            <td><?= $this->Number->format($lapse->id) ?></td>
         </tr>
         <tr>
-            <th><?= __('Position') ?></th>
-            <td><?= $this->Number->format($stage->position) ?></td>
+            <th><?= __('Date') ?></th>
+            <td><?= h($lapse->date) ?></td>
         </tr>
         <tr>
             <th><?= __('Active') ?></th>
-            <td><?= $stage->active ? __('Yes') : __('No'); ?></td>
+            <td><?= $lapse->active ? __('Yes') : __('No'); ?></td>
         </tr>
     </table>
   </div>
@@ -47,12 +44,12 @@ $this->Breadcrumbs->add([
     <div class="">
       <?= $this->Form->postLink(
           __('Delete'),
-          ['action' => 'delete', $stage->id],
-          ['confirm' => __('Are you sure you want to delete # {0}?', $stage->id), 'class' => 'btn btn-danger']
+          ['action' => 'delete', $lapse->id],
+          ['confirm' => __('Are you sure you want to delete # {0}?', $lapse->id), 'class' => 'btn btn-danger']
       ) ?>
     </div>
     <div class="ml-auto">
-      <?= $this->Html->link(__('Edit'), ['action' => 'edit', $stage->id], ['class' => 'btn btn-secondary']) ?>
+      <?= $this->Html->link(__('Edit'), ['action' => 'edit', $lapse->id], ['class' => 'btn btn-secondary']) ?>
       <?= $this->Html->link(__('Cancel'), ['action' => 'index'], ['class' => 'btn btn-default']) ?>
     </div>
   </div>
@@ -72,7 +69,7 @@ $this->Breadcrumbs->add([
       <tr>
           <th><?= __('Id') ?></th>
           <th><?= __('Student Id') ?></th>
-          <th><?= __('Stage Id') ?></th>
+          <th><?= __('Stage') ?></th>
           <th><?= __('Lapse Id') ?></th>
           <th><?= __('Status') ?></th>
           <th><?= __('Created') ?></th>
@@ -81,18 +78,18 @@ $this->Breadcrumbs->add([
           <th><?= __('Modified By') ?></th>
           <th class="actions"><?= __('Actions') ?></th>
       </tr>
-      <?php if (empty($stage->student_stages)) { ?>
+      <?php if (empty($lapse->student_stages)) { ?>
         <tr>
             <td colspan="10" class="text-muted">
               Student Stages record not found!
             </td>
         </tr>
       <?php }else{ ?>
-        <?php foreach ($stage->student_stages as $studentStages) : ?>
+        <?php foreach ($lapse->student_stages as $studentStages) : ?>
         <tr>
             <td><?= h($studentStages->id) ?></td>
             <td><?= h($studentStages->student_id) ?></td>
-            <td><?= h($studentStages->stage_id) ?></td>
+            <td><?= h($studentStages->stage) ?></td>
             <td><?= h($studentStages->lapse_id) ?></td>
             <td><?= h($studentStages->status) ?></td>
             <td><?= h($studentStages->created) ?></td>
