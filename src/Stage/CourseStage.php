@@ -5,13 +5,13 @@ namespace App\Stage;
 
 use App\Model\Entity\StudentStage;
 use App\Model\Field\Stages;
+use Cake\Log\Log;
 
 class CourseStage implements StageInterface
 {
     use StageTrait;
 
-    public function initialize(): void
-    {}
+    public function initialize(): void {}
     
     public function create($options = []): StudentStage
     {
@@ -22,15 +22,13 @@ class CourseStage implements StageInterface
         }
 
         $data = array_merge([
-            'student_id' => $this->getStudent()->id,
+            'student_id' => $this->getStudentId(),
             'stage' => $this->getStageKey(),
             'status' => Stages::STATUS_WAITING,
+            'lapse_id' => $this->StudentStages->Lapses->getCurrentLapse()->id,
         ], $options);
-        $stage = $this->StudentStages->newEntity($data);
-
-        return $this->StudentStages->saveOrFail($stage);
+        return $this->_persist($data);
     }
 
-    public function close(string $status)
-    {}
+    public function close(string $status) {}
 }

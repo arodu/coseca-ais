@@ -30,9 +30,7 @@ class RegisterStage implements StageInterface
             'stage' => $this->getStageKey(),
             'status' => Stages::STATUS_IN_PROGRESS,
         ], $options);
-        $stage = $this->StudentStages->newEntity($data);
-
-        return $this->StudentStages->saveOrFail($stage);
+        return $this->_persist($data);
     }
 
     public function close(string $status)

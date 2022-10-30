@@ -34,6 +34,12 @@ trait StageTrait
         $this->initialize();
     }
 
+    protected function _persist($options = [])
+    {
+        $stage = $this->StudentStages->newEntity($options);
+        return $this->StudentStages->saveOrFail($stage);
+    }
+
     /**
      * @return string
      */
