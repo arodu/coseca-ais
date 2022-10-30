@@ -25,7 +25,7 @@ class CourseStage implements StageInterface
             'student_id' => $this->getStudent()->id,
             'created_by' => 1,
             'modified_by' => 1,
-            'stage' => $this->getKey(),
+            'stage' => $this->getStageKey(),
             'status' => Stages::STATUS_WAITING,
         ], $options);
         $stage = $this->StudentStages->newEntity($data);

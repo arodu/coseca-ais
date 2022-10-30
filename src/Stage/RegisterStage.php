@@ -29,7 +29,7 @@ class RegisterStage implements StageInterface
             'lapse_id' => $this->StudentStages->Lapses->getCurrentLapse()->id,
             'created_by' => 1,
             'modified_by' => 1,
-            'stage' => $this->getKey(),
+            'stage' => $this->getStageKey(),
             'status' => Stages::STATUS_IN_PROGRESS,
         ], $options);
         $stage = $this->StudentStages->newEntity($data);
@@ -39,18 +39,17 @@ class RegisterStage implements StageInterface
 
     public function close(string $status)
     {
-        $stage = $this->getStudentStage();
-        $stage->status = $status;
-        
-        $this->StudentStages->saveOrFail($stage);
+        // close current stage
+        $this->changeStatus($status);
 
+        // create next stage
         if ($status === Stages::STATUS_SUCCESS) {
-            $nextStageKey = Stages::getNextStage($this->getKey());
+            $nextStageKey = $this->getNextStageKey();
             if ($nextStageKey) {
-                $nextStage = $this->getStudent()->getStageInstance($nextStageKey);
-                $nextStage->create([
-                    'lapse_id' => $stage->lapse_id,
-                ]);
+                StageFactory::getInstance($nextStageKey, $this->getStudentId())
+                    ->create([
+                        'lapse_id' => $this->getStudentStage()->lapse_id,
+                    ]);
             }
         }
     }

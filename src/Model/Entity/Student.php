@@ -89,17 +89,4 @@ class Student extends Entity
 
         return Stages::STAGE_REGISTER;
     }
-
-    /**
-     * @param string|null $stage
-     * @return StageInterface
-     */
-    public function getStageInstance(?string $stage = null): StageInterface
-    {
-        if (empty($stage)) {
-            $stage = $this->getCurrentStageKey();
-        }
-
-        return StageFactory::getInstance($stage, $this);
-    }
 }

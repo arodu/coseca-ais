@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller\Student;
 
 use App\Model\Field\Stages;
+use App\Stage\StageFactory;
 use Cake\Cache\Cache;
 
 /**
@@ -18,8 +19,6 @@ class RegisterStageController extends AppStudentController
     {
         parent::initialize();
         $this->Students = $this->fetchTable('Students');
-
-        $this->Stage = $this->getCurrentStudent()->getStageInstance(Stages::STAGE_REGISTER);
     }
 
     /**
@@ -31,14 +30,16 @@ class RegisterStageController extends AppStudentController
      */
     public function edit()
     {
-        $studentStage = $this->Stage->getStudentStage();
+        $current_student_id = $this->getCurrentStudent()->id;
+        $registerStage = StageFactory::getInstance(Stages::STAGE_REGISTER, $current_student_id);
+        $studentStage = $registerStage->getStudentStage();
 
         if ($studentStage->status !== Stages::STATUS_IN_PROGRESS) {
             $this->Flash->warning(__('El Registro no esta activo para realizar cambios'));
             $this->redirect(['controller' => 'Stages', 'action' => 'index']);
         }
      
-        $student = $this->Stage->getStudent();
+        $student = $registerStage->getStudent(true);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $student = $this->Students->patchEntity($student, $this->request->getData());

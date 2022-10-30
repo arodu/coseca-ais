@@ -73,7 +73,7 @@ class Stages
         return $output;
     }
 
-    public static function getNextStage($currentStage): ?string
+    public static function getNextStageKey($currentStage): ?string
     {
         $stages = static::getStages(static::DATA_KEY);
         $prev = null;
@@ -92,7 +92,7 @@ class Stages
     public const STATUS_WAITING = 'waiting';
     public const STATUS_IN_PROGRESS = 'in-progress';
     public const STATUS_SUCCESS = 'success';
-    public const STATUS_FAIL = 'fail';
+    public const STATUS_FAILED = 'failed';
 
     /**
      * @return array
@@ -104,7 +104,7 @@ class Stages
             static::STATUS_WAITING => __('En espera'),
             static::STATUS_IN_PROGRESS => __('En progreso'),
             static::STATUS_SUCCESS => __('Realizado'),
-            static::STATUS_FAIL => __('Fallido'),
+            static::STATUS_FAILED => __('Fallido'),
         ];
     }
 
@@ -112,7 +112,7 @@ class Stages
      * @param string $status
      * @return string|null
      */
-    public static function getStatus(string $status): ?string
+    public static function getStatusLabel(string $status): ?string
     {
         return static::getStatuses()[$status] ?? null;
     }

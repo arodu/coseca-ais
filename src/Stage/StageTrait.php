@@ -5,65 +5,112 @@ namespace App\Stage;
 
 use App\Model\Entity\Student;
 use App\Model\Entity\StudentStage;
+use App\Model\Field\Stages;
 use Cake\ORM\Locator\LocatorAwareTrait;
 
+/** 
+ * @property \App\Model\Table\StudentStagesTable $StudentStages
+ */
 trait StageTrait
 {
     use LocatorAwareTrait;
 
-    protected Student $_student;
-    protected string $_key;
-    protected string $_lastError;
+    private int $studentId;
+    private string $stageKey;
+
+    protected ?Student $_student = null;
+    protected ?StudentStage $_studentStage = null;
+    protected ?string $lastError = null;
 
     /**
      * @param string $stageKey
-     * @param Student $student
+     * @param integer $studentId
      */
-    public function __construct(string $stageKey, Student $student)
+    public function __construct(string $stageKey, int $studentId)
     {
-        $this->_key = $stageKey;
-        $this->_student = $student;
-
-        /** @var \App\Model\Table\StudentStagesTable $StudentStages */
+        $this->stageKey = $stageKey;
+        $this->studentId = $studentId;
         $this->StudentStages = $this->fetchTable('StudentStages');
-
         $this->initialize();
     }
 
     /**
      * @return string
      */
-    public function getKey(): string
+    public function getStageKey(): string
     {
-        return $this->_key;
+        return $this->stageKey;
+    }
+
+    public function getNextStageKey(): string
+    {
+        return Stages::getNextStageKey($this->getStageKey());
     }
 
     /**
-     * @return Student
+     * @return integer
      */
-    public function getStudent(): Student
+    public function getStudentId(): int
     {
+        return $this->studentId;
+    }
+
+    /**
+     * @param boolean $reset
+     * @return Student|null
+     */
+    public function getStudent(bool $reset = false): ?Student
+    {
+        if ($reset || empty($this->_student)) {
+            $this->_student = $this->StudentStages->Students->get($this->getStudentId());
+        }
+
         return $this->_student;
     }
 
     /**
+     * @param boolean $reset
      * @return StudentStage|null
      */
-    public function getStudentStage(): ?StudentStage
+    public function getStudentStage(bool $reset = false): ?StudentStage
     {
-        return $this->StudentStages->find()
-            ->where([
-                'student_id' => $this->getStudent()->id,
-                'stage' => $this->getKey(),
-            ])
-            ->first();
+        if ($reset || empty($this->_studentStage)) {
+            $this->_studentStage = $this->StudentStages->find()
+                ->where([
+                    'studentId' => $this->getStudentId(),
+                    'stage' => $this->getStageKey(),
+                ])
+                ->first();
+        }
+
+        return $this->_studentStage;
     }
 
+    /**
+     * @param string $stageStatus
+     * @return void
+     */
+    public function changeStatus(string $stageStatus)
+    {
+        $studentStage = $this->getStudentStage();
+        $studentStage->status = $stageStatus;
+        $this->StudentStages->saveOrFail($studentStage);
+
+        $this->_studentStage = $studentStage;
+    }
+
+    /**
+     * @return string
+     */
     public function getLastError(): string
     {
         return $this->_lastError;
     }
 
+    /**
+     * @param string $error
+     * @return void
+     */
     public function setLastError(string $error)
     {
         $this->_lastError = $error;

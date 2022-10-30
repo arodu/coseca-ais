@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
+use App\Stage\StageFactory;
+use App\Stage\StageInterface;
 use Cake\ORM\Entity;
 
 /**
@@ -10,6 +12,7 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property int $student_id
+ * @property string $stage
  * @property int $lapse_id
  * @property string $status
  * @property \Cake\I18n\FrozenTime $created
@@ -17,7 +20,6 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\FrozenTime $modified
  * @property int $modified_by
  *
- * @property \App\Model\Entity\Stage $stage
  * @property \App\Model\Entity\Student $student
  * @property \App\Model\Entity\Lapse $lapse
  */
@@ -44,4 +46,13 @@ class StudentStage extends Entity
         'student' => true,
         'lapse' => true,
     ];
+
+    /**
+     * @param string|null $stage
+     * @return StageInterface
+     */
+    public function getStageInstance(): StageInterface
+    {
+        return StageFactory::getInstance($this->stage, $this->student_id);
+    }
 }

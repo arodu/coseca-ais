@@ -9,7 +9,7 @@ use Cake\Http\Exception\NotFoundException;
 
 class StageFactory
 {
-    public static function getInstance(string $stageKey, Student $student): StageInterface
+    public static function getInstance(string $stageKey, int $student_id): StageInterface
     {
         $stages = Stages::getStages();
 
@@ -17,6 +17,6 @@ class StageFactory
             throw new NotFoundException();
         }
 
-        return new $stages[$stageKey][Stages::DATA_CLASS]($stageKey, $student);
+        return new $stages[$stageKey][Stages::DATA_CLASS]($stageKey, $student_id);
     }
 }
