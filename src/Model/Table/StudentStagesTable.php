@@ -47,6 +47,7 @@ class StudentStagesTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('Muffin/Footprint.Footprint');
 
         $this->belongsTo('Students', [
             'foreignKey' => 'student_id',
@@ -85,16 +86,6 @@ class StudentStagesTable extends Table
             ->maxLength('status', 255)
             ->requirePresence('status', 'create')
             ->notEmptyString('status');
-
-        $validator
-            ->integer('created_by')
-            ->requirePresence('created_by', 'create')
-            ->notEmptyString('created_by');
-
-        $validator
-            ->integer('modified_by')
-            ->requirePresence('modified_by', 'create')
-            ->notEmptyString('modified_by');
 
         return $validator;
     }

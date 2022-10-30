@@ -3,12 +3,19 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use App\Model\Entity\AppUser;
+use App\Model\Entity\Student;
 use App\Model\Field\Stages;
+use App\Model\Field\Users;
 use App\Stage\StageFactory;
+use ArrayObject;
+use Cake\Datasource\EntityInterface;
+use Cake\Event\EventInterface;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Exception;
 
 /**
  * Students Model
@@ -48,6 +55,7 @@ class StudentsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('Muffin/Footprint.Footprint');
 
         $this->belongsTo('AppUsers', [
             'foreignKey' => 'user_id',
@@ -70,15 +78,15 @@ class StudentsTable extends Table
             ->uuid('user_id')
             ->notEmptyString('user_id');
 
-        $validator
-            ->integer('created_by')
-            ->requirePresence('created_by', 'create')
-            ->notEmptyString('created_by');
+        //$validator
+        //    ->integer('created_by')
+        //    ->requirePresence('created_by', 'create')
+        //    ->notEmptyString('created_by');
 
-        $validator
-            ->integer('modified_by')
-            ->requirePresence('modified_by', 'create')
-            ->notEmptyString('modified_by');
+        //$validator
+        //    ->integer('modified_by')
+        //    ->requirePresence('modified_by', 'create')
+        //    ->notEmptyString('modified_by');
 
         return $validator;
     }
@@ -107,21 +115,36 @@ class StudentsTable extends Table
     }
 
     /**
-     * Create an Student and the first stage
-     * 
-     * @param string $user_id
-     * @return void
+     * @param AppUser $user
+     * @return Student
      */
-    public function createNewStudent(string $user_id)
+    public function getByUser(AppUser $user): Student
     {
+        $student = $this->find()
+            ->where(['user_id' => $user->id])
+            ->first();
+
+        if ($student) {
+            return $student;
+        }
+
+        if (!in_array($user->role, Users::getStudentRoles())) {
+            throw new Exception(__('Bad Role Exception'));;
+        }
+
         $student = $this->newEntity([
-            'user_id' => $user_id,
-            'created_by' => 1,
-            'modified_by' => 1,
+            'user_id' => $user->id,
         ]);
         $this->saveOrFail($student);
 
-        StageFactory::getInstance(Stages::defaultStage(), $student->id)->create();
+        return $this->getByUser($user);
     }
 
+
+    public function afterSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
+    {
+        if ($entity->isNew()) {
+            StageFactory::getInstance(Stages::defaultStage(), $entity->id)->create();
+        }
+    }
 }

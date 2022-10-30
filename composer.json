@@ -14,7 +14,8 @@
         "google/recaptcha": "@stable",
         "league/oauth2-facebook": "@stable",
         "league/oauth2-google": "@stable",
-        "mobiledetect/mobiledetectlib": "^2.8"
+        "mobiledetect/mobiledetectlib": "^2.8",
+        "muffin/footprint": "^3.0"
     },
     "require-dev": {
         "cakephp/bake": "^2.6",

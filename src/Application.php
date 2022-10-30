@@ -16,10 +16,12 @@ declare(strict_types=1);
  */
 namespace App;
 
+use Authentication\Middleware\AuthenticationMiddleware;
 use Cake\Core\Configure;
 use Cake\Core\ContainerInterface;
 use Cake\Datasource\FactoryLocator;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
+use Cake\Event\EventInterface;
 use Cake\Http\BaseApplication;
 use Cake\Http\Middleware\BodyParserMiddleware;
 use Cake\Http\Middleware\CsrfProtectionMiddleware;
@@ -27,6 +29,7 @@ use Cake\Http\MiddlewareQueue;
 use Cake\ORM\Locator\TableLocator;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
+use Muffin\Footprint\Middleware\FootprintMiddleware;
 
 /**
  * Application setup class.
@@ -44,6 +47,14 @@ class Application extends BaseApplication
     public function bootstrap(): void
     {
         // Call parent to load bootstrap from files.
+        $this->addPlugin('Muffin/Footprint');
+        $this->getEventManager()->on(
+            'Server.buildMiddleware',
+            function (EventInterface $event, MiddlewareQueue $middleware) {
+                $middleware->insertAfter(AuthenticationMiddleware::class, FootprintMiddleware::class);
+            }
+        );
+
         parent::bootstrap();
 
         if (PHP_SAPI === 'cli') {
@@ -64,8 +75,7 @@ class Application extends BaseApplication
         }
 
         // Load more plugins here
-        $this->addPlugin('CakeLte');
-
+        $this->addPlugin(\CakeLte\Plugin::class);
         $this->addPlugin(\CakeDC\Users\Plugin::class);
         Configure::write('Users.config', ['users']);
     }
@@ -106,7 +116,7 @@ class Application extends BaseApplication
             ->add(new CsrfProtectionMiddleware([
                 'httponly' => true,
             ]));
-
+<
         return $middlewareQueue;
     }
 

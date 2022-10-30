@@ -32,7 +32,7 @@ class RegisterStageController extends AppStudentController
     {
         $current_student_id = $this->getCurrentStudent()->id;
         $registerStage = StageFactory::getInstance(Stages::STAGE_REGISTER, $current_student_id);
-        $studentStage = $registerStage->getStudentStage();
+        $studentStage = $registerStage->getStudentStage(true);
 
         if ($studentStage->status !== Stages::STATUS_IN_PROGRESS) {
             $this->Flash->warning(__('El Registro no esta activo para realizar cambios'));
@@ -40,7 +40,6 @@ class RegisterStageController extends AppStudentController
         }
      
         $student = $registerStage->getStudent(true);
-
         if ($this->request->is(['patch', 'post', 'put'])) {
             $student = $this->Students->patchEntity($student, $this->request->getData());
 

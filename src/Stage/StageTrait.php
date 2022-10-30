@@ -62,7 +62,10 @@ trait StageTrait
     public function getStudent(bool $reset = false): ?Student
     {
         if ($reset || empty($this->_student)) {
-            $this->_student = $this->StudentStages->Students->get($this->getStudentId());
+            $this->_student = $this->StudentStages->Students
+                ->find('complete')
+                ->where([$this->StudentStages->Students->aliasField('id') => $this->getStudentId()])
+                ->first();
         }
 
         return $this->_student;
@@ -77,7 +80,7 @@ trait StageTrait
         if ($reset || empty($this->_studentStage)) {
             $this->_studentStage = $this->StudentStages->find()
                 ->where([
-                    'studentId' => $this->getStudentId(),
+                    'student_id' => $this->getStudentId(),
                     'stage' => $this->getStageKey(),
                 ])
                 ->first();

@@ -23,8 +23,6 @@ class CourseStage implements StageInterface
 
         $data = array_merge([
             'student_id' => $this->getStudent()->id,
-            'created_by' => 1,
-            'modified_by' => 1,
             'stage' => $this->getStageKey(),
             'status' => Stages::STATUS_WAITING,
         ], $options);

@@ -19,15 +19,11 @@ class AppStudentController extends AppController
 
     public function getCurrentStudent($reset = false): ?Student
     {
-        $user_id = $this->Authentication->getIdentity()->getIdentifier();
+        $user = $this->Authentication->getIdentity()->getOriginalData();
 
-        return Cache::remember('student-user-' . $user_id, function() use ($user_id) {
-            return $this->fetchTable('Students')
-                ->find('complete')
-                ->where([
-                    'user_id' => $user_id
-                ])
-                ->first();
+        return Cache::remember('student-user-' . $user->id, function() use ($user) {
+            return $this->fetchTable('Students')->getByUser($user);
         });
     }
 }
+

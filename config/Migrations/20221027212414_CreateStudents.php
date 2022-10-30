@@ -27,18 +27,14 @@ class CreateStudents extends AbstractMigration
             'default' => null,
             'null' => false,
         ]);
-        $table->addColumn('created_by', 'integer', [
-            'default' => null,
-            'limit' => 11,
+        $table->addColumn('created_by', 'uuid', [
             'null' => false,
         ]);
         $table->addColumn('modified', 'datetime', [
             'default' => null,
             'null' => false,
         ]);
-        $table->addColumn('modified_by', 'integer', [
-            'default' => null,
-            'limit' => 11,
+        $table->addColumn('modified_by', 'uuid', [
             'null' => false,
         ]);
         $table->create();

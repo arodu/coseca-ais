@@ -30,13 +30,4 @@ class AppUsersTable extends UsersTable
             $entity->username = $entity->email;
         }
     }
-
-    public function afterSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
-    {
-        if ($entity->isNew()) {
-            if (in_array($entity->role, Users::getStudentRoles())) {
-                $this->Students->createNewStudent($entity->id);
-            }
-        }
-    }
 }

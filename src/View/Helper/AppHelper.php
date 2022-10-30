@@ -51,7 +51,7 @@ class AppHelper extends Helper
             case Stages::STATUS_SUCCESS: 
                 return 'success';
                 break;
-            case Stages::STATUS_FAIL:
+            case Stages::STATUS_FAILED:
                 return 'danger';
                 break;
             case Stages::STATUS_PENDING:
