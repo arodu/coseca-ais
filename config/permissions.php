@@ -53,7 +53,6 @@ use App\Model\Field\Users;
 
 return [
     'CakeDC/Auth.permissions' => [
-        //all bypass
         [
             'prefix' => false,
             'plugin' => 'CakeDC/Users',
@@ -143,7 +142,7 @@ return [
         [
             'role' => '*',
             'controller' => 'Pages',
-            'action' => 'display',
+            'action' => ['display', 'home'],
         ],
         [
             'role' => '*',

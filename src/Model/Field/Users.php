@@ -7,6 +7,7 @@ class Users
 {
     public const ROLE_STUDENT = 'student';
     public const ROLE_ADMIN = 'admin';
+    public const ROLE_SUPERADMIN = 'superadmin';
     public const ROLE_ASSISTANT = 'assistant';
 
     public static function getAdminRoles(): array
@@ -14,6 +15,7 @@ class Users
         return [
             static::ROLE_ADMIN,
             static::ROLE_ASSISTANT,
+            static::ROLE_SUPERADMIN,
         ];
     }
 
