@@ -46,11 +46,7 @@ class RegisterStageController extends AppStudentController
             if ($this->Students->save($student)) {
                 $this->Flash->success(__('The student has been saved.'));
 
-                // @todo eliminar esta cache en el afterSave del StudentsTable
-                $user_id = $this->Authentication->getIdentity()->getIdentifier();
-                Cache::delete('student-user-' . $user_id);
-
-                $this->Stage->close(Stages::STATUS_SUCCESS);
+                $registerStage->close(Stages::STATUS_SUCCESS);
 
                 return $this->redirect(['controller' => 'Stages', 'action' => 'index']);
             }

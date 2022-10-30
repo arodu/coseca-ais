@@ -116,7 +116,7 @@ class Application extends BaseApplication
             ->add(new CsrfProtectionMiddleware([
                 'httponly' => true,
             ]));
-<
+
         return $middlewareQueue;
     }
 

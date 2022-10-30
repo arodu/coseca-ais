@@ -9,6 +9,7 @@ use App\Model\Field\Stages;
 use App\Model\Field\Users;
 use App\Stage\StageFactory;
 use ArrayObject;
+use Cake\Cache\Cache;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\ORM\Query;
@@ -146,5 +147,7 @@ class StudentsTable extends Table
         if ($entity->isNew()) {
             StageFactory::getInstance(Stages::defaultStage(), $entity->id)->create();
         }
+
+        Cache::delete('student-user-' . $entity->user_id);
     }
 }

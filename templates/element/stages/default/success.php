@@ -1,1 +1,1 @@
-<p><?= __('Realizado satisfactoriamente!') ?></p>
+<h4><?= __('Realizado satisfactoriamente!') ?></h4>

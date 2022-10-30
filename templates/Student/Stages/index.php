@@ -2,16 +2,15 @@
 
 use App\Model\Field\Stages;
 
+/**
+ * @var \App\Model\Entity\StudentStage $studentStage
+ */
+
 $this->MenuLte->activeItem('home');
 $this->assign('title', __('Stages'));
 $this->Breadcrumbs->add([
     ['title' => 'Home'],
 ]);
-
-if (!isset($infoVars)) {
-    $infoVars = [];
-}
-
 ?>
 
 <div class="row">
@@ -35,7 +34,7 @@ if (!isset($infoVars)) {
                             if (!$this->elementExists($element)) {
                                 $element = 'stages/default/' . $studentStage->status;
                             }
-                            echo $this->element($element, ['infoVars' => $infoVars]);
+                            echo $this->element($element, ['stageInstance' => $studentStage->getStageInstance()]);
                             ?>
                         </div>
                     </div>
