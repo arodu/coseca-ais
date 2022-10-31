@@ -55,12 +55,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/arodu/cakelte.git",
-                "reference": "c150bee3fdbcad6e44ae202ace796a28eaefa77f"
+                "reference": "156eff1302c7959efa867808d93dd1ebcb223c3f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/arodu/cakelte/zipball/c150bee3fdbcad6e44ae202ace796a28eaefa77f",
-                "reference": "c150bee3fdbcad6e44ae202ace796a28eaefa77f",
+                "url": "https://api.github.com/repos/arodu/cakelte/zipball/156eff1302c7959efa867808d93dd1ebcb223c3f",
+                "reference": "156eff1302c7959efa867808d93dd1ebcb223c3f",
                 "shasum": ""
             },
             "require": {
@@ -86,7 +86,7 @@
                 "issues": "https://github.com/arodu/cakelte/issues",
                 "source": "https://github.com/arodu/cakelte/tree/2.next"
             },
-            "time": "2022-10-28T19:06:26+00:00"
+            "time": "2022-10-28T21:26:39+00:00"
         },
         {
             "name": "cakedc/auth",
@@ -376,16 +376,16 @@
         },
         {
             "name": "cakephp/cakephp",
-            "version": "4.4.6",
+            "version": "4.4.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/cakephp.git",
-                "reference": "074248ad68fb6669e951862d0f2f82a0d7c99b23"
+                "reference": "20668423818ede9878df06a9d0621c77a5514dba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/074248ad68fb6669e951862d0f2f82a0d7c99b23",
-                "reference": "074248ad68fb6669e951862d0f2f82a0d7c99b23",
+                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/20668423818ede9878df06a9d0621c77a5514dba",
+                "reference": "20668423818ede9878df06a9d0621c77a5514dba",
                 "shasum": ""
             },
             "require": {
@@ -476,7 +476,7 @@
                 "issues": "https://github.com/cakephp/cakephp/issues",
                 "source": "https://github.com/cakephp/cakephp"
             },
-            "time": "2022-10-01T23:52:05+00:00"
+            "time": "2022-10-30T02:20:57+00:00"
         },
         {
             "name": "cakephp/chronos",
