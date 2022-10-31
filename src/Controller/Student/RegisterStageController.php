@@ -36,7 +36,7 @@ class RegisterStageController extends AppStudentController
 
         if ($studentStage->status !== Stages::STATUS_IN_PROGRESS) {
             $this->Flash->warning(__('El Registro no esta activo para realizar cambios'));
-            $this->redirect(['controller' => 'Stages', 'action' => 'index']);
+            return $this->redirect(['_name' => 'student:home']);
         }
      
         $student = $registerStage->getStudent(true);
@@ -44,11 +44,10 @@ class RegisterStageController extends AppStudentController
             $student = $this->Students->patchEntity($student, $this->request->getData());
 
             if ($this->Students->save($student)) {
+                $registerStage->close(Stages::STATUS_SUCCESS);
                 $this->Flash->success(__('The student has been saved.'));
 
-                $registerStage->close(Stages::STATUS_SUCCESS);
-
-                return $this->redirect(['controller' => 'Stages', 'action' => 'index']);
+                return $this->redirect(['_name' => 'student:home']);
             }
             $this->Flash->error(__('The student could not be saved. Please, try again.'));
         }

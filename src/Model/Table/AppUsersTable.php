@@ -26,7 +26,7 @@ class AppUsersTable extends UsersTable
 
     public function afterMarshal(EventInterface $event, EntityInterface $entity, ArrayObject $options)
     {
-        if ($entity->isNew()) {
+        if ($entity->isNew() && $entity->isDirty('email')) {
             $entity->username = $entity->email;
         }
     }

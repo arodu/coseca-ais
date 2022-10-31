@@ -75,13 +75,13 @@ return static function (RouteBuilder $routes) {
     });
 
     $routes->prefix('Student', function (RouteBuilder $builder) {
-        $builder->connect('/', ['controller' => 'Stages', 'action' => 'index'], ['_name' => 'student_home']);
+        $builder->connect('/', ['controller' => 'Stages', 'action' => 'index', 'plugin' => false], ['_name' => 'student:home']);
         $builder->fallbacks(DashedRoute::class);
     });
 
 
     $routes->prefix('Admin', function (RouteBuilder $builder) {
-        $builder->connect('/', ['controller' => 'Lapses', 'action' => 'index'], ['_name' => 'admin_home']);
+        $builder->connect('/', ['controller' => 'Lapses', 'action' => 'index', 'plugin' => false], ['_name' => 'admin:home']);
         $builder->fallbacks(DashedRoute::class);
     });
 

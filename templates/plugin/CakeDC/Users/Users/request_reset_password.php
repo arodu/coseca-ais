@@ -1,0 +1,43 @@
+<?php
+
+/**
+ * @var \App\View\AppView $this
+ * @var \CakeDC\Users\Model\Entity\User $user
+ */
+
+$this->layout = 'CakeLte.login';
+?>
+
+<div class="card">
+    <div class="card-body register-card-body">
+        <p class="login-box-msg"><?= __('You forgot your password? Here you can easily retrieve a new password.') ?></p>
+        <?= $this->Flash->render('auth') ?>
+        <?= $this->Form->create($user) ?>
+        <?= $this->Form->control('reference', [
+            'type' => 'email',
+            'placeholder' => __('Email'),
+            'label' => false,
+            'append' => '<i class="fas fa-envelope"></i>',
+        ]) ?>
+
+        <div class="row">
+            <div class="col-12">
+                <?= $this->Form->control(__('Request new password'), [
+                    'type' => 'submit',
+                    'class' => 'btn btn-primary btn-block',
+                ]) ?>
+            </div>
+        </div>
+
+        <?= $this->Form->end() ?>
+        <!-- /.social-auth-links -->
+
+        <p class="mb-1 mt-3">
+            <?= $this->Html->link(__('Login'), ['action' => 'login']) ?>
+        </p>
+        <p class="mb-0">
+            <?= $this->Html->link(__('Register a new membership'), ['action' => 'register']) ?>
+        </p>
+    </div>
+    <!-- /.register-card-body -->
+</div>

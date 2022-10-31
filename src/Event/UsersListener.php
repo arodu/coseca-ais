@@ -31,11 +31,11 @@ class UsersListener implements EventListenerInterface
 
         if (in_array($user->role, Users::getStudentRoles())) {
             // @todo add student_id here
-            $event->setResult(['_name' => 'student_home']);
+            $event->setResult(['_name' => 'student:home']);
         }
 
         if (in_array($user->role, Users::getAdminRoles())) {
-            $event->setResult(['_name' => 'admin_home']);
+            $event->setResult(['_name' => 'admin:home']);
         }
     }
 }

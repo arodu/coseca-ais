@@ -46,11 +46,11 @@ class PagesController extends AppController
             $identity = $this->Authentication->getIdentity();
 
             if (in_array($identity->role, Users::getAdminRoles())) {
-                return $this->redirect(['_name' => 'admin_home']);
+                return $this->redirect(['_name' => 'admin:home']);
             }
 
             if (in_array($identity->role, Users::getStudentRoles())) {
-                return $this->redirect(['_name' => 'student_home']);
+                return $this->redirect(['_name' => 'student:home']);
             }
         } catch (\Throwable $e) {
             Log::alert($e->getMessage());
