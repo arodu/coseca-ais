@@ -3,6 +3,9 @@
 use App\Model\Field\Users;
 use App\Model\Table\AppUsersTable;
 
+
+
+
 return [
     'Users' => [
         // Table used to manage users
@@ -14,6 +17,14 @@ return [
         ],
         'Registration' => [
             'defaultRole' => Users::ROLE_STUDENT,
+            'active' => true,
+            'reCaptcha' => true,
+        ],
+        'reCaptcha' => [
+            'key' => env('RECAPTCHA_CLIENT_KEY'),
+            'secret' => env('RECAPTCHA_CLIENT_SECRET'),
+            'registration' => true,
+            'login' => false,
         ],
         'Tos' => [
             'required' => false,
