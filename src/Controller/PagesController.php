@@ -21,6 +21,7 @@ use Cake\Core\Configure;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Response;
+use Cake\Log\Log;
 use Cake\View\Exception\MissingTemplateException;
 
 /**
@@ -39,20 +40,22 @@ class PagesController extends AppController
         $this->loadComponent('Authentication.Authentication');
     }
 
-
-
     public function home()
     {
         try {
             $identity = $this->Authentication->getIdentity();
 
             if (in_array($identity->role, Users::getAdminRoles())) {
-                return $this->redirect('/admin');
+                return $this->redirect(['_name' => 'admin_home']);
             }
-                
-            return $this->redirect('/student');
+
+            if (in_array($identity->role, Users::getStudentRoles())) {
+                return $this->redirect(['_name' => 'student_home']);
+            }
         } catch (\Throwable $e) {
-            return $this->redirect('/login');
+            Log::alert($e->getMessage());
         }
+
+        return $this->redirect('/login');
     }
 }

@@ -47,14 +47,6 @@ class Application extends BaseApplication
     public function bootstrap(): void
     {
         // Call parent to load bootstrap from files.
-        $this->addPlugin('Muffin/Footprint');
-        $this->getEventManager()->on(
-            'Server.buildMiddleware',
-            function (EventInterface $event, MiddlewareQueue $middleware) {
-                $middleware->insertAfter(AuthenticationMiddleware::class, FootprintMiddleware::class);
-            }
-        );
-
         parent::bootstrap();
 
         if (PHP_SAPI === 'cli') {
@@ -75,6 +67,13 @@ class Application extends BaseApplication
         }
 
         // Load more plugins here
+        $this->addPlugin('Muffin/Footprint');
+        $this->getEventManager()
+            ->on('Server.buildMiddleware', function (EventInterface $event, MiddlewareQueue $middleware) {
+                $middleware->insertAfter(AuthenticationMiddleware::class, FootprintMiddleware::class);
+            })
+            ->on(new \App\Event\UsersListener());
+
         $this->addPlugin(\CakeLte\Plugin::class);
         $this->addPlugin(\CakeDC\Users\Plugin::class);
         Configure::write('Users.config', ['users']);
