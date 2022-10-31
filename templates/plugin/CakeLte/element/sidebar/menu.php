@@ -4,12 +4,11 @@ use App\Model\Field\Users;
 
 $menu = [];
 $menu['home'] = [
-    'label' => 'Inicio',
+    'label' => __('Inicio'),
     'uri' => '/',
 ];
 
 if (in_array($this->Identity->get('role'), Users::getAdminRoles())) {
-
     $menu['students'] = [
         'label' => __('Estudiantes'),
         'uri' => ['controller' => 'Students', 'action' => 'index', 'prefix' => 'Admin'],
@@ -21,8 +20,15 @@ if (in_array($this->Identity->get('role'), Users::getAdminRoles())) {
     ];
 }
 
+if (in_array($this->Identity->get('role'), [Users::ROLE_ADMIN, Users::ROLE_SUPERUSER])) {
+    $menu['users'] = [
+        'label' => __('Usuarios'),
+        'uri' => ['controller' => 'AppUsers', 'action' => 'index', 'prefix' => 'Admin'],
+    ];
+}
+
 $menu['logout'] = [
-    'label' => 'Cerrar Sesion',
+    'label' => __('Cerrar Sesion'),
     'uri' => '/logout',
 ];
 

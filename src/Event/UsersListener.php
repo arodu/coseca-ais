@@ -29,13 +29,13 @@ class UsersListener implements EventListenerInterface
         //your custom logic
         //$this->loadModel('SomeOptionalUserLogs')->newLogin($user);
 
+        if (in_array($user->role, Users::getAdminRoles())) {
+            $event->setResult(['_name' => 'admin:home']);
+        }
+
         if (in_array($user->role, Users::getStudentRoles())) {
             // @todo add student_id here
             $event->setResult(['_name' => 'student:home']);
-        }
-
-        if (in_array($user->role, Users::getAdminRoles())) {
-            $event->setResult(['_name' => 'admin:home']);
         }
     }
 }

@@ -12,7 +12,6 @@ class AppStudentController extends AppController
     public function initialize(): void
     {
         parent::initialize();
-        $this->viewBuilder()->setLayout('CakeLte.top-nav');
         $this->loadComponent('Authentication.Authentication');
     }
 

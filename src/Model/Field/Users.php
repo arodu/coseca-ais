@@ -15,6 +15,7 @@ class Users
     {
         return [
             static::ROLE_STUDENT,
+            static::ROLE_SUPERUSER,
         ];
     }
 

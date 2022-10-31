@@ -98,18 +98,17 @@ return [
             ],
             'bypassAuth' => true,
         ],
-
         [
-            'role' => Users::getStudentRoles(),
-            'prefix' => 'Student',
+            'role' => Users::getAdminRoles(),
+            'prefix' => 'Admin',
             'extension' => '*',
             'plugin' => '*',
             'controller' => '*',
             'action' => '*',
         ],
         [
-            'role' => Users::getAdminRoles(),
-            'prefix' => 'Admin',
+            'role' => Users::getStudentRoles(),
+            'prefix' => 'Student',
             'extension' => '*',
             'plugin' => '*',
             'controller' => '*',

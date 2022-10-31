@@ -39,8 +39,8 @@ $this->layout = 'CakeLte.login';
         ]); ?>
 
         <div class="row">
-            <div class="col-12">
-                <?= $this->Form->control(__('Request new password'), [
+            <div class="col-4 offset-8">
+                <?= $this->Form->control(__('Save'), [
                     'type' => 'submit',
                     'class' => 'btn btn-primary btn-block',
                 ]) ?>

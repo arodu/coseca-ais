@@ -223,3 +223,5 @@ TypeFactory::map('time', StringType::class);
 //Inflector::rules('uninflected', ['dontinflectme']);
 
 Configure::load('stages');
+
+Configure::write('coseca.hours-min', 120);
