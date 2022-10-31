@@ -1,1 +1,0 @@
-<h4><?= __('Realizado satisfactoriamente!') ?></h4>

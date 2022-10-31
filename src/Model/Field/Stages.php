@@ -6,6 +6,7 @@ namespace App\Model\Field;
 use App\Stage\CourseStage;
 use App\Stage\EndingStage;
 use App\Stage\RegisterStage;
+use Cake\Core\Configure;
 
 class Stages
 {
@@ -29,51 +30,34 @@ class Stages
     }
 
     /**
+     * @param string|null $stageKey
      * @return array
      */
-    protected static function _list(): array
+    public static function getStages(?string $stageKey = null): array
     {
-        return [
-            static::STAGE_REGISTER => [
-                static::DATA_LABEL => __('Registro'),
-                static::DATA_CLASS => RegisterStage::class,
-            ],
-            static::STAGE_COURSE => [
-                static::DATA_LABEL => __('Curso de Servicio Comunitario'),
-                static::DATA_CLASS => CourseStage::class,
-            ],
-            static::STAGE_ENDING => [
-                static::DATA_LABEL => __('Finalizacion'),
-                static::DATA_CLASS => EndingStage::class,
-            ],
-        ];
-    }
+        $stages = Configure::read('Stages');
 
-    /**
-     * @param string|null $key
-     * @return array
-     */
-    public static function getStages(?string $keyStage = null): array
-    {
-        $stages = static::_list();
-
-        if (empty($keyStage)) {
+        if (empty($stageKey)) {
             return $stages;
         }
 
-        if ($keyStage === static::DATA_KEY) {
+        if ($stageKey === static::DATA_KEY) {
             return array_keys(static::getStages());
         }
 
         $output = [];
         foreach ($stages as $key => $stage) {
-            $output[$key] = $stage[$keyStage];
+            $output[$key] = $stage[$stageKey];
         }
 
         return $output;
     }
 
-    public static function getNextStageKey($currentStage): ?string
+    /**
+     * @param string $currentStage
+     * @return string|null
+     */
+    public static function getNextStageKey(string $currentStage): ?string
     {
         $stages = static::getStages(static::DATA_KEY);
         $prev = null;
