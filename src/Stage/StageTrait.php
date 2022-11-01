@@ -7,6 +7,7 @@ use App\Model\Entity\Student;
 use App\Model\Entity\StudentStage;
 use App\Model\Field\Stages;
 use Cake\ORM\Locator\LocatorAwareTrait;
+use InvalidArgumentException;
 
 /** 
  * @property \App\Model\Table\StudentStagesTable $StudentStages
@@ -23,21 +24,23 @@ trait StageTrait
     protected ?string $lastError = null;
 
     /**
-     * @param string $stageKey
-     * @param integer $studentId
+     * @param StudentStage $studentStage
      */
-    public function __construct(string $stageKey, int $studentId)
+    public function __construct(StudentStage $studentStage)
     {
-        $this->stageKey = $stageKey;
-        $this->studentId = $studentId;
+        if (empty($studentStage->stage)) {
+            throw new InvalidArgumentException();
+        }
+
+        if (empty($studentStage->student_id)) {
+            throw new InvalidArgumentException();
+        }
+
+        $this->_studentStage = $studentStage;
+        $this->stageKey = $this->_studentStage->stage;
+        $this->studentId = $this->_studentStage->student_id;
         $this->StudentStages = $this->fetchTable('StudentStages');
         $this->initialize();
-    }
-
-    protected function _persist($options = [])
-    {
-        $stage = $this->StudentStages->newEntity($options);
-        return $this->StudentStages->saveOrFail($stage);
     }
 
     /**
@@ -48,6 +51,9 @@ trait StageTrait
         return $this->stageKey;
     }
 
+    /**
+     * @return string
+     */
     public function getNextStageKey(): string
     {
         return Stages::getNextStageKey($this->getStageKey());
@@ -93,19 +99,6 @@ trait StageTrait
         }
 
         return $this->_studentStage;
-    }
-
-    /**
-     * @param string $stageStatus
-     * @return void
-     */
-    public function changeStatus(string $stageStatus)
-    {
-        $studentStage = $this->getStudentStage();
-        $studentStage->status = $stageStatus;
-        $this->StudentStages->saveOrFail($studentStage);
-
-        $this->_studentStage = $studentStage;
     }
 
     /**

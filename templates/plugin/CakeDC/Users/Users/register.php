@@ -49,7 +49,7 @@ $this->layout = 'CakeLte.login';
         ]) ?>
 
         <?php if (Configure::read('Users.reCaptcha.registration')) : ?>
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col">
                     <?= $this->User->addReCaptcha() ?>
                 </div>

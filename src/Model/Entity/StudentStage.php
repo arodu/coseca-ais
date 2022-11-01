@@ -53,6 +53,6 @@ class StudentStage extends Entity
      */
     public function getStageInstance(): StageInterface
     {
-        return StageFactory::getInstance($this->stage, $this->student_id);
+        return StageFactory::getInstance($this);
     }
 }

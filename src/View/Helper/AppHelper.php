@@ -20,57 +20,72 @@ class AppHelper extends Helper
     protected $_defaultConfig = [];
 
 
-    public function statusIcon($status = null)
+    public function statusIcon($status = null, $complete = false, $extraClass = '')
     {
         switch ($status) {
             case Stages::STATUS_IN_PROGRESS: 
-                return 'fas fa-cogs';
+                $icon = 'fas fa-cogs';
                 break;
             case Stages::STATUS_WAITING: 
-                return 'fas fa-pause-circle';
+                $icon = 'fas fa-pause-circle';
                 break;
             case Stages::STATUS_SUCCESS: 
-                return 'fas fa-check';
+                $icon = 'fas fa-check';
                 break;
             case Stages::STATUS_PENDING:
             default:
-                return 'fas fa-lock';
+                $icon = 'fas fa-lock';
                 break;
         }
+
+        if (empty($complete)) {
+            return $icon;
+        }
+
+        return '<i class="' . implode(' ', [
+            $icon,
+            $extraClass,
+        ]) . '"></i>';
     }
 
-    public function statusColor($status = null)
+    public function statusColor($status = null, $prefix = 'card')
     {
         switch ($status) {
             case Stages::STATUS_IN_PROGRESS: 
-                return 'warning';
+                $color = 'warning';
                 break;
             case Stages::STATUS_WAITING: 
-                return 'info';
+                $color = 'info';
                 break;
             case Stages::STATUS_SUCCESS: 
-                return 'success';
+                $color = 'success';
                 break;
             case Stages::STATUS_FAILED:
-                return 'danger';
+                $color = 'danger';
                 break;
             case Stages::STATUS_PENDING:
             default:
-                return 'gray';
+                $color = 'gray';
                 break;
         }
+
+        if (empty($prefix)) {
+            return $color;
+        }
+
+        return $prefix . '-' . $color;
     }
 
-    public function statusShow($status = null)
+    public function statusActive($status = null, $active = 'show', $inactive = '')
     {
         switch($status) {
             case Stages::STATUS_IN_PROGRESS:
             case Stages::STATUS_WAITING:
-                return 'show';
+                return $active;
                 break;
 
             default:
-                return '';
+                return $inactive;
                 break;
         }
     }

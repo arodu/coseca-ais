@@ -1,12 +1,14 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
+use App\Model\Entity\StudentStage;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use InvalidArgumentException;
 
 /**
  * StudentStages Model
@@ -99,9 +101,56 @@ class StudentStagesTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
+        $rules->add($rules->isUnique(['student_id', 'stage'], 'This stage & student combination has already been used'));
         $rules->add($rules->existsIn('student_id', 'Students'), ['errorField' => 'student_id']);
         $rules->add($rules->existsIn('lapse_id', 'Lapses'), ['errorField' => 'lapse_id']);
 
         return $rules;
+    }
+
+    /**
+     * @param array $options
+     * @return StudentStage
+     */
+    public function create(array $options = []): StudentStage
+    {
+        if (empty($options['student_id'])) {
+            throw new InvalidArgumentException('param student_id is necessary');
+        }
+
+        if (empty($options['stage'])) {
+            throw new InvalidArgumentException('param stage is necessary');
+        }
+
+        $studentStage = $this->newEntity($options);
+        $defaultValues = $studentStage->getStageInstance()->defaultValues();
+        $studentStage = $this->newEntity(array_merge($defaultValues, $options));
+
+        return $this->saveOrFail($studentStage);
+    }
+
+    /**
+     * @param StudentStage $entity
+     * @param string $newStatus
+     * @return StudentStage
+     */
+    public function updateStatus(StudentStage $entity, string $newStatus): StudentStage
+    {
+        $entity->status = $newStatus;
+
+        return $this->saveOrFail($entity);
+    }
+
+    /**
+     * @param integer $student_id
+     * @param string $stageKey
+     * @return StudentStage
+     */
+    public function getByStudentStage(int $student_id, string $stageKey): StudentStage
+    {
+        return $this->find()->where([
+                'student_id' => $student_id,
+                'stage' => $stageKey,
+            ])->first();
     }
 }

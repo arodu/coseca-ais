@@ -12,22 +12,13 @@ class CourseStage implements StageInterface
     use StageTrait;
 
     public function initialize(): void {}
-    
-    public function create($options = []): StudentStage
-    {
-        $studentStage = $this->getStudentStage();
-        if ($studentStage) {
-            Log::info(__('StudentStage already exists!'));
-            return $studentStage;
-        }
 
-        $data = array_merge([
-            'student_id' => $this->getStudentId(),
-            'stage' => $this->getStageKey(),
-            'status' => Stages::STATUS_WAITING,
+    public function defaultValues(): array
+    {
+        return [
             'lapse_id' => $this->StudentStages->Lapses->getCurrentLapse()->id,
-        ], $options);
-        return $this->_persist($data);
+            'status' => Stages::STATUS_WAITING,
+        ];
     }
 
     public function close(string $status) {}

@@ -17,21 +17,28 @@ $this->Breadcrumbs->add([
 <div class="row">
     <div id="accordion" class="col-sm-8 offset-sm-2">
         <?php foreach ($stages as $stageKey => $baseStage) : ?>
-            <?php $studentStage = $studentStages[$stageKey] ?? null ?>
-            <div class="card <?= 'card-' . $this->App->statusColor($studentStage->status ?? null) ?>">
+            <?php
+                $studentStage = $studentStages[$stageKey] ?? null;
+                $studentStageStatus = $studentStage->status ?? null;
+            ?>
+            <div class="card <?= $this->App->statusColor($studentStageStatus, 'card') ?>">
                 <div class="card-header">
                     <h4 class="card-title w-100">
-                        <a class="d-block w-100" data-toggle="collapse" href="<?= '#collapse-' . $stageKey ?>">
-                            <i class="<?= $this->App->statusIcon($studentStage->status ?? null) ?> fa-fw"></i>
+                        <a class="d-flex w-100" data-toggle="collapse" href="<?= '#collapse-' . $stageKey ?>">
+                            <?= $this->App->statusIcon($studentStageStatus, true, 'fa-fw mr-1') ?>
                             <?= $baseStage[Stages::DATA_LABEL] ?>
+                            <?php if ($studentStage) : ?>
+                                <i class="fas fa-caret-down ml-auto"></i>
+                            <?php endif; ?>
                         </a>
                     </h4>
                 </div>
-                <?php if ($studentStage->status ?? false) : ?>
-                    <div id="<?= 'collapse-' . $stageKey ?>" class="collapse <?= $this->App->statusShow($studentStage->status) ?>" data-parent="#accordion">
+
+                <?php if ($studentStage) : ?>
+                    <div id="<?= 'collapse-' . $stageKey ?>" class="collapse <?= $this->App->statusActive($studentStageStatus) ?>" data-parent="#accordion">
                         <div class="card-body">
                             <?php
-                            $element = 'stages/' . $stageKey . '/' . $studentStage->status;
+                            $element = 'stages/' . $stageKey . '/' . $studentStageStatus;
                             if ($this->elementExists($element)) {
                                 echo $this->element($element, ['stageInstance' => $studentStage->getStageInstance()]);
                             } else {
@@ -44,6 +51,7 @@ $this->Breadcrumbs->add([
                         </div>
                     </div>
                 <?php endif; ?>
+
             </div>
         <?php endforeach; ?>
     </div>

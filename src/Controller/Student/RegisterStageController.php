@@ -24,15 +24,15 @@ class RegisterStageController extends AppStudentController
     /**
      * Edit method
      *
-     * @param string|null $id Student id.
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function edit()
     {
-        $current_student_id = $this->getCurrentStudent()->id;
-        $registerStage = StageFactory::getInstance(Stages::STAGE_REGISTER, $current_student_id);
-        $studentStage = $registerStage->getStudentStage(true);
+        $currentStudent = $this->getCurrentStudent();
+        /** @var \App\Model\Entity\StudentStage $studentStage */
+        $studentStage = $this->Students->StudentStages->getByStudentStage($currentStudent->id, Stages::STAGE_REGISTER);
+        $registerStage = $studentStage->getStageInstance();
 
         if ($studentStage->status !== Stages::STATUS_IN_PROGRESS) {
             $this->Flash->warning(__('El Registro no esta activo para realizar cambios'));

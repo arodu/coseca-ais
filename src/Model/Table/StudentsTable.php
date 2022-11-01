@@ -7,7 +7,6 @@ use App\Model\Entity\AppUser;
 use App\Model\Entity\Student;
 use App\Model\Field\Stages;
 use App\Model\Field\Users;
-use App\Stage\StageFactory;
 use ArrayObject;
 use Cake\Cache\Cache;
 use Cake\Datasource\EntityInterface;
@@ -16,7 +15,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use Exception;
+use InvalidArgumentException;
 
 /**
  * Students Model
@@ -101,6 +100,7 @@ class StudentsTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
+        $rules->add($rules->isUnique(['user_id']));
         $rules->add($rules->existsIn('user_id', 'AppUsers'), ['errorField' => 'user_id']);
 
         return $rules;
@@ -121,31 +121,30 @@ class StudentsTable extends Table
      */
     public function getByUser(AppUser $user): Student
     {
-        $student = $this->find()
-            ->where(['user_id' => $user->id])
-            ->first();
+        $student = $this->find()->where(['user_id' => $user->id])->first();
 
         if ($student) {
             return $student;
         }
 
         if (!in_array($user->role, Users::getStudentRoles())) {
-            throw new Exception(__('Bad Role Exception'));;
+            throw new InvalidArgumentException('Este usuario no tiene es un estudiante!');
         }
 
-        $student = $this->newEntity([
-            'user_id' => $user->id,
-        ]);
+        $student = $this->newEntity(['user_id' => $user->id]);
         $this->saveOrFail($student);
 
-        return $this->getByUser($user);
+        return $student;
     }
 
 
     public function afterSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
     {
         if ($entity->isNew()) {
-            StageFactory::getInstance(Stages::defaultStage(), $entity->id)->create();
+            $this->StudentStages->create([
+                'student_id' => $entity->id,
+                'stage' => Stages::defaultStage(),
+            ]);
         }
 
         Cache::delete('student-user-' . $entity->user_id);

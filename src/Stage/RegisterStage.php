@@ -15,37 +15,29 @@ class RegisterStage implements StageInterface
 
     public function initialize(): void
     {}
-    
-    public function create($options = []): StudentStage
-    {
-        $studentStage = $this->getStudentStage();
-        if ($studentStage) {
-            Log::info(__('StudentStage already exists!'));
-            return $studentStage;
-        }
 
-        $data = array_merge([
-            'student_id' => $this->getStudent()->id,
+    public function defaultValues(): array
+    {
+        return [
             'lapse_id' => $this->StudentStages->Lapses->getCurrentLapse()->id,
-            'stage' => $this->getStageKey(),
             'status' => Stages::STATUS_IN_PROGRESS,
-        ], $options);
-        return $this->_persist($data);
+        ];
     }
 
     public function close(string $status)
     {
         // close current stage
-        $this->changeStatus($status);
+        $this->StudentStages->updateStatus($this->getStudentStage(), $status);
 
         // create next stage
         if ($status === Stages::STATUS_SUCCESS) {
             $nextStageKey = $this->getNextStageKey();
             if ($nextStageKey) {
-                StageFactory::getInstance($nextStageKey, $this->getStudentId())
-                    ->create([
-                        'lapse_id' => $this->getStudentStage()->lapse_id,
-                    ]);
+                $this->StudentStages->create([
+                    'stage' => $nextStageKey,
+                    'student_id' => $this->getStudentId(),
+                    'lapse_id' => $this->getStudentStage()->lapse_id,
+                ]);
             }
         }
     }

@@ -53,7 +53,6 @@ class Student extends Entity
     protected function _getFirstName()
     {
         if (empty($this->app_user)) {
-            Log::alert('AppUser not loaded on StudentEntity');
             return null;
         }
 
@@ -63,7 +62,6 @@ class Student extends Entity
     protected function _getLastName()
     {
         if (empty($this->app_user)) {
-            Log::alert('AppUser not loaded on StudentEntity');
             return null;
         }
 
@@ -73,7 +71,6 @@ class Student extends Entity
     protected function _getEmail()
     {
         if (empty($this->app_user)) {
-            Log::alert('AppUser not loaded on StudentEntity');
             return null;
         }
 
