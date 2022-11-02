@@ -3,10 +3,8 @@ declare(strict_types=1);
 
 namespace App\Model\Field;
 
-use App\Stage\CourseStage;
-use App\Stage\EndingStage;
-use App\Stage\RegisterStage;
 use Cake\Core\Configure;
+use Cake\Http\Exception\NotFoundException;
 
 class Stages
 {
@@ -18,6 +16,7 @@ class Stages
     public const DATA_KEY = 'key';
     public const DATA_LABEL = 'label';
     public const DATA_CLASS = 'class';
+    public const DATA_STATUS = 'status';
 
     /**
      * default stage for new Students
@@ -33,24 +32,37 @@ class Stages
      * @param string|null $stageKey
      * @return array
      */
-    public static function getStages(?string $stageKey = null): array
+    public static function getStageList(?string $stageDataKey = null): array
     {
         $stages = Configure::read('Stages');
 
-        if (empty($stageKey)) {
+        if (empty($stageDataKey)) {
             return $stages;
         }
 
-        if ($stageKey === static::DATA_KEY) {
-            return array_keys(static::getStages());
+        if ($stageDataKey === static::DATA_KEY) {
+            return array_keys($stages);
         }
 
         $output = [];
         foreach ($stages as $key => $stage) {
-            $output[$key] = $stage[$stageKey];
+            $output[$key] = $stage[$stageDataKey];
         }
 
         return $output;
+    }
+
+    public static function getStageInfo(string $stageKey): array
+    {
+        $stageList = static::getStageList();
+
+        if (!isset($stageList[$stageKey])) {
+            throw new NotFoundException('$stageKey not found!');
+        }
+
+        return array_merge([
+            static::DATA_STATUS => static::STATUS_PENDING,
+        ], $stageList[$stageKey]);
     }
 
     /**
@@ -59,10 +71,10 @@ class Stages
      */
     public static function getNextStageKey(string $currentStage): ?string
     {
-        $stages = static::getStages(static::DATA_KEY);
+        $stageList = static::getStageList(static::DATA_KEY);
         $prev = null;
 
-        foreach ($stages as $next) {
+        foreach ($stageList as $next) {
             if ($prev === $currentStage) {
                 return $next;
             }

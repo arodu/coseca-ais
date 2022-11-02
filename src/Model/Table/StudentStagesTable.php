@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Model\Table;
 
 use App\Model\Entity\StudentStage;
+use App\Model\Field\Stages;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -112,19 +113,26 @@ class StudentStagesTable extends Table
      * @param array $options
      * @return StudentStage
      */
-    public function create(array $options = []): StudentStage
+    public function create(array $options): StudentStage
     {
+        if (empty($options['stage'])) {
+            throw new InvalidArgumentException('param stage is necessary');
+        }
+        
         if (empty($options['student_id'])) {
             throw new InvalidArgumentException('param student_id is necessary');
         }
 
-        if (empty($options['stage'])) {
-            throw new InvalidArgumentException('param stage is necessary');
+        if (empty($options['lapse_id'])) {
+            $options['lapse_id'] = $this->Lapses->getCurrentLapse()->id ?? null;
+        }
+
+        if (empty($options['status'])) {
+            $stageInfo = Stages::getStageInfo($options['stage']);
+            $options['status'] = $stageInfo[Stages::DATA_STATUS] ?? Stages::STATUS_PENDING;
         }
 
         $studentStage = $this->newEntity($options);
-        $defaultValues = $studentStage->getStageInstance()->defaultValues();
-        $studentStage = $this->newEntity(array_merge($defaultValues, $options));
 
         return $this->saveOrFail($studentStage);
     }

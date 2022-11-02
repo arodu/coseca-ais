@@ -13,16 +13,12 @@ class StageFactory
 {
     public static function getInstance(StudentStage $studentStage): StageInterface
     {
-        $stages = Stages::getStages();
-
         if (empty($studentStage->stage)) {
             throw new InvalidArgumentException();
         }
 
-        if (!isset($stages[$studentStage->stage])) {
-            throw new InvalidArgumentException();
-        }
+        $stageInfo = Stages::getStageInfo($studentStage->stage);
 
-        return new $stages[$studentStage->stage][Stages::DATA_CLASS]($studentStage);
+        return new $stageInfo[Stages::DATA_CLASS]($studentStage);
     }
 }

@@ -20,7 +20,7 @@ class StagesController extends AppStudentController
      */
     public function index()
     {
-        $stages = Stages::getStages();
+        $stages = Stages::getStageList();
         $student = $this->getCurrentStudent();
 
         $studentStagesResult = $this->fetchTable('StudentStages')
@@ -34,5 +34,4 @@ class StagesController extends AppStudentController
 
         $this->set(compact('stages', 'student', 'studentStages'));
     }
-
 }
