@@ -36,6 +36,23 @@ return [
             'validate' => false,
         ],
     ],
+    'Auth' => [
+        'Identifiers' => [
+            'Password' => [
+                'resolver' => [
+                    'finder' => 'auth',
+                ],
+            ],
+            'Social' => [
+                'authFinder' => 'auth',
+            ],
+            'Token' => [
+                'resolver' => [
+                    'finder' => 'auth',
+                ],
+            ],
+        ],
+    ],
     
     //'OAuth.providers.facebook.options.clientId' => 'YOUR APP ID',
     //'OAuth.providers.facebook.options.clientSecret' => 'YOUR APP SECRET',

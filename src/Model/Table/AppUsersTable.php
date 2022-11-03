@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use App\Model\Field\Users;
 use ArrayObject;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
+use Cake\ORM\Query;
 use CakeDC\Users\Model\Table\UsersTable;
 
 /**
@@ -15,6 +15,12 @@ use CakeDC\Users\Model\Table\UsersTable;
 
 class AppUsersTable extends UsersTable
 {
+    use BasicTableTrait;
+
+    /**
+     * @param array $config
+     * @return void
+     */
     public function initialize(array $config): void
     {
         parent::initialize($config);
@@ -24,10 +30,30 @@ class AppUsersTable extends UsersTable
         ]);
     }
 
+    /**
+     * @param EventInterface $event
+     * @param EntityInterface $entity
+     * @param ArrayObject $options
+     * @return void
+     */
     public function afterMarshal(EventInterface $event, EntityInterface $entity, ArrayObject $options)
     {
         if ($entity->isNew() && $entity->isDirty('email')) {
             $entity->username = $entity->email;
         }
+    }
+
+    /**
+     * @param Query $query
+     * @param array $options
+     * @return void
+     */
+    public function findAuth(Query $query, array $options = [])
+    {
+        return $query->find('active')->contain([
+            'Students' => [
+                'fields' => ['id'],
+            ]
+        ]);
     }
 }

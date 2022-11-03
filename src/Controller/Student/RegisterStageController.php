@@ -4,8 +4,6 @@ declare(strict_types=1);
 namespace App\Controller\Student;
 
 use App\Model\Field\Stages;
-use App\Stage\StageFactory;
-use Cake\Cache\Cache;
 
 /**
  * RegisterStage Controller
@@ -29,12 +27,12 @@ class RegisterStageController extends AppStudentController
      */
     public function edit()
     {
-        $currentStudent = $this->getCurrentStudent();
+        $currentStudent = $this->getAuthUser()->student;
         /** @var \App\Model\Entity\StudentStage $studentStage */
         $studentStage = $this->Students->StudentStages->getByStudentStage($currentStudent->id, Stages::STAGE_REGISTER);
         $registerStage = $studentStage->getStageInstance();
 
-        if ($studentStage->status !== Stages::STATUS_IN_PROGRESS) {
+        if (empty($studentStage) || $studentStage->status !== Stages::STATUS_IN_PROGRESS) {
             $this->Flash->warning(__('El Registro no esta activo para realizar cambios'));
             return $this->redirect(['_name' => 'student:home']);
         }

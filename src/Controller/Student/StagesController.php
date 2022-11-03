@@ -8,11 +8,19 @@ use App\Model\Field\Stages;
 /**
  * Stages Controller
  *
- * @property \App\Model\Table\StagesTable $Stages
+ * @property \App\Model\Table\StudentStagesTable $StudentStages
  * @method \App\Model\Entity\Stage[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class StagesController extends AppStudentController
 {
+
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->StudentStages = $this->fetchTable('StudentStages');
+    }
+
+
     /**
      * Index method
      *
@@ -21,10 +29,9 @@ class StagesController extends AppStudentController
     public function index()
     {
         $stages = Stages::getStageList();
-        $student = $this->getCurrentStudent();
+        $student = $this->getAuthUser()->student;
 
-        $studentStagesResult = $this->fetchTable('StudentStages')
-            ->find()
+        $studentStagesResult = $this->StudentStages->find()
             ->where(['student_id' => $student->id]);
 
         $studentStages = [];

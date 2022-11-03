@@ -4,8 +4,7 @@ declare(strict_types=1);
 namespace App\Controller\Student;
 
 use App\Controller\AppController;
-use App\Model\Entity\Student;
-use Cake\Cache\Cache;
+use App\Model\Entity\AppUser;
 
 class AppStudentController extends AppController
 {
@@ -15,14 +14,35 @@ class AppStudentController extends AppController
         $this->loadComponent('Authentication.Authentication');
     }
 
-
-    public function getCurrentStudent($reset = false): ?Student
+    /**
+     * @return AppUser
+     */
+    public function getAuthUser(): AppUser
     {
         $user = $this->Authentication->getIdentity()->getOriginalData();
 
-        return Cache::remember('student-user-' . $user->id, function() use ($user) {
-            return $this->fetchTable('Students')->getByUser($user);
-        });
+        if (empty($user->student)) {
+            return $this->reloadAuthUserStudent();
+        }
+
+        return $user;
+    }
+
+    /**
+     * @return AppUser
+     */
+    public function reloadAuthUserStudent(): AppUser
+    {
+        $appUsersTable = $this->fetchTable('AppUsers');
+        $user = $this->Authentication->getIdentity()->getOriginalData();
+        if (empty($user->student)) {
+            $student = $appUsersTable->Students->newEntity(['user_id' => $user->id]);
+            $appUsersTable->Students->save($student);
+        }
+
+        $user = $appUsersTable->find('auth')->first();
+        $this->Authentication->setIdentity($user);
+
+        return $user;
     }
 }
-

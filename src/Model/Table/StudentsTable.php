@@ -78,16 +78,6 @@ class StudentsTable extends Table
             ->uuid('user_id')
             ->notEmptyString('user_id');
 
-        //$validator
-        //    ->integer('created_by')
-        //    ->requirePresence('created_by', 'create')
-        //    ->notEmptyString('created_by');
-
-        //$validator
-        //    ->integer('modified_by')
-        //    ->requirePresence('modified_by', 'create')
-        //    ->notEmptyString('modified_by');
-
         return $validator;
     }
 
@@ -116,28 +106,13 @@ class StudentsTable extends Table
     }
 
     /**
-     * @param AppUser $user
-     * @return Student
+     * Undocumented function
+     *
+     * @param EventInterface $event
+     * @param EntityInterface $entity
+     * @param ArrayObject $options
+     * @return void
      */
-    public function getByUser(AppUser $user): Student
-    {
-        $student = $this->find()->where(['user_id' => $user->id])->first();
-
-        if ($student) {
-            return $student;
-        }
-
-        if (!in_array($user->role, Users::getStudentRoles())) {
-            throw new InvalidArgumentException('Este usuario no tiene es un estudiante!');
-        }
-
-        $student = $this->newEntity(['user_id' => $user->id]);
-        $this->saveOrFail($student);
-
-        return $student;
-    }
-
-
     public function afterSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
     {
         if ($entity->isNew()) {
@@ -146,7 +121,5 @@ class StudentsTable extends Table
                 'stage' => Stages::defaultStage(),
             ]);
         }
-
-        Cache::delete('student-user-' . $entity->user_id);
     }
 }
