@@ -43,6 +43,7 @@ class Student extends Entity
         'app_user' => true,
         'student_stages' => true,
         'tenant_id' => true,
+        'type' => true,
     ];
 
     protected $_virtual = [

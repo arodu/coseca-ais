@@ -22,5 +22,10 @@ return [
             Stages::DATA_CLASS => EndingStage::class,
             Stages::DATA_STATUS => Stages::STATUS_PENDING,
         ],
+        Stages::STAGE_VALIDATION => [
+            Stages::DATA_LABEL => __('Convalidación'),
+            Stages::DATA_CLASS => ValidationStage::class,
+            Stages::DATA_STATUS => Stages::STATUS_PENDING,
+        ],
     ]
 ];

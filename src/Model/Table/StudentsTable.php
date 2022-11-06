@@ -3,13 +3,17 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use App\Model\Entity\AppUser;
 use App\Model\Field\Stages;
+use App\Model\Field\Students;
 use ArrayObject;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
+use Cake\Log\Log;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\Utility\Hash;
 use Cake\Validation\Validator;
 
 /**
@@ -85,7 +89,6 @@ class StudentsTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->isUnique(['user_id']));
         $rules->add($rules->existsIn('user_id', 'AppUsers'), ['errorField' => 'user_id']);
 
         return $rules;
@@ -101,8 +104,6 @@ class StudentsTable extends Table
     }
 
     /**
-     * Undocumented function
-     *
      * @param EventInterface $event
      * @param EntityInterface $entity
      * @param ArrayObject $options
@@ -115,6 +116,23 @@ class StudentsTable extends Table
                 'student_id' => $entity->id,
                 'stage' => Stages::defaultStage(),
             ]);
+        }
+    }
+
+    /**
+     * @param AppUser $user
+     * @param integer|null $tenant_id
+     * @return void
+     */
+    public function newRegularStudent(AppUser $user, ?int $tenant_id = null)
+    {
+        $student = $this->newEntity([
+            'user_id' => $user->id,
+            'tenant_id' => $tenant_id ?? Hash::get($user, 'tenant_filters.0.tenant_id'),
+            'type' => Students::TYPE_REGULAR,
+        ]);
+        if (!$this->save($student)) {
+            Log::alert('student already exists');
         }
     }
 }

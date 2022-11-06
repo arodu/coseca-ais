@@ -12,6 +12,7 @@ class Stages
     public const STAGE_COURSE = 'course';
     // ...
     public const STAGE_ENDING = 'ending';
+    public const STAGE_VALIDATION = 'validation';
 
     public const DATA_KEY = 'key';
     public const DATA_LABEL = 'label';
@@ -29,40 +30,74 @@ class Stages
     }
 
     /**
-     * @param string|null $stageKey
+     * @param string $studentType
      * @return array
      */
-    public static function getStageList(?string $stageDataKey = null): array
+    public static function getStageListStudentType(string $studentType): array
     {
-        $stages = Configure::read('Stages');
-
-        if (empty($stageDataKey)) {
-            return $stages;
+        switch ($studentType) {
+            case Students::TYPE_VALIDATED:
+                return [
+                    static::STAGE_REGISTER,
+                    static::STAGE_VALIDATION,
+                ];
+                break;
+            case Students::TYPE_REGULAR:
+            default:
+                return [
+                    static::STAGE_REGISTER,
+                    static::STAGE_COURSE,
+                    static::STAGE_ENDING,
+                ];
+                break;
         }
-
-        if ($stageDataKey === static::DATA_KEY) {
-            return array_keys($stages);
-        }
-
-        $output = [];
-        foreach ($stages as $key => $stage) {
-            $output[$key] = $stage[$stageDataKey];
-        }
-
-        return $output;
     }
 
+    /**
+     * @param string $studentType
+     * @return array
+     */
+    public static function getStageList(string $studentType = Students::TYPE_REGULAR): array
+    {
+        $stagesStudentType = static::getStageListStudentType($studentType);
+        $stagesAll = Configure::read('Stages');
+
+        $filtered = array_filter($stagesAll, function ($key) use ($stagesStudentType) {
+            return in_array($key, $stagesStudentType);
+        }, ARRAY_FILTER_USE_KEY);
+
+        return $filtered;
+    }
+
+    /**
+     * @param array $stageList
+     * @param string $dataSet
+     * @return array
+     */
+    public static function getStagesFilter(array $stageList, string $dataSet = self::DATA_KEY): array
+    {
+        if ($dataSet === static::DATA_KEY) {
+            return array_keys($stageList);
+        }
+
+        return array_filter($stageList, function ($item) use ($dataSet) {
+            return $item[$dataSet];
+        });
+    }
+
+    /**
+     * @param string $stageKey
+     * @return array
+     */
     public static function getStageInfo(string $stageKey): array
     {
-        $stageList = static::getStageList();
+        $stagesAll = Configure::read('Stages');
 
-        if (!isset($stageList[$stageKey])) {
+        if (!isset($stagesAll[$stageKey])) {
             throw new NotFoundException('$stageKey not found!');
         }
 
-        return array_merge([
-            static::DATA_STATUS => static::STATUS_PENDING,
-        ], $stageList[$stageKey]);
+        return $stagesAll[$stageKey];
     }
 
     /**

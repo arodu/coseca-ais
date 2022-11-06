@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use App\Model\Field\Students;
 use Migrations\AbstractMigration;
 
 class CreateStudents extends AbstractMigration
@@ -21,6 +22,11 @@ class CreateStudents extends AbstractMigration
         $table->addColumn('tenant_id', 'integer', [
             'default' => null,
             'limit' => 11,
+            'null' => false,
+        ]);
+        $table->addColumn('type', 'string', [
+            'default' => Students::TYPE_REGULAR,
+            'limit' => 255,
             'null' => false,
         ]);
         $table->addColumn('dni', 'string', [

@@ -23,7 +23,7 @@ class AppStudentController extends AppController
     {
         $user = $this->Authentication->getIdentity()->getOriginalData();
 
-        if (empty($user->student)) {
+        if (empty($user->students)) {
             return $this->reloadAuthUserStudent();
         }
 
@@ -37,14 +37,8 @@ class AppStudentController extends AppController
     {
         $appUsersTable = $this->fetchTable('AppUsers');
         $user = $this->Authentication->getIdentity()->getOriginalData();
-        if (empty($user->student)) {
-            $student = $appUsersTable->Students->newEntity([
-                'user_id' => $user->id,
-                'tenant_id' => Hash::get($user, 'tenant_filters.0.tenant_id'),
-            ]);
-            if (!$appUsersTable->Students->save($student)) {
-                Log::alert('student already exists');
-            }
+        if (empty($user->students)) {
+            $appUsersTable->Students->newRegularStudent($user);
         }
 
         $user = $appUsersTable->find('auth')->first();

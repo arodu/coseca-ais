@@ -25,7 +25,7 @@ class AppUsersTable extends UsersTable
     {
         parent::initialize($config);
         
-        $this->hasOne('Students', [
+        $this->hasMany('Students', [
             'foreignKey' => 'user_id',
         ]);
         $this->hasMany('TenantFilters', [
@@ -58,7 +58,7 @@ class AppUsersTable extends UsersTable
                 'Tenants',
             ],
             'Students' => [
-                'fields' => ['id'],
+                'fields' => ['id', 'user_id', 'tenant_id', 'type'],
             ],
         ]);
     }
