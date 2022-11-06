@@ -42,6 +42,7 @@ class Student extends Entity
         'modified_by' => true,
         'app_user' => true,
         'student_stages' => true,
+        'tenant_id' => true,
     ];
 
     protected $_virtual = [

@@ -3,19 +3,14 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use App\Model\Entity\AppUser;
-use App\Model\Entity\Student;
 use App\Model\Field\Stages;
-use App\Model\Field\Users;
 use ArrayObject;
-use Cake\Cache\Cache;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use InvalidArgumentException;
 
 /**
  * Students Model

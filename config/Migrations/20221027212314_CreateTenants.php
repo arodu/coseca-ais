@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Migrations\AbstractMigration;
 
-class CreateLapses extends AbstractMigration
+class CreateTenants extends AbstractMigration
 {
     /**
      * Change Method.
@@ -14,23 +14,19 @@ class CreateLapses extends AbstractMigration
      */
     public function change()
     {
-        $table = $this->table('lapses');
+        $table = $this->table('tenants');
         $table->addColumn('name', 'string', [
             'default' => null,
             'limit' => 255,
             'null' => false,
         ]);
+        $table->addColumn('abbr', 'string', [
+            'default' => null,
+            'limit' => 100,
+            'null' => false,
+        ]);
         $table->addColumn('active', 'boolean', [
             'default' => null,
-            'null' => false,
-        ]);
-        $table->addColumn('date', 'date', [
-            'default' => null,
-            'null' => false,
-        ]);
-        $table->addColumn('tenant_id', 'integer', [
-            'default' => null,
-            'limit' => 11,
             'null' => false,
         ]);
         $table->create();

@@ -4,6 +4,7 @@
  * @var \App\View\AppView $this
  */
 
+use App\Model\Field\Tenants;
 use Cake\Core\Configure;
 
 $this->layout = 'CakeLte.login';
@@ -32,7 +33,13 @@ $this->layout = 'CakeLte.login';
             'append' => '<i class="fas fa-envelope"></i>',
             'required' => true,
         ]) ?>
-
+        <?= $this->Form->control('tenant_filters.0.tenant_id', [
+            'label' => false,
+            'append' => '<i class="fas fa-flag"></i>',
+            'required' => true,
+            'options' => Tenants::getTenantList(),
+            'empty' => __('Seleccione Programa...'),
+        ]) ?>
         <?= $this->Form->control('password', [
             'placeholder' => __('Password'),
             'label' => false,

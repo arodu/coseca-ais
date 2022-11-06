@@ -5,6 +5,8 @@ namespace App\Controller\Student;
 
 use App\Controller\AppController;
 use App\Model\Entity\AppUser;
+use Cake\Log\Log;
+use Cake\Utility\Hash;
 
 class AppStudentController extends AppController
 {
@@ -36,8 +38,13 @@ class AppStudentController extends AppController
         $appUsersTable = $this->fetchTable('AppUsers');
         $user = $this->Authentication->getIdentity()->getOriginalData();
         if (empty($user->student)) {
-            $student = $appUsersTable->Students->newEntity(['user_id' => $user->id]);
-            $appUsersTable->Students->save($student);
+            $student = $appUsersTable->Students->newEntity([
+                'user_id' => $user->id,
+                'tenant_id' => Hash::get($user, 'tenant_filters.0.tenant_id'),
+            ]);
+            if (!$appUsersTable->Students->save($student)) {
+                Log::alert('student already exists');
+            }
         }
 
         $user = $appUsersTable->find('auth')->first();

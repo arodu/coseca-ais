@@ -28,6 +28,9 @@ class AppUsersTable extends UsersTable
         $this->hasOne('Students', [
             'foreignKey' => 'user_id',
         ]);
+        $this->hasMany('TenantFilters', [
+            'foreignKey' => 'user_id',
+        ]);
     }
 
     /**
@@ -51,9 +54,12 @@ class AppUsersTable extends UsersTable
     public function findAuth(Query $query, array $options = [])
     {
         return $query->find('active')->contain([
+            'TenantFilters' => [
+                'Tenants',
+            ],
             'Students' => [
                 'fields' => ['id'],
-            ]
+            ],
         ]);
     }
 }
