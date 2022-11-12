@@ -28,8 +28,8 @@ class StagesController extends AppStudentController
      */
     public function index()
     {
-        // @todo check for multiple tenants
-        $student = $this->getAuthUser()->students[0];
+        $student = $this->getCurrentStudent();
+
         $stages = Stages::getStageList($student->type);
 
         $studentStagesResult = $this->StudentStages->find()

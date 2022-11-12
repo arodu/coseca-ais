@@ -5,6 +5,7 @@ namespace App\Controller\Student;
 
 use App\Controller\AppController;
 use App\Model\Entity\AppUser;
+use App\Model\Entity\Student;
 use Cake\Log\Log;
 use Cake\Utility\Hash;
 
@@ -17,12 +18,19 @@ class AppStudentController extends AppController
     }
 
     /**
+     * @return Student
+     */
+    public function getCurrentStudent(): Student
+    {
+        return $this->getAuthUser()->students[0];
+    }
+
+    /**
      * @return AppUser
      */
     public function getAuthUser(): AppUser
     {
         $user = $this->Authentication->getIdentity()->getOriginalData();
-
         if (empty($user->students)) {
             return $this->reloadAuthUserStudent();
         }

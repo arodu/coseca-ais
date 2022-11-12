@@ -72,6 +72,28 @@ class StudentsTable extends Table
     }
 
     /**
+     * @param Validator $validator
+     * @return Validator
+     */
+    public function validationRegister(Validator $validator): Validator
+    {
+        $validator
+            ->uuid('user_id')
+            ->notEmptyString('user_id');
+
+        $validator
+            ->integer('tenant_id')
+            ->notEmptyString('tenant_id');
+
+        $validator
+            ->scalar('type')
+            ->maxLength('type', 255)
+            ->notEmptyString('type');
+
+        return $validator;
+    }
+
+    /**
      * Default validation rules.
      *
      * @param \Cake\Validation\Validator $validator Validator instance.
@@ -96,16 +118,6 @@ class StudentsTable extends Table
             ->scalar('dni')
             ->maxLength('dni', 255)
             ->allowEmptyString('dni');
-
-        $validator
-            ->uuid('created_by')
-            ->requirePresence('created_by', 'create')
-            ->notEmptyString('created_by');
-
-        $validator
-            ->uuid('modified_by')
-            ->requirePresence('modified_by', 'create')
-            ->notEmptyString('modified_by');
 
         $validator
             ->scalar('gender')
@@ -201,7 +213,10 @@ class StudentsTable extends Table
             'user_id' => $user->id,
             'tenant_id' => $tenant_id ?? Hash::get($user, 'tenant_filters.0.tenant_id'),
             'type' => Students::TYPE_REGULAR,
+        ], [
+            'validate' => 'register',
         ]);
+
         if (!$this->save($student)) {
             Log::warning('student already exists');
         }

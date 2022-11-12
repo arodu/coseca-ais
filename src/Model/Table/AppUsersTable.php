@@ -51,15 +51,34 @@ class AppUsersTable extends UsersTable
      * @param array $options
      * @return void
      */
-    public function findAuth(Query $query, array $options = [])
+    public function findAuth(Query $query, array $options = []): Query
     {
-        return $query->find('active')->contain([
-            'TenantFilters' => [
-                'Tenants',
-            ],
-            'Students' => [
-                'fields' => ['id', 'user_id', 'tenant_id', 'type'],
-            ],
-        ]);
+        return $query
+            ->find('active')
+            ->find('withLastStudent')
+            ->contain(['TenantFilters' => ['Tenants']]);
+    }
+
+    /**
+     * @param Query $query
+     * @param array $options
+     * @return Query
+     */
+    public function findWithLastStudent(Query $query, array $options = []): Query
+    {
+        $fields = array_merge(
+            ['id', 'user_id', 'tenant_id', 'type', 'tenant'],
+            $options['fields'] ?? [],
+        );
+
+        return $query->contain('Students', function (Query $q) use ($fields) {
+            return $q
+                //->select($fields)
+                ->contain(['Tenants'])
+                ->order([
+                    'created' => 'DESC',
+                ])
+                ->limit(1);
+        });
     }
 }
