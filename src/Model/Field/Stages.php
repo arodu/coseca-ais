@@ -57,7 +57,7 @@ class Stages
      * @param string $studentType
      * @return array
      */
-    public static function getStageList(string $studentType = Students::TYPE_REGULAR): array
+    public static function getStageList(string $studentType): array
     {
         $stagesStudentType = static::getStageListStudentType($studentType);
         $stagesAll = Configure::read('Stages');
@@ -104,12 +104,11 @@ class Stages
      * @param string $currentStage
      * @return string|null
      */
-    public static function getNextStageKey(string $currentStage): ?string
+    public static function getNextStageKey(string $currentStage, string $studentType): ?string
     {
-        $stageList = static::getStageList(static::DATA_KEY);
+        $stageList = static::getStageList($studentType);
         $prev = null;
-
-        foreach ($stageList as $next) {
+        foreach (array_keys($stageList) as $next) {
             if ($prev === $currentStage) {
                 return $next;
             }

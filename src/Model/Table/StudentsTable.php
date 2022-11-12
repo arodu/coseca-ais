@@ -19,6 +19,8 @@ use Cake\Validation\Validator;
 /**
  * Students Model
  *
+ * @property \App\Model\Table\AppUsersTable&\Cake\ORM\Association\BelongsTo $AppUsers
+ * @property \App\Model\Table\TenantsTable&\Cake\ORM\Association\BelongsTo $Tenants
  * @property \App\Model\Table\StudentStagesTable&\Cake\ORM\Association\HasMany $StudentStages
  *
  * @method \App\Model\Entity\Student newEmptyEntity()
@@ -60,6 +62,10 @@ class StudentsTable extends Table
             'foreignKey' => 'user_id',
             'joinType' => 'INNER',
         ]);
+        $this->belongsTo('Tenants', [
+            'foreignKey' => 'tenant_id',
+            'joinType' => 'INNER',
+        ]);
         $this->hasMany('StudentStages', [
             'foreignKey' => 'student_id',
         ]);
@@ -77,6 +83,69 @@ class StudentsTable extends Table
             ->uuid('user_id')
             ->notEmptyString('user_id');
 
+        $validator
+            ->integer('tenant_id')
+            ->notEmptyString('tenant_id');
+
+        $validator
+            ->scalar('type')
+            ->maxLength('type', 255)
+            ->notEmptyString('type');
+
+        $validator
+            ->scalar('dni')
+            ->maxLength('dni', 255)
+            ->allowEmptyString('dni');
+
+        $validator
+            ->uuid('created_by')
+            ->requirePresence('created_by', 'create')
+            ->notEmptyString('created_by');
+
+        $validator
+            ->uuid('modified_by')
+            ->requirePresence('modified_by', 'create')
+            ->notEmptyString('modified_by');
+
+        $validator
+            ->scalar('gender')
+            ->maxLength('gender', 1)
+            ->requirePresence('gender', 'create')
+            ->notEmptyString('gender');
+
+        $validator
+            ->scalar('phone')
+            ->maxLength('phone', 255)
+            ->requirePresence('phone', 'create')
+            ->notEmptyString('phone');
+
+        $validator
+            ->scalar('address')
+            ->maxLength('address', 255)
+            ->requirePresence('address', 'create')
+            ->notEmptyString('address');
+
+        $validator
+            ->integer('current_semester')
+            ->requirePresence('current_semester', 'create')
+            ->notEmptyString('current_semester');
+
+        $validator
+            ->integer('uc')
+            ->requirePresence('uc', 'create')
+            ->notEmptyString('uc');
+
+        $validator
+            ->scalar('areas')
+            ->maxLength('areas', 255)
+            ->requirePresence('areas', 'create')
+            ->notEmptyString('areas');
+
+        $validator
+            ->scalar('observations')
+            ->requirePresence('observations', 'create')
+            ->notEmptyString('observations');
+
         return $validator;
     }
 
@@ -90,15 +159,17 @@ class StudentsTable extends Table
     public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->existsIn('user_id', 'AppUsers'), ['errorField' => 'user_id']);
+        $rules->add($rules->existsIn('tenant_id', 'Tenants'), ['errorField' => 'tenant_id']);
 
         return $rules;
     }
 
     /**
      * @param Query $query
+     * @param array $options
      * @return Query
      */
-    public function findComplete(Query $query): Query
+    public function findComplete(Query $query, array $options): Query
     {
         return $query->contain(['AppUsers']);
     }
@@ -132,7 +203,7 @@ class StudentsTable extends Table
             'type' => Students::TYPE_REGULAR,
         ]);
         if (!$this->save($student)) {
-            Log::alert('student already exists');
+            Log::warning('student already exists');
         }
     }
 }

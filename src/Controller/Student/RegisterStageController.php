@@ -27,7 +27,7 @@ class RegisterStageController extends AppStudentController
      */
     public function edit()
     {
-        $currentStudent = $this->getAuthUser()->student;
+        $currentStudent = $this->getAuthUser()->students[0];
         /** @var \App\Model\Entity\StudentStage $studentStage */
         $studentStage = $this->Students->StudentStages->getByStudentStage($currentStudent->id, Stages::STAGE_REGISTER);
         $registerStage = $studentStage->getStageInstance();

@@ -4,9 +4,6 @@ declare(strict_types=1);
 namespace App\Model\Entity;
 
 use App\Model\Field\Stages;
-use App\Stage\StageFactory;
-use App\Stage\StageInterface;
-use Cake\Log\Log;
 use Cake\ORM\Entity;
 
 /**
@@ -35,15 +32,23 @@ class Student extends Entity
      */
     protected $_accessible = [
         'user_id' => true,
+        'tenant_id' => true,
+        'type' => true,
         'dni' => true,
         'created' => true,
         'created_by' => true,
         'modified' => true,
         'modified_by' => true,
-        'app_user' => true,
+        'gender' => true,
+        'phone' => true,
+        'address' => true,
+        'current_semester' => true,
+        'uc' => true,
+        'areas' => true,
+        'observations' => true,
+        'user' => true,
+        'tenant' => true,
         'student_stages' => true,
-        'tenant_id' => true,
-        'type' => true,
     ];
 
     protected $_virtual = [
@@ -54,29 +59,17 @@ class Student extends Entity
 
     protected function _getFirstName()
     {
-        if (empty($this->app_user)) {
-            return null;
-        }
-
-        return $this->app_user->first_name;
+        return $this->app_user->first_name ?? null;
     }
 
     protected function _getLastName()
     {
-        if (empty($this->app_user)) {
-            return null;
-        }
-
-        return $this->app_user->last_name;
+        return $this->app_user->last_name ?? null;
     }
 
     protected function _getEmail()
     {
-        if (empty($this->app_user)) {
-            return null;
-        }
-
-        return $this->app_user->email;
+        return $this->app_user->email ?? null;
     }
 
     /**

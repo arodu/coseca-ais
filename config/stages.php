@@ -15,17 +15,17 @@ return [
         Stages::STAGE_COURSE => [
             Stages::DATA_LABEL => __('Curso de Servicio Comunitario'),
             Stages::DATA_CLASS => CourseStage::class,
-            Stages::DATA_STATUS => Stages::STATUS_PENDING,
+            Stages::DATA_STATUS => Stages::STATUS_WAITING
         ],
         Stages::STAGE_ENDING => [
             Stages::DATA_LABEL => __('Finalización'),
             Stages::DATA_CLASS => EndingStage::class,
-            Stages::DATA_STATUS => Stages::STATUS_PENDING,
+            Stages::DATA_STATUS => Stages::STATUS_WAITING,
         ],
         Stages::STAGE_VALIDATION => [
             Stages::DATA_LABEL => __('Convalidación'),
             Stages::DATA_CLASS => ValidationStage::class,
-            Stages::DATA_STATUS => Stages::STATUS_PENDING,
+            Stages::DATA_STATUS => Stages::STATUS_WAITING,
         ],
     ]
 ];

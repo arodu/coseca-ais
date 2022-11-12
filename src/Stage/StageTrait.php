@@ -56,7 +56,7 @@ trait StageTrait
      */
     public function getNextStageKey(): string
     {
-        return Stages::getNextStageKey($this->getStageKey());
+        return Stages::getNextStageKey($this->getStageKey(), $this->getStudent()->type);
     }
 
     /**
