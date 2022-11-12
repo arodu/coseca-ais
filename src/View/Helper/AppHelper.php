@@ -89,4 +89,33 @@ class AppHelper extends Helper
                 break;
         }
     }
+
+    public function progressBarColor(float $completed): string
+    {
+        return match (true) {
+            $completed < 20 => 'bg-danger',
+
+            default => 'bg-green',
+        };
+    }
+    
+    public function progressBarCalc(int $completed, int $total, int $decimals = 0): float
+    {
+        $result = ($completed * 100) / $total;
+
+        return round($result, $decimals);
+    }
+
+    public function progressBar(int $completed, int $total): string
+    {
+        $result = $this->progressBarCalc($completed, $total);
+
+        $output = '';
+        $output .= '<div class="progress progress-sm">';
+        $output .= '<div class="progress-bar ' . $this->progressBarColor($result) . '" role="progressbar" aria-valuenow="' . $result . '" aria-valuemin="0" aria-valuemax="100" style="width:' . $result . '%"></div>';
+        $output .= '</div>';
+        $output .= '<small>' . $result . '% Complete</small>';
+
+        return $output;
+    }
 }

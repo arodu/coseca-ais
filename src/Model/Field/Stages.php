@@ -10,7 +10,8 @@ class Stages
 {
     public const STAGE_REGISTER = 'register';
     public const STAGE_COURSE = 'course';
-    // ...
+    public const STAGE_ADSCRIPTION = 'adscription';
+    public const STAGE_TRACKING = 'tracking';
     public const STAGE_ENDING = 'ending';
     public const STAGE_VALIDATION = 'validation';
 
@@ -47,6 +48,8 @@ class Stages
                 return [
                     static::STAGE_REGISTER,
                     static::STAGE_COURSE,
+                    static::STAGE_ADSCRIPTION,
+                    static::STAGE_TRACKING,
                     static::STAGE_ENDING,
                 ];
                 break;

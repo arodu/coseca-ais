@@ -17,8 +17,18 @@ return [
             Stages::DATA_CLASS => CourseStage::class,
             Stages::DATA_STATUS => Stages::STATUS_WAITING
         ],
+        Stages::STAGE_ADSCRIPTION => [
+            Stages::DATA_LABEL => __('Adscripción'),
+            Stages::DATA_CLASS => CourseStage::class,
+            Stages::DATA_STATUS => Stages::STATUS_WAITING,
+        ],
+        Stages::STAGE_TRACKING => [
+            Stages::DATA_LABEL => __('Seguimiento'),
+            Stages::DATA_CLASS => CourseStage::class,
+            Stages::DATA_STATUS => Stages::STATUS_IN_PROGRESS,
+        ],
         Stages::STAGE_ENDING => [
-            Stages::DATA_LABEL => __('Finalización'),
+            Stages::DATA_LABEL => __('Conclusión'),
             Stages::DATA_CLASS => EndingStage::class,
             Stages::DATA_STATUS => Stages::STATUS_WAITING,
         ],

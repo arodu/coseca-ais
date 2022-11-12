@@ -55,6 +55,7 @@ class Student extends Entity
         'first_name',
         'last_name',
         'email',
+        'full_name'
     ];
 
     protected function _getFirstName()
@@ -65,6 +66,14 @@ class Student extends Entity
     protected function _getLastName()
     {
         return $this->app_user->last_name ?? null;
+    }
+
+    protected function _getFullName()
+    {
+        return implode(' ', [
+            $this->first_name,
+            $this->last_name,
+        ]);
     }
 
     protected function _getEmail()

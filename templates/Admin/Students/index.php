@@ -1,8 +1,12 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Student[]|\Cake\Collection\CollectionInterface $students
  */
+
+use App\Model\Field\Students;
+
 ?>
 <?php
 $this->assign('title', __('Students'));
@@ -29,29 +33,29 @@ $this->MenuLte->activeItem('students');
     </div>
     <!-- /.card-header -->
     <div class="card-body table-responsive p-0">
-        <table class="table table-hover text-nowrap">
+        <table class="table table-striped table-hover text-nowrap projects">
             <thead>
                 <tr>
-                    <th><?= $this->Paginator->sort('id') ?></th>
-                    <th><?= $this->Paginator->sort('user_id') ?></th>
-                    <th><?= $this->Paginator->sort('dni') ?></th>
-                    <th><?= $this->Paginator->sort('created') ?></th>
-                    <th><?= $this->Paginator->sort('created_by') ?></th>
-                    <th><?= $this->Paginator->sort('modified') ?></th>
-                    <th><?= $this->Paginator->sort('modified_by') ?></th>
-                    <th class="actions"><?= __('Actions') ?></th>
+                    <th><?= $this->Paginator->sort('dni', __('Cedula')) ?></th>
+                    <th><?= __('Nombres') ?></th>
+                    <th><?= __('Apellidos') ?></th>
+                    <th><?= $this->Paginator->sort('type', __('Tipo')) ?></th>
+                    <th><?= __('Etapa Actual') ?></th>
+                    <th style="width:20%;"><?= __('Horas') ?></th>
+                    <th class="actions"><?= __('Acciones') ?></th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($students as $student) : ?>
                     <tr>
-                        <td><?= $this->Number->format($student->id) ?></td>
-                        <td><?= $student->has('app_user') ? $this->Html->link($student->app_user->username, ['controller' => 'AppUsers', 'action' => 'view', $student->app_user->id]) : '' ?></td>
                         <td><?= h($student->dni) ?></td>
-                        <td><?= h($student->created) ?></td>
-                        <td><?= h($student->created_by) ?></td>
-                        <td><?= h($student->modified) ?></td>
-                        <td><?= h($student->modified_by) ?></td>
+                        <td><?= h($student->first_name) ?></td>
+                        <td><?= h($student->last_name) ?></td>
+                        <td><?= h(Students::getTypes($student->type)) ?></td>
+                        <td><?= 'N/A' ?></td>
+                        <td class="project_progress">
+                            <?= $this->App->progressBar(70, 120) ?>
+                        </td>
                         <td class="actions">
                             <?= $this->Html->link(__('View'), ['action' => 'view', $student->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
                             <?= $this->Html->link(__('Edit'), ['action' => 'edit', $student->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
