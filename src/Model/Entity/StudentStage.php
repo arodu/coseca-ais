@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
+use App\Model\Field\Stages;
 use App\Stage\StageFactory;
 use App\Stage\StageInterface;
 use Cake\ORM\Entity;
@@ -55,4 +56,18 @@ class StudentStage extends Entity
     {
         return StageFactory::getInstance($this);
     }
+
+    protected $_virtual = [
+        'stage_label',
+    ];
+
+    protected function _getStageLagel()
+    {
+
+        debug(Stages::getStageInfo($this->stage));
+        exit();
+
+        return Stages::getStageInfo($this->stage)[Stages::DATA_LABEL];
+    }
+
 }

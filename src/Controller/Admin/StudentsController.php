@@ -18,10 +18,10 @@ class StudentsController extends AppAdminController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['AppUsers'],
-        ];
-        $students = $this->paginate($this->Students);
+        $query = $this->Students->find()
+            ->contain(['AppUsers', 'Tenants', 'LastStage']);
+
+        $students = $this->paginate($query);
 
         $this->set(compact('students'));
     }

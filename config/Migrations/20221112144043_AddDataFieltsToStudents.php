@@ -18,36 +18,36 @@ class AddDataFieltsToStudents extends AbstractMigration
         $table->addColumn('gender', 'string', [
             'default' => null,
             'limit' => 1,
-            'null' => false,
+            'null' => true,
         ]);
         $table->addColumn('phone', 'string', [
             'default' => null,
             'limit' => 255,
-            'null' => false,
+            'null' => true,
         ]);
         $table->addColumn('address', 'string', [
             'default' => null,
             'limit' => 255,
-            'null' => false,
+            'null' => true,
         ]);
         $table->addColumn('current_semester', 'integer', [
             'default' => null,
             'limit' => 2,
-            'null' => false,
+            'null' => true,
         ]);
         $table->addColumn('uc', 'integer', [
             'default' => null,
             'limit' => 3,
-            'null' => false,
+            'null' => true,
         ]);
         $table->addColumn('areas', 'string', [
             'default' => null,
             'limit' => 255,
-            'null' => false,
+            'null' => true,
         ]);
         $table->addColumn('observations', 'text', [
             'default' => null,
-            'null' => false,
+            'null' => true,
         ]);
         $table->update();
     }

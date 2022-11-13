@@ -5,6 +5,7 @@
  * @var \App\Model\Entity\Student[]|\Cake\Collection\CollectionInterface $students
  */
 
+use App\Model\Field\Stages;
 use App\Model\Field\Students;
 
 ?>
@@ -36,11 +37,12 @@ $this->MenuLte->activeItem('students');
         <table class="table table-striped table-hover text-nowrap projects">
             <thead>
                 <tr>
+                    <th><?= __('Programa') ?></th>
                     <th><?= $this->Paginator->sort('dni', __('Cedula')) ?></th>
                     <th><?= __('Nombres') ?></th>
                     <th><?= __('Apellidos') ?></th>
-                    <th><?= $this->Paginator->sort('type', __('Tipo')) ?></th>
-                    <th><?= __('Etapa Actual') ?></th>
+                    <th><?= __('Lapso') ?></th>
+                    <th><?= __('Etapa') ?></th>
                     <th style="width:20%;"><?= __('Horas') ?></th>
                     <th class="actions"><?= __('Acciones') ?></th>
                 </tr>
@@ -48,11 +50,15 @@ $this->MenuLte->activeItem('students');
             <tbody>
                 <?php foreach ($students as $student) : ?>
                     <tr>
+                        <td><?= h($student->tenant->abbr) ?></td>
                         <td><?= h($student->dni) ?></td>
                         <td><?= h($student->first_name) ?></td>
                         <td><?= h($student->last_name) ?></td>
-                        <td><?= h(Students::getTypes($student->type)) ?></td>
                         <td><?= 'N/A' ?></td>
+                        <td>
+                            <span class="badge badge-secondary"><?= h($student->last_stage->stage) ?></span>
+                            <span class="badge badge-secondary"><?= h($student->last_stage->status) ?></span>
+                        </td>
                         <td class="project_progress">
                             <?= $this->App->progressBar(70, 120) ?>
                         </td>
@@ -82,3 +88,6 @@ $this->MenuLte->activeItem('students');
     </div>
     <!-- /.card-footer -->
 </div>
+
+
+<?php //debug($students->first()) ?>

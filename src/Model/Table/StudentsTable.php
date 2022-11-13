@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -7,6 +8,7 @@ use App\Model\Entity\AppUser;
 use App\Model\Field\Stages;
 use App\Model\Field\Students;
 use ArrayObject;
+use Cake\Database\Expression\QueryExpression;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\Log\Log;
@@ -22,6 +24,7 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\AppUsersTable&\Cake\ORM\Association\BelongsTo $AppUsers
  * @property \App\Model\Table\TenantsTable&\Cake\ORM\Association\BelongsTo $Tenants
  * @property \App\Model\Table\StudentStagesTable&\Cake\ORM\Association\HasMany $StudentStages
+ * @property \App\Model\Table\StudentStagesTable&\Cake\ORM\Association\HasOne $LastStage
  *
  * @method \App\Model\Entity\Student newEmptyEntity()
  * @method \App\Model\Entity\Student newEntity(array $data, array $options = [])
@@ -68,6 +71,23 @@ class StudentsTable extends Table
         ]);
         $this->hasMany('StudentStages', [
             'foreignKey' => 'student_id',
+            'dependent' => true,
+            'cascadeCallbacks' => true,
+        ]);
+        $this->hasOne('LastStage', [
+            'className' => 'StudentStages',
+            'foreignKey' => 'student_id',
+            'strategy' => 'select',
+            'conditions' => function (QueryExpression $exp, Query $query) {
+                $subQuery = $this->StudentStages->find()
+                    ->select(['id' => 'MAX(id)'])
+                    ->group(['student_id']);
+                $query->where([
+                        'LastStage.id IN' => $subQuery,
+                    ]);
+
+                return [];
+            }
         ]);
     }
 

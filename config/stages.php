@@ -13,7 +13,7 @@ return [
             Stages::DATA_STATUS => Stages::STATUS_IN_PROGRESS,
         ],
         Stages::STAGE_COURSE => [
-            Stages::DATA_LABEL => __('Curso de Servicio Comunitario'),
+            Stages::DATA_LABEL => __('Taller'),
             Stages::DATA_CLASS => CourseStage::class,
             Stages::DATA_STATUS => Stages::STATUS_WAITING
         ],
