@@ -8,7 +8,6 @@ use App\Model\Entity\AppUser;
 use App\Model\Field\Stages;
 use App\Model\Field\Students;
 use ArrayObject;
-use Cake\Database\Expression\QueryExpression;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\Log\Log;
@@ -78,16 +77,7 @@ class StudentsTable extends Table
             'className' => 'StudentStages',
             'foreignKey' => 'student_id',
             'strategy' => 'select',
-            'conditions' => function (QueryExpression $exp, Query $query) {
-                $subQuery = $this->StudentStages->find()
-                    ->select(['id' => 'MAX(id)'])
-                    ->group(['student_id']);
-                $query->where([
-                        'LastStage.id IN' => $subQuery,
-                    ]);
-
-                return [];
-            }
+            'finder' => 'lastStage',
         ]);
     }
 

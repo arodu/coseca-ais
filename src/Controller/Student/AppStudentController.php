@@ -6,8 +6,6 @@ namespace App\Controller\Student;
 use App\Controller\AppController;
 use App\Model\Entity\AppUser;
 use App\Model\Entity\Student;
-use Cake\Log\Log;
-use Cake\Utility\Hash;
 
 class AppStudentController extends AppController
 {
@@ -48,6 +46,8 @@ class AppStudentController extends AppController
         if (empty($user->students)) {
             $appUsersTable->Students->newRegularStudent($user);
         }
+
+        //dd($user);
 
         $user = $appUsersTable->find('auth')->first();
         $this->Authentication->setIdentity($user);

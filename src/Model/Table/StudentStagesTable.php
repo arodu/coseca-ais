@@ -6,6 +6,7 @@ namespace App\Model\Table;
 
 use App\Model\Entity\StudentStage;
 use App\Model\Field\Stages;
+use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -107,6 +108,24 @@ class StudentStagesTable extends Table
         $rules->add($rules->existsIn('lapse_id', 'Lapses'), ['errorField' => 'lapse_id']);
 
         return $rules;
+    }
+
+    /**
+     * @param Query $query
+     * @param array $options
+     * @return Query
+     */
+    public function findLastStage(Query $query, array $options): Query
+    {
+        $subQuery = $this->find()
+            ->select(['id' => 'MAX(' . $this->aliasField('id') . ')'])
+            ->group([$this->aliasField('student_id')]);
+
+        $query->where([
+            $this->aliasField('id') . ' IN'  => $subQuery,
+        ]);
+
+        return $query;
     }
 
     /**
