@@ -18,8 +18,14 @@ class StudentsController extends AppAdminController
      */
     public function index()
     {
+        $this->paginate = [
+            'sortableFields' => [
+                'Tenants.abbr', 'dni', 'AppUsers.first_name', 'AppUsers.last_name', 'LastStage.lapse.name', 'LastStage.stage', 
+            ],
+        ];
+
         $query = $this->Students->find()
-            ->contain(['AppUsers', 'Tenants', 'LastStage']);
+            ->contain(['AppUsers', 'Tenants', 'LastStage' => ['Lapses']]);
 
         $students = $this->paginate($query);
 
@@ -36,7 +42,7 @@ class StudentsController extends AppAdminController
     public function view($id = null)
     {
         $student = $this->Students->get($id, [
-            'contain' => ['AppUsers', 'StudentStages'],
+            'contain' => ['AppUsers', 'StudentStages', 'LastStage'],
         ]);
 
         $this->set(compact('student'));

@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace App\View\Helper;
 
+use App\Enum\FaIcon;
 use App\Model\Field\Stages;
 use Cake\View\Helper;
-use Cake\View\View;
 
 /**
  * App helper
@@ -19,36 +19,45 @@ class AppHelper extends Helper
      */
     protected $_defaultConfig = [];
 
+    public $helpers = ['Html'];
 
-    public function statusIcon($status = null, $complete = false, $extraClass = '')
+    /**
+     * @param string|null $status
+     * @param boolean $complete
+     * @param string $extraClass
+     * @return void
+     */
+    public function statusIcon(?string $status = null, bool $complete = false, string $extraClass = '')
     {
         switch ($status) {
             case Stages::STATUS_IN_PROGRESS: 
-                $icon = 'fas fa-cogs';
+                $icon = FaIcon::IN_PROGRESS;
                 break;
             case Stages::STATUS_WAITING: 
-                $icon = 'fas fa-pause-circle';
+                $icon = FaIcon::WAITING;
                 break;
             case Stages::STATUS_SUCCESS: 
-                $icon = 'fas fa-check';
+                $icon = FaIcon::SUCCESS;
                 break;
             case Stages::STATUS_PENDING:
             default:
-                $icon = 'fas fa-lock';
+                $icon = FaIcon::PENDING;
                 break;
         }
 
-        if (empty($complete)) {
-            return $icon;
+        if (!$complete) {
+            return $icon->value;
         }
 
-        return '<i class="' . implode(' ', [
-            $icon,
-            $extraClass,
-        ]) . '"></i>';
+        return $this->faIcon($icon, $extraClass);
     }
 
-    public function statusColor($status = null, $prefix = 'card')
+    /**
+     * @param string|null $status
+     * @param string|null $prefix
+     * @return void
+     */
+    public function statusColor(?string $status = null, ?string $prefix = 'card')
     {
         switch ($status) {
             case Stages::STATUS_IN_PROGRESS: 
@@ -69,14 +78,16 @@ class AppHelper extends Helper
                 break;
         }
 
-        if (empty($prefix)) {
-            return $color;
-        }
-
-        return $prefix . '-' . $color;
+        return $this->addPrefix($color, $prefix);
     }
 
-    public function statusActive($status = null, $active = 'show', $inactive = '')
+    /**
+     * @param string|null $status
+     * @param string $active
+     * @param string $inactive
+     * @return void
+     */
+    public function statusActive(?string $status = null, string $active = 'show', string $inactive = '')
     {
         switch($status) {
             case Stages::STATUS_IN_PROGRESS:
@@ -90,32 +101,82 @@ class AppHelper extends Helper
         }
     }
 
-    public function progressBarColor(float $completed): string
+    /**
+     * @param string $text
+     * @param string|null $prefix
+     * @param string $separator
+     * @return string
+     */
+    public function addPrefix(string $text, ?string $prefix, string $separator = '-'): string
     {
-        return match (true) {
-            $completed < 20 => 'bg-danger',
+        if (empty($prefix)) {
+            return $text;
+        }
 
-            default => 'bg-green',
+        return $prefix . $separator . $text;
+    }
+
+    /**
+     * @param float $percent
+     * @param string|null $prefix
+     * @return string
+     */
+    public function progressBarColor(float $percent, ?string $prefix = 'bg'): string
+    {
+        $color = match (true) {
+            ($percent < 20) => 'danger',
+            ($percent >= 20 && $percent < 80) => 'warning',
+            ($percent >= 80 && $percent < 100) => 'green',
+            ($percent >= 100) => 'primary',
         };
+        
+        return $this->addPrefix($color, $prefix);
     }
     
+    /**
+     * @param integer $completed
+     * @param integer $total
+     * @param integer $decimals
+     * @return float
+     */
     public function progressBarCalc(int $completed, int $total, int $decimals = 0): float
     {
+        if ($completed >= $total) {
+            return 100;
+        }
         $result = ($completed * 100) / $total;
 
         return round($result, $decimals);
     }
 
+    /**
+     * @param integer $completed
+     * @param integer $total
+     * @return string
+     */
     public function progressBar(int $completed, int $total): string
     {
-        $result = $this->progressBarCalc($completed, $total);
+        $percent = $this->progressBarCalc($completed, $total, 0);
 
-        $output = '';
-        $output .= '<div class="progress progress-sm">';
-        $output .= '<div class="progress-bar ' . $this->progressBarColor($result) . '" role="progressbar" aria-valuenow="' . $result . '" aria-valuemin="0" aria-valuemax="100" style="width:' . $result . '%"></div>';
-        $output .= '</div>';
-        $output .= '<small>' . $result . '% Complete</small>';
+        $output = '<div class="progress progress-sm">'
+            . '<div class="progress-bar ' . $this->progressBarColor($percent) . '" role="progressbar" aria-valuenow="' . $percent . '" aria-valuemin="0" aria-valuemax="100" style="width:' . $percent . '%">'
+            . '</div>'
+            . '</div>'
+            . '<small>' . __('{0}% Completado', $percent) . '</small>';
 
         return $output;
     }
+
+    /**
+     * @param FaIcon $icon
+     * @param string|null $extraClass
+     * @return string
+     */
+    public function faIcon(FaIcon $icon, ?string $extraClass = null): string
+    {
+        return $this->Html->tag('i', '', [
+            'class' => [$icon->value, $extraClass],
+        ]);
+    }
+
 }

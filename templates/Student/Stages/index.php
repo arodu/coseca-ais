@@ -1,5 +1,6 @@
 <?php
 
+use App\Enum\StageStatus;
 use App\Model\Field\Stages;
 use Cake\Core\Configure;
 
@@ -56,3 +57,10 @@ $this->Breadcrumbs->add([
         <?php endforeach; ?>
     </div>
 </div>
+
+
+<?php
+debug(StageStatus::cases());
+debug(StageStatus::toArray());
+debug(StageStatus::from('waiting')->label());
+?>

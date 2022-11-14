@@ -61,12 +61,8 @@ class StudentStage extends Entity
         'stage_label',
     ];
 
-    protected function _getStageLagel()
+    protected function _getStageLabel()
     {
-
-        debug(Stages::getStageInfo($this->stage));
-        exit();
-
         return Stages::getStageInfo($this->stage)[Stages::DATA_LABEL];
     }
 
