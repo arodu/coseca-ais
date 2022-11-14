@@ -3,9 +3,11 @@ declare(strict_types=1);
 
 namespace App\Enum;
 
+use App\Enum\Trait\ListTrait;
+
 enum StageStatus: string
 {
-    use ToArrayTrait;
+    use ListTrait;
 
     case PENDING = 'pending';
     case WAITING = 'waiting';
@@ -24,6 +26,17 @@ enum StageStatus: string
             static::IN_PROGRESS => __('En Proceso'),
             static::SUCCESS => __('Realizado'),
             static::FAILED => __('Fallido'),
+        };
+    }
+
+    public function color(): string
+    {
+        return match($this) {
+            static::PENDING => 'secondary',
+            static::WAITING => 'info',
+            static::IN_PROGRESS => 'warning',
+            static::SUCCESS => 'success',
+            static::FAILED => 'danger',
         };
     }
 }

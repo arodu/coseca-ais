@@ -1,17 +1,19 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Enum;
+namespace App\Enum\Trait;
 
-trait ToArrayTrait
+trait ListTrait
 {
     /**
      * @return array
      */
-    public static function toArray(): array
+    public static function toList(array $cases = null): array
     {
+        $cases = $cases ?? static::cases();
+
         $output = [];
-        foreach (static::cases() as $case) {
+        foreach ($cases as $case) {
             $output[$case->value] = $case->label();
         }
 
