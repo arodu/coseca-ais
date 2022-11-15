@@ -26,17 +26,40 @@ enum StageStatus: string
             static::IN_PROGRESS => __('En Proceso'),
             static::SUCCESS => __('Realizado'),
             static::FAILED => __('Fallido'),
+
+            default => __('NaN'),
         };
     }
 
-    public function color(): string
+    /**
+     * @return Color
+     */
+    public function color(): Color
     {
         return match($this) {
-            static::PENDING => 'secondary',
-            static::WAITING => 'info',
-            static::IN_PROGRESS => 'warning',
-            static::SUCCESS => 'success',
-            static::FAILED => 'danger',
+            static::PENDING => Color::SECONDARY,
+            static::WAITING => Color::INFO,
+            static::IN_PROGRESS => Color::WARNING,
+            static::SUCCESS => Color::SUCCESS,
+            static::FAILED => Color::DANGER,
+
+            default => Color::SECONDARY,
+        };
+    }
+
+    /**
+     * @return FaIcon
+     */
+    public function icon(): FaIcon
+    {
+        return match($this) {
+            static::PENDING => FaIcon::PENDING,
+            static::WAITING => FaIcon::WAITING,
+            static::IN_PROGRESS => FaIcon::IN_PROGRESS,
+            static::SUCCESS => FaIcon::SUCCESS,
+            static::FAILED => FaIcon::FAILED,
+
+            default => FaIcon::DEFAULT,
         };
     }
 }

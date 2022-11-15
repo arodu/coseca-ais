@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Field;
 
+use App\Enum\Stage;
 use Cake\Core\Configure;
 use Cake\Http\Exception\NotFoundException;
 
@@ -25,9 +26,9 @@ class Stages
      *
      * @return string
      */
-    public static function defaultStage(): string
+    public static function defaultStage(): Stage
     {
-        return static::STAGE_REGISTER;
+        return Stage::REGISTER;
     }
 
     /**

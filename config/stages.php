@@ -1,41 +1,42 @@
 <?php
 
-use App\Model\Field\Stages;
+use App\Enum\Stage;
+use App\Enum\StageStatus;
 use App\Stage\CourseStage;
 use App\Stage\EndingStage;
 use App\Stage\RegisterStage;
 
 return [
     'Stages' => [
-        Stages::STAGE_REGISTER => [
-            Stages::DATA_LABEL => __('Registro'),
-            Stages::DATA_CLASS => RegisterStage::class,
-            Stages::DATA_STATUS => Stages::STATUS_IN_PROGRESS,
+        Stage::REGISTER->value => [
+            'label' => __('Registro'),
+            'class' => RegisterStage::class,
+            'status' => StageStatus::IN_PROGRESS,
         ],
-        Stages::STAGE_COURSE => [
-            Stages::DATA_LABEL => __('Taller'),
-            Stages::DATA_CLASS => CourseStage::class,
-            Stages::DATA_STATUS => Stages::STATUS_WAITING
+        Stage::COURSE->value => [
+            'label' => __('Taller'),
+            'class' => CourseStage::class,
+            'status' => StageStatus::WAITING,
         ],
-        Stages::STAGE_ADSCRIPTION => [
-            Stages::DATA_LABEL => __('Adscripción'),
-            Stages::DATA_CLASS => CourseStage::class,
-            Stages::DATA_STATUS => Stages::STATUS_WAITING,
+        Stage::ADSCRIPTION->value => [
+            'label' => __('Adscripción'),
+            'class' => CourseStage::class,
+            'status' => StageStatus::WAITING,
         ],
-        Stages::STAGE_TRACKING => [
-            Stages::DATA_LABEL => __('Seguimiento'),
-            Stages::DATA_CLASS => CourseStage::class,
-            Stages::DATA_STATUS => Stages::STATUS_IN_PROGRESS,
+        Stage::TRACKING->value => [
+            'label' => __('Seguimiento'),
+            'class' => CourseStage::class,
+            'status' => StageStatus::IN_PROGRESS,
         ],
-        Stages::STAGE_ENDING => [
-            Stages::DATA_LABEL => __('Conclusión'),
-            Stages::DATA_CLASS => EndingStage::class,
-            Stages::DATA_STATUS => Stages::STATUS_WAITING,
+        Stage::ENDING->value => [
+            'label' => __('Conclusión'),
+            'class' => EndingStage::class,
+            'status' => StageStatus::WAITING,
         ],
-        Stages::STAGE_VALIDATION => [
-            Stages::DATA_LABEL => __('Convalidación'),
-            Stages::DATA_CLASS => ValidationStage::class,
-            Stages::DATA_STATUS => Stages::STATUS_WAITING,
+        Stage::VALIDATION->value => [
+            'label' => __('Convalidación'),
+            'class' => ValidationStage::class,
+            'status' => StageStatus::WAITING,
         ],
     ]
 ];
