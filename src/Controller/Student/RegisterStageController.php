@@ -9,7 +9,6 @@ use App\Model\Field\Stages;
  * RegisterStage Controller
  *
  * @property \App\Model\Table\StudentsTable $Students
- * @property \App\Stage\StageInterface $Stage
  */
 class RegisterStageController extends AppStudentController
 {

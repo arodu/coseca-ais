@@ -29,7 +29,7 @@ class StudentStagesController extends AppAdminController
     /**
      * View method
      *
-     * @param string|null $id Student Stage id.
+     * @param string|null $id StudentStage id.
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
@@ -67,7 +67,7 @@ class StudentStagesController extends AppAdminController
     /**
      * Edit method
      *
-     * @param string|null $id Student Stage id.
+     * @param string|null $id StudentStage id.
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
@@ -93,7 +93,7 @@ class StudentStagesController extends AppAdminController
     /**
      * Delete method
      *
-     * @param string|null $id Student Stage id.
+     * @param string|null $id StudentStage id.
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */

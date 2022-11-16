@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Model\Field;
+namespace App\Utility;
 
 use Cake\ORM\TableRegistry;
 
@@ -11,7 +11,7 @@ class Tenants
     {
         return TableRegistry::getTableLocator()
             ->get('Tenants')
-            ->find('list')
-            ->find('active');
+            ->find('active')
+            ->find('list');
     }
 }

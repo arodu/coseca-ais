@@ -18,27 +18,6 @@ enum StageField: string
     case VALIDATION = 'validation';
 
     /**
-     * @param StudentType $studentType
-     * @return array
-     */
-    public static function casesByStudentType(StudentType $studentType): array
-    {
-        return match($studentType) {
-            StudentType::VALIDATED => [
-                    static::REGISTER,
-                    static::VALIDATION,
-            ],
-            StudentType::REGULAR => [
-                    static::REGISTER,
-                    static::COURSE,
-                    static::ADSCRIPTION,
-                    static::TRACKING,
-                    static::ENDING,
-            ],
-        };
-    }
-
-    /**
      * @return string
      */
     public function label(): string
@@ -79,9 +58,9 @@ enum StageField: string
     }
 
     /**
-     * @return Stage
+     * @return StageField
      */
-    public static function default(): Stage
+    public static function default(): StageField
     {
         return static::REGISTER;
     }

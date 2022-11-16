@@ -15,7 +15,7 @@ interface StageInterface
     public function __construct(StudentStage $studentStage);
 
     /**
-     * @return Stage
+     * @return StageField
      */
     public function getStageField(): StageField;
 
@@ -48,7 +48,7 @@ interface StageInterface
     public function setLastError(string $error);
 
     /**
-     * @return Stage
+     * @return StageField
      */
     public function getNextStageField(): StageField;
 

@@ -3,14 +3,10 @@ declare(strict_types=1);
 
 namespace App\Controller\Student;
 
-use App\Enum\StageField;
-use App\Utility\Stages;
-
 /**
  * Stages Controller
  *
  * @property \App\Model\Table\StudentStagesTable $StudentStages
- * @method \App\Model\Entity\Stage[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class StagesController extends AppStudentController
 {
@@ -21,7 +17,6 @@ class StagesController extends AppStudentController
         $this->StudentStages = $this->fetchTable('StudentStages');
     }
 
-
     /**
      * Index method
      *
@@ -30,7 +25,7 @@ class StagesController extends AppStudentController
     public function index()
     {
         $student = $this->getCurrentStudent();
-        $listStages = StageField::casesByStudentType($student->type);
+        $listStages = $student->type->getStageList();
 
         $studentStagesResult = $this->StudentStages->find()
             ->where(['student_id' => $student->id]);

@@ -67,7 +67,7 @@ class StudentStage extends Entity
     //    return $this->stage->label();
     //}
 
-    protected function _getStage($stage): Stage
+    protected function _getStage($stage): StageField
     {
         return StageField::from($stage);
     }
