@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Stage;
 
-use App\Enum\Stage;
+use App\Enum\StageField;
 use App\Model\Entity\Student;
 use App\Model\Entity\StudentStage;
 //use App\Model\Field\Stages;
@@ -47,7 +47,7 @@ trait StageTrait
     /**
      * @return string
      */
-    public function getStageKey(): Stage
+    public function getStageField(): StageField
     {
         return $this->stageKey;
     }
@@ -55,7 +55,7 @@ trait StageTrait
     /**
      * @return string
      */
-    public function getNextStageKey(): Stage
+    public function getNextStageField(): StageField
     {
         //return Stages::getNextStageKey($this->getStageKey(), $this->getStudent()->type);
     }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\View\Helper;
 
 use App\Enum\FaIcon;
-use App\Enum\Stage;
+use App\Enum\StageField;
 use App\Enum\StageStatus;
 use App\Model\Field\Stages;
 use Cake\View\Helper;
@@ -29,6 +29,7 @@ class AppHelper extends Helper
      * @param string $extraClass
      * @return void
      */
+    /*
     public function statusIcon(?string $status = null, bool $complete = false, string $extraClass = '')
     {
         switch ($status) {
@@ -53,12 +54,14 @@ class AppHelper extends Helper
 
         return $this->faIcon($icon, $extraClass);
     }
+    */
 
     /**
      * @param string|null $status
      * @param string|null $prefix
      * @return void
      */
+    /*
     public function statusColor(?string $status = null, ?string $prefix = 'card')
     {
         switch ($status) {
@@ -82,6 +85,7 @@ class AppHelper extends Helper
 
         return $this->addPrefix($color, $prefix);
     }
+    */
 
     /**
      * @param string $text
@@ -89,6 +93,7 @@ class AppHelper extends Helper
      * @param string $separator
      * @return string
      */
+    /*
     public function addPrefix(string $text, ?string $prefix, string $separator = '-'): string
     {
         if (empty($prefix)) {
@@ -97,6 +102,7 @@ class AppHelper extends Helper
 
         return $prefix . $separator . $text;
     }
+    */
 
     /**
      * @param float $percent

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
-use App\Enum\Stage;
+use App\Enum\StageField;
 use App\Enum\StageStatus;
 use App\Stage\StageFactory;
 use App\Stage\StageInterface;
@@ -14,7 +14,7 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property int $student_id
- * @property Stage $stage
+ * @property StageField $stage
  * @property int $lapse_id
  * @property string $status
  * @property \Cake\I18n\FrozenTime $created
@@ -69,7 +69,7 @@ class StudentStage extends Entity
 
     protected function _getStage($stage): Stage
     {
-        return Stage::from($stage);
+        return StageField::from($stage);
     }
 
     protected function _getStatus($status): StageStatus

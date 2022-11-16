@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Stage;
 
-use App\Enum\Stage;
+use App\Enum\StageField;
 use App\Model\Entity\Student;
 use App\Model\Entity\StudentStage;
 
@@ -17,7 +17,7 @@ interface StageInterface
     /**
      * @return Stage
      */
-    public function getStageKey(): Stage;
+    public function getStageField(): StageField;
 
     /**
      * @return integer
@@ -50,7 +50,7 @@ interface StageInterface
     /**
      * @return Stage
      */
-    public function getNextStageKey(): Stage;
+    public function getNextStageField(): StageField;
 
     /**
      * @return void

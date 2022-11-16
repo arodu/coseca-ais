@@ -6,7 +6,7 @@ namespace App\Enum;
 use App\Enum\Trait\ListTrait;
 use Cake\Core\Configure;
 
-enum Stage: string
+enum StageField: string
 {
     use ListTrait;
 

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Student;
 
-use App\Enum\Stage;
+use App\Enum\StageField;
 use App\Utility\Stages;
 
 /**
@@ -30,7 +30,7 @@ class StagesController extends AppStudentController
     public function index()
     {
         $student = $this->getCurrentStudent();
-        $listStages = Stage::casesByStudentType($student->type);
+        $listStages = StageField::casesByStudentType($student->type);
 
         $studentStagesResult = $this->StudentStages->find()
             ->where(['student_id' => $student->id]);
