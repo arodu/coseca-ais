@@ -25,14 +25,14 @@ class StagesController extends AppStudentController
     public function index()
     {
         $student = $this->getCurrentStudent();
-        $listStages = $student->type->getStageList();
+        $listStages = $student->getType()->getStageList();
 
         $studentStagesResult = $this->StudentStages->find()
             ->where(['student_id' => $student->id]);
 
         $studentStages = [];
         foreach ($studentStagesResult as $studenStage) {
-            $studentStages[$studenStage->stage->value] = $studenStage;
+            $studentStages[$studenStage->getStageField()->value] = $studenStage;
         }
 
         $this->set(compact('listStages', 'student', 'studentStages'));

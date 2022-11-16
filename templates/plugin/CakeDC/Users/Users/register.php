@@ -4,7 +4,7 @@
  * @var \App\View\AppView $this
  */
 
-use App\Model\Field\Tenants;
+use App\Utility\Tenants;
 use Cake\Core\Configure;
 
 $this->layout = 'CakeLte.login';

@@ -47,8 +47,6 @@ class AppStudentController extends AppController
             $appUsersTable->Students->newRegularStudent($user);
         }
 
-        //dd($user);
-
         $user = $appUsersTable->find('auth')->first();
         $this->Authentication->setIdentity($user);
 

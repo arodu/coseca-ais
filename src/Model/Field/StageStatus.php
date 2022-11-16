@@ -1,8 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Enum;
+namespace App\Model\Field;
 
+use App\Enum\Color;
+use App\Enum\FaIcon;
 use App\Enum\Trait\ListTrait;
 
 enum StageStatus: string

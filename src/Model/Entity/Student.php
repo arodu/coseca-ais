@@ -3,8 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
-use App\Enum\StudentType;
-use App\Model\Field\Stages;
+use App\Model\Field\StudentType;
 use Cake\ORM\Entity;
 
 /**
@@ -82,8 +81,8 @@ class Student extends Entity
         return $this->app_user->email ?? null;
     }
 
-    protected function _getType($type): StudentType
+    public function getType(): StudentType
     {
-        return StudentType::from($type);
+        return StudentType::from($this->type);
     }
 }

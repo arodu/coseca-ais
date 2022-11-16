@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace App\Stage;
 
-use App\Enum\StageField;
 use App\Model\Entity\Student;
 use App\Model\Entity\StudentStage;
+use App\Model\Field\StageField;
 
 interface StageInterface
 {

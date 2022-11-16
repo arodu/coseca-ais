@@ -1,7 +1,7 @@
 <?php
 
-use App\Enum\StageField;
-use App\Enum\StageStatus;
+use App\Model\Field\StageField;
+use App\Model\Field\StageStatus;
 use App\Stage\CourseStage;
 use App\Stage\EndingStage;
 use App\Stage\RegisterStage;

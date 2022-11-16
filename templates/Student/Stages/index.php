@@ -4,7 +4,7 @@
  * @var \App\Model\Entity\StudentStage $studentStage
  */
 
-use App\Enum\StageStatus;
+use App\Model\Field\StageStatus;
 use Cake\Core\Configure;
 
 $statusActive = [
@@ -24,7 +24,7 @@ $this->Breadcrumbs->add([
         <?php foreach ($listStages as $itemStage) : ?>
             <?php
             $studentStage = $studentStages[$itemStage->value] ?? null;
-            $studentStageStatus = $studentStage->status ?? StageStatus::PENDING;
+            $studentStageStatus = $studentStage?->getStatus() ?? StageStatus::PENDING;
             ?>
             <div class="<?= $studentStageStatus->color()->cssClass('card') ?>">
                 <div class="card-header">

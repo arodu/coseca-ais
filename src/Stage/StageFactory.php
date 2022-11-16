@@ -13,7 +13,7 @@ class StageFactory
         if (empty($studentStage->stage)) {
             throw new InvalidArgumentException();
         }
-        $stageClass = $studentStage->stage->getClass();
+        $stageClass = $studentStage->getStageField()->getClass();
 
         return new $stageClass($studentStage);
     }

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Enum;
+namespace App\Model\Field;
 
 use App\Enum\Trait\ListTrait;
 use Cake\Core\Configure;

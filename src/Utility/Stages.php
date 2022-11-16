@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Utility;
 
-use App\Enum\StageField;
-use App\Enum\StudentType;
 use App\Model\Entity\StudentStage;
 use Cake\Core\Configure;
 use Cake\Http\Exception\NotFoundException;

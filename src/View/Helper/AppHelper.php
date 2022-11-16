@@ -4,9 +4,6 @@ declare(strict_types=1);
 namespace App\View\Helper;
 
 use App\Enum\FaIcon;
-use App\Enum\StageField;
-use App\Enum\StageStatus;
-use App\Model\Field\Stages;
 use Cake\View\Helper;
 
 /**
@@ -22,87 +19,6 @@ class AppHelper extends Helper
     protected $_defaultConfig = [];
 
     public $helpers = ['Html'];
-
-    /**
-     * @param string|null $status
-     * @param boolean $complete
-     * @param string $extraClass
-     * @return void
-     */
-    /*
-    public function statusIcon(?string $status = null, bool $complete = false, string $extraClass = '')
-    {
-        switch ($status) {
-            case Stages::STATUS_IN_PROGRESS: 
-                $icon = FaIcon::IN_PROGRESS;
-                break;
-            case Stages::STATUS_WAITING: 
-                $icon = FaIcon::WAITING;
-                break;
-            case Stages::STATUS_SUCCESS: 
-                $icon = FaIcon::SUCCESS;
-                break;
-            case Stages::STATUS_PENDING:
-            default:
-                $icon = FaIcon::PENDING;
-                break;
-        }
-
-        if (!$complete) {
-            return $icon->value;
-        }
-
-        return $this->faIcon($icon, $extraClass);
-    }
-    */
-
-    /**
-     * @param string|null $status
-     * @param string|null $prefix
-     * @return void
-     */
-    /*
-    public function statusColor(?string $status = null, ?string $prefix = 'card')
-    {
-        switch ($status) {
-            case Stages::STATUS_IN_PROGRESS: 
-                $color = 'warning';
-                break;
-            case Stages::STATUS_WAITING: 
-                $color = 'info';
-                break;
-            case Stages::STATUS_SUCCESS: 
-                $color = 'success';
-                break;
-            case Stages::STATUS_FAILED:
-                $color = 'danger';
-                break;
-            case Stages::STATUS_PENDING:
-            default:
-                $color = 'gray';
-                break;
-        }
-
-        return $this->addPrefix($color, $prefix);
-    }
-    */
-
-    /**
-     * @param string $text
-     * @param string|null $prefix
-     * @param string $separator
-     * @return string
-     */
-    /*
-    public function addPrefix(string $text, ?string $prefix, string $separator = '-'): string
-    {
-        if (empty($prefix)) {
-            return $text;
-        }
-
-        return $prefix . $separator . $text;
-    }
-    */
 
     /**
      * @param float $percent
@@ -154,15 +70,4 @@ class AppHelper extends Helper
 
         return $output;
     }
-
-    /**
-     * @param FaIcon $icon
-     * @param string|null $extraClass
-     * @return string
-     */
-    public function faIcon(FaIcon $icon, ?string $extraClass = null): string
-    {
-        return $icon->render($extraClass);
-    }
-
 }

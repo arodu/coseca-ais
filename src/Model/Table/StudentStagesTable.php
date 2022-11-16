@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Model\Table;
 
 use App\Model\Entity\StudentStage;
+use App\Model\Field\StageField;
 use App\Model\Field\Stages;
+use App\Model\Field\StageStatus;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -147,8 +149,7 @@ class StudentStagesTable extends Table
         }
 
         if (empty($options['status'])) {
-            $stageInfo = Stages::getStageInfo($options['stage']);
-            $options['status'] = $stageInfo[Stages::DATA_STATUS] ?? Stages::STATUS_PENDING;
+            $options['status'] = StageField::from($options['stage'])->getDefaultStatus()->value ?? StageStatus::WAITING->value;
         }
 
         $studentStage = $this->newEntity($options);

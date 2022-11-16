@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Model\Table;
 
 use App\Model\Entity\AppUser;
-use App\Model\Field\Stages;
+use App\Model\Field\StageField;
 use App\Model\Field\Students;
+use App\Model\Field\StudentType;
 use ArrayObject;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
@@ -207,7 +208,7 @@ class StudentsTable extends Table
         if ($entity->isNew()) {
             $this->StudentStages->create([
                 'student_id' => $entity->id,
-                'stage' => Stages::defaultStage(),
+                'stage' => StageField::default()->value,
             ]);
         }
     }
@@ -222,7 +223,7 @@ class StudentsTable extends Table
         $student = $this->newEntity([
             'user_id' => $user->id,
             'tenant_id' => $tenant_id ?? Hash::get($user, 'tenant_filters.0.tenant_id'),
-            'type' => Students::TYPE_REGULAR,
+            'type' => StudentType::REGULAR->value,
         ], [
             'validate' => 'register',
         ]);
