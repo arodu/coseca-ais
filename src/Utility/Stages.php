@@ -1,67 +1,28 @@
 <?php
+
 declare(strict_types=1);
 
-namespace App\Model\Field;
+namespace App\Utility;
 
 use App\Enum\Stage;
+use App\Enum\StudentType;
+use App\Model\Entity\StudentStage;
 use Cake\Core\Configure;
 use Cake\Http\Exception\NotFoundException;
 
 class Stages
 {
-    public const STAGE_REGISTER = 'register';
-    public const STAGE_COURSE = 'course';
-    public const STAGE_ADSCRIPTION = 'adscription';
-    public const STAGE_TRACKING = 'tracking';
-    public const STAGE_ENDING = 'ending';
-    public const STAGE_VALIDATION = 'validation';
-
     public const DATA_KEY = 'key';
     public const DATA_LABEL = 'label';
     public const DATA_CLASS = 'class';
     public const DATA_STATUS = 'status';
 
     /**
-     * default stage for new Students
-     *
-     * @return string
-     */
-    public static function defaultStage(): Stage
-    {
-        return Stage::REGISTER;
-    }
-
-    /**
-     * @param string $studentType
+     * @param StudentType $studentType
      * @return array
      */
-    public static function getStageListStudentType(string $studentType): array
-    {
-        switch ($studentType) {
-            case Students::TYPE_VALIDATED:
-                return [
-                    static::STAGE_REGISTER,
-                    static::STAGE_VALIDATION,
-                ];
-                break;
-            case Students::TYPE_REGULAR:
-            default:
-                return [
-                    static::STAGE_REGISTER,
-                    static::STAGE_COURSE,
-                    static::STAGE_ADSCRIPTION,
-                    static::STAGE_TRACKING,
-                    static::STAGE_ENDING,
-                ];
-                break;
-        }
-    }
-
-    /**
-     * @param string $studentType
-     * @return array
-     */
-    public static function getStageList(string $studentType): array
+    /*
+    public static function getStageList(StudentType $studentType): array
     {
         $stagesStudentType = static::getStageListStudentType($studentType);
         $stagesAll = Configure::read('Stages');
@@ -72,6 +33,7 @@ class Stages
 
         return $filtered;
     }
+    */
 
     /**
      * @param array $stageList

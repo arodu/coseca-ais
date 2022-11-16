@@ -3,9 +3,10 @@ declare(strict_types=1);
 
 namespace App\Stage;
 
+use App\Enum\Stage;
 use App\Model\Entity\Student;
 use App\Model\Entity\StudentStage;
-use App\Model\Field\Stages;
+//use App\Model\Field\Stages;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use InvalidArgumentException;
 
@@ -17,7 +18,7 @@ trait StageTrait
     use LocatorAwareTrait;
 
     private int $studentId;
-    private string $stageKey;
+    private Stage $stageKey;
 
     protected ?Student $_student = null;
     protected ?StudentStage $_studentStage = null;
@@ -46,7 +47,7 @@ trait StageTrait
     /**
      * @return string
      */
-    public function getStageKey(): string
+    public function getStageKey(): Stage
     {
         return $this->stageKey;
     }
@@ -54,9 +55,9 @@ trait StageTrait
     /**
      * @return string
      */
-    public function getNextStageKey(): string
+    public function getNextStageKey(): Stage
     {
-        return Stages::getNextStageKey($this->getStageKey(), $this->getStudent()->type);
+        //return Stages::getNextStageKey($this->getStageKey(), $this->getStudent()->type);
     }
 
     /**

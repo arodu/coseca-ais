@@ -3,7 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Student;
 
-use App\Model\Field\Stages;
+use App\Enum\Stage;
+use App\Utility\Stages;
 
 /**
  * Stages Controller
@@ -29,17 +30,16 @@ class StagesController extends AppStudentController
     public function index()
     {
         $student = $this->getCurrentStudent();
-
-        $stages = Stages::getStageList($student->type);
+        $listStages = Stage::casesByStudentType($student->type);
 
         $studentStagesResult = $this->StudentStages->find()
             ->where(['student_id' => $student->id]);
 
         $studentStages = [];
         foreach ($studentStagesResult as $studenStage) {
-            $studentStages[$studenStage->stage] = $studenStage;
+            $studentStages[$studenStage->stage->value] = $studenStage;
         }
 
-        $this->set(compact('stages', 'student', 'studentStages'));
+        $this->set(compact('listStages', 'student', 'studentStages'));
     }
 }

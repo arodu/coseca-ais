@@ -3,7 +3,8 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
-use App\Model\Field\Stages;
+use App\Enum\Stage;
+use App\Enum\StageStatus;
 use App\Stage\StageFactory;
 use App\Stage\StageInterface;
 use Cake\ORM\Entity;
@@ -13,7 +14,7 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property int $student_id
- * @property string $stage
+ * @property Stage $stage
  * @property int $lapse_id
  * @property string $status
  * @property \Cake\I18n\FrozenTime $created
@@ -61,9 +62,18 @@ class StudentStage extends Entity
         'stage_label',
     ];
 
-    protected function _getStageLabel()
+    //protected function _getStageLabel()
+    //{
+    //    return $this->stage->label();
+    //}
+
+    protected function _getStage($stage): Stage
     {
-        return Stages::getStageInfo($this->stage)[Stages::DATA_LABEL];
+        return Stage::from($stage);
     }
 
+    protected function _getStatus($status): StageStatus
+    {
+        return StageStatus::from($status);
+    }
 }

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Stage;
 
+use App\Enum\Stage;
 use App\Model\Entity\Student;
 use App\Model\Entity\StudentStage;
 
@@ -14,9 +15,9 @@ interface StageInterface
     public function __construct(StudentStage $studentStage);
 
     /**
-     * @return string
+     * @return Stage
      */
-    public function getStageKey(): string;
+    public function getStageKey(): Stage;
 
     /**
      * @return integer
@@ -47,9 +48,9 @@ interface StageInterface
     public function setLastError(string $error);
 
     /**
-     * @return string
+     * @return Stage
      */
-    public function getNextStageKey(): string;
+    public function getNextStageKey(): Stage;
 
     /**
      * @return void

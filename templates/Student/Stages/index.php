@@ -1,45 +1,48 @@
 <?php
 
-use App\Enum\StageStatus;
-use App\Model\Field\Stages;
-use Cake\Core\Configure;
-
 /**
  * @var \App\Model\Entity\StudentStage $studentStage
  */
 
+use App\Enum\StageStatus;
+use Cake\Core\Configure;
+
+$statusActive = [
+    StageStatus::IN_PROGRESS,
+    StageStatus::WAITING,
+];
+
 $this->MenuLte->activeItem('home');
-$this->assign('title', __('Stages'));
+$this->assign('title', __('Servicio Comunitario'));
 $this->Breadcrumbs->add([
-    ['title' => 'Home'],
+    ['title' => 'Inicio'],
 ]);
 ?>
 
 <div class="row">
     <div id="accordion" class="col-sm-8 offset-sm-2">
-        <?php foreach ($stages as $stageKey => $baseStage) : ?>
+        <?php foreach ($listStages as $itemStage) : ?>
             <?php
-                $studentStage = $studentStages[$stageKey] ?? null;
-                $studentStageStatus = $studentStage->status ?? null;
+            $studentStage = $studentStages[$itemStage->value] ?? null;
+            $studentStageStatus = $studentStage->status ?? StageStatus::PENDING;
             ?>
-            <div class="card <?= $this->App->statusColor($studentStageStatus, 'card') ?>">
+            <div class="<?= $studentStageStatus->color()->cssClass('card') ?>">
                 <div class="card-header">
                     <h4 class="card-title w-100">
-                        <a class="d-flex w-100" data-toggle="collapse" href="<?= '#collapse-' . $stageKey ?>">
-                            <?= $this->App->statusIcon($studentStageStatus, true, 'fa-fw mr-1') ?>
-                            <?= $baseStage[Stages::DATA_LABEL] ?>
+                        <a class="d-flex w-100" data-toggle="collapse" href="<?= '#collapse-' . $itemStage->value ?>">
+                            <?= $studentStageStatus->icon()->render('fa-fw mr-1') ?>
+                            <?= $itemStage->label() ?>
                             <?php if ($studentStage) : ?>
                                 <i class="fas fa-caret-down ml-auto"></i>
                             <?php endif; ?>
                         </a>
                     </h4>
                 </div>
-
                 <?php if ($studentStage) : ?>
-                    <div id="<?= 'collapse-' . $stageKey ?>" class="collapse <?= $this->App->statusActive($studentStageStatus) ?>" data-parent="#accordion">
+                    <div id="<?= 'collapse-' . $itemStage->value ?>" class="collapse <?= in_array($studentStageStatus, $statusActive) ? 'show' : '' ?>" data-parent="#accordion">
                         <div class="card-body">
                             <?php
-                            $element = 'stages/' . $stageKey . '/' . $studentStageStatus;
+                            $element = 'stages/' . $itemStage->value . '/' . $studentStageStatus->value;
                             if ($this->elementExists($element)) {
                                 echo $this->element($element, ['stageInstance' => $studentStage->getStageInstance()]);
                             } else {
@@ -57,10 +60,3 @@ $this->Breadcrumbs->add([
         <?php endforeach; ?>
     </div>
 </div>
-
-
-<?php
-debug(StageStatus::cases());
-debug(StageStatus::toArray());
-debug(StageStatus::from('waiting')->label());
-?>

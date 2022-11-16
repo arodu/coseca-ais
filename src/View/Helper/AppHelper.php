@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\View\Helper;
 
 use App\Enum\FaIcon;
+use App\Enum\Stage;
+use App\Enum\StageStatus;
 use App\Model\Field\Stages;
 use Cake\View\Helper;
 
@@ -82,26 +84,6 @@ class AppHelper extends Helper
     }
 
     /**
-     * @param string|null $status
-     * @param string $active
-     * @param string $inactive
-     * @return void
-     */
-    public function statusActive(?string $status = null, string $active = 'show', string $inactive = '')
-    {
-        switch($status) {
-            case Stages::STATUS_IN_PROGRESS:
-            case Stages::STATUS_WAITING:
-                return $active;
-                break;
-
-            default:
-                return $inactive;
-                break;
-        }
-    }
-
-    /**
      * @param string $text
      * @param string|null $prefix
      * @param string $separator
@@ -174,9 +156,7 @@ class AppHelper extends Helper
      */
     public function faIcon(FaIcon $icon, ?string $extraClass = null): string
     {
-        return $this->Html->tag('i', '', [
-            'class' => [$icon->value, $extraClass],
-        ]);
+        return $icon->render($extraClass);
     }
 
 }

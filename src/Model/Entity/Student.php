@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
+use App\Enum\StudentType;
 use App\Model\Field\Stages;
 use Cake\ORM\Entity;
 
@@ -81,13 +82,8 @@ class Student extends Entity
         return $this->app_user->email ?? null;
     }
 
-    /**
-     * @return string
-     */
-    public function getCurrentStageKey(): string
+    protected function _getType($type): StudentType
     {
-        // @todo buscar el StudentStage actual
-
-        return Stages::STAGE_REGISTER;
+        return StudentType::from($type);
     }
 }
