@@ -174,11 +174,11 @@ class StudentStagesTable extends Table
      * @param string $stageKey
      * @return StudentStage
      */
-    public function getByStudentStage(int $student_id, string $stageKey): StudentStage
+    public function getByStudentStage(int $student_id, StageField $stageField): StudentStage
     {
         return $this->find()->where([
                 'student_id' => $student_id,
-                'stage' => $stageKey,
+                'stage' => $stageField->value,
             ])->first();
     }
 }

@@ -6,6 +6,7 @@ namespace App\Stage;
 use App\Model\Entity\Student;
 use App\Model\Entity\StudentStage;
 use App\Model\Field\StageField;
+use App\Utility\Stages;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use InvalidArgumentException;
 
@@ -56,7 +57,7 @@ trait StageTrait
      */
     public function getNextStageField(): StageField
     {
-        //return Stages::getNextStageKey($this->getStageKey(), $this->getStudent()->type);
+        return Stages::getNextStageField($this->getStageField(), $this->getStudent()->getType());
     }
 
     /**

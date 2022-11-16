@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Stage;
@@ -6,6 +7,7 @@ namespace App\Stage;
 use App\Model\Entity\Student;
 use App\Model\Entity\StudentStage;
 use App\Model\Field\StageField;
+use App\Model\Field\StageStatus;
 
 interface StageInterface
 {
@@ -58,8 +60,8 @@ interface StageInterface
     public function initialize(): void;
 
     /**
-     * @param string $status
+     * @param StageStatus $stageStatus
      * @return void
      */
-    public function close(string $status);    
+    public function close(StageStatus $stageStatus);
 }

@@ -5,6 +5,7 @@
  * @var \App\Model\Entity\Student $student
  */
 
+use App\Enum\Gender;
 use App\Model\Field\Students;
 
 ?>
@@ -46,7 +47,7 @@ $this->Breadcrumbs->add([
                 <?= $this->Form->control('gender', [
                     'label' => __('Genero'),
                     'required' => true,
-                    'options' => Students::getGenders(),
+                    'options' => Gender::toListLabel(),
                     'empty' => true,
                 ]) ?>
             </div>

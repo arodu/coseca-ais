@@ -31,6 +31,12 @@ class AppUsersTable extends UsersTable
         $this->hasMany('TenantFilters', [
             'foreignKey' => 'user_id',
         ]);
+
+        // @todo 
+        $this->hasOne('CurrentStudent', [
+            'className' => 'Students',
+            'foreignKey' => 'user_id',
+        ]);
     }
 
     /**
@@ -56,7 +62,8 @@ class AppUsersTable extends UsersTable
         return $query
             ->find('active')
             ->find('withLastStudent')
-            ->contain(['TenantFilters' => ['Tenants']]);
+            ->contain(['TenantFilters' => ['Tenants']])
+            ->contain(['CurrentStudent' => ['Tenants']]);
     }
 
     /**
@@ -66,6 +73,8 @@ class AppUsersTable extends UsersTable
      */
     public function findWithLastStudent(Query $query, array $options = []): Query
     {
+        // @todo change to CurrentStudent logic
+
         $fields = array_merge(
             ['id', 'user_id', 'tenant_id', 'type', 'tenant'],
             $options['fields'] ?? [],

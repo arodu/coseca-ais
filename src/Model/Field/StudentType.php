@@ -9,9 +9,22 @@ enum StudentType: string
     case VALIDATED = 'validated';
 
     /**
+     * @return string
+     */
+    public function label(): string
+    {
+        return match($this) {
+            static::REGULAR => __('Regular'),
+            static::VALIDATED => __('Convalidación'),
+
+            default => __('NaN'),
+        };
+    }
+
+    /**
      * @return array
      */
-    public function getStageList(): array
+    public function getStageFieldList(): array
     {
         switch($this) {
             case StudentType::VALIDATED:

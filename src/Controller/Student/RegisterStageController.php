@@ -3,7 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Student;
 
-use App\Model\Field\Stages;
+use App\Model\Field\StageField;
+use App\Model\Field\StageStatus;
 
 /**
  * RegisterStage Controller
@@ -28,10 +29,10 @@ class RegisterStageController extends AppStudentController
     {
         $currentStudent = $this->getCurrentStudent();
         /** @var \App\Model\Entity\StudentStage $studentStage */
-        $studentStage = $this->Students->StudentStages->getByStudentStage($currentStudent->id, Stages::STAGE_REGISTER);
+        $studentStage = $this->Students->StudentStages->getByStudentStage($currentStudent->id, StageField::REGISTER);
         $registerStage = $studentStage->getStageInstance();
 
-        if (empty($studentStage) || $studentStage->status !== Stages::STATUS_IN_PROGRESS) {
+        if (empty($studentStage) || $studentStage->getStatus() !== StageStatus::IN_PROGRESS) {
             $this->Flash->warning(__('El Registro no esta activo para realizar cambios'));
             return $this->redirect(['_name' => 'student:home']);
         }
@@ -41,7 +42,7 @@ class RegisterStageController extends AppStudentController
             $student = $this->Students->patchEntity($student, $this->request->getData());
 
             if ($this->Students->save($student)) {
-                $registerStage->close(Stages::STATUS_SUCCESS);
+                $registerStage->close(StageStatus::SUCCESS);
                 $this->Flash->success(__('The student has been saved.'));
 
                 return $this->redirect(['_name' => 'student:home']);

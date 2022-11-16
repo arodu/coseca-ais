@@ -25,7 +25,7 @@ class StagesController extends AppStudentController
     public function index()
     {
         $student = $this->getCurrentStudent();
-        $listStages = $student->getType()->getStageList();
+        $listStages = $student->getType()->getStageFieldList();
 
         $studentStagesResult = $this->StudentStages->find()
             ->where(['student_id' => $student->id]);
