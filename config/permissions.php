@@ -9,7 +9,7 @@
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
-use App\Model\Field\Users;
+use App\Model\Field\UserRole;
 
 /*
  * IMPORTANT:
@@ -99,7 +99,7 @@ return [
             'bypassAuth' => true,
         ],
         [
-            'role' => Users::getAdminRoles(),
+            'role' => UserRole::getAdminGroup(),
             'prefix' => 'Admin',
             'extension' => '*',
             'plugin' => '*',
@@ -107,7 +107,7 @@ return [
             'action' => '*',
         ],
         [
-            'role' => Users::getStudentRoles(),
+            'role' => UserRole::getStudentGroup(),
             'prefix' => 'Student',
             'extension' => '*',
             'plugin' => '*',

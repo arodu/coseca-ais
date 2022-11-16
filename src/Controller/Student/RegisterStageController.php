@@ -30,19 +30,20 @@ class RegisterStageController extends AppStudentController
         $currentStudent = $this->getCurrentStudent();
         /** @var \App\Model\Entity\StudentStage $studentStage */
         $studentStage = $this->Students->StudentStages->getByStudentStage($currentStudent->id, StageField::REGISTER);
-        $registerStage = $studentStage->getStageInstance();
 
         if (empty($studentStage) || $studentStage->getStatus() !== StageStatus::IN_PROGRESS) {
             $this->Flash->warning(__('El Registro no esta activo para realizar cambios'));
             return $this->redirect(['_name' => 'student:home']);
         }
      
-        $student = $registerStage->getStudent(true);
+        $student = $this->Students->get($currentStudent->id, [
+            'contain' => ['Tenants'],
+        ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $student = $this->Students->patchEntity($student, $this->request->getData());
 
             if ($this->Students->save($student)) {
-                $registerStage->close(StageStatus::SUCCESS);
+                $studentStage->getStageInstance()->close(StageStatus::SUCCESS);
                 $this->Flash->success(__('The student has been saved.'));
 
                 return $this->redirect(['_name' => 'student:home']);

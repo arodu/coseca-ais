@@ -2,7 +2,7 @@
 
 namespace App\Event;
 
-use App\Model\Field\Users;
+use App\Model\Field\UserRole;
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
 use CakeDC\Users\Plugin as UsersPlugin;
@@ -26,11 +26,11 @@ class UsersListener implements EventListenerInterface
     {
         $user = $event->getData('user');
 
-        if (in_array($user->role, Users::getAdminRoles())) {
+        if (in_array($user->role, UserRole::getAdminGroup())) {
             $event->setResult(['_name' => 'admin:home']);
         }
 
-        if (in_array($user->role, Users::getStudentRoles())) {
+        if (in_array($user->role, UserRole::getStudentGroup())) {
             $event->setResult(['_name' => 'student:home']);
         }
     }

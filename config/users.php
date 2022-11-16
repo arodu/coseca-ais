@@ -1,6 +1,6 @@
 <?php
 
-use App\Model\Field\Users;
+use App\Model\Field\UserRole;
 use App\Model\Table\AppUsersTable;
 
 
@@ -16,7 +16,7 @@ return [
             'login' => false,
         ],
         'Registration' => [
-            'defaultRole' => Users::ROLE_STUDENT,
+            'defaultRole' => UserRole::STUDENT->value,
             'active' => true,
             'reCaptcha' => true,
         ],

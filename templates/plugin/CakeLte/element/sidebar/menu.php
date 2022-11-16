@@ -1,6 +1,6 @@
 <?php
 
-use App\Model\Field\Users;
+use App\Model\Field\UserRole;
 
 $menu = [];
 $menu['home'] = [
@@ -8,7 +8,7 @@ $menu['home'] = [
     'uri' => '/',
 ];
 
-if (in_array($this->Identity->get('role'), Users::getAdminRoles())) {
+if (in_array($this->Identity->get('role'), UserRole::getAdminGroup())) {
     $menu['students'] = [
         'label' => __('Estudiantes'),
         'uri' => ['controller' => 'Students', 'action' => 'index', 'prefix' => 'Admin'],
@@ -20,7 +20,7 @@ if (in_array($this->Identity->get('role'), Users::getAdminRoles())) {
     ];
 }
 
-if (in_array($this->Identity->get('role'), [Users::ROLE_ADMIN, Users::ROLE_SUPERUSER])) {
+if (in_array($this->Identity->get('role'), UserRole::getSuperAdminGroup())) {
     $menu['users'] = [
         'label' => __('Usuarios'),
         'uri' => ['controller' => 'AppUsers', 'action' => 'index', 'prefix' => 'Admin'],

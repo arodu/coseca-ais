@@ -16,13 +16,8 @@ declare(strict_types=1);
  */
 namespace App\Controller;
 
-use App\Model\Field\Users;
-use Cake\Core\Configure;
-use Cake\Http\Exception\ForbiddenException;
-use Cake\Http\Exception\NotFoundException;
-use Cake\Http\Response;
+use App\Model\Field\UserRole;
 use Cake\Log\Log;
-use Cake\View\Exception\MissingTemplateException;
 
 /**
  * Static content controller
@@ -45,11 +40,11 @@ class PagesController extends AppController
         try {
             $identity = $this->Authentication->getIdentity();
 
-            if (in_array($identity->role, Users::getAdminRoles())) {
+            if (in_array($identity->role, UserRole::getAdminGroup())) {
                 return $this->redirect(['_name' => 'admin:home']);
             }
 
-            if (in_array($identity->role, Users::getStudentRoles())) {
+            if (in_array($identity->role, UserRole::getStudentGroup())) {
                 return $this->redirect(['_name' => 'student:home']);
             }
         } catch (\Throwable $e) {

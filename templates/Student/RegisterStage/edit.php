@@ -6,7 +6,7 @@
  */
 
 use App\Enum\Gender;
-use App\Model\Field\Students;
+use App\Utility\Students;
 
 ?>
 <?php
@@ -73,7 +73,7 @@ $this->Breadcrumbs->add([
                 <?= $this->Form->control('current_semester', [
                     'label' => __('Semestre Actual'),
                     'required' => true,
-                    'options' => Students::getSemesters(),
+                    'options' => Students::getLeves($student->tenant),
                     'empty' => true,
                 ]) ?>
             </div>
