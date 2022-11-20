@@ -12,7 +12,6 @@ $this->Breadcrumbs->add([
     ['title' => 'View', 'url' => ['action' => 'view', $lapse->id]],
     ['title' => 'Edit'],
 ]);
-$this->MenuLte->activeItem('lapses');
 ?>
 
 <div class="card card-primary card-outline">

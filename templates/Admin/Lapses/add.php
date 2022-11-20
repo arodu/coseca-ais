@@ -12,7 +12,6 @@ $this->Breadcrumbs->add([
     ['title' => 'List Lapses', 'url' => ['action' => 'index']],
     ['title' => 'Add'],
 ]);
-$this->MenuLte->activeItem('lapses');
 ?>
 
 <div class="card card-primary card-outline">

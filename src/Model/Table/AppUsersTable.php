@@ -32,10 +32,11 @@ class AppUsersTable extends UsersTable
             'foreignKey' => 'user_id',
         ]);
 
-        // @todo 
+        // @todo fix this, add finder
         $this->hasOne('CurrentStudent', [
             'className' => 'Students',
             'foreignKey' => 'user_id',
+            'strategy' => 'select',
         ]);
     }
 
@@ -61,9 +62,10 @@ class AppUsersTable extends UsersTable
     {
         return $query
             ->find('active')
-            ->find('withLastStudent')
-            ->contain(['TenantFilters' => ['Tenants']])
-            ->contain(['CurrentStudent' => ['Tenants']]);
+            //->find('withLastStudent')
+            //->contain(['TenantFilters' => ['Tenants']])
+            //->contain(['CurrentStudent' => ['Tenants']]);
+            ;
     }
 
     /**

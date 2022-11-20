@@ -10,7 +10,6 @@ $this->Breadcrumbs->add([
     ['title' => 'Home', 'url' => '/'],
     ['title' => 'List Lapses'],
 ]);
-$this->MenuLte->activeItem('lapses');
 ?>
 
 <div class="card card-primary card-outline">

@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use Cake\Event\EventInterface;
+
 /**
  * Lapses Controller
  *
@@ -11,6 +13,15 @@ namespace App\Controller\Admin;
  */
 class LapsesController extends AppAdminController
 {
+    /**
+     * @param EventInterface $event
+     * @return void
+     */
+    public function beforeRender(EventInterface $event)
+    {
+        $this->MenuLte->activeItem('lapses');
+    }
+
     /**
      * Index method
      *
