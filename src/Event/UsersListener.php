@@ -27,11 +27,11 @@ class UsersListener implements EventListenerInterface
         $user = $event->getData('user');
 
         if (in_array($user->role, UserRole::getAdminGroup())) {
-            $event->setResult(['_name' => 'admin:home']);
+            return $event->setResult(['_name' => 'admin:home']);
         }
 
         if (in_array($user->role, UserRole::getStudentGroup())) {
-            $event->setResult(['_name' => 'student:home']);
+            return $event->setResult(['_name' => 'student:home']);
         }
     }
 }

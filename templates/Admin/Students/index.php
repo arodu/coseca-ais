@@ -4,7 +4,7 @@
  * @var \App\Model\Entity\Student[]|\Cake\Collection\CollectionInterface $students
  */
 
-use App\Model\Field\Stages;
+use App\Enum\FaIcon;
 use Cake\Core\Configure;
 
 ?>
@@ -41,7 +41,7 @@ $this->MenuLte->activeItem('students');
                 'templates' => ['inputContainer' => '{{content}}']
             ]); ?>
             <?php //echo $this->Html->link(__('New Student'), ['action' => 'add'], ['class' => 'btn btn-primary btn-sm ml-2']) ?>
-            <?php echo $this->Html->link($this->App->faIcon($this->App::FA_ICON_DOWNLOAD), ['action' => 'index', '_ext' => 'csv'], ['class' => 'btn btn-primary btn-sm ml-2', 'escape' => false]) ?>
+            <?php echo $this->Html->link(FaIcon::DOWNLOAD->render(), ['action' => 'index', '_ext' => 'csv'], ['class' => 'btn btn-primary btn-sm ml-2', 'escape' => false]) ?>
         </div>
     </div>
     <!-- /.card-header -->
@@ -68,14 +68,14 @@ $this->MenuLte->activeItem('students');
                         <td><?= h($student->last_name) ?></td>
                         <td><?= h($student->last_stage->lapse->name) ?></td>
                         <td>
-                            <?= h($student->last_stage->stage_label) ?>
+                            <?= h($student->last_stage->getStageField()->label()) ?>
                             <?= $this->Html->tag('span',
-                                Stages::getStatusLabel($student->last_stage->status),
-                                ['class' => ['badge', $this->App->statusColor($student->last_stage->status, 'badge'), 'ml-2']]
+                                $student->last_stage->getStatus()->label(),
+                                ['class' => [$student->last_stage->getStatus()->color()->cssClass('badge'), 'ml-2']]
                             ) ?>
                         </td>
                         <td class="project_progress">
-                            <?= $this->App->progressBar(0, Configure::read('coseca.hours-min')) ?>
+                            <?= $this->App->progressBar(rand(0,130), Configure::read('coseca.hours-min')) ?>
                         </td>
                         <td class="actions">
                             <?= $this->Html->link(__('View'), ['action' => 'view', $student->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>

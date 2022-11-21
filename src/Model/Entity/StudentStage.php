@@ -49,12 +49,20 @@ class StudentStage extends Entity
         'lapse' => true,
     ];
 
+    private StageInterface $_stageInstance;
+    private StageField $_stageField;
+    private StageStatus $_stageStatus;
+
     /**
      * @return StageInterface
      */
     public function getStageInstance(): StageInterface
     {
-        return StageFactory::getInstance($this);
+        if (empty($this->_stageInstance)) {
+            $this->_stageInstance = StageFactory::getInstance($this);
+        }
+
+        return $this->_stageInstance;
     }
 
     /**
@@ -62,7 +70,11 @@ class StudentStage extends Entity
      */
     public function getStageField(): StageField
     {
-        return StageField::from($this->stage);
+        if (empty($this->_stageField)) {
+            $this->_stageField = StageField::from($this->stage);
+        }
+
+        return $this->_stageField;
     }
 
     /**
@@ -70,6 +82,10 @@ class StudentStage extends Entity
      */
     public function getStatus(): StageStatus
     {
-        return StageStatus::from($this->status);
+        if (empty($this->_stageStatus)) {
+            $this->_stageStatus = StageStatus::from($this->status);
+        }
+
+        return $this->_stageStatus;
     }
 }

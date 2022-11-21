@@ -36,6 +36,9 @@ enum FaIcon
     }
 
     /**
+     * Return a formated icon
+     * Examp: <i class="fas fa-flag"></i>
+     * 
      * @param string $extraCssClass
      * @return string
      */

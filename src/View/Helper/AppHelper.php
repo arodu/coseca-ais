@@ -20,6 +20,15 @@ class AppHelper extends Helper
 
     public $helpers = ['Html'];
 
+    public function addPrefix(string $text, ?string $prefix, string $separator = '-'): string
+    {
+        if (empty($prefix)) {
+            return $text;
+        }
+
+        return $prefix . $separator . $text;
+    }
+
     /**
      * @param float $percent
      * @param string|null $prefix
