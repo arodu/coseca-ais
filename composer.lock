@@ -55,12 +55,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/arodu/cakelte.git",
-                "reference": "156eff1302c7959efa867808d93dd1ebcb223c3f"
+                "reference": "b69eba5ff7cf981283584a4712dc3d15188f422e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/arodu/cakelte/zipball/156eff1302c7959efa867808d93dd1ebcb223c3f",
-                "reference": "156eff1302c7959efa867808d93dd1ebcb223c3f",
+                "url": "https://api.github.com/repos/arodu/cakelte/zipball/b69eba5ff7cf981283584a4712dc3d15188f422e",
+                "reference": "b69eba5ff7cf981283584a4712dc3d15188f422e",
                 "shasum": ""
             },
             "require": {
@@ -86,7 +86,7 @@
                 "issues": "https://github.com/arodu/cakelte/issues",
                 "source": "https://github.com/arodu/cakelte/tree/2.next"
             },
-            "time": "2022-10-28T21:26:39+00:00"
+            "time": "2022-11-20T20:25:45+00:00"
         },
         {
             "name": "cakedc/auth",
