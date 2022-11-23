@@ -81,8 +81,14 @@ class Student extends Entity
         return $this->app_user->email ?? null;
     }
 
+    private StudentType $_studentType;
+
     public function getType(): StudentType
     {
-        return StudentType::from($this->type);
+        if (empty($this->_studentType)) {
+            $this->_studentType = StudentType::from($this->type);
+        }
+
+        return $this->_studentType;
     }
 }

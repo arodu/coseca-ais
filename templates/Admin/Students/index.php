@@ -61,17 +61,20 @@ $this->MenuLte->activeItem('students');
             </thead>
             <tbody>
                 <?php foreach ($students as $student) : ?>
+                    <?php
+                        $studentStage = $student->last_stage;
+                    ?>
                     <tr>
                         <td><?= h($student->tenant->abbr) ?></td>
                         <td><?= h($student->dni) ?></td>
                         <td><?= h($student->first_name) ?></td>
                         <td><?= h($student->last_name) ?></td>
-                        <td><?= h($student->last_stage->lapse->name) ?></td>
+                        <td><?= h($studentStage->lapse->name) ?></td>
                         <td>
-                            <?= h($student->last_stage->getStageField()->label()) ?>
+                            <?= h($studentStage->stage_label) ?>
                             <?= $this->Html->tag('span',
-                                $student->last_stage->getStatus()->label(),
-                                ['class' => [$student->last_stage->getStatus()->color()->cssClass('badge'), 'ml-2']]
+                                $student->last_stage->status_label,
+                                ['class' => [$studentStage->getStatus()->color()->cssClass('badge'), 'ml-2']]
                             ) ?>
                         </td>
                         <td class="project_progress">

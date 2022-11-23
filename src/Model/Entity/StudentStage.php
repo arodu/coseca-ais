@@ -49,9 +49,22 @@ class StudentStage extends Entity
         'lapse' => true,
     ];
 
+    protected $_virtual = [
+        'stage_label',
+        'status_label',
+    ];
+
+    protected function _getStageLabel(): string
+    {
+        return $this->getStageField()->label();
+    }
+
+    protected function _getStatusLabel(): string
+    {
+        return $this->getStatus()->label();
+    }
+
     private StageInterface $_stageInstance;
-    private StageField $_stageField;
-    private StageStatus $_stageStatus;
 
     /**
      * @return StageInterface
@@ -65,6 +78,8 @@ class StudentStage extends Entity
         return $this->_stageInstance;
     }
 
+    private StageField $_stageField;
+
     /**
      * @return StageField
      */
@@ -76,6 +91,8 @@ class StudentStage extends Entity
 
         return $this->_stageField;
     }
+
+    private StageStatus $_stageStatus;
 
     /**
      * @return StageStatus

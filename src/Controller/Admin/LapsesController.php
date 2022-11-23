@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use Cake\Event\EventInterface;
-
 /**
  * Lapses Controller
  *
@@ -14,21 +12,15 @@ use Cake\Event\EventInterface;
 class LapsesController extends AppAdminController
 {
     /**
-     * @param EventInterface $event
-     * @return void
-     */
-    public function beforeRender(EventInterface $event)
-    {
-        $this->MenuLte->activeItem('lapses');
-    }
-
-    /**
      * Index method
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
     public function index()
     {
+        $this->paginate = [
+            'contain' => ['Tenants'],
+        ];
         $lapses = $this->paginate($this->Lapses);
 
         $this->set(compact('lapses'));
@@ -44,7 +36,7 @@ class LapsesController extends AppAdminController
     public function view($id = null)
     {
         $lapse = $this->Lapses->get($id, [
-            'contain' => ['StudentStages'],
+            'contain' => ['Tenants', 'StudentStages', 'LapseDates'],
         ]);
 
         $this->set(compact('lapse'));
@@ -67,7 +59,8 @@ class LapsesController extends AppAdminController
             }
             $this->Flash->error(__('The lapse could not be saved. Please, try again.'));
         }
-        $this->set(compact('lapse'));
+        $tenants = $this->Lapses->Tenants->find('list', ['limit' => 200])->all();
+        $this->set(compact('lapse', 'tenants'));
     }
 
     /**
@@ -91,7 +84,8 @@ class LapsesController extends AppAdminController
             }
             $this->Flash->error(__('The lapse could not be saved. Please, try again.'));
         }
-        $this->set(compact('lapse'));
+        $tenants = $this->Lapses->Tenants->find('list', ['limit' => 200])->all();
+        $this->set(compact('lapse', 'tenants'));
     }
 
     /**

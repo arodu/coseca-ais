@@ -3,6 +3,9 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\StudentStage $studentStage
  */
+
+use App\Model\Field\StageStatus;
+
 ?>
 <?php
 $this->assign('title', __('Edit Student Stage'));
@@ -19,9 +22,9 @@ $this->Breadcrumbs->add([
   <div class="card-body">
     <?php
       echo $this->Form->control('student_id', ['options' => $students]);
-      echo $this->Form->control('stage');
+      echo $this->Form->control('stage', ['type' => 'static']);
       echo $this->Form->control('lapse_id', ['options' => $lapses]);
-      echo $this->Form->control('status');
+      echo $this->Form->control('status', ['options' => StageStatus::toListLabel()]);
       echo $this->Form->control('created_by');
       echo $this->Form->control('modified_by');
     ?>

@@ -45,7 +45,7 @@
 
                 <div class="collapse navbar-collapse order-3" id="navbarCollapse">
                     <div class="navbar-text">
-                        <?php echo $this->Student->get()->tenant->name ?>
+                        <?= $this->Student->get()->tenant->name ?>
                     </div>
 
                     <!-- SEARCH FORM -->
