@@ -20,26 +20,26 @@ $this->Breadcrumbs->add([
 ?>
 
 <div class="row">
-    <div id="accordion" class="col-sm-8 offset-sm-2">
+    <div id="stage-list" class="col-sm-8 offset-sm-2">
         <?php foreach ($listStages as $itemStage) : ?>
             <?php
             $studentStage = $studentStages[$itemStage->value] ?? null;
             $studentStageStatus = $studentStage?->getStatus() ?? StageStatus::PENDING;
             ?>
-            <div class="<?= $studentStageStatus->color()->cssClass('card') ?>">
+            <div class="stage-list-item <?= $studentStageStatus->color()->cssClass('card') ?>">
                 <div class="card-header">
                     <h4 class="card-title w-100">
                         <a class="d-flex w-100" data-toggle="collapse" href="<?= '#collapse-' . $itemStage->value ?>">
                             <?= $studentStageStatus->icon()->render('fa-fw mr-1') ?>
                             <?= $itemStage->label() ?>
                             <?php if ($studentStage) : ?>
-                                <i class="fas fa-caret-down ml-auto"></i>
+                                <i class="icon-caret fas fa-caret-up ml-auto fa-fw"></i>
                             <?php endif; ?>
                         </a>
                     </h4>
                 </div>
                 <?php if ($studentStage) : ?>
-                    <div id="<?= 'collapse-' . $itemStage->value ?>" class="collapse <?= in_array($studentStageStatus, $statusActive) ? 'show' : '' ?>" data-parent="#accordion">
+                    <div id="<?= 'collapse-' . $itemStage->value ?>" class="collapse <?= in_array($studentStageStatus, $statusActive) ? 'show' : '' ?>" data-parent="#stage-list">
                         <div class="card-body">
                             <?php
                             $element = 'stages/' . $itemStage->value . '/' . $studentStageStatus->value;
@@ -60,3 +60,13 @@ $this->Breadcrumbs->add([
         <?php endforeach; ?>
     </div>
 </div>
+
+<style>
+    .card:has(.collapse) .icon-caret {
+        transform: rotate(180deg);
+    }
+    .card:has(.collapse.show) .icon-caret {
+        transform: rotate(0deg);
+    }
+}
+</style>
