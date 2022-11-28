@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Student;
@@ -20,25 +21,7 @@ class AppStudentController extends AppController
      */
     public function getCurrentStudent(): Student
     {
-        $user = $this->Authentication->getIdentity()->getOriginalData();
-
-        if (!empty($user->current_student)) {
-            return $user->current_student;
-        }
-
-        $user = $this->reloadAuthUserStudent();
-
-        // check if has student
-        
-        $appUsersTable = $this->fetchTable('AppUsers');
-        $appUsersTable->loadInto($user, ['CurrentStudent' => ['Tenants']]);
-
-
-        debug($user);
-        exit();
-        
-
-        return $this->getAuthUser()->students[0];
+        return $this->getAuthUser()->current_student;
     }
 
     /**
@@ -47,7 +30,7 @@ class AppStudentController extends AppController
     public function getAuthUser(): AppUser
     {
         $user = $this->Authentication->getIdentity()->getOriginalData();
-        if (empty($user->students)) {
+        if (empty($user->current_student)) {
             return $this->reloadAuthUserStudent();
         }
 
@@ -61,12 +44,14 @@ class AppStudentController extends AppController
     {
         $appUsersTable = $this->fetchTable('AppUsers');
         $user = $this->Authentication->getIdentity()->getOriginalData();
+
         if (empty($user->current_student)) {
             $appUsersTable->Students->newRegularStudent($user);
         }
 
         $user = $appUsersTable
             ->find('auth')
+            ->where([$appUsersTable->aliasField('id') => $user->id])
             ->contain(['CurrentStudent' => ['Tenants']])
             ->first();
         $this->Authentication->setIdentity($user);

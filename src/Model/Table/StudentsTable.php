@@ -197,6 +197,24 @@ class StudentsTable extends Table
     }
 
     /**
+     * @param Query $query
+     * @param array $options
+     * @return Query
+     */
+    public function findCurrentStudent(Query $query, array $options): Query
+    {
+        $subQuery = $this->find()
+            ->select(['id' => 'MAX(' . $this->aliasField('id') . ')'])
+            ->group([$this->aliasField('user_id')]);
+
+        $query->where([
+            $this->aliasField('id') . ' IN'  => $subQuery,
+        ]);
+
+        return $query;
+    }
+
+    /**
      * @param EventInterface $event
      * @param EntityInterface $entity
      * @param ArrayObject $options

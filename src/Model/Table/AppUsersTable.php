@@ -37,6 +37,7 @@ class AppUsersTable extends UsersTable
             'className' => 'Students',
             'foreignKey' => 'user_id',
             'strategy' => 'select',
+            'finder' => 'currentStudent',
         ]);
     }
 
@@ -64,8 +65,7 @@ class AppUsersTable extends UsersTable
             ->find('active')
             //->find('withLastStudent')
             //->contain(['TenantFilters' => ['Tenants']])
-            //->contain(['CurrentStudent' => ['Tenants']])
-            ;
+            ->contain(['CurrentStudent' => ['Tenants']]);
     }
 
     /**
