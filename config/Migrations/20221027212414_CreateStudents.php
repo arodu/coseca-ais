@@ -39,14 +39,14 @@ class CreateStudents extends AbstractMigration
             'null' => false,
         ]);
         $table->addColumn('created_by', 'uuid', [
-            'null' => false,
+            'null' => true,
         ]);
         $table->addColumn('modified', 'datetime', [
             'default' => null,
             'null' => false,
         ]);
         $table->addColumn('modified_by', 'uuid', [
-            'null' => false,
+            'null' => true,
         ]);
         $table->create();
     }

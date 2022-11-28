@@ -217,15 +217,15 @@ class StudentsTable extends Table
      * @param integer|null $tenant_id
      * @return void
      */
-    public function newRegularStudent(AppUser $user, ?int $tenant_id = null)
+    public function newRegularStudent(AppUser $user, array $options = [])
     {
-        $student = $this->newEntity([
+        $data = array_merge([
             'user_id' => $user->id,
-            'tenant_id' => $tenant_id ?? Hash::get($user, 'tenant_filters.0.tenant_id'),
+            'tenant_id' => Hash::get($user, 'tenant_filters.0.tenant_id'),
             'type' => StudentType::REGULAR->value,
-        ], [
-            'validate' => 'register',
-        ]);
+        ], $options);
+
+        $student = $this->newEntity($data, ['validate' => 'register']);
 
         if (!$this->save($student)) {
             Log::warning('student already exists');
