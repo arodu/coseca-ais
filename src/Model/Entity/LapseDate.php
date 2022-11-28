@@ -31,7 +31,7 @@ class LapseDate extends Entity
     protected $_accessible = [
         'lapse_id' => true,
         'title' => true,
-        'code' => true,
+        'stage' => true,
         'start_date' => true,
         'end_date' => true,
         'lapse' => true,

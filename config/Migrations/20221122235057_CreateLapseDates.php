@@ -25,18 +25,18 @@ class CreateLapseDates extends AbstractMigration
             'limit' => 255,
             'null' => false,
         ]);
-        $table->addColumn('code', 'string', [
+        $table->addColumn('stage', 'string', [
             'default' => null,
             'limit' => 255,
             'null' => false,
         ]);
         $table->addColumn('start_date', 'date', [
             'default' => null,
-            'null' => false,
+            'null' => true,
         ]);
         $table->addColumn('end_date', 'date', [
             'default' => null,
-            'null' => false,
+            'null' => true,
         ]);
         $table->create();
     }

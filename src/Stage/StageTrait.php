@@ -41,6 +41,7 @@ trait StageTrait
         $this->stageField = $this->_studentStage->getStageField();
         $this->studentId = $this->_studentStage->student_id;
         $this->StudentStages = $this->fetchTable('StudentStages');
+        $this->LapseDates = $this->fetchTable('LapseDates');
         $this->initialize();
     }
 
@@ -117,5 +118,21 @@ trait StageTrait
     public function setLastError(string $error)
     {
         $this->_lastError = $error;
+    }
+
+
+    public function getDates(): array
+    {
+        $lapseDates = $this->LapseDates->find()
+            ->where([
+                'lapse_id' => $this->getStudentStage()->lapse_id,
+                'code' => $this->getStageField()->value,
+            ])
+            ->first();
+
+        return [
+            'start_date' => $lapseDates->start_date,
+            'end_date' => $lapseDates->end_date,
+        ];
     }
 }

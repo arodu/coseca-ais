@@ -36,7 +36,7 @@ class LapsesController extends AppAdminController
     public function view($id = null)
     {
         $lapse = $this->Lapses->get($id, [
-            'contain' => ['Tenants', 'StudentStages', 'LapseDates'],
+            'contain' => ['Tenants', 'LapseDates'],
         ]);
 
         $this->set(compact('lapse'));

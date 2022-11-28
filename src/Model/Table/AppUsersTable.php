@@ -64,7 +64,7 @@ class AppUsersTable extends UsersTable
             ->find('active')
             //->find('withLastStudent')
             //->contain(['TenantFilters' => ['Tenants']])
-            //->contain(['CurrentStudent' => ['Tenants']]);
+            //->contain(['CurrentStudent' => ['Tenants']])
             ;
     }
 

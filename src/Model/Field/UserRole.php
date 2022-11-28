@@ -33,7 +33,6 @@ enum UserRole: string
     {
         return [
             static::STUDENT,
-            static::SUPERUSER,
         ];
     }
 

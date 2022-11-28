@@ -4,8 +4,10 @@ declare(strict_types=1);
 namespace App\Model\Table;
 
 use App\Model\Entity\Lapse;
-use Cake\ORM\Query;
-use Cake\ORM\RulesChecker;
+use App\Model\Field\StageField;
+use ArrayObject;
+use Cake\Datasource\EntityInterface;
+use Cake\Event\EventInterface;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
@@ -84,6 +86,30 @@ class LapsesTable extends Table
         return $validator;
     }
 
+    public function afterSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
+    {
+        $dateTitles = [
+            StageField::REGISTER,
+            StageField::COURSE,
+            StageField::TRACKING,
+            StageField::ENDING,
+        ];
+
+        $titles = [
+            StageField::ENDING->value => __('Exporeria'),
+        ];
+
+        $entities = $this->LapseDates->newEntities(array_map(function($stage) use ($entity, $titles) {
+            return [
+                'lapse_id' => $entity->id,
+                'title' => $titles[$stage->value] ?? $stage->label(),
+                'stage' => $stage->value,
+            ];
+        }, $dateTitles));
+
+        $this->LapseDates->saveManyOrFail($entities);
+    }
+
     /**
      * @return Lapse|null
      */
@@ -97,4 +123,5 @@ class LapsesTable extends Table
             ->first();
     }
 
+    
 }

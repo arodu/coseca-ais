@@ -20,6 +20,24 @@ class AppStudentController extends AppController
      */
     public function getCurrentStudent(): Student
     {
+        $user = $this->Authentication->getIdentity()->getOriginalData();
+
+        if (!empty($user->current_student)) {
+            return $user->current_student;
+        }
+
+        $user = $this->reloadAuthUserStudent();
+
+        // check if has student
+        
+        $appUsersTable = $this->fetchTable('AppUsers');
+        $appUsersTable->loadInto($user, ['CurrentStudent' => ['Tenants']]);
+
+
+        debug($user);
+        exit();
+        
+
         return $this->getAuthUser()->students[0];
     }
 
@@ -43,11 +61,14 @@ class AppStudentController extends AppController
     {
         $appUsersTable = $this->fetchTable('AppUsers');
         $user = $this->Authentication->getIdentity()->getOriginalData();
-        if (empty($user->students)) {
+        if (empty($user->current_student)) {
             $appUsersTable->Students->newRegularStudent($user);
         }
 
-        $user = $appUsersTable->find('auth')->first();
+        $user = $appUsersTable
+            ->find('auth')
+            ->contain(['CurrentStudent' => ['Tenants']])
+            ->first();
         $this->Authentication->setIdentity($user);
 
         return $user;

@@ -15,6 +15,7 @@ class StagesController extends AppStudentController
     {
         parent::initialize();
         $this->StudentStages = $this->fetchTable('StudentStages');
+        $this->AppUsers = $this->fetchTable('AppUsers');
     }
 
     /**

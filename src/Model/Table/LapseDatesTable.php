@@ -68,20 +68,10 @@ class LapseDatesTable extends Table
             ->notEmptyString('title');
 
         $validator
-            ->scalar('code')
-            ->maxLength('code', 255)
-            ->requirePresence('code', 'create')
-            ->notEmptyString('code');
-
-        $validator
-            ->date('start_date')
-            ->requirePresence('start_date', 'create')
-            ->notEmptyDate('start_date');
-
-        $validator
-            ->date('end_date')
-            ->requirePresence('end_date', 'create')
-            ->notEmptyDate('end_date');
+            ->scalar('stage')
+            ->maxLength('stage', 255)
+            ->requirePresence('stage', 'create')
+            ->notEmptyString('stage');
 
         return $validator;
     }
