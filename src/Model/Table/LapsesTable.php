@@ -50,6 +50,13 @@ class LapsesTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
+        $this->addBehavior('LastElement', [
+            'fieldGroup' => 'tenant_id',
+            'subQueryConditions' => [
+                $this->aliasField('active') => true,
+            ],
+        ]);
+
         $this->hasMany('StudentStages', [
             'foreignKey' => 'lapse_id',
         ]);
@@ -123,20 +130,5 @@ class LapsesTable extends Table
         }, $defaultDates));
 
         $this->LapseDates->saveManyOrFail($entities);
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @param Query $query
-     * @param array $options
-     * @return Query
-     */
-    public function findCurrentLapse(Query $query, array $options): Query
-    {
-        return $query->find('lastElement', [
-            'fieldGroup' => 'tenant_id',
-            'onlyActive' => true,
-        ]);
     }
 }

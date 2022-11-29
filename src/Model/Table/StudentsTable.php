@@ -7,6 +7,7 @@ namespace App\Model\Table;
 use App\Model\Entity\AppUser;
 use App\Model\Field\StageField;
 use App\Model\Field\StudentType;
+use App\Model\Table\Traits\BasicTableTrait;
 use ArrayObject;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
@@ -43,6 +44,8 @@ use Cake\Validation\Validator;
  */
 class StudentsTable extends Table
 {
+    use BasicTableTrait;
+
     /**
      * Initialize method
      *
@@ -59,6 +62,10 @@ class StudentsTable extends Table
 
         $this->addBehavior('Timestamp');
         $this->addBehavior('Muffin/Footprint.Footprint');
+
+        $this->addBehavior('LastElement', [
+            'fieldGroup' => 'user_id',
+        ]);
 
         $this->belongsTo('AppUsers', [
             'foreignKey' => 'user_id',
@@ -77,7 +84,7 @@ class StudentsTable extends Table
             'className' => 'StudentStages',
             'foreignKey' => 'student_id',
             'strategy' => 'select',
-            'finder' => 'lastStage',
+            'finder' => 'lastElement',
         ]);
     }
 
@@ -194,20 +201,6 @@ class StudentsTable extends Table
     public function findComplete(Query $query, array $options): Query
     {
         return $query->contain(['AppUsers']);
-    }
-
-    /**
-     * @param Query $query
-     * @param array $options
-     * @return Query
-     */
-    public function findCurrentStudent(Query $query, array $options): Query
-    {
-        return $query->find('lastElement', [
-            'fieldGroup' => 'user_id',
-        ]);
-
-        return $query;
     }
 
     /**

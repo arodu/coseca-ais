@@ -38,7 +38,7 @@ class AppUsersTable extends UsersTable
             'className' => 'Students',
             'foreignKey' => 'user_id',
             'strategy' => 'select',
-            'finder' => 'currentStudent',
+            'finder' => 'lastElement',
         ]);
     }
 

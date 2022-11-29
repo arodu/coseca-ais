@@ -61,7 +61,7 @@ class TenantsTable extends Table
             'className' => 'Lapses',
             'foreignKey' => 'tenant_id',
             'strategy' => 'select',
-            'finder' => 'currentLapse',
+            'finder' => 'lastElement',
         ]);
     }
 

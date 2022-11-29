@@ -57,6 +57,10 @@ class StudentStagesTable extends Table
         $this->addBehavior('Timestamp');
         $this->addBehavior('Muffin/Footprint.Footprint');
 
+        $this->addBehavior('LastElement', [
+            'fieldGroup' => 'student_id',
+        ]);
+
         $this->belongsTo('Students', [
             'foreignKey' => 'student_id',
             'joinType' => 'INNER',
@@ -112,18 +116,6 @@ class StudentStagesTable extends Table
         $rules->add($rules->existsIn('lapse_id', 'Lapses'), ['errorField' => 'lapse_id']);
 
         return $rules;
-    }
-
-    /**
-     * @param Query $query
-     * @param array $options
-     * @return Query
-     */
-    public function findLastStage(Query $query, array $options): Query
-    {
-        return $query->find('lastElement', [
-            'fieldGroup' => 'student_id',
-        ]);
     }
 
     /**
