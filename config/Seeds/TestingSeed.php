@@ -49,6 +49,7 @@ class TestingSeed extends AbstractSeed
                 ['tenant_id' => 1],
                 ['tenant_id' => 2],
                 ['tenant_id' => 3],
+                ['tenant_id' => 4],
             ],
         ]);
 

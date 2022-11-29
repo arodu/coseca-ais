@@ -5,9 +5,11 @@ namespace App\Model\Table;
 
 use App\Model\Entity\Lapse;
 use App\Model\Field\StageField;
+use App\Model\Table\Traits\BasicTableTrait;
 use ArrayObject;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
+use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
@@ -124,17 +126,17 @@ class LapsesTable extends Table
     }
 
     /**
-     * @return Lapse|null
+     * Undocumented function
+     *
+     * @param Query $query
+     * @param array $options
+     * @return Query
      */
-    public function getCurrentLapse(): ?Lapse
+    public function findCurrentLapse(Query $query, array $options): Query
     {
-        return $this->find()
-            ->find('active')
-            ->order([
-                'date' => 'DESC',
-            ])
-            ->first();
+        return $query->find('lastElement', [
+            'fieldGroup' => 'tenant_id',
+            'onlyActive' => true,
+        ]);
     }
-
-    
 }

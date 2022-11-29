@@ -6,8 +6,8 @@ namespace App\Model\Table;
 
 use App\Model\Entity\StudentStage;
 use App\Model\Field\StageField;
-use App\Model\Field\Stages;
 use App\Model\Field\StageStatus;
+use App\Model\Table\Traits\BasicTableTrait;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -38,6 +38,8 @@ use InvalidArgumentException;
  */
 class StudentStagesTable extends Table
 {
+    use BasicTableTrait;
+
     /**
      * Initialize method
      *
@@ -119,15 +121,9 @@ class StudentStagesTable extends Table
      */
     public function findLastStage(Query $query, array $options): Query
     {
-        $subQuery = $this->find()
-            ->select(['id' => 'MAX(' . $this->aliasField('id') . ')'])
-            ->group([$this->aliasField('student_id')]);
-
-        $query->where([
-            $this->aliasField('id') . ' IN'  => $subQuery,
+        return $query->find('lastElement', [
+            'fieldGroup' => 'student_id',
         ]);
-
-        return $query;
     }
 
     /**
@@ -145,7 +141,9 @@ class StudentStagesTable extends Table
         }
 
         if (empty($options['lapse_id'])) {
-            $options['lapse_id'] = $this->Lapses->getCurrentLapse()->id ?? null;
+            // @todo get CurrentLapse logic
+            // search currentLapse from tenant
+            //$options['lapse_id'] = $this->Lapses->getCurrentLapse()->id ?? null;
         }
 
         if (empty($options['status'])) {

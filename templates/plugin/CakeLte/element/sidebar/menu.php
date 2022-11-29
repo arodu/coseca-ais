@@ -14,10 +14,14 @@ if (in_array($this->Identity->get('role'), UserRole::getAdminGroup())) {
         'uri' => ['controller' => 'Students', 'action' => 'index', 'prefix' => 'Admin'],
     ];
 
-    $menu['lapses'] = [
-        'label' => __('Lapsos Academicos'),
-        'uri' => ['controller' => 'Lapses', 'action' => 'index', 'prefix' => 'Admin'],
+    $menu['tenants'] = [
+        'label' => __('Programas'),
+        'uri' => ['controller' => 'Tenants', 'action' => 'index', 'prefix' => 'Admin'],
     ];
+    //$menu['lapses'] = [
+    //    'label' => __('Lapsos Academicos'),
+    //    'uri' => ['controller' => 'Lapses', 'action' => 'index', 'prefix' => 'Admin'],
+    //];
 }
 
 if (in_array($this->Identity->get('role'), UserRole::getSuperAdminGroup())) {

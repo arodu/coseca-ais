@@ -17,19 +17,25 @@ class InitialData extends AbstractMigration
             [
                 'id' => 1,
                 'name' => 'Infomática - San Juan',
-                'abbr' => 'AIS-SJ',
+                'abbr' => 'AIS-SJM',
                 'active' => true,
             ],
             [
                 'id' => 2,
                 'name' => 'Infomática - Mellado',
-                'abbr' => 'AIS-ME',
+                'abbr' => 'AIS-MEL',
                 'active' => true,
             ],
             [
                 'id' => 3,
                 'name' => 'Infomática - Ortíz',
-                'abbr' => 'AIS-OT',
+                'abbr' => 'AIS-ORT',
+                'active' => true,
+            ],
+            [
+                'id' => 3,
+                'name' => 'Infomática - Calabozo',
+                'abbr' => 'AIS-CAL',
                 'active' => true,
             ],
         ]);
@@ -56,6 +62,13 @@ class InitialData extends AbstractMigration
                 'name' => '2022-2',
                 'date' => FrozenDate::create(2022,10,17),
                 'tenant_id' => 3,
+                'active' => true,
+            ],
+            [
+                'id' => 4,
+                'name' => '2022-2',
+                'date' => FrozenDate::create(2022,10,17),
+                'tenant_id' => 4,
                 'active' => true,
             ],
         ]);

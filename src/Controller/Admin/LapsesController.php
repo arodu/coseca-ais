@@ -23,6 +23,7 @@ class LapsesController extends AppAdminController
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
+    /*
     public function index()
     {
         $this->paginate = [
@@ -32,6 +33,7 @@ class LapsesController extends AppAdminController
 
         $this->set(compact('lapses'));
     }
+    */
 
     /**
      * View method

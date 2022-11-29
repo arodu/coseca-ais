@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use App\Model\Table\Traits\BasicTableTrait;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -55,6 +56,12 @@ class TenantsTable extends Table
         ]);
         $this->hasMany('TenantFilters', [
             'foreignKey' => 'tenant_id',
+        ]);
+        $this->hasOne('CurrentLapse', [
+            'className' => 'Lapses',
+            'foreignKey' => 'tenant_id',
+            'strategy' => 'select',
+            'finder' => 'currentLapse',
         ]);
     }
 

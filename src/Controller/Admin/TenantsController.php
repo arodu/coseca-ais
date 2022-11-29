@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use Cake\Event\EventInterface;
+
 /**
  * Tenants Controller
  *
@@ -11,6 +13,11 @@ namespace App\Controller\Admin;
  */
 class TenantsController extends AppAdminController
 {
+    public function beforeRender(EventInterface $event)
+    {
+        $this->MenuLte->activeItem('tenants');
+    }
+
     /**
      * Index method
      *
@@ -18,6 +25,10 @@ class TenantsController extends AppAdminController
      */
     public function index()
     {
+        $this->paginate = [
+            'contain' => ['CurrentLapse'],
+        ];
+
         $tenants = $this->paginate($this->Tenants);
 
         $this->set(compact('tenants'));

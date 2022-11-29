@@ -5,10 +5,10 @@
  */
 ?>
 <?php
-$this->assign('title', __('Tenants'));
+$this->assign('title', __('Programas'));
 $this->Breadcrumbs->add([
-    ['title' => 'Home', 'url' => '/'],
-    ['title' => 'List Tenants'],
+    ['title' => __('Home'), 'url' => '/'],
+    ['title' => __('Lista Programas')],
 ]);
 ?>
 
@@ -34,6 +34,7 @@ $this->Breadcrumbs->add([
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('name') ?></th>
                     <th><?= $this->Paginator->sort('abbr') ?></th>
+                    <th><?= $this->Paginator->sort('current_lapse') ?></th>
                     <th><?= $this->Paginator->sort('active') ?></th>
                     <th class="actions"><?= __('Actions') ?></th>
                 </tr>
@@ -44,6 +45,7 @@ $this->Breadcrumbs->add([
                         <td><?= $this->Number->format($tenant->id) ?></td>
                         <td><?= h($tenant->name) ?></td>
                         <td><?= h($tenant->abbr) ?></td>
+                        <td><?= h($tenant->current_lapse->name) ?></td>
                         <td><?= ($tenant->active) ? __('Yes') : __('No') ?></td>
                         <td class="actions">
                             <?= $this->Html->link(__('View'), ['action' => 'view', $tenant->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
