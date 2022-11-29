@@ -35,5 +35,19 @@ class LapseDate extends Entity
         'start_date' => true,
         'end_date' => true,
         'lapse' => true,
+        'is_single_date' => true,
     ];
+
+    protected function _getShowDates()
+    {
+        if ($this->is_single_date) {
+            return $this->start_date;
+        }
+        
+        if (!empty($this->start_date) && !empty($this->end_date)) {
+            return __('{0} al {1}', $this->start_date, $this->end_date);
+        }
+
+        return null;
+    }
 }

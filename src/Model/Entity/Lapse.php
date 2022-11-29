@@ -33,4 +33,13 @@ class Lapse extends Entity
         'tenant_id' => true,
         'student_stages' => true,
     ];
+
+    protected function _getTenantName()
+    {
+        if (empty($this->tenant)) {
+            return null;
+        }
+
+        return __('{0} ({1})', $this->tenant->name, $this->name);
+    }
 }

@@ -38,6 +38,10 @@ class CreateLapseDates extends AbstractMigration
             'default' => null,
             'null' => true,
         ]);
+        $table->addColumn('is_single_date', 'boolean', [
+            'default' => false,
+            'null' => false,
+        ]);
         $table->create();
     }
 }

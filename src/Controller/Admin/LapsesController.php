@@ -88,6 +88,24 @@ class LapsesController extends AppAdminController
         $this->set(compact('lapse', 'tenants'));
     }
 
+    public function editDates($lapse_dates_id = null)
+    {
+        $lapse_date = $this->Lapses->LapseDates->get($lapse_dates_id, [
+            'contain' => ['Lapses' => ['Tenants']],
+        ]);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $lapse_date = $this->Lapses->LapseDates->patchEntity($lapse_date, $this->request->getData());
+            if ($this->Lapses->LapseDates->save($lapse_date)) {
+                $this->Flash->success(__('Date has been updated.'));
+
+                return $this->redirect(['action' => 'view', $lapse_date->lapse_id]);
+            }
+            $this->Flash->error(__('Date could not be updated. Please, try again.'));
+        }
+
+        $this->set(compact('lapse_date'));
+    }
+
     /**
      * Delete method
      *

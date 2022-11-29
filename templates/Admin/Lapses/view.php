@@ -59,22 +59,11 @@ $this->Breadcrumbs->add([
 </div>
 
 <div class="related related-lapseDates view card">
-    <div class="card-header d-flex">
-        <h3 class="card-title"><?= __('Dates') ?></h3>
-        <div class="ml-auto">
-            <?= $this->Html->link(__('New'), ['controller' => 'LapseDates', 'action' => 'add'], ['class' => 'btn btn-primary btn-sm']) ?>
-            <?= $this->Html->link(__('List '), ['controller' => 'LapseDates', 'action' => 'index'], ['class' => 'btn btn-primary btn-sm']) ?>
-        </div>
-    </div>
     <div class="card-body table-responsive p-0">
         <table class="table table-hover text-nowrap">
             <tr>
-                <th><?= __('Id') ?></th>
-                <th><?= __('Lapse Id') ?></th>
-                <th><?= __('Title') ?></th>
-                <th><?= __('Stage') ?></th>
-                <th><?= __('Start Date') ?></th>
-                <th><?= __('End Date') ?></th>
+                <th><?= __('Etapa') ?></th>
+                <th><?= __('Fechas') ?></th>
                 <th class="actions"><?= __('Actions') ?></th>
             </tr>
             <?php if (empty($lapse->lapse_dates)) { ?>
@@ -86,16 +75,10 @@ $this->Breadcrumbs->add([
             <?php } else { ?>
                 <?php foreach ($lapse->lapse_dates as $lapseDates) : ?>
                     <tr>
-                        <td><?= h($lapseDates->id) ?></td>
-                        <td><?= h($lapseDates->lapse_id) ?></td>
                         <td><?= h($lapseDates->title) ?></td>
-                        <td><?= h($lapseDates->stage) ?></td>
-                        <td><?= h($lapseDates->start_date) ?></td>
-                        <td><?= h($lapseDates->end_date) ?></td>
+                        <td><?= h($lapseDates->show_dates) ?></td>
                         <td class="actions">
-                            <?= $this->Html->link(__('View'), ['controller' => 'LapseDates', 'action' => 'view', $lapseDates->id], ['class' => 'btn btn-xs btn-outline-primary']) ?>
-                            <?= $this->Html->link(__('Edit'), ['controller' => 'LapseDates', 'action' => 'edit', $lapseDates->id], ['class' => 'btn btn-xs btn-outline-primary']) ?>
-                            <?= $this->Form->postLink(__('Delete'), ['controller' => 'LapseDates', 'action' => 'delete', $lapseDates->id], ['class' => 'btn btn-xs btn-outline-danger', 'confirm' => __('Are you sure you want to delete # {0}?', $lapseDates->id)]) ?>
+                            <?= $this->Html->link(__('Editar'), ['controller' => 'Lapses', 'action' => 'editDates', $lapseDates->id], ['class' => 'btn btn-xs btn-outline-primary']) ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

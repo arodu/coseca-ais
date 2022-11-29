@@ -88,24 +88,37 @@ class LapsesTable extends Table
 
     public function afterSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
     {
-        $dateTitles = [
-            StageField::REGISTER,
-            StageField::COURSE,
-            StageField::TRACKING,
-            StageField::ENDING,
+        $defaultDates = [
+            [
+                'stage' => StageField::REGISTER,
+                'title' => null,
+                'is_single_date' => false,
+            ],
+            [
+                'stage' => StageField::COURSE,
+                'title' => null,
+                'is_single_date' => true,
+            ],
+            [
+                'stage' => StageField::TRACKING,
+                'title' => null,
+                'is_single_date' => false,
+            ],
+            [
+                'stage' => StageField::ENDING,
+                'title' => __('Exporeria'),
+                'is_single_date' => true,
+            ],
         ];
 
-        $titles = [
-            StageField::ENDING->value => __('Exporeria'),
-        ];
-
-        $entities = $this->LapseDates->newEntities(array_map(function($stage) use ($entity, $titles) {
+        $entities = $this->LapseDates->newEntities(array_map(function($item) use ($entity) {
             return [
                 'lapse_id' => $entity->id,
-                'title' => $titles[$stage->value] ?? $stage->label(),
-                'stage' => $stage->value,
+                'title' => $item['title'] ?? $item['stage']->label(),
+                'stage' => $item['stage']->value,
+                'is_single_date' => $item['is_single_date'] ?? false,
             ];
-        }, $dateTitles));
+        }, $defaultDates));
 
         $this->LapseDates->saveManyOrFail($entities);
     }
