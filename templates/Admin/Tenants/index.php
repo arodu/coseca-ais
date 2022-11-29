@@ -31,7 +31,6 @@ $this->Breadcrumbs->add([
         <table class="table table-hover text-nowrap">
             <thead>
                 <tr>
-                    <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('name') ?></th>
                     <th><?= $this->Paginator->sort('abbr') ?></th>
                     <th><?= $this->Paginator->sort('current_lapse') ?></th>
@@ -42,15 +41,12 @@ $this->Breadcrumbs->add([
             <tbody>
                 <?php foreach ($tenants as $tenant) : ?>
                     <tr>
-                        <td><?= $this->Number->format($tenant->id) ?></td>
-                        <td><?= h($tenant->name) ?></td>
+                        <td><?= $this->Html->link($tenant->name, ['action' => 'view', $tenant->id], ['class' => '', 'escape' => false]) ?></td>
                         <td><?= h($tenant->abbr) ?></td>
                         <td><?= h($tenant->current_lapse->name) ?></td>
                         <td><?= ($tenant->active) ? __('Yes') : __('No') ?></td>
                         <td class="actions">
-                            <?= $this->Html->link(__('View'), ['action' => 'view', $tenant->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
-                            <?= $this->Html->link(__('Edit'), ['action' => 'edit', $tenant->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
-                            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $tenant->id], ['class' => 'btn btn-xs btn-outline-danger', 'escape' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $tenant->id)]) ?>
+                            <?= $this->Html->link(__('Ver'), ['action' => 'view', $tenant->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

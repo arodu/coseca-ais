@@ -44,10 +44,24 @@ class TenantsController extends AppAdminController
     public function view($id = null)
     {
         $tenant = $this->Tenants->get($id, [
-            'contain' => ['Lapses', 'Students', 'TenantFilters'],
+            'contain' => ['CurrentLapse' => ['LapseDates']],
         ]);
 
-        $this->set(compact('tenant'));
+        $lapses = $this->Tenants->Lapses
+            ->find('list')
+            ->where(['tenant_id' => $id]);
+
+        $lapse_id = $this->getRequest()->getQuery('lapse_id');
+        if (empty($lapse_id) || $lapse_id == $tenant->current_lapse->id) {
+            $lapseSelected = $tenant->current_lapse;
+        } else {
+            $lapseSelected = $this->Tenants->Lapses->find()
+                ->where(['id' => $lapse_id])
+                ->contain(['LapseDates'])
+                ->first();
+        }
+
+        $this->set(compact('tenant', 'lapses', 'lapseSelected'));
     }
 
     /**
