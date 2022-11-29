@@ -12,7 +12,6 @@ $this->Breadcrumbs->add([
     ['title' => 'View', 'url' => ['action' => 'view', $student->id]],
     ['title' => 'Edit'],
 ]);
-$this->MenuLte->activeItem('students');
 ?>
 
 <div class="card card-primary card-outline">

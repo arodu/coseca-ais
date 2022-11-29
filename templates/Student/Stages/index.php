@@ -12,7 +12,6 @@ $statusActive = [
     StageStatus::WAITING,
 ];
 
-$this->MenuLte->activeItem('home');
 $this->assign('title', __('Servicio Comunitario'));
 $this->Breadcrumbs->add([
     ['title' => 'Inicio'],
@@ -65,8 +64,8 @@ $this->Breadcrumbs->add([
     .card:has(.collapse) .icon-caret {
         transform: rotate(180deg);
     }
+
     .card:has(.collapse.show) .icon-caret {
         transform: rotate(0deg);
     }
-}
 </style>

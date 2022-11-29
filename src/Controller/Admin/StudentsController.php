@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use Cake\Event\EventInterface;
+
 /**
  * Students Controller
  *
@@ -11,6 +13,12 @@ namespace App\Controller\Admin;
  */
 class StudentsController extends AppAdminController
 {
+
+    public function beforeRender(EventInterface $event)
+    {
+        $this->MenuLte->activeItem('students');
+    }
+
     /**
      * Index method
      *

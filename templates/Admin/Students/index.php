@@ -14,7 +14,6 @@ $this->Breadcrumbs->add([
     ['title' => 'Home', 'url' => '/'],
     ['title' => 'List Students'],
 ]);
-$this->MenuLte->activeItem('students');
 ?>
 
 <div class="card card-success card-outline">
