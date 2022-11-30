@@ -1,9 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\View\Helper;
 
-use App\Enum\FaIcon;
+use Cake\I18n\FrozenDate;
 use Cake\View\Helper;
 
 /**
@@ -42,10 +43,10 @@ class AppHelper extends Helper
             ($percent >= 80 && $percent < 100) => 'green',
             ($percent >= 100) => 'primary',
         };
-        
+
         return $this->addPrefix($color, $prefix);
     }
-    
+
     /**
      * @param integer $completed
      * @param integer $total

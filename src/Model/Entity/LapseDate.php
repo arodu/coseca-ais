@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
+use App\Enum\StatusDate;
 use Cake\ORM\Entity;
 
 /**
@@ -50,4 +51,17 @@ class LapseDate extends Entity
 
         return null;
     }
+
+    protected $_virtual = [
+        'status',
+    ];
+
+    /**
+     * @return StatusDate|null
+     */
+    protected function _getStatus(): ?StatusDate
+    {
+        return StatusDate::get($this->start_date, $this->end_date);
+    }
+
 }

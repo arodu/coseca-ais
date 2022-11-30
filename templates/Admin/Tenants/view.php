@@ -101,6 +101,7 @@ $this->Breadcrumbs->add([
                     <tr>
                         <th><?= __('Etapa') ?></th>
                         <th><?= __('Fecha') ?></th>
+                        <th><?= __('Estado') ?></th>
                         <th class="actions"><?= __('Actions') ?></th>
                     </tr>
                     <?php if (empty($lapseSelected->lapse_dates)) { ?>
@@ -114,6 +115,7 @@ $this->Breadcrumbs->add([
                             <tr>
                                 <td><?= h($lapseDates->title) ?></td>
                                 <td><?= h($lapseDates->show_dates) ?></td>
+                                <td><code><?= $lapseDates->status?->label() ?? __('N/A') ?></code></td>
                                 <td class="actions">
                                     <?= $this->Html->link(__('Editar'), ['controller' => 'Lapses', 'action' => 'editDates', $lapseDates->id], ['class' => 'btn btn-xs btn-outline-primary']) ?>
                                 </td>
