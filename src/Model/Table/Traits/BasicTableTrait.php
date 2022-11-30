@@ -18,4 +18,21 @@ trait BasicTableTrait
             $this->aliasField('active') => true,
         ]);
     }
+
+    public function findObjectList(Query $query, array $options = []): Query
+    {
+        $options += [
+            'keyField' => $this->getPrimaryKey(),
+            'groupField' => null,
+        ];
+
+        return $query->formatResults(function ($results) use ($options) {
+            /** @var \Cake\Collection\CollectionInterface $results */
+            return $results->combine(
+                $options['keyField'],
+                fn ($item) => ($item),
+                $options['groupField'],
+            );
+        });
+    }
 }

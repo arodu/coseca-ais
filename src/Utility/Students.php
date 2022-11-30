@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Utility;
 
-use App\Model\Entity\Student;
 use App\Model\Entity\Tenant;
 
 class Students

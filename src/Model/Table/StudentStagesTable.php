@@ -119,6 +119,31 @@ class StudentStagesTable extends Table
     }
 
     /**
+     * @param Query $query
+     * @param array $options
+     * @return Query
+     */
+    public function findByStudentStage(Query $query, array $options = []): Query
+    {
+        if (empty($options['stage'])) {
+            throw new InvalidArgumentException('param stage is necessary');
+        }
+
+        if (empty($options['student_id'])) {
+            throw new InvalidArgumentException('param student_id is necessary');
+        }
+
+        if ($options['stage'] instanceof StageField) {
+            $options['stage'] = $options['stage']->value;
+        }
+
+        return $query->where([
+            'student_id' => $options['student_id'],
+            'stage' => $options['stage'],
+        ]);
+    }
+
+    /**
      * @param array $options
      * @return StudentStage
      */
@@ -127,7 +152,7 @@ class StudentStagesTable extends Table
         if (empty($options['stage'])) {
             throw new InvalidArgumentException('param stage is necessary');
         }
-        
+
         if (empty($options['student_id'])) {
             throw new InvalidArgumentException('param student_id is necessary');
         }
@@ -157,18 +182,5 @@ class StudentStagesTable extends Table
         $entity->status = $newStatus;
 
         return $this->saveOrFail($entity);
-    }
-
-    /**
-     * @param integer $student_id
-     * @param string $stageKey
-     * @return StudentStage
-     */
-    public function getByStudentStage(int $student_id, StageField $stageField): StudentStage
-    {
-        return $this->find()->where([
-                'student_id' => $student_id,
-                'stage' => $stageField->value,
-            ])->first();
     }
 }

@@ -28,13 +28,10 @@ class StagesController extends AppStudentController
         $student = $this->getCurrentStudent();
         $listStages = $student->getType()->getStageFieldList();
 
-        $studentStagesResult = $this->StudentStages->find()
-            ->where(['student_id' => $student->id]);
-
-        $studentStages = [];
-        foreach ($studentStagesResult as $studenStage) {
-            $studentStages[$studenStage->getStageField()->value] = $studenStage;
-        }
+        $studentStages = $this->StudentStages
+            ->find('objectList', ['keyField' => 'stage'])
+            ->where(['student_id' => $student->id])
+            ->toArray();
 
         $this->set(compact('listStages', 'student', 'studentStages'));
     }

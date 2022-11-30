@@ -29,7 +29,12 @@ class RegisterStageController extends AppStudentController
     {
         $currentStudent = $this->getCurrentStudent();
         /** @var \App\Model\Entity\StudentStage $studentStage */
-        $studentStage = $this->Students->StudentStages->getByStudentStage($currentStudent->id, StageField::REGISTER);
+        $studentStage = $this->Students->StudentStages
+            ->find('byStudentStage', [
+                'student_id' => $currentStudent->id,
+                'stage' => StageField::REGISTER,
+            ])
+            ->first();
 
         if (empty($studentStage) || $studentStage->getStatus() !== StageStatus::IN_PROGRESS) {
             $this->Flash->warning(__('El Registro no esta activo para realizar cambios'));
