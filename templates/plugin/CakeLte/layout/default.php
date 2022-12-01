@@ -25,6 +25,7 @@
     <!-- Theme style -->
     <?= $this->Html->css('/adminlte/dist/css/adminlte.min.css') ?>
     <?= $this->Html->css('CakeLte.style') ?>
+    <?= $this->Html->css('app') ?>
     <?php echo $this->element('CakeLte.extra/css') ?>
     <?= $this->fetch('css') ?>
 </head>

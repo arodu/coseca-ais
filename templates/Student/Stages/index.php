@@ -59,13 +59,3 @@ $this->Breadcrumbs->add([
         <?php endforeach; ?>
     </div>
 </div>
-
-<style>
-    .card:has(.collapse) .icon-caret {
-        transform: rotate(180deg);
-    }
-
-    .card:has(.collapse.show) .icon-caret {
-        transform: rotate(0deg);
-    }
-</style>

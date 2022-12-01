@@ -1,10 +1,13 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Student[]|\Cake\Collection\CollectionInterface $students
  */
 
 use App\Enum\FaIcon;
+use App\Model\Field\StageField;
+use App\Model\Field\StageStatus;
 use Cake\Core\Configure;
 
 ?>
@@ -18,13 +21,48 @@ $this->Breadcrumbs->add([
 
 <div class="card card-success card-outline">
     <div class="card-header d-flex flex-column flex-md-row">
-        <h2 class="card-title">
-            <?= __('Filtros') ?>
+        <h2 class="card-title w-100">
+            <span class="d-flex w-100" data-toggle="collapse" href="#collapse-filters">
+                <?= FaIcon::FILTER->render('fa-fw mr-2') ?>
+                <?= __('Filtros') ?>
+                <i class="icon-caret fas fa-caret-up ml-auto fa-fw"></i>
+            </span>
         </h2>
     </div>
-    <div class="card-body collapse">
-        
+    <?= $this->Form->create() ?>
+    <div class="collapse" id="collapse-filters">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-4">
+                    <?= $this->Form->control('_s.first_name:last_name', []) ?>
+                </div>
+                <div class="col-sm-4">
+                    <?= $this->Form->control('_s.dni') ?>
+                </div>
+                <div class="col-sm-4">
+                    <?= $this->Form->control('_s.tenant_id', ['empty' => __('Todos')]) ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <?= $this->Form->control('_s.stage', ['empty' => true, 'options' => StageField::toListLabel()]) ?>
+                </div>
+                <div class="col-sm-4">
+                    <?= $this->Form->control('_s.lapse', ['empty' => true, 'options' => []]) ?>
+                </div>
+                <div class="col-sm-4">
+                    <?= $this->Form->control('_s.status', ['empty' => true, 'options' => StageStatus::toListLabel()]) ?>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer d-flex">
+            <div class="ml-auto">
+                <?= $this->Html->link(__('Reset'), ['action' => 'index'], ['class' => 'btn btn-default']) ?>
+                <?= $this->Form->button(__('Buscar')) ?>
+            </div>
+        </div>
     </div>
+    <?= $this->Form->end() ?>
 </div>
 
 
@@ -39,7 +77,8 @@ $this->Breadcrumbs->add([
                 'class' => 'form-control-sm',
                 'templates' => ['inputContainer' => '{{content}}']
             ]); ?>
-            <?php //echo $this->Html->link(__('New Student'), ['action' => 'add'], ['class' => 'btn btn-primary btn-sm ml-2']) ?>
+            <?php //echo $this->Html->link(__('New Student'), ['action' => 'add'], ['class' => 'btn btn-primary btn-sm ml-2']) 
+            ?>
             <?php echo $this->Html->link(FaIcon::DOWNLOAD->render(), ['action' => 'index', '_ext' => 'csv'], ['class' => 'btn btn-primary btn-sm ml-2', 'escape' => false]) ?>
         </div>
     </div>
@@ -61,7 +100,7 @@ $this->Breadcrumbs->add([
             <tbody>
                 <?php foreach ($students as $student) : ?>
                     <?php
-                        $studentStage = $student->last_stage;
+                    $studentStage = $student->last_stage;
                     ?>
                     <tr>
                         <td><?= h($student->tenant->abbr) ?></td>
@@ -71,13 +110,14 @@ $this->Breadcrumbs->add([
                         <td><?= h($studentStage->lapse->name) ?></td>
                         <td>
                             <?= h($studentStage->stage_label) ?>
-                            <?= $this->Html->tag('span',
+                            <?= $this->Html->tag(
+                                'span',
                                 $student->last_stage->status_label,
                                 ['class' => [$studentStage->getStatus()->color()->cssClass('badge'), 'ml-2']]
                             ) ?>
                         </td>
                         <td class="project_progress">
-                            <?= $this->App->progressBar(rand(0,130), Configure::read('coseca.hours-min')) ?>
+                            <?= $this->App->progressBar(rand(0, 130), Configure::read('coseca.hours-min')) ?>
                         </td>
                         <td class="actions">
                             <?= $this->Html->link(__('View'), ['action' => 'view', $student->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>

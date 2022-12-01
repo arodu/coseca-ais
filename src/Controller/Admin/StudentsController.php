@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Admin;
@@ -28,12 +29,19 @@ class StudentsController extends AppAdminController
     {
         $this->paginate = [
             'sortableFields' => [
-                'Tenants.abbr', 'dni', 'AppUsers.first_name', 'AppUsers.last_name', 'LastStage.lapse.name', 'LastStage.stage', 
+                'Tenants.abbr', 'dni', 'AppUsers.first_name', 'AppUsers.last_name', 'LastStage.lapse.name', 'LastStage.stage',
             ],
         ];
 
-        $query = $this->Students->find()
-            ->contain(['AppUsers', 'Tenants', 'LastStage' => ['Lapses']]);
+        $query = $this->Students->find()->contain(['AppUsers', 'Tenants', 'LastStage' => ['Lapses']]);
+
+        // filterLogic
+        if ($this->request->is('post')) {
+            $query = $query->find('filter', $this->getRequest()->getData());
+        }
+        $tenants = $this->Students->Tenants->find('list');
+        $this->set(compact('tenants'));
+        // /filterLogic
 
         $students = $this->paginate($query);
 

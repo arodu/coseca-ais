@@ -13,7 +13,9 @@ enum FaIcon
     case SUCCESS;
     case PENDING;
     case FAILED;
-
+    
+    case SEARCH;
+    case FILTER;
     case STAR;
 
 
@@ -30,7 +32,9 @@ enum FaIcon
             static::PENDING => 'fas fa-lock',
             static::FAILED => 'fas fa-alert',
             static::STAR => 'fas fa-star',
-
+            static::SEARCH => 'fas fa-search',
+            static::FILTER => 'fas fa-filter',
+            
             default => 'fas fa-flag',
         };
     }
