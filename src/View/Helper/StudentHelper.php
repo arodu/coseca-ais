@@ -25,7 +25,6 @@ class StudentHelper extends Helper
 
     public $helpers = ['Identity'];
 
-
     public function initialize(array $config): void
     {
         $this->_student = $this->Identity->get('current_student');

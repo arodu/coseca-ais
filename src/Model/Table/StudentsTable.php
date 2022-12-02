@@ -17,6 +17,7 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Utility\Hash;
 use Cake\Validation\Validator;
+use QueryFilter\QueryFilterPlugin;
 
 /**
  * Students Model
@@ -60,7 +61,7 @@ class StudentsTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->addBehavior('Filter');
+        $this->addBehavior('QueryFilter.QueryFilter');
         $this->addBehavior('Timestamp');
         $this->addBehavior('Muffin/Footprint.Footprint');
 
@@ -86,6 +87,20 @@ class StudentsTable extends Table
             'foreignKey' => 'student_id',
             'strategy' => 'select',
             'finder' => 'lastElement',
+        ]);
+
+        $this->addFilterField('tenant_id', [
+            'tableFields' => $this->aliasField('tenant_id'),
+            'finder' => QueryFilterPlugin::FINDER_SELECT,
+        ]);
+        $this->addFilterField('dni', [
+            'tableFields' => $this->aliasField('dni'),
+            'finder' => QueryFilterPlugin::FINDER_EQUAL,
+        ]);
+        $this->addFilterField('names', [
+            'tableFields' => [$this->AppUsers->aliasField('first_name'), $this->AppUsers->aliasField('last_name')],
+            'finder' => QueryFilterPlugin::FINDER_STRING,
+            'template' => QueryFilterPlugin::STRING_TEMPLATE_DEFAULT,
         ]);
     }
 

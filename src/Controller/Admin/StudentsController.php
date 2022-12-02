@@ -36,8 +36,10 @@ class StudentsController extends AppAdminController
         $query = $this->Students->find()->contain(['AppUsers', 'Tenants', 'LastStage' => ['Lapses']]);
 
         // filterLogic
+        $filtered = false;
         if ($this->request->is('post')) {
-            $query = $query->find('filter', $this->getRequest()->getData());
+            $query = $this->Students->queryFilter($query, $this->getRequest()->getData());
+            $filtered = true;
         }
         $tenants = $this->Students->Tenants->find('list');
         $this->set(compact('tenants'));
@@ -45,7 +47,7 @@ class StudentsController extends AppAdminController
 
         $students = $this->paginate($query);
 
-        $this->set(compact('students'));
+        $this->set(compact('students', 'filtered'));
     }
 
     /**

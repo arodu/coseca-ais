@@ -30,28 +30,28 @@ $this->Breadcrumbs->add([
         </h2>
     </div>
     <?= $this->Form->create() ?>
-    <div class="collapse" id="collapse-filters">
+    <div class="collapse <?= $filtered ?? false ? 'show' : null ?>" id="collapse-filters">
         <div class="card-body">
             <div class="row">
                 <div class="col-sm-4">
-                    <?= $this->Form->control('_s.first_name:last_name', []) ?>
+                    <?= $this->QueryFilter->control('names', []) ?>
                 </div>
                 <div class="col-sm-4">
-                    <?= $this->Form->control('_s.dni') ?>
+                    <?= $this->QueryFilter->control('dni') ?>
                 </div>
                 <div class="col-sm-4">
-                    <?= $this->Form->control('_s.tenant_id', ['empty' => __('Todos')]) ?>
+                    <?= $this->QueryFilter->control('tenant_id', ['empty' => __('Todos')]) ?>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-4">
-                    <?= $this->Form->control('_s.stage', ['empty' => true, 'options' => StageField::toListLabel()]) ?>
+                    <?= $this->QueryFilter->control('stage', ['empty' => true, 'options' => StageField::toListLabel()]) ?>
                 </div>
                 <div class="col-sm-4">
-                    <?= $this->Form->control('_s.lapse', ['empty' => true, 'options' => []]) ?>
+                    <?= $this->QueryFilter->control('lapse', ['empty' => true, 'options' => []]) ?>
                 </div>
                 <div class="col-sm-4">
-                    <?= $this->Form->control('_s.status', ['empty' => true, 'options' => StageStatus::toListLabel()]) ?>
+                    <?= $this->QueryFilter->control('status', ['empty' => true, 'options' => StageStatus::toListLabel()]) ?>
                 </div>
             </div>
         </div>
