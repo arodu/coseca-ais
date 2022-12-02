@@ -17,6 +17,7 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Utility\Hash;
 use Cake\Validation\Validator;
+use InvalidArgumentException;
 use QueryFilter\QueryFilterPlugin;
 
 /**
@@ -89,19 +90,7 @@ class StudentsTable extends Table
             'finder' => 'lastElement',
         ]);
 
-        $this->addFilterField('tenant_id', [
-            'tableFields' => $this->aliasField('tenant_id'),
-            'finder' => QueryFilterPlugin::FINDER_SELECT,
-        ]);
-        $this->addFilterField('dni', [
-            'tableFields' => $this->aliasField('dni'),
-            'finder' => QueryFilterPlugin::FINDER_EQUAL,
-        ]);
-        $this->addFilterField('names', [
-            'tableFields' => [$this->AppUsers->aliasField('first_name'), $this->AppUsers->aliasField('last_name')],
-            'finder' => QueryFilterPlugin::FINDER_STRING,
-            'template' => QueryFilterPlugin::STRING_TEMPLATE_DEFAULT,
-        ]);
+        $this->loadQueryFilters();
     }
 
     /**
@@ -207,6 +196,56 @@ class StudentsTable extends Table
         $rules->add($rules->existsIn('tenant_id', 'Tenants'), ['errorField' => 'tenant_id']);
 
         return $rules;
+    }
+
+    public function loadQueryFilters()
+    {
+        $this->addFilterField('tenant_id', [
+            'tableField' => $this->aliasField('tenant_id'),
+            'finder' => QueryFilterPlugin::FINDER_SELECT,
+        ]);
+        $this->addFilterField('dni', [
+            'tableField' => $this->aliasField('dni'),
+            'finder' => QueryFilterPlugin::FINDER_EQUAL,
+        ]);
+        $this->addFilterField('names', [
+            'tableField' => [$this->AppUsers->aliasField('first_name'), $this->AppUsers->aliasField('last_name')],
+            'finder' => QueryFilterPlugin::FINDER_STRING,
+            //'template' => QueryFilterPlugin::STRING_TEMPLATE_DEFAULT,
+        ]);
+        $this->addFilterField('stage', [
+            'tableField' => 'stage',
+            'finder' => 'lastStageFilter',
+        ]);
+        $this->addFilterField('status', [
+            'tableField' => 'status',
+            'finder' => 'lastStageFilter',
+        ]);
+        $this->addFilterField('lapse', [
+            'finder' => function(Query $query, array $options = []) {
+                $lapses_ids = $this->StudentStages->Lapses
+                    ->find('list', ['valueField' => 'id'])
+                    ->where([$this->StudentStages->Lapses->aliasField('name') => $options['value']]);
+                
+                return $query->find('lastStageFilter', [
+                    'tableField' => $this->LastStage->aliasField('lapse_id') . ' IN',
+                    'value' => $lapses_ids,
+                ]);
+            }
+        ]);
+    }
+
+    public function findLastStageFilter(Query $query, array $options = []): Query
+    {
+        if (empty($options['tableField'])) {
+            throw new InvalidArgumentException('param tableField is necessary on options');
+        }
+
+        $subQuery = $this->LastStage->find()
+            ->select([$this->LastStage->aliasField('student_id')])
+            ->where([$options['tableField'] => $options['value']]);
+
+        return $query->where([$this->aliasField('id') . ' IN' => $subQuery]);
     }
 
     /**

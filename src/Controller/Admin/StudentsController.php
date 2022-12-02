@@ -42,12 +42,14 @@ class StudentsController extends AppAdminController
             $filtered = true;
         }
         $tenants = $this->Students->Tenants->find('list');
-        $this->set(compact('tenants'));
+        $lapses = $this->Students->StudentStages->Lapses->find('list', [
+            'keyField' => 'name',
+            'valueField' => 'name',
+        ]);
         // /filterLogic
-
         $students = $this->paginate($query);
 
-        $this->set(compact('students', 'filtered'));
+        $this->set(compact('students', 'filtered', 'tenants', 'lapses'));
     }
 
     /**

@@ -34,24 +34,24 @@ $this->Breadcrumbs->add([
         <div class="card-body">
             <div class="row">
                 <div class="col-sm-4">
-                    <?= $this->QueryFilter->control('names', []) ?>
+                    <?= $this->Form->control('names', []) ?>
                 </div>
                 <div class="col-sm-4">
-                    <?= $this->QueryFilter->control('dni') ?>
+                    <?= $this->Form->control('dni') ?>
                 </div>
                 <div class="col-sm-4">
-                    <?= $this->QueryFilter->control('tenant_id', ['empty' => __('Todos')]) ?>
+                    <?= $this->Form->control('tenant_id', ['empty' => __('Todos')]) ?>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-4">
-                    <?= $this->QueryFilter->control('stage', ['empty' => true, 'options' => StageField::toListLabel()]) ?>
+                    <?= $this->Form->control('stage', ['empty' => true, 'options' => StageField::toListLabel()]) ?>
                 </div>
                 <div class="col-sm-4">
-                    <?= $this->QueryFilter->control('lapse', ['empty' => true, 'options' => []]) ?>
+                    <?= $this->Form->control('lapse', ['empty' => true, 'options' => $lapses]) ?>
                 </div>
                 <div class="col-sm-4">
-                    <?= $this->QueryFilter->control('status', ['empty' => true, 'options' => StageStatus::toListLabel()]) ?>
+                    <?= $this->Form->control('status', ['empty' => true, 'options' => StageStatus::toListLabel()]) ?>
                 </div>
             </div>
         </div>

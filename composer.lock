@@ -94,12 +94,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/arodu/cakephp-query-filter.git",
-                "reference": "bf1ac19351529ebcbdfff37aec2c7bf911e32c39"
+                "reference": "0f612615b1ede9086538a23dd7d3df594ce3fedf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/arodu/cakephp-query-filter/zipball/bf1ac19351529ebcbdfff37aec2c7bf911e32c39",
-                "reference": "bf1ac19351529ebcbdfff37aec2c7bf911e32c39",
+                "url": "https://api.github.com/repos/arodu/cakephp-query-filter/zipball/0f612615b1ede9086538a23dd7d3df594ce3fedf",
+                "reference": "0f612615b1ede9086538a23dd7d3df594ce3fedf",
                 "shasum": ""
             },
             "require": {
@@ -124,7 +124,7 @@
                 "issues": "https://github.com/arodu/cakephp-query-filter/issues",
                 "source": "https://github.com/arodu/cakephp-query-filter/tree/develop"
             },
-            "time": "2022-12-01T10:57:48+00:00"
+            "time": "2022-12-02T22:55:47+00:00"
         },
         {
             "name": "cakedc/auth",
