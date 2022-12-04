@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Enum;
@@ -13,7 +14,8 @@ enum FaIcon
     case SUCCESS;
     case PENDING;
     case FAILED;
-    
+
+    case ERROR;
     case SEARCH;
     case FILTER;
     case STAR;
@@ -24,17 +26,18 @@ enum FaIcon
      */
     public function cssClass(): string
     {
-        return match($this) {
+        return match ($this) {
             static::DOWNLOAD => 'fas fa-download',
             static::IN_PROGRESS => 'fas fa-cogs',
             static::WAITING => 'fas fa-pause-circle',
             static::SUCCESS => 'fas fa-check',
             static::PENDING => 'fas fa-lock',
-            static::FAILED => 'fas fa-alert',
+            static::FAILED => 'fas fa-exclamation-triangle',
             static::STAR => 'fas fa-star',
             static::SEARCH => 'fas fa-search',
             static::FILTER => 'fas fa-filter',
-            
+            static::ERROR => 'fas fa-bug',
+
             default => 'fas fa-flag',
         };
     }

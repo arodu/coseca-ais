@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\View\Helper;
 
-use Cake\I18n\FrozenDate;
+use App\Enum\Color;
+use App\Enum\FaIcon;
 use Cake\View\Helper;
 
 /**
@@ -21,15 +22,6 @@ class AppHelper extends Helper
 
     public $helpers = ['Html'];
 
-    public function addPrefix(string $text, ?string $prefix, string $separator = '-'): string
-    {
-        if (empty($prefix)) {
-            return $text;
-        }
-
-        return $prefix . $separator . $text;
-    }
-
     /**
      * @param float $percent
      * @param string|null $prefix
@@ -38,13 +30,13 @@ class AppHelper extends Helper
     public function progressBarColor(float $percent, ?string $prefix = 'bg'): string
     {
         $color = match (true) {
-            ($percent < 20) => 'danger',
-            ($percent >= 20 && $percent < 80) => 'warning',
-            ($percent >= 80 && $percent < 100) => 'green',
-            ($percent >= 100) => 'primary',
+            ($percent < 20) => Color::DANGER,
+            ($percent >= 20 && $percent < 80) => Color::WARNING,
+            ($percent >= 80 && $percent < 100) => Color::SUCCESS,
+            ($percent >= 100) => Color::PRIMARY,
         };
 
-        return $this->addPrefix($color, $prefix);
+        return $color->cssClass($prefix);
     }
 
     /**
@@ -79,5 +71,23 @@ class AppHelper extends Helper
             . '<small>' . __('{0}% Completado', $percent) . '</small>';
 
         return $output;
+    }
+
+    public function error(string $tooltip = null): string
+    {
+        $options['class'] = [
+            Color::DANGER->cssClass('badge'),
+        ];
+        $options['escape'] = false;
+        $options['role'] = 'button';
+
+        if (!empty($tooltip)) {
+            $options['data-toggle'] = 'tooltip';
+            $options['title'] = $tooltip;
+        }
+
+        $icon = FaIcon::ERROR->render('fa-fw mr-1');
+
+        return $this->Html->tag('span', $icon . __('Error'), $options);
     }
 }
