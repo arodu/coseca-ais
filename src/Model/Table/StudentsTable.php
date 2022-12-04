@@ -211,7 +211,6 @@ class StudentsTable extends Table
         $this->addFilterField('names', [
             'tableField' => [$this->AppUsers->aliasField('first_name'), $this->AppUsers->aliasField('last_name')],
             'finder' => QueryFilterPlugin::FINDER_STRING,
-            //'template' => QueryFilterPlugin::STRING_TEMPLATE_DEFAULT,
         ]);
         $this->addFilterField('stage', [
             'tableField' => 'stage',

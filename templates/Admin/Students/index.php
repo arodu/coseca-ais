@@ -30,28 +30,28 @@ $this->Breadcrumbs->add([
         </h2>
     </div>
     <?= $this->Form->create() ?>
-    <div class="collapse <?= $filtered ?? false ? 'show' : null ?>" id="collapse-filters">
+    <div class="collapse <?= (($filtered ?? false) ? 'show' : null) ?>" id="collapse-filters">
         <div class="card-body">
             <div class="row">
                 <div class="col-sm-4">
-                    <?= $this->Form->control('names', []) ?>
+                    <?= $this->Form->control('names', ['label' => __('Nombres/Apellidos')]) ?>
                 </div>
                 <div class="col-sm-4">
-                    <?= $this->Form->control('dni') ?>
+                    <?= $this->Form->control('dni', ['label' => __('Cedula')]) ?>
                 </div>
                 <div class="col-sm-4">
-                    <?= $this->Form->control('tenant_id', ['empty' => __('Todos')]) ?>
+                    <?= $this->Form->control('tenant_id', ['label' => __('Programa'), 'empty' => __('--Todos--')]) ?>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-4">
-                    <?= $this->Form->control('stage', ['empty' => true, 'options' => StageField::toListLabel()]) ?>
+                    <?= $this->Form->control('stage', ['label' => __('Etapa'), 'empty' => __('--Todos--'), 'options' => StageField::toListLabel()]) ?>
                 </div>
                 <div class="col-sm-4">
-                    <?= $this->Form->control('lapse', ['empty' => true, 'options' => $lapses]) ?>
+                    <?= $this->Form->control('lapse', ['label' => __('Lapso Académico'), 'empty' => __('--Todos--'), 'options' => $lapses]) ?>
                 </div>
                 <div class="col-sm-4">
-                    <?= $this->Form->control('status', ['empty' => true, 'options' => StageStatus::toListLabel()]) ?>
+                    <?= $this->Form->control('status', ['label' => __('Estado'), 'empty' => __('--Todos--'), 'options' => StageStatus::toListLabel()]) ?>
                 </div>
             </div>
         </div>
@@ -64,7 +64,6 @@ $this->Breadcrumbs->add([
     </div>
     <?= $this->Form->end() ?>
 </div>
-
 
 <div class="card card-primary card-outline">
     <div class="card-header d-flex flex-column flex-md-row">
