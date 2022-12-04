@@ -42,7 +42,7 @@ class RegisterStageController extends AppStudentController
         }
      
         $student = $this->Students->get($currentStudent->id, [
-            'contain' => ['Tenants', 'AppUsers'],
+            'contain' => ['Tenants', 'AppUsers', 'StudentData'],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $student = $this->Students->patchEntity($student, $this->request->getData());

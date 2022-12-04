@@ -15,7 +15,7 @@ class TestingSeed extends AbstractSeed
 {
     use LocatorAwareTrait;
 
-    private const STUDENTS_QTY = 30;
+    private const STUDENTS_QTY = 60;
 
     /**
      * Run Method.
@@ -68,7 +68,7 @@ class TestingSeed extends AbstractSeed
                 'role' => UserRole::STUDENT->value,
                 'active' => true,
                 'tenant_filters' => [
-                    ['tenant_id' => 1],
+                    ['tenant_id' => rand(1, 4)],
                 ],
             ]);
         }

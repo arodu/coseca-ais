@@ -89,6 +89,11 @@ class StudentsTable extends Table
             'strategy' => 'select',
             'finder' => 'lastElement',
         ]);
+        $this->hasOne('StudentData', [
+            'foreignKey' => 'student_id',
+            'dependent' => true,
+            'cascadeCallbacks' => true,
+        ]);
 
         $this->loadQueryFilters();
     }
@@ -96,30 +101,6 @@ class StudentsTable extends Table
     /**
      * @param Validator $validator
      * @return Validator
-     */
-    public function validationRegister(Validator $validator): Validator
-    {
-        $validator
-            ->uuid('user_id')
-            ->notEmptyString('user_id');
-
-        $validator
-            ->integer('tenant_id')
-            ->notEmptyString('tenant_id');
-
-        $validator
-            ->scalar('type')
-            ->maxLength('type', 255)
-            ->notEmptyString('type');
-
-        return $validator;
-    }
-
-    /**
-     * Default validation rules.
-     *
-     * @param \Cake\Validation\Validator $validator Validator instance.
-     * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator): Validator
     {
@@ -135,50 +116,6 @@ class StudentsTable extends Table
             ->scalar('type')
             ->maxLength('type', 255)
             ->notEmptyString('type');
-
-        $validator
-            ->scalar('dni')
-            ->maxLength('dni', 255)
-            ->allowEmptyString('dni');
-
-        $validator
-            ->scalar('gender')
-            ->maxLength('gender', 1)
-            ->requirePresence('gender', 'create')
-            ->notEmptyString('gender');
-
-        $validator
-            ->scalar('phone')
-            ->maxLength('phone', 255)
-            ->requirePresence('phone', 'create')
-            ->notEmptyString('phone');
-
-        $validator
-            ->scalar('address')
-            ->maxLength('address', 255)
-            ->requirePresence('address', 'create')
-            ->notEmptyString('address');
-
-        $validator
-            ->integer('current_semester')
-            ->requirePresence('current_semester', 'create')
-            ->notEmptyString('current_semester');
-
-        $validator
-            ->integer('uc')
-            ->requirePresence('uc', 'create')
-            ->notEmptyString('uc');
-
-        $validator
-            ->scalar('areas')
-            ->maxLength('areas', 255)
-            ->requirePresence('areas', 'create')
-            ->notEmptyString('areas');
-
-        $validator
-            ->scalar('observations')
-            ->requirePresence('observations', 'create')
-            ->notEmptyString('observations');
 
         return $validator;
     }
@@ -287,7 +224,7 @@ class StudentsTable extends Table
             'type' => StudentType::REGULAR->value,
         ], $options);
 
-        $student = $this->newEntity($data, ['validate' => 'register']);
+        $student = $this->newEntity($data);
 
         if (!$this->save($student)) {
             Log::warning('student already exists');

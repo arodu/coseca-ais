@@ -44,7 +44,7 @@ $this->Breadcrumbs->add([
                 ]); ?>
             </div>
             <div class="col">
-                <?= $this->Form->control('gender', [
+                <?= $this->Form->control('student_data.gender', [
                     'label' => __('Genero'),
                     'required' => true,
                     'options' => Gender::toListLabel(),
@@ -55,13 +55,13 @@ $this->Breadcrumbs->add([
 
         <div class="row">
             <div class="col">
-                <?= $this->Form->control('phone', [
+                <?= $this->Form->control('student_data.phone', [
                     'label' => __('Telefono'),
                     'required' => true,
                 ]) ?>
             </div>
             <div class="col">
-                <?= $this->Form->control('address', [
+                <?= $this->Form->control('student_data.address', [
                     'label' => __('Dirección'),
                     'required' => true,
                 ]) ?>
@@ -70,7 +70,7 @@ $this->Breadcrumbs->add([
 
         <div class="row">
             <div class="col">
-                <?= $this->Form->control('current_semester', [
+                <?= $this->Form->control('student_data.current_semester', [
                     'label' => __('Semestre Actual'),
                     'required' => true,
                     'options' => Students::getLeves($student->tenant),
@@ -78,7 +78,7 @@ $this->Breadcrumbs->add([
                 ]) ?>
             </div>
             <div class="col">
-                <?= $this->Form->control('uc', [
+                <?= $this->Form->control('student_data.uc', [
                     'label' => __('Número de unidades de crédito aprobadas'),
                     'required' => true,
                     'type' => 'number',
@@ -89,7 +89,7 @@ $this->Breadcrumbs->add([
 
         <div class="row">
             <div class="col">
-                <?= $this->Form->control('areas', [
+                <?= $this->Form->control('student_data.areas', [
                     'label' => __('Área de interés y/o potencialidades de índole tecnológico donde aspira ejercer el servicio comunitario'),
                     'required' => true,
                 ]) ?>
@@ -98,7 +98,7 @@ $this->Breadcrumbs->add([
 
         <div class="row">
             <div class="col">
-                <?= $this->Form->control('observations', [
+                <?= $this->Form->control('student_data.observations', [
                     'label' => __('Observaciones'),
                     'required' => false,
                 ]) ?>

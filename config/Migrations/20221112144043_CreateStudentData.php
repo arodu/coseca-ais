@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Migrations\AbstractMigration;
 
-class AddDataFieltsToStudents extends AbstractMigration
+class CreateStudentData extends AbstractMigration
 {
     /**
      * Change Method.
@@ -14,7 +14,12 @@ class AddDataFieltsToStudents extends AbstractMigration
      */
     public function change()
     {
-        $table = $this->table('students');
+        $table = $this->table('student_data');
+        $table->addColumn('student_id', 'integer', [
+            'default' => null,
+            'limit' => 11,
+            'null' => false,
+        ]);
         $table->addColumn('gender', 'string', [
             'default' => null,
             'limit' => 1,
@@ -49,6 +54,6 @@ class AddDataFieltsToStudents extends AbstractMigration
             'default' => null,
             'null' => true,
         ]);
-        $table->update();
+        $table->create();
     }
 }

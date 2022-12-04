@@ -39,16 +39,10 @@ class Student extends Entity
         'created_by' => true,
         'modified' => true,
         'modified_by' => true,
-        'gender' => true,
-        'phone' => true,
-        'address' => true,
-        'current_semester' => true,
-        'uc' => true,
-        'areas' => true,
-        'observations' => true,
         'user' => true,
         'tenant' => true,
         'student_stages' => true,
+        'student_data' => true,
     ];
 
     protected $_virtual = [
