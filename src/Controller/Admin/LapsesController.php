@@ -42,6 +42,7 @@ class LapsesController extends AppAdminController
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
+    /*
     public function view($id = null)
     {
         $lapse = $this->Lapses->get($id, [
@@ -50,13 +51,14 @@ class LapsesController extends AppAdminController
 
         $this->set(compact('lapse'));
     }
+    */
 
     /**
      * Add method
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function add($tenant_id)
     {
         $lapse = $this->Lapses->newEmptyEntity();
         if ($this->request->is('post')) {
@@ -64,12 +66,12 @@ class LapsesController extends AppAdminController
             if ($this->Lapses->save($lapse)) {
                 $this->Flash->success(__('The lapse has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller' => 'Tenants', 'action' => 'view', $tenant_id]);
             }
             $this->Flash->error(__('The lapse could not be saved. Please, try again.'));
         }
-        $tenants = $this->Lapses->Tenants->find('list', ['limit' => 200])->all();
-        $this->set(compact('lapse', 'tenants'));
+        $tenant = $this->Lapses->Tenants->get($tenant_id);
+        $this->set(compact('lapse', 'tenant'));
     }
 
     /**
@@ -82,19 +84,18 @@ class LapsesController extends AppAdminController
     public function edit($id = null)
     {
         $lapse = $this->Lapses->get($id, [
-            'contain' => [],
+            'contain' => ['Tenants'],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $lapse = $this->Lapses->patchEntity($lapse, $this->request->getData());
             if ($this->Lapses->save($lapse)) {
                 $this->Flash->success(__('The lapse has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller' => 'Tenants', 'action' => 'view', $lapse->tenant_id, '?' => ['lapse_id' => $id]]);
             }
             $this->Flash->error(__('The lapse could not be saved. Please, try again.'));
         }
-        $tenants = $this->Lapses->Tenants->find('list', ['limit' => 200])->all();
-        $this->set(compact('lapse', 'tenants'));
+        $this->set(compact('lapse'));
     }
 
     public function editDates($lapse_dates_id = null)
@@ -132,6 +133,6 @@ class LapsesController extends AppAdminController
             $this->Flash->error(__('The lapse could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect(['controller' => 'Tenants', 'action' => 'view', $lapse->tenant_id]);
     }
 }

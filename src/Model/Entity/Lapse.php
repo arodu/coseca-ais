@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
+use App\Enum\Active;
 use Cake\ORM\Entity;
 
 /**
@@ -40,5 +41,25 @@ class Lapse extends Entity
         }
 
         return __('{0} ({1})', $this->tenant->name, $this->name);
+    }
+
+    protected $_virtual = [
+        'label_active',
+    ];
+
+    protected function _getLabelActive()
+    {
+        return $this->getActive()->label();
+    }
+
+    private Active $_active;
+
+    public function getActive(): Active
+    {
+        if (empty($this->_active)) {
+            $this->_active = Active::get($this->active);
+        }
+
+        return $this->_active;
     }
 }

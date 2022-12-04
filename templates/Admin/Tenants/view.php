@@ -22,11 +22,11 @@ $this->Breadcrumbs->add([
     <div class="card-body table-responsive p-0">
         <table class="table table-hover text-nowrap">
             <tr>
-                <th><?= __('Name') ?></th>
+                <th><?= __('Nombre') ?></th>
                 <td><?= h($tenant->name) ?></td>
             </tr>
             <tr>
-                <th><?= __('Abbr') ?></th>
+                <th><?= __('ABVR') ?></th>
                 <td><?= h($tenant->abbr) ?></td>
             </tr>
             <tr>
@@ -42,14 +42,14 @@ $this->Breadcrumbs->add([
     <div class="card-footer d-flex">
         <div class="">
             <?= $this->Form->postLink(
-                __('Delete'),
+                __('Eliminar'),
                 ['action' => 'delete', $tenant->id],
                 ['confirm' => __('Are you sure you want to delete # {0}?', $tenant->id), 'class' => 'btn btn-danger']
             ) ?>
         </div>
         <div class="ml-auto">
-            <?= $this->Html->link(__('Edit'), ['action' => 'edit', $tenant->id], ['class' => 'btn btn-secondary']) ?>
-            <?= $this->Html->link(__('Cancel'), ['action' => 'index'], ['class' => 'btn btn-default']) ?>
+            <?= $this->Html->link(__('Editar'), ['action' => 'edit', $tenant->id], ['class' => 'btn btn-secondary']) ?>
+            <?= $this->Html->link(__('Cancelar'), ['action' => 'index'], ['class' => 'btn btn-default']) ?>
         </div>
     </div>
 </div>
@@ -59,17 +59,13 @@ $this->Breadcrumbs->add([
         <div class="related related-lapses view card">
             <div class="card-body">
                 <?= $this->Form->create(null, ['type' => 'GET']) ?>
-                <?= $this->Form->control('lapse_id', ['value' => $lapseSelected->id]) ?>
-                <?= $this->Html->link(__('Nuevo'), ['controller' => 'Lapses', 'action' => 'add'], ['class' => 'btn btn-primary btn-sm']) ?>
+                <?= $this->Form->control('lapse_id', ['label' => __('Lapso Académico'), 'value' => $lapseSelected->id]) ?>
+                <?= $this->Html->link(__('Nuevo'), ['controller' => 'Lapses', 'action' => 'add', $tenant->id], ['class' => 'btn btn-primary btn-sm']) ?>
                 <?= $this->Form->end() ?>
                 <table class="table table-hover mt-3">
                     <tr>
                         <th><?= __('Nombre') ?></th>
                         <td><?= h($lapseSelected->name) ?></td>
-                    </tr>
-                    <tr>
-                        <th><?= __('Fecha') ?></th>
-                        <td><?= h($lapseSelected->date) ?></td>
                     </tr>
                     <tr>
                         <th><?= __('Activo') ?></th>
@@ -80,13 +76,13 @@ $this->Breadcrumbs->add([
             <div class="card-footer d-flex">
                 <div>
                     <?= $this->Form->postLink(
-                        __('Delete'),
-                        ['controller' => 'Lapses', 'action' => 'delete', $tenant->id],
+                        __('Eliminar'),
+                        ['controller' => 'Lapses', 'action' => 'delete', $lapseSelected->id],
                         ['confirm' => __('Are you sure you want to delete # {0}?', $lapseSelected->id), 'class' => 'btn btn-danger btn-sm']
                     ) ?>
                 </div>
                 <div class="ml-auto">
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'Lapses', 'action' => 'edit', $tenant->id], ['class' => 'btn btn-secondary btn-sm']) ?>
+                    <?= $this->Html->link(__('Editar'), ['controller' => 'Lapses', 'action' => 'edit', $lapseSelected->id], ['class' => 'btn btn-secondary btn-sm']) ?>
                 </div>
             </div>
         </div>
@@ -94,7 +90,12 @@ $this->Breadcrumbs->add([
     <div class="col-sm-8">
         <div class="related related-lapse-dates view card">
             <div class="card-header d-flex">
-                <h3 class="card-title"><?= __('Lapso Académico {0}', $lapseSelected->name) ?></h3>
+                <h3 class="card-title">
+                    <?= __('Lapso Académico {0}', $lapseSelected->name) ?>
+                </h3>
+                <div class="ml-auto">
+                    <span class="<?= $lapseSelected->getActive()->color()->cssClass('badge') ?>"><?= $lapseSelected->label_active ?></span>
+                </div>
             </div>
             <div class="card-body table-responsive p-0">
                 <table class="table table-hover text-nowrap">

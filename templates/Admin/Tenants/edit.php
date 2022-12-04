@@ -18,23 +18,23 @@ $this->Breadcrumbs->add([
   <?= $this->Form->create($tenant) ?>
   <div class="card-body">
     <?php
-      echo $this->Form->control('name');
-      echo $this->Form->control('abbr');
-      echo $this->Form->control('active', ['custom' => true]);
+      echo $this->Form->control('name', ['label' => __('Nombre')]);
+      echo $this->Form->control('abbr', ['label' => __('ABVR')]);
+      echo $this->Form->control('active', ['label' => __('Activo'), 'custom' => true]);
     ?>
   </div>
 
   <div class="card-footer d-flex">
     <div class="">
       <?= $this->Form->postLink(
-          __('Delete'),
+          __('Eliminar'),
           ['action' => 'delete', $tenant->id],
           ['confirm' => __('Are you sure you want to delete # {0}?', $tenant->id), 'class' => 'btn btn-danger']
       ) ?>
     </div>
     <div class="ml-auto">
-      <?= $this->Form->button(__('Save')) ?>
-      <?= $this->Html->link(__('Cancel'), ['action' => 'index'], ['class' => 'btn btn-default']) ?>
+      <?= $this->Form->button(__('Guardar')) ?>
+      <?= $this->Html->link(__('Cancelar'), ['action' => 'view', $tenant->id], ['class' => 'btn btn-default']) ?>
     </div>
   </div>
 

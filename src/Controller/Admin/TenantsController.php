@@ -48,7 +48,12 @@ class TenantsController extends AppAdminController
         ]);
 
         $lapses = $this->Tenants->Lapses
-            ->find('list')
+            ->find('list', [
+                'keyField' => 'id',
+                'valueField' => 'name',
+                'groupField' => 'label_active',
+            ])
+            ->order(['active' => 'DESC'])
             ->where(['tenant_id' => $id]);
 
         $lapse_id = $this->getRequest()->getQuery('lapse_id');
@@ -101,7 +106,7 @@ class TenantsController extends AppAdminController
             if ($this->Tenants->save($tenant)) {
                 $this->Flash->success(__('The tenant has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'view', $id]);
             }
             $this->Flash->error(__('The tenant could not be saved. Please, try again.'));
         }
