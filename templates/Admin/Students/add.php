@@ -8,7 +8,7 @@
 <?php
 $this->assign('title', __('Add Student'));
 $this->Breadcrumbs->add([
-    ['title' => 'Home', 'url' => '/'],
+    ['title' => __('Inicio'), 'url' => '/'],
     ['title' => 'List Students', 'url' => ['action' => 'index']],
     ['title' => 'Add'],
 ]);

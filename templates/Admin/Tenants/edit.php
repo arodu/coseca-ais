@@ -7,10 +7,10 @@
 <?php
 $this->assign('title', __('Edit Tenant'));
 $this->Breadcrumbs->add([
-    ['title' => 'Home', 'url' => '/'],
-    ['title' => 'List Tenants', 'url' => ['action' => 'index']],
-    ['title' => 'View', 'url' => ['action' => 'view', $tenant->id]],
-    ['title' => 'Edit'],
+  ['title' => __('Inicio'), 'url' => '/'],
+  ['title' => __('Programas'), 'url' => ['controller' => 'Tenants', 'action' => 'index']],
+  ['title' => __('Ver'), 'url' => ['action' => 'view', $tenant->id]],
+  ['title' => __('Editar')],
 ]);
 ?>
 

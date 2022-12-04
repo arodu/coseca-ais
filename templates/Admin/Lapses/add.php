@@ -8,7 +8,7 @@
 <?php
 $this->assign('title', __('Nuevo Lapso Académico'));
 $this->Breadcrumbs->add([
-    ['title' => __('Home'), 'url' => '/'],
+    ['title' => __('Inicio'), 'url' => '/'],
     ['title' => __('Programas'), 'url' => ['controller' => 'Tenants', 'action' => 'index']],
     ['title' => __('Ver'), 'url' => ['controller' => 'Tenants', 'action' => 'view', $tenant->id]],
     ['title' => __('Nuevo')],

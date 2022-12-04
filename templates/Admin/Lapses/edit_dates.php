@@ -11,7 +11,7 @@ $lapse = $lapse_date->lapse;
 <?php
 $this->assign('title', __('Edit Lapse'));
 $this->Breadcrumbs->add([
-    ['title' => 'Home', 'url' => '/'],
+    ['title' => __('Inicio'), 'url' => '/'],
     ['title' => 'List Lapses', 'url' => ['action' => 'index']],
     ['title' => 'View', 'url' => ['action' => 'view', $lapse->id]],
     ['title' => 'Edit Dates'],

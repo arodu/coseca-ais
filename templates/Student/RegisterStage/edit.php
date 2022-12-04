@@ -12,7 +12,7 @@ use App\Utility\Students;
 <?php
 $this->assign('title', __('Registro de Estudiante'));
 $this->Breadcrumbs->add([
-    ['title' => 'Inicio', 'url' => '/'],
+    ['title' => __('Inicio'), 'url' => '/'],
     ['title' => __('Registro')],
 ]);
 ?>

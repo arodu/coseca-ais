@@ -95,6 +95,11 @@
 
     <?= $this->element('CakeLte.extra/script') ?>
     <?= $this->fetch('script') ?>
+    <script>
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
 </body>
 
 </html>

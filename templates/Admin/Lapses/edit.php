@@ -9,7 +9,7 @@ $tenant = $lapse->tenant;
 <?php
 $this->assign('title', __('Edita Lapso Académico'));
 $this->Breadcrumbs->add([
-    ['title' => __('Home'), 'url' => '/'],
+    ['title' => __('Inicio'), 'url' => '/'],
     ['title' => __('Programas'), 'url' => ['controller' => 'Tenants', 'action' => 'index']],
     ['title' => __('Ver'), 'url' => ['controller' => 'Tenants', 'action' => 'view', $tenant->id, '?' => ['lapse_id' => $lapse->id]]],
     ['title' => __('Editar')],

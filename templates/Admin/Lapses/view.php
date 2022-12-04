@@ -9,7 +9,7 @@
 <?php
 $this->assign('title', __('Lapse'));
 $this->Breadcrumbs->add([
-    ['title' => 'Home', 'url' => '/'],
+    ['title' => __('Inicio'), 'url' => '/'],
     ['title' => 'List Lapses', 'url' => ['action' => 'index']],
     ['title' => 'View'],
 ]);

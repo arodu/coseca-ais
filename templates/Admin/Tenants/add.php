@@ -8,9 +8,9 @@
 <?php
 $this->assign('title', __('Nuevo Programa'));
 $this->Breadcrumbs->add([
-    ['title' => 'Home', 'url' => '/'],
-    ['title' => 'Lista Programas', 'url' => ['action' => 'index']],
-    ['title' => 'Nuevo'],
+  ['title' => __('Inicio'), 'url' => '/'],
+  ['title' => __('Programas'), 'url' => ['controller' => 'Tenants', 'action' => 'index']],
+  ['title' => 'Nuevo'],
 ]);
 ?>
 

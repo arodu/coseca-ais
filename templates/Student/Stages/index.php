@@ -14,7 +14,7 @@ $statusActive = [
 
 $this->assign('title', __('Servicio Comunitario'));
 $this->Breadcrumbs->add([
-    ['title' => 'Inicio'],
+    ['title' => __('Inicio')],
 ]);
 ?>
 

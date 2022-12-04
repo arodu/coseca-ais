@@ -10,7 +10,7 @@ use App\Model\Field\StageStatus;
 <?php
 $this->assign('title', __('Edit Student Stage'));
 $this->Breadcrumbs->add([
-    ['title' => 'Home', 'url' => '/'],
+    ['title' => __('Inicio'), 'url' => '/'],
     ['title' => 'List Student Stages', 'url' => ['action' => 'index']],
     ['title' => 'View', 'url' => ['action' => 'view', $studentStage->id]],
     ['title' => 'Edit'],

@@ -14,7 +14,7 @@ use Cake\Core\Configure;
 <?php
 $this->assign('title', __('Students'));
 $this->Breadcrumbs->add([
-    ['title' => 'Home', 'url' => '/'],
+    ['title' => __('Inicio'), 'url' => '/'],
     ['title' => 'List Students'],
 ]);
 ?>

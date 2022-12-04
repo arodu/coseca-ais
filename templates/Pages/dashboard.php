@@ -1,7 +1,7 @@
 <?php
 $this->assign('title', __('Dashboard'));
 $this->Breadcrumbs->add([
-    ['title' => 'Home'],
+    ['title' => __('Inicio')],
 ]);
 
 $this->MenuLte->activeItem('startPages.activePage');
