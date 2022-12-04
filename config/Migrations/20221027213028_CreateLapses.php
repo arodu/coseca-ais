@@ -21,7 +21,7 @@ class CreateLapses extends AbstractMigration
             'null' => false,
         ]);
         $table->addColumn('active', 'boolean', [
-            'default' => null,
+            'default' => true,
             'null' => false,
         ]);
         $table->addColumn('tenant_id', 'integer', [

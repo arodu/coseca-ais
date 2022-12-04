@@ -6,11 +6,11 @@
  */
 ?>
 <?php
-$this->assign('title', __('Add Tenant'));
+$this->assign('title', __('Nuevo Programa'));
 $this->Breadcrumbs->add([
     ['title' => 'Home', 'url' => '/'],
-    ['title' => 'List Tenants', 'url' => ['action' => 'index']],
-    ['title' => 'Add'],
+    ['title' => 'Lista Programas', 'url' => ['action' => 'index']],
+    ['title' => 'Nuevo'],
 ]);
 ?>
 
@@ -18,16 +18,19 @@ $this->Breadcrumbs->add([
   <?= $this->Form->create($tenant) ?>
   <div class="card-body">
     <?php
-      echo $this->Form->control('name');
-      echo $this->Form->control('abbr');
-      echo $this->Form->control('active', ['custom' => true]);
+      echo $this->Form->control('name', ['label' => __('Nombre')]);
+      echo $this->Form->control('abbr', ['label' => __('ABRV')]);
+      echo $this->Form->control('active', ['label' => __('Activo'), 'custom' => true, 'checked' => true]);
+
+      echo $this->Form->control('current_lapse.name', ['label' => __('Lapso Académico')]);
+      echo $this->Form->hidden('current_lapse.active', ['value' => true]);
     ?>
   </div>
 
   <div class="card-footer d-flex">
     <div class="ml-auto">
-      <?= $this->Form->button(__('Save')) ?>
-      <?= $this->Html->link(__('Cancel'), ['action' => 'index'], ['class' => 'btn btn-default']) ?>
+      <?= $this->Form->button(__('Guardar')) ?>
+      <?= $this->Html->link(__('Cancelar'), ['action' => 'index'], ['class' => 'btn btn-default']) ?>
     </div>
   </div>
 

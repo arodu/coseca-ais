@@ -23,7 +23,7 @@ $this->Breadcrumbs->add([
                 'class' => 'form-control-sm',
                 'templates' => ['inputContainer' => '{{content}}']
             ]); ?>
-            <?= $this->Html->link(__('New Tenant'), ['action' => 'add'], ['class' => 'btn btn-primary btn-sm ml-2']) ?>
+            <?= $this->Html->link(__('Nuevo'), ['action' => 'add'], ['class' => 'btn btn-primary btn-sm ml-2']) ?>
         </div>
     </div>
     <!-- /.card-header -->
@@ -31,11 +31,11 @@ $this->Breadcrumbs->add([
         <table class="table table-hover text-nowrap">
             <thead>
                 <tr>
-                    <th><?= $this->Paginator->sort('name') ?></th>
-                    <th><?= $this->Paginator->sort('abbr') ?></th>
-                    <th><?= $this->Paginator->sort('current_lapse') ?></th>
-                    <th><?= $this->Paginator->sort('active') ?></th>
-                    <th class="actions"><?= __('Actions') ?></th>
+                    <th><?= $this->Paginator->sort('name', __('Nombre')) ?></th>
+                    <th><?= $this->Paginator->sort('abbr', __('ABRV')) ?></th>
+                    <th><?= $this->Paginator->sort('current_lapse', __('Lapso Actual')) ?></th>
+                    <th><?= $this->Paginator->sort('active', __('Activo')) ?></th>
+                    <th class="actions"><?= __('Acciones') ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -44,7 +44,7 @@ $this->Breadcrumbs->add([
                         <td><?= $this->Html->link($tenant->name, ['action' => 'view', $tenant->id], ['class' => '', 'escape' => false]) ?></td>
                         <td><?= h($tenant->abbr) ?></td>
                         <td><?= h($tenant->current_lapse->name) ?></td>
-                        <td><?= ($tenant->active) ? __('Yes') : __('No') ?></td>
+                        <td><?= ($tenant->active) ? __('Si') : __('No') ?></td>
                         <td class="actions">
                             <?= $this->Html->link(__('Ver'), ['action' => 'view', $tenant->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
                         </td>

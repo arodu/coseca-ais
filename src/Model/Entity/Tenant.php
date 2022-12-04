@@ -34,5 +34,6 @@ class Tenant extends Entity
         'students' => true,
         'tenant_filters' => true,
         'active' => true,
+        'current_lapse' => true,
     ];
 }
