@@ -87,11 +87,6 @@ class LapsesTable extends Table
             ->requirePresence('active', 'create')
             ->notEmptyString('active');
 
-        $validator
-            ->date('date')
-            ->requirePresence('date', 'create')
-            ->notEmptyDate('date');
-
         return $validator;
     }
 

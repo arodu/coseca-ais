@@ -20,7 +20,6 @@ $this->Breadcrumbs->add([
     <?php
       echo $this->Form->control('name');
       echo $this->Form->control('active', ['custom' => true]);
-      echo $this->Form->control('date');
       echo $this->Form->control('tenant_id', ['options' => $tenants]);
     ?>
   </div>

@@ -29,7 +29,6 @@ class Lapse extends Entity
     protected $_accessible = [
         'name' => true,
         'active' => true,
-        'date' => true,
         'tenant_id' => true,
         'student_stages' => true,
     ];

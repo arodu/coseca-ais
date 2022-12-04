@@ -158,9 +158,7 @@ class StudentStagesTable extends Table
         }
 
         if (empty($options['lapse_id'])) {
-            // @todo get CurrentLapse logic
-            // search currentLapse from tenant
-            //$options['lapse_id'] = $this->Lapses->getCurrentLapse()->id ?? null;
+            throw new InvalidArgumentException('param lapse_id is necessary');
         }
 
         if (empty($options['status'])) {

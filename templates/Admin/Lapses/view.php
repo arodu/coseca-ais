@@ -34,10 +34,6 @@ $this->Breadcrumbs->add([
                 <td><?= $this->Number->format($lapse->id) ?></td>
             </tr>
             <tr>
-                <th><?= __('Date') ?></th>
-                <td><?= h($lapse->date) ?></td>
-            </tr>
-            <tr>
                 <th><?= __('Active') ?></th>
                 <td><?= $lapse->active ? __('Yes') : __('No'); ?></td>
             </tr>

@@ -24,10 +24,6 @@ class CreateLapses extends AbstractMigration
             'default' => null,
             'null' => false,
         ]);
-        $table->addColumn('date', 'date', [
-            'default' => null,
-            'null' => false,
-        ]);
         $table->addColumn('tenant_id', 'integer', [
             'default' => null,
             'limit' => 11,

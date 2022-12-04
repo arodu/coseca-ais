@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use App\Model\Entity\Lapse;
 use App\Model\Table\Traits\BasicTableTrait;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
@@ -86,5 +87,18 @@ class TenantsTable extends Table
             ->notEmptyString('abbr');
 
         return $validator;
+    }
+
+    /**
+     * @param integer $tenant_id
+     * @return Lapse
+     */
+    public function getCurrentLapse(int $tenant_id): Lapse
+    {
+        $tenant = $this->get($tenant_id, [
+            'contain' => ['CurrentLapse'],
+        ]);
+
+        return $tenant->current_lapse;
     }
 }

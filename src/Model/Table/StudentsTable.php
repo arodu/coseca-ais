@@ -269,6 +269,7 @@ class StudentsTable extends Table
             $this->StudentStages->create([
                 'student_id' => $entity->id,
                 'stage' => StageField::default()->value,
+                'lapse_id' => $this->Tenants->getCurrentLapse($entity->tenant_id)->id,
             ]);
         }
     }

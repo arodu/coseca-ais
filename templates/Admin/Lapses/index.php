@@ -34,7 +34,6 @@ $this->Breadcrumbs->add([
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('name') ?></th>
                     <th><?= $this->Paginator->sort('active') ?></th>
-                    <th><?= $this->Paginator->sort('date') ?></th>
                     <th><?= $this->Paginator->sort('tenant_id') ?></th>
                     <th class="actions"><?= __('Actions') ?></th>
                 </tr>
@@ -45,7 +44,6 @@ $this->Breadcrumbs->add([
                         <td><?= $this->Number->format($lapse->id) ?></td>
                         <td><?= h($lapse->name) ?></td>
                         <td><?= ($lapse->active) ? __('Yes') : __('No') ?></td>
-                        <td><?= h($lapse->date) ?></td>
                         <td><?= $lapse->has('tenant') ? $this->Html->link($lapse->tenant->name, ['controller' => 'Tenants', 'action' => 'view', $lapse->tenant->id]) : '' ?></td>
                         <td class="actions">
                             <?= $this->Html->link(__('View'), ['action' => 'view', $lapse->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
