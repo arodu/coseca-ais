@@ -36,9 +36,10 @@ class StudentsController extends AppAdminController
         $query = $this->Students->find()->contain(['AppUsers', 'Tenants', 'LastStage' => ['Lapses']]);
 
         // filterLogic
+        $formData = $this->getRequest()->getQuery();
         $filtered = false;
-        if ($this->request->is('post')) {
-            $query = $this->Students->queryFilter($query, $this->getRequest()->getData());
+        if (!empty($formData)) {
+            $query = $this->Students->queryFilter($query, $formData);
             $filtered = true;
         }
         $tenants = $this->Students->Tenants->find('list');

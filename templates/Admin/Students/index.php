@@ -29,7 +29,7 @@ $this->Breadcrumbs->add([
             </span>
         </h2>
     </div>
-    <?= $this->Form->create() ?>
+    <?= $this->Form->create(null, ['type' => 'GET', 'valueSources' => ['query', 'context']]) ?>
     <div class="collapse <?= (($filtered ?? false) ? 'show' : null) ?>" id="collapse-filters">
         <div class="card-body">
             <div class="row">
