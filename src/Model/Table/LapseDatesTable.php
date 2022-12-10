@@ -1,8 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use App\Model\Field\StageField;
 use ArrayObject;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
@@ -98,5 +100,46 @@ class LapseDatesTable extends Table
         if ($entity->is_single_date) {
             $entity->end_date = null;
         }
+    }
+
+    /**
+     * @param integer $lapse_id
+     * @return iterable
+     */
+    public function saveDefaultDates(int $lapse_id): iterable
+    {
+        $defaultDates = [
+            [
+                'stage' => StageField::REGISTER,
+                'title' => null,
+                'is_single_date' => false,
+            ],
+            [
+                'stage' => StageField::COURSE,
+                'title' => null,
+                'is_single_date' => true,
+            ],
+            [
+                'stage' => StageField::TRACKING,
+                'title' => null,
+                'is_single_date' => false,
+            ],
+            [
+                'stage' => StageField::ENDING,
+                'title' => __('Exporeria'),
+                'is_single_date' => true,
+            ],
+        ];
+
+        $entities = $this->newEntities(array_map(function ($item) use ($lapse_id) {
+            return [
+                'lapse_id' => $lapse_id,
+                'title' => $item['title'] ?? $item['stage']->label(),
+                'stage' => $item['stage']->value,
+                'is_single_date' => $item['is_single_date'] ?? false,
+            ];
+        }, $defaultDates));
+
+        return $this->saveManyOrFail($entities);
     }
 }

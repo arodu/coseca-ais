@@ -6,15 +6,16 @@
  */
 
 $lapse = $lapse_date->lapse;
+$tenant = $lapse_date->lapse->tenant;
 
 ?>
 <?php
 $this->assign('title', __('Edit Lapse'));
 $this->Breadcrumbs->add([
     ['title' => __('Inicio'), 'url' => '/'],
-    ['title' => 'List Lapses', 'url' => ['action' => 'index']],
-    ['title' => 'View', 'url' => ['action' => 'view', $lapse->id]],
-    ['title' => 'Edit Dates'],
+    ['title' => __('Programas'), 'url' => ['controller' => 'Tenants', 'action' => 'index']],
+    ['title' => __('Ver'), 'url' => ['controller' => 'Tenants', 'action' => 'view', $tenant->id, '?' => ['lapse_id' => $lapse->id]]],
+    ['title' => __('Fecha Lapso')],
 ]);
 ?>
 
@@ -52,8 +53,8 @@ $this->Breadcrumbs->add([
 
     <div class="card-footer d-flex">
         <div class="ml-auto">
-            <?= $this->Form->button(__('Save')) ?>
-            <?= $this->Html->link(__('Cancel'), ['action' => 'view', $lapse->id], ['class' => 'btn btn-default']) ?>
+            <?= $this->Form->button(__('Guardar')) ?>
+            <?= $this->Html->link(__('Cancelar'), ['controller' => 'Tenants', 'action' => 'view', $tenant->id, '?' => ['lapse_id' => $lapse->id]], ['class' => 'btn btn-default']) ?>
         </div>
     </div>
 

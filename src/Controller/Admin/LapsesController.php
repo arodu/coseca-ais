@@ -108,7 +108,7 @@ class LapsesController extends AppAdminController
             if ($this->Lapses->LapseDates->save($lapse_date)) {
                 $this->Flash->success(__('Date has been updated.'));
 
-                return $this->redirect(['action' => 'view', $lapse_date->lapse_id]);
+                return $this->redirect(['controller' => 'Tenants', 'action' => 'view', $lapse_date->lapse->tenant_id, '?' => ['lapse_id' => $lapse_date->lapse_id]]);
             }
             $this->Flash->error(__('Date could not be updated. Please, try again.'));
         }

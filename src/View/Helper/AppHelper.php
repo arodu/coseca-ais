@@ -92,8 +92,12 @@ class AppHelper extends Helper
         return $this->Html->tag('span', $icon . __('Error'), $options);
     }
 
-    public function lapseLabel(Lapse $lapse): string
+    public function lapseLabel(?Lapse $lapse): ?string
     {
+        if (empty($lapse)) {
+            return null;
+        }
+
         if ($lapse->active) {
             return $lapse->name;
         }

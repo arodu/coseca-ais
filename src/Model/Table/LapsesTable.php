@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -90,40 +91,16 @@ class LapsesTable extends Table
         return $validator;
     }
 
+    /**
+     * @param EventInterface $event
+     * @param EntityInterface $entity
+     * @param ArrayObject $options
+     * @return void
+     */
     public function afterSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
     {
-        $defaultDates = [
-            [
-                'stage' => StageField::REGISTER,
-                'title' => null,
-                'is_single_date' => false,
-            ],
-            [
-                'stage' => StageField::COURSE,
-                'title' => null,
-                'is_single_date' => true,
-            ],
-            [
-                'stage' => StageField::TRACKING,
-                'title' => null,
-                'is_single_date' => false,
-            ],
-            [
-                'stage' => StageField::ENDING,
-                'title' => __('Exporeria'),
-                'is_single_date' => true,
-            ],
-        ];
-
-        $entities = $this->LapseDates->newEntities(array_map(function($item) use ($entity) {
-            return [
-                'lapse_id' => $entity->id,
-                'title' => $item['title'] ?? $item['stage']->label(),
-                'stage' => $item['stage']->value,
-                'is_single_date' => $item['is_single_date'] ?? false,
-            ];
-        }, $defaultDates));
-
-        $this->LapseDates->saveManyOrFail($entities);
+        if ($entity->isNew()) {
+            $this->LapseDates->saveDefaultDates($entity->id);
+        }
     }
 }

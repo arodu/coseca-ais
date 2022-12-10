@@ -12,7 +12,7 @@ $this->Breadcrumbs->add([
     ['title' => __('Inicio'), 'url' => '/'],
     ['title' => __('Programas'), 'url' => ['controller' => 'Tenants', 'action' => 'index']],
     ['title' => __('Ver'), 'url' => ['controller' => 'Tenants', 'action' => 'view', $tenant->id, '?' => ['lapse_id' => $lapse->id]]],
-    ['title' => __('Editar')],
+    ['title' => __('Editar Lapso')],
 ]);
 ?>
 
