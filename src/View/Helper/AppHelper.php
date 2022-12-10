@@ -6,6 +6,7 @@ namespace App\View\Helper;
 
 use App\Enum\Color;
 use App\Enum\FaIcon;
+use App\Model\Entity\Lapse;
 use Cake\View\Helper;
 
 /**
@@ -89,5 +90,16 @@ class AppHelper extends Helper
         $icon = FaIcon::ERROR->render('fa-fw mr-1');
 
         return $this->Html->tag('span', $icon . __('Error'), $options);
+    }
+
+    public function lapseLabel(Lapse $lapse): string
+    {
+        if ($lapse->active) {
+            return $lapse->name;
+        }
+
+        $inactive = $this->Html->tag('span', $lapse->label_active, ['class' => $lapse->getActive()->color()->cssClass('badge')]);
+
+        return $lapse->name . ' ' . $inactive;
     }
 }

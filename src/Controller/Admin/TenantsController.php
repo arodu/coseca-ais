@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Model\Entity\Lapse;
+use App\Model\Entity\Tenant;
 use Cake\Event\EventInterface;
 
 /**
@@ -56,18 +58,41 @@ class TenantsController extends AppAdminController
             ->order(['active' => 'DESC'])
             ->where(['tenant_id' => $id]);
 
-        $lapse_id = $this->getRequest()->getQuery('lapse_id');
-        if (empty($lapse_id) || $lapse_id == $tenant->current_lapse->id) {
-            $lapseSelected = $tenant->current_lapse;
-        } else {
-            $lapseSelected = $this->Tenants->Lapses->find()
-                ->where(['id' => $lapse_id])
-                ->contain(['LapseDates'])
-                ->first();
-        }
+        $lapseSelected = $this->getLapseSelected($tenant, $this->getRequest()->getQuery('lapse_id', null));
+
+        // @todo Something
+        //$lapse_id = $this->getRequest()->getQuery('lapse_id');
+        //if (empty($lapse_id) || $lapse_id == $tenant->current_lapse->id) {
+        //    $lapseSelected = $tenant->current_lapse;
+        //} else {
+        //    $lapseSelected = $this->Tenants->Lapses->find()
+        //        ->where(['id' => $lapse_id])
+        //        ->contain(['LapseDates'])
+        //        ->first();
+        //}
 
         $this->set(compact('tenant', 'lapses', 'lapseSelected'));
     }
+
+    private function getLapseSelected(Tenant $tenant, $lapse_id): ?Lapse
+    {
+        if (empty($lapse_id) && !empty($tenant->current_lapse)) {
+            return $tenant->current_lapse;
+        }
+
+        if (!empty($lapse_id)) {
+            return $this->Tenants->Lapses->get($lapse_id, [
+                'contain' => ['LapseDates']
+            ]);
+        }
+
+        return $this->Tenants->Lapses->find()
+                ->where(['tenant_id' => $tenant->id])
+                ->contain(['LapseDates'])
+                ->order(['id' => 'DESC'])
+                ->first();
+    }
+
 
     /**
      * Add method
@@ -79,6 +104,7 @@ class TenantsController extends AppAdminController
         $tenant = $this->Tenants->newEmptyEntity();
         if ($this->request->is('post')) {
             $tenant = $this->Tenants->patchEntity($tenant, $this->request->getData());
+
             if ($this->Tenants->save($tenant)) {
                 $this->Flash->success(__('The tenant has been saved.'));
 

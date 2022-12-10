@@ -37,11 +37,10 @@ class StudentsController extends AppAdminController
 
         // filterLogic
         $formData = $this->getRequest()->getQuery();
-        $filtered = false;
         if (!empty($formData)) {
             $query = $this->Students->queryFilter($query, $formData);
-            $filtered = true;
         }
+        $filtered = $this->Students->queryWasFiltered();
         $tenants = $this->Students->Tenants->find('list');
         $lapses = $this->Students->StudentStages->Lapses->find('list', [
             'keyField' => 'name',

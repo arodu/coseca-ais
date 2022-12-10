@@ -34,7 +34,12 @@ class Lapse extends Entity
         'student_stages' => true,
     ];
 
-    protected function _getTenantName()
+    /**
+     * @return string|null
+     * 
+     * @deprecated
+     */
+    protected function _getTenantName(): ?string
     {
         if (empty($this->tenant)) {
             return null;
@@ -43,19 +48,46 @@ class Lapse extends Entity
         return __('{0} ({1})', $this->tenant->name, $this->name);
     }
 
+    /**
+     * @var array
+     */
     protected $_virtual = [
         'label_active',
+        'label',
     ];
 
-    protected function _getLabelActive()
+    /**
+     * @return string
+     */
+    protected function _getLabel(): string
     {
-        return $this->getActive()->label();
+        if ($this->active) {
+            return $this->name;
+        }
+
+        return __('{0} ({1})', $this->name, $this->label_active);
+    }
+
+
+    /**
+     * @return string|null
+     */
+    protected function _getLabelActive(): ?string
+    {
+        return $this->getActive()?->label() ?? null;
     }
 
     private Active $_active;
 
-    public function getActive(): Active
+    /**
+     * @return Active|null
+     */
+    public function getActive(): ?Active
     {
+        if (is_null($this->active)) {
+            return null;
+        }
+
         if (empty($this->_active)) {
             $this->_active = Active::get($this->active);
         }

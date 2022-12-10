@@ -25,7 +25,6 @@ $this->Breadcrumbs->add([
         echo $this->Form->control('active', ['label' => __('Activo'), 'custom' => true]);
         ?>
     </div>
-
     <div class="card-footer d-flex">
         <div class="ml-auto">
             <?= $this->Form->button(__('Guardar')) ?>
