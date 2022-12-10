@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\View\Helper;
 
+use Cake\Utility\Text;
 use Cake\View\Helper;
 use Cake\View\View;
 
@@ -12,7 +13,7 @@ use Cake\View\View;
  */
 class BulkActionHelper extends Helper
 {
-    public $helpers = ['Form'];
+    public $helpers = ['Form', 'Html'];
 
     public const TYPE_ALL = 'all';
     public const TYPE_ITEM = 'item';
@@ -26,11 +27,43 @@ class BulkActionHelper extends Helper
         'fieldNameAll' => 'all',
         'fieldNameItem' => 'item',
         'fieldNameSelectAction' => 'action',
+
+        'cssClassAll' => 'bulk-all',
+        'cssClassItem' => 'bulk-item',
     ];
 
 
     public function scripts()
     {
+        $scriptTemplate = '$(function () {
+                $("{{cssClassAll}}").on("change", function() {
+                    let items = $("{{cssClassItem}}")
+                    let all = $("{{cssClassAll}}")
+                    all.prop("indeterminate", false)
+                    if ($(this).is(":checked")) {
+                        items.prop("checked", true)
+                        all.prop("checked", true)
+                    } else {
+                        items.prop("checked", false)
+                        all.prop("checked", false)
+                    }
+                })
+
+                $("{{cssClassItem}}").on("change", function() {
+                    let all = $("{{cssClassAll}}")
+                    all.prop("indeterminate", true)
+                })
+            })';
+
+        $script = Text::insert($scriptTemplate, [
+            'cssClassAll' => '.' . $this->getConfig('cssClassAll'),
+            'cssClassItem' => '.' . $this->getConfig('cssClassItem'),
+        ], [
+            'before' => '{{',
+            'after' => '}}',
+        ]);
+
+        return $this->Html->scriptBlock($script, ['block' => true]);
     }
 
     /**
@@ -41,32 +74,30 @@ class BulkActionHelper extends Helper
     public function checkbox(string $type = self::TYPE_ALL, ?string $item_id = null, array $options = []): ?string
     {
         $fieldName = $this->getConfig('fieldNameAll');
+        $class = $this->getConfig('cssClassAll');
         if ($type == self::TYPE_ITEM) {
             $fieldName = $this->getConfig('fieldNameItem') . '.' . $item_id;
+            $class = $this->getConfig('cssClassItem');
         }
 
         $options = array_merge([
             'type' => 'checkbox',
             'label' => false,
             'hiddenField' => false,
+            'class' => $class,
         ], $options);
 
         return $this->Form->control($fieldName, $options);
     }
 
-    public function selectActions($options)
+    public function selectActions($actions, array $options = [])
     {
         $options = array_merge([
             'label' => false,
             'empty' => true,
-            'options' => [],
             'required' => true,
         ], $options);
 
-        return $this->Form->control($this->getConfig('fieldNameSelectAction'), $options) 
-            . $this->Form->button(__('Submit'));
+        return $this->Form->select($this->getConfig('fieldNameSelectAction'), $actions, $options);
     }
 }
-
-
-// public function control(string $fieldName, array $options = []): string

@@ -129,11 +129,18 @@ $this->Breadcrumbs->add([
             </tbody>
         </table>
 
-        <?= $this->BulkAction->selectActions([
-            'options' => [
-                'closeStageCourse' => __('Taller finalizado con exito'),
-            ],
-        ]) ?>
+        <div class="row mx-2 mb-2">
+            <div class="col-12 col-md-6 col-xl-4">
+                <div class="input-group">
+                    <?= $this->BulkAction->selectActions([
+                        'closeStageCourse' => __('Taller finalizado con exito'),
+                    ]) ?>
+                    <span class="input-group-append">
+                        <?= $this->Form->button(__('Submit')) ?>
+                    </span>
+                </div>
+            </div>
+        </div>
 
         <?= $this->Form->end() ?>
     </div>
