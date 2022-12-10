@@ -41,7 +41,7 @@ $this->Breadcrumbs->add([
                     <div id="<?= 'collapse-' . $itemStage->value ?>" class="collapse <?= in_array($studentStageStatus, $statusActive) ? 'show' : '' ?>" data-parent="#stage-list">
                         <div class="card-body">
                             <?php
-                            $element = 'stages/' . $itemStage->value . '/' . $studentStageStatus->value;
+                            $element = 'students/stages/' . $itemStage->value . '/' . $studentStageStatus->value;
                             if ($this->elementExists($element)) {
                                 echo $this->element($element, ['stageInstance' => $studentStage->getStageInstance()]);
                             } else {

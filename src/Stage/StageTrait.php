@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Stage;
 
+use App\Model\Entity\LapseDate;
 use App\Model\Entity\Student;
 use App\Model\Entity\StudentStage;
 use App\Model\Field\StageField;
@@ -121,18 +122,13 @@ trait StageTrait
     }
 
 
-    public function getDates(): array
+    public function getDates(): ?LapseDate
     {
-        $lapseDates = $this->LapseDates->find()
+        return $this->LapseDates->find()
             ->where([
                 'lapse_id' => $this->getStudentStage()->lapse_id,
-                'code' => $this->getStageField()->value,
+                'stage' => $this->getStageField()->value,
             ])
             ->first();
-
-        return [
-            'start_date' => $lapseDates->start_date,
-            'end_date' => $lapseDates->end_date,
-        ];
     }
 }
