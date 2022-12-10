@@ -16,6 +16,7 @@ class StudentStagesController extends AppAdminController
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
+    /*
     public function index()
     {
         $this->paginate = [
@@ -25,6 +26,7 @@ class StudentStagesController extends AppAdminController
 
         $this->set(compact('studentStages'));
     }
+    */
 
     /**
      * View method
@@ -33,6 +35,7 @@ class StudentStagesController extends AppAdminController
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
+    /*
     public function view($id = null)
     {
         $studentStage = $this->StudentStages->get($id, [
@@ -41,12 +44,14 @@ class StudentStagesController extends AppAdminController
 
         $this->set(compact('studentStage'));
     }
+    */
 
     /**
      * Add method
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
+    /*
     public function add()
     {
         $studentStage = $this->StudentStages->newEmptyEntity();
@@ -63,6 +68,7 @@ class StudentStagesController extends AppAdminController
         $lapses = $this->StudentStages->Lapses->find('list', ['limit' => 200])->all();
         $this->set(compact('studentStage', 'students', 'lapses'));
     }
+    */
 
     /**
      * Edit method
@@ -74,20 +80,22 @@ class StudentStagesController extends AppAdminController
     public function edit($id = null)
     {
         $studentStage = $this->StudentStages->get($id, [
-            'contain' => [],
+            'contain' => ['Students'],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $studentStage = $this->StudentStages->patchEntity($studentStage, $this->request->getData());
             if ($this->StudentStages->save($studentStage)) {
                 $this->Flash->success(__('The student stage has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller' => 'Students', 'action' => 'view', $studentStage->student_id]);
             }
             $this->Flash->error(__('The student stage could not be saved. Please, try again.'));
         }
-        $students = $this->StudentStages->Students->find('list', ['limit' => 200])->all();
-        $lapses = $this->StudentStages->Lapses->find('list', ['limit' => 200])->all();
-        $this->set(compact('studentStage', 'students', 'lapses'));
+        $lapses = $this->StudentStages->Lapses
+            ->find('list', ['limit' => 200])
+            ->where(['Lapses.tenant_id' => $studentStage->student->tenant_id])
+            ->all();
+        $this->set(compact('studentStage', 'lapses'));
     }
 
     /**
@@ -97,6 +105,7 @@ class StudentStagesController extends AppAdminController
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
+    /*
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
@@ -109,4 +118,17 @@ class StudentStagesController extends AppAdminController
 
         return $this->redirect(['action' => 'index']);
     }
+    */
+
+
+    public function close($id = null)
+    {
+        $this->request->allowMethod(['patch', 'post', 'put']);
+        $studentStage = $this->StudentStages->get($id);
+
+        $this->Flash->success(__('The student stage has been updated.'));
+
+        return $this->redirect(['controller' => 'Students', 'action' => 'view', $studentStage->student_id]);
+    }
+
 }
