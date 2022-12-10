@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Controller\Traits\BulkActionsTrait;
+use App\Model\Field\StageField;
+use App\Model\Field\StageStatus;
 use Cake\Event\EventInterface;
 
 /**
@@ -14,6 +17,7 @@ use Cake\Event\EventInterface;
  */
 class StudentsController extends AppAdminController
 {
+    use BulkActionsTrait;
 
     public function beforeRender(EventInterface $event)
     {
@@ -132,5 +136,31 @@ class StudentsController extends AppAdminController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    /**
+     * @param array $items
+     * @param array|null $redirect
+     * @return \Cake\Http\Response|null|void Redirects to index.
+     */
+    protected function closeStageCourse(array $items, array $redirect = null)
+    {
+        $students = $this->Students->find()
+            ->where(['Students.id IN' => $items])
+            ->contain(['LastStage']);
+
+        $count = 0;
+        foreach ($students as $student) {
+            $stageField = $student->last_stage->getStageField();
+
+            if ($stageField == StageField::COURSE) {
+                $student->last_stage->getStageInstance()->close(StageStatus::SUCCESS);
+                $count++;
+            }
+        }
+
+        $this->Flash->success(__('Cantidad de registros actualizados: {0}', $count));
+
+        return $this->redirect($redirect ?? ['action' => 'index']);
     }
 }

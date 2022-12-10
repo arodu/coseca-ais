@@ -26,6 +26,7 @@ use CakeLte\View\CakeLteTrait;
  * @link https://book.cakephp.org/4/en/views.html#the-app-view
  * 
  * @property \App\View\Helper\AppHelper $App
+ * @property \App\View\Helper\BulkActionHelper $BulkAction
  */
 class AppView extends View
 {

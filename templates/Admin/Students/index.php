@@ -83,9 +83,11 @@ $this->Breadcrumbs->add([
     </div>
     <!-- /.card-header -->
     <div class="card-body table-responsive p-0">
+        <?= $this->Form->create(null, ['url' => ['action' => 'bulkActions']]) ?>
         <table class="table table-striped table-hover text-nowrap projects">
             <thead>
                 <tr>
+                    <th class="narrow"><?= $this->BulkAction->checkbox('all') ?></th>
                     <th class="narrow"><?= $this->Paginator->sort('Tenants.abbr', __('Programa')) ?></th>
                     <th><?= $this->Paginator->sort('dni', __('Cedula')) ?></th>
                     <th><?= $this->Paginator->sort('AppUsers.first_name', __('Nombres')) ?></th>
@@ -102,6 +104,7 @@ $this->Breadcrumbs->add([
                     $studentStage = $student->last_stage;
                     ?>
                     <tr>
+                        <td><?= $this->BulkAction->checkbox('item', $student->id) ?></td>
                         <td><?= h($student->tenant->abbr) ?></td>
                         <td><?= h($student->dni) ?></td>
                         <td><?= h($student->first_name) ?></td>
@@ -125,6 +128,14 @@ $this->Breadcrumbs->add([
                 <?php endforeach; ?>
             </tbody>
         </table>
+
+        <?= $this->BulkAction->selectActions([
+            'options' => [
+                'closeStageCourse' => __('Taller finalizado con exito'),
+            ],
+        ]) ?>
+
+        <?= $this->Form->end() ?>
     </div>
     <!-- /.card-body -->
 
@@ -141,3 +152,5 @@ $this->Breadcrumbs->add([
         </ul>
     </div>
 </div>
+
+<?= $this->BulkAction->scripts() ?>
