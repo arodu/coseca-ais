@@ -16,10 +16,10 @@ $icon = $status->icon();
 
         <h3 class="timeline-header"><strong><?= $studentStage->stage_label ?></strong> <small> (<?= $studentStage->status_label ?>)</small></h3>
 
-        <div class="timeline-body">
-            <!-- Etsy  edmodo ifttt zimbra. Babblely odeo kaboodle
-            quora plaxo ideeli hulu weebly balihoo... -->
-        </div>
+        <!-- <div class="timeline-body">
+            Etsy  edmodo ifttt zimbra. Babblely odeo kaboodle
+            quora plaxo ideeli hulu weebly balihoo...
+        </div> -->
         <div class="timeline-footer d-flex">
             <div>
             </div>

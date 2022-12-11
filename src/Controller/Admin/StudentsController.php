@@ -79,6 +79,24 @@ class StudentsController extends AppAdminController
         $this->set(compact('listStages', 'student', 'studentStages'));
     }
 
+    public function info($id = null)
+    {
+        $student = $this->Students->get($id, [
+            'contain' => ['AppUsers', 'StudentData'],
+        ]);
+
+        $this->set(compact('student'));
+    }
+
+    public function settings($id = null)
+    {
+        $student = $this->Students->get($id, [
+            'contain' => ['AppUsers', 'StudentData'],
+        ]);
+
+        $this->set(compact('student'));
+    }
+
     /**
      * Add method
      *
