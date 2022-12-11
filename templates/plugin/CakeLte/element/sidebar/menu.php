@@ -24,10 +24,10 @@ if (in_array($this->Identity->get('role'), UserRole::getAdminGroup())) {
         'uri' => ['controller' => 'Institutions', 'action' => 'index', 'prefix' => 'Admin'],
     ];
 
-    //$menu['lapses'] = [
-    //    'label' => __('Lapsos Academicos'),
-    //    'uri' => ['controller' => 'Lapses', 'action' => 'index', 'prefix' => 'Admin'],
-    //];
+    $menu['tutors'] = [
+        'label' => __('Tutores'),
+        'uri' => ['controller' => 'Tutors', 'action' => 'index', 'prefix' => 'Admin'],
+    ];
 }
 
 if (in_array($this->Identity->get('role'), UserRole::getSuperAdminGroup())) {
