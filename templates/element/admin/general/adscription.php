@@ -20,9 +20,9 @@ $adscriptions = $adscriptionStageObject->adscriptionList();
 
         <h3 class="timeline-header"><strong><?= $studentStage->stage_label ?></strong> <small> (<?= $studentStage->status_label ?>)</small></h3>
 
-        <div class="timeline-body">
+        <div class="timeline-body p-0">
             <?php if (empty($adscriptions)) : ?>
-                <div class="alert alert-warning">
+                <div class="alert alert-warning m-4">
                     <?= __('No hay proyectos adscritos') ?>
                 </div>
             <?php else : ?>
