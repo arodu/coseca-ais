@@ -66,7 +66,7 @@ class StudentsController extends AppAdminController
     public function view($id = null)
     {
         $student = $this->Students->get($id, [
-            'contain' => [],
+            'contain' => ['Adscriptions'],
         ]);
 
         $studentStages = $this->Students->StudentStages

@@ -95,6 +95,11 @@ class StudentsTable extends Table
             'dependent' => true,
             'cascadeCallbacks' => true,
         ]);
+        $this->hasMany('Adscriptions', [
+            'foreignKey' => 'student_id',
+            'dependent' => true,
+            'cascadeCallbacks' => true,
+        ]);
 
         $this->loadQueryFilters();
     }

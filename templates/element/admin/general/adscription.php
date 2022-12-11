@@ -2,11 +2,15 @@
 
 /** @var \App\Model\Entity\StudentStage $studentStage */
 
+use App\Enum\FaIcon;
 use App\Model\Field\StageStatus;
 
 $status = $studentStage->getStatus();
 $color = $status->color();
 $icon = $status->icon();
+/** @var \App\Stage\AdscriptionStage $adscriptionStageObject */
+$adscriptionStageObject = $studentStage->getStageInstance();
+$adscriptions = $adscriptionStageObject->adscriptionList();
 ?>
 
 <div>
@@ -16,12 +20,49 @@ $icon = $status->icon();
 
         <h3 class="timeline-header"><strong><?= $studentStage->stage_label ?></strong> <small> (<?= $studentStage->status_label ?>)</small></h3>
 
-        <!-- <div class="timeline-body">
-            Etsy  edmodo ifttt zimbra. Babblely odeo kaboodle
-            quora plaxo ideeli hulu weebly balihoo...
-        </div> -->
-        <div class="timeline-footer d-flex">
+        <div class="timeline-body">
+            <?php if (empty($adscriptions)) : ?>
+                <div class="alert alert-warning">
+                    <?= __('No hay proyectos adscritos') ?>
+                </div>
+            <?php else : ?>
+                <table class="table">
+                    <tr>
+                        <th><?= __('Institución') ?></th>
+                        <th><?= __('Proyecto') ?></th>
+                        <th><?= __('Lapso') ?></th>
+                        <th><?= __('Tutor') ?></th>
+                        <th class="narrow"></th>
+                    </tr>
+                    <?php foreach ($adscriptions as $adscription) : ?>
+                        <tr>
+                            <td><?= $adscription->project->institution->name ?></td>
+                            <td><?= $adscription->project->name ?></td>
+                            <td><?= $adscription->lapse->name ?></td>
+                            <td><?= $adscription->tutor->name ?></td>
+                            <td>
+                                <?= $this->Html->link(
+                                    FaIcon::EDIT->render(),
+                                    ['controller' => 'Adscriptions', 'action' => 'edit', $adscription->id],
+                                    ['class' => 'btn btn-link btn-sm', 'escape' => false]
+                                ) ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </table>
+            <?php endif; ?>
+        </div>
+        <div class="timeline-footer d-flex border-top">
             <div>
+                <?php
+                if (!in_array($status, [StageStatus::PENDING])) :
+                    echo $this->Html->link(
+                        __('Agregar a Proyecto'),
+                        ['controller' => 'Adscriptions', 'action' => 'add', $studentStage->id],
+                        ['class' => 'btn btn-primary btn-sm']
+                    );
+                endif;
+                ?>
             </div>
 
             <div class="ml-auto">
@@ -33,8 +74,6 @@ $icon = $status->icon();
                     ]
                 ) ?>
             </div>
-            <!-- <a href="#" class="btn btn-primary btn-sm">Read more</a>
-            <a href="#" class="btn btn-danger btn-sm">Delete</a> -->
         </div>
     </div>
 </div>

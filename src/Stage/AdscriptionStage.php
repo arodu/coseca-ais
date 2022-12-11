@@ -12,9 +12,22 @@ class AdscriptionStage implements StageInterface
 
     public function initialize(): void
     {
+        $this->Adscriptions = $this->fetchTable('Adscriptions');
     }
 
     public function close(StageStatus $stageStatus)
     {
+    }
+
+    public function adscriptionList(): ?array
+    {
+        return $this->Adscriptions->find()
+            ->where(['Adscriptions.student_id' => $this->getStudentId()])
+            ->contain([
+                'Projects' => ['Institutions'],
+                'Lapses',
+                'Tutors',
+            ])
+            ->toArray();
     }
 }

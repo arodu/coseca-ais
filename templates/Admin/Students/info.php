@@ -4,8 +4,6 @@
  * @var \App\View\AppView $this
  */
 
-use App\Model\Field\StageStatus;
-
 $this->student_id = $student->id;
 $this->active = 'info';
 $this->extend('/Admin/Common/view_student');
@@ -65,7 +63,16 @@ $this->Breadcrumbs->add([
 <div class="card-body">
     <dl class="row">
         <dt class="col-sm-4"><?= __('Institución') ?></dt>
-        <dd class="col-sm-8 text-right"><?= '<code>N/A</code>' ?></dd>
+        <dd class="col-sm-8 text-right mb-4"><?= '<code>N/A</code>' ?></dd>
+
+        <dt class="col-sm-4"><?= __('Proyecto') ?></dt>
+        <dd class="col-sm-8 text-right mb-4"><?= '<code>N/A</code>' ?></dd>
+
+        <dt class="col-sm-4"><?= __('Tutor Académico') ?></dt>
+        <dd class="col-sm-8 text-right mb-4"><?= '<code>N/A</code>' ?></dd>
+
+        <dt class="col-sm-4"><?= __('Lapso') ?></dt>
+        <dd class="col-sm-8 text-right mb-4"><?= '<code>N/A</code>' ?></dd>
     </dl>
 </div>
 

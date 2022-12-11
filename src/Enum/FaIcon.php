@@ -19,6 +19,7 @@ enum FaIcon
     case SEARCH;
     case FILTER;
     case STAR;
+    case EDIT;
 
 
     /**
@@ -37,6 +38,7 @@ enum FaIcon
             static::SEARCH => 'fas fa-search',
             static::FILTER => 'fas fa-filter',
             static::ERROR => 'fas fa-bug',
+            static::EDIT => 'fas fa-edit',
 
             default => 'fas fa-flag',
         };

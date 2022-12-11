@@ -2,9 +2,11 @@
 
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
+use App\Stage\AdscriptionStage;
 use App\Stage\CourseStage;
 use App\Stage\EndingStage;
 use App\Stage\RegisterStage;
+use App\Stage\TrackingStage;
 
 return [
     'Stages' => [
@@ -20,12 +22,12 @@ return [
         ],
         StageField::ADSCRIPTION->value => [
             'label' => __('Adscripción'),
-            'class' => CourseStage::class,
+            'class' => AdscriptionStage::class,
             'status' => StageStatus::WAITING,
         ],
         StageField::TRACKING->value => [
             'label' => __('Seguimiento'),
-            'class' => CourseStage::class,
+            'class' => TrackingStage::class,
             'status' => StageStatus::IN_PROGRESS,
         ],
         StageField::ENDING->value => [
