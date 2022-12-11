@@ -27,37 +27,46 @@ class BulkActionHelper extends Helper
         'fieldNameAll' => 'all',
         'fieldNameItem' => 'item',
         'fieldNameSelectAction' => 'action',
+        'url' => ['action' => 'bulkAction'],
 
         'cssClassAll' => 'bulk-all',
         'cssClassItem' => 'bulk-item',
+        'selectAction' => 'bulk-action',
+        'form' => 'bulk-form',
+
+        'templates' => [
+            'confirm' => '{content}',
+        ],
     ];
 
+    protected $scriptTemplate = <<<SCRIPT_TEMPLATE
+    $(function () {
+        $("{{cssClassAll}}").on("change", function() {
+            let items = $("{{cssClassItem}}")
+            let all = $("{{cssClassAll}}")
+            all.prop("indeterminate", false)
+            if ($(this).is(":checked")) {
+                items.prop("checked", true)
+                all.prop("checked", true)
+            } else {
+                items.prop("checked", false)
+                all.prop("checked", false)
+            }
+        })
+
+        $("{{cssClassItem}}").on("change", function() {
+            let all = $("{{cssClassAll}}")
+            all.prop("indeterminate", true)
+        })
+    })
+    SCRIPT_TEMPLATE;
 
     public function scripts()
     {
-        $scriptTemplate = '$(function () {
-                $("{{cssClassAll}}").on("change", function() {
-                    let items = $("{{cssClassItem}}")
-                    let all = $("{{cssClassAll}}")
-                    all.prop("indeterminate", false)
-                    if ($(this).is(":checked")) {
-                        items.prop("checked", true)
-                        all.prop("checked", true)
-                    } else {
-                        items.prop("checked", false)
-                        all.prop("checked", false)
-                    }
-                })
-
-                $("{{cssClassItem}}").on("change", function() {
-                    let all = $("{{cssClassAll}}")
-                    all.prop("indeterminate", true)
-                })
-            })';
-
-        $script = Text::insert($scriptTemplate, [
+        $script = Text::insert($this->scriptTemplate, [
             'cssClassAll' => '.' . $this->getConfig('cssClassAll'),
             'cssClassItem' => '.' . $this->getConfig('cssClassItem'),
+            'selectAction' => '.' . $this->getConfig('selectAction'),
         ], [
             'before' => '{{',
             'after' => '}}',
@@ -96,7 +105,10 @@ class BulkActionHelper extends Helper
             'label' => false,
             'empty' => true,
             'required' => true,
+            'class' => '',
         ], $options);
+
+        $options['class'] .= ' ' . $this->getConfig('selectAction');
 
         return $this->Form->select($this->getConfig('fieldNameSelectAction'), $actions, $options);
     }

@@ -168,24 +168,17 @@ class StudentsController extends AppAdminController
      * @param array|null $redirect
      * @return \Cake\Http\Response|null|void Redirects to index.
      */
-    protected function closeStageCourse(array $items, array $redirect = null)
+    protected function closeStageCourse(array $ids = [])
     {
-        $students = $this->Students->find()
-            ->where(['Students.id IN' => $items])
-            ->contain(['LastStage']);
-
-        $count = 0;
-        foreach ($students as $student) {
-            $stageField = $student->last_stage->getStageField();
-
-            if ($stageField == StageField::COURSE) {
-                $student->last_stage->getStageInstance()->close(StageStatus::SUCCESS);
-                $count++;
-            }
+        if (empty($ids)) {
+            $this->Flash->warning(__('No se han seleccionado estudiantes'));
+            return $this->redirect(['action' => 'index']);
         }
 
-        $this->Flash->success(__('Cantidad de registros actualizados: {0}', $count));
+        $affectedRows = $this->Students->closeLastStageMasive($ids, StageField::COURSE, StageStatus::SUCCESS);
 
-        return $this->redirect($redirect ?? ['action' => 'index']);
+        $this->Flash->success(__('Cantidad de registros actualizados: {0}', $affectedRows));
+
+        return $this->redirect(['action' => 'index']);
     }
 }

@@ -6,6 +6,7 @@ namespace App\Model\Table;
 
 use App\Model\Entity\AppUser;
 use App\Model\Field\StageField;
+use App\Model\Field\StageStatus;
 use App\Model\Field\StudentType;
 use App\Model\Table\Traits\BasicTableTrait;
 use ArrayObject;
@@ -158,11 +159,11 @@ class StudentsTable extends Table
             'finder' => 'lastStageFilter',
         ]);
         $this->addFilterField('lapse', [
-            'finder' => function(Query $query, array $options = []) {
+            'finder' => function (Query $query, array $options = []) {
                 $lapses_ids = $this->StudentStages->Lapses
                     ->find('list', ['valueField' => 'id'])
                     ->where([$this->StudentStages->Lapses->aliasField('name') => $options['value']]);
-                
+
                 return $query->find('lastStageFilter', [
                     'tableField' => $this->LastStage->aliasField('lapse_id') . ' IN',
                     'value' => $lapses_ids,
@@ -229,5 +230,30 @@ class StudentsTable extends Table
         if (!$this->save($student)) {
             Log::warning('student already exists');
         }
+    }
+
+    public function closeLastStageMasive(mixed $ids, StageField $stageField, StageStatus $stageStatus): int
+    {
+        if (is_string($ids) || is_int($ids)) {
+            $ids = [$ids];
+        }
+
+        $studentStages = $this->StudentStages
+            ->find('lastElement')
+            ->where([
+                'StudentStages.student_id IN' => $ids,
+                'StudentStages.stage' => $stageField->value,
+            ]);
+
+        $affectedRows = 0;
+        foreach ($studentStages as $student) {
+            $lasStageField = $student->last_stage->getStageField();
+            if ($lasStageField == $stageField) {
+                $student->last_stage->getStageInstance()->close($stageStatus);
+                $affectedRows++;
+            }
+        }
+
+        return $affectedRows;
     }
 }

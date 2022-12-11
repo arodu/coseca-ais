@@ -13,7 +13,10 @@ trait BulkActionsTrait
         $data = $this->getRequest()->getData();
 
         $action = $data['action'];
-        $items = array_keys($data['item']) ?? [];
+        $items = [];
+        if (!empty($data['item']) && is_array($data['item'])) {
+            $items = array_keys($data['item']);
+        }
 
         if (method_exists($this, $action)) {
             return $this->$action($items);
