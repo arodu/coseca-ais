@@ -15,9 +15,15 @@
             <div class="card-header p-2">
                 <?= $this->element('admin/student_menu', ['active' => $this->active, 'student_id' => $this->student_id]) ?>
             </div><!-- /.card-header -->
-            <div class="card-body">
+            <div class="card-body p-0">
                 <?= $this->fetch('content') ?>
             </div><!-- /.card-body -->
+
+            <?php if ($this->exists('footer')) : ?>
+                <div class="card-footer d-flex">
+                    <?= $this->fetch('footer') ?>
+                </div>
+            <?php endif ?>
         </div>
         <!-- /.card -->
     </div>

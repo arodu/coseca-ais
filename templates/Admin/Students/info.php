@@ -19,6 +19,8 @@ $this->Breadcrumbs->add([
 ]);
 ?>
 
-<div class="alert alert-info">
-    Info
+<div class="m-4">
+    <div class="alert alert-info">
+        Info
+    </div>
 </div>

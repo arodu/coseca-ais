@@ -21,13 +21,15 @@ $this->Breadcrumbs->add([
 ?>
 
 <?= $this->Form->create($studentStage) ?>
-<?php
-echo $this->Form->control('stage', ['readonly' => true]);
-echo $this->Form->control('lapse_id', ['options' => $lapses]);
-echo $this->Form->control('status', ['options' => StageStatus::toListLabel()]);
-?>
+<div class="m-4">
+    <?php
+    echo $this->Form->control('stage', ['readonly' => true]);
+    echo $this->Form->control('lapse_id', ['options' => $lapses]);
+    echo $this->Form->control('status', ['options' => StageStatus::toListLabel()]);
+    ?>
+</div>
 
-<div class="d-flex">
+<div class="card-footer m-0 d-flex">
     <hr>
     <div class="ml-auto">
         <?= $this->Form->button(__('Guardar')) ?>

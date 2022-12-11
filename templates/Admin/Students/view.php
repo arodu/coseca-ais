@@ -18,31 +18,33 @@ $this->Breadcrumbs->add([
 ]);
 ?>
 
-<div class="timeline timeline-inverse">
-    <?php foreach ($listStages as $stage) : ?>
-        <?php
-        $studentStage = $studentStages[$stage->value] ?? null;
-        ?>
-        <!-- timeline item -->
-        <?php if (empty($studentStage)) : ?>
-            <div>
-                <?= StageStatus::PENDING->icon()->render() ?>
-                <div class="timeline-item">
-                    <h3 class="timeline-header"><strong><?= $stage->label() ?></strong></h3>
-                </div>
-            </div>
-        <?php else : ?>
+<div class="m-4">
+    <div class="timeline timeline-inverse">
+        <?php foreach ($listStages as $stage) : ?>
             <?php
-            $element = 'admin/general/' . $stage->value;
-            echo $this->element($element, [
-                'stage' => $stage,
-                'studentStage' => $studentStage,
-            ]);
+            $studentStage = $studentStages[$stage->value] ?? null;
             ?>
-        <?php endif; ?>
-        <!-- END timeline item -->
-    <?php endforeach; ?>
-    <div>
-        <i class="far fa-clock bg-gray"></i>
+            <!-- timeline item -->
+            <?php if (empty($studentStage)) : ?>
+                <div>
+                    <?= StageStatus::PENDING->icon()->render() ?>
+                    <div class="timeline-item">
+                        <h3 class="timeline-header"><strong><?= $stage->label() ?></strong></h3>
+                    </div>
+                </div>
+            <?php else : ?>
+                <?php
+                $element = 'admin/general/' . $stage->value;
+                echo $this->element($element, [
+                    'stage' => $stage,
+                    'studentStage' => $studentStage,
+                ]);
+                ?>
+            <?php endif; ?>
+            <!-- END timeline item -->
+        <?php endforeach; ?>
+        <div>
+            <i class="far fa-clock bg-gray"></i>
+        </div>
     </div>
 </div>

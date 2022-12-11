@@ -19,7 +19,15 @@ $this->Breadcrumbs->add([
 ]);
 ?>
 
+<div class="m-4">
+    <div class="alert alert-info">
+        Settings
+    </div>
 
-<div class="alert alert-info">
-    Settings
+    <ul>
+        <li>Cambiar de programa</li>
+        <li>Cambiar email</li>
+        <li>Convalidar servicio comunitario</li>
+        <li>Cambiar contraseña</li>
+    </ul>
 </div>
