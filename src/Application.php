@@ -78,6 +78,7 @@ class Application extends BaseApplication
         $this->addPlugin(\CakeDC\Users\Plugin::class);
         Configure::write('Users.config', ['users']);
         $this->addPlugin('QueryFilter');
+        $this->addPlugin('ModalSecurity');
     }
 
     /**
