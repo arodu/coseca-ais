@@ -19,7 +19,7 @@ $this->Breadcrumbs->add([
 ]);
 ?>
 
-<div class="m-4">
+<div class="card-body">
     <div class="alert alert-info">
         Settings
     </div>

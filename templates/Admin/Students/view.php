@@ -18,7 +18,7 @@ $this->Breadcrumbs->add([
 ]);
 ?>
 
-<div class="m-4">
+<div class="card-body">
     <div class="timeline timeline-inverse">
         <?php foreach ($listStages as $stage) : ?>
             <?php

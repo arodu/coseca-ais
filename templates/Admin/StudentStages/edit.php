@@ -21,7 +21,7 @@ $this->Breadcrumbs->add([
 ?>
 
 <?= $this->Form->create($studentStage) ?>
-<div class="m-4">
+<div class="card-body">
     <?php
     echo $this->Form->control('stage', ['readonly' => true]);
     echo $this->Form->control('lapse_id', ['options' => $lapses]);
@@ -29,7 +29,7 @@ $this->Breadcrumbs->add([
     ?>
 </div>
 
-<div class="card-footer m-0 d-flex">
+<div class="card-footer d-flex">
     <hr>
     <div class="ml-auto">
         <?= $this->Form->button(__('Guardar')) ?>
