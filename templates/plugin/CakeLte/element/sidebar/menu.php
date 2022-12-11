@@ -18,6 +18,12 @@ if (in_array($this->Identity->get('role'), UserRole::getAdminGroup())) {
         'label' => __('Programas'),
         'uri' => ['controller' => 'Tenants', 'action' => 'index', 'prefix' => 'Admin'],
     ];
+
+    $menu['institutions'] = [
+        'label' => __('Instituciones'),
+        'uri' => ['controller' => 'Institutions', 'action' => 'index', 'prefix' => 'Admin'],
+    ];
+
     //$menu['lapses'] = [
     //    'label' => __('Lapsos Academicos'),
     //    'uri' => ['controller' => 'Lapses', 'action' => 'index', 'prefix' => 'Admin'],
