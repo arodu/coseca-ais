@@ -26,7 +26,7 @@ $icon = $status->icon();
                 if (in_array($status, [StageStatus::IN_PROGRESS, StageStatus::WAITING])) :
                     echo $this->Form->postLink(
                         __('Concluir taller'),
-                        ['controller' => 'StudentStages', 'action' => 'close', $studentStage->id],
+                        ['controller' => 'StudentStages', 'action' => 'forcedClose', $studentStage->id],
                         [
                             'class' => 'btn btn-primary btn-sm',
                             'confirm' => __('Esta seguro que desea cerrar esta etapa?')

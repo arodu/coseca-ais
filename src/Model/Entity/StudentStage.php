@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -27,6 +28,9 @@ use Cake\ORM\Entity;
  */
 class StudentStage extends Entity
 {
+    private StageField $_stageObj;
+    private StageStatus $_stageStatusObj;
+
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
@@ -51,23 +55,80 @@ class StudentStage extends Entity
 
     protected $_virtual = [
         'stage_label',
+        'stage_obj',
         'status_label',
+        'status_obj',
     ];
 
     protected function _getStageLabel(): string
     {
-        return $this->getStageField()->label();
+        return $this->stage_obj->label();
     }
 
     protected function _getStatusLabel(): string
     {
-        return $this->getStatus()->label();
+        return $this->status_obj->label();
+    }
+
+    /**
+     * @return StageField
+     */
+    protected function _getStageObj(): StageField
+    {
+        if (empty($this->_stageObj)) {
+            $this->_stageObj = StageField::from($this->stage);
+        }
+
+        return $this->_stageObj;
+    }
+
+    /**
+     * @return StageField
+     * 
+     * @deprecated
+     */
+    public function getStageField(): StageField
+    {
+        return $this->stage_obj;
+    }
+
+    /**
+     * @return StageStatus
+     */
+    protected function _getStatusObj(): StageStatus
+    {
+        if (empty($this->_stageStatusObj)) {
+            $this->_stageStatusObj = StageStatus::from($this->status);
+        }
+
+        return $this->_stageStatusObj;
+    }
+
+    /**
+     * @return void
+     */
+    public function objReset()
+    {
+        $this->_stageStatusObj = null;
+        $this->_stageObj = null;
+    }
+
+    /**
+     * @return StageStatus
+     * 
+     * @deprecated version
+     */
+    public function getStatus(): StageStatus
+    {
+        return $this->status_obj;
     }
 
     private StageInterface $_stageInstance;
 
     /**
      * @return StageInterface
+     * 
+     * @deprecated
      */
     public function getStageInstance(): StageInterface
     {
@@ -76,33 +137,5 @@ class StudentStage extends Entity
         }
 
         return $this->_stageInstance;
-    }
-
-    private StageField $_stageField;
-
-    /**
-     * @return StageField
-     */
-    public function getStageField(): StageField
-    {
-        if (empty($this->_stageField)) {
-            $this->_stageField = StageField::from($this->stage);
-        }
-
-        return $this->_stageField;
-    }
-
-    private StageStatus $_stageStatus;
-
-    /**
-     * @return StageStatus
-     */
-    public function getStatus(): StageStatus
-    {
-        if (empty($this->_stageStatus)) {
-            $this->_stageStatus = StageStatus::from($this->status);
-        }
-
-        return $this->_stageStatus;
     }
 }

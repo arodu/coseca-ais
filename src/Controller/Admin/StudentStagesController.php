@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Admin;
@@ -121,14 +122,15 @@ class StudentStagesController extends AppAdminController
     */
 
 
-    public function close($id = null)
+    public function forcedClose($id = null)
     {
         $this->request->allowMethod(['patch', 'post', 'put']);
         $studentStage = $this->StudentStages->get($id);
+
+        // @todo ejecutar cierre del stage
 
         $this->Flash->success(__('The student stage has been updated.'));
 
         return $this->redirect(['controller' => 'Students', 'action' => 'view', $studentStage->student_id]);
     }
-
 }

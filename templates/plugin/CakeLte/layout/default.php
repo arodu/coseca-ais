@@ -83,6 +83,9 @@
         <footer class="main-footer">
             <?= $this->element('CakeLte.footer/main') ?>
         </footer>
+
+        <?= $this->fetch('postLink') ?>
+        <?= $this->fetch(\ModalSecurity\ModalSecurityPlugin::VIEW_BLOCK) ?>
     </div>
     <!-- ./wrapper -->
 

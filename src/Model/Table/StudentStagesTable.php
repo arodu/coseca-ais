@@ -181,4 +181,28 @@ class StudentStagesTable extends Table
 
         return $this->saveOrFail($entity);
     }
+
+    public function close(StudentStage $entity, StageStatus $newStatus, bool $forced = false): ?StudentStage
+    {
+        $this->updateStatus($entity, $newStatus->value);
+        
+        return $this->createNext($entity, $forced);
+    }
+
+    public function createNext(StudentStage $entity, bool $forced = false): ?StudentStage
+    {
+        //if ($forced || in_array($entity->status, [StageStatus::SUCCESS])) {
+        //    $nextStageField = $this->getNextStageField();
+        //    if ($nextStageField) {
+        //        $this->create([
+        //            'stage' => $nextStageField->value,
+        //            'student_id' => $this->getStudentId(),
+        //            'lapse_id' => $this->getStudentStage()->lapse_id,
+        //        ]);
+        //    }
+        //}
+
+        return null;
+    }
+
 }

@@ -15,6 +15,8 @@ use Cake\Routing\RouteBuilder;
  */
 class ModalSecurityPlugin extends BasePlugin
 {
+    public const VIEW_BLOCK = 'modalSecurity';
+
     /**
      * Load all the plugin configuration and bootstrap logic.
      *

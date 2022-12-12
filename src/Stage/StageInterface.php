@@ -9,6 +9,9 @@ use App\Model\Entity\StudentStage;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 
+/**
+ * @deprecated
+ */
 interface StageInterface
 {
     /**

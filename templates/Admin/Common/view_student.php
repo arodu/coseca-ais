@@ -18,6 +18,7 @@
             <?= $this->fetch('content') ?>
         </div>
         <!-- /.card -->
+        <?= $this->fetch('appendContent') ?>
     </div>
     <!-- /.col -->
 </div>

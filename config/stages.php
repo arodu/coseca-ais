@@ -2,6 +2,7 @@
 
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
+use App\Model\Field\StudentType;
 use App\Stage\AdscriptionStage;
 use App\Stage\CourseStage;
 use App\Stage\EndingStage;
@@ -9,6 +10,7 @@ use App\Stage\RegisterStage;
 use App\Stage\TrackingStage;
 
 return [
+
     'Stages' => [
         StageField::REGISTER->value => [
             'label' => __('Registro'),
@@ -40,5 +42,20 @@ return [
             'class' => ValidationStage::class,
             'status' => StageStatus::WAITING,
         ],
-    ]
+    ],
+
+    'Groups' => [
+        StudentType::REGULAR->value => [
+            StageField::REGISTER,
+            StageField::COURSE,
+            StageField::ADSCRIPTION,
+            StageField::TRACKING,
+            StageField::ENDING,
+        ],
+        StudentType::VALIDATED->value => [
+            StageField::REGISTER,
+            StageField::VALIDATION,
+        ],
+    ],
+
 ];

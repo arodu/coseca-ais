@@ -30,7 +30,17 @@ $this->Breadcrumbs->add([
 </div>
 
 <div class="card-footer d-flex">
-    <hr>
+    <div>
+        <?= $this->Form->postLink(
+            __('Forzar cierre'),
+            ['controller' => 'StudentStages', 'action' => 'forcedClose', $studentStage->id],
+            [
+                'block' => true,
+                'class' => 'btn btn-warning',
+                'confirm' => __('Esta seguro que desea cerrar esta etapa? Esto podria traer resultados inesperados.')
+            ]
+        ) ?>
+    </div>
     <div class="ml-auto">
         <?= $this->Form->button(__('Guardar')) ?>
         <?= $this->Html->link(__('Cancelar'), ['controller' => 'Students', 'action' => 'view', $studentStage->student_id], ['class' => 'btn btn-default']) ?>
