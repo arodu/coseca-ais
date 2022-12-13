@@ -7,6 +7,7 @@ namespace App\Controller\Admin;
 use App\Controller\Traits\BulkActionsTrait;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
+use App\Utility\Stages;
 use Cake\Event\EventInterface;
 
 /**
@@ -74,7 +75,7 @@ class StudentsController extends AppAdminController
             ->where(['student_id' => $id])
             ->toArray();
 
-        $listStages = $student->getType()->getStageFieldList();
+        $listStages = Stages::getStageFieldList($student->type_obj);
 
         $this->set(compact('listStages', 'student', 'studentStages'));
     }
@@ -95,6 +96,16 @@ class StudentsController extends AppAdminController
         ]);
 
         $this->set(compact('student'));
+    }
+
+    public function tracking($id = null)
+    {
+        $this->set('student_id', $id);
+    }
+    
+    public function prints($id = null)
+    {
+        $this->set('student_id', $id);
     }
 
     /**

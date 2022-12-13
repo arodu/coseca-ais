@@ -7,8 +7,8 @@ namespace App\Model\Entity;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use App\Stage\StageFactory;
-use App\Stage\StageInterface;
 use Cake\ORM\Entity;
+use Cake\ORM\Locator\LocatorAwareTrait;
 
 /**
  * StudentStage Entity
@@ -21,13 +21,18 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\FrozenTime $created
  * @property int $created_by
  * @property \Cake\I18n\FrozenTime $modified
- * @property int $modified_by
+ * @property string $stage_label
+ * @property string $status_label
+ * @property \App\Model\Field\StageField $stage_obj
+ * @property \App\Model\Field\StageStatus $status_obj
  *
  * @property \App\Model\Entity\Student $student
  * @property \App\Model\Entity\Lapse $lapse
  */
 class StudentStage extends Entity
 {
+    use LocatorAwareTrait;
+
     private StageField $_stageObj;
     private StageStatus $_stageStatusObj;
 
@@ -83,16 +88,6 @@ class StudentStage extends Entity
     }
 
     /**
-     * @return StageField
-     * 
-     * @deprecated
-     */
-    public function getStageField(): StageField
-    {
-        return $this->stage_obj;
-    }
-
-    /**
      * @return StageStatus
      */
     protected function _getStatusObj(): StageStatus
@@ -113,29 +108,12 @@ class StudentStage extends Entity
         $this->_stageObj = null;
     }
 
-    /**
-     * @return StageStatus
-     * 
-     * @deprecated version
-     */
-    public function getStatus(): StageStatus
+    public function loadStudent(): Student
     {
-        return $this->status_obj;
-    }
-
-    private StageInterface $_stageInstance;
-
-    /**
-     * @return StageInterface
-     * 
-     * @deprecated
-     */
-    public function getStageInstance(): StageInterface
-    {
-        if (empty($this->_stageInstance)) {
-            $this->_stageInstance = StageFactory::getInstance($this);
+        if (empty($this->student)) {
+            $this->fetchTable('StudentStages')->loadInto($this, ['Students']);
         }
 
-        return $this->_stageInstance;
+        return $this->student;
     }
 }

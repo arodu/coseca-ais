@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -44,7 +45,7 @@ class LapseDate extends Entity
         if ($this->is_single_date) {
             return $this->start_date;
         }
-        
+
         if (!empty($this->start_date) && !empty($this->end_date)) {
             return __('{0} al {1}', $this->start_date, $this->end_date);
         }
@@ -63,5 +64,4 @@ class LapseDate extends Entity
     {
         return StatusDate::get($this->start_date, $this->end_date);
     }
-
 }

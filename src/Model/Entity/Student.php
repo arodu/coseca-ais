@@ -15,6 +15,7 @@ use Cake\ORM\Entity;
  * @property int $created_by
  * @property \Cake\I18n\FrozenTime $modified
  * @property int $modified_by
+ * @property \App\Model\Field\StudentType $type_obj
  *
  * @property \App\Model\Entity\AppUser $app_user
  * @property \App\Model\Entity\StudentStage[] $student_stages
@@ -49,7 +50,8 @@ class Student extends Entity
         'first_name',
         'last_name',
         'email',
-        'full_name'
+        'full_name',
+        'type_obj',
     ];
 
     protected function _getFirstName()
@@ -75,14 +77,14 @@ class Student extends Entity
         return $this->app_user->email ?? null;
     }
 
-    private StudentType $_studentType;
+    private StudentType $_type_obj;
 
-    public function getType(): StudentType
+    protected function _getTypeObj(): StudentType
     {
-        if (empty($this->_studentType)) {
-            $this->_studentType = StudentType::from($this->type);
+        if (empty($this->_type_obj)) {
+            $this->_type_obj = StudentType::from($this->type);
         }
 
-        return $this->_studentType;
+        return $this->_type_obj;
     }
 }

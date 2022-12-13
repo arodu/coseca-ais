@@ -254,7 +254,8 @@ class StudentsTable extends Table
         foreach ($studentStages as $student) {
             $lasStageField = $student->last_stage->getStageField();
             if ($lasStageField == $stageField) {
-                $student->last_stage->getStageInstance()->close($stageStatus);
+                // @todo refactor this
+                // $student->last_stage->getStageInstance()->close($stageStatus);
                 $affectedRows++;
             }
         }

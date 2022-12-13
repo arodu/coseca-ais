@@ -4,7 +4,7 @@
 
 use App\Model\Field\StageStatus;
 
-$status = $studentStage->getStatus();
+$status = $studentStage->status_obj;
 $color = $status->color();
 $icon = $status->icon();
 ?>

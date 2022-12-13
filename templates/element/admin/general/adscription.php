@@ -5,12 +5,13 @@
 use App\Enum\FaIcon;
 use App\Model\Field\StageStatus;
 
-$status = $studentStage->getStatus();
+$status = $studentStage->status_obj;
 $color = $status->color();
 $icon = $status->icon();
 /** @var \App\Stage\AdscriptionStage $adscriptionStageObject */
-$adscriptionStageObject = $studentStage->getStageInstance();
-$adscriptions = $adscriptionStageObject->adscriptionList();
+// @todo refactor this
+//$adscriptionStageObject = $studentStage->getStageInstance();
+//$adscriptions = $adscriptionStageObject->adscriptionList();
 ?>
 
 <div>

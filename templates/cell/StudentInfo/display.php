@@ -2,7 +2,7 @@
 
 use Cake\Core\Configure;
 
-$lastStageColor = $student->last_stage->getStatus()->color();
+$lastStageColor = $student->last_stage->status_obj->color();
 
 ?>
 <div class="card card-primary card-outline">
@@ -21,7 +21,7 @@ $lastStageColor = $student->last_stage->getStatus()->color();
             <dd class="col-sm-8 text-right mb-4"><?= h($student->tenant->name) ?? '&nbsp;'  ?></dd>
 
             <dt class="col-sm-4"><?= __('Tipo') ?></dt>
-            <dd class="col-sm-8 text-right"><?= h($student->getType()->label()) ?? '&nbsp;'  ?></dd>
+            <dd class="col-sm-8 text-right"><?= h($student->type_obj->label()) ?? '&nbsp;'  ?></dd>
         </dl>
     </div>
 </div>

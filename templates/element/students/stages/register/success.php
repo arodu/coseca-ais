@@ -1,6 +1,5 @@
 <?php 
 /**
- * @var \App\Stage\StageInterface $stageInstance
  * @var \App\Model\Entity\Student $student
  */
 $student = $stageInstance->getStudent();

@@ -8,6 +8,7 @@ use App\Model\Entity\StudentStage;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use App\Model\Table\Traits\BasicTableTrait;
+use App\Utility\Stages;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -182,6 +183,12 @@ class StudentStagesTable extends Table
         return $this->saveOrFail($entity);
     }
 
+    /**
+     * @param StudentStage $entity
+     * @param StageStatus $newStatus
+     * @param boolean $forced
+     * @return StudentStage|null
+     */
     public function close(StudentStage $entity, StageStatus $newStatus, bool $forced = false): ?StudentStage
     {
         $this->updateStatus($entity, $newStatus->value);
@@ -189,18 +196,23 @@ class StudentStagesTable extends Table
         return $this->createNext($entity, $forced);
     }
 
+    /**
+     * @param StudentStage $entity
+     * @param boolean $forced
+     * @return StudentStage|null
+     */
     public function createNext(StudentStage $entity, bool $forced = false): ?StudentStage
     {
-        //if ($forced || in_array($entity->status, [StageStatus::SUCCESS])) {
-        //    $nextStageField = $this->getNextStageField();
-        //    if ($nextStageField) {
-        //        $this->create([
-        //            'stage' => $nextStageField->value,
-        //            'student_id' => $this->getStudentId(),
-        //            'lapse_id' => $this->getStudentStage()->lapse_id,
-        //        ]);
-        //    }
-        //}
+        if ($forced || in_array($entity->status_obj, [StageStatus::SUCCESS])) {
+            $nextStageField = Stages::getNextStageField($entity->stage_obj, $entity->loadStudent()->type_obj);
+            if ($nextStageField) {
+                return $this->create([
+                    'stage' => $nextStageField->value,
+                    'student_id' => $entity->student_id,
+                    'lapse_id' => $entity->lapse_id,
+                ]);
+            }
+        }
 
         return null;
     }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Model\Field\StageStatus;
+
 /**
  * StudentStages Controller
  *
@@ -126,10 +128,15 @@ class StudentStagesController extends AppAdminController
     {
         $this->request->allowMethod(['patch', 'post', 'put']);
         $studentStage = $this->StudentStages->get($id);
-
-        // @todo ejecutar cierre del stage
-
-        $this->Flash->success(__('The student stage has been updated.'));
+        try {
+            $this->StudentStages->close($studentStage, StageStatus::SUCCESS, true);
+            $this->Flash->success(__('Etapa cerrada con exito: <strong>{0}</strong>', $studentStage->stage_label), ['escape' => false]);
+        } catch (\Cake\ORM\Exception\PersistenceFailedException $e) {
+            $this->Flash->success(__('Etapa cerrada con exito: <strong>{0}</strong>', $studentStage->stage_label), ['escape' => false]);
+            $this->Flash->warning(__('Siguiente etapa no creada'));
+        } catch (\Throwable $th) {
+            $this->Flash->danger($th->getMessage());
+        }
 
         return $this->redirect(['controller' => 'Students', 'action' => 'view', $studentStage->student_id]);
     }

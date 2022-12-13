@@ -23,7 +23,7 @@ $this->Breadcrumbs->add([
         <?php foreach ($listStages as $itemStage) : ?>
             <?php
             $studentStage = $studentStages[$itemStage->value] ?? null;
-            $studentStageStatus = $studentStage?->getStatus() ?? StageStatus::PENDING;
+            $studentStageStatus = $studentStage?->status_obj ?? StageStatus::PENDING;
             ?>
             <div class="stage-list-item <?= $studentStageStatus->color()->cssClass('card') ?>">
                 <div class="card-header">
@@ -43,6 +43,7 @@ $this->Breadcrumbs->add([
                             <?php
                             $element = 'students/stages/' . $itemStage->value . '/' . $studentStageStatus->value;
                             if ($this->elementExists($element)) {
+                                // @todo refactor this
                                 echo $this->element($element, ['stageInstance' => $studentStage->getStageInstance()]);
                             } else {
                                 echo $this->Html->tag('div', __('Sin información a mostrar'), ['class' => 'alert alert-warning shadow p-2']);

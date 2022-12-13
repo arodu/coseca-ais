@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Student;
 
+use App\Utility\Stages;
+
 /**
  * Stages Controller
  *
@@ -26,7 +28,7 @@ class StagesController extends AppStudentController
     public function index()
     {
         $student = $this->getCurrentStudent();
-        $listStages = $student->getType()->getStageFieldList();
+        $listStages = Stages::getStageFieldList($student->type_obj);
 
         $studentStages = $this->StudentStages
             ->find('objectList', ['keyField' => 'stage'])

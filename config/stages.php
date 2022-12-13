@@ -44,7 +44,7 @@ return [
         ],
     ],
 
-    'Groups' => [
+    'StageGroups' => [
         StudentType::REGULAR->value => [
             StageField::REGISTER,
             StageField::COURSE,
