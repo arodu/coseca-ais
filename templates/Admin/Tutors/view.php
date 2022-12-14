@@ -76,7 +76,7 @@ $this->Breadcrumbs->add([
             <tr>
                 <th><?= __('Id') ?></th>
                 <th><?= __('Student Id') ?></th>
-                <th><?= __('Project Id') ?></th>
+                <th><?= __('Institution Project Id') ?></th>
                 <th><?= __('Lapse Id') ?></th>
                 <th><?= __('Tutor Id') ?></th>
                 <th><?= __('Created') ?></th>
@@ -94,7 +94,7 @@ $this->Breadcrumbs->add([
                     <tr>
                         <td><?= h($student_adscription->id) ?></td>
                         <td><?= h($student_adscription->student_id) ?></td>
-                        <td><?= h($student_adscription->project_id) ?></td>
+                        <td><?= h($student_adscription->institution_project_id) ?></td>
                         <td><?= h($student_adscription->lapse_id) ?></td>
                         <td><?= h($student_adscription->tutor_id) ?></td>
                         <td><?= h($student_adscription->created) ?></td>

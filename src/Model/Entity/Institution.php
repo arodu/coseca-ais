@@ -17,7 +17,7 @@ use Cake\ORM\Entity;
  * @property int $tenant_id
  *
  * @property \App\Model\Entity\Tenant $tenant
- * @property \App\Model\Entity\Project[] $projects
+ * @property \App\Model\Entity\InstitutionProject[] $institution_projects
  */
 class Institution extends Entity
 {
@@ -38,6 +38,6 @@ class Institution extends Entity
         'contact_email' => true,
         'tenant_id' => true,
         'tenant' => true,
-        'projects' => true,
+        'institution_projects' => true,
     ];
 }

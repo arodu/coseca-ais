@@ -20,7 +20,7 @@ class CreateStudentAdscriptions extends AbstractMigration
             'limit' => 11,
             'null' => false,
         ]);
-        $table->addColumn('project_id', 'integer', [
+        $table->addColumn('institution_project_id', 'integer', [
             'default' => null,
             'limit' => 11,
             'null' => false,

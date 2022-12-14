@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Migrations\AbstractMigration;
 
-class CreateProjects extends AbstractMigration
+class CreateInstitutionProjects extends AbstractMigration
 {
     /**
      * Change Method.
@@ -14,7 +14,7 @@ class CreateProjects extends AbstractMigration
      */
     public function change()
     {
-        $table = $this->table('projects');
+        $table = $this->table('institution_projects');
         $table->addColumn('institution_id', 'integer', [
             'default' => null,
             'limit' => 11,

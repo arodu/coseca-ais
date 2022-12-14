@@ -100,6 +100,11 @@ class StudentsTable extends Table
             'dependent' => true,
             'cascadeCallbacks' => true,
         ]);
+        $this->hasOne('StudentCourses', [
+            'foreignKey' => 'student_id',
+            'dependent' => true,
+            'cascadeCallbacks' => true,
+        ]);
 
         $this->loadQueryFilters();
     }

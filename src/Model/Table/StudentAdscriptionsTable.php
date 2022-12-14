@@ -12,7 +12,7 @@ use Cake\Validation\Validator;
  * StudentAdscriptions Model
  *
  * @property \App\Model\Table\StudentsTable&\Cake\ORM\Association\BelongsTo $Students
- * @property \App\Model\Table\ProjectsTable&\Cake\ORM\Association\BelongsTo $Projects
+ * @property \App\Model\Table\InstitutionProjectsTable&\Cake\ORM\Association\BelongsTo $InstitutionProjects
  * @property \App\Model\Table\LapsesTable&\Cake\ORM\Association\BelongsTo $Lapses
  * @property \App\Model\Table\TutorsTable&\Cake\ORM\Association\BelongsTo $Tutors
  *
@@ -54,8 +54,8 @@ class StudentAdscriptionsTable extends Table
             'foreignKey' => 'student_id',
             'joinType' => 'INNER',
         ]);
-        $this->belongsTo('Projects', [
-            'foreignKey' => 'project_id',
+        $this->belongsTo('InstitutionProjects', [
+            'foreignKey' => 'institution_project_id',
             'joinType' => 'INNER',
         ]);
         $this->belongsTo('Lapses', [
@@ -81,8 +81,8 @@ class StudentAdscriptionsTable extends Table
             ->notEmptyString('student_id');
 
         $validator
-            ->integer('project_id')
-            ->notEmptyString('project_id');
+            ->integer('institution_project_id')
+            ->notEmptyString('institution_project_id');
 
         $validator
             ->integer('lapse_id')
@@ -105,7 +105,7 @@ class StudentAdscriptionsTable extends Table
     public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->existsIn('student_id', 'Students'), ['errorField' => 'student_id']);
-        $rules->add($rules->existsIn('project_id', 'Projects'), ['errorField' => 'project_id']);
+        $rules->add($rules->existsIn('institution_project_id', 'InstitutionProjects'), ['errorField' => 'institution_project_id']);
         $rules->add($rules->existsIn('lapse_id', 'Lapses'), ['errorField' => 'lapse_id']);
         $rules->add($rules->existsIn('tutor_id', 'Tutors'), ['errorField' => 'tutor_id']);
 

@@ -67,12 +67,12 @@ $this->Breadcrumbs->add([
 </div>
 
 
-<div class="related related-projects view card">
+<div class="related related-institution-projects view card">
   <div class="card-header d-flex">
-    <h3 class="card-title"><?= __('Related Projects') ?></h3>
+    <h3 class="card-title"><?= __('Related Institution Projects') ?></h3>
     <div class="ml-auto">
-      <?= $this->Html->link(__('New'), ['controller' => 'Projects' , 'action' => 'add'], ['class' => 'btn btn-primary btn-sm']) ?>
-      <?= $this->Html->link(__('List '), ['controller' => 'Projects' , 'action' => 'index'], ['class' => 'btn btn-primary btn-sm']) ?>
+      <?= $this->Html->link(__('New'), ['controller' => 'InstitutionProjects' , 'action' => 'add'], ['class' => 'btn btn-primary btn-sm']) ?>
+      <?= $this->Html->link(__('List '), ['controller' => 'InstitutionProjects' , 'action' => 'index'], ['class' => 'btn btn-primary btn-sm']) ?>
     </div>
   </div>
   <div class="card-body table-responsive p-0">
@@ -84,23 +84,23 @@ $this->Breadcrumbs->add([
           <th><?= __('Active') ?></th>
           <th class="actions"><?= __('Actions') ?></th>
       </tr>
-      <?php if (empty($institution->projects)) { ?>
+      <?php if (empty($institution->institution_projects)) { ?>
         <tr>
             <td colspan="5" class="text-muted">
-              Projects record not found!
+              Institution Projects record not found!
             </td>
         </tr>
       <?php }else{ ?>
-        <?php foreach ($institution->projects as $projects) : ?>
+        <?php foreach ($institution->institution_projects as $institution_project) : ?>
         <tr>
-            <td><?= h($projects->id) ?></td>
-            <td><?= h($projects->institution_id) ?></td>
-            <td><?= h($projects->name) ?></td>
-            <td><?= h($projects->active) ?></td>
+            <td><?= h($institution_project->id) ?></td>
+            <td><?= h($institution_project->institution_id) ?></td>
+            <td><?= h($institution_project->name) ?></td>
+            <td><?= h($institution_project->active) ?></td>
             <td class="actions">
-              <?= $this->Html->link(__('View'), ['controller' => 'Projects', 'action' => 'view', $projects->id], ['class'=>'btn btn-xs btn-outline-primary']) ?>
-              <?= $this->Html->link(__('Edit'), ['controller' => 'Projects', 'action' => 'edit', $projects->id], ['class'=>'btn btn-xs btn-outline-primary']) ?>
-              <?= $this->Form->postLink(__('Delete'), ['controller' => 'Projects', 'action' => 'delete', $projects->id], ['class'=>'btn btn-xs btn-outline-danger', 'confirm' => __('Are you sure you want to delete # {0}?', $projects->id)]) ?>
+              <?= $this->Html->link(__('View'), ['controller' => 'InstitutionProjects', 'action' => 'view', $institution_project->id], ['class'=>'btn btn-xs btn-outline-primary']) ?>
+              <?= $this->Html->link(__('Edit'), ['controller' => 'InstitutionProjects', 'action' => 'edit', $institution_project->id], ['class'=>'btn btn-xs btn-outline-primary']) ?>
+              <?= $this->Form->postLink(__('Delete'), ['controller' => 'InstitutionProjects', 'action' => 'delete', $institution_project->id], ['class'=>'btn btn-xs btn-outline-danger', 'confirm' => __('Are you sure you want to delete # {0}?', $institution_project->id)]) ?>
             </td>
         </tr>
         <?php endforeach; ?>

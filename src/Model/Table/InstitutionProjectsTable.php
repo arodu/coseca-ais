@@ -9,26 +9,26 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Projects Model
+ * InstitutionProjectsTable Model
  *
  * @property \App\Model\Table\InstitutionsTable&\Cake\ORM\Association\BelongsTo $Institutions
  * @property \App\Model\Table\StudentAdscriptionsTable&\Cake\ORM\Association\HasMany $StudentAdscriptions
  *
- * @method \App\Model\Entity\Project newEmptyEntity()
- * @method \App\Model\Entity\Project newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\Project[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Project get($primaryKey, $options = [])
- * @method \App\Model\Entity\Project findOrCreate($search, ?callable $callback = null, $options = [])
- * @method \App\Model\Entity\Project patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Project[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Project|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Project saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Project[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Project[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Project[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Project[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\InstitutionProject newEmptyEntity()
+ * @method \App\Model\Entity\InstitutionProject newEntity(array $data, array $options = [])
+ * @method \App\Model\Entity\InstitutionProject[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\InstitutionProject get($primaryKey, $options = [])
+ * @method \App\Model\Entity\InstitutionProject findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\InstitutionProject patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\InstitutionProject[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\InstitutionProject|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\InstitutionProject saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\InstitutionProject[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\InstitutionProject[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\InstitutionProject[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\InstitutionProject[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
-class ProjectsTable extends Table
+class InstitutionProjectsTable extends Table
 {
     /**
      * Initialize method
@@ -40,7 +40,7 @@ class ProjectsTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('projects');
+        $this->setTable('institution_projects');
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
@@ -49,7 +49,7 @@ class ProjectsTable extends Table
             'joinType' => 'INNER',
         ]);
         $this->hasMany('StudentAdscriptions', [
-            'foreignKey' => 'project_id',
+            'foreignKey' => 'institution_project_id',
         ]);
     }
 

@@ -34,8 +34,8 @@ $icon = $status->icon();
                     </tr>
                     <?php foreach ($student->student_adscriptions as $student_adscriptions) : ?>
                         <tr>
-                            <td><?= $student_adscriptions->project->institution->name ?></td>
-                            <td><?= $student_adscriptions->project->name ?></td>
+                            <td><?= $student_adscriptions->institution_project->institution->name ?></td>
+                            <td><?= $student_adscriptions->institution_project->name ?></td>
                             <td><?= $student_adscriptions->lapse->name ?></td>
                             <td><?= $student_adscriptions->tutor->name ?></td>
                             <td>

@@ -43,7 +43,7 @@ class InstitutionsController extends AppAdminController
     public function view($id = null)
     {
         $institution = $this->Institutions->get($id, [
-            'contain' => ['Tenants', 'Projects'],
+            'contain' => ['Tenants', 'InstitutionProjects'],
         ]);
 
         $this->set(compact('institution'));

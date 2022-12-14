@@ -84,7 +84,7 @@ $this->Breadcrumbs->add([
     <!-- /.card-header -->
     <div class="card-body table-responsive p-0">
         <?= $this->Form->create(null, ['url' => ['action' => 'bulkActions']]) ?>
-        <table class="table table-striped table-hover text-nowrap projects">
+        <table class="table table-striped table-hover text-nowrap institution-projects">
             <thead>
                 <tr>
                     <th class="narrow"><?= $this->BulkAction->checkbox('all') ?></th>

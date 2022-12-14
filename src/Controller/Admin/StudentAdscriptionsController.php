@@ -6,7 +6,7 @@ namespace App\Controller\Admin;
 /**
  * StudentAdscriptionsController Controller
  *
- * @property \App\Model\Table\AdscriptionsTable $StudentAdscriptions
+ * @property \App\Model\Table\StudentAdscriptionsTable $StudentAdscriptions
  * @method \App\Model\Entity\StudentAdscription[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class StudentAdscriptionsController extends AppAdminController
@@ -37,10 +37,10 @@ class StudentAdscriptionsController extends AppAdminController
             }
             $this->Flash->error(__('The student_adscription could not be saved. Please, try again.'));
         }
-        $projects = $this->StudentAdscriptions->Projects->find('list', ['limit' => 200])->all();
+        $institution_projects = $this->StudentAdscriptions->InstitutionProjects->find('list', ['limit' => 200])->all();
         $lapses = $this->StudentAdscriptions->Lapses->find('list', ['limit' => 200])->all();
         $tutors = $this->StudentAdscriptions->Tutors->find('list', ['limit' => 200])->all();
-        $this->set(compact('studentStage', 'student_adscription', 'projects', 'lapses', 'tutors'));
+        $this->set(compact('studentStage', 'student_adscription', 'institution_projects', 'lapses', 'tutors'));
     }
 
     /**
@@ -65,10 +65,10 @@ class StudentAdscriptionsController extends AppAdminController
             $this->Flash->error(__('The student_adscription could not be saved. Please, try again.'));
         }
         $students = $this->StudentAdscriptions->Students->find('list', ['limit' => 200])->all();
-        $projects = $this->StudentAdscriptions->Projects->find('list', ['limit' => 200])->all();
+        $institution_projects = $this->StudentAdscriptions->InstitutionProjects->find('list', ['limit' => 200])->all();
         $lapses = $this->StudentAdscriptions->Lapses->find('list', ['limit' => 200])->all();
         $tutors = $this->StudentAdscriptions->Tutors->find('list', ['limit' => 200])->all();
-        $this->set(compact('student_adscription', 'students', 'projects', 'lapses', 'tutors'));
+        $this->set(compact('student_adscription', 'students', 'institution_projects', 'lapses', 'tutors'));
     }
 
     /**

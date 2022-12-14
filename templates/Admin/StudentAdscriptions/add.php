@@ -26,7 +26,7 @@ $this->Breadcrumbs->add([
 <div class="card-body">
     <?php
     echo $this->Form->hidden('student_id', ['value' => $studentStage->student_id]);
-    echo $this->Form->control('project_id', ['options' => $projects, 'empty' => true]);
+    echo $this->Form->control('institution_project_id', ['options' => $institution_projects, 'empty' => true]);
     echo $this->Form->control('lapse_id', ['options' => $lapses, 'empty' => true]);
     echo $this->Form->control('tutor_id', ['options' => $tutors, 'empty' => true]);
     ?>

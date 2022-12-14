@@ -19,7 +19,7 @@ $this->Breadcrumbs->add([
   <div class="card-body">
     <?php
       echo $this->Form->control('student_id', ['options' => $students]);
-      echo $this->Form->control('project_id', ['options' => $projects]);
+      echo $this->Form->control('institution_project_id', ['options' => $institution_projects]);
       echo $this->Form->control('lapse_id', ['options' => $lapses]);
       echo $this->Form->control('tutor_id', ['options' => $tutors]);
     ?>

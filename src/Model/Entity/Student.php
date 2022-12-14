@@ -44,6 +44,7 @@ class Student extends Entity
         'user' => true,
         'tenant' => true,
         'student_stages' => true,
+        'student_adscriptions' => true,
         'student_data' => true,
     ];
 

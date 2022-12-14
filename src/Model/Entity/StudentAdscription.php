@@ -10,14 +10,14 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property int $student_id
- * @property int $project_id
+ * @property int $institution_project_id
  * @property int $lapse_id
  * @property int $tutor_id
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
  *
  * @property \App\Model\Entity\Student $student
- * @property \App\Model\Entity\Project $project
+ * @property \App\Model\Entity\InstitutionProject $institution_project
  * @property \App\Model\Entity\Lapse $lapse
  * @property \App\Model\Entity\Tutor $tutor
  */
@@ -34,13 +34,13 @@ class StudentAdscription extends Entity
      */
     protected $_accessible = [
         'student_id' => true,
-        'project_id' => true,
+        'institution_project_id' => true,
         'lapse_id' => true,
         'tutor_id' => true,
         'created' => true,
         'modified' => true,
         'student' => true,
-        'project' => true,
+        'institution_project' => true,
         'lapse' => true,
         'tutor' => true,
     ];
