@@ -2,7 +2,7 @@
 
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Adscription $adscription
+ * @var \App\Model\Entity\StudentAdscription $student_adscription
  */
 
 $this->student_id = $studentStage->student_id;
@@ -19,7 +19,7 @@ $this->Breadcrumbs->add([
 ?>
 
 
-<?= $this->Form->create($adscription) ?>
+<?= $this->Form->create($student_adscription) ?>
 <div class="card-header">
     <div class="card-title"><?= __('Agregar Proyecto') ?></div>
 </div>

@@ -9,30 +9,30 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Adscriptions Model
+ * StudentAdscriptions Model
  *
  * @property \App\Model\Table\StudentsTable&\Cake\ORM\Association\BelongsTo $Students
  * @property \App\Model\Table\ProjectsTable&\Cake\ORM\Association\BelongsTo $Projects
  * @property \App\Model\Table\LapsesTable&\Cake\ORM\Association\BelongsTo $Lapses
  * @property \App\Model\Table\TutorsTable&\Cake\ORM\Association\BelongsTo $Tutors
  *
- * @method \App\Model\Entity\Adscription newEmptyEntity()
- * @method \App\Model\Entity\Adscription newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\Adscription[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Adscription get($primaryKey, $options = [])
- * @method \App\Model\Entity\Adscription findOrCreate($search, ?callable $callback = null, $options = [])
- * @method \App\Model\Entity\Adscription patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Adscription[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Adscription|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Adscription saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Adscription[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Adscription[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Adscription[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Adscription[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\StudentAdscription newEmptyEntity()
+ * @method \App\Model\Entity\StudentAdscription newEntity(array $data, array $options = [])
+ * @method \App\Model\Entity\StudentAdscription[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\StudentAdscription get($primaryKey, $options = [])
+ * @method \App\Model\Entity\StudentAdscription findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\StudentAdscription patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\StudentAdscription[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\StudentAdscription|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\StudentAdscription saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\StudentAdscription[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\StudentAdscription[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\StudentAdscription[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\StudentAdscription[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
-class AdscriptionsTable extends Table
+class StudentAdscriptionsTable extends Table
 {
     /**
      * Initialize method
@@ -44,7 +44,7 @@ class AdscriptionsTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('adscriptions');
+        $this->setTable('student_adscriptions');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 

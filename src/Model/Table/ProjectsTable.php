@@ -12,7 +12,7 @@ use Cake\Validation\Validator;
  * Projects Model
  *
  * @property \App\Model\Table\InstitutionsTable&\Cake\ORM\Association\BelongsTo $Institutions
- * @property \App\Model\Table\AdscriptionsTable&\Cake\ORM\Association\HasMany $Adscriptions
+ * @property \App\Model\Table\StudentAdscriptionsTable&\Cake\ORM\Association\HasMany $StudentAdscriptions
  *
  * @method \App\Model\Entity\Project newEmptyEntity()
  * @method \App\Model\Entity\Project newEntity(array $data, array $options = [])
@@ -48,7 +48,7 @@ class ProjectsTable extends Table
             'foreignKey' => 'institution_id',
             'joinType' => 'INNER',
         ]);
-        $this->hasMany('Adscriptions', [
+        $this->hasMany('StudentAdscriptions', [
             'foreignKey' => 'project_id',
         ]);
     }

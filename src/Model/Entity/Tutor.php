@@ -16,7 +16,7 @@ use Cake\ORM\Entity;
  * @property int $tenant_id
  *
  * @property \App\Model\Entity\Tenant $tenant
- * @property \App\Model\Entity\Adscription[] $adscriptions
+ * @property \App\Model\Entity\StudentAdscription[] $student_adscriptions
  */
 class Tutor extends Entity
 {
@@ -36,6 +36,6 @@ class Tutor extends Entity
         'email' => true,
         'tenant_id' => true,
         'tenant' => true,
-        'adscriptions' => true,
+        'student_adscriptions' => true,
     ];
 }

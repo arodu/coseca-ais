@@ -95,7 +95,7 @@ class StudentsTable extends Table
             'dependent' => true,
             'cascadeCallbacks' => true,
         ]);
-        $this->hasMany('Adscriptions', [
+        $this->hasMany('StudentAdscriptions', [
             'foreignKey' => 'student_id',
             'dependent' => true,
             'cascadeCallbacks' => true,

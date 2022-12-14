@@ -67,7 +67,7 @@ class StudentsController extends AppAdminController
     public function view($id = null)
     {
         $student = $this->Students->get($id, [
-            'containt' => ['Adscriptions' => ['Projects' => ['Institutions'], 'Tutors', 'Lapses']]
+            'containt' => ['StudentAdscriptions' => ['Projects' => ['Institutions'], 'Tutors', 'Lapses']]
         ]);
 
         $stageList = $this->Students->StudentStages->find('stageList', ['student' => $student]);

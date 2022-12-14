@@ -6,7 +6,7 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Adscription Entity
+ * StudentAdscription Entity
  *
  * @property int $id
  * @property int $student_id
@@ -21,7 +21,7 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\Lapse $lapse
  * @property \App\Model\Entity\Tutor $tutor
  */
-class Adscription extends Entity
+class StudentAdscription extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().

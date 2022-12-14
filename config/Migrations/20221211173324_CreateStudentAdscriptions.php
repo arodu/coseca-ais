@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Migrations\AbstractMigration;
 
-class CreateAdscriptions extends AbstractMigration
+class CreateStudentAdscriptions extends AbstractMigration
 {
     /**
      * Change Method.
@@ -14,7 +14,7 @@ class CreateAdscriptions extends AbstractMigration
      */
     public function change()
     {
-        $table = $this->table('adscriptions');
+        $table = $this->table('student_adscriptions');
         $table->addColumn('student_id', 'integer', [
             'default' => null,
             'limit' => 11,

@@ -14,7 +14,7 @@ use Cake\ORM\Entity;
  * @property bool $active
  *
  * @property \App\Model\Entity\Institution $institution
- * @property \App\Model\Entity\Adscription[] $adscriptions
+ * @property \App\Model\Entity\StudentAdscription[] $student_adscriptions
  */
 class Project extends Entity
 {
@@ -32,6 +32,6 @@ class Project extends Entity
         'name' => true,
         'active' => true,
         'institution' => true,
-        'adscriptions' => true,
+        'student_adscriptions' => true,
     ];
 }

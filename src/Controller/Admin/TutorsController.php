@@ -44,7 +44,7 @@ class TutorsController extends AppAdminController
     public function view($id = null)
     {
         $tutor = $this->Tutors->get($id, [
-            'contain' => ['Tenants', 'Adscriptions'],
+            'contain' => ['Tenants', 'StudentAdscriptions'],
         ]);
 
         $this->set(compact('tutor'));

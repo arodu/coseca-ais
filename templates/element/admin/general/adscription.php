@@ -19,7 +19,7 @@ $icon = $status->icon();
         <h3 class="timeline-header"><strong><?= $studentStage->stage_label ?></strong> <small> (<?= $studentStage->status_label ?>)</small></h3>
 
         <div class="timeline-body p-0">
-            <?php if (empty($student->adscriptions)) : ?>
+            <?php if (empty($student->student_adscriptions)) : ?>
                 <div class="alert alert-warning m-4">
                     <?= __('No hay proyectos adscritos') ?>
                 </div>
@@ -32,16 +32,16 @@ $icon = $status->icon();
                         <th><?= __('Tutor') ?></th>
                         <th class="narrow"></th>
                     </tr>
-                    <?php foreach ($student->adscriptions as $adscription) : ?>
+                    <?php foreach ($student->student_adscriptions as $student_adscriptions) : ?>
                         <tr>
-                            <td><?= $adscription->project->institution->name ?></td>
-                            <td><?= $adscription->project->name ?></td>
-                            <td><?= $adscription->lapse->name ?></td>
-                            <td><?= $adscription->tutor->name ?></td>
+                            <td><?= $student_adscriptions->project->institution->name ?></td>
+                            <td><?= $student_adscriptions->project->name ?></td>
+                            <td><?= $student_adscriptions->lapse->name ?></td>
+                            <td><?= $student_adscriptions->tutor->name ?></td>
                             <td>
                                 <?= $this->Html->link(
                                     FaIcon::EDIT->render(),
-                                    ['controller' => 'Adscriptions', 'action' => 'edit', $adscription->id],
+                                    ['controller' => 'StudentAdscriptions', 'action' => 'edit', $student_adscriptions->id],
                                     ['class' => 'btn btn-link btn-sm', 'escape' => false]
                                 ) ?>
                             </td>
@@ -56,7 +56,7 @@ $icon = $status->icon();
                 if (!in_array($status, [StageStatus::PENDING])) :
                     echo $this->Html->link(
                         __('Agregar a Proyecto'),
-                        ['controller' => 'Adscriptions', 'action' => 'add', $studentStage->id],
+                        ['controller' => 'StudentAdscriptions', 'action' => 'add', $studentStage->id],
                         ['class' => 'btn btn-primary btn-sm']
                     );
                 endif;

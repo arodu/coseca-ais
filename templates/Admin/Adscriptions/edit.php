@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Adscription $adscription
+ * @var \App\Model\Entity\StudentAdscription $student_adscription
  */
 ?>
 <?php
@@ -9,13 +9,13 @@ $this->assign('title', __('Edit Adscription'));
 $this->Breadcrumbs->add([
     ['title' => __('Home'), 'url' => '/'],
     ['title' => __('List Adscriptions'), 'url' => ['action' => 'index']],
-    ['title' => __('View'), 'url' => ['action' => 'view', $adscription->id]],
+    ['title' => __('View'), 'url' => ['action' => 'view', $student_adscription->id]],
     ['title' => __('Edit')],
 ]);
 ?>
 
 <div class="card card-primary card-outline">
-  <?= $this->Form->create($adscription) ?>
+  <?= $this->Form->create($student_adscription) ?>
   <div class="card-body">
     <?php
       echo $this->Form->control('student_id', ['options' => $students]);
@@ -29,13 +29,13 @@ $this->Breadcrumbs->add([
     <div class="">
       <?= $this->Form->postLink(
           __('Delete'),
-          ['action' => 'delete', $adscription->id],
-          ['confirm' => __('Are you sure you want to delete # {0}?', $adscription->id), 'class' => 'btn btn-danger']
+          ['action' => 'delete', $student_adscription->id],
+          ['confirm' => __('Are you sure you want to delete # {0}?', $student_adscription->id), 'class' => 'btn btn-danger']
       ) ?>
     </div>
     <div class="ml-auto">
       <?= $this->Form->button(__('Save')) ?>
-      <?= $this->Html->link(__('Cancel'), ['action' => 'view', $adscription->id], ['class' => 'btn btn-default']) ?>
+      <?= $this->Html->link(__('Cancel'), ['action' => 'view', $student_adscription->id], ['class' => 'btn btn-default']) ?>
 
     </div>
   </div>
