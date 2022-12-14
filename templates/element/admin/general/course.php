@@ -1,6 +1,7 @@
 <?php
 
 /** @var \App\Model\Entity\StudentStage $studentStage */
+/** @var \App\Model\Entity\Student $student */
 
 use App\Model\Field\StageStatus;
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Model\Entity;
 
 use App\Model\Field\StudentType;
+use App\Utility\Stages;
 use Cake\ORM\Entity;
 
 /**
@@ -86,5 +87,13 @@ class Student extends Entity
         }
 
         return $this->_type_obj;
+    }
+
+    /**
+     * @return array
+     */
+    public function getStageFieldList(): array
+    {
+        return Stages::getStageFieldList($this->type_obj);
     }
 }

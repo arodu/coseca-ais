@@ -33,7 +33,7 @@ class AdscriptionsController extends AppAdminController
             if ($this->Adscriptions->save($adscription)) {
                 $this->Flash->success(__('The adscription has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller' => 'Students', 'action' => 'view', $studentStage->student_id]);
             }
             $this->Flash->error(__('The adscription could not be saved. Please, try again.'));
         }

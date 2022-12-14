@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use App\Model\Entity\Student;
 use App\Model\Entity\StudentStage;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
@@ -145,6 +146,42 @@ class StudentStagesTable extends Table
     }
 
     /**
+     * @param Query $query
+     * @param array $options
+     * @return Query
+     */
+    public function findStageList(Query $query, array $options = []): Query
+    {
+        if (empty($options['student'])) {
+            throw new InvalidArgumentException(
+                __('param student_id is necessary, and has to be an {0} instance', Student::class)
+            );
+        }
+
+        /** @var Student $student */
+        $student = $options['student'];
+        $listStages = $student->getStageFieldList();
+        $keyField = $options['keyField'] ?? 'stage';
+
+        $query->find('objectList', ['keyField' => $keyField])
+            ->where(['student_id' => $student->id]);
+
+        return $query->formatResults(function ($results) use ($listStages) {
+            /** @var \Cake\Collection\CollectionInterface $results */
+            $studentStages = $results->toArray();
+
+            return array_map(function ($item) use ($studentStages) {
+                return [
+                    'stageField' => $item,
+                    'studentStage' => $studentStages[$item->value] ?? null,
+                ];
+            }, $listStages);
+        });
+
+        return $query;
+    }
+
+    /**
      * @param array $options
      * @return StudentStage
      */
@@ -192,7 +229,7 @@ class StudentStagesTable extends Table
     public function close(StudentStage $entity, StageStatus $newStatus, bool $forced = false): ?StudentStage
     {
         $this->updateStatus($entity, $newStatus->value);
-        
+
         return $this->createNext($entity, $forced);
     }
 
@@ -204,7 +241,11 @@ class StudentStagesTable extends Table
     public function createNext(StudentStage $entity, bool $forced = false): ?StudentStage
     {
         if ($forced || in_array($entity->status_obj, [StageStatus::SUCCESS])) {
-            $nextStageField = Stages::getNextStageField($entity->stage_obj, $entity->loadStudent()->type_obj);
+            if (empty($entity->student)) {
+                $this->loadInto($entity, ['Students']);
+            }
+            $nextStageField = Stages::getNextStageField($entity->stage_obj, $entity->student->type_obj);
+
             if ($nextStageField) {
                 return $this->create([
                     'stage' => $nextStageField->value,
@@ -216,5 +257,4 @@ class StudentStagesTable extends Table
 
         return null;
     }
-
 }

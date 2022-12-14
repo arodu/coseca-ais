@@ -6,9 +6,7 @@ namespace App\Model\Entity;
 
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
-use App\Stage\StageFactory;
 use Cake\ORM\Entity;
-use Cake\ORM\Locator\LocatorAwareTrait;
 
 /**
  * StudentStage Entity
@@ -31,8 +29,6 @@ use Cake\ORM\Locator\LocatorAwareTrait;
  */
 class StudentStage extends Entity
 {
-    use LocatorAwareTrait;
-
     private StageField $_stageObj;
     private StageStatus $_stageStatusObj;
 
@@ -106,14 +102,5 @@ class StudentStage extends Entity
     {
         $this->_stageStatusObj = null;
         $this->_stageObj = null;
-    }
-
-    public function loadStudent(): Student
-    {
-        if (empty($this->student)) {
-            $this->fetchTable('StudentStages')->loadInto($this, ['Students']);
-        }
-
-        return $this->student;
     }
 }

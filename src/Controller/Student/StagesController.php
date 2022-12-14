@@ -28,7 +28,7 @@ class StagesController extends AppStudentController
     public function index()
     {
         $student = $this->getCurrentStudent();
-        $listStages = Stages::getStageFieldList($student->type_obj);
+        $listStages = $student->getStageFieldList();
 
         $studentStages = $this->StudentStages
             ->find('objectList', ['keyField' => 'stage'])

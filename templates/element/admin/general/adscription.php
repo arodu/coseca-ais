@@ -1,6 +1,7 @@
 <?php
 
 /** @var \App\Model\Entity\StudentStage $studentStage */
+/** @var \App\Model\Entity\Student $student */
 
 use App\Enum\FaIcon;
 use App\Model\Field\StageStatus;
@@ -8,10 +9,6 @@ use App\Model\Field\StageStatus;
 $status = $studentStage->status_obj;
 $color = $status->color();
 $icon = $status->icon();
-/** @var \App\Stage\AdscriptionStage $adscriptionStageObject */
-// @todo refactor this
-//$adscriptionStageObject = $studentStage->getStageInstance();
-//$adscriptions = $adscriptionStageObject->adscriptionList();
 ?>
 
 <div>
@@ -22,7 +19,7 @@ $icon = $status->icon();
         <h3 class="timeline-header"><strong><?= $studentStage->stage_label ?></strong> <small> (<?= $studentStage->status_label ?>)</small></h3>
 
         <div class="timeline-body p-0">
-            <?php if (empty($adscriptions)) : ?>
+            <?php if (empty($student->adscriptions)) : ?>
                 <div class="alert alert-warning m-4">
                     <?= __('No hay proyectos adscritos') ?>
                 </div>
@@ -35,7 +32,7 @@ $icon = $status->icon();
                         <th><?= __('Tutor') ?></th>
                         <th class="narrow"></th>
                     </tr>
-                    <?php foreach ($adscriptions as $adscription) : ?>
+                    <?php foreach ($student->adscriptions as $adscription) : ?>
                         <tr>
                             <td><?= $adscription->project->institution->name ?></td>
                             <td><?= $adscription->project->name ?></td>

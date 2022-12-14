@@ -20,24 +20,19 @@ $this->Breadcrumbs->add([
 
 <div class="card-body">
     <div class="timeline timeline-inverse">
-        <?php foreach ($listStages as $stage) : ?>
-            <?php
-            $studentStage = $studentStages[$stage->value] ?? null;
-            ?>
+        <?php foreach ($stageList as $stage) : ?>
             <!-- timeline item -->
-            <?php if (empty($studentStage)) : ?>
+            <?php if (empty($stage['studentStage'])) : ?>
                 <div>
                     <?= StageStatus::PENDING->icon()->render() ?>
                     <div class="timeline-item">
-                        <h3 class="timeline-header"><strong><?= $stage->label() ?></strong></h3>
+                        <h3 class="timeline-header"><strong><?= $stage['stageField']->label() ?></strong></h3>
                     </div>
                 </div>
             <?php else : ?>
-                <?php
-                $element = 'admin/general/' . $stage->value;
-                echo $this->element($element, [
-                    'stage' => $stage,
-                    'studentStage' => $studentStage,
+                <?= $this->element('admin/general/' . $stage['stageField']->value, [
+                    'studentStage' => $stage['studentStage'],
+                    'student' => $student,
                 ]);
                 ?>
             <?php endif; ?>

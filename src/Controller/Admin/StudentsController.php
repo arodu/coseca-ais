@@ -67,17 +67,12 @@ class StudentsController extends AppAdminController
     public function view($id = null)
     {
         $student = $this->Students->get($id, [
-            'contain' => [],
+            'containt' => ['Adscriptions' => ['Projects' => ['Institutions'], 'Tutors', 'Lapses']]
         ]);
 
-        $studentStages = $this->Students->StudentStages
-            ->find('objectList', ['keyField' => 'stage'])
-            ->where(['student_id' => $id])
-            ->toArray();
+        $stageList = $this->Students->StudentStages->find('stageList', ['student' => $student]);
 
-        $listStages = Stages::getStageFieldList($student->type_obj);
-
-        $this->set(compact('listStages', 'student', 'studentStages'));
+        $this->set(compact('student', 'stageList'));
     }
 
     public function info($id = null)
