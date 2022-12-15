@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ModalForm\Middleware;
 
 use Cake\Http\ServerRequest;
+use ModalForm\ModalFormPlugin;
 use ModalForm\Validator\CheckboxValidator;
 use ModalForm\Validator\PasswordValidator;
 use ModalForm\Validator\ValidatorInterface;
@@ -20,8 +21,8 @@ class ModalFormMiddleware implements MiddlewareInterface
 {
 
     protected $_validators = [
-        'password' => PasswordValidator::class,
-        'checkbox' => CheckboxValidator::class,
+        ModalFormPlugin::VALIDATOR_PASSWORD => PasswordValidator::class,
+        ModalFormPlugin::VALIDATOR_CHECKBOX => CheckboxValidator::class,
     ];
 
     /**
@@ -47,6 +48,8 @@ class ModalFormMiddleware implements MiddlewareInterface
     protected function loadValidator(ServerRequest $request, array $modalFormData = []): ValidatorInterface
     {
 
+
+        dd($modalFormData);
         
         return new CheckboxValidator($request, $modalFormData);
     }

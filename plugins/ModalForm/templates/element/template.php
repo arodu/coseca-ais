@@ -16,11 +16,14 @@
                 <?php endif; ?>
                 <?= $this->fetch('content') ?>
             </div>
-            <?php if ($this->fetch('modal-footer')) : ?>
-                <div class="modal-footer">
+            <div class="modal-footer">
+                <?php if ($this->fetch('modal-footer')) : ?>
                     <?= $this->fetch('modal-footer') ?>
-                </div>
-            <?php endif; ?>
+                <?php else : ?>
+                    <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary']) ?>
+                    <?= $this->Form->button(__('Close'), ['data-dismiss' => 'modal', 'type' => 'button']) ?>
+                <?php endif; ?>
+            </div>
             <?= $this->Form->end() ?>
         </div>
     </div>

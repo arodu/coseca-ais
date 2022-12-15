@@ -15,12 +15,17 @@ use Cake\Routing\RouteBuilder;
  */
 class ModalFormPlugin extends BasePlugin
 {
-    public const MODAL_TEMPLATE = 'ModalForm.modalTemplate';
+    public const MODAL_TEMPLATE = 'ModalForm.template';
 
-    public const FORM_CHECKBOX = 'ModalForm.checkboxConfirm';
-    public const FORM_PASSWORD = 'ModalForm.passwordConfirm';
-    public const FORM_INPUT_TEXT = 'ModalForm.inputTextConfirm';
-    public const FORM_EMPTY = 'ModalForm.emptyConfirm';
+    public const FORM_CHECKBOX = 'ModalForm.checkbox';
+    public const FORM_PASSWORD = 'ModalForm.password';
+    public const FORM_TEXT_INPUT = 'ModalForm.textInput';
+    public const FORM_CONFIRM = 'ModalForm.confirm';
+
+    public const VALIDATOR_CHECKBOX = 'checkbox';
+    public const VALIDATOR_PASSWORD = 'password';
+    public const VALIDATOR_TEXT_INPUT = 'textInput';
+    public const VALIDATOR_CONFIRM = 'confirm';
 
     /**
      * Load all the plugin configuration and bootstrap logic.

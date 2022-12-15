@@ -89,7 +89,11 @@ $this->Breadcrumbs->add([
 </div>
 
 <?= $this->ModalForm->addModal('deleteTutorModal', [
-    'element' => \ModalForm\ModalFormPlugin::FORM_CHECKBOX,
-    //'element' => \ModalForm\ModalFormPlugin::FORM_PASSWORD,
+    //'element' => \ModalForm\ModalFormPlugin::FORM_CONFIRM,
+    'element' => \ModalForm\ModalFormPlugin::FORM_TEXT_INPUT,
     'title' => __('Delete Tutor'),
+    'content' => [
+        'confirm' => 'asdas',
+    //    'textTemplate' => __('Please type :text to confirm.'),
+    ]
 ]) ?>

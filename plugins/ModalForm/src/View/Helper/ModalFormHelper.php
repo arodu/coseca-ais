@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ModalForm\View\Helper;
@@ -30,10 +31,11 @@ class ModalFormHelper extends Helper
      */
     protected $_defaultConfig = [
         'modalTemplate' => ModalFormPlugin::MODAL_TEMPLATE,
-        'formType' => 'POST',
         'element' => ModalFormPlugin::FORM_CHECKBOX,
-        'templates' => [
-            //'message' => '<div class="alert alert-light message">{{content}}</div>',
+        'modalScript' => null,
+        'content' => [
+            'confirm' => 'sample_text',
+            'textTemplate' => 'Type <code>:confirm</code> to confirm',
         ]
     ];
 
@@ -49,17 +51,19 @@ class ModalFormHelper extends Helper
     public function addModal(string $target, array $options = []): string
     {
         $modalTemplate = $options['modalTemplate'] ?? $this->getConfig('modalTemplate');
-        $modalScript = $options['modalScript'] ?? $this->modalScript;
+        $modalScript = $options['modalScript'] ?? $this->getConfig('modalScript') ?? $this->modalScript;
+        $element = $options['element'] ?? $this->getConfig('element');
+        $content = array_merge($this->getConfig('content'), $options['content'] ?? []);
 
         $this->Html->scriptBlock(Text::insert($modalScript, [
             'target' => $target,
         ]), ['block' => true]);
 
-        return $this->getView()->element($modalTemplate, [
+        return $this->getView()->element($element, [
             'target' => $target,
-            'formType' => $options['formType'] ?? $this->getConfig('formType'),
-            'element' => $options['element'] ?? $this->getConfig('element'),
             'title' => $options['title'] ?? null,
+            'modalTemplate' => $modalTemplate,
+            'content' => $content,
         ]);
     }
 
@@ -67,10 +71,16 @@ class ModalFormHelper extends Helper
     {
         $options['data-url'] = $this->Url->build($url);
         $options['data-toggle'] = 'modal';
-        $options['data-target'] = '#' . $options['target']; unset($options['target']);
-        $options['data-confirm'] = $options['confirm'] ?? null; unset($options['confirm']);
+        $options['data-target'] = '#' . $options['target'];
+        unset($options['target']);
+        $options['data-confirm'] = $options['confirm'] ?? null;
+        unset($options['confirm']);
 
         return $this->Html->link($title, '#', $options);
     }
 
+    protected function defaultContentData(): array
+    {
+        return [];
+    }
 }
