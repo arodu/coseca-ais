@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Test suite bootstrap for ModalSecurity.
+ * Test suite bootstrap for ModalForm.
  *
  * This function is used to find the location of CakePHP whether CakePHP
  * has been installed as a dependency of the plugin, or the plugin is itself

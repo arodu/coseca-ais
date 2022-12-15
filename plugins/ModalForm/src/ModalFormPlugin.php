@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace ModalSecurity;
+namespace ModalForm;
 
 use Cake\Console\CommandCollection;
 use Cake\Core\BasePlugin;
@@ -11,11 +11,16 @@ use Cake\Http\MiddlewareQueue;
 use Cake\Routing\RouteBuilder;
 
 /**
- * Plugin for ModalSecurity
+ * Plugin for ModalForm
  */
-class ModalSecurityPlugin extends BasePlugin
+class ModalFormPlugin extends BasePlugin
 {
-    public const VIEW_BLOCK = 'modalSecurity';
+    public const MODAL_TEMPLATE = 'ModalForm.modalTemplate';
+
+    public const FORM_CHECKBOX = 'ModalForm.checkboxConfirm';
+    public const FORM_PASSWORD = 'ModalForm.passwordConfirm';
+    public const FORM_INPUT_TEXT = 'ModalForm.inputTextConfirm';
+    public const FORM_EMPTY = 'ModalForm.emptyConfirm';
 
     /**
      * Load all the plugin configuration and bootstrap logic.
@@ -42,8 +47,8 @@ class ModalSecurityPlugin extends BasePlugin
     public function routes(RouteBuilder $routes): void
     {
         $routes->plugin(
-            'ModalSecurity',
-            ['path' => '/modal-security'],
+            'ModalForm',
+            ['path' => '/modal-form'],
             function (RouteBuilder $builder) {
                 // Add custom routes here
 

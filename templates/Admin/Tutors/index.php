@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Tutor[]|\Cake\Collection\CollectionInterface $tutors
@@ -52,7 +53,18 @@ $this->Breadcrumbs->add([
                         <td class="actions">
                             <?= $this->Html->link(__('View'), ['action' => 'view', $tutor->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
                             <?= $this->Html->link(__('Edit'), ['action' => 'edit', $tutor->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
-                            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $tutor->id], ['class' => 'btn btn-xs btn-outline-danger', 'escape' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $tutor->id)]) ?>
+                            <?= $this->ModalForm->link(
+                                __('Delete'),
+                                ['action' => 'delete', $tutor->id],
+                                [
+                                    'class' => 'btn btn-xs btn-outline-danger',
+                                    'escape' => false,
+                                    'target' => 'deleteTutorModal',
+                                    'confirm' => __('Are you sure you want to delete # {0}?', $tutor->id)
+                                ]
+                            ) ?>
+                            <?php // $this->Form->postLink(__('Delete'), ['action' => 'delete', $tutor->id], ['class' => 'btn btn-xs btn-outline-danger', 'escape' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $tutor->id)]) 
+                            ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -75,3 +87,9 @@ $this->Breadcrumbs->add([
     </div>
     <!-- /.card-footer -->
 </div>
+
+<?= $this->ModalForm->addModal('deleteTutorModal', [
+    'element' => \ModalForm\ModalFormPlugin::FORM_CHECKBOX,
+    //'element' => \ModalForm\ModalFormPlugin::FORM_PASSWORD,
+    'title' => __('Delete Tutor'),
+]) ?>

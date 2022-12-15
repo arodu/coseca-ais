@@ -27,6 +27,7 @@ use CakeLte\View\CakeLteTrait;
  * 
  * @property \App\View\Helper\AppHelper $App
  * @property \App\View\Helper\BulkActionHelper $BulkAction
+ * @property \ModalForm\View\Helper\ModalFormHelper $ModalForm
  */
 class AppView extends View
 {
@@ -47,5 +48,6 @@ class AppView extends View
     {
         $this->initializeCakeLte();
         $this->loadHelper('Authentication.Identity');
+        $this->loadHelper('ModalForm.ModalForm');
     }
 }

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace ModalSecurity\Controller;
+namespace ModalForm\Controller;
 
 use App\Controller\AppController as BaseController;
 

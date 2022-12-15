@@ -85,7 +85,6 @@
         </footer>
 
         <?= $this->fetch('postLink') ?>
-        <?= $this->fetch(\ModalSecurity\ModalSecurityPlugin::VIEW_BLOCK) ?>
     </div>
     <!-- ./wrapper -->
 

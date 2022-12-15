@@ -105,6 +105,18 @@ class TutorsController extends AppAdminController
      */
     public function delete($id = null)
     {
+        $modalForm = $this->getRequest()->getAttribute('modalForm');
+        debug($modalForm);
+        exit();
+
+        if (!$modalForm->isValid()) {
+            $this->Flash->error(__('Checked invalid!'));
+            return $this->redirect(['action' => 'index']);
+        }
+
+        debug($this->getRequest()->getData());
+        exit();
+
         $this->request->allowMethod(['post', 'delete']);
         $tutor = $this->Tutors->get($id);
         if ($this->Tutors->delete($tutor)) {

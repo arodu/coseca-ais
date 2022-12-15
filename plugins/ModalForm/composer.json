@@ -1,6 +1,6 @@
 {
-    "name": "your-name-here/modal-security",
-    "description": "ModalSecurity plugin for CakePHP",
+    "name": "your-name-here/modal-form",
+    "description": "ModalForm plugin for CakePHP",
     "type": "cakephp-plugin",
     "license": "MIT",
     "require": {
@@ -12,12 +12,12 @@
     },
     "autoload": {
         "psr-4": {
-            "ModalSecurity\\": "src/"
+            "ModalForm\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "ModalSecurity\\Test\\": "tests/",
+            "ModalForm\\Test\\": "tests/",
             "Cake\\Test\\": "vendor/cakephp/cakephp/tests/"
         }
     }

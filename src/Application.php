@@ -29,6 +29,7 @@ use Cake\Http\MiddlewareQueue;
 use Cake\ORM\Locator\TableLocator;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
+use ModalForm\Middleware\ModalFormMiddleware;
 use Muffin\Footprint\Middleware\FootprintMiddleware;
 
 /**
@@ -78,7 +79,7 @@ class Application extends BaseApplication
         $this->addPlugin(\CakeDC\Users\Plugin::class);
         Configure::write('Users.config', ['users']);
         $this->addPlugin('QueryFilter');
-        $this->addPlugin('ModalSecurity');
+        $this->addPlugin('ModalForm');
     }
 
     /**
@@ -116,7 +117,8 @@ class Application extends BaseApplication
             // https://book.cakephp.org/4/en/security/csrf.html#cross-site-request-forgery-csrf-middleware
             ->add(new CsrfProtectionMiddleware([
                 'httponly' => true,
-            ]));
+            ]))
+            ->add(new ModalFormMiddleware());
 
         return $middlewareQueue;
     }
