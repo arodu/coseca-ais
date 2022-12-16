@@ -88,12 +88,14 @@ $this->Breadcrumbs->add([
     <!-- /.card-footer -->
 </div>
 
-<?= $this->ModalForm->addModal('deleteTutorModal', [
-    //'element' => \ModalForm\ModalFormPlugin::FORM_CONFIRM,
-    'element' => \ModalForm\ModalFormPlugin::FORM_PASSWORD,
-    'title' => __('Delete Tutor'),
+<?php
+echo  $this->ModalForm->addModal('deleteTutorModal', [
+    'element' => \ModalForm\ModalFormPlugin::FORM_TEXT_INPUT,
     'content' => [
-        'confirm' => 'asdas',
-    //    'textTemplate' => __('Please type :text to confirm.'),
+        'title' => __('Delete Tutor'),
+        'confirm' => 'qwdqw112d12d12dqwdqwdqwd',
+        //'buttonOk'  => 'Enviar',
+        //'buttonCancel'  => 'Cancelar',
     ]
-]) ?>
+]);
+?>

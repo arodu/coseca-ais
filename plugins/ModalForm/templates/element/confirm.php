@@ -2,17 +2,29 @@
 
 use ModalForm\ModalFormPlugin;
 
-$this->extend($modalTemplate);
-
-$this->assign('modal-target', $target);
-$this->assign('modal-title', $title);
 ?>
 
-<div class="alert alert-light message"></div>
-
-<?= $this->Form->hidden('modalForm.confirm', ['value' => ModalFormPlugin::VALIDATOR_CONFIRM]) ?>
-
-<?php $this->start('modal-footer') ?>
-<?= $this->Form->button(__('Yes'), ['class' => 'btn btn-primary']) ?>
-<?= $this->Form->button(__('No'), ['data-dismiss' => 'modal', 'type' => 'button']) ?>
-<?php $this->end(); ?>
+<div class="modal fade" id="<?= $target ?>" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <?php if ($content['title'] ?? false) : ?>
+                <div class="modal-header">
+                    <h5 class="modal-title"><?= $content['title'] ?></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            <?php endif; ?>
+            <?= $this->Form->create(null, ['url' => '#', 'type' => 'POST']) ?>
+            <div class="modal-body">
+                <p class="message"></p>
+                <?= $this->Form->hidden('modalForm.validator', ['value' => ModalFormPlugin::VALIDATOR_CONFIRM]) ?>
+            </div>
+            <div class="modal-footer">
+                <?= $this->Form->button($content['buttonOk'] ?? __('Submit'), ['class' => 'btn btn-primary']) ?>
+                <?= $this->Form->button($content['buttonCancel'] ?? __('Close'), ['data-dismiss' => 'modal', 'type' => 'button']) ?>
+            </div>
+            <?= $this->Form->end() ?>
+        </div>
+    </div>
+</div>

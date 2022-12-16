@@ -106,7 +106,7 @@ class TutorsController extends AppAdminController
     public function delete($id = null)
     {
         $modalForm = $this->getRequest()->getAttribute('modalForm');
-        if (!$modalForm->isValid()) {
+        if (empty($modalForm) || !$modalForm->isValid()) {
             $this->Flash->error(__('Checked invalid!'));
             return $this->redirect(['action' => 'index']);
         }

@@ -15,8 +15,6 @@ use Cake\Routing\RouteBuilder;
  */
 class ModalFormPlugin extends BasePlugin
 {
-    public const MODAL_TEMPLATE = 'ModalForm.template';
-
     public const FORM_CHECKBOX = 'ModalForm.checkbox';
     public const FORM_PASSWORD = 'ModalForm.password';
     public const FORM_TEXT_INPUT = 'ModalForm.textInput';

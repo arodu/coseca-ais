@@ -30,13 +30,9 @@ class ModalFormHelper extends Helper
      * @var array<string, mixed>
      */
     protected $_defaultConfig = [
-        'modalTemplate' => ModalFormPlugin::MODAL_TEMPLATE,
         'element' => ModalFormPlugin::FORM_CHECKBOX,
         'modalScript' => null,
-        'content' => [
-            'confirm' => 'sample_text',
-            'textTemplate' => 'Type <code>:confirm</code> to confirm',
-        ]
+        'content' => [],
     ];
 
     protected $modalScript = <<<MODAL_SCRIPT
@@ -50,10 +46,9 @@ class ModalFormHelper extends Helper
 
     public function addModal(string $target, array $options = []): string
     {
-        $modalTemplate = $options['modalTemplate'] ?? $this->getConfig('modalTemplate');
         $modalScript = $options['modalScript'] ?? $this->getConfig('modalScript') ?? $this->modalScript;
         $element = $options['element'] ?? $this->getConfig('element');
-        $content = array_merge($this->getConfig('content'), $options['content'] ?? []);
+        $content = array_merge($this->defaultContentData($element), $this->getConfig('content'), $options['content'] ?? []);
 
         $this->Html->scriptBlock(Text::insert($modalScript, [
             'target' => $target,
@@ -61,8 +56,6 @@ class ModalFormHelper extends Helper
 
         return $this->getView()->element($element, [
             'target' => $target,
-            'title' => $options['title'] ?? null,
-            'modalTemplate' => $modalTemplate,
             'content' => $content,
         ]);
     }
@@ -79,8 +72,24 @@ class ModalFormHelper extends Helper
         return $this->Html->link($title, '#', $options);
     }
 
-    protected function defaultContentData(): array
+    protected function defaultContentData($element): array
     {
-        return [];
+        $content = [
+            'buttonOk' => __('Submit'),
+            'buttonCancel' => __('Cancel'),
+        ];
+
+        switch ($element) {
+            case ModalFormPlugin::FORM_CONFIRM:
+                $content['buttonOk'] = __('Yes');
+                $content['buttonCancel'] = __('No');
+                break;
+            case ModalFormPlugin::FORM_TEXT_INPUT:
+                $content['confirm'] = 'sample_text';
+                $content['textTemplate'] = 'Type <code>:confirm</code> to confirm';
+                break;
+        }
+
+        return $content;
     }
 }
