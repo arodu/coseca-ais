@@ -23,12 +23,21 @@ $icon = $status->icon();
         </div> -->
         <div class="timeline-footer d-flex">
             <div>
+                <?php
+                    echo $this->Html->link(
+                        __('Editar Registro'),
+                        ['controller' => 'RegisterStage', 'action' => 'edit', $studentStage->student_id, 'prefix' => 'Admin/Stage'],
+                        [
+                            'class' => 'btn btn-primary btn-sm',
+                        ]
+                    );
+                ?>
             </div>
 
             <div class="ml-auto">
                 <?= $this->Html->link(
                     __('Editar'),
-                    ['controller' => 'StudentStages', 'action' => 'edit', $studentStage->id],
+                    ['controller' => 'StudentStages', 'action' => 'edit', $studentStage->id, 'prefix' => 'Admin'],
                     [
                         'class' => 'btn btn-default btn-sm',
                     ]

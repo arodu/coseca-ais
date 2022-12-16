@@ -107,6 +107,14 @@ return [
             'action' => '*',
         ],
         [
+            'role' => UserRole::getAdminGroup(),
+            'prefix' => 'Admin/Stage',
+            'extension' => '*',
+            'plugin' => '*',
+            'controller' => '*',
+            'action' => '*',
+        ],
+        [
             'role' => UserRole::getStudentGroup(),
             'prefix' => 'Student',
             'extension' => '*',

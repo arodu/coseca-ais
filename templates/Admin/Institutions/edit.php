@@ -8,8 +8,8 @@
 $this->assign('title', __('Edit Institution'));
 $this->Breadcrumbs->add([
     ['title' => __('Home'), 'url' => '/'],
-    ['title' => __('List Institutions'), 'url' => ['action' => 'index']],
-    ['title' => __('View'), 'url' => ['action' => 'view', $institution->id]],
+    ['title' => __('List Institutions'), 'url' => ['action' => 'index', 'prefix' => 'Admin']],
+    ['title' => __('View'), 'url' => ['action' => 'view', $institution->id, 'prefix' => 'Admin']],
     ['title' => __('Edit')],
 ]);
 ?>
@@ -31,13 +31,13 @@ $this->Breadcrumbs->add([
     <div class="">
       <?= $this->Form->postLink(
           __('Delete'),
-          ['action' => 'delete', $institution->id],
+          ['action' => 'delete', $institution->id, 'prefix' => 'Admin'],
           ['confirm' => __('Are you sure you want to delete # {0}?', $institution->id), 'class' => 'btn btn-danger']
       ) ?>
     </div>
     <div class="ml-auto">
       <?= $this->Form->button(__('Save')) ?>
-      <?= $this->Html->link(__('Cancel'), ['action' => 'view', $institution->id], ['class' => 'btn btn-default']) ?>
+      <?= $this->Html->link(__('Cancel'), ['action' => 'view', $institution->id, 'prefix' => 'Admin'], ['class' => 'btn btn-default']) ?>
 
     </div>
   </div>

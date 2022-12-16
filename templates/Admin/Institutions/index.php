@@ -23,7 +23,7 @@ $this->Breadcrumbs->add([
                 'class' => 'form-control-sm',
                 'templates' => ['inputContainer' => '{{content}}']
             ]); ?>
-            <?= $this->Html->link(__('New Institution'), ['action' => 'add'], ['class' => 'btn btn-primary btn-sm ml-2']) ?>
+            <?= $this->Html->link(__('New Institution'), ['action' => 'add', 'prefix' => 'Admin'], ['class' => 'btn btn-primary btn-sm ml-2']) ?>
         </div>
     </div>
     <!-- /.card-header -->
@@ -50,11 +50,11 @@ $this->Breadcrumbs->add([
                         <td><?= h($institution->contact_person) ?></td>
                         <td><?= h($institution->contact_phone) ?></td>
                         <td><?= h($institution->contact_email) ?></td>
-                        <td><?= $institution->has('tenant') ? $this->Html->link($institution->tenant->name, ['controller' => 'Tenants', 'action' => 'view', $institution->tenant->id]) : '' ?></td>
+                        <td><?= $institution->has('tenant') ? $this->Html->link($institution->tenant->name, ['controller' => 'Tenants', 'action' => 'view', $institution->tenant->id, 'prefix' => 'Admin']) : '' ?></td>
                         <td class="actions">
-                            <?= $this->Html->link(__('View'), ['action' => 'view', $institution->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
-                            <?= $this->Html->link(__('Edit'), ['action' => 'edit', $institution->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
-                            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $institution->id], ['class' => 'btn btn-xs btn-outline-danger', 'escape' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $institution->id)]) ?>
+                            <?= $this->Html->link(__('View'), ['action' => 'view', $institution->id, 'prefix' => 'Admin'], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
+                            <?= $this->Html->link(__('Edit'), ['action' => 'edit', $institution->id, 'prefix' => 'Admin'], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
+                            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $institution->id, 'prefix' => 'Admin'], ['class' => 'btn btn-xs btn-outline-danger', 'escape' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $institution->id)]) ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
