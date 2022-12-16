@@ -90,7 +90,7 @@ $this->Breadcrumbs->add([
 
 <?= $this->ModalForm->addModal('deleteTutorModal', [
     //'element' => \ModalForm\ModalFormPlugin::FORM_CONFIRM,
-    'element' => \ModalForm\ModalFormPlugin::FORM_TEXT_INPUT,
+    'element' => \ModalForm\ModalFormPlugin::FORM_PASSWORD,
     'title' => __('Delete Tutor'),
     'content' => [
         'confirm' => 'asdas',

@@ -11,7 +11,8 @@ class PasswordValidator implements ValidatorInterface
     protected $request;
     protected $modalForm;
 
-    public function __construct(ServerRequest $request = null, array $modalForm) {
+    public function __construct(ServerRequest $request = null, array $modalForm)
+    {
         $this->request = $request;
         $this->modalForm = $modalForm;
     }
@@ -19,7 +20,8 @@ class PasswordValidator implements ValidatorInterface
     public function isValid(): bool
     {
 
-        return true;
-    }
+        debug($this->request);
 
+        return false;
+    }
 }
