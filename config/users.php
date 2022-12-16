@@ -1,5 +1,6 @@
 <?php
 
+use App\Loader\AppMiddlewareQueueLoader;
 use App\Model\Field\UserRole;
 use App\Model\Table\AppUsersTable;
 
@@ -8,6 +9,7 @@ use App\Model\Table\AppUsersTable;
 
 return [
     'Users' => [
+        'middlewareQueueLoader' => AppMiddlewareQueueLoader::class,
         // Table used to manage users
         'table' => AppUsersTable::class,
         // Controller used to manage users plugin features & actions

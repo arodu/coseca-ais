@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ModalForm\Validator;
 
+use Authentication\PasswordHasher\DefaultPasswordHasher;
 use Cake\Http\ServerRequest;
 
 class PasswordValidator implements ValidatorInterface
@@ -19,9 +20,8 @@ class PasswordValidator implements ValidatorInterface
 
     public function isValid(): bool
     {
+        $user = $this->request->getAttribute('identity')->getOriginalData();
 
-        debug($this->request);
-
-        return false;
+        return (new DefaultPasswordHasher())->check($this->modalForm['password'], $user->password);
     }
 }

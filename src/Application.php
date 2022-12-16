@@ -69,12 +69,6 @@ class Application extends BaseApplication
 
         // Load more plugins here
         $this->addPlugin('Muffin/Footprint');
-        $this->getEventManager()
-            ->on('Server.buildMiddleware', function (EventInterface $event, MiddlewareQueue $middleware) {
-                $middleware->insertAfter(AuthenticationMiddleware::class, FootprintMiddleware::class);
-            })
-            ->on(new \App\Event\UsersListener());
-
         $this->addPlugin(\CakeLte\Plugin::class);
         $this->addPlugin(\CakeDC\Users\Plugin::class);
         Configure::write('Users.config', ['users']);
@@ -117,8 +111,7 @@ class Application extends BaseApplication
             // https://book.cakephp.org/4/en/security/csrf.html#cross-site-request-forgery-csrf-middleware
             ->add(new CsrfProtectionMiddleware([
                 'httponly' => true,
-            ]))
-            ->add(new ModalFormMiddleware());
+            ]));
 
         return $middlewareQueue;
     }
