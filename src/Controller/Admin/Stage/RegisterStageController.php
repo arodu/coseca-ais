@@ -21,22 +21,6 @@ class RegisterStageController extends AppAdminController
     }
 
     /**
-     * View method
-     *
-     * @param string|null $id Register Stage id.
-     * @return \Cake\Http\Response|null|void Renders view
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function view($id = null)
-    {
-        $student = $this->Students->get($id, [
-            'contain' => [],
-        ]);
-
-        $this->set(compact('student'));
-    }
-
-    /**
      * Edit method
      *
      * @param string|null $id Register Stage id.
@@ -61,7 +45,7 @@ class RegisterStageController extends AppAdminController
 
                 $this->Students->StudentStages->close($studentStage, StageStatus::SUCCESS);
 
-                return $this->redirect(['controller' => 'Students', 'action' => 'view', $student->id]);
+                return $this->redirect(['controller' => 'Students', 'action' => 'view', $student->id, 'prefix' => 'Admin']);
                 
             }
             $this->Flash->error(__('The register stage could not be saved. Please, try again.'));
