@@ -24,9 +24,9 @@ class CreateStudentCourses extends AbstractMigration
             'default' => null,
             'null' => false,
         ]);
-        $table->addColumn('comments', 'text', [
+        $table->addColumn('comment', 'text', [
             'default' => null,
-            'null' => false,
+            'null' => true,
         ]);
         $table->create();
     }

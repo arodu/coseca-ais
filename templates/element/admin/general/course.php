@@ -2,52 +2,38 @@
 
 /** @var \App\Model\Entity\StudentStage $studentStage */
 /** @var \App\Model\Entity\Student $student */
+/** @var \App\View\AppView $this */
 
 use App\Model\Field\StageStatus;
 
 $status = $studentStage->status_obj;
 $color = $status->color();
 $icon = $status->icon();
+
+$this->set('studentStage', $studentStage);
+$this->extend('/Admin/Common/timeline_item');
+
+$this->start('actions');
+if (empty($student->student_course)) {
+    echo $this->Html->link(
+        __('Taller'),
+        ['controller' => 'Courses', 'action' => 'add', $student->id, 'prefix' => 'Admin/Stage'],
+        ['class' => 'btn btn-primary btn-sm']
+    );
+} else {
+    echo $this->Html->link(
+        __('Editar Taller'),
+        ['controller' => 'Courses', 'action' => 'edit', $student->student_course->id, 'prefix' => 'Admin/Stage'],
+        ['class' => 'btn btn-warning btn-sm']
+    );
+}
+$this->end();
+
 ?>
 
-<div>
-    <?= $icon->render($color->cssClass('bg', false)) ?>
-    <div class="timeline-item">
-        <span class="time"><i class="far fa-clock"></i> <?= $studentStage->modified ?></span>
 
-        <h3 class="timeline-header"><strong><?= $studentStage->stage_label ?></strong> <small> (<?= $studentStage->status_label ?>)</small></h3>
+<?php if (!empty($student->student_course)) : ?>
+    
+    <?php debug($student->student_course) ?>
 
-        <!-- <div class="timeline-body">
-            Etsy  edmodo ifttt zimbra. Babblely odeo kaboodle
-            quora plaxo ideeli hulu weebly balihoo...
-        </div> -->
-        <div class="timeline-footer d-flex">
-            <div>
-                <?php
-                if (in_array($status, [StageStatus::IN_PROGRESS, StageStatus::WAITING])) :
-                    echo $this->Form->postLink(
-                        __('Concluir taller'),
-                        ['controller' => 'StudentStages', 'action' => 'forcedClose', $studentStage->id],
-                        [
-                            'class' => 'btn btn-primary btn-sm',
-                            'confirm' => __('Esta seguro que desea cerrar esta etapa?')
-                        ]
-                    );
-                endif;
-                ?>
-            </div>
-
-            <div class="ml-auto">
-                <?= $this->Html->link(
-                    __('Editar'),
-                    ['controller' => 'StudentStages', 'action' => 'edit', $studentStage->id],
-                    [
-                        'class' => 'btn btn-default btn-sm',
-                    ]
-                ) ?>
-            </div>
-            <!-- <a href="#" class="btn btn-primary btn-sm">Read more</a>
-            <a href="#" class="btn btn-danger btn-sm">Delete</a> -->
-        </div>
-    </div>
-</div>
+<?php endif; ?>

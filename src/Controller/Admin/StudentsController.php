@@ -67,7 +67,12 @@ class StudentsController extends AppAdminController
     public function view($id = null)
     {
         $student = $this->Students->get($id, [
-            'contain' => ['StudentAdscriptions' => ['InstitutionProjects' => ['Institutions'], 'Tutors', 'Lapses']]
+            'contain' => [
+                'StudentAdscriptions' => [
+                    'InstitutionProjects' => ['Institutions'], 'Tutors', 'Lapses'
+                ],
+                'StudentCourses',
+            ]
         ]);
 
         $stageList = $this->Students->StudentStages->find('stageList', ['student' => $student]);
@@ -97,7 +102,7 @@ class StudentsController extends AppAdminController
     {
         $this->set('student_id', $id);
     }
-    
+
     public function prints($id = null)
     {
         $this->set('student_id', $id);

@@ -43,3 +43,5 @@ $this->Breadcrumbs->add([
         </div>
     </div>
 </div>
+
+<?php // debug($student) ?>

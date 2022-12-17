@@ -55,7 +55,8 @@
         "cs-check": "phpcs --colors -p  src/ tests/",
         "cs-fix": "phpcbf --colors -p src/ tests/",
         "stan": "phpstan analyse",
-        "test": "phpunit --colors=always"
+        "test": "phpunit --colors=always",
+        "reset-factory": "bin/cake migrations rollback -t 0; bin/cake migrations migrate; bin/cake migrations seed --seed TestingSeed"
     },
     "prefer-stable": true,
     "config": {
