@@ -1,7 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Controller\Admin;
+namespace App\Controller\Admin\Stage;
+
+use App\Controller\Admin\AppAdminController;
+use App\Model\Field\StageField;
+use Cake\ORM\Query;
 
 /**
  * StudentAdscriptionsController Controller
@@ -9,13 +13,14 @@ namespace App\Controller\Admin;
  * @property \App\Model\Table\StudentAdscriptionsTable $StudentAdscriptions
  * @method \App\Model\Entity\StudentAdscription[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class StudentAdscriptionsController extends AppAdminController
+class AdscriptionsController extends AppAdminController
 {
 
     public function initialize(): void
     {
         parent::initialize();
         $this->StudentStages = $this->fetchTable('StudentStages');
+        $this->StudentAdscriptions = $this->fetchTable('StudentAdscriptions');
     }
 
     /**
@@ -23,24 +28,41 @@ class StudentAdscriptionsController extends AppAdminController
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add($student_stage_id = null)
+    public function add($student_id = null)
     {
-        $studentStage = $this->StudentStages->get($student_stage_id);
-
+        $student = $this->StudentAdscriptions->Students->get($student_id, [
+            'contain' => [
+                'StudentStages' => function($query) {
+                    return $query->where([
+                        'stage' => StageField::ADSCRIPTION->value,
+                    ]);
+                }
+            ]
+        ]);
         $student_adscription = $this->StudentAdscriptions->newEmptyEntity();
         if ($this->request->is('post')) {
             $student_adscription = $this->StudentAdscriptions->patchEntity($student_adscription, $this->request->getData());
             if ($this->StudentAdscriptions->save($student_adscription)) {
                 $this->Flash->success(__('The student_adscription has been saved.'));
 
-                return $this->redirect(['controller' => 'Students', 'action' => 'view', $studentStage->student_id]);
+                return $this->redirect(['_name' => 'admin:student_view', $student_id]);
             }
             $this->Flash->error(__('The student_adscription could not be saved. Please, try again.'));
         }
+
+        dd($student);
+
+
         $institution_projects = $this->StudentAdscriptions->InstitutionProjects->find('list', ['limit' => 200])->all();
-        $lapses = $this->StudentAdscriptions->Lapses->find('list', ['limit' => 200])->all();
+
+
+        // $lapse_id = 
+
+
         $tutors = $this->StudentAdscriptions->Tutors->find('list', ['limit' => 200])->all();
-        $this->set(compact('studentStage', 'student_adscription', 'institution_projects', 'lapses', 'tutors'));
+
+
+        $this->set(compact('student_id', 'student_adscription', 'institution_projects', 'lapses', 'tutors'));
     }
 
     /**
