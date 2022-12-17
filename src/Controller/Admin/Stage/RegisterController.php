@@ -8,11 +8,11 @@ use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 
 /**
- * RegisterStage Controller
+ * Register Controller
  *
  * @method \App\Model\Entity\Student[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class RegisterStageController extends AppAdminController
+class RegisterController extends AppAdminController
 {
     public function initialize(): void
     {

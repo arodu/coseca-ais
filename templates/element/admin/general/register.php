@@ -26,7 +26,7 @@ $icon = $status->icon();
                 <?php
                     echo $this->Html->link(
                         __('Editar Registro'),
-                        ['controller' => 'RegisterStage', 'action' => 'edit', $studentStage->student_id, 'prefix' => 'Admin/Stage'],
+                        ['controller' => 'Register', 'action' => 'edit', $studentStage->student_id, 'prefix' => 'Admin/Stage'],
                         [
                             'class' => 'btn btn-primary btn-sm',
                         ]

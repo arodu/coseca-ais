@@ -224,9 +224,24 @@ class StudentStagesTable extends Table
      * @param StudentStage $entity
      * @param StageStatus $newStatus
      * @param boolean $forced
+     * @return StudentStage|bool
+     */
+    public function close(StudentStage $entity, StageStatus $newStatus, bool $forced = false): StudentStage|bool
+    {
+        try {
+            return $this->closeOrFail($entity, $newStatus, $forced);
+        } catch (\Throwable $th) {
+            return false;
+        }
+    }
+
+    /**
+     * @param StudentStage $entity
+     * @param StageStatus $newStatus
+     * @param boolean $forced
      * @return StudentStage|null
      */
-    public function close(StudentStage $entity, StageStatus $newStatus, bool $forced = false): ?StudentStage
+    public function closeOrFail(StudentStage $entity, StageStatus $newStatus, bool $forced = false): ?StudentStage
     {
         $this->updateStatus($entity, $newStatus->value);
 
