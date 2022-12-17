@@ -44,7 +44,6 @@ class StudentStage extends Entity
     protected $_accessible = [
         'student_id' => true,
         'stage' => true,
-        'lapse_id' => true,
         'status' => true,
         'created' => true,
         'created_by' => true,

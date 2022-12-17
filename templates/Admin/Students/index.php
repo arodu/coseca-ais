@@ -109,7 +109,7 @@ $this->Breadcrumbs->add([
                         <td><?= h($student->dni) ?></td>
                         <td><?= h($student->first_name) ?></td>
                         <td><?= h($student->last_name) ?></td>
-                        <td><?= h($studentStage->lapse->name) ?></td>
+                        <td><?= h($student->lapse?->name) ?? '<code>N/A</code>'  ?></td>
                         <td>
                             <?= h($studentStage->stage_label) ?>
                             <?= $this->Html->tag(

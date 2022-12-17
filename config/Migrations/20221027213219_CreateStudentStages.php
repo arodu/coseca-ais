@@ -25,11 +25,6 @@ class CreateStudentStages extends AbstractMigration
             'limit' => 255,
             'null' => false,
         ]);
-        $table->addColumn('lapse_id', 'integer', [
-            'default' => null,
-            'limit' => 11,
-            'null' => false,
-        ]);
         $table->addColumn('status', 'string', [
             'default' => null,
             'limit' => 255,

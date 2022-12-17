@@ -38,7 +38,9 @@ class StudentsController extends AppAdminController
             ],
         ];
 
-        $query = $this->Students->find()->contain(['AppUsers', 'Tenants', 'LastStage' => ['Lapses']]);
+        $query = $this->Students
+            ->find()
+            ->contain(['AppUsers', 'Tenants', 'LastStage', 'Lapses']);
 
         // filterLogic
         $formData = $this->getRequest()->getQuery();
@@ -47,7 +49,7 @@ class StudentsController extends AppAdminController
         }
         $filtered = $this->Students->queryWasFiltered();
         $tenants = $this->Students->Tenants->find('list');
-        $lapses = $this->Students->StudentStages->Lapses->find('list', [
+        $lapses = $this->Students->Lapses->find('list', [
             'keyField' => 'name',
             'valueField' => 'name',
         ]);

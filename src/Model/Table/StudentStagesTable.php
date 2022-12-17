@@ -67,10 +67,6 @@ class StudentStagesTable extends Table
             'foreignKey' => 'student_id',
             'joinType' => 'INNER',
         ]);
-        $this->belongsTo('Lapses', [
-            'foreignKey' => 'lapse_id',
-            'joinType' => 'INNER',
-        ]);
     }
 
     /**
@@ -92,10 +88,6 @@ class StudentStagesTable extends Table
             ->notEmptyString('stage');
 
         $validator
-            ->integer('lapse_id')
-            ->notEmptyString('lapse_id');
-
-        $validator
             ->scalar('status')
             ->maxLength('status', 255)
             ->requirePresence('status', 'create')
@@ -115,7 +107,6 @@ class StudentStagesTable extends Table
     {
         $rules->add($rules->isUnique(['student_id', 'stage'], 'This stage & student combination has already been used'));
         $rules->add($rules->existsIn('student_id', 'Students'), ['errorField' => 'student_id']);
-        $rules->add($rules->existsIn('lapse_id', 'Lapses'), ['errorField' => 'lapse_id']);
 
         return $rules;
     }
@@ -195,10 +186,6 @@ class StudentStagesTable extends Table
             throw new InvalidArgumentException('param student_id is necessary');
         }
 
-        if (empty($options['lapse_id'])) {
-            throw new InvalidArgumentException('param lapse_id is necessary');
-        }
-
         if (empty($options['status'])) {
             $options['status'] = StageField::from($options['stage'])->getDefaultStatus()->value ?? StageStatus::WAITING->value;
         }
@@ -265,7 +252,6 @@ class StudentStagesTable extends Table
                 return $this->create([
                     'stage' => $nextStageField->value,
                     'student_id' => $entity->student_id,
-                    'lapse_id' => $entity->lapse_id,
                 ]);
             }
         }

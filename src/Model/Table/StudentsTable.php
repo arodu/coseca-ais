@@ -79,6 +79,10 @@ class StudentsTable extends Table
             'foreignKey' => 'tenant_id',
             'joinType' => 'INNER',
         ]);
+        $this->belongsTo('Lapses', [
+            'foreignKey' => 'lapse_id',
+            'joinType' => 'LEFT',
+        ]);
         $this->hasMany('StudentStages', [
             'foreignKey' => 'student_id',
             'dependent' => true,
@@ -205,6 +209,18 @@ class StudentsTable extends Table
         return $query->contain(['AppUsers']);
     }
 
+    public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
+    {
+        if (!$entity->isNew() && empty($entity->lapse_id)) {
+            $currentLapse = $this->Tenants->CurrentLapse
+                ->find()
+                ->where(['CurrentLapse.tenant_id' => $entity->tenant_id])
+                ->first();
+
+            $entity->lapse_id = $currentLapse->id;
+        }
+    }
+
     /**
      * @param EventInterface $event
      * @param EntityInterface $entity
@@ -217,7 +233,6 @@ class StudentsTable extends Table
             $this->StudentStages->create([
                 'student_id' => $entity->id,
                 'stage' => StageField::default()->value,
-                'lapse_id' => $this->Tenants->getCurrentLapse($entity->tenant_id)->id,
             ]);
         }
     }

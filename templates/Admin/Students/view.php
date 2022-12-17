@@ -24,7 +24,7 @@ $this->Breadcrumbs->add([
             <!-- timeline item -->
             <?php if (empty($stage['studentStage'])) : ?>
                 <div>
-                    <?= StageStatus::PENDING->icon()->render() ?>
+                    <?= StageStatus::LOCKED->icon()->render() ?>
                     <div class="timeline-item">
                         <h3 class="timeline-header"><strong><?= $stage['stageField']->label() ?></strong></h3>
                     </div>

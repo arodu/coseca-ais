@@ -12,7 +12,7 @@ enum FaIcon
     case IN_PROGRESS;
     case WAITING;
     case SUCCESS;
-    case PENDING;
+    case LOCKED;
     case FAILED;
 
     case ERROR;
@@ -32,7 +32,7 @@ enum FaIcon
             static::IN_PROGRESS => 'fas fa-cogs',
             static::WAITING => 'fas fa-pause',
             static::SUCCESS => 'fas fa-check',
-            static::PENDING => 'fas fa-lock',
+            static::LOCKED => 'fas fa-lock',
             static::FAILED => 'fas fa-exclamation-triangle',
             static::STAR => 'fas fa-star',
             static::SEARCH => 'fas fa-search',

@@ -42,9 +42,8 @@ class StudentInfoCell extends Cell
             'contain' => [
                 'AppUsers',
                 'Tenants',
-                'LastStage' => [
-                    'Lapses',
-                ]
+                'Lapses',
+                'LastStage',
             ],
         ]);
 
