@@ -5,7 +5,7 @@
  * @var \App\Model\Entity\StudentAdscription $student_adscription
  */
 
-$this->student_id = $student_id;
+$this->student_id = $student->id;
 $this->active = null;
 $this->extend('/Admin/Common/view_student');
 
@@ -13,7 +13,7 @@ $this->assign('title', __('Estudiante'));
 $this->Breadcrumbs->add([
     ['title' => __('Inicio'), 'url' => '/'],
     ['title' => __('Estudiantes'), 'url' => ['controller' => 'Students', 'action' => 'index']],
-    ['title' => __('Ver'), 'url' => ['_name' => 'admin:student_view', $student_id]],
+    ['title' => __('Ver'), 'url' => ['_name' => 'admin:student_view', $student->id]],
     ['title' => __('Agregar Proyecto')],
 ]);
 ?>
@@ -25,9 +25,9 @@ $this->Breadcrumbs->add([
 </div>
 <div class="card-body">
     <?php
-    echo $this->Form->hidden('student_id', ['value' => $student_id]);
+    echo $this->Form->hidden('student_id', ['value' => $student->id]);
+    echo $this->Form->control('lapse_id', ['options' => [$student->lapse->id => $student->lapse->name], 'readonly' => true]);
     echo $this->Form->control('institution_project_id', ['options' => $institution_projects, 'empty' => true]);
-    echo $this->Form->control('lapse_id', ['options' => $lapses, 'empty' => true]);
     echo $this->Form->control('tutor_id', ['options' => $tutors, 'empty' => true]);
     ?>
 </div>
@@ -35,7 +35,7 @@ $this->Breadcrumbs->add([
 <div class="card-footer d-flex">
     <div class="ml-auto">
         <?= $this->Form->button(__('Guardar')) ?>
-        <?= $this->Html->link(__('Cancelar'), ['_name' => 'admin:student_view', $student_id], ['class' => 'btn btn-default']) ?>
+        <?= $this->Html->link(__('Cancelar'), ['_name' => 'admin:student_view', $student->id], ['class' => 'btn btn-default']) ?>
     </div>
 </div>
 

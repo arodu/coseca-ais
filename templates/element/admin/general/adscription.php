@@ -30,29 +30,32 @@ $this->end();
         <?= __('No hay proyectos adscritos') ?>
     </div>
 <?php else : ?>
-    <table class="table">
-        <tr>
-            <th><?= __('Institución') ?></th>
-            <th><?= __('Proyecto') ?></th>
-            <th><?= __('Lapso') ?></th>
-            <th><?= __('Tutor') ?></th>
-            <th class="narrow"></th>
-        </tr>
-        <?php foreach ($student->student_adscriptions as $student_adscriptions) : ?>
+    <div class="table-responsive">
+        <table class="table table-sm table-borderless table-hover m-0">
             <tr>
-                <td><?= $student_adscriptions->institution_project->institution->name ?></td>
-                <td><?= $student_adscriptions->institution_project->name ?></td>
-                <td><?= $student_adscriptions->lapse->name ?></td>
-                <td><?= $student_adscriptions->tutor->name ?></td>
-                <td>
-                    <?= $this->Html->link(
-                        FaIcon::EDIT->render(),
-                        ['controller' => 'StudentAdscriptions', 'action' => 'edit', $student_adscriptions->id],
-                        ['class' => 'btn btn-link btn-sm', 'escape' => false]
-                    ) ?>
-                </td>
+                <th class="narrow"></th>
+                <th><?= __('Institución') ?></th>
+                <th><?= __('Proyecto') ?></th>
+                <th><?= __('Lapso') ?></th>
+                <th><?= __('Tutor') ?></th>
+                <th><?= __('Estado') ?></th>
             </tr>
-        <?php endforeach; ?>
-    </table>
+            <?php foreach ($student->student_adscriptions as $student_adscriptions) : ?>
+                <tr>
+                    <td>
+                        <?= $this->Html->link(
+                            FaIcon::EDIT->render('fa-fw'),
+                            ['controller' => 'Adscriptions', 'action' => 'edit', $student_adscriptions->id, 'prefix' => 'Admin/Stage'],
+                            ['class' => 'btn btn-link btn-sm text-info', 'escape' => false]
+                        ) ?>
+                    </td>
+                    <td><?= $student_adscriptions->institution_project->institution->name ?></td>
+                    <td><?= $student_adscriptions->institution_project->name ?></td>
+                    <td><?= $student_adscriptions->lapse->name ?></td>
+                    <td><?= $student_adscriptions->tutor->name ?></td>
+                    <td><?= $student_adscriptions->lapse->active ? __('Activo') : __('Inactivo') ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+    </div>
 <?php endif; ?>
-

@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Admin\Stage;
 
 use App\Controller\Admin\AppAdminController;
 use App\Model\Field\StageField;
-use Cake\ORM\Query;
+use App\Model\Field\StageStatus;
 
 /**
  * StudentAdscriptionsController Controller
@@ -31,18 +32,14 @@ class AdscriptionsController extends AppAdminController
     public function add($student_id = null)
     {
         $student = $this->StudentAdscriptions->Students->get($student_id, [
-            'contain' => [
-                'StudentStages' => function($query) {
-                    return $query->where([
-                        'stage' => StageField::ADSCRIPTION->value,
-                    ]);
-                }
-            ]
+            'contain' => ['Lapses']
         ]);
+
         $student_adscription = $this->StudentAdscriptions->newEmptyEntity();
         if ($this->request->is('post')) {
             $student_adscription = $this->StudentAdscriptions->patchEntity($student_adscription, $this->request->getData());
             if ($this->StudentAdscriptions->save($student_adscription)) {
+                $this->closeStudentStage($student->id, StageField::ADSCRIPTION, StageStatus::SUCCESS);
                 $this->Flash->success(__('The student_adscription has been saved.'));
 
                 return $this->redirect(['_name' => 'admin:student_view', $student_id]);
@@ -50,19 +47,23 @@ class AdscriptionsController extends AppAdminController
             $this->Flash->error(__('The student_adscription could not be saved. Please, try again.'));
         }
 
-        dd($student);
+        $institution_projects = $this->StudentAdscriptions->InstitutionProjects
+            ->find('list', [
+                'groupField' => 'institution.name',
+                'limit' => 200
+            ])
+            ->contain(['Institutions'])
+            ->where([
+                'Institutions.tenant_id' => $student->tenant_id,
+            ]);
 
+        $tutors = $this->StudentAdscriptions->Tutors
+            ->find('list', ['limit' => 200])
+            ->where([
+                'Tutors.tenant_id' => $student->tenant_id,
+            ]);
 
-        $institution_projects = $this->StudentAdscriptions->InstitutionProjects->find('list', ['limit' => 200])->all();
-
-
-        // $lapse_id = 
-
-
-        $tutors = $this->StudentAdscriptions->Tutors->find('list', ['limit' => 200])->all();
-
-
-        $this->set(compact('student_id', 'student_adscription', 'institution_projects', 'lapses', 'tutors'));
+        $this->set(compact('student', 'student_adscription', 'institution_projects', 'tutors'));
     }
 
     /**
@@ -74,23 +75,31 @@ class AdscriptionsController extends AppAdminController
      */
     public function edit($id = null)
     {
-        $student_adscription = $this->StudentAdscriptions->get($id, [
-            'contain' => [],
+        $adscription = $this->StudentAdscriptions->get($id, [
+            'contain' => [
+                'InstitutionProjects' => ['Institutions'],
+                'Lapses',
+                'Tutors',
+                'Students'
+            ],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $student_adscription = $this->StudentAdscriptions->patchEntity($student_adscription, $this->request->getData());
-            if ($this->StudentAdscriptions->save($student_adscription)) {
+            $adscription = $this->StudentAdscriptions->patchEntity($adscription, $this->request->getData());
+            if ($this->StudentAdscriptions->save($adscription)) {
                 $this->Flash->success(__('The student_adscription has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['_name' => 'admin:student_view', $adscription->student_id]);
             }
             $this->Flash->error(__('The student_adscription could not be saved. Please, try again.'));
         }
-        $students = $this->StudentAdscriptions->Students->find('list', ['limit' => 200])->all();
-        $institution_projects = $this->StudentAdscriptions->InstitutionProjects->find('list', ['limit' => 200])->all();
-        $lapses = $this->StudentAdscriptions->Lapses->find('list', ['limit' => 200])->all();
-        $tutors = $this->StudentAdscriptions->Tutors->find('list', ['limit' => 200])->all();
-        $this->set(compact('student_adscription', 'students', 'institution_projects', 'lapses', 'tutors'));
+
+        $tutors = $this->StudentAdscriptions->Tutors
+            ->find('list', ['limit' => 200])
+            ->where([
+                'Tutors.tenant_id' => $adscription->student->tenant_id,
+            ]);
+
+        $this->set(compact('adscription', 'tutors'));
     }
 
     /**
@@ -103,13 +112,13 @@ class AdscriptionsController extends AppAdminController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $student_adscription = $this->StudentAdscriptions->get($id);
-        if ($this->StudentAdscriptions->delete($student_adscription)) {
+        $adscription = $this->StudentAdscriptions->get($id);
+        if ($this->StudentAdscriptions->delete($adscription)) {
             $this->Flash->success(__('The student_adscription has been deleted.'));
         } else {
             $this->Flash->error(__('The student_adscription could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect(['_name' => 'admin:student_view', $adscription->student_id]);
     }
 }
