@@ -35,17 +35,13 @@ class RegisterController extends AppAdminController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $student = $this->Students->patchEntity($student, $this->request->getData());
 
-            $studentStage = $this->Students->StudentStages->find('byStudentStage', [
-                'stage' => StageField::REGISTER,
-                'student_id' => $student->id,
-            ])->first();
+
 
             if ($this->Students->save($student)) {
                 $this->Flash->success(__('The register stage has been saved.'));
+                $this->closeStudentStage($student->id, StageField::REGISTER, StageStatus::SUCCESS);
 
-                $this->Students->StudentStages->close($studentStage, StageStatus::SUCCESS);
-
-                return $this->redirect(['controller' => 'Students', 'action' => 'view', $student->id, 'prefix' => 'Admin']);
+                return $this->redirect(['_name' => 'admin:student_view', $student->id]);
                 
             }
             $this->Flash->error(__('The register stage could not be saved. Please, try again.'));

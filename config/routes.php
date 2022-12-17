@@ -86,6 +86,8 @@ return static function (RouteBuilder $routes) {
         });
 
         $builder->connect('/', ['controller' => 'Tenants', 'action' => 'index', 'plugin' => false], ['_name' => 'admin:home']);
+        $builder->connect('/student/view/*', ['controller' => 'Students', 'action' => 'view', 'plugin' => false], ['_name' => 'admin:student_view']);
+
         $builder->fallbacks(DashedRoute::class);
     });
 

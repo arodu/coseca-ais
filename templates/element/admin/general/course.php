@@ -24,16 +24,18 @@ if (empty($student->student_course)) {
     echo $this->Html->link(
         __('Editar Taller'),
         ['controller' => 'Courses', 'action' => 'edit', $student->student_course->id, 'prefix' => 'Admin/Stage'],
-        ['class' => 'btn btn-warning btn-sm']
+        ['class' => 'btn btn-info btn-sm']
     );
 }
 $this->end();
 
 ?>
 
-
 <?php if (!empty($student->student_course)) : ?>
-    
-    <?php debug($student->student_course) ?>
-
+    <ul class="list-unstyled">
+        <li><strong><?= __('Realizado: ') ?></strong><?= h($student->student_course->date) ?></li>
+        <?php if (!empty($student->student_course->comment)) : ?>
+            <li><?= h($student->student_course->comment) ?></li>
+        <?php endif ?>
+    </ul>
 <?php endif; ?>

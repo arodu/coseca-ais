@@ -17,8 +17,6 @@ $this->start('actions');
 echo $this->Html->link(
     __('Editar Registro'),
     ['controller' => 'Register', 'action' => 'edit', $studentStage->student_id, 'prefix' => 'Admin/Stage'],
-    [
-        'class' => 'btn btn-primary btn-sm',
-    ]
+    ['class' => 'btn btn-info btn-sm']
 );
 $this->end();

@@ -2,36 +2,42 @@
 
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\StudentCourse $studentCourse
  */
-?>
-<?php
-$this->assign('title', __('Add Student Course'));
+
+use App\Model\Field\StageField;
+
+$this->student_id = $student_id;
+$this->active = null;
+$this->extend('/Admin/Common/view_student');
+$stageField = StageField::COURSE;
+
+$this->assign('title', __('Estudiante'));
 $this->Breadcrumbs->add([
-    ['title' => __('Home'), 'url' => '/'],
-    ['title' => __('List Student Courses'), 'url' => ['action' => 'index']],
-    ['title' => __('Add')],
+    ['title' => __('Inicio'), 'url' => '/'],
+    ['title' => __('Estudiantes'), 'url' => ['controller' => 'Students', 'action' => 'index', 'prefix' => 'Admin']],
+    ['title' => __('Ver'), 'url' => ['_name' => 'admin:student_view', $student_id]],
+    ['title' => $stageField->label()],
+    ['title' => __('Agregar')],
 ]);
 ?>
 
-<div class="card card-primary card-outline">
-  <?= $this->Form->create($studentCourse) ?>
-  <div class="card-body">
+<?= $this->Form->create($studentCourse) ?>
+<div class="card-header">
+    <div class="card-title"><?= $stageField->label() ?></div>
+</div>
+<div class="card-body">
     <?php
-      echo $this->Form->control('student_id', ['options' => $students]);
-      echo $this->Form->control('date');
-      echo $this->Form->control('comment');
+    echo $this->Form->hidden('student_id', ['value' => $student_id]);
+    echo $this->Form->control('date', ['value' => $selectedDate]);
+    echo $this->Form->control('comment');
     ?>
-  </div>
-
-  <div class="card-footer d-flex">
-    <div class="ml-auto">
-      <?= $this->Form->button(__('Save')) ?>
-      <?= $this->Html->link(__('Cancel'), ['action' => 'index'], ['class' => 'btn btn-default']) ?>
-
-    </div>
-  </div>
-
-  <?= $this->Form->end() ?>
 </div>
 
+<div class="card-footer d-flex">
+    <div></div>
+    <div class="ml-auto">
+        <?= $this->Form->button(__('Guardar')) ?>
+        <?= $this->Html->link(__('Cancelar'), ['_name' => 'admin:student_view', $student_id], ['class' => 'btn btn-default']) ?>
+    </div>
+</div>
+<?= $this->Form->end() ?>
