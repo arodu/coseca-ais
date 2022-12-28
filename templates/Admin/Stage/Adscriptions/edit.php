@@ -73,7 +73,7 @@ $this->Breadcrumbs->add([
 <?= $this->Form->end() ?>
 
 <?php
-echo  $this->ModalForm->addModal('deleteAdscription', [
+echo  $this->ModalForm->modal('deleteAdscription', [
     'element' => \ModalForm\ModalFormPlugin::FORM_CHECKBOX,
     'content' => [
         'title' => __('Eliminar Proyecto'),

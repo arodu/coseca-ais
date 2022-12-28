@@ -21,7 +21,7 @@ use ModalForm\ModalFormPlugin;
                 <?= $this->Form->hidden('modalForm.validator', ['value' => ModalFormPlugin::VALIDATOR_CHECKBOX]) ?>
                 <?= $this->Form->control('modalForm.confirm', [
                     'type' => 'checkbox',
-                    'label' => __('Check this to confirm'),
+                    'label' => $content['label'],
                     'required' => true,
                 ])  ?>
             </div>

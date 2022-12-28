@@ -19,6 +19,7 @@ class ModalFormPlugin extends BasePlugin
     public const FORM_PASSWORD = 'ModalForm.password';
     public const FORM_TEXT_INPUT = 'ModalForm.textInput';
     public const FORM_CONFIRM = 'ModalForm.confirm';
+    public const FORM_TIMER = 'ModalForm.timer';
 
     public const VALIDATOR_CHECKBOX = 'checkbox';
     public const VALIDATOR_PASSWORD = 'password';

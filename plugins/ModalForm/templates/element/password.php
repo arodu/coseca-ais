@@ -20,7 +20,7 @@ use ModalForm\ModalFormPlugin;
                 <p class="message"></p>
                 <?= $this->Form->hidden('modalForm.validator', ['value' => ModalFormPlugin::VALIDATOR_PASSWORD]) ?>
                 <?= $this->Form->control('modalForm.password', [
-                    'label' => __('Type your password to confirm'),
+                    'label' => $content['label'],
                     'type' => 'password',
                     'required' => true,
                 ]) ?>

@@ -89,12 +89,13 @@ $this->Breadcrumbs->add([
 </div>
 
 <?php
-echo  $this->ModalForm->addModal('deleteTutorModal', [
-    'element' => \ModalForm\ModalFormPlugin::FORM_TEXT_INPUT,
+echo  $this->ModalForm->modal('deleteTutorModal', [
+    'element' => \ModalForm\ModalFormPlugin::FORM_TIMER,
     'content' => [
         'title' => __('Delete Tutor'),
         'confirm' => 'qwdqw112d12d12dqwdqwdqwd',
-        //'buttonOk'  => 'Enviar',
+        'timer' => '3',
+        'buttonOk'  => 'Enviar',
         //'buttonCancel'  => 'Cancelar',
     ]
 ]);

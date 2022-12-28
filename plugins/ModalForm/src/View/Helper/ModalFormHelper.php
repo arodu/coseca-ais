@@ -33,6 +33,7 @@ class ModalFormHelper extends Helper
         'element' => ModalFormPlugin::FORM_CHECKBOX,
         'modalScript' => null,
         'content' => [],
+        'defaultBlock' => null,
     ];
 
     protected $modalScript = <<<MODAL_SCRIPT
@@ -44,20 +45,49 @@ class ModalFormHelper extends Helper
     })
     MODAL_SCRIPT;
 
-    public function addModal(string $target, array $options = []): string
+    /**
+     * Creates a Bootstrap modal.
+     *
+     * ### Options
+     *
+     * - `modalScript`
+     * - `element`
+     * - `content`
+     *      - `buttonOk`
+     *      - `buttonCancel`
+     *      - `textConfirm`
+     *      - `label`
+     * - `block`
+     *
+     * @param string $name The content to be wrapped by `<a>` tags.
+     *   Can be an array if $url is null. If $url is null, $title will be used as both the URL and title.
+     * @param array<string, mixed> $options Array of options and HTML attributes.
+     * @return string|null
+     */
+    public function modal(string $name, array $options = []): ?string
     {
         $modalScript = $options['modalScript'] ?? $this->getConfig('modalScript') ?? $this->modalScript;
         $element = $options['element'] ?? $this->getConfig('element');
         $content = array_merge($this->defaultContentData($element), $this->getConfig('content'), $options['content'] ?? []);
+        $content['label'] = $this->getLabel($content);
+        $block = $options['block'] ?? $this->getConfig('defaultBlock');
 
         $this->Html->scriptBlock(Text::insert($modalScript, [
-            'target' => $target,
+            'target' => $name,
         ]), ['block' => true]);
 
-        return $this->getView()->element($element, [
-            'target' => $target,
+        $modal = $this->getView()->element($element, [
+            'target' => $name,
             'content' => $content,
         ]);
+
+        if (is_string($block)) {
+            $this->getView()->assign($block, $modal);
+
+            return null;
+        }
+
+        return $modal;
     }
 
     public function link($title, $url = null, array $options = []): string
@@ -80,16 +110,42 @@ class ModalFormHelper extends Helper
         ];
 
         switch ($element) {
+            case ModalFormPlugin::FORM_PASSWORD:
+                $content['label'] = __('Type your password to confirm');
+                break;
+            case ModalFormPlugin::FORM_CHECKBOX:
+                $content['label'] = __('Check this to confirm');
+                break;
             case ModalFormPlugin::FORM_CONFIRM:
                 $content['buttonOk'] = __('Yes');
                 $content['buttonCancel'] = __('No');
                 break;
             case ModalFormPlugin::FORM_TEXT_INPUT:
-                $content['confirm'] = 'sample_text';
-                $content['textTemplate'] = 'Type <code>:confirm</code> to confirm';
+                $content['textConfirm'] = 'sample_text';
+                $content['label'] = function ($content) {
+                    return Text::insert('Type <code>:textConfirm</code> to confirm', ['textConfirm' => $content['textConfirm']]);
+                };
+                break;
+            case ModalFormPlugin::FORM_TIMER: 
+                $content['timer'] = 10; // time in seconds
                 break;
         }
 
         return $content;
+    }
+
+    protected function getLabel($content): ?string
+    {
+        $label = $content['label'] ?? null;
+
+        if (is_string($label)) {
+            return $label;
+        }
+
+        if (is_callable($label)) {
+            return $label($content);
+        }
+
+        return null;
     }
 }

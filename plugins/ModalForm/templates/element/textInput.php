@@ -3,8 +3,8 @@
 use Cake\Utility\Text;
 use ModalForm\ModalFormPlugin;
 
-$label = Text::insert($content['textTemplate'], [
-    'confirm' => $content['confirm']
+$label = Text::insert($content['label'], [
+    'textConfirm' => $content['textConfirm']
 ]);
 
 ?>
@@ -24,7 +24,7 @@ $label = Text::insert($content['textTemplate'], [
             <div class="modal-body">
                 <p class="message"></p>
                 <?= $this->Form->hidden('modalForm.validator', ['value' => ModalFormPlugin::VALIDATOR_TEXT_INPUT]) ?>
-                <?= $this->Form->hidden('modalForm.confirm', ['value' => $content['confirm']]) ?>
+                <?= $this->Form->hidden('modalForm.textConfirm', ['value' => $content['textConfirm']]) ?>
                 <?= $this->Form->control('modalForm.input', [
                     'label' => $label,
                     'required' => true,

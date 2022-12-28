@@ -53,7 +53,7 @@ $this->Breadcrumbs->add([
 <?= $this->Form->end() ?>
 
 <?php
-echo  $this->ModalForm->addModal('deleteCourse', [
+echo  $this->ModalForm->modal('deleteCourse', [
     'element' => \ModalForm\ModalFormPlugin::FORM_CHECKBOX,
     'content' => [
         'title' => __('Eliminar Curso'),
