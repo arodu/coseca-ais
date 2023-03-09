@@ -43,8 +43,7 @@ $this->Breadcrumbs->add([
                             <?php
                             $element = 'students/stages/' . $itemStage->value . '/' . $studentStageStatus->value;
                             if ($this->elementExists($element)) {
-                                // @todo refactor this
-                                echo $this->element($element, ['stageInstance' => $studentStage->getStageInstance()]);
+                                echo $this->element($element, ['student' => $student, 'studentStage' => $studentStage]);
                             } else {
                                 echo $this->Html->tag('div', __('Sin información a mostrar'), ['class' => 'alert alert-warning shadow p-2']);
                                 if (Configure::read('debug')) {

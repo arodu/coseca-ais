@@ -88,17 +88,4 @@ class TenantsTable extends Table
 
         return $validator;
     }
-
-    /**
-     * @param integer $tenant_id
-     * @return Lapse
-     */
-    public function getCurrentLapse(int $tenant_id): Lapse
-    {
-        $tenant = $this->get($tenant_id, [
-            'contain' => ['CurrentLapse'],
-        ]);
-
-        return $tenant->current_lapse;
-    }
 }

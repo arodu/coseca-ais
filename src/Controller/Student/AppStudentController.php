@@ -52,7 +52,6 @@ class AppStudentController extends AppController
         $user = $appUsersTable
             ->find('auth')
             ->where([$appUsersTable->aliasField('id') => $user->id])
-            ->contain(['CurrentStudent' => ['Tenants']])
             ->first();
         $this->Authentication->setIdentity($user);
 

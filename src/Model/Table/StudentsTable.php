@@ -204,9 +204,17 @@ class StudentsTable extends Table
      * @param array $options
      * @return Query
      */
-    public function findComplete(Query $query, array $options): Query
+    public function findCompleteData(Query $query, array $options = []): Query
     {
-        return $query->contain(['AppUsers']);
+        $query->contain([
+            'Tenants' => [
+                'CurrentLapse' => [
+                    'LapseDates',
+                ],
+            ],
+        ]);
+
+        return $query;
     }
 
     public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)

@@ -48,9 +48,7 @@ class RegisterStageController extends AppStudentController
             $student = $this->Students->patchEntity($student, $this->request->getData());
 
             if ($this->Students->save($student)) {
-
-                // @todo refactor this
-                //$studentStage->getStageInstance()->close(StageStatus::SUCCESS);
+                $this->Students->StudentStages->close($studentStage, StageStatus::WAITING);
                 $this->Flash->success(__('The student has been saved.'));
 
                 return $this->redirect(['_name' => 'student:home']);

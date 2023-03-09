@@ -5,4 +5,4 @@
   <strong>CakePHP</strong> <?php echo Configure::version() ?>
 </div>
 <!-- Default to the left -->
-<strong>&copy; 2022 - <?= date('Y') ?>
+<strong>&copy; 2023 - <?= date('Y') ?>

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -46,6 +47,7 @@ class Student extends Entity
         'student_stages' => true,
         'student_adscriptions' => true,
         'student_data' => true,
+        'lapse_id' => true,
     ];
 
     protected $_virtual = [
@@ -96,5 +98,18 @@ class Student extends Entity
     public function getStageFieldList(): array
     {
         return Stages::getStageFieldList($this->type_obj);
+    }
+
+    public function getCurrentLapse(): Lapse
+    {
+        if (!empty($this->lapse) && $this->lapse instanceof Lapse) {
+            return $this->lapse;
+        }
+
+        if (!empty($this->tenant->current_lapse)) {
+            return $this->tenant->current_lapse;
+        }
+
+        throw new \RuntimeException('No current lapse found');
     }
 }

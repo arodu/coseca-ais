@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Student;
@@ -27,7 +28,11 @@ class StagesController extends AppStudentController
      */
     public function index()
     {
-        $student = $this->getCurrentStudent();
+        $student = $this->AppUsers->Students
+            ->find('completeData')
+            ->where(['Students.id' => $this->getCurrentStudent()->id])
+            ->first();
+
         $listStages = $student->getStageFieldList();
 
         $studentStages = $this->StudentStages
