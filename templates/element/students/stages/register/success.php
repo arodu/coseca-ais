@@ -18,3 +18,8 @@
     <dt><?= __('Registro') ?></dt>
     <dd><?= $student->created ?></dd>
 </dl>
+
+<hr>
+<small>
+    <?= __('Estado') . ': ' . 'realizado' ?>
+</small>

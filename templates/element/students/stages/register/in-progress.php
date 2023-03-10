@@ -27,3 +27,8 @@ $dates = $student->getCurrentLapse()->getDates(StageField::REGISTER);
     <p><?= __('Comuniquese con la coordinación de servicio comunitario para mas información.') ?></p>
 
 <?php endif; ?>
+
+<hr>
+<small>
+    <?= __('En espera por registro de datos') ?>
+</small>
