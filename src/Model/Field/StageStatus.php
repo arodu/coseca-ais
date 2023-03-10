@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Model\Field;
 
 use App\Enum\Color;
-use App\Enum\FaIcon;
+use App\Utility\FaIcon;
 use App\Enum\Trait\ListTrait;
 
 enum StageStatus: string
@@ -53,17 +53,17 @@ enum StageStatus: string
     /**
      * @return FaIcon
      */
-    public function icon(): FaIcon
+    public function icon(string|array $extraCssClass = []): FaIcon
     {
         return match($this) {
-            static::WAITING => FaIcon::WAITING,
-            static::IN_PROGRESS => FaIcon::IN_PROGRESS,
-            static::REVIEW => FaIcon::EYE,
-            static::SUCCESS => FaIcon::SUCCESS,
-            static::FAILED => FaIcon::FAILED,
-            static::LOCKED => FaIcon::LOCKED,
+            static::WAITING => FaIcon::get('waiting', $extraCssClass),
+            static::IN_PROGRESS => FaIcon::get('in-progress', $extraCssClass),
+            static::REVIEW => FaIcon::get('review', $extraCssClass),
+            static::SUCCESS => FaIcon::get('success', $extraCssClass),
+            static::FAILED => FaIcon::get('failed', $extraCssClass),
+            static::LOCKED => FaIcon::get('locked', $extraCssClass),
 
-            default => FaIcon::DEFAULT,
+            default => FaIcon::get('default', $extraCssClass),
         };
     }
 

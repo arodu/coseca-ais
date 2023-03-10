@@ -71,7 +71,7 @@ class FaIcon
             $extraCssClass = explode(' ', $extraCssClass);
         }
 
-        $this->extraCssClass = array_unique(array_merge($this->$extraCssClass, $extraCssClass));
+        $this->extraCssClass = array_unique(array_merge($this->extraCssClass, $extraCssClass));
 
         return $this;
     }
@@ -138,7 +138,7 @@ class FaIcon
             throw new \InvalidArgumentException("Icon {$key} not found");
         }
 
-        [$type, $name, $extraCssClassDefault] = static::DEFAULT_ICONS[$key];
+        [$type, $name, $extraCssClassDefault] = static::DEFAULT_ICONS[$key] + [null, null, null];
 
         $icon = (new static($name, $type))
             ->withExtraCssClass($extraCssClassDefault)

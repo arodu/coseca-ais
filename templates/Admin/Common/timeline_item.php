@@ -2,20 +2,20 @@
 
 /** @property \App\Model\Entity\StudentStage $studentStage */
 
-use App\Enum\FaIcon;
+use App\Utility\FaIcon;
 
 /** @var \App\View\AppView $this */
 
 $studentStage = $this->get('studentStage');
 $status = $studentStage->status_obj;
 $color = $status->color();
-$icon = $status->icon();
+$icon = $status->icon($color->cssClass('bg', false));
 $content = trim($this->fetch('content'));
 $actions = trim($this->fetch('actions'));
 ?>
 
 <div>
-    <?= $icon->render($color->cssClass('bg', false)) ?>
+    <?= $icon->render() ?>
     <div class="timeline-item">
         <span class="time"><i class="far fa-clock"></i> <?= $studentStage->modified ?></span>
 
@@ -33,7 +33,7 @@ $actions = trim($this->fetch('actions'));
             <?php endif; ?>
             <div class="ml-auto">
                 <?= $this->Html->link(
-                    FaIcon::EDIT->render(),
+                    FaIcon::get('edit'),
                     ['controller' => 'StudentStages', 'action' => 'edit', $studentStage->id],
                     [
                         'class' => 'btn btn-link btn-sm text-muted',

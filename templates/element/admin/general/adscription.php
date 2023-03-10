@@ -4,8 +4,8 @@
 /** @var \App\Model\Entity\Student $student */
 /** @var \App\View\AppView $this */
 
-use App\Enum\FaIcon;
 use App\Model\Field\StageStatus;
+use App\Utility\FaIcon;
 
 $status = $studentStage->status_obj;
 $color = $status->color();
@@ -44,7 +44,7 @@ $this->end();
                 <tr>
                     <td>
                         <?= $this->Html->link(
-                            FaIcon::EDIT->render('fa-fw'),
+                            FaIcon::get('edit', 'fa-fw'),
                             ['controller' => 'Adscriptions', 'action' => 'edit', $student_adscriptions->id, 'prefix' => 'Admin/Stage'],
                             ['class' => 'btn btn-link btn-sm text-info', 'escape' => false]
                         ) ?>

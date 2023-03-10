@@ -5,7 +5,7 @@
  * @var \App\Model\Entity\Tenant $tenant
  */
 
-use App\Enum\FaIcon;
+use App\Utility\FaIcon;
 
 ?>
 
@@ -61,7 +61,7 @@ $this->Breadcrumbs->add([
     <?php if (empty($lapseSelected)) : ?>
         <div class="col">
             <div class="alert alert-danger ">
-                <?= FaIcon::ERROR->render('fa-fw mr-1') ?>
+                <?= FaIcon::get('error', 'fa-fw mr-1') ?>
                 <?= __('No existe un lapso academico seleccionado.') ?>
                 <?= $this->Html->link(__('Crear nuevo lapso académico.'), ['controller' => 'Lapses', 'action' => 'add', $tenant->id], ['class' => '']) ?>
             </div>

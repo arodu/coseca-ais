@@ -30,7 +30,7 @@ $this->Breadcrumbs->add([
                 <div class="card-header">
                     <h4 class="card-title w-100">
                         <a class="d-flex w-100" data-toggle="collapse" href="<?= '#collapse-' . $itemStage->value ?>">
-                            <?= $studentStageStatus->icon()->render('fa-fw mr-1') ?>
+                            <?= $studentStageStatus->icon()->withExtraCssClass('fa-fw mr-1')->render() ?>
                             <?= $itemStage->label() ?>
                             <?php if ($studentStage) : ?>
                                 <i class="icon-caret fas fa-caret-up ml-auto fa-fw"></i>

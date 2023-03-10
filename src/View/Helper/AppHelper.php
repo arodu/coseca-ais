@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\View\Helper;
 
 use App\Enum\Color;
-use App\Enum\FaIcon;
 use App\Model\Entity\Lapse;
+use App\Utility\FaIcon;
 use Cake\View\Helper;
 
 /**
@@ -87,7 +87,7 @@ class AppHelper extends Helper
             $options['title'] = $tooltip;
         }
 
-        $icon = FaIcon::ERROR->render('fa-fw mr-1');
+        $icon = FaIcon::get('error', 'fa-fw mr-1');
 
         return $this->Html->tag('span', $icon . __('Error'), $options);
     }

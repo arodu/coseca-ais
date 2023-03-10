@@ -5,9 +5,9 @@
  * @var \App\Model\Entity\Student[]|\Cake\Collection\CollectionInterface $students
  */
 
-use App\Enum\FaIcon;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
+use App\Utility\FaIcon;
 use Cake\Core\Configure;
 
 ?>
@@ -23,7 +23,7 @@ $this->Breadcrumbs->add([
     <div class="card-header d-flex flex-column flex-md-row">
         <h2 class="card-title w-100">
             <span class="d-flex w-100" data-toggle="collapse" href="#collapse-filters">
-                <?= FaIcon::FILTER->render('fa-fw mr-2') ?>
+                <?= FaIcon::get('filter', 'fa-fw mr-2') ?>
                 <?= __('Filtros') ?>
                 <i class="icon-caret fas fa-caret-up ml-auto fa-fw"></i>
             </span>
@@ -78,7 +78,7 @@ $this->Breadcrumbs->add([
             ]); ?>
             <?php //echo $this->Html->link(__('New Student'), ['action' => 'add'], ['class' => 'btn btn-primary btn-sm ml-2']) 
             ?>
-            <?php echo $this->Html->link(FaIcon::DOWNLOAD->render(), ['action' => 'index', '_ext' => 'csv'], ['class' => 'btn btn-primary btn-sm ml-2', 'escape' => false]) ?>
+            <?php echo $this->Html->link(FaIcon::get('download'), ['action' => 'index', '_ext' => 'csv'], ['class' => 'btn btn-primary btn-sm ml-2', 'escape' => false]) ?>
         </div>
     </div>
     <!-- /.card-header -->
