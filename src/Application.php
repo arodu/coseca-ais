@@ -16,12 +16,11 @@ declare(strict_types=1);
  */
 namespace App;
 
-use Authentication\Middleware\AuthenticationMiddleware;
+use App\Event\UsersListener;
 use Cake\Core\Configure;
 use Cake\Core\ContainerInterface;
 use Cake\Datasource\FactoryLocator;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
-use Cake\Event\EventInterface;
 use Cake\Http\BaseApplication;
 use Cake\Http\Middleware\BodyParserMiddleware;
 use Cake\Http\Middleware\CsrfProtectionMiddleware;
@@ -29,8 +28,6 @@ use Cake\Http\MiddlewareQueue;
 use Cake\ORM\Locator\TableLocator;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
-use ModalForm\Middleware\ModalFormMiddleware;
-use Muffin\Footprint\Middleware\FootprintMiddleware;
 
 /**
  * Application setup class.
@@ -74,6 +71,8 @@ class Application extends BaseApplication
         Configure::write('Users.config', ['users']);
         $this->addPlugin('QueryFilter');
         $this->addPlugin('ModalForm');
+
+        $this->getEventManager()->on(new UsersListener());
     }
 
     /**

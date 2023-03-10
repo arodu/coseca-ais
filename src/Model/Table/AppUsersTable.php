@@ -62,6 +62,9 @@ class AppUsersTable extends UsersTable
     {
         return $query
             ->find('active')
-            ->contain(['CurrentStudent' => ['Tenants']]);
+            ->contain([
+                'TenantFilters',
+                'CurrentStudent' => ['Tenants'],
+            ]);
     }
 }
