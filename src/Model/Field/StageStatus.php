@@ -13,6 +13,7 @@ enum StageStatus: string
 
     case WAITING = 'waiting';
     case IN_PROGRESS = 'in-progress';
+    case REVIEW = 'review';
     case SUCCESS = 'success';
     case FAILED = 'failed';
     case LOCKED = 'locked';
@@ -25,10 +26,10 @@ enum StageStatus: string
         return match($this) {
             static::WAITING => __('En Espera'),
             static::IN_PROGRESS => __('En Proceso'),
+            static::REVIEW => __('En Revisión'),
             static::SUCCESS => __('Realizado'),
             static::FAILED => __('Fallido'),
             static::LOCKED => __('Bloqueado'),
-
             default => __('NaN'),
         };
     }
@@ -41,10 +42,10 @@ enum StageStatus: string
         return match($this) {
             static::WAITING => Color::INFO,
             static::IN_PROGRESS => Color::WARNING,
+            static::REVIEW => Color::PRIMARY,
             static::SUCCESS => Color::SUCCESS,
             static::FAILED => Color::DANGER,
             static::LOCKED => Color::SECONDARY,
-
             default => Color::SECONDARY,
         };
     }
@@ -57,11 +58,21 @@ enum StageStatus: string
         return match($this) {
             static::WAITING => FaIcon::WAITING,
             static::IN_PROGRESS => FaIcon::IN_PROGRESS,
+            static::REVIEW => FaIcon::EYE,
             static::SUCCESS => FaIcon::SUCCESS,
             static::FAILED => FaIcon::FAILED,
             static::LOCKED => FaIcon::LOCKED,
 
             default => FaIcon::DEFAULT,
         };
+    }
+
+    /**
+     * @param StageStatus $stageStatus
+     * @return bool
+     */
+    public function is(StageStatus $stageStatus): bool
+    {
+        return $this === $stageStatus;
     }
 }

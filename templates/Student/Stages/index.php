@@ -10,6 +10,7 @@ use Cake\Core\Configure;
 $statusActive = [
     StageStatus::IN_PROGRESS,
     StageStatus::WAITING,
+    StageStatus::REVIEW,
 ];
 
 $this->assign('title', __('Servicio Comunitario'));

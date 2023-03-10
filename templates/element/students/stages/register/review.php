@@ -6,4 +6,5 @@
 ?>
 <h4>Realizado Satisfactoriamente</h4>
 
-<p>En espera por revision de documentos!</p>
+<p>En espera por revisión de documentos!</p>
+<?php debug('Revisar texto') ?>

@@ -68,14 +68,11 @@ class StudentsController extends AppAdminController
      */
     public function view($id = null)
     {
-        $student = $this->Students->get($id, [
-            'contain' => [
-                'StudentAdscriptions' => [
-                    'InstitutionProjects' => ['Institutions'], 'Tutors', 'Lapses'
-                ],
-                'StudentCourses',
-            ]
-        ]);
+        $student = $this->Students
+            ->find('withStudentAdscriptions')
+            ->find('withStudentCourses')
+            ->where(['Students.id' => $id])
+            ->first();
 
         $stageList = $this->Students->StudentStages->find('stageList', ['student' => $student]);
 

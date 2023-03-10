@@ -204,7 +204,7 @@ class StudentsTable extends Table
      * @param array $options
      * @return Query
      */
-    public function findCompleteData(Query $query, array $options = []): Query
+    public function findWithTenants(Query $query, array $options = []): Query
     {
         $query->contain([
             'Tenants' => [
@@ -212,6 +212,26 @@ class StudentsTable extends Table
                     'LapseDates',
                 ],
             ],
+        ]);
+
+        return $query;
+    }
+
+    public function findWithStudentAdscriptions(Query $query, array $options = []): Query
+    {
+        $query->contain([
+            'StudentAdscriptions' => [
+                'InstitutionProjects' => ['Institutions'], 'Tutors', 'Lapses'
+            ],
+        ]);
+
+        return $query;
+    }
+
+    public function findWithStudentCourses(Query $query, array $options = []): Query
+    {
+        $query->contain([
+            'StudentCourses',
         ]);
 
         return $query;

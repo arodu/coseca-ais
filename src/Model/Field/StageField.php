@@ -64,4 +64,13 @@ enum StageField: string
     {
         return static::REGISTER;
     }
+
+    /**
+     * @param StageField $stageField
+     * @return bool
+     */
+    public function is(StageField $stageField): bool
+    {
+        return $this === $stageField;
+    }
 }

@@ -29,7 +29,9 @@ class StagesController extends AppStudentController
     public function index()
     {
         $student = $this->AppUsers->Students
-            ->find('completeData')
+            ->find('withStudentAdscriptions')
+            ->find('withStudentCourses')
+            ->find('withTenants')
             ->where(['Students.id' => $this->getCurrentStudent()->id])
             ->first();
 

@@ -14,6 +14,8 @@ enum FaIcon
     case SUCCESS;
     case LOCKED;
     case FAILED;
+    case EYE;
+    case FILE_IMPORT;
 
     case ERROR;
     case SEARCH;
@@ -34,6 +36,8 @@ enum FaIcon
             static::SUCCESS => 'fas fa-check',
             static::LOCKED => 'fas fa-lock',
             static::FAILED => 'fas fa-exclamation-triangle',
+            static::EYE => 'fas fa-eye',
+            static::FILE_IMPORT => 'fas fa-file-import',
             static::STAR => 'fas fa-star',
             static::SEARCH => 'fas fa-search',
             static::FILTER => 'fas fa-filter',

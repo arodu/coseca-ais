@@ -43,4 +43,13 @@ enum StatusDate
             default => null,
         };
     }
+
+    /**
+     * @param StatusDate $status
+     * @return bool
+     */
+    public function is(StatusDate $status): bool
+    {
+        return $this === $status;
+    }
 }
