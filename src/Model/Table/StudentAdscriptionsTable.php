@@ -74,6 +74,11 @@ class StudentAdscriptionsTable extends Table
             'dependent' => true,
             'cascadeCallbacks' => true,        
         ]);
+        $this->hasMany('StudentTraking', [
+            'foreignKey' => 'student_adscription_id',
+            'dependent' => true,
+            'cascadeCallbacks' => true,        
+        ]);
     }
 
     /**
