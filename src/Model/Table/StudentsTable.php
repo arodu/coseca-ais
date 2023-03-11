@@ -288,7 +288,7 @@ class StudentsTable extends Table
     public function closeLastStageMasive(mixed $ids, StageField $stageField, StageStatus $stageStatus): int
     {
         if (is_string($ids) || is_int($ids)) {
-            $ids = [$ids];
+            $ids = [(int) $ids];
         }
 
         $studentStages = $this->StudentStages

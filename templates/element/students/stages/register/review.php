@@ -18,6 +18,6 @@ use Cake\Core\Configure;
 ?>
 
 <hr>
-<small>
+<small class="text-muted">
     <?= __('En espera por revisión de documentos') ?>
 </small>

@@ -28,9 +28,21 @@ class InstitutionsController extends AppAdminController
         $this->paginate = [
             'contain' => ['Tenants'],
         ];
-        $institutions = $this->paginate($this->Institutions);
 
-        $this->set(compact('institutions'));
+        $query = $this->Institutions->find();
+
+        // filterLogic
+        $formData = $this->getRequest()->getQuery();
+        if (!empty($formData)) {
+            $query = $this->Institutions->queryFilter($query, $formData);
+        }
+        $filtered = $this->Institutions->queryWasFiltered();
+        $tenants = $this->Institutions->Tenants->find('list');
+        // /filterLogic
+
+        $institutions = $this->paginate($query);
+
+        $this->set(compact('institutions', 'filtered', 'tenants'));
     }
 
     /**

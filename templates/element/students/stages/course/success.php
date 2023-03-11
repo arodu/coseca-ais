@@ -16,4 +16,3 @@
 <small>
     <?= __('Estado') . ': ' . 'realizado' ?>
 </small>
-

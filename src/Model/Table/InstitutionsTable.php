@@ -7,6 +7,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use QueryFilter\QueryFilterPlugin;
 
 /**
  * Institutions Model
@@ -44,6 +45,8 @@ class InstitutionsTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
+        $this->addBehavior('QueryFilter.QueryFilter');
+
         $this->belongsTo('Tenants', [
             'foreignKey' => 'tenant_id',
             'joinType' => 'INNER',
@@ -51,6 +54,8 @@ class InstitutionsTable extends Table
         $this->hasMany('InstitutionProjects', [
             'foreignKey' => 'institution_id',
         ]);
+
+        $this->loadQueryFilters();
     }
 
     /**
@@ -95,6 +100,21 @@ class InstitutionsTable extends Table
             ->notEmptyString('tenant_id');
 
         return $validator;
+    }
+
+    public function loadQueryFilters() {
+        $this->addFilterField('tenant_id', [
+            'tableField' => $this->aliasField('tenant_id'),
+            'finder' => QueryFilterPlugin::FINDER_SELECT,
+        ]);
+        $this->addFilterField('contact_person', [
+            'tableField' => $this->aliasField('contact_person'),
+            'finder' => QueryFilterPlugin::FINDER_STRING,
+        ]);
+        $this->addFilterField('name', [
+            'tableField' => $this->aliasField('name'),
+            'finder' => QueryFilterPlugin::FINDER_STRING,
+        ]);
     }
 
     /**

@@ -3,6 +3,9 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Institution[]|\Cake\Collection\CollectionInterface $institutions
  */
+
+use App\Utility\FaIcon;
+
 ?>
 <?php
 $this->assign('title', __('Institutions'));
@@ -11,6 +14,41 @@ $this->Breadcrumbs->add([
     ['title' => __('List Institutions')],
 ]);
 ?>
+
+<div class="card card-success card-outline">
+    <div class="card-header d-flex flex-column flex-md-row">
+        <h2 class="card-title w-100">
+            <span class="d-flex w-100" data-toggle="collapse" href="#collapse-filters">
+                <?= FaIcon::get('filter', 'fa-fw mr-2') ?>
+                <?= __('Filtros') ?>
+                <i class="icon-caret fas fa-caret-up ml-auto fa-fw"></i>
+            </span>
+        </h2>
+    </div>
+    <?= $this->Form->create(null, ['type' => 'GET', 'valueSources' => ['query', 'context']]) ?>
+    <div class="collapse <?= (($filtered ?? false) ? 'show' : null) ?>" id="collapse-filters">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-4">
+                    <?= $this->Form->control('name', ['label' => __('Institución')]) ?>
+                </div>
+                <div class="col-sm-4">
+                    <?= $this->Form->control('contact_person', ['label' => __('Persona de Contacto')]) ?>
+                </div>
+                <div class="col-sm-4">
+                    <?= $this->Form->control('tenant_id', ['label' => __('Programa'), 'empty' => __('--Todos--')]) ?>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer d-flex">
+            <div class="ml-auto">
+                <?= $this->Html->link(__('Reset'), ['action' => 'index'], ['class' => 'btn btn-default']) ?>
+                <?= $this->Form->button(__('Buscar')) ?>
+            </div>
+        </div>
+    </div>
+    <?= $this->Form->end() ?>
+</div>
 
 <div class="card card-primary card-outline">
     <div class="card-header d-flex flex-column flex-md-row">

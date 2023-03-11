@@ -7,6 +7,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use QueryFilter\QueryFilterPlugin;
 
 /**
  * Tutors Model
@@ -44,6 +45,8 @@ class TutorsTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
+        $this->addBehavior('QueryFilter.QueryFilter');
+
         $this->belongsTo('Tenants', [
             'foreignKey' => 'tenant_id',
             'joinType' => 'INNER',
@@ -51,6 +54,8 @@ class TutorsTable extends Table
         $this->hasMany('StudentAdscriptions', [
             'foreignKey' => 'tutor_id',
         ]);
+
+        $this->loadQueryFilters();
     }
 
     /**
@@ -89,6 +94,21 @@ class TutorsTable extends Table
             ->notEmptyString('tenant_id');
 
         return $validator;
+    }
+
+    public function loadQueryFilters() {
+        $this->addFilterField('tenant_id', [
+            'tableField' => $this->aliasField('tenant_id'),
+            'finder' => QueryFilterPlugin::FINDER_SELECT,
+        ]);
+        $this->addFilterField('dni', [
+            'tableField' => $this->aliasField('dni'),
+            'finder' => QueryFilterPlugin::FINDER_EQUAL,
+        ]);
+        $this->addFilterField('name', [
+            'tableField' => $this->aliasField('name'),
+            'finder' => QueryFilterPlugin::FINDER_STRING,
+        ]);
     }
 
     /**
