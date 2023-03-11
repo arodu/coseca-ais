@@ -3,12 +3,14 @@ declare(strict_types=1);
 
 namespace App\Model\Field;
 
+use App\Enum\Trait\BasicEnumTrait;
 use App\Enum\Trait\ListTrait;
 use Cake\Core\Configure;
 
 enum StageField: string
 {
     use ListTrait;
+    use BasicEnumTrait;
 
     case REGISTER = 'register';
     case COURSE = 'course';
@@ -63,14 +65,5 @@ enum StageField: string
     public static function default(): StageField
     {
         return static::REGISTER;
-    }
-
-    /**
-     * @param StageField $stageField
-     * @return bool
-     */
-    public function is(StageField $stageField): bool
-    {
-        return $this === $stageField;
     }
 }

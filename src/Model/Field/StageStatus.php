@@ -4,12 +4,14 @@ declare(strict_types=1);
 namespace App\Model\Field;
 
 use App\Enum\Color;
+use App\Enum\Trait\BasicEnumTrait;
 use App\Utility\FaIcon;
 use App\Enum\Trait\ListTrait;
 
 enum StageStatus: string
 {
     use ListTrait;
+    use BasicEnumTrait;
 
     case WAITING = 'waiting';
     case IN_PROGRESS = 'in-progress';
@@ -65,14 +67,5 @@ enum StageStatus: string
 
             default => FaIcon::get('default', $extraCssClass),
         };
-    }
-
-    /**
-     * @param StageStatus $stageStatus
-     * @return bool
-     */
-    public function is(StageStatus $stageStatus): bool
-    {
-        return $this === $stageStatus;
     }
 }

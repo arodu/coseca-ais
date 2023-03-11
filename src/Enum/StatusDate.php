@@ -3,10 +3,13 @@ declare(strict_types=1);
 
 namespace App\Enum;
 
+use App\Enum\Trait\BasicEnumTrait;
 use Cake\I18n\FrozenDate;
 
 enum StatusDate
 {
+    use BasicEnumTrait;
+
     case PENDING;
     case IN_PROGRESS;
     case TIMED_OUT;
@@ -42,14 +45,5 @@ enum StatusDate
 
             default => null,
         };
-    }
-
-    /**
-     * @param StatusDate $status
-     * @return bool
-     */
-    public function is(StatusDate $status): bool
-    {
-        return $this === $status;
     }
 }

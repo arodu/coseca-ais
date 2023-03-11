@@ -8,6 +8,7 @@ enum StudentType: string
 {
     case REGULAR = 'regular';
     case VALIDATED = 'validated';
+    case HISTORY = 'history';
 
     /**
      * @return string
@@ -17,6 +18,7 @@ enum StudentType: string
         return match ($this) {
             static::REGULAR => __('Regular'),
             static::VALIDATED => __('Convalidación'),
+            static::HISTORY => __('Historico'),
 
             default => __('NaN'),
         };
