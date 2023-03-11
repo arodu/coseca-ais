@@ -1,6 +1,7 @@
 <?php 
 /**
- * @var \App\Stage\RegisterStage $stageInstance
+ * @var \App\Model\Entity\Student $student
+ * @var \App\Model\Entity\StudentStage $studentStage
  */
 
 use App\Enum\StatusDate;

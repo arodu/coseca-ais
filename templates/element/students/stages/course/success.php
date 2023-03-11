@@ -1,6 +1,7 @@
 <?php 
 /**
  * @var \App\Model\Entity\Student $student
+ * @var \App\Model\Entity\StudentStage $studentStage
  */
 ?>
 <?php if (!empty($student->student_course)) : ?>

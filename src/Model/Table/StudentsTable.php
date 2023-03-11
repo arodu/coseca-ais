@@ -221,7 +221,10 @@ class StudentsTable extends Table
     {
         $query->contain([
             'StudentAdscriptions' => [
-                'InstitutionProjects' => ['Institutions'], 'Tutors', 'Lapses'
+                'InstitutionProjects' => ['Institutions'],
+                'Tutors',
+                'Lapses',
+                'StudentDocuments',
             ],
         ]);
 

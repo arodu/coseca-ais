@@ -1,7 +1,7 @@
 <?php
-
 /**
  * @var \App\Model\Entity\Student $student
+ * @var \App\Model\Entity\StudentStage $studentStage
  */
 
 use Cake\Core\Configure;

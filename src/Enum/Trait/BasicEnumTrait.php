@@ -7,11 +7,15 @@ namespace App\Enum\Trait;
 trait BasicEnumTrait
 {
     /**
-     * @param self $status
+     * @param self|array $enum
      * @return bool
      */
-    public function is(self $status): bool
+    public function is(self|array $enum): bool
     {
-        return $this === $status;
+        if (is_array($enum)) {
+            return in_array($this, $enum, true);
+        }
+
+        return $this === $enum;
     }
 }

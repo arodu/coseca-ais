@@ -3,9 +3,11 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use App\Model\Field\DocumentType;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\Utility\Text;
 use Cake\Validation\Validator;
 
 /**
@@ -66,6 +68,12 @@ class StudentAdscriptionsTable extends Table
             'foreignKey' => 'tutor_id',
             'joinType' => 'INNER',
         ]);
+        $this->hasOne('StudentDocuments', [
+            'foreignKey' => 'foreign_key',
+            'conditions' => ['model' => 'StudentAdscriptions'],
+            'dependent' => true,
+            'cascadeCallbacks' => true,        
+        ]);
     }
 
     /**
@@ -110,5 +118,18 @@ class StudentAdscriptionsTable extends Table
         $rules->add($rules->existsIn('tutor_id', 'Tutors'), ['errorField' => 'tutor_id']);
 
         return $rules;
+    }
+
+    public function afterSave($event, $entity, $options)
+    {
+        if ($entity->isNew()) {
+            $this->StudentDocuments->saveOrFail($this->StudentDocuments->newEntity([
+                'student_id' => $entity->student_id,
+                'token' => Text::uuid(),
+                'type' => DocumentType::ADSCRIPTION->value,
+                'model' => 'StudentAdscriptions',
+                'foreign_key' => $entity->id,
+            ]));
+        }
     }
 }
