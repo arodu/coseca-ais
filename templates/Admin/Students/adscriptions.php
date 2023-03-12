@@ -69,16 +69,26 @@ $this->Breadcrumbs->add([
                             ) ?>
                             <?php
                                 if ($studentAdscription->status_obj->is(AdscriptionStatus::PENDING)) {
-                                    echo $this->Html->link(
+                                    echo $this->ModalForm->link(
                                         __('Activar Proyecto'),
                                         ['controller' => 'Adscriptions', 'action' => 'changeStatus', $studentAdscription->id, AdscriptionStatus::OPEN->value, 'prefix' => 'Admin/Stage'],
-                                        ['class' => 'btn btn-sm btn-primary']
+                                        [
+                                            'confirm' => __('Esta seguro que desea activar este proyecto?'),
+                                            'class' => 'btn btn-primary btn-sm',
+                                            'target' => 'changeStatus',
+                                            'title' => __('Activar Proyecto'),
+                                        ]
                                     );
                                 } elseif ($studentAdscription->status_obj->is(AdscriptionStatus::OPEN)) {
-                                    echo $this->Html->link(
+                                    echo $this->ModalForm->link(
                                         __('Cerrar Proyecto'),
                                         ['controller' => 'Adscriptions', 'action' => 'changeStatus', $studentAdscription->id, AdscriptionStatus::CLOSED->value, 'prefix' => 'Admin/Stage'],
-                                        ['class' => 'btn btn-sm btn-primary']
+                                        [
+                                            'confirm' => __('Esta seguro que desea cerrar este proyecto?'),
+                                            'class' => 'btn btn-primary btn-sm',
+                                            'target' => 'changeStatus',
+                                            'title' => __('Cerrar Proyecto'),
+                                        ]
                                     );
                                 }
                             ?>
@@ -97,3 +107,14 @@ $this->Breadcrumbs->add([
     <?php endif; ?>
 
 </div>
+
+<?php
+echo  $this->ModalForm->modal('changeStatus', [
+    'element' => \ModalForm\ModalFormPlugin::FORM_CHECKBOX,
+    'content' => [
+        'title' => __('Cambiar estado del Proyecto'),
+        'buttonOk'  => __('Si'),
+        'buttonCancel'  => __('No'),
+    ]
+]);
+?>
