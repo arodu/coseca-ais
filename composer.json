@@ -25,7 +25,7 @@
         "cakephp/debug_kit": "^4.5",
         "fakerphp/faker": "^1.20",
         "josegonzalez/dotenv": "^3.2",
-        "phpunit/phpunit": "~8.5.0 || ^9.3"
+        "phpunit/phpunit": "^10.0.15"
     },
     "suggest": {
         "markstory/asset_compress": "An asset compression plugin which provides file concatenation and a flexible filter system for preprocessing and minification.",
