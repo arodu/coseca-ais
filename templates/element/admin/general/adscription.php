@@ -18,7 +18,13 @@ $this->start('actions');
 echo $this->Html->link(
     __('Agregar Proyecto'),
     ['controller' => 'Adscriptions', 'action' => 'add', $student->id, 'prefix' => 'Admin/Stage'],
-    ['class' => 'btn btn-primary btn-sm']
+    ['class' => 'btn btn-info btn-sm']
+);
+
+echo $this->Html->link(
+    __('Ver Proyectos'),
+    ['controller' => 'Students', 'action' => 'adscriptions', $student->id, 'prefix' => 'Admin'],
+    ['class' => 'btn btn-default btn-sm ml-2']
 );
 
 $this->end();
@@ -32,30 +38,26 @@ $this->end();
 <?php else : ?>
     <div class="table-responsive">
         <table class="table table-sm table-borderless table-hover m-0">
-            <tr>
-                <th class="narrow"></th>
-                <th><?= __('Institución') ?></th>
-                <th><?= __('Proyecto') ?></th>
-                <th><?= __('Lapso') ?></th>
-                <th><?= __('Tutor') ?></th>
-                <th><?= __('Estado') ?></th>
-            </tr>
-            <?php foreach ($student->student_adscriptions as $student_adscriptions) : ?>
+            <thead>
                 <tr>
-                    <td>
-                        <?= $this->Html->link(
-                            FaIcon::get('edit', 'fa-fw'),
-                            ['controller' => 'Adscriptions', 'action' => 'edit', $student_adscriptions->id, 'prefix' => 'Admin/Stage'],
-                            ['class' => 'btn btn-link btn-sm text-info', 'escape' => false]
-                        ) ?>
-                    </td>
-                    <td><?= $student_adscriptions->institution_project->institution->name ?></td>
-                    <td><?= $student_adscriptions->institution_project->name ?></td>
-                    <td><?= $student_adscriptions->lapse->name ?></td>
-                    <td><?= $student_adscriptions->tutor->name ?></td>
-                    <td><?= $student_adscriptions->lapse->active ? __('Activo') : __('Inactivo') ?></td>
+                    <th><?= __('Institución') ?></th>
+                    <th><?= __('Proyecto') ?></th>
+                    <th><?= __('Tutor') ?></th>
+                    <th><?= __('Lapso') ?></th>
+                    <th><?= __('Estado') ?></th>
                 </tr>
-            <?php endforeach; ?>
+            </thead>
+            <tbody>
+                <?php foreach ($student->student_adscriptions as $student_adscriptions) : ?>
+                    <tr>
+                        <td><?= $student_adscriptions->institution_project->institution->name ?></td>
+                        <td><?= $student_adscriptions->institution_project->name ?></td>
+                        <td><?= $student_adscriptions->tutor->name ?></td>
+                        <td><?= $student_adscriptions->lapse->name ?></td>
+                        <td><?= $student_adscriptions->status_label ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
         </table>
     </div>
 <?php endif; ?>

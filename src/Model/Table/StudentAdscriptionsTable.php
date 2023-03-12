@@ -3,7 +3,11 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\DocumentType;
+use ArrayObject;
+use Cake\Datasource\EntityInterface;
+use Cake\Event\EventInterface;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -125,7 +129,14 @@ class StudentAdscriptionsTable extends Table
         return $rules;
     }
 
-    public function afterSave($event, $entity, $options)
+    public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
+    {
+        if ($entity->isNew()) {
+            $entity->status = $entity->status ?? AdscriptionStatus::PENDING->value;
+        }
+    }
+
+    public function afterSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
     {
         if ($entity->isNew()) {
             $this->StudentDocuments->saveOrFail($this->StudentDocuments->newEntity([

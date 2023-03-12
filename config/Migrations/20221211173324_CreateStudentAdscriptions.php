@@ -35,6 +35,11 @@ class CreateStudentAdscriptions extends AbstractMigration
             'limit' => 11,
             'null' => false,
         ]);
+        $table->addColumn('status', 'string', [
+            'default' => null,
+            'limit' => 255,
+            'null' => false,
+        ]);
         $table->addColumn('created', 'datetime', [
             'default' => null,
             'null' => false,

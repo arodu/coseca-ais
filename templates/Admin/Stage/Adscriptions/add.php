@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\StudentAdscription $student_adscription

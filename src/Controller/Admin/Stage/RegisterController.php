@@ -6,6 +6,7 @@ namespace App\Controller\Admin\Stage;
 use App\Controller\Admin\AppAdminController;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
+use App\Utility\Stages;
 
 /**
  * Register Controller
@@ -35,11 +36,9 @@ class RegisterController extends AppAdminController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $student = $this->Students->patchEntity($student, $this->request->getData());
 
-
-
             if ($this->Students->save($student)) {
                 $this->Flash->success(__('The register stage has been saved.'));
-                $this->closeStudentStage($student->id, StageField::REGISTER, StageStatus::SUCCESS);
+                Stages::closeStudentStage($student->id, StageField::REGISTER, StageStatus::SUCCESS);
 
                 return $this->redirect(['_name' => 'admin:student_view', $student->id]);
                 

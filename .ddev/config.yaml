@@ -14,6 +14,8 @@ database:
 host_db_port: "6601"
 nfs_mount_enabled: false
 mutagen_enabled: false
+bind_all_interfaces: true
+host_webserver_port: "8081"
 use_dns_when_possible: true
 composer_version: "2"
 web_environment:

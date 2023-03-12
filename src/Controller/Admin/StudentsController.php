@@ -88,6 +88,15 @@ class StudentsController extends AppAdminController
         $this->set(compact('student'));
     }
 
+    public function adscriptions($id = null)
+    {
+        $student = $this->Students->find('withStudentAdscriptions')
+            ->where(['Students.id' => $id])
+            ->first();
+
+        $this->set(compact('student'));
+    }
+
     public function settings($id = null)
     {
         $student = $this->Students->get($id, [

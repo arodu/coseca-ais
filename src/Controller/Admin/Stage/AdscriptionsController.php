@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Controller\Admin\Stage;
 
 use App\Controller\Admin\AppAdminController;
+use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
+use App\Utility\Stages;
 
 /**
  * StudentAdscriptionsController Controller
@@ -39,7 +41,7 @@ class AdscriptionsController extends AppAdminController
         if ($this->request->is('post')) {
             $student_adscription = $this->StudentAdscriptions->patchEntity($student_adscription, $this->request->getData());
             if ($this->StudentAdscriptions->save($student_adscription)) {
-                $this->closeStudentStage($student->id, StageField::ADSCRIPTION, StageStatus::REVIEW);
+                Stages::closeStudentStage($student->id, StageField::ADSCRIPTION, StageStatus::REVIEW);
                 $this->Flash->success(__('The student_adscription has been saved.'));
 
                 return $this->redirect(['_name' => 'admin:student_view', $student_id]);
@@ -120,5 +122,24 @@ class AdscriptionsController extends AppAdminController
         }
 
         return $this->redirect(['_name' => 'admin:student_view', $adscription->student_id]);
+    }
+
+
+    public function changeStatus($id, $status)
+    {
+        $this->request->allowMethod(['post', 'put']);
+        $adscription = $this->StudentAdscriptions->get($id);
+        $adscription->status = $status;
+        if ($this->StudentAdscriptions->save($adscription)) {
+            $this->Flash->success(__('The student_adscription has been saved.'));
+        } else {
+            $this->Flash->error(__('The student_adscription could not be saved. Please, try again.'));
+        }
+
+        if ($status == AdscriptionStatus::OPEN->value) {
+            Stages::closeStudentStage($adscription->student_id, StageField::ADSCRIPTION, StageStatus::SUCCESS);
+        }
+
+        return $this->redirect(['controller' => 'Students', 'action' => 'adscriptions', $adscription->student_id, 'prefix' => 'Admin']);
     }
 }

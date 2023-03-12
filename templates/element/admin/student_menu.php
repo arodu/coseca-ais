@@ -8,6 +8,10 @@ $student_menu = [
         'url' => ['controller' => 'Students', 'action' => 'info', $student_id, 'prefix' => 'Admin'],
         'label' => __('Info'),
     ],
+    'adscriptions' => [
+        'url' => ['controller' => 'Students', 'action' => 'adscriptions', $student_id, 'prefix' => 'Admin'],
+        'label' => __('Proyectos'),
+    ],
     'tracking' => [
         'url' => ['controller' => 'Students', 'action' => 'tracking', $student_id, 'prefix' => 'Admin'],
         'label' => __('Seguimiento'),

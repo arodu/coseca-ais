@@ -7,6 +7,7 @@ namespace App\Controller\Admin\Stage;
 use App\Controller\Admin\AppAdminController;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
+use App\Utility\Stages;
 use Cake\I18n\FrozenDate;
 
 /**
@@ -35,7 +36,7 @@ class CoursesController extends AppAdminController
         if ($this->request->is('post')) {
             $studentCourse = $this->StudentCourses->patchEntity($studentCourse, $this->request->getData());
             if ($this->StudentCourses->save($studentCourse)) {
-                $this->closeStudentStage($student_id, StageField::COURSE, StageStatus::SUCCESS);
+                Stages::closeStudentStage((int) $student_id, StageField::COURSE, StageStatus::SUCCESS);
                 $session->write('courseSelectedDate', $studentCourse->date);
                 $this->Flash->success(__('The student course has been saved.'));
 

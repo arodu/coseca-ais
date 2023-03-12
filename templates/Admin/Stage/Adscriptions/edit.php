@@ -5,6 +5,8 @@
  * @var \App\Model\Entity\StudentAdscription $adscription
  */
 
+use App\Model\Field\AdscriptionStatus;
+
 $this->student_id = $adscription->student_id;
 $this->active = null;
 $this->extend('/Admin/Common/view_student');
@@ -27,29 +29,29 @@ $this->Breadcrumbs->add([
 
     <div class="table-responsive">
         <table class="table table-sm table-borderless table-hover m-0">
-            <tr>
-                <th><?= __('Institución') ?></th>
-                <th><?= __('Proyecto') ?></th>
-                <th><?= __('Lapso') ?></th>
-                <th><?= __('Tutor') ?></th>
-                <th><?= __('Estado') ?></th>
-            </tr>
-            <tr>
-                <td><?= $adscription->institution_project->institution->name ?></td>
-                <td><?= $adscription->institution_project->name ?></td>
-                <td><?= $adscription->lapse->name ?></td>
-                <td><?= $adscription->tutor->name ?></td>
-                <td><?= $adscription->lapse->active ? __('Activo') : __('Inactivo') ?></td>
-            </tr>
+            <thead>
+                <tr>
+                    <th><?= __('Institución') ?></th>
+                    <th><?= __('Proyecto') ?></th>
+                    <th><?= __('Lapso') ?></th>
+                    <th><?= __('Tutor') ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><?= $adscription->institution_project->institution->name ?></td>
+                    <td><?= $adscription->institution_project->name ?></td>
+                    <td><?= $adscription->lapse->name ?></td>
+                    <td><?= $adscription->tutor->name ?></td>
+                </tr>
+            </tbody>
         </table>
     </div>
 
     <hr>
 
-    <?php
-    //echo $this->Form->control('institution_project_id', ['options' => $institution_projects, 'empty' => true]);
-    echo $this->Form->control('tutor_id', ['options' => $tutors, 'empty' => true]);
-    ?>
+    <?= $this->Form->control('status', ['options' => AdscriptionStatus::toListLabel()]) ?>
+    <?= $this->Form->control('tutor_id', ['options' => $tutors, 'empty' => true]) ?>
 </div>
 
 <div class="card-footer d-flex">
