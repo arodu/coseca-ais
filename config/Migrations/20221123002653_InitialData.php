@@ -45,25 +45,25 @@ class InitialData extends AbstractMigration
         $lapseEntities = $LapsesTable->newEntities([
             [
                 'id' => 1,
-                'name' => '2022-2',
+                'name' => '2023-1',
                 'tenant_id' => 1,
                 'active' => true,
             ],
             [
                 'id' => 2,
-                'name' => '2022-2',
+                'name' => '2023-1',
                 'tenant_id' => 2,
                 'active' => true,
             ],
             [
                 'id' => 3,
-                'name' => '2022-2',
+                'name' => '2023-1',
                 'tenant_id' => 3,
                 'active' => true,
             ],
             [
                 'id' => 4,
-                'name' => '2022-2',
+                'name' => '2023-1',
                 'tenant_id' => 4,
                 'active' => true,
             ],
