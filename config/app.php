@@ -65,6 +65,14 @@ return [
             'templates' => [ROOT . DS . 'templates' . DS],
             'locales' => [RESOURCES . 'locales' . DS],
         ],
+        'socialNetworks' => [
+            'unerg' => 'https://unerg.edu.ve/',
+            //'facebook' => 'https://www.facebook.com/',
+            //'twitter' => 'https://twitter.com/',
+            //'instagram' => 'https://www.instagram.com/',
+            //'youtube' => 'https://www.youtube.com/',
+            'telegram' => 'https://t.me/cosecaAIS',
+        ],
     ],
 
     /*

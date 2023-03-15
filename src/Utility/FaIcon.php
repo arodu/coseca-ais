@@ -125,6 +125,10 @@ class FaIcon
         'spinner-spin' => ['fas', 'spinner', 'fa-spin'],
         'cog-spin' => ['fas', 'cog', 'fa-spin'],
         'spinner-pulse' => ['fas', 'spinner', 'fa-pulse'],
+        'telegram' => ['fab', 'telegram-plane'],
+        'home' => ['fas', 'home'],
+        'university' => ['fas', 'university'],
+        'copyrigth' => ['fas', 'copyrigth'],
     ];
 
     /**
