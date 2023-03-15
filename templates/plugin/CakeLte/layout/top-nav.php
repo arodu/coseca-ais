@@ -81,10 +81,6 @@
                         </a>
                         <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
                             <li>
-                                <?= $this->Html->link(__('Perfil'), '/profile', ['class' => 'dropdown-item']) ?>
-                            </li>
-                            <li class="dropdown-divider"></li>
-                            <li>
                                 <?= $this->Html->link(__('Cerrar Sesión'), '/logout', ['class' => 'dropdown-item']) ?>
                             </li>
                         </ul>
