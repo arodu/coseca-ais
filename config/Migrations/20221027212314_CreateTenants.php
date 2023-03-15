@@ -25,6 +25,10 @@ class CreateTenants extends AbstractMigration
             'limit' => 100,
             'null' => false,
         ]);
+        $table->addColumn('regime', 'string', [
+            'default' => null,
+            'null' => false,
+        ]);
         $table->addColumn('active', 'boolean', [
             'default' => null,
             'null' => false,

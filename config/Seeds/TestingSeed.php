@@ -21,6 +21,10 @@ class TestingSeed extends AbstractSeed
     private const INSTITUTIONS_QTY = 10;
     private const TUTORS_QTY = 10;
 
+    private $AppUsers;
+    private $Institutions;
+    private $Tutors;
+
     /**
      * Run Method.
      *
@@ -31,7 +35,7 @@ class TestingSeed extends AbstractSeed
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $this->AppUsers = $this->fetchTable('AppUsers');
         $this->Institutions = $this->fetchTable('Institutions');

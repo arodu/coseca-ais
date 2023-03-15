@@ -33,6 +33,7 @@ class Tenant extends Entity
         'lapses' => true,
         'students' => true,
         'tenant_filters' => true,
+        'regime' => true,
         'active' => true,
         'current_lapse' => true,
     ];

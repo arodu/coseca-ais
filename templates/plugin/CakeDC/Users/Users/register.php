@@ -84,7 +84,8 @@ $this->layout = 'CakeLte.login';
         </div>
 
         <?= $this->Form->end() ?>
-        <!--
+
+        <?php /* ?>
         <div class="social-auth-links text-center mb-3">
             <p>- OR -</p>
             <?= $this->Html->link(
@@ -98,8 +99,8 @@ $this->layout = 'CakeLte.login';
                 ['class' => 'btn btn-block btn-danger', 'escape' => false]
             ) ?>
         </div>
-        -->
         <!-- /.social-auth-links -->
+        <?php */ ?>
 
         <?= $this->Html->link(__('I already have a membership'), ['action' => 'login']) ?>
     </div>

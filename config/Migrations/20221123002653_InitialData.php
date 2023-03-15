@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use App\Model\Field\TenantRegime;
 use App\Model\Table\LapsesTable;
 use Cake\I18n\FrozenDate;
 use Cake\ORM\Locator\LocatorAwareTrait;
@@ -18,24 +19,28 @@ class InitialData extends AbstractMigration
                 'id' => 1,
                 'name' => 'Infomática - San Juan',
                 'abbr' => 'AIS-SJM',
+                'regime' => TenantRegime::BIANNUAL->value,
                 'active' => true,
             ],
             [
                 'id' => 2,
                 'name' => 'Infomática - Mellado',
                 'abbr' => 'AIS-MEL',
+                'regime' => TenantRegime::BIANNUAL->value,
                 'active' => true,
             ],
             [
                 'id' => 3,
                 'name' => 'Infomática - Ortíz',
                 'abbr' => 'AIS-ORT',
+                'regime' => TenantRegime::BIANNUAL->value,
                 'active' => true,
             ],
             [
                 'id' => 3,
                 'name' => 'Infomática - Calabozo',
                 'abbr' => 'AIS-CAL',
+                'regime' => TenantRegime::BIANNUAL->value,
                 'active' => true,
             ],
         ]);
