@@ -82,7 +82,7 @@ class StudentsController extends AppAdminController
     public function info($id = null)
     {
         $student = $this->Students->get($id, [
-            'contain' => ['AppUsers', 'StudentData'],
+            'contain' => ['AppUsers', 'StudentData' => ['InterestAreas']],
         ]);
 
         $this->set(compact('student'));

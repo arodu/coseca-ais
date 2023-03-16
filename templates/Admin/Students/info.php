@@ -56,25 +56,3 @@ $this->Breadcrumbs->add([
         <dd class="col-sm-8 text-right"><?= h($student->student_data?->observations) ?? '<code>N/A</code>' ?></dd>
     </dl>
 </div>
-
-<div class="card-header">
-    <div class="card-title"><?= __('Adscripción') ?></div>
-</div>
-<div class="card-body">
-    <dl class="row">
-        <dt class="col-sm-4"><?= __('Institución') ?></dt>
-        <dd class="col-sm-8 text-right mb-4"><?= '<code>N/A</code>' ?></dd>
-
-        <dt class="col-sm-4"><?= __('Proyecto') ?></dt>
-        <dd class="col-sm-8 text-right mb-4"><?= '<code>N/A</code>' ?></dd>
-
-        <dt class="col-sm-4"><?= __('Tutor Académico') ?></dt>
-        <dd class="col-sm-8 text-right mb-4"><?= '<code>N/A</code>' ?></dd>
-
-        <dt class="col-sm-4"><?= __('Lapso') ?></dt>
-        <dd class="col-sm-8 text-right mb-4"><?= '<code>N/A</code>' ?></dd>
-    </dl>
-</div>
-
-<?php // debug($student) 
-?>

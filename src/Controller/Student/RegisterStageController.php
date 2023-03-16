@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Student;
@@ -40,7 +41,7 @@ class RegisterStageController extends AppStudentController
             $this->Flash->warning(__('El Registro no esta activo para realizar cambios'));
             return $this->redirect(['_name' => 'student:home']);
         }
-     
+
         $student = $this->Students->get($currentStudent->id, [
             'contain' => ['Tenants', 'AppUsers', 'StudentData'],
         ]);
@@ -56,6 +57,10 @@ class RegisterStageController extends AppStudentController
             $this->Flash->error(__('The student could not be saved. Please, try again.'));
         }
 
-        $this->set(compact('student'));
+        $interestAreas = $this->Students->StudentData->InterestAreas->find('list', ['limit' => 200])
+            ->where(['InterestAreas.program_id' => $student->tenant->program_id])
+            ->all();
+
+        $this->set(compact('student', 'interestAreas'));
     }
 }
