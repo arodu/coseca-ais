@@ -69,7 +69,6 @@ $this->Breadcrumbs->add([
         <table class="table table-hover text-nowrap">
             <thead>
                 <tr>
-                    <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('name') ?></th>
                     <th><?= $this->Paginator->sort('active') ?></th>
                     <th><?= $this->Paginator->sort('contact_person') ?></th>
@@ -82,7 +81,6 @@ $this->Breadcrumbs->add([
             <tbody>
                 <?php foreach ($institutions as $institution) : ?>
                     <tr>
-                        <td><?= $this->Number->format($institution->id) ?></td>
                         <td><?= h($institution->name) ?></td>
                         <td><?= ($institution->active) ? __('Yes') : __('No') ?></td>
                         <td><?= h($institution->contact_person) ?></td>

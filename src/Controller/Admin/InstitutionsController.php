@@ -79,7 +79,8 @@ class InstitutionsController extends AppAdminController
             $this->Flash->error(__('The institution could not be saved. Please, try again.'));
         }
         $tenants = $this->Institutions->Tenants->find('list', ['limit' => 200])->all();
-        $this->set(compact('institution', 'tenants'));
+        $states = $this->Institutions->States->find('list', ['limit' => 200])->all();
+        $this->set(compact('institution', 'tenants', 'states'));
     }
 
     /**

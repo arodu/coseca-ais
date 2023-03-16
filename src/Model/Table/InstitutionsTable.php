@@ -55,6 +55,27 @@ class InstitutionsTable extends Table
             'foreignKey' => 'institution_id',
         ]);
 
+        $this->belongsTo('Tenants', [
+            'foreignKey' => 'tenant_id',
+            'joinType' => 'INNER',
+        ]);
+
+        $this->belongsTo('States', [
+            'className' => 'SysStates',
+            'foreignKey' => 'state_id',
+            'joinType' => 'INNER',
+        ]);
+        $this->belongsTo('Municipalities', [
+            'className' => 'SysMunicipalities',
+            'foreignKey' => 'municipality_id',
+            'joinType' => 'INNER',
+        ]);
+        $this->belongsTo('Parishes', [
+            'className' => 'SysParishes',
+            'foreignKey' => 'parish_id',
+            'joinType' => 'INNER',
+        ]);
+
         $this->loadQueryFilters();
     }
 

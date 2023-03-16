@@ -44,6 +44,21 @@ class CreateInstitutions extends AbstractMigration
             'limit' => 11,
             'null' => false,
         ]);
+        $table->addColumn('state_id', 'integer', [
+            'default' => null,
+            'limit' => 11,
+            'null' => true,
+        ]);
+        $table->addColumn('municipality_id', 'integer', [
+            'default' => null,
+            'limit' => 11,
+            'null' => true,
+        ]);
+        $table->addColumn('parish_id', 'integer', [
+            'default' => null,
+            'limit' => 11,
+            'null' => true,
+        ]);
         $table->create();
     }
 }
