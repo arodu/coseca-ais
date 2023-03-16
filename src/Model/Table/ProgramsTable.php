@@ -46,6 +46,9 @@ class ProgramsTable extends Table
         $this->hasMany('Tenants', [
             'foreignKey' => 'program_id',
         ]);
+        $this->hasMany('InterestAreas', [
+            'foreignKey' => 'program_id',
+        ]);
     }
 
     /**

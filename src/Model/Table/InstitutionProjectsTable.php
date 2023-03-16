@@ -51,6 +51,10 @@ class InstitutionProjectsTable extends Table
         $this->hasMany('StudentAdscriptions', [
             'foreignKey' => 'institution_project_id',
         ]);
+        $this->belongsTo('InterestAreas', [
+            'foreignKey' => 'interest_area_id',
+            'joinType' => 'INNER',
+        ]);
     }
 
     /**

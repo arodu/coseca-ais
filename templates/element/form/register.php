@@ -72,9 +72,11 @@ use App\Utility\Students;
 
 <div class="row">
     <div class="col">
-        <?= $this->Form->control('student_data.areas', [
+        <?= $this->Form->control('student_data.interest_area_id', [
             'label' => __('Área de interés y/o potencialidades de índole tecnológico donde aspira ejercer el servicio comunitario'),
             'required' => true,
+            'options' => $interestAreas,
+            'empty' => true,
         ]) ?>
     </div>
 </div>

@@ -80,13 +80,35 @@ class InitialData extends AbstractMigration
                 'active' => true,
             ],
         ]);
+
+        $this->saveData('InterestAreas', [
+            [
+                'id' => 1,
+                'program_id' => 1,
+                'name' => 'Desarrollo de Software',
+                'active' => true,
+            ],
+            [
+                'id' => 2,
+                'program_id' => 1,
+                'name' => 'Redes y Telecomunicaciones',
+                'active' => true,
+            ],
+            [
+                'id' => 3,
+                'program_id' => 1,
+                'name' => 'Seguridad Informática',
+                'active' => true,
+            ],
+        ]);
     }
 
     public function down()
     {
-        $this->table('lapses')->drop();
-        $this->table('tenants')->drop();
-        $this->table('programs')->drop();
+        $this->table('interest_areas')->truncate();
+        $this->table('lapses')->truncate();
+        $this->table('tenants')->truncate();
+        $this->table('programs')->truncate();
     }
 
     protected function saveData(string $modelName, array $data = [])

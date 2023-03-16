@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Admin\Stage;
@@ -41,10 +42,14 @@ class RegisterController extends AppAdminController
                 Stages::closeStudentStage($student->id, StageField::REGISTER, StageStatus::SUCCESS);
 
                 return $this->redirect(['_name' => 'admin:student_view', $student->id]);
-                
             }
             $this->Flash->error(__('The register stage could not be saved. Please, try again.'));
         }
-        $this->set(compact('student'));
+
+        $interestAreas = $this->Students->StudentData->InterestAreas->find('list', ['limit' => 200])
+            ->where(['InterestAreas.program_id' => $student->tenant->program_id])
+            ->all();
+
+        $this->set(compact('student', 'interestAreas'));
     }
 }

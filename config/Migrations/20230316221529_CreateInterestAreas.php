@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Migrations\AbstractMigration;
 
-class CreateInstitutionProjects extends AbstractMigration
+class CreateInterestAreas extends AbstractMigration
 {
     /**
      * Change Method.
@@ -12,10 +12,10 @@ class CreateInstitutionProjects extends AbstractMigration
      * https://book.cakephp.org/phinx/0/en/migrations.html#the-change-method
      * @return void
      */
-    public function change()
+    public function change(): void
     {
-        $table = $this->table('institution_projects');
-        $table->addColumn('institution_id', 'integer', [
+        $table = $this->table('interest_areas');
+        $table->addColumn('program_id', 'integer', [
             'default' => null,
             'limit' => 11,
             'null' => false,
@@ -25,14 +25,13 @@ class CreateInstitutionProjects extends AbstractMigration
             'limit' => 255,
             'null' => false,
         ]);
-        $table->addColumn('active', 'boolean', [
+        $table->addColumn('description', 'text', [
             'default' => null,
-            'null' => false,
-        ]);
-        $table->addColumn('interest_area_id', 'integer', [
-            'default' => null,
-            'limit' => 11,
             'null' => true,
+        ]);
+        $table->addColumn('active', 'boolean', [
+            'default' => true,
+            'null' => false,
         ]);
         $table->create();
     }

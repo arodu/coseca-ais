@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -47,6 +48,9 @@ class StudentDataTable extends Table
             'foreignKey' => 'student_id',
             'joinType' => 'INNER',
         ]);
+        $this->belongsTo('InterestAreas', [
+            'foreignKey' => 'interest_area_id',
+        ]);
     }
 
     /**
@@ -85,9 +89,8 @@ class StudentDataTable extends Table
             ->allowEmptyString('uc');
 
         $validator
-            ->scalar('areas')
-            ->maxLength('areas', 255)
-            ->allowEmptyString('areas');
+            ->integer('interest_area_id')
+            ->allowEmptyString('interest_area_id');
 
         $validator
             ->scalar('observations')

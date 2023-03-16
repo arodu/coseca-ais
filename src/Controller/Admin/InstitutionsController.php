@@ -88,7 +88,9 @@ class InstitutionsController extends AppAdminController
 
     public function addProject($id = null)
     {
-        $institution = $this->Institutions->get($id);
+        $institution = $this->Institutions->get($id, [
+            'contain' => ['Tenants'],
+        ]);
         $institutionProject = $this->Institutions->InstitutionProjects->newEmptyEntity();
         if ($this->request->is('post')) {
             $institutionProject = $this->Institutions->InstitutionProjects->patchEntity($institutionProject, $this->request->getData());
@@ -100,7 +102,11 @@ class InstitutionsController extends AppAdminController
             }
             $this->Flash->error(__('The project could not be saved. Please, try again.'));
         }
-        $this->set(compact('institution', 'institutionProject'));
+        $interestAreas = $this->Institutions->InstitutionProjects->InterestAreas->find('list', ['limit' => 200])
+            ->where(['InterestAreas.program_id' => $institution->tenant->program_id])
+            ->all();
+
+        $this->set(compact('institution', 'institutionProject', 'interestAreas'));
     }
 
     /**
@@ -131,7 +137,9 @@ class InstitutionsController extends AppAdminController
     public function editProject($project_id = null)
     {
         $institutionProject = $this->Institutions->InstitutionProjects->get($project_id);
-        $institution = $this->Institutions->get($institutionProject->institution_id);
+        $institution = $this->Institutions->get($institutionProject->institution_id, [
+            'contain' => ['Tenants'],
+        ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $institutionProject = $this->Institutions->InstitutionProjects->patchEntity($institutionProject, $this->request->getData());
             if ($this->Institutions->InstitutionProjects->save($institutionProject)) {
@@ -141,7 +149,11 @@ class InstitutionsController extends AppAdminController
             }
             $this->Flash->error(__('The project could not be saved. Please, try again.'));
         }
-        $this->set(compact('institution', 'institutionProject'));
+        $interestAreas = $this->Institutions->InstitutionProjects->InterestAreas->find('list', ['limit' => 200])
+            ->where(['InterestAreas.program_id' => $institution->tenant->program_id])
+            ->all();
+
+        $this->set(compact('institution', 'institutionProject', 'interestAreas'));
     }
 
     /**

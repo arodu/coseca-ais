@@ -92,7 +92,10 @@ class TenantsController extends AppAdminController
     public function viewProgram($program_id = null)
     {
         $program = $this->Programs->get($program_id, [
-            'contain' => ['Tenants']
+            'contain' => [
+                'Tenants',
+                'InterestAreas',
+            ]
         ]);
 
         $this->set(compact('program'));
@@ -161,6 +164,24 @@ class TenantsController extends AppAdminController
         $this->set(compact('program'));
     }
 
+    public function addInterestArea($program_id = null)
+    {
+        $interestArea = $this->Programs->InterestAreas->newEmptyEntity();
+        $program = $this->Programs->get($program_id);
+        if ($this->request->is('post')) {
+            $interestArea = $this->Programs->InterestAreas->patchEntity($interestArea, $this->request->getData());
+            $interestArea->program_id = $program_id;
+            if ($this->Programs->InterestAreas->save($interestArea)) {
+                $this->Flash->success(__('The interest area has been saved.'));
+
+                return $this->redirect(['action' => 'viewProgram', $program_id]);
+            }
+            $this->Flash->error(__('The interest area could not be saved. Please, try again.'));
+        }
+
+        $this->set(compact('interestArea', 'program'));
+    }
+
 
     /**
      * Edit method
@@ -200,6 +221,22 @@ class TenantsController extends AppAdminController
             $this->Flash->error(__('The program could not be saved. Please, try again.'));
         }
         $this->set(compact('program'));
+    }
+
+    public function editInterestArea($interestArea_id = null)
+    {
+        $interestArea = $this->Programs->InterestAreas->get($interestArea_id);
+        $program = $this->Programs->get($interestArea->program_id);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $interestArea = $this->Programs->InterestAreas->patchEntity($interestArea, $this->request->getData());
+            if ($this->Programs->InterestAreas->save($interestArea)) {
+                $this->Flash->success(__('The interest area has been saved.'));
+
+                return $this->redirect(['action' => 'viewProgram', $program->id]);
+            }
+            $this->Flash->error(__('The interest area could not be saved. Please, try again.'));
+        }
+        $this->set(compact('interestArea', 'program'));
     }
 
     /**

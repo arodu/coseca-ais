@@ -20,9 +20,10 @@ $this->Breadcrumbs->add([
     <?php
       echo $this->Form->control('institution', ['value' => $institution->name, 'readonly' => true]);
       echo $this->Form->control('name');
+      echo $this->Form->control('interest_area_id', ['options' => $interestAreas, 'empty' => true]);
       echo $this->Form->control('active', ['custom' => true]);
     ?>
-  </div>
+</div>
 
   <div class="card-footer d-flex">
     <div></div>

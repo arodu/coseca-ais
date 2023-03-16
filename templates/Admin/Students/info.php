@@ -50,7 +50,7 @@ $this->Breadcrumbs->add([
         <dd class="col-sm-8 text-right mb-4"><?= h($student->student_data?->uc) ?? '<code>N/A</code>' ?></dd>
 
         <dt class="col-sm-4"><?= __('Área de interés') ?></dt>
-        <dd class="col-sm-8 text-right mb-4"><?= h($student->student_data?->areas) ?? '<code>N/A</code>' ?></dd>
+        <dd class="col-sm-8 text-right mb-4"><?= h($student->student_data?->interest_area->name) ?? '<code>N/A</code>' ?></dd>
 
         <dt class="col-sm-4"><?= __('Observaciones') ?></dt>
         <dd class="col-sm-8 text-right"><?= h($student->student_data?->observations) ?? '<code>N/A</code>' ?></dd>

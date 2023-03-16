@@ -15,7 +15,7 @@ use Cake\ORM\Entity;
  * @property string|null $address
  * @property int|null $current_semester
  * @property int|null $uc
- * @property string|null $areas
+ * @property int|null $interest_area_id
  * @property string|null $observations
  *
  * @property \App\Model\Entity\Student $student
@@ -38,7 +38,7 @@ class StudentData extends Entity
         'address' => true,
         'current_semester' => true,
         'uc' => true,
-        'areas' => true,
+        'interest_area_id' => true,
         'observations' => true,
         'student' => true,
     ];

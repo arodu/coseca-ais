@@ -45,9 +45,9 @@ class CreateStudentData extends AbstractMigration
             'limit' => 3,
             'null' => true,
         ]);
-        $table->addColumn('areas', 'string', [
+        $table->addColumn('interest_area_id', 'integer', [
             'default' => null,
-            'limit' => 255,
+            'limit' => 11,
             'null' => true,
         ]);
         $table->addColumn('observations', 'text', [
