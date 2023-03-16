@@ -45,8 +45,8 @@
                 </button>
 
                 <div class="collapse navbar-collapse order-3" id="navbarCollapse">
-                    <div class="navbar-text">
-                        <?= $this->Student->get()->tenant->name ?>
+                    <div class="navbar-text ml-2">
+                        <?= $this->Student->get()->tenant->label ?>
                     </div>
 
                     <!-- SEARCH FORM -->

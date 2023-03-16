@@ -32,6 +32,7 @@ class StagesController extends AppStudentController
             ->find('withStudentAdscriptions')
             ->find('withStudentCourses')
             ->find('withTenants')
+            ->find('withAppUsers')
             ->where(['Students.id' => $this->getCurrentStudent()->id])
             ->first();
 

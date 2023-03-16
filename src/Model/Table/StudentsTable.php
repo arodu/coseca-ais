@@ -187,6 +187,11 @@ class StudentsTable extends Table
         ]);
     }
 
+    /**
+     * @param Query $query
+     * @param array $options
+     * @return Query
+     */
     public function findLastStageFilter(Query $query, array $options = []): Query
     {
         if (empty($options['tableField'])) {
@@ -207,20 +212,18 @@ class StudentsTable extends Table
      */
     public function findWithTenants(Query $query, array $options = []): Query
     {
-        $query->contain([
+        return $query->contain([
             'Tenants' => [
                 'CurrentLapse' => [
                     'LapseDates',
                 ],
             ],
         ]);
-
-        return $query;
     }
 
     public function findWithStudentAdscriptions(Query $query, array $options = []): Query
     {
-        $query->contain([
+        return $query->contain([
             'StudentAdscriptions' => [
                 'InstitutionProjects' => ['Institutions'],
                 'Tutors',
@@ -228,17 +231,20 @@ class StudentsTable extends Table
                 'StudentDocuments',
             ],
         ]);
-
-        return $query;
     }
 
     public function findWithStudentCourses(Query $query, array $options = []): Query
     {
-        $query->contain([
+        return $query->contain([
             'StudentCourses',
         ]);
+    }
 
-        return $query;
+    public function findWithAppUsers(Query $query, array $options = []): Query
+    {
+        return $query->contain([
+            'AppUsers',
+        ]);
     }
 
     public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
