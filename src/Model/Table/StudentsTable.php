@@ -78,6 +78,7 @@ class StudentsTable extends Table
         $this->belongsTo('Tenants', [
             'foreignKey' => 'tenant_id',
             'joinType' => 'INNER',
+            'finder' => 'withPrograms',
         ]);
         $this->belongsTo('Lapses', [
             'foreignKey' => 'lapse_id',

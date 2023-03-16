@@ -50,14 +50,10 @@ class InstitutionsTable extends Table
         $this->belongsTo('Tenants', [
             'foreignKey' => 'tenant_id',
             'joinType' => 'INNER',
+            'finder' => 'withPrograms',
         ]);
         $this->hasMany('InstitutionProjects', [
             'foreignKey' => 'institution_id',
-        ]);
-
-        $this->belongsTo('Tenants', [
-            'foreignKey' => 'tenant_id',
-            'joinType' => 'INNER',
         ]);
 
         $this->belongsTo('States', [

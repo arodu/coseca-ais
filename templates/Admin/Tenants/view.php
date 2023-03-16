@@ -10,27 +10,29 @@ use App\Utility\FaIcon;
 ?>
 
 <?php
-$this->assign('title', h($tenant->name));
+$this->assign('title', h($tenant->label));
 $this->Breadcrumbs->add([
     ['title' => __('Inicio'), 'url' => '/'],
     ['title' => __('Programas'), 'url' => ['controller' => 'Tenants', 'action' => 'index']],
-    ['title' => __('Ver')],
+    ['title' => h($tenant->program->name), 'url' => ['controller' => 'Tenants', 'action' => 'viewProgram', $tenant->program_id]],
+    ['title' => h($tenant->name)],
 ]);
 ?>
 
 <div class="view card card-primary card-outline">
-    <div class="card-header d-sm-flex">
-        <h2 class="card-title"><?= h($tenant->name) ?></h2>
-    </div>
     <div class="card-body table-responsive p-0">
         <table class="table table-hover text-nowrap">
             <tr>
-                <th><?= __('Nombre') ?></th>
+                <th><?= __('Programa') ?></th>
+                <td><?= h($tenant->program->name) ?></td>
+            </tr>
+            <tr>
+                <th><?= __('Sede') ?></th>
                 <td><?= h($tenant->name) ?></td>
             </tr>
             <tr>
                 <th><?= __('ABVR') ?></th>
-                <td><?= h($tenant->abbr) ?></td>
+                <td><?= h($tenant->abbr_label) ?></td>
             </tr>
             <tr>
                 <th><?= __('Lapso Actual') ?></th>

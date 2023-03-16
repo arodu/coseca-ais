@@ -91,8 +91,19 @@ class TenantsTable extends Table
         return $validator;
     }
 
-    protected function findWithPrograms(Query $query, array $options): Query
+    public function findWithPrograms(Query $query, array $options): Query
     {
         return $query->contain(['Programs']);
+    }
+
+    public function findList(Query $query, array $options): Query
+    {
+        $options = array_merge([
+            'keyField' => 'id',
+            'valueField' => 'label',
+            'groupField' => 'program.area_label'
+        ], $options);
+        
+        return parent::findList($query, $options)->contain(['Programs']);
     }
 }

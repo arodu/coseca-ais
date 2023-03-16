@@ -1,13 +1,13 @@
 CREATE TABLE IF NOT EXISTS `sys_cities` (
-  `city_id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `state_id` int(11) NOT NULL,
   `name` varchar(200) NOT NULL,
   `capital` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`city_id`),
+  PRIMARY KEY (`id`),
   KEY `state_id` (`state_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-INSERT INTO `sys_cities` (`city_id`, `state_id`, `name`, `capital`) VALUES
+INSERT INTO `sys_cities` (`id`, `state_id`, `name`, `capital`) VALUES
 (1, 1, 'Maroa', 0),
 (2, 1, 'Puerto Ayacucho', 1),
 (3, 1, 'San Fernando de Atabapo', 0),
@@ -508,13 +508,13 @@ INSERT INTO `sys_cities` (`city_id`, `state_id`, `name`, `capital`) VALUES
 (522, 25, 'Islas Los Hermanos', 0);
 
 CREATE TABLE IF NOT EXISTS `sys_states` (
-  `state_id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(250) NOT NULL,
   `iso` varchar(4) NOT NULL,
-  PRIMARY KEY (`state_id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-INSERT INTO `sys_states` (`state_id`, `name`, `iso`) VALUES
+INSERT INTO `sys_states` (`id`, `name`, `iso`) VALUES
 (1, 'Amazonas', 'VE-X'),
 (2, 'Anzoátegui', 'VE-B'),
 (3, 'Apure', 'VE-C'),
@@ -542,14 +542,14 @@ INSERT INTO `sys_states` (`state_id`, `name`, `iso`) VALUES
 (25, 'Dependencias Federales', 'VE-Z');
 
 CREATE TABLE IF NOT EXISTS `sys_municipalities` (
-  `municipality_id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `state_id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  PRIMARY KEY (`municipality_id`),
+  PRIMARY KEY (`id`),
   KEY `state_id` (`state_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-INSERT INTO `sys_municipalities` (`municipality_id`, `state_id`, `name`) VALUES
+INSERT INTO `sys_municipalities` (`id`, `state_id`, `name`) VALUES
 (1, 1, 'Alto Orinoco'),
 (2, 1, 'Atabapo'),
 (3, 1, 'Atures'),
@@ -887,14 +887,14 @@ INSERT INTO `sys_municipalities` (`municipality_id`, `state_id`, `name`) VALUES
 (462, 24, 'Libertador');
 
 CREATE TABLE IF NOT EXISTS `sys_parishes` (
-  `parish_id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `municipality_id` int(11) NOT NULL,
   `name` varchar(250) NOT NULL,
-  PRIMARY KEY (`parish_id`),
+  PRIMARY KEY (`id`),
   KEY `municipality_id` (`municipality_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `sys_parishes` (`parish_id`, `municipality_id`, `name`) VALUES
+INSERT INTO `sys_parishes` (`id`, `municipality_id`, `name`) VALUES
 (1, 1, 'Alto Orinoco'),
 (2, 1, 'Huachamacare Acanaña'),
 (3, 1, 'Marawaka Toky Shamanaña'),

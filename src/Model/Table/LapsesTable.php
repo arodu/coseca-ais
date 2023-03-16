@@ -66,6 +66,7 @@ class LapsesTable extends Table
         ]);
         $this->belongsTo('Tenants', [
             'foreignKey' => 'tenant_id',
+            'finder' => 'withPrograms',
         ]);
     }
 

@@ -23,7 +23,8 @@ $this->Breadcrumbs->add([
                 'class' => 'form-control-sm',
                 'templates' => ['inputContainer' => '{{content}}']
             ]); ?>
-            <?= $this->Html->link(__('Nuevo'), ['action' => 'add'], ['class' => 'btn btn-primary btn-sm ml-2']) ?>
+            <?= $this->Html->link(__('Nuevo Programa'), ['action' => 'addProgram'], ['class' => 'btn btn-primary btn-sm ml-2']) ?>
+            <?= $this->Html->link(__('Nueva Sede'), ['action' => 'add'], ['class' => 'btn btn-primary btn-sm ml-2']) ?>
         </div>
     </div>
     <!-- /.card-header -->
@@ -35,6 +36,7 @@ $this->Breadcrumbs->add([
                     <th><?= $this->Paginator->sort('programs.name', __('Programa')) ?></th>
                     <th><?= $this->Paginator->sort('name', __('Sede')) ?></th>
                     <th><?= $this->Paginator->sort('abbr', __('ABRV')) ?></th>
+                    <th><?= $this->Paginator->sort('programs.regime', __('Regimen')) ?></th>
                     <th><?= $this->Paginator->sort('current_lapse', __('Lapso Actual')) ?></th>
                     <th><?= $this->Paginator->sort('active', __('Activo')) ?></th>
                     <th class="actions"><?= __('Acciones') ?></th>
@@ -44,9 +46,10 @@ $this->Breadcrumbs->add([
                 <?php foreach ($tenants as $tenant) : ?>
                     <tr>
                         <td><?= h($tenant->program->area_label) ?></td>
-                        <td><?= h($tenant->program->name) ?></td>
+                        <td><?= $this->Html->link($tenant->program->name, ['action' => 'viewProgram', $tenant->program_id], ['class' => '', 'escape' => false]) ?></td>
                         <td><?= $this->Html->link($tenant->name, ['action' => 'view', $tenant->id], ['class' => '', 'escape' => false]) ?></td>
                         <td><?= h($tenant->abbr_label) ?></td>
+                        <td><?= h($tenant->program->regime_label) ?></td>
                         <td><?= $this->App->lapseLabel($tenant->current_lapse) ?? $this->App->error(__('Programa debe tener al menos un lapso activo')) ?></td>
                         <td><?= ($tenant->active) ? __('Si') : __('No') ?></td>
                         <td class="actions">

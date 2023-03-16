@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Model\Entity;
 
 use App\Model\Field\ProgramArea;
+use App\Model\Field\ProgramRegime;
 use Cake\ORM\Entity;
 
 /**
@@ -39,6 +40,11 @@ class Program extends Entity
     public function _getAreaLabel()
     {
         return ProgramArea::from($this->area)->label();
+    }
+
+    public function _getRegimeLabel()
+    {
+        return ProgramRegime::from($this->regime)->label();
     }
 
 }

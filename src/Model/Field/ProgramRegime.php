@@ -7,7 +7,7 @@ namespace App\Model\Field;
 use App\Enum\Trait\BasicEnumTrait;
 use App\Enum\Trait\ListTrait;
 
-enum TenantRegime: string
+enum ProgramRegime: string
 {
     use ListTrait;
     use BasicEnumTrait;

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use App\Model\Field\ProgramArea;
-use App\Model\Field\TenantRegime;
+use App\Model\Field\ProgramRegime;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Migrations\AbstractMigration;
 
@@ -18,7 +18,7 @@ class InitialData extends AbstractMigration
                 'id' => 1,
                 'name' => 'Informática',
                 'area' => ProgramArea::AIS->value,
-                'regime' => TenantRegime::BIANNUAL->value,
+                'regime' => ProgramRegime::BIANNUAL->value,
                 'abbr' => 'INF',
             ]
         ]);
@@ -84,11 +84,10 @@ class InitialData extends AbstractMigration
 
     public function down()
     {
-        $this->table('lapses')->truncate();
-        $this->table('tenants')->truncate();
-        $this->table('programs')->truncate();
+        $this->table('lapses')->drop();
+        $this->table('tenants')->drop();
+        $this->table('programs')->drop();
     }
-
 
     protected function saveData(string $modelName, array $data = [])
     {

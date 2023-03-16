@@ -5,12 +5,12 @@ use Migrations\AbstractMigration;
 
 class DataVenezuela extends AbstractMigration
 {
-    public function up(): void
+    public function up()
     {
         $this->execute(file_get_contents(CONFIG . 'Migrations/raw/venezuela.sql'));
     }
 
-    public function down(): void
+    public function down()
     {
         $this->table('sys_parishes')->truncate();
         $this->table('sys_municipalities')->truncate();

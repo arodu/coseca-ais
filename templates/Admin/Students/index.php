@@ -105,7 +105,7 @@ $this->Breadcrumbs->add([
                     ?>
                     <tr>
                         <td><?= $this->BulkAction->checkbox('item', $student->id) ?></td>
-                        <td><?= h($student->tenant->abbr) ?></td>
+                        <td><?= h($student->tenant->abbr_label) ?></td>
                         <td><?= h($student->dni) ?></td>
                         <td><?= h($student->first_name) ?></td>
                         <td><?= h($student->last_name) ?></td>

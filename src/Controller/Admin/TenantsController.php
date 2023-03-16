@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Admin;
@@ -15,6 +16,14 @@ use Cake\Event\EventInterface;
  */
 class TenantsController extends AppAdminController
 {
+    public function initialize(): void
+    {
+        parent::initialize();
+
+        $this->Programs = $this->fetchTable('Programs');
+    }
+
+
     public function beforeRender(EventInterface $event)
     {
         $this->MenuLte->activeItem('tenants');
@@ -31,7 +40,8 @@ class TenantsController extends AppAdminController
             'contain' => ['CurrentLapse'],
         ];
 
-        $query = $this->Tenants->find('withPrograms');
+        $query = $this->Tenants
+            ->find('withPrograms');
 
         $tenants = $this->paginate($query);
 
@@ -48,7 +58,10 @@ class TenantsController extends AppAdminController
     public function view($id = null)
     {
         $tenant = $this->Tenants->get($id, [
-            'contain' => ['CurrentLapse' => ['LapseDates']],
+            'contain' => [
+                'Programs',
+                'CurrentLapse' => ['LapseDates'],
+            ],
         ]);
 
         $lapses = $this->Tenants->Lapses
@@ -76,6 +89,15 @@ class TenantsController extends AppAdminController
         $this->set(compact('tenant', 'lapses', 'lapseSelected'));
     }
 
+    public function viewProgram($program_id = null)
+    {
+        $program = $this->Programs->get($program_id, [
+            'contain' => ['Tenants']
+        ]);
+
+        $this->set(compact('program'));
+    }
+
     private function getLapseSelected(Tenant $tenant, $lapse_id): ?Lapse
     {
         if (empty($lapse_id) && !empty($tenant->current_lapse)) {
@@ -89,10 +111,10 @@ class TenantsController extends AppAdminController
         }
 
         return $this->Tenants->Lapses->find()
-                ->where(['tenant_id' => $tenant->id])
-                ->contain(['LapseDates'])
-                ->order(['id' => 'DESC'])
-                ->first();
+            ->where(['tenant_id' => $tenant->id])
+            ->contain(['LapseDates'])
+            ->order(['id' => 'DESC'])
+            ->first();
     }
 
 
@@ -114,8 +136,31 @@ class TenantsController extends AppAdminController
             }
             $this->Flash->error(__('The tenant could not be saved. Please, try again.'));
         }
-        $this->set(compact('tenant'));
+        $programs = $this->Tenants->Programs->find('list', [
+            'groupField' => 'area_label',
+            'limit' => 200,
+        ]);
+
+        $this->set(compact('tenant', 'programs'));
     }
+
+    public function addProgram()
+    {
+        $program = $this->Programs->newEmptyEntity();
+        if ($this->request->is('post')) {
+            $program = $this->Programs->patchEntity($program, $this->request->getData());
+
+            if ($this->Programs->save($program)) {
+                $this->Flash->success(__('The program has been saved.'));
+
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The program could not be saved. Please, try again.'));
+        }
+
+        $this->set(compact('program'));
+    }
+
 
     /**
      * Edit method
@@ -139,6 +184,21 @@ class TenantsController extends AppAdminController
             $this->Flash->error(__('The tenant could not be saved. Please, try again.'));
         }
         $this->set(compact('tenant'));
+    }
+
+    public function editProgram($program_id = null)
+    {
+        $program = $this->Programs->get($program_id);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $program = $this->Programs->patchEntity($program, $this->request->getData());
+            if ($this->Programs->save($program)) {
+                $this->Flash->success(__('The program has been saved.'));
+
+                return $this->redirect(['action' => 'viewProgram', $program_id]);
+            }
+            $this->Flash->error(__('The program could not be saved. Please, try again.'));
+        }
+        $this->set(compact('program'));
     }
 
     /**
