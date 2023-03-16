@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Controller\Traits\SysActionsTrait;
 use Cake\Event\EventInterface;
 
 /**
@@ -13,6 +14,8 @@ use Cake\Event\EventInterface;
  */
 class InstitutionsController extends AppAdminController
 {
+    use SysActionsTrait;
+
     public function beforeRender(EventInterface $event)
     {
         $this->MenuLte->activeItem('institutions');

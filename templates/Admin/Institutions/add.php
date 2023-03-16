@@ -35,18 +35,20 @@ $this->Form->addWidget(
 
         <?= $this->Form->control('state_id', [
             'options' => $states,
-            'target' => '#municipality-id',
             'empty' => true,
+            'class' => 'select-dependent',
+            'data-target' => '#municipality-select',
         ]) ?>
         <?= $this->Form->control('municipality_id', [
-            'id' => 'municipality-id',
-            'target' => '#parish-id',
+            'id' => 'municipality-select',
             'options' => [],
             'empty' => true,
+            'class' => 'select-dependent',
+            'data-target' => '#parish-select',
             'data-url' => $this->Url->build(['action' => 'getMunicipalities']),
         ]) ?>
         <?= $this->Form->control('parish_id', [
-            'id' => 'parish-id',
+            'id' => 'parish-select',
             'empty' => true,
             'options' => [],
             'data-url' => $this->Url->build(['action' => 'getParishes']),
@@ -63,3 +65,5 @@ $this->Form->addWidget(
 
     <?= $this->Form->end() ?>
 </div>
+
+<?= $this->App->selectDependentScript('.select-dependent') ?>

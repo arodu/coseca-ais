@@ -7,6 +7,7 @@ namespace App\View\Helper;
 use App\Enum\Color;
 use App\Model\Entity\Lapse;
 use App\Utility\FaIcon;
+use Cake\Utility\Text;
 use Cake\View\Helper;
 
 /**
@@ -105,5 +106,67 @@ class AppHelper extends Helper
         $inactive = $this->Html->tag('span', $lapse->label_active, ['class' => $lapse->getActive()->color()->cssClass('badge')]);
 
         return $lapse->name . ' ' . $inactive;
+    }
+
+    protected $selectDependentTemplate = <<<SCRIPT_TEMPLATE
+    $(function () {
+        function loadSelect(currentSelect, options) {
+            $(currentSelect).empty();
+            $(currentSelect).append('<option value="">{{empty}}</option>');
+            $.each(options, function (key, value) {
+                $(currentSelect).append('<option value="' + key + '">' + value + '</option>');
+            });
+
+            const target = $(currentSelect).data('target');
+            if (target) {
+                loadSelect(target, []);
+            }
+        }
+
+        $('{{selectorName}}').on('change', function() {
+            const value = $(this).val();
+            const target = $(this).data('target');
+
+            if (value === '') {
+                loadSelect(target, []);
+                return;
+            }
+
+            const url = $(target).data('url') + '/' + value;
+
+            $.ajax({
+                url: url,
+                type: '{{type}}',
+                beforeSend: function() {
+                    loadSelect(target, []);
+                },
+                success: function(data) {
+                    loadSelect(target, data['data']);
+                },
+                error: function() {
+                    loadSelect(target, []);
+                },
+            });
+        });
+    })
+    SCRIPT_TEMPLATE;
+
+    /**
+     * @param string $selectorName
+     * @param array<string, mixed> $options
+     * @return string|null
+     */
+    public function selectDependentScript(string $selectorName = '.select-dependent', array $options = []): ?string
+    {
+        $script = Text::insert($this->selectDependentTemplate, [
+            'selectorName' => $selectorName,
+            'type' => $options['type'] ?? 'GET',
+            'empty' => $options['empty'] ?? __('Seleccione una opción'),
+        ], [
+            'before' => '{{',
+            'after' => '}}',
+        ]);
+
+        return $this->Html->scriptBlock($script, ['block' => true]);
     }
 }
