@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Admin;
@@ -58,7 +59,13 @@ class InstitutionsController extends AppAdminController
     public function view($id = null)
     {
         $institution = $this->Institutions->get($id, [
-            'contain' => ['Tenants', 'InstitutionProjects' => ['InterestAreas']],
+            'contain' => [
+                'Tenants',
+                'InstitutionProjects' => ['InterestAreas'],
+                'States',
+                'Municipalities',
+                'Parishes',
+            ],
         ]);
 
         $this->set(compact('institution'));
@@ -131,7 +138,10 @@ class InstitutionsController extends AppAdminController
             $this->Flash->error(__('The institution could not be saved. Please, try again.'));
         }
         $tenants = $this->Institutions->Tenants->find('list', ['limit' => 200])->all();
-        $this->set(compact('institution', 'tenants'));
+        $states = $this->Institutions->States->find('list', ['limit' => 200])->all();
+        $municipalities = $this->Institutions->Municipalities->find('list', ['limit' => 200])->where(['state_id' => $institution->state_id])->all();
+        $parishes = $this->Institutions->Parishes->find('list', ['limit' => 200])->where(['municipality_id' => $institution->municipality_id])->all();
+        $this->set(compact('institution', 'tenants', 'states', 'municipalities', 'parishes'));
     }
 
     public function editProject($project_id = null)

@@ -32,7 +32,6 @@ $this->Form->addWidget(
         <?= $this->Form->control('contact_phone') ?>
         <?= $this->Form->control('contact_email') ?>
         <?= $this->Form->control('tenant_id', ['options' => $tenants, 'empty' => true]) ?>
-
         <?= $this->Form->control('state_id', [
             'options' => $states,
             'empty' => true,

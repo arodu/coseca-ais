@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Institution $institution
@@ -15,27 +16,46 @@ $this->Breadcrumbs->add([
 ?>
 
 <div class="card card-primary card-outline">
-  <?= $this->Form->create($institution) ?>
-  <div class="card-body">
-    <?php
-      echo $this->Form->control('name');
-      echo $this->Form->control('active', ['custom' => true]);
-      echo $this->Form->control('contact_person');
-      echo $this->Form->control('contact_phone');
-      echo $this->Form->control('contact_email');
-      echo $this->Form->control('tenant_id', ['options' => $tenants]);
-    ?>
-  </div>
-
-  <div class="card-footer d-flex">
-    <div></div>
-    <div class="ml-auto">
-      <?= $this->Form->button(__('Save')) ?>
-      <?= $this->Html->link(__('Cancel'), ['action' => 'view', $institution->id, 'prefix' => 'Admin'], ['class' => 'btn btn-default']) ?>
-
+    <?= $this->Form->create($institution) ?>
+    <div class="card-body">
+        <?= $this->Form->control('name') ?>
+        <?= $this->Form->control('active', ['custom' => true]) ?>
+        <?= $this->Form->control('contact_person') ?>
+        <?= $this->Form->control('contact_phone') ?>
+        <?= $this->Form->control('contact_email') ?>
+        <?= $this->Form->control('tenant_id', ['options' => $tenants]) ?>
+        <?= $this->Form->control('state_id', [
+            'options' => $states,
+            'empty' => true,
+            'class' => 'select-dependent',
+            'data-target' => '#municipality-select',
+        ]) ?>
+        <?= $this->Form->control('municipality_id', [
+            'id' => 'municipality-select',
+            'options' => $municipalities,
+            'empty' => true,
+            'class' => 'select-dependent',
+            'data-target' => '#parish-select',
+            'data-url' => $this->Url->build(['action' => 'getMunicipalities']),
+        ]) ?>
+        <?= $this->Form->control('parish_id', [
+            'id' => 'parish-select',
+            'empty' => true,
+            'options' => $parishes,
+            'data-url' => $this->Url->build(['action' => 'getParishes']),
+        ]) ?>
     </div>
-  </div>
 
-  <?= $this->Form->end() ?>
+    <div class="card-footer d-flex">
+        <div></div>
+        <div class="ml-auto">
+            <?= $this->Form->button(__('Guardar')) ?>
+            <?= $this->Html->link(__('Cancelar'), ['action' => 'view', $institution->id, 'prefix' => 'Admin'], ['class' => 'btn btn-default']) ?>
+
+        </div>
+    </div>
+
+    <?= $this->Form->end() ?>
 </div>
 
+<?= $this->App->selectDependentScript('.select-dependent') ?>

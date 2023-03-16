@@ -39,5 +39,11 @@ class Institution extends Entity
         'tenant_id' => true,
         'tenant' => true,
         'institution_projects' => true,
+        'state_id' => true,
+        'state' => true,
+        'municipality_id' => true,
+        'municipality' => true,
+        'parish_id' => true,
+        'parish' => true,
     ];
 }

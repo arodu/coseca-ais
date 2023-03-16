@@ -41,6 +41,18 @@ $this->Breadcrumbs->add([
                 <th><?= __('Active') ?></th>
                 <td><?= $institution->active ? __('Yes') : __('No'); ?></td>
             </tr>
+            <tr>
+                <th><?= __('Estado') ?></th>
+                <td><?= h($institution->state->name) ?></td>
+            </tr>
+            <tr>
+                <th><?= __('Municipio') ?></th>
+                <td><?= h($institution->municipality->name) ?></td>
+            </tr>
+            <tr>
+                <th><?= __('Parriquia') ?></th>
+                <td><?= h($institution->parish->name) ?></td>
+            </tr>
         </table>
     </div>
     <div class="card-footer d-flex">
