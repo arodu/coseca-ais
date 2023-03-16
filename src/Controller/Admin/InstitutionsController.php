@@ -86,6 +86,23 @@ class InstitutionsController extends AppAdminController
         $this->set(compact('institution', 'tenants', 'states'));
     }
 
+    public function addProject($id = null)
+    {
+        $institution = $this->Institutions->get($id);
+        $institutionProject = $this->Institutions->InstitutionProjects->newEmptyEntity();
+        if ($this->request->is('post')) {
+            $institutionProject = $this->Institutions->InstitutionProjects->patchEntity($institutionProject, $this->request->getData());
+            $institutionProject->institution_id = $id;
+            if ($this->Institutions->InstitutionProjects->save($institutionProject)) {
+                $this->Flash->success(__('The project has been saved.'));
+
+                return $this->redirect(['action' => 'view', $id]);
+            }
+            $this->Flash->error(__('The project could not be saved. Please, try again.'));
+        }
+        $this->set(compact('institution', 'institutionProject'));
+    }
+
     /**
      * Edit method
      *
@@ -109,6 +126,22 @@ class InstitutionsController extends AppAdminController
         }
         $tenants = $this->Institutions->Tenants->find('list', ['limit' => 200])->all();
         $this->set(compact('institution', 'tenants'));
+    }
+
+    public function editProject($project_id = null)
+    {
+        $institutionProject = $this->Institutions->InstitutionProjects->get($project_id);
+        $institution = $this->Institutions->get($institutionProject->institution_id);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $institutionProject = $this->Institutions->InstitutionProjects->patchEntity($institutionProject, $this->request->getData());
+            if ($this->Institutions->InstitutionProjects->save($institutionProject)) {
+                $this->Flash->success(__('The project has been saved.'));
+
+                return $this->redirect(['action' => 'view', $institutionProject->institution_id]);
+            }
+            $this->Flash->error(__('The project could not be saved. Please, try again.'));
+        }
+        $this->set(compact('institution', 'institutionProject'));
     }
 
     /**

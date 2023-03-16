@@ -39,7 +39,7 @@ class SysParishesTable extends Table
 
         $this->setTable('sys_parishes');
         $this->setDisplayField('name');
-        $this->setPrimaryKey('parish_id');
+        $this->setPrimaryKey('id');
     }
 
     /**

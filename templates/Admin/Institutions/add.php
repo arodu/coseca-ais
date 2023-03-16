@@ -27,11 +27,11 @@ $this->Form->addWidget(
     <?= $this->Form->create($institution) ?>
     <div class="card-body">
         <?= $this->Form->control('name') ?>
-        <?= $this->Form->control('active', ['custom' => true]) ?>
+        <?= $this->Form->control('active', ['custom' => true, 'checked' => true]) ?>
         <?= $this->Form->control('contact_person') ?>
         <?= $this->Form->control('contact_phone') ?>
         <?= $this->Form->control('contact_email') ?>
-        <?= $this->Form->control('tenant_id', ['options' => $tenants]) ?>
+        <?= $this->Form->control('tenant_id', ['options' => $tenants, 'empty' => true]) ?>
 
         <?= $this->Form->control('state_id', [
             'options' => $states,
@@ -57,8 +57,8 @@ $this->Form->addWidget(
 
     <div class="card-footer d-flex">
         <div class="ml-auto">
-            <?= $this->Form->button(__('Save')) ?>
-            <?= $this->Html->link(__('Cancel'), ['action' => 'index', 'prefix' => 'Admin'], ['class' => 'btn btn-default']) ?>
+            <?= $this->Form->button(__('Guardar')) ?>
+            <?= $this->Html->link(__('Cancelar'), ['action' => 'index', 'prefix' => 'Admin'], ['class' => 'btn btn-default']) ?>
 
         </div>
     </div>

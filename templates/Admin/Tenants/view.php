@@ -23,8 +23,14 @@ $this->Breadcrumbs->add([
     <div class="card-body table-responsive p-0">
         <table class="table table-hover text-nowrap">
             <tr>
+                <th><?= __('Area') ?></th>
+                <td><?= h($tenant->program->area_label) ?></td>
+            </tr>
+            <tr>
                 <th><?= __('Programa') ?></th>
-                <td><?= h($tenant->program->name) ?></td>
+                <td><?= $this->Html->link(
+                    h($tenant->program->name),
+                    ['controller' => 'Tenants', 'action' => 'viewProgram', $tenant->program_id]) ?></td>
             </tr>
             <tr>
                 <th><?= __('Sede') ?></th>

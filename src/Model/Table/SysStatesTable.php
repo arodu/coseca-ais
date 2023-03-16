@@ -39,7 +39,7 @@ class SysStatesTable extends Table
 
         $this->setTable('sys_states');
         $this->setDisplayField('name');
-        $this->setPrimaryKey('state_id');
+        $this->setPrimaryKey('id');
     }
 
     /**

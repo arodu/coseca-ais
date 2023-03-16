@@ -183,6 +183,7 @@ class TenantsController extends AppAdminController
             }
             $this->Flash->error(__('The tenant could not be saved. Please, try again.'));
         }
+
         $this->set(compact('tenant'));
     }
 

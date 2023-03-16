@@ -69,28 +69,26 @@ $this->Breadcrumbs->add([
         <table class="table table-hover text-nowrap">
             <thead>
                 <tr>
-                    <th><?= $this->Paginator->sort('name') ?></th>
+                    <th><?= $this->Paginator->sort('name', __('Institución')) ?></th>
                     <th><?= $this->Paginator->sort('active') ?></th>
                     <th><?= $this->Paginator->sort('contact_person') ?></th>
                     <th><?= $this->Paginator->sort('contact_phone') ?></th>
                     <th><?= $this->Paginator->sort('contact_email') ?></th>
-                    <th><?= $this->Paginator->sort('tenant_id') ?></th>
+                    <th><?= $this->Paginator->sort('tenant_id', __('Programa')) ?></th>
                     <th class="actions"><?= __('Actions') ?></th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($institutions as $institution) : ?>
                     <tr>
-                        <td><?= h($institution->name) ?></td>
+                        <td><?= $this->Html->link(h($institution->name), ['action' => 'view', $institution->id, 'prefix' => 'Admin'], ['class' => '', 'escape' => false]) ?></td>
                         <td><?= ($institution->active) ? __('Yes') : __('No') ?></td>
                         <td><?= h($institution->contact_person) ?></td>
                         <td><?= h($institution->contact_phone) ?></td>
                         <td><?= h($institution->contact_email) ?></td>
-                        <td><?= $institution->has('tenant') ? $this->Html->link($institution->tenant->name, ['controller' => 'Tenants', 'action' => 'view', $institution->tenant->id, 'prefix' => 'Admin']) : '' ?></td>
+                        <td><?= h($institution->tenant->label) ?></td>
                         <td class="actions">
                             <?= $this->Html->link(__('View'), ['action' => 'view', $institution->id, 'prefix' => 'Admin'], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
-                            <?= $this->Html->link(__('Edit'), ['action' => 'edit', $institution->id, 'prefix' => 'Admin'], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
-                            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $institution->id, 'prefix' => 'Admin'], ['class' => 'btn btn-xs btn-outline-danger', 'escape' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $institution->id)]) ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

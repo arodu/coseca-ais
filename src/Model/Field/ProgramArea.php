@@ -13,6 +13,7 @@ enum ProgramArea: string
     use BasicEnumTrait;
 
     case AIS = 'ais';
+    case ACS = 'acs';
 
     /**
      * @return string
@@ -21,6 +22,7 @@ enum ProgramArea: string
     {
         return match ($this) {
             static::AIS => __('AIS'),
+            static::ACS => __('Salud'),
             default => __('NaN'),
         };
     }

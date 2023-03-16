@@ -39,7 +39,7 @@ class SysMunicipalitiesTable extends Table
 
         $this->setTable('sys_municipalities');
         $this->setDisplayField('name');
-        $this->setPrimaryKey('municipality_id');
+        $this->setPrimaryKey('id');
     }
 
     /**
