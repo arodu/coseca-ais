@@ -33,5 +33,6 @@ class InstitutionProject extends Entity
         'active' => true,
         'institution' => true,
         'student_adscriptions' => true,
+        'interest_area_id' => true,
     ];
 }

@@ -53,7 +53,7 @@ class InstitutionProjectsTable extends Table
         ]);
         $this->belongsTo('InterestAreas', [
             'foreignKey' => 'interest_area_id',
-            'joinType' => 'INNER',
+            'joinType' => 'LEFT',
         ]);
     }
 

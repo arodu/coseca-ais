@@ -63,8 +63,9 @@ $this->Breadcrumbs->add([
     <div class="card-body table-responsive p-0">
         <table class="table table-hover text-nowrap">
             <tr>
-                <th><?= __('Name') ?></th>
-                <th><?= __('Active') ?></th>
+                <th><?= __('Proyecto') ?></th>
+                <th><?= __('Activo') ?></th>
+                <th><?= __('Area de Interes')?></th>
                 <th class="actions"><?= __('Actions') ?></th>
             </tr>
             <?php if (empty($institution->institution_projects)) { ?>
@@ -78,6 +79,7 @@ $this->Breadcrumbs->add([
                     <tr>
                         <td><?= h($institution_project->name) ?></td>
                         <td><?= $institution_project->active ? __('Yes') : __('No'); ?></td>
+                        <td><?= h($institution_project->interest_area?->name) ?? '<code>N/A</code>'?></td>
                         <td class="actions">
                             <?= $this->Html->link(__('Edit'), ['controller' => 'Institutions', 'action' => 'editProject', $institution_project->id], ['class' => 'btn btn-xs btn-outline-primary']) ?>
                         </td>
