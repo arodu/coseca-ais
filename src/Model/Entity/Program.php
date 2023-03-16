@@ -6,17 +6,17 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Tenant Entity
+ * Program Entity
  *
  * @property int $id
  * @property string $name
+ * @property string $area
+ * @property string $regime
  * @property string $abbr
  *
- * @property \App\Model\Entity\Lapse[] $lapses
- * @property \App\Model\Entity\Student[] $students
- * @property \App\Model\Entity\TenantFilter[] $tenant_filters
+ * @property \App\Model\Entity\Tenant[] $tenants
  */
-class Tenant extends Entity
+class Program extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -29,13 +29,9 @@ class Tenant extends Entity
      */
     protected $_accessible = [
         'name' => true,
-        'abbr' => true,
-        'lapses' => true,
-        'students' => true,
-        'tenant_filters' => true,
+        'area' => true,
         'regime' => true,
-        'active' => true,
-        'current_lapse' => true,
-        'program_id' => true,
+        'abbr' => true,
+        'tenants' => true,
     ];
 }

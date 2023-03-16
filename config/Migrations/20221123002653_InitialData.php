@@ -1,9 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
+use App\Model\Field\ProgramArea;
 use App\Model\Field\TenantRegime;
-use App\Model\Table\LapsesTable;
-use Cake\I18n\FrozenDate;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Migrations\AbstractMigration;
 
@@ -13,41 +13,48 @@ class InitialData extends AbstractMigration
 
     public function up()
     {
-        $TenantsTable = $this->fetchTable('Tenants');
-        $tenantEntities = $TenantsTable->newEntities([
+        $this->saveData('Programs', [
             [
                 'id' => 1,
-                'name' => 'Infomática - San Juan',
-                'abbr' => 'AIS-SJM',
+                'name' => 'Programa de Informática',
+                'area' => ProgramArea::AIS->value,
                 'regime' => TenantRegime::BIANNUAL->value,
+                'abbr' => 'INF',
+            ]
+        ]);
+
+        $this->saveData('Tenants', [
+            [
+                'id' => 1,
+                'program_id' => 1,
+                'name' => 'San Juan',
+                'abbr' => 'SJM',
                 'active' => true,
             ],
             [
                 'id' => 2,
-                'name' => 'Infomática - Mellado',
-                'abbr' => 'AIS-MEL',
-                'regime' => TenantRegime::BIANNUAL->value,
+                'program_id' => 1,
+                'name' => 'Mellado',
+                'abbr' => 'MEL',
                 'active' => true,
             ],
             [
                 'id' => 3,
-                'name' => 'Infomática - Ortíz',
-                'abbr' => 'AIS-ORT',
-                'regime' => TenantRegime::BIANNUAL->value,
+                'program_id' => 1,
+                'name' => 'Ortíz',
+                'abbr' => 'ORT',
                 'active' => true,
             ],
             [
-                'id' => 3,
-                'name' => 'Infomática - Calabozo',
-                'abbr' => 'AIS-CAL',
-                'regime' => TenantRegime::BIANNUAL->value,
+                'id' => 4,
+                'program_id' => 1,
+                'name' => 'Calabozo',
+                'abbr' => 'CAL',
                 'active' => true,
             ],
         ]);
-        $TenantsTable->saveManyOrFail($tenantEntities);
 
-        $LapsesTable = $this->fetchTable('Lapses');
-        $lapseEntities = $LapsesTable->newEntities([
+        $this->saveData('Lapses', [
             [
                 'id' => 1,
                 'name' => '2023-1',
@@ -73,12 +80,20 @@ class InitialData extends AbstractMigration
                 'active' => true,
             ],
         ]);
-        $LapsesTable->saveManyOrFail($lapseEntities);
     }
 
     public function down()
     {
         $this->table('lapses')->truncate();
         $this->table('tenants')->truncate();
+        $this->table('programs')->truncate();
+    }
+
+
+    protected function saveData(string $modelName, array $data = [])
+    {
+        $table = $this->fetchTable($modelName);
+        $entities = $table->newEntities($data);
+        return $table->saveManyOrFail($entities);
     }
 }

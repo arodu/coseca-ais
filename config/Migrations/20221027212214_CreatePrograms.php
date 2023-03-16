@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Migrations\AbstractMigration;
 
-class CreateTenants extends AbstractMigration
+class CreatePrograms extends AbstractMigration
 {
     /**
      * Change Method.
@@ -12,15 +12,20 @@ class CreateTenants extends AbstractMigration
      * https://book.cakephp.org/phinx/0/en/migrations.html#the-change-method
      * @return void
      */
-    public function change()
+    public function change(): void
     {
-        $table = $this->table('tenants');
-        $table->addColumn('program_id', 'integer', [
+        $table = $this->table('programs');
+        $table->addColumn('name', 'string', [
             'default' => null,
-            'limit' => 11,
+            'limit' => 255,
             'null' => false,
         ]);
-        $table->addColumn('name', 'string', [
+        $table->addColumn('area', 'string', [
+            'default' => null,
+            'limit' => 255,
+            'null' => false,
+        ]);
+        $table->addColumn('regime', 'string', [
             'default' => null,
             'limit' => 255,
             'null' => false,
@@ -28,10 +33,6 @@ class CreateTenants extends AbstractMigration
         $table->addColumn('abbr', 'string', [
             'default' => null,
             'limit' => 100,
-            'null' => false,
-        ]);
-        $table->addColumn('active', 'boolean', [
-            'default' => null,
             'null' => false,
         ]);
         $table->create();
