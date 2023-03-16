@@ -46,7 +46,7 @@ class Lapse extends Entity
             return null;
         }
 
-        return __('{0} ({1})', $this->tenant->name, $this->name);
+        return __('{0} ({1})', $this->tenant->label, $this->name);
     }
 
     /**

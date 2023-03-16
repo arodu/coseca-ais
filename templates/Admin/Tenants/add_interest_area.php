@@ -28,7 +28,7 @@ $this->Breadcrumbs->add([
   <div class="card-footer d-flex">
     <div class="ml-auto">
       <?= $this->Form->button(__('Guardar')) ?>
-      <?= $this->Html->link(__('Cancelar'), ['action' => 'index'], ['class' => 'btn btn-default']) ?>
+      <?= $this->Html->link(__('Cancelar'), ['action' => 'viewProgram', $program->id], ['class' => 'btn btn-default']) ?>
 
     </div>
   </div>

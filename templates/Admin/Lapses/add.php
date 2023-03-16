@@ -20,7 +20,7 @@ $this->Breadcrumbs->add([
     <div class="card-body">
         <?php
         echo $this->Form->hidden('tenant_id', ['value' => $tenant->id]);
-        echo $this->Form->control('tenant', ['label' => __('Programa'), 'value' => $tenant->name, 'readonly' => true]);
+        echo $this->Form->control('tenant', ['label' => __('Programa'), 'value' => $tenant->label, 'readonly' => true]);
         echo $this->Form->control('name', ['label' => __('Nombre')]);
         echo $this->Form->control('active', ['label' => __('Activo'), 'custom' => true]);
         ?>

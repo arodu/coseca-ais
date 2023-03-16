@@ -87,7 +87,7 @@ $this->Breadcrumbs->add([
                         <td><?= h($tutor->dni) ?></td>
                         <td><?= h($tutor->phone) ?></td>
                         <td><?= h($tutor->email) ?></td>
-                        <td><?= $tutor->has('tenant') ? $this->Html->link($tutor->tenant->name, ['controller' => 'Tenants', 'action' => 'view', $tutor->tenant->id]) : '' ?></td>
+                        <td><?= $tutor->has('tenant') ? $this->Html->link($tutor->tenant->label, ['controller' => 'Tenants', 'action' => 'view', $tutor->tenant->id]) : '' ?></td>
                         <td class="actions">
                             <?= $this->Html->link(__('View'), ['action' => 'view', $tutor->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
                             <?= $this->Html->link(__('Edit'), ['action' => 'edit', $tutor->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>

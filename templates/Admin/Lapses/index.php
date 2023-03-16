@@ -44,7 +44,7 @@ $this->Breadcrumbs->add([
                         <td><?= $this->Number->format($lapse->id) ?></td>
                         <td><?= h($lapse->name) ?></td>
                         <td><?= ($lapse->active) ? __('Yes') : __('No') ?></td>
-                        <td><?= $lapse->has('tenant') ? $this->Html->link($lapse->tenant->name, ['controller' => 'Tenants', 'action' => 'view', $lapse->tenant->id]) : '' ?></td>
+                        <td><?= $lapse->has('tenant') ? $this->Html->link($lapse->tenant->label, ['controller' => 'Tenants', 'action' => 'view', $lapse->tenant->id]) : '' ?></td>
                         <td class="actions">
                             <?= $this->Html->link(__('View'), ['action' => 'view', $lapse->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
                             <?= $this->Html->link(__('Edit'), ['action' => 'edit', $lapse->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>

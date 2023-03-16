@@ -18,7 +18,7 @@ $lastStageColor = $student->last_stage->status_obj->color();
             <dd class="text-right mb-2"><?= h($student->app_user->email) ?? '&nbsp;' ?></dd>
 
             <dt><?= __('Programa') ?></dt>
-            <dd class="text-right mb-2"><?= h($student->tenant->name) ?? '&nbsp;' ?></dd>
+            <dd class="text-right mb-2"><?= h($student->tenant->label) ?? '&nbsp;' ?></dd>
 
             <dt><?= __('Lapso Académico') ?></dt>
             <dd class="text-right mb-2"><?= h($student->lapse?->name) ?? '<code>N/A</code>' ?></dd>

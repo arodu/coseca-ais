@@ -27,7 +27,7 @@ $this->Breadcrumbs->add([
             </tr>
             <tr>
                 <th><?= __('Tenant') ?></th>
-                <td><?= $lapse->has('tenant') ? $this->Html->link($lapse->tenant->name, ['controller' => 'Tenants', 'action' => 'view', $lapse->tenant->id]) : '' ?></td>
+                <td><?= $lapse->has('tenant') ? $this->Html->link($lapse->tenant->label, ['controller' => 'Tenants', 'action' => 'view', $lapse->tenant->id]) : '' ?></td>
             </tr>
             <tr>
                 <th><?= __('Id') ?></th>

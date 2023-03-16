@@ -39,7 +39,7 @@ $this->Breadcrumbs->add([
             </tr>
             <tr>
                 <th><?= __('Tenant') ?></th>
-                <td><?= $tutor->has('tenant') ? $this->Html->link($tutor->tenant->name, ['controller' => 'Tenants', 'action' => 'view', $tutor->tenant->id]) : '' ?></td>
+                <td><?= $tutor->has('tenant') ? $this->Html->link($tutor->tenant->label, ['controller' => 'Tenants', 'action' => 'view', $tutor->tenant->id]) : '' ?></td>
             </tr>
             <tr>
                 <th><?= __('Id') ?></th>
