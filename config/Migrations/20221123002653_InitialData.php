@@ -16,7 +16,7 @@ class InitialData extends AbstractMigration
         $this->saveData('Programs', [
             [
                 'id' => 1,
-                'name' => 'Programa de Informática',
+                'name' => 'Informática',
                 'area' => ProgramArea::AIS->value,
                 'regime' => TenantRegime::BIANNUAL->value,
                 'abbr' => 'INF',

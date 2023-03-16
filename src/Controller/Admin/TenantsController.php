@@ -31,7 +31,9 @@ class TenantsController extends AppAdminController
             'contain' => ['CurrentLapse'],
         ];
 
-        $tenants = $this->paginate($this->Tenants);
+        $query = $this->Tenants->find('withPrograms');
+
+        $tenants = $this->paginate($query);
 
         $this->set(compact('tenants'));
     }

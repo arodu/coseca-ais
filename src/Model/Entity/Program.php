@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
+use App\Model\Field\ProgramArea;
 use Cake\ORM\Entity;
 
 /**
@@ -34,4 +35,10 @@ class Program extends Entity
         'abbr' => true,
         'tenants' => true,
     ];
+
+    public function _getAreaLabel()
+    {
+        return ProgramArea::from($this->area)->label();
+    }
+
 }

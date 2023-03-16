@@ -3,10 +3,8 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use App\Model\Entity\Lapse;
 use App\Model\Table\Traits\BasicTableTrait;
 use Cake\ORM\Query;
-use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
@@ -64,6 +62,10 @@ class TenantsTable extends Table
             'strategy' => 'select',
             'finder' => 'lastElement',
         ]);
+
+        $this->belongsTo('Programs', [
+            'foreignKey' => 'program_id',
+        ]);
     }
 
     /**
@@ -87,5 +89,10 @@ class TenantsTable extends Table
             ->notEmptyString('abbr');
 
         return $validator;
+    }
+
+    protected function findWithPrograms(Query $query, array $options): Query
+    {
+        return $query->contain(['Programs']);
     }
 }

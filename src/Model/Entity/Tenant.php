@@ -38,4 +38,14 @@ class Tenant extends Entity
         'current_lapse' => true,
         'program_id' => true,
     ];
+
+    public function _getLabel()
+    {
+        return $this->program->name . ', ' . $this->name;
+    }
+
+    public function _getAbbrLabel()
+    {
+        return $this->program->abbr . '-' . $this->abbr;
+    }
 }

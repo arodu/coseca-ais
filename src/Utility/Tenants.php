@@ -11,7 +11,8 @@ class Tenants
     {
         return TableRegistry::getTableLocator()
             ->get('Tenants')
+            ->find('withPrograms')
             ->find('active')
-            ->find('list');
+            ->find('list', ['keyField' => 'id', 'valueField' => 'label', 'groupField' => 'program.area_label']);
     }
 }
