@@ -228,5 +228,6 @@ FrozenDate::setToStringFormat('dd/MM/yy');
 //Inflector::rules('uninflected', ['dontinflectme']);
 
 Configure::write('coseca.hours-min', 120);
+Configure::write('coseca.uc-min', 90);
 
 Configure::load('stages');

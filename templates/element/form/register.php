@@ -2,6 +2,7 @@
 
 use App\Enum\Gender;
 use App\Utility\Students;
+use Cake\Core\Configure;
 
 ?>
 <div class="row">
@@ -66,6 +67,7 @@ use App\Utility\Students;
             'required' => true,
             'type' => 'number',
             'steps' => '1',
+            'min' => Configure::read('coseca.uc-min'),
         ]) ?>
     </div>
 </div>
