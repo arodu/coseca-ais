@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -7,6 +8,7 @@ use App\Model\Table\Traits\BasicTableTrait;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use QueryFilter\QueryFilterPlugin;
 
 /**
  * Tenants Model
@@ -47,6 +49,8 @@ class TenantsTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
+        $this->addBehavior('QueryFilter.QueryFilter');
+
         $this->hasMany('Lapses', [
             'foreignKey' => 'tenant_id',
         ]);
@@ -66,6 +70,8 @@ class TenantsTable extends Table
         $this->belongsTo('Programs', [
             'foreignKey' => 'program_id',
         ]);
+
+        $this->loadQueryFilters();
     }
 
     /**
@@ -103,7 +109,32 @@ class TenantsTable extends Table
             'valueField' => 'label',
             'groupField' => 'program.area_label'
         ], $options);
-        
+
         return parent::findList($query, $options)->contain(['Programs']);
+    }
+
+    public function loadQueryFilters()
+    {
+        //$this->addFilterField('area', [
+        //    'tableField' => $this->aliasField('program_id'),
+        //    'finder' => QueryFilterPlugin::FINDER_SELECT,
+        //]);
+        $this->addFilterField('name', [
+            'tableField' => $this->aliasField('name'),
+            'finder' => QueryFilterPlugin::FINDER_SELECT,
+        ]);
+        //$this->addFilterField('area', [
+        //    'tableField' => $this->aliasField('program_id'),
+        //    'finder' => QueryFilterPlugin::FINDER_SELECT,
+        //]);
+        $this->addFilterField('program_id', [
+            'tableField' => $this->aliasField('program_id'),
+            'finder' => QueryFilterPlugin::FINDER_SELECT,
+        ]);
+
+        $this->addFilterField('active', [
+            'tableField' => $this->aliasField('active'),
+            'finder' => QueryFilterPlugin::FINDER_SELECT,
+        ]);
     }
 }

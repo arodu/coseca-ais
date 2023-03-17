@@ -182,7 +182,6 @@ class TenantsController extends AppAdminController
         $this->set(compact('interestArea', 'program'));
     }
 
-
     /**
      * Edit method
      *
