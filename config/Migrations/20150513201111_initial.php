@@ -33,6 +33,11 @@ class Initial extends AbstractMigration
                 'limit' => 255,
                 'null' => false,
             ])
+            ->addColumn('dni', 'string', [
+                'default' => null,
+                'limit' => 255,
+                'null' => true,
+            ])
             ->addColumn('first_name', 'string', [
                 'default' => null,
                 'limit' => 50,

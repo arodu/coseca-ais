@@ -37,7 +37,6 @@ class Student extends Entity
         'user_id' => true,
         'tenant_id' => true,
         'type' => true,
-        'dni' => true,
         'created' => true,
         'created_by' => true,
         'modified' => true,
@@ -51,12 +50,18 @@ class Student extends Entity
     ];
 
     protected $_virtual = [
+        'dni',
         'first_name',
         'last_name',
         'email',
         'full_name',
         'type_obj',
     ];
+
+    protected function _getDni()
+    {
+        return $this->app_user->dni ?? null;
+    }
 
     protected function _getFirstName()
     {
@@ -110,6 +115,6 @@ class Student extends Entity
             return $this->tenant->current_lapse;
         }
 
-        throw new \RuntimeException('No current lapse found');
+        throw new \Exception('No current lapse found');
     }
 }

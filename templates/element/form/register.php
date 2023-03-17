@@ -22,9 +22,10 @@ use Cake\Core\Configure;
 
 <div class="row">
     <div class="col">
-        <?= $this->Form->control('dni', [
+        <?= $this->Form->control('app_user.dni', [
             'label' => __('Cedula'),
             'required' => true,
+            'type' => 'number',
         ]); ?>
     </div>
     <div class="col">

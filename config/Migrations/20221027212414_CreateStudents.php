@@ -34,11 +34,6 @@ class CreateStudents extends AbstractMigration
             'limit' => 255,
             'null' => false,
         ]);
-        $table->addColumn('dni', 'string', [
-            'default' => null,
-            'limit' => 255,
-            'null' => true,
-        ]);
         $table->addColumn('created', 'datetime', [
             'default' => null,
             'null' => false,

@@ -15,6 +15,13 @@ $this->layout = 'CakeLte.login';
         <p class="login-box-msg"><?= __('Register a new membership') ?></p>
 
         <?= $this->Form->create() ?>
+        <?= $this->Form->control('dni', [
+            'placeholder' => __('Cedula'),
+            'label' => false,
+            'append' => '<i class="fas fa-id-card"></i>',
+            'required' => true,
+            'type'=>'number',
+        ]) ?>
         <?= $this->Form->control('first_name', [
             'placeholder' => __('Nombres'),
             'label' => false,
