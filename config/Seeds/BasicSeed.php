@@ -13,7 +13,7 @@ use Faker\Factory;
  * 
  * Testing seed.
  */
-class TestingSeed extends AbstractSeed
+class BasicSeed extends AbstractSeed
 {
     use LocatorAwareTrait;
 
