@@ -8,6 +8,8 @@ use ArrayObject;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\ORM\Query;
+use Cake\ORM\RulesChecker;
+use Cake\Validation\Validator;
 use CakeDC\Users\Model\Table\UsersTable;
 
 /**
@@ -17,6 +19,8 @@ use CakeDC\Users\Model\Table\UsersTable;
 class AppUsersTable extends UsersTable
 {
     use BasicTableTrait;
+
+    public $isValidateEmail = true;
 
     /**
      * @param array $config
@@ -38,6 +42,30 @@ class AppUsersTable extends UsersTable
             'strategy' => 'select',
             'finder' => 'lastElement',
         ]);
+    }
+
+    public function validationDefault(Validator $validator): Validator
+    {
+        $validator = parent::validationDefault($validator);
+
+        $validator
+            ->requirePresence('email', 'create')
+            ->notEmptyString('email')
+            ->add('email', 'valid', ['rule' => 'email']);
+
+        return $validator;
+    }
+
+    public function buildRules(RulesChecker $rules): RulesChecker
+    {
+        $rules = parent::buildRules($rules);
+
+        $rules->add($rules->isUnique(['dni']), '_isUnique', [
+            'errorField' => 'dni',
+            'message' => __('El numero de Cedula ya esta registrado'),
+        ]);
+
+        return $rules;
     }
 
     /**

@@ -20,13 +20,17 @@ $this->layout = 'CakeLte.login';
             'label' => false,
             'append' => '<i class="fas fa-id-card"></i>',
             'required' => true,
-            'type'=>'number',
+            'type'=>'text',
+            'title' => __('Introduzca una cedula de identidad valida'),
+            'minlength' => '7',
+            'maxlength' => '8',
+            'pattern' => '^[0-9]{7,8}$',
         ]) ?>
         <?= $this->Form->control('first_name', [
             'placeholder' => __('Nombres'),
             'label' => false,
             'append' => '<i class="fas fa-user"></i>',
-            'required' => true,
+            'required' => true, 
         ]) ?>
         <?= $this->Form->control('last_name', [
             'placeholder' => __('Apellidos'),
@@ -39,6 +43,8 @@ $this->layout = 'CakeLte.login';
             'label' => false,
             'append' => '<i class="fas fa-envelope"></i>',
             'required' => true,
+            'title' => __('Introduzca un correo electronico valido'),
+            'pattern' => '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$',
         ]) ?>
         <?= $this->Form->control('tenant_filters.0.tenant_id', [
             'label' => false,
@@ -52,6 +58,7 @@ $this->layout = 'CakeLte.login';
             'label' => false,
             'append' => '<i class="fas fa-lock"></i>',
             'required' => true,
+            'minlength' => '4',
         ]) ?>
 
         <?= $this->Form->control('password_confirm', [
@@ -60,6 +67,7 @@ $this->layout = 'CakeLte.login';
             'label' => false,
             'append' => '<i class="fas fa-lock"></i>',
             'required' => true,
+            'minlength' => '4',
         ]) ?>
 
         <?php if (Configure::read('Users.reCaptcha.registration')) : ?>
