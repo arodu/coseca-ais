@@ -55,6 +55,13 @@ return [
     'CakeDC/Auth.permissions' => [
         [
             'prefix' => false,
+            'plugin' => false,
+            'controller' => 'Pages',
+            'action' => ['home'],
+            'bypassAuth' => true,
+        ],
+        [
+            'prefix' => false,
             'plugin' => 'CakeDC/Users',
             'controller' => 'Users',
             'action' => [

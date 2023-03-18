@@ -33,12 +33,18 @@ class PagesController extends AppController
     {
         parent::initialize();
         $this->loadComponent('Authentication.Authentication');
+
+        $this->Authentication->allowUnauthenticated(['home']);
     }
 
     public function home()
     {
         try {
             $identity = $this->Authentication->getIdentity();
+
+            if (!$identity) {
+                return $this->redirect('/login');
+            }
 
             if (in_array($identity->role, UserRole::getAdminGroup())) {
                 return $this->redirect(['_name' => 'admin:home']);
@@ -47,6 +53,7 @@ class PagesController extends AppController
             if (in_array($identity->role, UserRole::getStudentGroup())) {
                 return $this->redirect(['_name' => 'student:home']);
             }
+
         } catch (\Throwable $e) {
             Log::alert($e->getMessage());
         }
