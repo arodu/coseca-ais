@@ -118,7 +118,7 @@ $this->Breadcrumbs->add([
                         <?php foreach ($program->interest_areas as $interestArea) : ?>
                             <tr>
                                 <td><?= h($interestArea->name) ?></td>
-                                <td><?= $tenants->active ? __('Si') : __('No') ?></td>
+                                <td><?= $interestArea->active ? __('Si') : __('No') ?></td>
                                 <td class="actions">
                                     <?= $this->Html->link(__('Edit'), ['controller' => 'Tenants', 'action' => 'editInterestArea', $interestArea->id], ['class' => 'btn btn-xs btn-outline-primary']) ?>
                                 </td>
