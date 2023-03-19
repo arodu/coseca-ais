@@ -117,7 +117,7 @@ $this->layout = 'CakeLte.login';
         <!-- /.social-auth-links -->
         <?php */ ?>
 
-        <?= $this->Html->link(__('I already have a membership'), ['action' => 'login']) ?>
+        <?= $this->Html->link(__('Ya estoy registrado'), ['action' => 'login']) ?>
     </div>
     <!-- /.register-card-body -->
 </div>

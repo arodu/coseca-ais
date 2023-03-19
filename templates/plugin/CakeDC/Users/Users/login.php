@@ -53,10 +53,10 @@ $this->layout = 'CakeLte.login';
         <!-- /.social-auth-links -->
 
         <p class="mb-1">
-            <?= $this->Html->link(__('I forgot my password'), ['action' => 'requestResetPassword']) ?>
+            <?= $this->Html->link(__('Olvidé mi contraseña'), ['action' => 'requestResetPassword']) ?>
         </p>
         <p class="mb-0">
-            <?= $this->Html->link(__('Register a new membership'), ['action' => 'register']) ?>
+            <?= $this->Html->link(__('Registrar un nuevo estudiante'), ['action' => 'register']) ?>
         </p>
     </div>
     <!-- /.login-card-body -->

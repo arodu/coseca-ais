@@ -10,7 +10,7 @@ $this->layout = 'CakeLte.login';
 
 <div class="card">
     <div class="card-body register-card-body">
-        <p class="login-box-msg"><?= __('You forgot your password? Here you can easily retrieve a new password.') ?></p>
+        <p class="login-box-msg"><?= __('¿Olvidaste tu contraseña? Aquí puedes recuperar fácilmente una nueva.') ?></p>
         <?= $this->Flash->render('auth') ?>
         <?= $this->Form->create($user) ?>
         <?= $this->Form->control('reference', [
@@ -33,10 +33,10 @@ $this->layout = 'CakeLte.login';
         <!-- /.social-auth-links -->
 
         <p class="mb-1 mt-3">
-            <?= $this->Html->link(__('Login'), ['action' => 'login']) ?>
+            <?= $this->Html->link(__('Inicio de sesión'), ['action' => 'login']) ?>
         </p>
         <p class="mb-0">
-            <?= $this->Html->link(__('Register a new membership'), ['action' => 'register']) ?>
+            <?= $this->Html->link(__('Registrar un nuevo estudiante'), ['action' => 'register']) ?>
         </p>
     </div>
     <!-- /.register-card-body -->
