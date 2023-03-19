@@ -23,14 +23,14 @@ use Cake\Core\Configure;
 <div class="row">
     <div class="col">
         <?= $this->Form->control('app_user.dni', [
-            'label' => __('Cedula'),
+            'label' => __('Cédula'),
             'required' => true,
             'type' => 'number',
         ]); ?>
     </div>
     <div class="col">
         <?= $this->Form->control('student_data.gender', [
-            'label' => __('Genero'),
+            'label' => __('Género'),
             'required' => true,
             'options' => Gender::toListLabel(),
             'empty' => true,
@@ -41,7 +41,7 @@ use Cake\Core\Configure;
 <div class="row">
     <div class="col">
         <?= $this->Form->control('student_data.phone', [
-            'label' => __('Telefono'),
+            'label' => __('Teléfono'),
             'required' => true,
         ]) ?>
     </div>
@@ -56,7 +56,7 @@ use Cake\Core\Configure;
 <div class="row">
     <div class="col">
         <?= $this->Form->control('student_data.current_semester', [
-            'label' => __('Semestre Actual'),
+            'label' => __('Semestre actual'),
             'required' => true,
             'options' => Students::getLeves($student->tenant),
             'empty' => true,
@@ -69,6 +69,7 @@ use Cake\Core\Configure;
             'type' => 'number',
             'steps' => '1',
             'min' => Configure::read('coseca.uc-min'),
+            'max' => Configure::read('coseca.uc-max'),
         ]) ?>
     </div>
 </div>
@@ -76,7 +77,7 @@ use Cake\Core\Configure;
 <div class="row">
     <div class="col">
         <?= $this->Form->control('student_data.interest_area_id', [
-            'label' => __('Área de interés y/o potencialidades de índole tecnológico donde aspira ejercer el servicio comunitario'),
+            'label' => __('Área de interés y/o potencialidades'),
             'required' => true,
             'options' => $interestAreas,
             'empty' => true,

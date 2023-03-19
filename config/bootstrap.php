@@ -229,5 +229,6 @@ FrozenDate::setToStringFormat('dd/MM/yy');
 
 Configure::write('coseca.hours-min', 120);
 Configure::write('coseca.uc-min', 90);
+Configure::write('coseca.uc-max', 192);
 
 Configure::load('stages');

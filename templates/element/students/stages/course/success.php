@@ -12,8 +12,3 @@
         <?php endif ?>
     </ul>
 <?php endif; ?>
-
-<hr>
-<small>
-    <?= __('Estado') . ': ' . 'realizado' ?>
-</small>

@@ -247,6 +247,15 @@ class StudentsTable extends Table
         ]);
     }
 
+    public function findWithStudentData(Query $query, array $options = []): Query
+    {
+        return $query->contain([
+            'StudentData' => [
+                'InterestAreas',
+            ],
+        ]);
+    }
+
     public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
     {
         if (!$entity->isNew() && empty($entity->lapse_id)) {
