@@ -40,15 +40,15 @@ $this->Breadcrumbs->add([
                     <?= $this->Form->control('dni', ['label' => __('Cedula')]) ?>
                 </div>
                 <div class="col-sm-4">
-                    <?= $this->Form->control('tenant_id', ['label' => __('Programa'), 'empty' => __('--Todos--')]) ?>
+                    <?= $this->Form->control('lapse', ['label' => __('Lapso Académico'), 'empty' => __('--Todos--'), 'options' => $lapses]) ?>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-4">
-                    <?= $this->Form->control('stage', ['label' => __('Etapa'), 'empty' => __('--Todos--'), 'options' => StageField::toListLabel()]) ?>
+                    <?= $this->Form->control('tenant_id', ['label' => __('Programa'), 'empty' => __('--Todos--')]) ?>
                 </div>
                 <div class="col-sm-4">
-                    <?= $this->Form->control('lapse', ['label' => __('Lapso Académico'), 'empty' => __('--Todos--'), 'options' => $lapses]) ?>
+                    <?= $this->Form->control('stage', ['label' => __('Etapa'), 'empty' => __('--Todos--'), 'options' => StageField::toListLabel()]) ?>
                 </div>
                 <div class="col-sm-4">
                     <?= $this->Form->control('status', ['label' => __('Estado'), 'empty' => __('--Todos--'), 'options' => StageStatus::toListLabel()]) ?>
