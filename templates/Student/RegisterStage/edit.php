@@ -13,7 +13,7 @@ use App\Utility\Students;
 $this->assign('title', __('Registro de Estudiante'));
 $this->Breadcrumbs->add([
     ['title' => __('Inicio'), 'url' => '/'],
-    ['title' => __('Registro')],
+    ['title' => __('Registro de Estudiante')],
 ]);
 ?>
 
@@ -26,7 +26,7 @@ $this->Breadcrumbs->add([
     <div class="card-footer d-flex">
         <div class="ml-auto">
             <?= $this->Form->button(__('Guardar'), ['class' => 'btn btn-primary']) ?>
-            <?= $this->Html->link(__('Cancel'), ['controller' => 'Stages', 'action' => 'index'], ['class' => 'btn btn-default']) ?>
+            <?= $this->Html->link(__('Cancelar'), ['controller' => 'Stages', 'action' => 'index'], ['class' => 'btn btn-default']) ?>
         </div>
     </div>
 
