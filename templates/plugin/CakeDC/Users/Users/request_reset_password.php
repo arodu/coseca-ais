@@ -22,7 +22,7 @@ $this->layout = 'CakeLte.login';
 
         <div class="row">
             <div class="col-4 offset-8">
-                <?= $this->Form->control(__('Request'), [
+                <?= $this->Form->control(__('Enviar'), [
                     'type' => 'submit',
                     'class' => 'btn btn-primary btn-block',
                 ]) ?>

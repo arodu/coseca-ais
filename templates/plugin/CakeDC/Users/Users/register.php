@@ -12,7 +12,7 @@ $this->layout = 'CakeLte.login';
 
 <div class="card">
     <div class="card-body register-card-body">
-        <p class="login-box-msg"><?= __('Register a new membership') ?></p>
+        <p class="login-box-msg"><?= __('Registrar un nuevo estudiante') ?></p>
 
         <?= $this->Form->create() ?>
         <?= $this->Form->control('dni', [
@@ -54,7 +54,7 @@ $this->layout = 'CakeLte.login';
             'empty' => __('Seleccione Programa...'),
         ]) ?>
         <?= $this->Form->control('password', [
-            'placeholder' => __('Password'),
+            'placeholder' => __('Contraseña'),
             'label' => false,
             'append' => '<i class="fas fa-lock"></i>',
             'required' => true,
@@ -63,7 +63,7 @@ $this->layout = 'CakeLte.login';
 
         <?= $this->Form->control('password_confirm', [
             'type' => 'password',
-            'placeholder' => __('Confirm Password'),
+            'placeholder' => __('Confirmar contraseña'),
             'label' => false,
             'append' => '<i class="fas fa-lock"></i>',
             'required' => true,
@@ -91,7 +91,7 @@ $this->layout = 'CakeLte.login';
                 <?php endif; ?>
             </div>
             <div class="col-4">
-                <?= $this->Form->control(__('Register'), [
+                <?= $this->Form->control(__('Guardar'), [
                     'type' => 'submit',
                     'class' => 'btn btn-primary btn-block',
                 ]) ?>
