@@ -19,8 +19,6 @@ host_webserver_port: "8081"
 use_dns_when_possible: true
 composer_version: "2"
 web_environment:
-  - DATABASE_URL=mysql://root:root@ddev-coseca-ais-db:3306/db
-  - DATABASE_TEST_URL=mysql://root:root@ddev-coseca-ais-db:3306/test
 nodejs_version: "16"
 
 # Key features of ddev's config.yaml:
