@@ -56,6 +56,9 @@ $this->Breadcrumbs->add([
             </div>
         </div>
         <div class="card-footer d-flex">
+            <div>
+                <?= $this->Form->button(__('Exportar'), ['name' => 'export', 'value' => 'csv', 'class' => 'btn btn-warning']) ?>
+            </div>
             <div class="ml-auto">
                 <?= $this->Html->link(__('Reset'), ['action' => 'index'], ['class' => 'btn btn-default']) ?>
                 <?= $this->Form->button(__('Buscar')) ?>

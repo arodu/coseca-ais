@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Controller\Traits\BulkActionsTrait;
+use App\Controller\Traits\ExportDataTrait;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
-use App\Utility\Stages;
 use Cake\Event\EventInterface;
+use Cake\ORM\Query;
 
 /**
  * Students Controller
@@ -19,6 +20,7 @@ use Cake\Event\EventInterface;
 class StudentsController extends AppAdminController
 {
     use BulkActionsTrait;
+    use ExportDataTrait;
 
     public function beforeRender(EventInterface $event)
     {
@@ -44,9 +46,15 @@ class StudentsController extends AppAdminController
 
         // filterLogic
         $formData = $this->getRequest()->getQuery();
+
         if (!empty($formData)) {
             $query = $this->Students->queryFilter($query, $formData);
         }
+
+        if (isset($formData['export']) && $formData['export'] == 'csv') {
+            return $this->queryToCsv($query);
+        }
+
         $filtered = $this->Students->queryWasFiltered();
         $tenants = $this->Students->Tenants->find('list');
         $lapses = $this->Students->Lapses->find('list', [
@@ -54,10 +62,37 @@ class StudentsController extends AppAdminController
             'valueField' => 'name',
         ]);
         // /filterLogic
+        
         $students = $this->paginate($query);
 
         $this->set(compact('students', 'filtered', 'tenants', 'lapses'));
     }
+
+    protected function queryToCsv(Query $query)
+    {
+        $query = $query->contain([
+            'StudentData' => ['InterestAreas'],
+        ]);
+
+        return $this->exportCsv($query->all()->toArray(), [
+            'tenant.program.name' => __('Programa'),
+            'tenant.name' => __('Sede'),
+            'type_label' => __('Tipo'),
+            'dni' => __('Cedula'),
+            'first_name' => __('Nombres'),
+            'last_name' => __('Apellidos'),
+            'last_stage.stage_label' => __('Etapa'),
+            'last_stage.status_label' => __('Estatus'),
+            'app_user.email' => __('Email'),
+            'lapse.name' => __('Lapso'),
+            'student_data.gender' => __('Genero'),
+            'student_data.uc' => __('UC'),
+            'student_data.interest_area.name' => __('Area de Interes'),
+        ], [
+            'filename' => 'estudiantes.csv',
+        ]);
+    }
+
 
     /**
      * View method

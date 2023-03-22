@@ -56,6 +56,7 @@ class Student extends Entity
         'email',
         'full_name',
         'type_obj',
+        'type_label',
     ];
 
     protected function _getDni()
@@ -95,6 +96,11 @@ class Student extends Entity
         }
 
         return $this->_type_obj;
+    }
+
+    protected function _getTypeLabel(): string
+    {
+        return $this->type_obj->label();
     }
 
     /**
