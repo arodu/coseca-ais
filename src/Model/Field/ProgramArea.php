@@ -12,8 +12,16 @@ enum ProgramArea: string
     use ListTrait;
     use BasicEnumTrait;
 
-    case AIS = 'ais';
-    case ACS = 'acs';
+    case ACES = 'aces';
+	case AIS = 'ais';
+	case AIAT = 'aiat';
+	case ACPJ = 'acpj';
+	case SALUD = 'salud';
+	case ODO = 'odo';
+	case AIA = 'aia';
+	case VET = 'vet';
+	case EDU = 'edu';
+
 
     /**
      * @return string
@@ -21,8 +29,15 @@ enum ProgramArea: string
     public function label(): string
     {
         return match ($this) {
-            static::AIS => __('AIS'),
-            static::ACS => __('Salud'),
+            static::ACES => __('ACES'),
+	        static::AIS => __('AIS'),
+	        static::AIAT => __('AIAT'),
+	        static::ACPJ => __('ACPJ'),
+	        static::SALUD => __('SALUD'),
+	        static::ODO => __('ODO'),
+	        static::AIA => __('AIA'),
+	        static::VET => __('VET'),
+	        static::EDU => __('EDU'),
             default => __('NaN'),
         };
     }
