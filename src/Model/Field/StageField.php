@@ -16,6 +16,7 @@ enum StageField: string
     case COURSE = 'course';
     case ADSCRIPTION = 'adscription';
     case TRACKING = 'tracking';
+    case RESULTS = 'results';
     case ENDING = 'ending';
     case VALIDATION = 'validation';
 
