@@ -81,7 +81,6 @@ $this->Breadcrumbs->add([
             ]); ?>
             <?php //echo $this->Html->link(__('New Student'), ['action' => 'add'], ['class' => 'btn btn-primary btn-sm ml-2']) 
             ?>
-            <?php echo $this->Html->link(FaIcon::get('download'), ['action' => 'index', '_ext' => 'csv'], ['class' => 'btn btn-primary btn-sm ml-2', 'escape' => false]) ?>
         </div>
     </div>
     <!-- /.card-header -->
