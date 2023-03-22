@@ -69,7 +69,7 @@ use Cake\Core\Configure;
             'type' => 'number',
             'steps' => '1',
             'min' => Configure::read('coseca.uc-min'),
-            'max' => Configure::read('coseca.uc-max'),
+            //'max' => Configure::read('coseca.uc-max'),
         ]) ?>
     </div>
 </div>
