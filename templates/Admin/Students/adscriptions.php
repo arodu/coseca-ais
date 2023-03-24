@@ -74,7 +74,7 @@ $this->Breadcrumbs->add([
                                         ['controller' => 'Adscriptions', 'action' => 'changeStatus', $studentAdscription->id, AdscriptionStatus::OPEN->value, 'prefix' => 'Admin/Stage'],
                                         [
                                             'confirm' => __('Esta seguro que desea activar este proyecto?'),
-                                            'class' => 'btn btn-primary btn-sm',
+                                            'class' => 'btn btn-warning btn-sm',
                                             'target' => 'changeStatus',
                                             'title' => __('Activar Proyecto'),
                                         ]
@@ -85,7 +85,7 @@ $this->Breadcrumbs->add([
                                         ['controller' => 'Adscriptions', 'action' => 'changeStatus', $studentAdscription->id, AdscriptionStatus::CLOSED->value, 'prefix' => 'Admin/Stage'],
                                         [
                                             'confirm' => __('Esta seguro que desea cerrar este proyecto?'),
-                                            'class' => 'btn btn-primary btn-sm',
+                                            'class' => 'btn btn-danger btn-sm',
                                             'target' => 'changeStatus',
                                             'title' => __('Cerrar Proyecto'),
                                         ]

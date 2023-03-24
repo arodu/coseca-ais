@@ -41,7 +41,6 @@ class AdscriptionsController extends AppAdminController
         if ($this->request->is('post')) {
             $student_adscription = $this->StudentAdscriptions->patchEntity($student_adscription, $this->request->getData());
             if ($this->StudentAdscriptions->save($student_adscription)) {
-                Stages::closeStudentStage($student->id, StageField::ADSCRIPTION, StageStatus::REVIEW);
                 $this->Flash->success(__('The student_adscription has been saved.'));
 
                 return $this->redirect(['_name' => 'admin:student_view', $student_id]);
