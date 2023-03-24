@@ -45,6 +45,7 @@ class StudentStage extends Entity
         'student_id' => true,
         'stage' => true,
         'status' => true,
+        'parent_id' => true,
         'created' => true,
         'created_by' => true,
         'modified' => true,

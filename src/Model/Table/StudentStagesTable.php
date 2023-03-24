@@ -10,6 +10,7 @@ use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use App\Model\Table\Traits\BasicTableTrait;
 use App\Utility\Stages;
+use Cake\Log\Log;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -217,7 +218,7 @@ class StudentStagesTable extends Table
     {
         try {
             return $this->closeOrFail($entity, $newStatus, $forced);
-        } catch (\Throwable $th) {
+        } catch (\Exception $e) {
             return false;
         }
     }
@@ -230,9 +231,19 @@ class StudentStagesTable extends Table
      */
     public function closeOrFail(StudentStage $entity, StageStatus $newStatus, bool $forced = false): ?StudentStage
     {
-        $this->updateStatus($entity, $newStatus->value);
+        try {
+            $this->getConnection()->begin();
+            $this->updateStatus($entity, $newStatus->value);
+            $studentStage = $this->createNext($entity, $forced);
+            $this->getConnection()->commit();
+            
+            return $studentStage;
+        } catch (\Exception $e) {
+            $this->getConnection()->rollback();
+            Log::error($e->getMessage());
 
-        return $this->createNext($entity, $forced);
+            throw $e;
+        }
     }
 
     /**
@@ -252,6 +263,7 @@ class StudentStagesTable extends Table
                 return $this->create([
                     'stage' => $nextStageField->value,
                     'student_id' => $entity->student_id,
+                    'parent_id' => $entity->id,
                 ]);
             }
         }
