@@ -32,7 +32,7 @@ $this->Breadcrumbs->add([
             $project = $studentAdscription->institution_project;
             ?>
             <div class="col-12">
-                <div class="card bg-light d-flex flex-fill">
+                <div class="card d-flex flex-fill">
                     <div class="card-header text-muted border-bottom-0">
                         <?= $institution->name ?>
                     </div>

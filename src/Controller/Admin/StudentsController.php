@@ -6,6 +6,7 @@ namespace App\Controller\Admin;
 
 use App\Controller\Traits\BulkActionsTrait;
 use App\Controller\Traits\ExportDataTrait;
+use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use Cake\Event\EventInterface;
@@ -143,7 +144,21 @@ class StudentsController extends AppAdminController
 
     public function tracking($id = null)
     {
-        $this->set('student_id', $id);
+        $student = $this->Students->get($id, [
+            'contain' => [
+                'StudentAdscriptions' => [
+                    'StudentTracking' => [
+                        'sort' => ['StudentTracking.date' => 'ASC'],
+                    ],
+                    'InstitutionProjects' => [
+                        'Institutions',
+                    ],
+                ]
+            ],
+        ]);
+        $adscriptionsList = $this->Students->StudentAdscriptions->find('listOpen', ['student_id' => $id])->toArray();
+
+        $this->set(compact('student', 'adscriptionsList'));
     }
 
     public function prints($id = null)

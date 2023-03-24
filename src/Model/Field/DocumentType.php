@@ -11,5 +11,6 @@ enum DocumentType: string
     use ListTrait;
     use BasicEnumTrait;
 
-    case ADSCRIPTION = 'adscription';
+    case ADSCRIPTION_PROJECT = 'adscription_project';
+    case ADSCRIPTION_TRACKING = 'adscription_tracking';
 }

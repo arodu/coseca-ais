@@ -1,8 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
 
+use App\Model\Field\AdscriptionStatus;
 use Cake\ORM\Entity;
 
 /**
@@ -35,4 +37,19 @@ class InstitutionProject extends Entity
         'student_adscriptions' => true,
         'interest_area_id' => true,
     ];
+
+    protected $_virtual = [
+        'label_name',
+    ];
+
+    protected function _getLabelName()
+    {
+        if (empty($this->institution)) {
+            trigger_error("entity doesn't have institution", E_USER_WARNING);
+
+            return null;
+        }
+
+        return __('{0}: {1}', $this->institution->name, $this->name);
+    }
 }

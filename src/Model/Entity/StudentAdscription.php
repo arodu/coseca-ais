@@ -48,7 +48,7 @@ class StudentAdscription extends Entity
     ];
     
     protected $_virtual = [
-        'status_label',
+        'label_status',
     ];
 
     private AdscriptionStatus $_adscriptionStatus;
@@ -59,6 +59,8 @@ class StudentAdscription extends Entity
     protected function _getStatusObj(): ?AdscriptionStatus
     {
         if (empty($this?->status)) {
+            trigger_error("entity doesn't have status", E_USER_WARNING);
+
             return null;
         }
 
@@ -72,8 +74,8 @@ class StudentAdscription extends Entity
     /**
      * @return string
      */
-    protected function _getStatusLabel(): ?string
+    protected function _getLabelStatus(): ?string
     {
-        return $this->status_obj?->label();
+        return $this->_getStatusObj()->label();
     }
 }

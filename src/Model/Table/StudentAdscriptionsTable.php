@@ -13,6 +13,7 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Utility\Text;
 use Cake\Validation\Validator;
+use InvalidArgumentException;
 
 /**
  * StudentAdscriptions Model
@@ -78,7 +79,7 @@ class StudentAdscriptionsTable extends Table
             'dependent' => true,
             'cascadeCallbacks' => true,        
         ]);
-        $this->hasMany('StudentTraking', [
+        $this->hasMany('StudentTracking', [
             'foreignKey' => 'student_adscription_id',
             'dependent' => true,
             'cascadeCallbacks' => true,        
@@ -148,4 +149,25 @@ class StudentAdscriptionsTable extends Table
             ]));
         }
     }
+
+    public function findListOpen(Query $query, array $options): Query
+    {
+        if (empty($options['student_id'])) {
+            throw new InvalidArgumentException('Missing student_id');
+        }
+
+        return $query->find('list', [
+            'keyField' => 'id',
+            'valueField' => 'institution_project.name',
+            'groupField' => 'institution_project.institution.name',
+        ])
+        ->contain([
+            'InstitutionProjects' => ['Institutions'],
+        ])
+        ->where([
+            'student_id' => $options['student_id'],
+            'status' => AdscriptionStatus::OPEN->value,
+        ]);
+    }
+
 }

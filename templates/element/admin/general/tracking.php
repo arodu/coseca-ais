@@ -14,4 +14,11 @@ $this->set('studentStage', $studentStage);
 $this->extend('/Admin/Common/timeline_item');
 
 $this->start('actions');
+echo $this->Html->link(
+    __('Ver Seguimiento'),
+    ['controller' => 'Students', 'action' => 'tracking', $studentStage->student_id, 'prefix' => 'Admin'],
+    ['class' => 'btn btn-default btn-sm ml-2']
+);
 $this->end();
+
+echo 'asdasdas';
