@@ -235,4 +235,22 @@ class StudentsController extends AppAdminController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    public function changeEmail($id = null)
+    {
+        $student = $this->Students->get($id, [
+            'contain' => ['AppUsers'],
+        ]);
+
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $student = $this->Students->patchEntity($student, $this->request->getData());
+            if ($this->Students->save($student)) {
+                $this->Flash->success(__('The student email has been saved.'));
+
+                return $this->redirect(['action' => 'view', $student['id']]);
+            }
+            $this->Flash->error(__('The student email could not be saved. Please, try again.'));
+        }
+        $this->set(compact('student'));
+    }
 }
