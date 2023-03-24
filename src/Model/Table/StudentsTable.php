@@ -158,7 +158,7 @@ class StudentsTable extends Table
             'finder' => QueryFilterPlugin::FINDER_SELECT,
         ]);
         $this->addFilterField('dni', [
-            'tableField' => $this->aliasField('dni'),
+            'tableField' => $this->AppUsers->aliasField('dni'),
             'finder' => QueryFilterPlugin::FINDER_EQUAL,
         ]);
         $this->addFilterField('names', [
@@ -175,14 +175,14 @@ class StudentsTable extends Table
         ]);
         $this->addFilterField('lapse', [
             'finder' => function (Query $query, array $options = []) {
-                $lapses_ids = $this->StudentStages->Lapses
+                $lapses_ids = $this->Lapses
                     ->find('list', ['valueField' => 'id'])
-                    ->where([$this->StudentStages->Lapses->aliasField('name') => $options['value']]);
+                    ->where([$this->Lapses->aliasField('name') => $options['value']]);
 
-                return $query->find('lastStageFilter', [
-                    'tableField' => $this->LastStage->aliasField('lapse_id') . ' IN',
-                    'value' => $lapses_ids,
-                ]);
+                return $query
+                    ->where(
+                        [$this->aliasField('lapse_id') . ' IN' => $lapses_ids]
+                    );
             }
         ]);
     }
