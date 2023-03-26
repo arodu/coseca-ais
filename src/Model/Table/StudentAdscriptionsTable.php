@@ -66,10 +66,6 @@ class StudentAdscriptionsTable extends Table
             'foreignKey' => 'institution_project_id',
             'joinType' => 'INNER',
         ]);
-        $this->belongsTo('Lapses', [
-            'foreignKey' => 'lapse_id',
-            'joinType' => 'INNER',
-        ]);
         $this->belongsTo('Tutors', [
             'foreignKey' => 'tutor_id',
             'joinType' => 'INNER',
@@ -125,7 +121,6 @@ class StudentAdscriptionsTable extends Table
     {
         $rules->add($rules->existsIn('student_id', 'Students'), ['errorField' => 'student_id']);
         $rules->add($rules->existsIn('institution_project_id', 'InstitutionProjects'), ['errorField' => 'institution_project_id']);
-        $rules->add($rules->existsIn('lapse_id', 'Lapses'), ['errorField' => 'lapse_id']);
         $rules->add($rules->existsIn('tutor_id', 'Tutors'), ['errorField' => 'tutor_id']);
 
         return $rules;

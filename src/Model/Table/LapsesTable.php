@@ -58,9 +58,6 @@ class LapsesTable extends Table
             ],
         ]);
 
-        $this->hasMany('StudentStages', [
-            'foreignKey' => 'lapse_id',
-        ]);
         $this->hasMany('LapseDates', [
             'foreignKey' => 'lapse_id',
         ]);

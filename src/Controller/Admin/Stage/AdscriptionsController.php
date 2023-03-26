@@ -33,9 +33,7 @@ class AdscriptionsController extends AppAdminController
      */
     public function add($student_id = null)
     {
-        $student = $this->StudentAdscriptions->Students->get($student_id, [
-            'contain' => ['Lapses']
-        ]);
+        $student = $this->StudentAdscriptions->Students->get($student_id);
 
         $student_adscription = $this->StudentAdscriptions->newEmptyEntity();
         if ($this->request->is('post')) {

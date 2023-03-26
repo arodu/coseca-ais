@@ -43,7 +43,6 @@ $this->end();
                     <th><?= __('Institución') ?></th>
                     <th><?= __('Proyecto') ?></th>
                     <th><?= __('Tutor') ?></th>
-                    <th><?= __('Lapso') ?></th>
                     <th><?= __('Estado') ?></th>
                 </tr>
             </thead>
@@ -53,7 +52,6 @@ $this->end();
                         <td><?= $student_adscriptions->institution_project->institution->name ?></td>
                         <td><?= $student_adscriptions->institution_project->name ?></td>
                         <td><?= $student_adscriptions->tutor->name ?></td>
-                        <td><?= $student_adscriptions->lapse->name ?></td>
                         <td><?= $this->App->badge($student_adscriptions->status_obj) ?></td>
                     </tr>
                 <?php endforeach; ?>

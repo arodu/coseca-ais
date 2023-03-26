@@ -229,7 +229,6 @@ class StudentsTable extends Table
             'StudentAdscriptions' => [
                 'InstitutionProjects' => ['Institutions'],
                 'Tutors',
-                'Lapses',
                 'StudentDocuments',
             ],
         ]);

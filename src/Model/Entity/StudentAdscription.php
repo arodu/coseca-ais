@@ -36,13 +36,11 @@ class StudentAdscription extends Entity
     protected $_accessible = [
         'student_id' => true,
         'institution_project_id' => true,
-        'lapse_id' => true,
         'tutor_id' => true,
         'created' => true,
         'modified' => true,
         'student' => true,
         'institution_project' => true,
-        'lapse' => true,
         'tutor' => true,
         'status' => true,
     ];
@@ -59,8 +57,6 @@ class StudentAdscription extends Entity
     protected function _getStatusObj(): ?AdscriptionStatus
     {
         if (empty($this?->status)) {
-            trigger_error("entity doesn't have status", E_USER_WARNING);
-
             return null;
         }
 
@@ -76,6 +72,6 @@ class StudentAdscription extends Entity
      */
     protected function _getLabelStatus(): ?string
     {
-        return $this->_getStatusObj()->label();
+        return $this->_getStatusObj()?->label();
     }
 }
