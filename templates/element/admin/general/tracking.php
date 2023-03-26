@@ -21,4 +21,4 @@ echo $this->Html->link(
 );
 $this->end();
 
-echo 'asdasdas';
+echo $this->element('content/trackingInfo', ['trackingInfo' => $trackingInfo]);

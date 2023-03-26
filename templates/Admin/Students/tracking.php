@@ -33,40 +33,7 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
             <h3 class="card-title"><?= __('Seguimiento: {0}', $student->lapse->name) ?></h3>
         </div>
         <div class="card-body">
-            <div class="row">
-                <div class="col-sm border-right">
-                    <div class="description-block">
-                        <h5 class="description-header"><?= $trackingInfo['trackingCount'] ?? $this->App->nan() ?></h5>
-                        <span><?= __('Cantidad de actividades') ?></span>
-                    </div>
-                    <!-- /.description-block -->
-                </div>
-                <!-- /.col -->
-                <div class="col-sm border-right">
-                    <div class="description-block">
-                        <h5 class="description-header"><?= $trackingInfo['trackingFirstDate'] ?? $this->App->nan() ?></h5>
-                        <span><?= __('Primera actividad') ?></span>
-                    </div>
-                    <!-- /.description-block -->
-                </div>
-                <!-- /.col -->
-                <div class="col-sm border-right">
-                    <div class="description-block">
-                        <h5 class="description-header"><?= $trackingInfo['trackingLastDate'] ?? $this->App->nan() ?></h5>
-                        <span><?= __('Ultima actividad') ?></span>
-                    </div>
-                    <!-- /.description-block -->
-                </div>
-                <!-- /.col -->
-                <div class="col-sm">
-                    <div class="description-block">
-                        <h5 class="description-header"><?= $trackingInfo['totalHours'] ?? $this->App->nan() ?></h5>
-                        <span><?= __('Horas completadas') ?></span>
-                    </div>
-                    <!-- /.description-block -->
-                </div>
-                <!-- /.col -->
-            </div>
+            <?= $this->element('content/trackingInfo', ['trackingInfo' => $trackingInfo]) ?>
         </div>
     </div>
 

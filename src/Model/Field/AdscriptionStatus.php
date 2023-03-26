@@ -17,6 +17,7 @@ enum AdscriptionStatus: string implements BadgeInterface
     case OPEN = 'open';
     case CLOSED = 'closed';
     case VALIDATED = 'validated';
+    case CANCELLED = 'cancelled';
 
     /**
      * @return string
@@ -28,6 +29,7 @@ enum AdscriptionStatus: string implements BadgeInterface
             static::OPEN => __('Abierto'),
             static::CLOSED => __('Cerrado'),
             static::VALIDATED => __('Validado'),
+            static::CANCELLED => __('Cancelado'),
             default => __('NaN'),
         };
     }
@@ -39,6 +41,7 @@ enum AdscriptionStatus: string implements BadgeInterface
             static::OPEN => Color::SUCCESS,
             static::CLOSED => Color::DANGER,
             static::VALIDATED => Color::PRIMARY,
+            static::CANCELLED => Color::SECONDARY,
             default => Color::SECONDARY,
         };
     }

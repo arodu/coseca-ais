@@ -112,7 +112,9 @@ class StudentsController extends AppAdminController
 
         $stageList = $this->Students->StudentStages->find('stageList', ['student' => $student]);
 
-        $this->set(compact('student', 'stageList'));
+        $trackingInfo = $this->Students->getStudentTrackingInfo($student->id);
+
+        $this->set(compact('student', 'stageList', 'trackingInfo'));
     }
 
     public function info($id = null)

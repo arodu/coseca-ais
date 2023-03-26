@@ -3,12 +3,10 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use App\Model\Entity\Student;
 use ArrayObject;
 use Cake\Cache\Cache;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -105,46 +103,22 @@ class StudentTrackingTable extends Table
 
     public function afterDelete(EventInterface $event, EntityInterface $entity, ArrayObject $options)
     {
-        $student = $this->StudentAdscriptions->get($entity->student_adscription_id, [
-            'contain' => ['Students'],
-        ])->student;
-
-        $this->updateStudentTotalHours($student);
-
-        Cache::delete('student_tracking_info_' . $student->id);
+        $this->updateStudentTotalHours($entity);
     }
 
     public function afterSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
     {
+        $this->updateStudentTotalHours($entity);
+    }
+
+    protected function updateStudentTotalHours(EntityInterface $entity)
+    {
         $student = $this->StudentAdscriptions->get($entity->student_adscription_id, [
             'contain' => ['Students'],
         ])->student;
 
-        $this->updateStudentTotalHours($student);
+        $this->StudentAdscriptions->Students->updateTotalHours($student);
 
         Cache::delete('student_tracking_info_' . $student->id);
-    }
-
-    public function updateStudentTotalHours(Student $student)
-    {
-        $totalHours = $this->calculateTotalHours($student->id);
-
-        $student->total_hours = $totalHours;
-        $this->StudentAdscriptions->Students->saveOrFail($student);
-    }
-
-    public function calculateTotalHours(int $student_id): float
-    {
-        $adscriptionsIds = $this->StudentAdscriptions
-            ->find()
-            ->select(['StudentAdscriptions.id'])
-            ->where(['StudentAdscriptions.student_id' => $student_id]);
-
-        $totalHours = $this->find()
-            ->select(['total_hours' => 'SUM(StudentTracking.hours)'])
-            ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
-            ->first();
-
-        return $totalHours->total_hours ?? 0;
     }
 }

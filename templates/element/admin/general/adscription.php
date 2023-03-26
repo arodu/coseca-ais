@@ -54,7 +54,7 @@ $this->end();
                         <td><?= $student_adscriptions->institution_project->name ?></td>
                         <td><?= $student_adscriptions->tutor->name ?></td>
                         <td><?= $student_adscriptions->lapse->name ?></td>
-                        <td><?= $student_adscriptions->status_label ?></td>
+                        <td><?= $this->App->badge($student_adscriptions->status_obj) ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

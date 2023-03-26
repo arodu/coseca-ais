@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -77,12 +78,12 @@ class StudentAdscriptionsTable extends Table
             'foreignKey' => 'foreign_key',
             'conditions' => ['model' => 'StudentAdscriptions'],
             'dependent' => true,
-            'cascadeCallbacks' => true,        
+            'cascadeCallbacks' => true,
         ]);
         $this->hasMany('StudentTracking', [
             'foreignKey' => 'student_adscription_id',
             'dependent' => true,
-            'cascadeCallbacks' => true,        
+            'cascadeCallbacks' => true,
         ]);
     }
 
@@ -143,7 +144,7 @@ class StudentAdscriptionsTable extends Table
             $this->StudentDocuments->saveOrFail($this->StudentDocuments->newEntity([
                 'student_id' => $entity->student_id,
                 'token' => Text::uuid(),
-                'type' => DocumentType::ADSCRIPTION->value,
+                'type' => DocumentType::ADSCRIPTION_PROJECT->value,
                 'model' => 'StudentAdscriptions',
                 'foreign_key' => $entity->id,
             ]));
@@ -156,18 +157,36 @@ class StudentAdscriptionsTable extends Table
             throw new InvalidArgumentException('Missing student_id');
         }
 
-        return $query->find('list', [
-            'keyField' => 'id',
-            'valueField' => 'institution_project.name',
-            'groupField' => 'institution_project.institution.name',
-        ])
-        ->contain([
-            'InstitutionProjects' => ['Institutions'],
-        ])
-        ->where([
-            'student_id' => $options['student_id'],
-            'status' => AdscriptionStatus::OPEN->value,
-        ]);
+        return $query
+            ->find('list', [
+                'keyField' => 'id',
+                'valueField' => 'institution_project.name',
+                'groupField' => 'institution_project.institution.name',
+            ])
+            ->contain([
+                'InstitutionProjects' => ['Institutions'],
+            ])
+            ->where([
+                'student_id' => $options['student_id'],
+                'status' => AdscriptionStatus::OPEN->value,
+            ]);
     }
 
+    public function findActiveProjects(Query $query, array $options): Query
+    {
+        if (empty($options['student_id'])) {
+            throw new InvalidArgumentException('Missing student_id');
+        }
+
+        return $query
+            ->select(['StudentAdscriptions.id'])
+            ->where([
+                'StudentAdscriptions.student_id' => $options['student_id'],
+                'StudentAdscriptions.status IN' => [
+                    AdscriptionStatus::OPEN->value,
+                    AdscriptionStatus::CLOSED->value,
+                    AdscriptionStatus::VALIDATED->value,
+                ],
+            ]);
+    }
 }

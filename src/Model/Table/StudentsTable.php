@@ -336,10 +336,7 @@ class StudentsTable extends Table
     public function getStudentTrackingInfo(int $student_id): array
     {
         return Cache::remember('student_tracking_info_' . $student_id, function () use ($student_id) {
-            $adscriptionsIds = $this->StudentAdscriptions
-                ->find()
-                ->select(['StudentAdscriptions.id'])
-                ->where(['StudentAdscriptions.student_id' => $student_id]);
+            $adscriptionsIds = $this->StudentAdscriptions->find('activeProjects', ['student_id' => $student_id]);
 
             $trackingCount = $this->StudentAdscriptions->StudentTracking->find()
                 ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
@@ -375,5 +372,23 @@ class StudentsTable extends Table
                 'totalHours' => $totalHours->total_hours ?? 0,
             ];
         }, '1day');
+    }
+
+    /**
+     * @param Student $student
+     * @return Student
+     */
+    public function updateTotalHours(Student $student): Student
+    {
+        $adscriptionsIds = $this->StudentAdscriptions->find('activeProjects', ['student_id' => $student->id]);
+
+        $totalHours = $this->StudentAdscriptions->StudentTracking->find()
+            ->select(['total_hours' => 'SUM(StudentTracking.hours)'])
+            ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
+            ->first();
+
+        $student->total_hours = $totalHours->total_hours ?? 0;
+
+        return $this->saveOrFail($student);
     }
 }
