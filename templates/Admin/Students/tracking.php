@@ -71,7 +71,7 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
 
     <?php foreach ($student->student_adscriptions as $adscription) : ?>
         <?php
-        $canAdd = in_array($adscription->status_obj, [AdscriptionStatus::OPEN]);
+        $canUpdate = in_array($adscription->status_obj, [AdscriptionStatus::OPEN]);
         $count = 0;
         $sumHours = 0;
         ?>
@@ -82,7 +82,7 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
                     <?= $this->App->badge($adscription->status_obj) ?>
                 </h3>
                 <div class="card-tools">
-                    <?php if ($canAdd) : ?>
+                    <?php if ($canUpdate) : ?>
                         <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="<?= '#addTracking' . $adscription->id ?>">
                             <?= __('Agregar Actividad') ?>
                         </button>
@@ -119,14 +119,18 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
                                     <td><?= h($tracking->description) ?></td>
                                     <td><?= h($tracking->hours) ?></td>
                                     <td class="actions">
-                                        <?= $this->ModalForm->link(
-                                            __('Eliminar'),
-                                            ['controller' => 'Tracking', 'action' => 'delete', $tracking->id, 'prefix' => 'Admin/Stage'],
-                                            [
-                                                'confirm' => __('¿Está seguro de eliminar este seguimiento?'),
-                                                'target' => 'deleteTracking',
-                                            ]
-                                        ) ?>
+                                        <?php
+                                        if ($canUpdate) :
+                                            echo $this->ModalForm->link(
+                                                __('Eliminar'),
+                                                ['controller' => 'Tracking', 'action' => 'delete', $tracking->id, 'prefix' => 'Admin/Stage'],
+                                                [
+                                                    'confirm' => __('¿Está seguro de eliminar este seguimiento?'),
+                                                    'target' => 'deleteTracking',
+                                                ]
+                                            );
+                                        endif;
+                                        ?>
                                     </td>
                                 </tr>
                             <?php endforeach ?>
@@ -147,7 +151,7 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
             </div>
         </div>
 
-        <?php if ($canAdd) : ?>
+        <?php if ($canUpdate) : ?>
             <div class="modal fade" id="<?= 'addTracking' . $adscription->id ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">

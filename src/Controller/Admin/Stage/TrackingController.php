@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin\Stage;
 
 use App\Controller\Admin\AppAdminController;
+use Cake\Event\EventInterface;
 
 /**
  * StudentTracking Controller

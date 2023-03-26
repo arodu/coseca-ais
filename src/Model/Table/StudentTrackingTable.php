@@ -5,6 +5,7 @@ namespace App\Model\Table;
 
 use App\Model\Entity\Student;
 use ArrayObject;
+use Cake\Cache\Cache;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\ORM\Query;
@@ -109,6 +110,8 @@ class StudentTrackingTable extends Table
         ])->student;
 
         $this->updateStudentTotalHours($student);
+
+        Cache::delete('student_tracking_info_' . $student->id);
     }
 
     public function afterSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
@@ -118,6 +121,8 @@ class StudentTrackingTable extends Table
         ])->student;
 
         $this->updateStudentTotalHours($student);
+
+        Cache::delete('student_tracking_info_' . $student->id);
     }
 
     public function updateStudentTotalHours(Student $student)

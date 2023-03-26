@@ -11,6 +11,7 @@ use App\Model\Field\StageStatus;
 use App\Model\Field\StudentType;
 use App\Model\Table\Traits\BasicTableTrait;
 use ArrayObject;
+use Cake\Cache\Cache;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\Log\Log;
@@ -334,43 +335,45 @@ class StudentsTable extends Table
 
     public function getStudentTrackingInfo(int $student_id): array
     {
-        $adscriptionsIds = $this->StudentAdscriptions
-            ->find()
-            ->select(['StudentAdscriptions.id'])
-            ->where(['StudentAdscriptions.student_id' => $student_id]);
+        return Cache::remember('student_tracking_info_' . $student_id, function () use ($student_id) {
+            $adscriptionsIds = $this->StudentAdscriptions
+                ->find()
+                ->select(['StudentAdscriptions.id'])
+                ->where(['StudentAdscriptions.student_id' => $student_id]);
 
-        $trackingCount = $this->StudentAdscriptions->StudentTracking->find()
-            ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
-            ->count();
-
-        $trackingFirstDate = null;
-        $trackingLastDate = null;
-        $totalHours = null;
-
-        if ($trackingCount > 0) {
-            $trackingFirstDate = $this->StudentAdscriptions->StudentTracking->find()
-                ->select(['StudentTracking.date'])
+            $trackingCount = $this->StudentAdscriptions->StudentTracking->find()
                 ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
-                ->order(['StudentTracking.date' => 'ASC'])
-                ->first();
+                ->count();
 
-            $trackingLastDate = $this->StudentAdscriptions->StudentTracking->find()
-                ->select(['StudentTracking.date'])
-                ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
-                ->order(['StudentTracking.date' => 'DESC'])
-                ->first();
+            $trackingFirstDate = null;
+            $trackingLastDate = null;
+            $totalHours = null;
 
-            $totalHours = $this->StudentAdscriptions->StudentTracking->find()
-                ->select(['total_hours' => 'SUM(StudentTracking.hours)'])
-                ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
-                ->first();
-        }
+            if ($trackingCount > 0) {
+                $trackingFirstDate = $this->StudentAdscriptions->StudentTracking->find()
+                    ->select(['StudentTracking.date'])
+                    ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
+                    ->order(['StudentTracking.date' => 'ASC'])
+                    ->first();
 
-        return [
-            'trackingCount' => $trackingCount ?? 0,
-            'trackingFirstDate' => $trackingFirstDate->date ?? null,
-            'trackingLastDate' => $trackingLastDate->date ?? null,
-            'totalHours' => $totalHours->total_hours ?? 0,
-        ];
+                $trackingLastDate = $this->StudentAdscriptions->StudentTracking->find()
+                    ->select(['StudentTracking.date'])
+                    ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
+                    ->order(['StudentTracking.date' => 'DESC'])
+                    ->first();
+
+                $totalHours = $this->StudentAdscriptions->StudentTracking->find()
+                    ->select(['total_hours' => 'SUM(StudentTracking.hours)'])
+                    ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
+                    ->first();
+            }
+
+            return [
+                'trackingCount' => $trackingCount ?? 0,
+                'trackingFirstDate' => $trackingFirstDate->date ?? null,
+                'trackingLastDate' => $trackingLastDate->date ?? null,
+                'totalHours' => $totalHours->total_hours ?? 0,
+            ];
+        }, '1day');
     }
 }
