@@ -91,7 +91,7 @@ $this->Breadcrumbs->add([
                     <tr>
                         <td><?= h($institution_project->name) ?></td>
                         <td><?= $institution_project->active ? __('Yes') : __('No'); ?></td>
-                        <td><?= h($institution_project->interest_area?->name) ?? '<code>N/A</code>'?></td>
+                        <td><?= h($institution_project->interest_area?->name) ?? $this->App->nan() ?></td>
                         <td class="actions">
                             <?= $this->Html->link(__('Edit'), ['controller' => 'Institutions', 'action' => 'editProject', $institution_project->id], ['class' => 'btn btn-xs btn-outline-primary']) ?>
                         </td>

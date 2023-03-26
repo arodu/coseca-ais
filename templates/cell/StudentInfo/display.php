@@ -12,7 +12,7 @@ $lastStageColor = $student->last_stage->status_obj->color();
     <div class="card-body">
         <dl>
             <dt><?= __('Cedula') ?></dt>
-            <dd class=" text-right mb-2"><?= h($student->dni) ?? '<code>N/A</code>' ?></dd>
+            <dd class=" text-right mb-2"><?= h($student->dni) ?? $this->App->nan() ?></dd>
 
             <dt><?= __('email') ?></dt>
             <dd class="text-right mb-2"><?= h($student->app_user->email) ?? '&nbsp;' ?></dd>
@@ -21,13 +21,13 @@ $lastStageColor = $student->last_stage->status_obj->color();
             <dd class="text-right mb-2"><?= h($student->tenant->label) ?? '&nbsp;' ?></dd>
 
             <dt><?= __('Lapso Académico') ?></dt>
-            <dd class="text-right mb-2"><?= h($student->lapse?->name) ?? '<code>N/A</code>' ?></dd>
+            <dd class="text-right mb-2"><?= h($student->lapse?->name) ?? $this->App->nan() ?></dd>
 
             <dt><?= __('Tipo') ?></dt>
             <dd class="text-right"><?= h($student->type_obj->label()) ?? '&nbsp;' ?></dd>
 
             <dt><?= __('Última Sesión') ?></dt>
-            <dd class="text-right"><?= h($student->app_user->last_login) ?? '<code>N/A</code>' ?></dd>
+            <dd class="text-right"><?= h($student->app_user->last_login) ?? $this->App->nan() ?></dd>
         </dl>
     </div>
 </div>
@@ -39,7 +39,7 @@ $lastStageColor = $student->last_stage->status_obj->color();
             <dd class=" text-right mb-2"><?= h($student->last_stage->stage_label) ?? '&nbsp;'  ?></dd>
 
             <dt><?= __('Ultima actualización') ?></dt>
-            <dd class=" text-right mb-2"><?= h($student->last_stage?->modified) ?? '<code>N/A</code>'  ?></dd>
+            <dd class=" text-right mb-2"><?= h($student->last_stage?->modified) ?? $this->App->nan()  ?></dd>
 
             <dt><?= __('Estado') ?></dt>
             <dd class="text-right mb-2">
@@ -51,7 +51,7 @@ $lastStageColor = $student->last_stage->status_obj->color();
             </dd>
 
             <dt><?= __('Horas') ?></dt>
-            <dd class=" text-right"><?= $this->App->progressBar(rand(0, 130), Configure::read('coseca.hours-min')) ?></dd>
+            <dd class=" text-right"><?= $this->App->progressBar($student->total_hours, Configure::read('coseca.hours-min')) ?></dd>
         </dl>
     </div>
 </div>

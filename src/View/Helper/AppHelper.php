@@ -25,6 +25,17 @@ class AppHelper extends Helper
 
     public $helpers = ['Html'];
 
+    public function nan(array $options = []): string
+    {
+        $text = $options['text'] ?? 'N/A';
+        unset($options['text']);
+
+        $tag = $options['tag'] ?? 'code';
+        unset($options['tag']);
+
+        return $this->Html->tag($tag, $text, $options);
+    }
+
     /**
      * @param float $percent
      * @param string|null $prefix
@@ -48,7 +59,7 @@ class AppHelper extends Helper
      * @param integer $decimals
      * @return float
      */
-    public function progressBarCalc(int $completed, int $total, int $decimals = 0): float
+    public function progressBarCalc(float $completed, float $total, int $decimals = 0): float
     {
         if ($completed >= $total) {
             return 100;
@@ -63,11 +74,11 @@ class AppHelper extends Helper
      * @param integer $total
      * @return string
      */
-    public function progressBar(int $completed, int $total): string
+    public function progressBar(float $completed, float $total): string
     {
         $percent = $this->progressBarCalc($completed, $total, 0);
 
-        $output = '<div class="progress progress-sm">'
+        $output = '<div class="progress progress-sm" title="' . __('{0} horas', $completed) . '">'
             . '<div class="progress-bar ' . $this->progressBarColor($percent) . '" role="progressbar" aria-valuenow="' . $percent . '" aria-valuemin="0" aria-valuemax="100" style="width:' . $percent . '%">'
             . '</div>'
             . '</div>'

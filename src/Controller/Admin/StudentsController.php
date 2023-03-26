@@ -146,6 +146,9 @@ class StudentsController extends AppAdminController
     {
         $student = $this->Students->get($id, [
             'contain' => [
+                'Lapses' => [
+                    'LapseDates',
+                ],
                 'StudentAdscriptions' => [
                     'StudentTracking' => [
                         'sort' => ['StudentTracking.date' => 'ASC'],
@@ -157,8 +160,9 @@ class StudentsController extends AppAdminController
             ],
         ]);
         $adscriptionsList = $this->Students->StudentAdscriptions->find('listOpen', ['student_id' => $id])->toArray();
+        $trackingInfo = $this->Students->getStudentTrackingInfo($student->id);
 
-        $this->set(compact('student', 'adscriptionsList'));
+        $this->set(compact('student', 'adscriptionsList', 'trackingInfo'));
     }
 
     public function prints($id = null)

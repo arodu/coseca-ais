@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Model\Table;
 
 use App\Model\Entity\AppUser;
+use App\Model\Entity\Student;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use App\Model\Field\StudentType;
@@ -328,5 +329,48 @@ class StudentsTable extends Table
         }
 
         return $affectedRows;
+    }
+
+
+    public function getStudentTrackingInfo(int $student_id): array
+    {
+        $adscriptionsIds = $this->StudentAdscriptions
+            ->find()
+            ->select(['StudentAdscriptions.id'])
+            ->where(['StudentAdscriptions.student_id' => $student_id]);
+
+        $trackingCount = $this->StudentAdscriptions->StudentTracking->find()
+            ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
+            ->count();
+
+        $trackingFirstDate = null;
+        $trackingLastDate = null;
+        $totalHours = null;
+
+        if ($trackingCount > 0) {
+            $trackingFirstDate = $this->StudentAdscriptions->StudentTracking->find()
+                ->select(['StudentTracking.date'])
+                ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
+                ->order(['StudentTracking.date' => 'ASC'])
+                ->first();
+
+            $trackingLastDate = $this->StudentAdscriptions->StudentTracking->find()
+                ->select(['StudentTracking.date'])
+                ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
+                ->order(['StudentTracking.date' => 'DESC'])
+                ->first();
+
+            $totalHours = $this->StudentAdscriptions->StudentTracking->find()
+                ->select(['total_hours' => 'SUM(StudentTracking.hours)'])
+                ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
+                ->first();
+        }
+
+        return [
+            'trackingCount' => $trackingCount ?? 0,
+            'trackingFirstDate' => $trackingFirstDate->date ?? null,
+            'trackingLastDate' => $trackingLastDate->date ?? null,
+            'totalHours' => $totalHours->total_hours ?? 0,
+        ];
     }
 }
