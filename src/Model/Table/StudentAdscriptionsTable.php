@@ -7,6 +7,7 @@ namespace App\Model\Table;
 use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\DocumentType;
 use ArrayObject;
+use Cake\Cache\Cache;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\ORM\Query;
@@ -144,6 +145,13 @@ class StudentAdscriptionsTable extends Table
                 'foreign_key' => $entity->id,
             ]));
         }
+
+        $this->updateStudentTotalHours($entity);
+    }
+
+    public function afterDelete(EventInterface $event, EntityInterface $entity, ArrayObject $options)
+    {
+        $this->updateStudentTotalHours($entity);
     }
 
     public function findListOpen(Query $query, array $options): Query
@@ -184,4 +192,16 @@ class StudentAdscriptionsTable extends Table
                 ],
             ]);
     }
+
+    protected function updateStudentTotalHours(EntityInterface $entity)
+    {
+        $student = $this->get($entity->id, [
+            'contain' => ['Students'],
+        ])->student;
+
+        $this->Students->updateTotalHours($student);
+
+        Cache::delete('student_tracking_info_' . $student->id);
+    }
+
 }

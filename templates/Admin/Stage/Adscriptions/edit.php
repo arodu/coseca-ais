@@ -33,7 +33,6 @@ $this->Breadcrumbs->add([
                 <tr>
                     <th><?= __('Institución') ?></th>
                     <th><?= __('Proyecto') ?></th>
-                    <th><?= __('Lapso') ?></th>
                     <th><?= __('Tutor') ?></th>
                 </tr>
             </thead>
@@ -41,7 +40,6 @@ $this->Breadcrumbs->add([
                 <tr>
                     <td><?= $adscription->institution_project->institution->name ?></td>
                     <td><?= $adscription->institution_project->name ?></td>
-                    <td><?= $adscription->lapse->name ?></td>
                     <td><?= $adscription->tutor->name ?></td>
                 </tr>
             </tbody>

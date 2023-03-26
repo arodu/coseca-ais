@@ -77,7 +77,6 @@ class AdscriptionsController extends AppAdminController
         $adscription = $this->StudentAdscriptions->get($id, [
             'contain' => [
                 'InstitutionProjects' => ['Institutions'],
-                'Lapses',
                 'Tutors',
                 'Students'
             ],

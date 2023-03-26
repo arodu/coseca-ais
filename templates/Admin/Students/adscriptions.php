@@ -54,7 +54,7 @@ $this->Breadcrumbs->add([
                                 </dl>
                                 <dl>
                                     <dt><?= __('Estado') ?></dt>
-                                    <dd><?= $studentAdscription->status_label ?></dd>
+                                    <dd><?= $this->App->badge($studentAdscription->status_obj) ?></dd>
                                 </dl>
                             </div>
                         </div>
