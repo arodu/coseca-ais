@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\View\Helper;
 
+use App\Enum\BadgeInterface;
 use App\Enum\Color;
 use App\Model\Entity\Lapse;
 use App\Utility\FaIcon;
@@ -103,9 +104,8 @@ class AppHelper extends Helper
             return $lapse->name;
         }
 
-        $inactive = $this->Html->tag('span', $lapse->label_active, ['class' => $lapse->getActive()->color()->cssClass('badge')]);
-
-        return $lapse->name . ' ' . $inactive;
+        return $lapse->name . ' ' . $this->badge($lapse->getActive());
+        ;
     }
 
     protected $selectDependentTemplate = <<<SCRIPT_TEMPLATE
@@ -168,5 +168,17 @@ class AppHelper extends Helper
         ]);
 
         return $this->Html->scriptBlock($script, ['block' => true]);
+    }
+
+    public function badge(BadgeInterface $enum, array $options = []): string
+    {
+        $options = [
+            'class' => $enum->color()->cssClass('badge') . ' ' . ($options['class'] ?? ''),
+        ];
+
+        $tag = $options['tag'] ?? 'span';
+        unset($options['tag']);
+
+        return $this->Html->tag($tag, $enum->label(), $options);
     }
 }

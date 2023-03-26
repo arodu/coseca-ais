@@ -5,7 +5,7 @@ namespace App\Enum;
 
 use App\Enum\Trait\ListTrait;
 
-enum Active
+enum Active implements BadgeInterface
 {
     case TRUE;
     case FALSE;

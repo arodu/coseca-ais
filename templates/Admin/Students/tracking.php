@@ -49,17 +49,15 @@ $this->Breadcrumbs->add([
         <?php
         $canAdd = in_array($adscription->status_obj, [AdscriptionStatus::OPEN]);
         $count = 0;
-        $adsHours = 0;
+        $sumHours = 0;
         ?>
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">
                     <?= h($adscription->institution_project->label_name) ?>
-
+                    <?= $this->App->badge($adscription->status_obj) ?>
                 </h3>
                 <div class="card-tools">
-                    <?= $adscription->label_status ?>
-
                     <?php if ($canAdd) : ?>
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="<?= '#addTracking' . $adscription->id ?>">
                             <?= __('Agregar Actividad') ?>
@@ -89,7 +87,7 @@ $this->Breadcrumbs->add([
                             <?php foreach ($adscription->student_tracking as $tracking) : ?>
                                 <?php
                                 $count++;
-                                $adsHours += $tracking->hours;
+                                $sumHours += $tracking->hours;
                                 ?>
                                 <tr>
                                     <td><?= $count ?></td>
@@ -113,7 +111,7 @@ $this->Breadcrumbs->add([
                                 <strong><?= __('Total') ?></strong>
                             </td>
                             <td>
-                                <strong><?= $adsHours ?></strong>
+                                <strong><?= $sumHours ?></strong>
                             </td>
                             <td></td>
                         </tr>

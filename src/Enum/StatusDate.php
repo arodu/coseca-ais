@@ -6,7 +6,7 @@ namespace App\Enum;
 use App\Enum\Trait\BasicEnumTrait;
 use Cake\I18n\FrozenDate;
 
-enum StatusDate
+enum StatusDate implements BadgeInterface
 {
     use BasicEnumTrait;
 
@@ -23,6 +23,18 @@ enum StatusDate
             static::PENDING => __('Pendiente'),
             static::IN_PROGRESS => __('En Progreso'),
             static::TIMED_OUT => __('Caducado'),
+        };
+    }
+
+    /**
+     * @return Color
+     */
+    public function color(): Color
+    {
+        return match($this) {
+            static::PENDING => Color::INFO,
+            static::IN_PROGRESS => Color::WARNING,
+            static::TIMED_OUT => Color::DANGER,
         };
     }
 

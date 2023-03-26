@@ -3,10 +3,12 @@ declare(strict_types=1);
 
 namespace App\Model\Field;
 
+use App\Enum\BadgeInterface;
+use App\Enum\Color;
 use App\Enum\Trait\BasicEnumTrait;
 use App\Enum\Trait\ListTrait;
 
-enum AdscriptionStatus: string
+enum AdscriptionStatus: string implements BadgeInterface
 {
     use ListTrait;
     use BasicEnumTrait;
@@ -25,6 +27,16 @@ enum AdscriptionStatus: string
             static::OPEN => __('Abierto'),
             static::CLOSED => __('Cerrado'),
             default => __('NaN'),
+        };
+    }
+
+    public function color(): Color
+    {
+        return match($this) {
+            static::PENDING => Color::WARNING,
+            static::OPEN => Color::SUCCESS,
+            static::CLOSED => Color::DANGER,
+            default => Color::SECONDARY,
         };
     }
 }

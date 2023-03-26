@@ -3,12 +3,13 @@ declare(strict_types=1);
 
 namespace App\Model\Field;
 
+use App\Enum\BadgeInterface;
 use App\Enum\Color;
 use App\Enum\Trait\BasicEnumTrait;
 use App\Utility\FaIcon;
 use App\Enum\Trait\ListTrait;
 
-enum StageStatus: string
+enum StageStatus: string implements BadgeInterface
 {
     use ListTrait;
     use BasicEnumTrait;
