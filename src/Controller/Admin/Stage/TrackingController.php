@@ -32,6 +32,11 @@ class TrackingController extends AppAdminController
 
         $adscription = $this->StudentTracking->StudentAdscriptions->get($data['student_adscription_id']);
 
+        if (!$this->Authorization->can($adscription, 'manageTracking')) {
+            $this->Flash->error(__('You are not authorized to add an student tracking.'));
+            return $this->redirect(['_name' => 'admin:student_tracking', $adscription->student_id]);
+        }
+
         $tracking = $this->StudentTracking->newEntity($data);
 
         if ($this->StudentTracking->save($tracking)) {
@@ -53,15 +58,23 @@ class TrackingController extends AppAdminController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
+
         $studentTracking = $this->StudentTracking->get($id, [
             'contain' => ['StudentAdscriptions'],
         ]);
+        $adscription = $studentTracking->student_adscription;
+
+        if (!$this->Authorization->can($adscription, 'manageTracking')) {
+            $this->Flash->error(__('You are not authorized to delete this student tracking.'));
+            return $this->redirect(['_name' => 'admin:student_tracking', $adscription->student_id]);
+        }
+
         if ($this->StudentTracking->delete($studentTracking)) {
             $this->Flash->success(__('The student tracking has been deleted.'));
         } else {
             $this->Flash->error(__('The student tracking could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['_name' => 'admin:student_tracking', $studentTracking->student_adscription->student_id]);
+        return $this->redirect(['_name' => 'admin:student_tracking', $adscription->student_id]);
     }
 }

@@ -8,6 +8,8 @@ use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 
+$user = $this->request->getAttribute('identity');
+
 $this->student_id = $student->id;
 $this->active = 'tracking';
 $this->extend('/Admin/Common/view_student');
@@ -71,7 +73,7 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
 
     <?php foreach ($student->student_adscriptions as $adscription) : ?>
         <?php
-        $canUpdate = in_array($adscription->status_obj, [AdscriptionStatus::OPEN]);
+        $canManageTracking = $user->can('manageTracking', $adscription);
         $count = 0;
         $sumHours = 0;
         ?>
@@ -82,10 +84,22 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
                     <?= $this->App->badge($adscription->status_obj) ?>
                 </h3>
                 <div class="card-tools">
-                    <?php if ($canUpdate) : ?>
+                    <?php if ($canManageTracking) : ?>
                         <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="<?= '#addTracking' . $adscription->id ?>">
                             <?= __('Agregar Actividad') ?>
                         </button>
+                    <?php endif ?>
+                    <?php if ($adscription->statusObj->is(AdscriptionStatus::CLOSED)) : ?>
+                        <?= $this->ModalForm->link(
+                            __('Validar horas del proyecto'),
+                            ['controller' => 'Adscriptions', 'action' => 'validate', $adscription->id, 'prefix' => 'Admin/Stage'],
+                            [
+                                'class' => 'btn btn-success btn-sm',
+                                'confirm' => __('¿Está seguro de validar este proyecto?'),
+                                'target' => 'validateTracking' . $adscription->id,
+                            ]
+                        );
+                        ?>
                     <?php endif ?>
                 </div>
             </div>
@@ -120,13 +134,13 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
                                     <td><?= h($tracking->hours) ?></td>
                                     <td class="actions">
                                         <?php
-                                        if ($canUpdate) :
+                                        if ($canManageTracking) :
                                             echo $this->ModalForm->link(
                                                 __('Eliminar'),
                                                 ['controller' => 'Tracking', 'action' => 'delete', $tracking->id, 'prefix' => 'Admin/Stage'],
                                                 [
                                                     'confirm' => __('¿Está seguro de eliminar este seguimiento?'),
-                                                    'target' => 'deleteTracking',
+                                                    'target' => 'deleteTracking' . $adscription->id,
                                                 ]
                                             );
                                         endif;
@@ -151,7 +165,7 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
             </div>
         </div>
 
-        <?php if ($canUpdate) : ?>
+        <?php if ($canManageTracking) : ?>
             <div class="modal fade" id="<?= 'addTracking' . $adscription->id ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -169,6 +183,7 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
                             <div class="row">
                                 <div class="col-sm-8">
                                     <?= $this->Form->control('date', [
+                                        'label' => __('Fecha'),
                                         'type' => 'date',
                                         'required' => true,
                                         'min' => $trackingDates['start_date']?->format('Y-m-d') ?? '',
@@ -176,34 +191,57 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
                                     ]) ?>
                                 </div>
                                 <div class="col-sm-4">
-                                    <?= $this->Form->control('hours', ['type' => 'number', 'step' => '0.25', 'min' => '0.25', 'max' => '12', 'required' => true]) ?>
+                                    <?= $this->Form->control('hours', [
+                                        'label' => __('Horas'),
+                                        'type' => 'number',
+                                        'required' => true,
+                                        'step' => '0.25',
+                                        'min' => '0.25',
+                                        'max' => '12',
+                                    ]) ?>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <?= $this->Form->control('description', ['required' => true]) ?>
+                                    <?= $this->Form->control('description', [
+                                        'label' => __('Actividad'),
+                                        'required' => true,
+                                    ]) ?>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
+                            <button type="submit" class="btn btn-primary"><?= __('Guardar') ?></button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><?= __('Cancelar') ?></button>
                         </div>
                         <?= $this->Form->end() ?>
                     </div>
                 </div>
             </div>
         <?php endif ?>
+
+        <?php
+        echo $this->ModalForm->modal('deleteTracking' . $adscription->id, [
+            'element' => \ModalForm\ModalFormPlugin::FORM_CHECKBOX,
+            'content' => [
+                'title' => __('Eliminar Seguimiento'),
+                'buttonOk'  => __('Si, eliminar'),
+                'buttonCancel'  => __('Cancelar'),
+            ]
+        ]);
+
+        echo $this->ModalForm->modal('validateTracking' . $adscription->id, [
+            'element' => \ModalForm\ModalFormPlugin::FORM_TEXT_INPUT,
+            'content' => [
+                'title' => __('Validar proyecto'),
+                'buttonOk'  => __('Si, validar'),
+                'buttonCancel'  => __('Cancelar'),
+                'textConfirm' => $adscription->institution_project->label_name,
+                'label' => function ($content) {
+                    return __('Escribe:<br><code>{0}</code><br>para confirmar', $content['textConfirm']);
+                }
+            ]
+        ]);
+        ?>
     <?php endforeach ?>
 </div>
-
-<?php
-echo  $this->ModalForm->modal('deleteTracking', [
-    'element' => \ModalForm\ModalFormPlugin::FORM_CHECKBOX,
-    'content' => [
-        'title' => __('Eliminar Seguimiento'),
-        'buttonOk'  => __('Si, eliminar'),
-        'buttonCancel'  => __('Cancelar'),
-    ]
-]);
-?>
