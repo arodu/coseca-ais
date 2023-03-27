@@ -90,7 +90,7 @@ class AppHelper extends Helper
     public function error(string $tooltip = null): string
     {
         $options['class'] = [
-            Color::DANGER->cssClass('badge'),
+            Color::DANGER->badge(),
         ];
         $options['escape'] = false;
         $options['role'] = 'button';
@@ -116,7 +116,6 @@ class AppHelper extends Helper
         }
 
         return $lapse->name . ' ' . $this->badge($lapse->getActive());
-        ;
     }
 
     protected $selectDependentTemplate = <<<SCRIPT_TEMPLATE
@@ -184,7 +183,7 @@ class AppHelper extends Helper
     public function badge(BadgeInterface $enum, array $options = []): string
     {
         $options = [
-            'class' => $enum->color()->cssClass('badge') . ' ' . ($options['class'] ?? ''),
+            'class' => $enum->color()->badge() . ' ' . ($options['class'] ?? ''),
         ];
 
         $tag = $options['tag'] ?? 'span';

@@ -32,7 +32,7 @@ $lastStageColor = $student->last_stage->status_obj->color();
     </div>
 </div>
 
-<div class="<?= $lastStageColor->cssClass('card') ?> card-outline">
+<div class="<?= $lastStageColor->card() ?> card-outline">
     <div class="card-body">
         <dl>
             <dt><?= __('Etapa') ?></dt>
@@ -46,7 +46,7 @@ $lastStageColor = $student->last_stage->status_obj->color();
                 <?= $this->Html->tag(
                     'span',
                     $student->last_stage->status_label,
-                    ['class' => [$lastStageColor->cssClass('badge'), 'ml-2']]
+                    ['class' => [$lastStageColor->badge(), 'ml-2']]
                 ) ?>
             </dd>
 

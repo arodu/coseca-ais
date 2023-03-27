@@ -9,7 +9,7 @@ use App\Utility\FaIcon;
 $studentStage = $this->get('studentStage');
 $status = $studentStage->status_obj;
 $color = $status->color();
-$icon = $status->icon($color->cssClass('bg', false));
+$icon = $status->icon($color->bg());
 $content = trim($this->fetch('content'));
 $actions = trim($this->fetch('actions'));
 ?>

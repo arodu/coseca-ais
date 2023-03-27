@@ -35,14 +35,64 @@ enum Color: string
 
     /**
      * @param string $prefix
-     * @param boolean $prefixClassAlone
+     * @param boolean $includePrefixClass, default true
      * @return string
      */
-    public function cssClass(string $prefix = 'card', bool $prefixClassAlone = true): string
+    public function cssClass(string $prefix = 'card', bool $includePrefixClass = true): string
     {
         return trim(implode(' ', [
-            $prefixClassAlone ? $prefix : null,
+            $includePrefixClass ? $prefix : null,
             $prefix . '-' . $this->value,
         ]));
+    }
+
+    /**
+     * return "bg-primary"
+     *
+     * @return string
+     */
+    public function bg(): string
+    {
+        return $this->cssClass('bg', false);
+    }
+
+    /**
+     * return "text-primary"
+     *
+     * @return string
+     */
+    public function text(): string
+    {
+        return $this->cssClass('text', false);
+    }
+
+    /**
+     * return "badge badge-primary"
+     *
+     * @return string
+     */
+    public function badge(): string
+    {
+        return $this->cssClass('badge', true);
+    }
+
+    /**
+     * return "card card-primary"
+     *
+     * @return string
+     */
+    public function card(): string
+    {
+        return $this->cssClass('card', true);
+    }
+
+    /**
+     * return "btn btn-primary"
+     *
+     * @return string
+     */
+    public function btn(): string
+    {
+        return $this->cssClass('btn', true);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Field;
@@ -19,7 +20,7 @@ enum UserRole: string
      */
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             static::STUDENT => __('Estudiante'),
             static::ASSISTANT => __('Asistente'),
             static::SUPERUSER => __('superuser'),

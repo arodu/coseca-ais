@@ -114,7 +114,8 @@ $this->Breadcrumbs->add([
                         <?= __('Lapso Académico {0}', $this->App->lapseLabel($lapseSelected)) ?>
                     </h3>
                     <div class="ml-auto">
-                        <span class="<?= $lapseSelected->getActive()->color()->cssClass('badge') ?>"><?= $lapseSelected->label_active ?></span>
+                        <?php // @todo check if this works! */ ?>
+                        <?= $this->App->badge($lapseSelected->getActive()) ?>
                     </div>
                 </div>
                 <div class="card-body table-responsive p-0">
