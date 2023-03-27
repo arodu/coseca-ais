@@ -16,6 +16,7 @@ declare(strict_types=1);
  */
 namespace App;
 
+use App\Event\StageNotificationListener;
 use App\Event\UsersListener;
 use Cake\Core\Configure;
 use Cake\Core\ContainerInterface;
@@ -73,6 +74,7 @@ class Application extends BaseApplication
         $this->addPlugin('ModalForm');
 
         $this->getEventManager()->on(new UsersListener());
+        //$this->getEventManager()->on(new StageNotificationListener());
     }
 
     /**
