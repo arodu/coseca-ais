@@ -45,8 +45,6 @@ class InstitutionProject extends Entity
     protected function _getLabelName()
     {
         if (empty($this->institution)) {
-            trigger_error("entity doesn't have institution", E_USER_WARNING);
-
             return null;
         }
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin\Stage;
 
 use App\Controller\Admin\AppAdminController;
+use App\Controller\Traits\ActionValidateTrait;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use App\Utility\Stages;
@@ -16,6 +17,8 @@ use App\Utility\Stages;
  */
 class RegisterController extends AppAdminController
 {
+    use ActionValidateTrait;
+
     public function initialize(): void
     {
         parent::initialize();
@@ -39,7 +42,13 @@ class RegisterController extends AppAdminController
 
             if ($this->Students->save($student)) {
                 $this->Flash->success(__('The register stage has been saved.'));
-                Stages::closeStudentStage($student->id, StageField::REGISTER, StageStatus::SUCCESS);
+
+                if (
+                    $this->actionValidate()
+                    && $nextStage = Stages::closeStudentStage($student->id, StageField::REGISTER, StageStatus::SUCCESS)
+                ) {
+                    $this->Flash->success(__('The {0} stage has been created.', $nextStage->stage));
+                }
 
                 return $this->redirect(['_name' => 'admin:student_view', $student->id]);
             }

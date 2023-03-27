@@ -4,8 +4,7 @@
 /** @var \App\Model\Entity\Student $student */
 /** @var \App\View\AppView $this */
 
-use App\Model\Field\StageStatus;
-use App\Utility\FaIcon;
+use App\Enum\ActionColor;
 
 $status = $studentStage->status_obj;
 $color = $status->color();
@@ -18,13 +17,13 @@ $this->start('actions');
 echo $this->Html->link(
     __('Agregar Proyecto'),
     ['controller' => 'Adscriptions', 'action' => 'add', $student->id, 'prefix' => 'Admin/Stage'],
-    ['class' => 'btn btn-info btn-sm']
+    ['class' => ActionColor::ADD->btn() . ' btn-sm']
 );
 
 echo $this->Html->link(
     __('Ver Proyectos'),
     ['controller' => 'Students', 'action' => 'adscriptions', $student->id, 'prefix' => 'Admin'],
-    ['class' => 'btn btn-default btn-sm ml-2']
+    ['class' => ActionColor::VIEW->btn() . ' btn-sm ml-2']
 );
 
 $this->end();

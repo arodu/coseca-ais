@@ -12,6 +12,7 @@ enum ActionColor
     case ADD;
     case EDIT;
     case SUBMIT;
+    case VALIDATE;
     case DELETE;
     case INACTIVE;
     case ESPECIAL;
@@ -27,6 +28,7 @@ enum ActionColor
             static::ADD => Color::INFO,
             static::EDIT => Color::INFO,
             static::SUBMIT => Color::PRIMARY,
+            static::VALIDATE => Color::SUCCESS,
             static::DELETE => Color::DANGER,
             static::INACTIVE => Color::DANGER,
             static::ESPECIAL => Color::WARNING,

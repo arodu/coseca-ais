@@ -4,6 +4,7 @@
 /** @var \App\Model\Entity\Student $student */
 /** @var \App\View\AppView $this */
 
+use App\Enum\ActionColor;
 use App\Model\Field\StageStatus;
 
 $status = $studentStage->status_obj;
@@ -17,12 +18,12 @@ $this->start('actions');
 echo $this->Html->link(
     __('Editar Registro'),
     ['controller' => 'Register', 'action' => 'edit', $studentStage->student_id, 'prefix' => 'Admin/Stage'],
-    ['class' => 'btn btn-info btn-sm']
+    ['class' => ActionColor::EDIT->btn() . ' btn-sm']
 );
 
 echo $this->Html->link(
     __('Ver Registro'),
     ['controller' => 'Students', 'action' => 'info', $studentStage->student_id, 'prefix' => 'Admin'],
-    ['class' => 'btn btn-default btn-sm ml-2']
+    ['class' => ActionColor::VIEW->btn() . ' btn-sm ml-2']
 );
 $this->end();
