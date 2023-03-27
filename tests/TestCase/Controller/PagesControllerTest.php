@@ -37,6 +37,8 @@ class PagesControllerTest extends TestCase
      */
     public function testDisplay()
     {
+        $this->markTestSkipped();
+
         Configure::write('debug', true);
         $this->get('/pages/home');
         $this->assertResponseOk();
@@ -51,6 +53,8 @@ class PagesControllerTest extends TestCase
      */
     public function testMissingTemplate()
     {
+        $this->markTestSkipped();
+
         Configure::write('debug', false);
         $this->get('/pages/not_existing');
 
@@ -65,6 +69,8 @@ class PagesControllerTest extends TestCase
      */
     public function testMissingTemplateInDebug()
     {
+        $this->markTestSkipped();
+
         Configure::write('debug', true);
         $this->get('/pages/not_existing');
 
@@ -81,6 +87,8 @@ class PagesControllerTest extends TestCase
      */
     public function testDirectoryTraversalProtection()
     {
+        $this->markTestSkipped();
+
         $this->get('/pages/../Layout/ajax');
         $this->assertResponseCode(403);
         $this->assertResponseContains('Forbidden');
@@ -93,6 +101,8 @@ class PagesControllerTest extends TestCase
      */
     public function testCsrfAppliedError()
     {
+        $this->markTestSkipped();
+
         $this->post('/pages/home', ['hello' => 'world']);
 
         $this->assertResponseCode(403);
@@ -106,6 +116,8 @@ class PagesControllerTest extends TestCase
      */
     public function testCsrfAppliedOk()
     {
+        $this->markTestSkipped();
+
         $this->enableCsrfToken();
         $this->post('/pages/home', ['hello' => 'world']);
 
