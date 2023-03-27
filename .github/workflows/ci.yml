@@ -3,9 +3,8 @@ name: CI
 on:
   push:
     branches:
-      - '4.x'
-      - '4.next'
-      - '5.x'
+      - 'main'
+      - 'develop'
   pull_request:
     branches:
       - '*'
@@ -15,11 +14,11 @@ permissions:
 
 jobs:
   testsuite:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        php-version: ['7.4', '8.0', '8.1']
+        php-version: ['8.1']
     name: PHP ${{ matrix.php-version }}
 
     steps:
@@ -33,13 +32,7 @@ jobs:
         coverage: none
 
     - name: Composer install
-      run: |
-        if [[ ${{ matrix.php-version }} == '8.1' ]]; then
-          composer update --ignore-platform-reqs
-        else
-          composer update
-        fi
-        composer run-script post-install-cmd --no-interaction
+      run: composer install --prefer-dist --no-interaction
 
     - name: Run PHPUnit
       run: |
@@ -50,7 +43,7 @@ jobs:
 
   coding-standard:
     name: Coding Standard
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
@@ -58,7 +51,7 @@ jobs:
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '7.4'
+        php-version: '8.1'
         extensions: mbstring, intl
         coverage: none
 
@@ -70,7 +63,7 @@ jobs:
 
   static-analysis:
     name: Static Analysis
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
@@ -78,7 +71,7 @@ jobs:
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '7.4'
+        php-version: '8.1'
         extensions: mbstring, intl
         coverage: none
 
