@@ -32,7 +32,9 @@ jobs:
         coverage: none
 
     - name: Composer install
-      run: composer install --prefer-dist --no-interaction
+      run: |
+        cp config/app_local.example.php config/app_local.php
+        composer install --prefer-dist --no-interaction
 
     - name: Run PHPUnit
       run: |
