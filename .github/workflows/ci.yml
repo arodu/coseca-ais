@@ -39,6 +39,7 @@ jobs:
         cp config/app_local.example.php config/app_local.php
         vendor/bin/phpunit
       env:
+        DATABASE_URL: sqlite://./testdb.sqlite
         DATABASE_TEST_URL: sqlite://./testdb.sqlite
 
   coding-standard:

@@ -5,6 +5,8 @@
  * Note: It is not recommended to commit files with credentials such as app_local.php
  * into source code version control.
  */
+
+
 return [
     /*
      * Debug Level:
@@ -15,7 +17,11 @@ return [
      * Development Mode:
      * true: Errors and warnings shown.
      */
-    'debug' => filter_var(env('DEBUG', true), FILTER_VALIDATE_BOOLEAN),
+    'debug' => filter_var(env('DEBUG', false), FILTER_VALIDATE_BOOLEAN),
+
+    'App' => [
+        'base' => false,
+    ],
 
     /*
      * Security and encryption configuration
@@ -25,7 +31,7 @@ return [
      *   You should treat it as extremely sensitive data.
      */
     'Security' => [
-        'salt' => env('SECURITY_SALT', '__SALT__'),
+        'salt' => env('SECURITY_SALT', '6a08f8b777b68f8a1c3dad9315f54'),
     ],
 
     /*
@@ -36,27 +42,6 @@ return [
      */
     'Datasources' => [
         'default' => [
-            'host' => 'localhost',
-            /*
-             * CakePHP will use the default DB port based on the driver selected
-             * MySQL on MAMP uses port 8889, MAMP users will want to uncomment
-             * the following line and set the port accordingly
-             */
-            //'port' => 'non_standard_port_number',
-
-            'username' => 'my_app',
-            'password' => 'secret',
-
-            'database' => 'my_app',
-            /*
-             * If not using the default 'public' schema with the PostgreSQL driver
-             * set it here.
-             */
-            //'schema' => 'myapp',
-
-            /*
-             * You can use a DSN string to set the entire configuration
-             */
             'url' => env('DATABASE_URL', null),
         ],
 
@@ -64,12 +49,6 @@ return [
          * The test connection is used during the test suite.
          */
         'test' => [
-            'host' => 'localhost',
-            //'port' => 'non_standard_port_number',
-            'username' => 'my_app',
-            'password' => 'secret',
-            'database' => 'test_myapp',
-            //'schema' => 'myapp',
             'url' => env('DATABASE_TEST_URL', 'sqlite://127.0.0.1/tests.sqlite'),
         ],
     ],
@@ -83,12 +62,13 @@ return [
      */
     'EmailTransport' => [
         'default' => [
-            'host' => 'localhost',
-            'port' => 25,
-            'username' => null,
-            'password' => null,
+            'className' => env('EMAIL_CLASSNAME', 'Smtp'),
+            'host' => env('EMAIL_HOST', 'sandbox.smtp.mailtrap.io'),
+            'port' => env('EMAIL_PORT', 2525),
+            'username' => env('EMAIL_USERNAME', '94dbdc172188f0'),
+            'password' => env('EMAIL_PASSWORD', 'e88c7888cbd0f8'),
             'client' => null,
-            'url' => env('EMAIL_TRANSPORT_DEFAULT_URL', null),
+            //'url' => env('EMAIL_TRANSPORT_DEFAULT_URL', null),
         ],
     ],
 ];
