@@ -16,24 +16,23 @@ $this->Breadcrumbs->add([
 ?>
 
 <div class="card card-primary card-outline">
-  <?= $this->Form->create($institutionProject) ?>
-  <div class="card-body">
-    <?php
-      echo $this->Form->control('institution', ['value' => $institution->name, 'readonly' => true]);
-      echo $this->Form->control('name');
-      echo $this->Form->control('interest_area_id', ['options' => $interestAreas, 'empty' => true]);
-      echo $this->Form->control('active', ['custom' => true, 'checked' => true]);
-    ?>
-  </div>
-
-  <div class="card-footer d-flex">
-    <div class="ml-auto">
-      <?= $this->Form->button(__('Guardar')) ?>
-      <?= $this->Html->link(__('Cancelar'), ['action' => 'view', $institution->id], ['class' => 'btn btn-default']) ?>
-
+    <?= $this->Form->create($institutionProject) ?>
+    <div class="card-body">
+        <?php
+        echo $this->Form->control('institution', ['value' => $institution->name, 'readonly' => true]);
+        echo $this->Form->control('name');
+        echo $this->Form->control('interest_area_id', ['options' => $interestAreas, 'empty' => true]);
+        echo $this->Form->control('active', ['custom' => true, 'checked' => true]);
+        ?>
     </div>
-  </div>
 
-  <?= $this->Form->end() ?>
+    <div class="card-footer d-flex">
+        <div class="ml-auto">
+            <?= $this->Form->button(__('Guardar')) ?>
+            <?= $this->Html->link(__('Cancelar'), ['action' => 'view', $institution->id], ['class' => 'btn btn-default']) ?>
+
+        </div>
+    </div>
+
+    <?= $this->Form->end() ?>
 </div>
-

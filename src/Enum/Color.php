@@ -91,8 +91,16 @@ enum Color: string
      *
      * @return string
      */
-    public function btn(): string
+    public function btn(bool $outline = false): string
     {
-        return $this->cssClass('btn', true);
+        $prefix = 'btn';
+        $output = implode(' ', [
+            $prefix,
+            $outline
+                ? $prefix . '-outline-' . $this->value
+                : $prefix . '-' . $this->value,
+        ]);
+
+        return trim($output);
     }
 }

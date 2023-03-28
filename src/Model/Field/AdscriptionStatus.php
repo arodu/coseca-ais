@@ -56,7 +56,7 @@ enum AdscriptionStatus: string implements BadgeInterface
         ];
     }
 
-    public static function getEditableList(): array
+    public static function getEditableListLabel(): array
     {
         return static::toListLabel(static::getEditableObj());
     }

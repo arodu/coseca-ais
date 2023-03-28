@@ -19,24 +19,24 @@ $this->Breadcrumbs->add([
 ?>
 
 <div class="card card-primary card-outline">
-  <?= $this->Form->create($program) ?>
-  <div class="card-body">
-    <?php
-      echo $this->Form->control('name');
-      echo $this->Form->control('abbr');
-      echo $this->Form->control('area', ['options' => ProgramArea::toListLabel(), 'empty' => true]);
-      echo $this->Form->control('regime', ['options' => ProgramRegime::toListLabel(), 'empty' => true]);
-    ?>
-  </div>
-
-  <div class="card-footer d-flex">
-    <div class="ml-auto">
-      <?= $this->Form->button(__('Guardar')) ?>
-      <?= $this->Html->link(__('Cancelar'), ['action' => 'index'], ['class' => 'btn btn-default']) ?>
-
+    <?= $this->Form->create($program) ?>
+    <div class="card-body">
+        <?php
+        echo $this->Form->control('name');
+        echo $this->Form->control('abbr');
+        echo $this->Form->control('area', ['options' => ProgramArea::toListLabel(), 'empty' => true]);
+        echo $this->Form->control('regime', ['options' => ProgramRegime::toListLabel(), 'empty' => true]);
+        ?>
     </div>
-  </div>
 
-  <?= $this->Form->end() ?>
+    <div class="card-footer d-flex">
+        <div>
+            <?= $this->AppForm->buttonSave() ?>
+        </div>
+        <div class="ml-auto">
+            <?= $this->AppForm->buttonCancel(['url' => ['action' => 'index']]) ?>
+        </div>
+    </div>
+
+    <?= $this->Form->end() ?>
 </div>
-

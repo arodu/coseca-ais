@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Program $program
@@ -19,26 +20,24 @@ $this->Breadcrumbs->add([
 ?>
 
 <div class="card card-primary card-outline">
-  <?= $this->Form->create($program) ?>
-  <div class="card-body">
-    <?php
-      echo $this->Form->control('name');
-      echo $this->Form->control('abbr');
-      echo $this->Form->control('area', ['options' => ProgramArea::toListLabel(), 'empty' => true]);
-      echo $this->Form->control('regime', ['options' => ProgramRegime::toListLabel(), 'empty' => true]);
-    ?>
-  </div>
-
-  <div class="card-footer d-flex">
-    <div class="">
+    <?= $this->Form->create($program) ?>
+    <div class="card-body">
+        <?php
+        echo $this->Form->control('name');
+        echo $this->Form->control('abbr');
+        echo $this->Form->control('area', ['options' => ProgramArea::toListLabel(), 'empty' => true]);
+        echo $this->Form->control('regime', ['options' => ProgramRegime::toListLabel(), 'empty' => true]);
+        ?>
     </div>
-    <div class="ml-auto">
-      <?= $this->Form->button(__('Guardar')) ?>
-      <?= $this->Html->link(__('Cancelar'), ['action' => 'viewProgram', $program->id], ['class' => 'btn btn-default']) ?>
 
+    <div class="card-footer d-flex">
+        <div>
+            <?= $this->AppForm->buttonSave() ?>
+        </div>
+        <div class="ml-auto">
+            <?= $this->AppForm->buttonCancel(['url' => ['action' => 'viewProgram', $program->id]]) ?>
+        </div>
     </div>
-  </div>
 
-  <?= $this->Form->end() ?>
+    <?= $this->Form->end() ?>
 </div>
-

@@ -30,7 +30,7 @@ enum ActionColor
             static::SUBMIT => Color::PRIMARY,
             static::VALIDATE => Color::SUCCESS,
             static::DELETE => Color::DANGER,
-            static::INACTIVE => Color::DANGER,
+            static::INACTIVE => Color::SECONDARY,
             static::SPECIAL => Color::WARNING,
             static::REPORT => Color::SUCCESS,
             static::ROOT => Color::INDIGO,
@@ -38,10 +38,10 @@ enum ActionColor
         };
     }
 
-    public function btn(string $extra = ''): string
+    public function btn(?string $extra = null, bool $outline = false): string
     {
         $output = implode(' ', [
-            $this->color()->btn(),
+            $this->color()->btn($outline),
             'btn-flat',
             $extra,
         ]);

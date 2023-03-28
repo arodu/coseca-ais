@@ -5,6 +5,8 @@
  * @var \App\Model\Entity\Tenant $tenant
  */
 
+use App\Enum\ActionColor;
+use App\Enum\Active;
 use App\Utility\FaIcon;
 
 ?>
@@ -29,8 +31,9 @@ $this->Breadcrumbs->add([
             <tr>
                 <th><?= __('Programa') ?></th>
                 <td><?= $this->Html->link(
-                    h($tenant->program->name),
-                    ['controller' => 'Tenants', 'action' => 'viewProgram', $tenant->program_id]) ?></td>
+                        h($tenant->program->name),
+                        ['controller' => 'Tenants', 'action' => 'viewProgram', $tenant->program_id]
+                    ) ?></td>
             </tr>
             <tr>
                 <th><?= __('Sede') ?></th>
@@ -51,16 +54,11 @@ $this->Breadcrumbs->add([
         </table>
     </div>
     <div class="card-footer d-flex">
-        <div class="">
-            <?= $this->Form->postLink(
-                __('Eliminar'),
-                ['action' => 'delete', $tenant->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $tenant->id), 'class' => 'btn btn-danger']
-            ) ?>
+        <div>
+            <?= $this->Html->link(__('Editar'), ['action' => 'edit', $tenant->id], ['class' => ActionColor::EDIT->btn()]) ?>
         </div>
         <div class="ml-auto">
-            <?= $this->Html->link(__('Editar'), ['action' => 'edit', $tenant->id], ['class' => 'btn btn-secondary']) ?>
-            <?= $this->Html->link(__('Cancelar'), ['action' => 'index'], ['class' => 'btn btn-default']) ?>
+            <?= $this->Html->link(__('Volver'), ['action' => 'index'], ['class' => ActionColor::BACK->btn()]) ?>
         </div>
     </div>
 </div>
@@ -77,32 +75,72 @@ $this->Breadcrumbs->add([
     <?php else : ?>
         <div class="col-sm-4">
             <div class="related related-lapses view card">
+                <div class="card-header d-flex">
+                    <h3 class="card-title"><?= __('Lapsos') ?></h3>
+                    <div class="ml-auto">
+                        <?= $this->Html->link(__('Nuevo Lapso'), ['controller' => 'Lapses', 'action' => 'add', $tenant->id], ['class' => ActionColor::ADD->btn('btn-sm')]) ?>
+                    </div>
+                </div>
                 <div class="card-body">
-                    <?= $this->Form->create(null, ['type' => 'GET']) ?>
-                    <?= $this->Form->control('lapse_id', ['label' => __('Lapso Académico'), 'value' => $lapseSelected->id]) ?>
-                    <?= $this->Html->link(__('Nuevo'), ['controller' => 'Lapses', 'action' => 'add', $tenant->id], ['class' => 'btn btn-primary btn-sm']) ?>
-                    <?= $this->Form->end() ?>
-                    <table class="table table-hover mt-3">
-                        <tr>
-                            <th><?= __('Nombre') ?></th>
-                            <td><?= h($lapseSelected->name) ?></td>
-                        </tr>
-                        <tr>
-                            <th><?= __('Activo') ?></th>
-                            <td><?= $lapseSelected->active ? __('Si') : __('No'); ?></td>
-                        </tr>
-                    </table>
+                    <dl class="row">
+                        <dt class="col-4">
+                            <?= __('Lapso') ?>
+                        </dt>
+                        <dd class="col-8">
+                            <?= $this->Form->create(null, ['type' => 'GET']) ?>
+                            <?= $this->Form->control('lapse_id', ['label' => false, 'value' => $lapseSelected->id]) ?>
+                            <?= $this->Form->end() ?>
+                        </dd>
+                        <dt class="col-4">
+                            <?= __('Estado') ?>
+                        </dt>
+                        <dd class="col-8">
+                            <?= $this->App->badge($lapseSelected->getActive()) ?>
+                        </dd>
+                    </dl>
                 </div>
                 <div class="card-footer d-flex">
                     <div>
-                        <?= $this->Form->postLink(
-                            __('Eliminar'),
-                            ['controller' => 'Lapses', 'action' => 'delete', $lapseSelected->id],
-                            ['confirm' => __('Are you sure you want to delete # {0}?', $lapseSelected->id), 'class' => 'btn btn-danger btn-sm']
-                        ) ?>
+                        <?= $this->Html->link(__('Editar'), ['controller' => 'Lapses', 'action' => 'edit', $lapseSelected->id], ['class' => ActionColor::EDIT->btn()]) ?>
+
+                        <?php
+                        if ($lapseSelected->getActive()->is(Active::FALSE)) :
+                            echo $this->ModalForm->link(
+                                __('Activar'),
+                                [
+                                    'controller' => 'Lapses',
+                                    'action' => 'changeActive',
+                                    $lapseSelected->id,
+                                    1,
+                                ],
+                                [
+                                    'class' => ActionColor::SPECIAL->btn(),
+                                    'target' => 'changeActive',
+                                    'confirm' => __('¿Está seguro que desea activar este lapso?<br>Al hacerlo de desactivaran el resto de los lapsos de esta sede.'),
+                                    'title' => __('Activar lapso académico {0}', $lapseSelected->name),
+                                ]
+                            );
+                        else :
+                            echo $this->ModalForm->link(
+                                __('Desactivar'),
+                                [
+                                    'controller' => 'Lapses',
+                                    'action' => 'changeActive',
+                                    $lapseSelected->id,
+                                    0,
+                                ],
+                                [
+                                    'class' => ActionColor::INACTIVE->btn(),
+                                    'target' => 'changeActive',
+                                    'confirm' => __('¿Está seguro que desea desactivar este lapso?'),
+                                    'title' => __('Desactivar lapso académico {0}', $lapseSelected->name),
+                                ]
+                            );
+                        endif;
+                        ?>
+
                     </div>
                     <div class="ml-auto">
-                        <?= $this->Html->link(__('Editar'), ['controller' => 'Lapses', 'action' => 'edit', $lapseSelected->id], ['class' => 'btn btn-secondary btn-sm']) ?>
                     </div>
                 </div>
             </div>
@@ -114,7 +152,6 @@ $this->Breadcrumbs->add([
                         <?= __('Lapso Académico {0}', $this->App->lapseLabel($lapseSelected)) ?>
                     </h3>
                     <div class="ml-auto">
-                        <?php // @todo check if this works! */ ?>
                         <?= $this->App->badge($lapseSelected->getActive()) ?>
                     </div>
                 </div>
@@ -158,3 +195,12 @@ $this->Breadcrumbs->add([
     })
     <?= $this->Html->scriptEnd() ?>
 </script>
+
+<?= $this->ModalForm->modal('changeActive', [
+    'element' => \ModalForm\ModalFormPlugin::FORM_CHECKBOX,
+    'content' => [
+        'title' => true,
+        'buttonOk'  => __('Si'),
+        'buttonCancel'  => __('No'),
+    ]
+]) ?>
