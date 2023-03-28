@@ -2,6 +2,7 @@
 
 /** @property \App\Model\Entity\StudentStage $studentStage */
 
+use App\Enum\ActionColor;
 use App\Utility\FaIcon;
 
 /** @var \App\View\AppView $this */
@@ -36,7 +37,7 @@ $actions = trim($this->fetch('actions'));
                     FaIcon::get('edit'),
                     ['controller' => 'StudentStages', 'action' => 'edit', $studentStage->id],
                     [
-                        'class' => 'btn btn-link btn-sm text-muted',
+                        'class' => ActionColor::ROOT->text(),
                         'escape' => false
                     ]
                 ) ?>

@@ -17,13 +17,13 @@ $this->start('actions');
 echo $this->Html->link(
     __('Agregar Proyecto'),
     ['controller' => 'Adscriptions', 'action' => 'add', $student->id, 'prefix' => 'Admin/Stage'],
-    ['class' => ActionColor::ADD->btn() . ' btn-sm']
+    ['class' => ActionColor::ADD->btn('btn-sm')]
 );
 
 echo $this->Html->link(
     __('Ver Proyectos'),
     ['controller' => 'Students', 'action' => 'adscriptions', $student->id, 'prefix' => 'Admin'],
-    ['class' => ActionColor::VIEW->btn() . ' btn-sm ml-2']
+    ['class' => ActionColor::VIEW->btn('btn-sm ml-2')]
 );
 
 $this->end();

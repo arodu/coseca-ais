@@ -18,12 +18,12 @@ $this->start('actions');
 echo $this->Html->link(
     __('Editar Registro'),
     ['controller' => 'Register', 'action' => 'edit', $studentStage->student_id, 'prefix' => 'Admin/Stage'],
-    ['class' => ActionColor::EDIT->btn() . ' btn-sm']
+    ['class' => ActionColor::EDIT->btn('btn-sm')]
 );
 
 echo $this->Html->link(
     __('Ver Registro'),
     ['controller' => 'Students', 'action' => 'info', $studentStage->student_id, 'prefix' => 'Admin'],
-    ['class' => ActionColor::VIEW->btn() . ' btn-sm ml-2']
+    ['class' => ActionColor::VIEW->btn('btn-sm ml-2')]
 );
 $this->end();

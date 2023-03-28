@@ -4,6 +4,8 @@
  * @var \App\Model\Entity\StudentAdscription $student_adscription
  */
 
+use App\Enum\ActionColor;
+
 $this->student_id = $student->id;
 $this->active = null;
 $this->extend('/Admin/Common/view_student');
@@ -31,9 +33,11 @@ $this->Breadcrumbs->add([
 </div>
 
 <div class="card-footer d-flex">
+    <div>
+        <?= $this->AppForm->buttonSave() ?>
+    </div>
     <div class="ml-auto">
-        <?= $this->Form->button(__('Guardar')) ?>
-        <?= $this->Html->link(__('Cancelar'), ['_name' => 'admin:student_view', $student->id], ['class' => 'btn btn-default']) ?>
+        <?= $this->Html->link(__('Cancelar'), ['_name' => 'admin:student_view', $student->id], ['class' => ActionColor::CANCEL->btn()]) ?>
     </div>
 </div>
 

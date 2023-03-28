@@ -17,7 +17,7 @@ $this->start('actions');
 echo $this->Html->link(
     __('Ver Seguimiento'),
     ['controller' => 'Students', 'action' => 'tracking', $studentStage->student_id, 'prefix' => 'Admin'],
-    ['class' => ActionColor::VIEW->btn() . ' btn-sm ml-2']
+    ['class' => ActionColor::VIEW->btn('btn-sm')]
 );
 $this->end();
 

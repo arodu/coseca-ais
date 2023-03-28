@@ -45,4 +45,20 @@ enum AdscriptionStatus: string implements BadgeInterface
             default => Color::SECONDARY,
         };
     }
+
+    public static function getEditableObj(): array
+    {
+        return [
+            static::PENDING,
+            static::OPEN,
+            static::CLOSED,
+            static::CANCELLED,
+        ];
+    }
+
+    public static function getEditableList(): array
+    {
+        return static::toListLabel(static::getEditableObj());
+    }
+
 }

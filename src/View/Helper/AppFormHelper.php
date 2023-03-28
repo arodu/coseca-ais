@@ -20,7 +20,7 @@ class AppFormHelper extends Helper
      */
     protected $_defaultConfig = [];
 
-    public $helpers = ['Form'];
+    public $helpers = ['Form', 'Html'];
 
     /**
      * @param array<string, mixed> $options
@@ -36,11 +36,7 @@ class AppFormHelper extends Helper
             'value' => 'save',
         ], $options);
 
-        if (isset($options['class']) && is_array($options['class'])) {
-            $options['class'] = implode(' ', (array)$options['class']);
-        }
-
-        $options['class'] = trim(ActionColor::SUBMIT->btn() . ' ' . ($options['class'] ?? ''));
+        $options['class'] = $this->prepareClass($options['class'] ?? '', ActionColor::SUBMIT);
 
         return $this->Form->button($title, $options);
     }
@@ -57,14 +53,37 @@ class AppFormHelper extends Helper
         $options = array_merge([
             'name' => 'action',
             'value' => 'validate',
+            'confirm' => __('Seguro que desea validar este registro?'),
         ], $options);
 
-        if (isset($options['class']) && is_array($options['class'])) {
-            $options['class'] = implode(' ', (array)$options['class']);
-        }
-
-        $options['class'] = trim(ActionColor::VALIDATE->btn() . ' ' . ($options['class'] ?? ''));
+        $options['class'] = $this->prepareClass($options['class'] ?? '', ActionColor::VALIDATE);
 
         return $this->Form->button($title, $options);
+    }
+
+    public function buttonCancel(array $options = []): string
+    {
+        if (empty($options['url'])) {
+            throw new \InvalidArgumentException('url is required');
+        }
+
+        $url = $options['url'];
+        unset($options['url']);
+
+        $title = $options['label'] ?? __('Cancelar');
+        unset($options['label']);
+
+        $options['class'] = $this->prepareClass($options['class'] ?? '', ActionColor::CANCEL);
+
+        return $this->Html->link($title, $url, $options);
+    }
+
+    protected function prepareClass(array|string $class, ActionColor $actionColor): string
+    {
+        if (is_array($class)) {
+            $class = implode(' ', $class);
+        }
+
+        return $actionColor->btn($class);
     }
 }

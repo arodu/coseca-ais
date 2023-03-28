@@ -19,13 +19,13 @@ if (empty($student->student_course)) {
     echo $this->Html->link(
         __('Registrar Taller'),
         ['controller' => 'Courses', 'action' => 'add', $student->id, 'prefix' => 'Admin/Stage'],
-        ['class' => ActionColor::ADD->btn() . ' btn-sm']
+        ['class' => ActionColor::ADD->btn('btn-sm')]
     );
 } else {
     echo $this->Html->link(
         __('Editar Taller'),
         ['controller' => 'Courses', 'action' => 'edit', $student->student_course->id, 'prefix' => 'Admin/Stage'],
-        ['class' => ActionColor::EDIT->btn() . ' btn-sm']
+        ['class' => ActionColor::EDIT->btn('btn-sm')]
     );
 }
 $this->end();

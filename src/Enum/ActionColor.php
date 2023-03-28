@@ -15,7 +15,7 @@ enum ActionColor
     case VALIDATE;
     case DELETE;
     case INACTIVE;
-    case ESPECIAL;
+    case SPECIAL;
     case REPORT;
     case ROOT;
 
@@ -31,15 +31,26 @@ enum ActionColor
             static::VALIDATE => Color::SUCCESS,
             static::DELETE => Color::DANGER,
             static::INACTIVE => Color::DANGER,
-            static::ESPECIAL => Color::WARNING,
+            static::SPECIAL => Color::WARNING,
             static::REPORT => Color::SUCCESS,
-            static::ROOT => Color::ORANGE,
+            static::ROOT => Color::INDIGO,
             default => Color::DEFAULT,
         };
     }
 
-    public function btn(): string
+    public function btn(string $extra = ''): string
     {
-        return $this->color()->btn();
+        $output = implode(' ', [
+            $this->color()->btn(),
+            'btn-flat',
+            $extra,
+        ]);
+
+        return trim($output);
+    }
+
+    public function text(): string
+    {
+        return $this->color()->text();
     }
 }

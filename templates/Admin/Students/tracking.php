@@ -4,9 +4,11 @@
  * @var \App\View\AppView $this
  */
 
+use App\Enum\ActionColor;
 use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
+use App\Utility\FaIcon;
 
 $user = $this->request->getAttribute('identity');
 
@@ -52,7 +54,7 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
                 </h3>
                 <div class="card-tools">
                     <?php if ($canManageTracking) : ?>
-                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="<?= '#addTracking' . $adscription->id ?>">
+                        <button type="button" class="<?= ActionColor::ADD->btn('btn-sm') ?>" data-toggle="modal" data-target="<?= '#addTracking' . $adscription->id ?>">
                             <?= __('Agregar Actividad') ?>
                         </button>
                     <?php endif ?>
@@ -61,7 +63,7 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
                             __('Validar horas del proyecto'),
                             ['controller' => 'Adscriptions', 'action' => 'validate', $adscription->id, 'prefix' => 'Admin/Stage'],
                             [
-                                'class' => 'btn btn-success btn-sm',
+                                'class' => ActionColor::VALIDATE->btn('btn-sm'),
                                 'confirm' => __('¿Está seguro de validar este proyecto?'),
                                 'target' => 'validateTracking' . $adscription->id,
                             ]
@@ -78,7 +80,7 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
                             <th><?= __('Fecha') ?></th>
                             <th><?= __('Actividad') ?></th>
                             <th><?= __('Horas') ?></th>
-                            <th></th>
+                            <th class="actions"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -108,6 +110,8 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
                                                 [
                                                     'confirm' => __('¿Está seguro de eliminar este seguimiento?'),
                                                     'target' => 'deleteTracking' . $adscription->id,
+                                                    'class' => ActionColor::DELETE->btn('btn-xs'),
+                                                    'escape' => false,
                                                 ]
                                             );
                                         endif;
@@ -178,8 +182,8 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary"><?= __('Guardar') ?></button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><?= __('Cancelar') ?></button>
+                            <button type="submit" class="<?= ActionColor::SUBMIT->btn() ?>"><?= __('Guardar') ?></button>
+                            <button type="button" class="<?= ActionColor::CANCEL->btn() ?>" data-dismiss="modal"><?= __('Cancelar') ?></button>
                         </div>
                         <?= $this->Form->end() ?>
                     </div>

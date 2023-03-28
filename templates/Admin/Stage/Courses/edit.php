@@ -22,8 +22,19 @@ $this->Breadcrumbs->add([
 ?>
 
 <?= $this->Form->create($studentCourse) ?>
-<div class="card-header">
+<div class="card-header d-flex">
     <div class="card-title"><?= $stageField->label() ?></div>
+    <div class="ml-auto">
+        <?= $this->ModalForm->link(
+            __('Eliminar'),
+            ['action' => 'delete', $studentCourse->id],
+            [
+                'confirm' => __('Are you sure you want to delete # {0}?', $studentCourse->id),
+                'class' => 'btn btn-danger btn-sm',
+                'target' => 'deleteCourse',
+            ]
+        ) ?>
+    </div>
 </div>
 <div class="card-body">
     <?php
@@ -34,19 +45,10 @@ $this->Breadcrumbs->add([
 
 <div class="card-footer d-flex">
     <div>
-        <?= $this->ModalForm->link(
-            __('Eliminar'),
-            ['action' => 'delete', $studentCourse->id],
-            [
-                'confirm' => __('Are you sure you want to delete # {0}?', $studentCourse->id),
-                'class' => 'btn btn-danger',
-                'target' => 'deleteCourse',
-            ]
-        ) ?>
-
+        <?= $this->AppForm->buttonSave() ?>
+        <?= $this->AppForm->buttonValidate() ?>
     </div>
     <div class="ml-auto">
-        <?= $this->Form->button(__('Guardar')) ?>
         <?= $this->Html->link(__('Cancelar'), ['_name' => 'admin:student_view', $studentCourse->student_id], ['class' => 'btn btn-default']) ?>
     </div>
 </div>
@@ -57,7 +59,7 @@ echo  $this->ModalForm->modal('deleteCourse', [
     'element' => \ModalForm\ModalFormPlugin::FORM_CHECKBOX,
     'content' => [
         'title' => __('Eliminar Curso'),
-        'buttonOk'  => __('Enviar'),
+        'buttonOk'  => __('Si, eliminar'),
         'buttonCancel'  => __('Cancelar'),
     ]
 ]);

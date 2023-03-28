@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin\Stage;
 
 use App\Controller\Admin\AppAdminController;
+use App\Controller\Traits\ActionValidateTrait;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use App\Utility\Stages;
@@ -18,6 +19,8 @@ use Cake\I18n\FrozenDate;
  */
 class CoursesController extends AppAdminController
 {
+    use ActionValidateTrait;
+
     public function initialize(): void
     {
         parent::initialize();
@@ -36,9 +39,15 @@ class CoursesController extends AppAdminController
         if ($this->request->is('post')) {
             $studentCourse = $this->StudentCourses->patchEntity($studentCourse, $this->request->getData());
             if ($this->StudentCourses->save($studentCourse)) {
-                Stages::closeStudentStage((int) $student_id, StageField::COURSE, StageStatus::SUCCESS);
                 $session->write('courseSelectedDate', $studentCourse->date);
                 $this->Flash->success(__('The student course has been saved.'));
+
+                if (
+                    $this->actionValidate()
+                    && $nextStage = Stages::closeStudentStage((int) $student_id, StageField::COURSE, StageStatus::SUCCESS)
+                ) {
+                    $this->Flash->success(__('The {0} stage has been created.', $nextStage->stage));
+                }
 
                 return $this->redirect(['_name' => 'admin:student_view', $student_id]);
             }
@@ -66,6 +75,13 @@ class CoursesController extends AppAdminController
                 $session = $this->getRequest()->getSession();
                 $session->write('courseSelectedDate', $studentCourse->date);
                 $this->Flash->success(__('The student course has been saved.'));
+
+                if (
+                    $this->actionValidate()
+                    && $nextStage = Stages::closeStudentStage((int) $studentCourse->student_id, StageField::COURSE, StageStatus::SUCCESS)
+                ) {
+                    $this->Flash->success(__('The {0} stage has been created.', $nextStage->stage));
+                }
 
                 return $this->redirect(['_name' => 'admin:student_view', $studentCourse->student_id]);
             }
