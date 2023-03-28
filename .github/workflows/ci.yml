@@ -35,8 +35,8 @@ jobs:
 
     - name: Composer install
       run: |
-        if [[ ${{ matrix.db-type }} == 'sqlite' ]]; then export DATABASE_URL='sqlite:///:memory:'; fi
-        if [[ ${{ matrix.db-type }} == 'mysql' ]]; then export DATABASE_URL='mysql://root:root@127.0.0.1/cakephp?encoding=utf8'; fi
+        if [[ '${{ matrix.db-type }}' == 'sqlite' ]]; then export DATABASE_URL='sqlite:///:memory:'; fi
+        if [[ '${{ matrix.db-type }}' == 'mysql' ]]; then export DATABASE_URL='mysql://root:root@127.0.0.1/cakephp?encoding=utf8'; fi
         cp config/app_local.example.php config/app_local.php
         composer install --prefer-dist --no-interaction
 
