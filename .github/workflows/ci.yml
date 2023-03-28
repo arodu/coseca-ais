@@ -42,8 +42,8 @@ jobs:
 
     - name: Run PHPUnit
       run: |
-        if [[ ${{ matrix.db-type }} == 'sqlite' ]]; then export DATABASE_URL='sqlite:///:memory:'; fi
-        if [[ ${{ matrix.db-type }} == 'mysql' ]]; then export DATABASE_URL='mysql://root:root@127.0.0.1/cakephp?encoding=utf8'; fi
+        if [[ '${{ matrix.db-type }}' == 'sqlite' ]]; then export DATABASE_URL='sqlite:///:memory:'; fi
+        if [[ '${{ matrix.db-type }}' == 'mysql' ]]; then export DATABASE_URL='mysql://root:root@127.0.0.1/cakephp?encoding=utf8'; fi
         vendor/bin/phpunit
 
 #  coding-standard:
