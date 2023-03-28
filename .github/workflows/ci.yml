@@ -20,6 +20,7 @@ jobs:
     name: PHP ${{ matrix.php-version }}
     env:
       DATABASE_URL: 'mysql://root:root@127.0.0.1/cakephp?encoding=utf8'
+      DATABASE_TEST_URL: 'sqlite:///:memory:'
 
     steps:
     - name: Setup MySQL latest
