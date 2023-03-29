@@ -20,7 +20,7 @@ $this->Breadcrumbs->add([
 ?>
 
 <div class="row">
-    <div id="stage-list" class="col-sm-8 offset-sm-2">
+    <div id="stage-list" class="col-sm-12 col-md-8 offset-md-2">
         <?php foreach ($listStages as $itemStage) : ?>
             <?php
             $studentStage = $studentStages[$itemStage->value] ?? null;

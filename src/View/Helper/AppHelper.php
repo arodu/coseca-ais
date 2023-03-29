@@ -54,8 +54,8 @@ class AppHelper extends Helper
     }
 
     /**
-     * @param integer $completed
-     * @param integer $total
+     * @param float $completed
+     * @param float $total
      * @param integer $decimals
      * @return float
      */
@@ -70,8 +70,8 @@ class AppHelper extends Helper
     }
 
     /**
-     * @param integer $completed
-     * @param integer $total
+     * @param float $completed
+     * @param float $total
      * @return string
      */
     public function progressBar(float $completed, float $total): string
