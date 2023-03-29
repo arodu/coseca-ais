@@ -121,7 +121,7 @@ $this->Breadcrumbs->add([
                             ) ?>
                         </td>
                         <td class="project_progress">
-                            <?= $this->App->progressBar($student->total_hours, Configure::read('coseca.hours-min')) ?>
+                            <?= $this->App->progressBar($student->total_hours ?? 0, Configure::read('coseca.hours-min')) ?>
                         </td>
                         <td class="actions">
                             <?= $this->Html->link(__('View'), ['action' => 'view', $student->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
