@@ -45,8 +45,8 @@ jobs:
       run: |
         vendor/bin/phpunit
 
-    #- name: Run PHP CodeSniffer
-    #  run: composer cs-check
+    - name: Run PHP CodeSniffer
+      run: composer cs-check
 
-    #- name: Run phpstan
-    #  run: vendor/bin/phpstan
+    - name: Run phpstan
+      run: vendor/bin/phpstan
