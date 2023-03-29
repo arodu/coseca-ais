@@ -22,7 +22,6 @@ $this->Breadcrumbs->add([
     <?php
         echo $this->Form->control('tenant', ['label' => __('Programa'), 'value' => $tenant->label, 'readonly' => true]);
         echo $this->Form->control('name', ['label' => __('Nombre')]);
-        echo $this->Form->control('active', ['label' => __('Activo'), 'custom' => true]);
         ?>
     </div>
 

@@ -5,6 +5,7 @@
  * @var \App\Model\Entity\StudentAdscription $adscription
  */
 
+use App\Enum\ActionColor;
 use App\Model\Field\AdscriptionStatus;
 
 $this->student_id = $adscription->student_id;
@@ -22,8 +23,19 @@ $this->Breadcrumbs->add([
 
 
 <?= $this->Form->create($adscription) ?>
-<div class="card-header">
+<div class="card-header d-flex">
     <div class="card-title"><?= __('Editar Proyecto') ?></div>
+    <div class="ml-auto">
+        <?= $this->ModalForm->Link(
+            __('Eliminar proyecto'),
+            ['action' => 'delete', $adscription->id],
+            [
+                'confirm' => __('Are you sure you want to delete # {0}?', $adscription->id),
+                'class' => ActionColor::DELETE->btn('btn-sm'),
+                'target' => 'deleteAdscription',
+            ]
+        ) ?>
+    </div>
 </div>
 <div class="card-body">
 
@@ -33,16 +45,16 @@ $this->Breadcrumbs->add([
                 <tr>
                     <th><?= __('Institución') ?></th>
                     <th><?= __('Proyecto') ?></th>
-                    <th><?= __('Lapso') ?></th>
                     <th><?= __('Tutor') ?></th>
+                    <th><?= __('Estado') ?></th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td><?= $adscription->institution_project->institution->name ?></td>
                     <td><?= $adscription->institution_project->name ?></td>
-                    <td><?= $adscription->lapse->name ?></td>
                     <td><?= $adscription->tutor->name ?></td>
+                    <td><?= $this->App->badge($adscription->status_obj) ?></td>
                 </tr>
             </tbody>
         </table>
@@ -50,25 +62,16 @@ $this->Breadcrumbs->add([
 
     <hr>
 
-    <?= $this->Form->control('status', ['options' => AdscriptionStatus::toListLabel()]) ?>
+    <?= $this->Form->control('status', ['options' => AdscriptionStatus::getEditableListLabel()]) ?>
     <?= $this->Form->control('tutor_id', ['options' => $tutors, 'empty' => true]) ?>
 </div>
 
 <div class="card-footer d-flex">
     <div class="">
-        <?= $this->ModalForm->Link(
-            __('Delete'),
-            ['action' => 'delete', $adscription->id],
-            [
-                'confirm' => __('Are you sure you want to delete # {0}?', $adscription->id),
-                'class' => 'btn btn-danger',
-                'target' => 'deleteAdscription',
-            ]
-        ) ?>
+        <?= $this->AppForm->buttonSave() ?>
     </div>
     <div class="ml-auto">
-        <?= $this->Form->button(__('Guardar')) ?>
-        <?= $this->Html->link(__('Cancelar'), ['_name' => 'admin:student_view', $adscription->student_id], ['class' => 'btn btn-default']) ?>
+        <?= $this->AppForm->buttonCancel(['url' => ['_name' => 'admin:student_adscriptions', $adscription->student_id]]) ?>
     </div>
 </div>
 
@@ -79,7 +82,7 @@ echo  $this->ModalForm->modal('deleteAdscription', [
     'element' => \ModalForm\ModalFormPlugin::FORM_CHECKBOX,
     'content' => [
         'title' => __('Eliminar Proyecto'),
-        'buttonOk'  => __('Enviar'),
+        'buttonOk'  => __('Si, eliminar'),
         'buttonCancel'  => __('Cancelar'),
     ]
 ]);

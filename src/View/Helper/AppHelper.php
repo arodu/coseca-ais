@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\View\Helper;
 
+use App\Enum\BadgeInterface;
 use App\Enum\Color;
 use App\Model\Entity\Lapse;
 use App\Utility\FaIcon;
@@ -23,6 +24,17 @@ class AppHelper extends Helper
     protected $_defaultConfig = [];
 
     public $helpers = ['Html'];
+
+    public function nan(array $options = []): string
+    {
+        $text = $options['text'] ?? 'N/A';
+        unset($options['text']);
+
+        $tag = $options['tag'] ?? 'code';
+        unset($options['tag']);
+
+        return $this->Html->tag($tag, $text, $options);
+    }
 
     /**
      * @param float $percent
@@ -47,7 +59,7 @@ class AppHelper extends Helper
      * @param integer $decimals
      * @return float
      */
-    public function progressBarCalc(int $completed, int $total, int $decimals = 0): float
+    public function progressBarCalc(float $completed, float $total, int $decimals = 0): float
     {
         if ($completed >= $total) {
             return 100;
@@ -62,11 +74,11 @@ class AppHelper extends Helper
      * @param integer $total
      * @return string
      */
-    public function progressBar(int $completed, int $total): string
+    public function progressBar(float $completed, float $total): string
     {
         $percent = $this->progressBarCalc($completed, $total, 0);
 
-        $output = '<div class="progress progress-sm">'
+        $output = '<div class="progress progress-sm" title="' . __('{0} horas', $completed) . '">'
             . '<div class="progress-bar ' . $this->progressBarColor($percent) . '" role="progressbar" aria-valuenow="' . $percent . '" aria-valuemin="0" aria-valuemax="100" style="width:' . $percent . '%">'
             . '</div>'
             . '</div>'
@@ -78,7 +90,7 @@ class AppHelper extends Helper
     public function error(string $tooltip = null): string
     {
         $options['class'] = [
-            Color::DANGER->cssClass('badge'),
+            Color::DANGER->badge(),
         ];
         $options['escape'] = false;
         $options['role'] = 'button';
@@ -103,9 +115,7 @@ class AppHelper extends Helper
             return $lapse->name;
         }
 
-        $inactive = $this->Html->tag('span', $lapse->label_active, ['class' => $lapse->getActive()->color()->cssClass('badge')]);
-
-        return $lapse->name . ' ' . $inactive;
+        return $lapse->name . ' ' . $this->badge($lapse->getActive());
     }
 
     protected $selectDependentTemplate = <<<SCRIPT_TEMPLATE
@@ -168,5 +178,17 @@ class AppHelper extends Helper
         ]);
 
         return $this->Html->scriptBlock($script, ['block' => true]);
+    }
+
+    public function badge(BadgeInterface $enum, array $options = []): string
+    {
+        $options = [
+            'class' => $enum->color()->badge() . ' ' . ($options['class'] ?? ''),
+        ];
+
+        $tag = $options['tag'] ?? 'span';
+        unset($options['tag']);
+
+        return $this->Html->tag($tag, $enum->label(), $options);
     }
 }

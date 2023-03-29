@@ -13,6 +13,7 @@ class AppAdminController extends AppController
     {
         parent::initialize();
         $this->loadComponent('Authentication.Authentication');
+        $this->loadComponent('Authorization.Authorization');
         $this->loadComponent('CakeLte.MenuLte');
         $this->viewBuilder()->setLayout('CakeLte.default');
     }

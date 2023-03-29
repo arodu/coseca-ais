@@ -4,6 +4,7 @@
  * @var \App\View\AppView $this
  */
 
+use App\Enum\ActionColor;
 use App\Enum\Gender;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
@@ -33,10 +34,12 @@ $this->Breadcrumbs->add([
 </div>
 
 <div class="card-footer d-flex">
-    <div></div>
+    <div>
+        <?= $this->AppForm->buttonSave() ?>
+        <?= $this->AppForm->buttonValidate(['confirm' => __('Seguro que desea validar este registro?')]) ?>
+    </div>
     <div class="ml-auto">
-        <?= $this->Form->button(__('Guardar')) ?>
-        <?= $this->Html->link(__('Cancelar'), ['controller' => 'Students', 'action' => 'view', $student->id, 'prefix' => 'Admin'], ['class' => 'btn btn-default']) ?>
+        <?= $this->Html->link(__('Cancelar'), ['controller' => 'Students', 'action' => 'view', $student->id, 'prefix' => 'Admin'], ['class' => ActionColor::CANCEL->btn()]) ?>
     </div>
 </div>
 <?= $this->Form->end() ?>

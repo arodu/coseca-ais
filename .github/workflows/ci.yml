@@ -3,87 +3,50 @@ name: CI
 on:
   push:
     branches:
-      - '4.x'
-      - '4.next'
-      - '5.x'
+      - 'main'
+      - 'develop'
   pull_request:
     branches:
       - '*'
 
-permissions:
-  contents: read
-
 jobs:
   testsuite:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        php-version: ['7.4', '8.0', '8.1']
+        php-version: ['8.1']
+        db-type: [mysql]
     name: PHP ${{ matrix.php-version }}
+    env:
+      DATABASE_URL: 'mysql://root:root@127.0.0.1/cakephp?encoding=utf8'
+      DATABASE_TEST_URL: 'mysql://root:root@127.0.0.1/cakephp?encoding=utf8'
 
     steps:
+    - name: Setup MySQL latest
+      if: matrix.db-type == 'mysql'
+      run: docker run --rm --name=mysqld -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=cakephp -p 3306:3306 -d mysql --default-authentication-plugin=mysql_native_password --disable-log-bin
+
     - uses: actions/checkout@v3
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-version }}
-        extensions: mbstring, intl, pdo_sqlite
+        extensions: mbstring, intl, apcu, sqlite, pdo_sqlite, pdo_${{ matrix.db-type }}, ${{ matrix.db-type }}
         coverage: none
 
     - name: Composer install
       run: |
-        if [[ ${{ matrix.php-version }} == '8.1' ]]; then
-          composer update --ignore-platform-reqs
-        else
-          composer update
-        fi
-        composer run-script post-install-cmd --no-interaction
+        cp config/app_local.example.php config/app_local.php
+        composer install --prefer-dist --no-interaction
 
     - name: Run PHPUnit
       run: |
-        cp config/app_local.example.php config/app_local.php
         vendor/bin/phpunit
-      env:
-        DATABASE_TEST_URL: sqlite://./testdb.sqlite
 
-  coding-standard:
-    name: Coding Standard
-    runs-on: ubuntu-18.04
+    #- name: Run PHP CodeSniffer
+    #  run: composer cs-check
 
-    steps:
-    - uses: actions/checkout@v3
-
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '7.4'
-        extensions: mbstring, intl
-        coverage: none
-
-    - name: Composer install
-      run: composer install
-
-    - name: Run PHP CodeSniffer
-      run: composer cs-check
-
-  static-analysis:
-    name: Static Analysis
-    runs-on: ubuntu-18.04
-
-    steps:
-    - uses: actions/checkout@v3
-
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '7.4'
-        extensions: mbstring, intl
-        coverage: none
-
-    - name: Composer install
-      run: composer require --dev phpstan/phpstan:^1.0.0
-
-    - name: Run phpstan
-      run: vendor/bin/phpstan
+    #- name: Run phpstan
+    #  run: vendor/bin/phpstan

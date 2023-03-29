@@ -36,19 +36,17 @@ class StudentAdscription extends Entity
     protected $_accessible = [
         'student_id' => true,
         'institution_project_id' => true,
-        'lapse_id' => true,
         'tutor_id' => true,
         'created' => true,
         'modified' => true,
         'student' => true,
         'institution_project' => true,
-        'lapse' => true,
         'tutor' => true,
         'status' => true,
     ];
     
     protected $_virtual = [
-        'status_label',
+        'label_status',
     ];
 
     private AdscriptionStatus $_adscriptionStatus;
@@ -72,8 +70,8 @@ class StudentAdscription extends Entity
     /**
      * @return string
      */
-    protected function _getStatusLabel(): ?string
+    protected function _getLabelStatus(): ?string
     {
-        return $this->status_obj?->label();
+        return $this->_getStatusObj()?->label();
     }
 }

@@ -34,9 +34,11 @@ $this->Breadcrumbs->add([
 </div>
 
 <div class="card-footer d-flex">
-    <div></div>
+    <div>
+        <?= $this->AppForm->buttonSave() ?>
+        <?= $this->AppForm->buttonValidate(['confirm' => __('Seguro que desea validar este registro?')]) ?>
+    </div>
     <div class="ml-auto">
-        <?= $this->Form->button(__('Guardar')) ?>
         <?= $this->Html->link(__('Cancelar'), ['_name' => 'admin:student_view', $student_id], ['class' => 'btn btn-default']) ?>
     </div>
 </div>

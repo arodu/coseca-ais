@@ -40,6 +40,14 @@ return [
                 'close' => StageStatus::REVIEW,
             ],
         ],
+        StageField::RESULTS->value => [
+            'label' => __('Resultados'),
+            'status' => StageStatus::IN_PROGRESS,
+            'statutes' => [
+                'open' => StageStatus::IN_PROGRESS,
+                'close' => StageStatus::REVIEW,
+            ],
+        ],
         StageField::ENDING->value => [
             'label' => __('Conclusión'),
             'status' => StageStatus::WAITING,
@@ -64,6 +72,7 @@ return [
             StageField::COURSE,
             StageField::ADSCRIPTION,
             StageField::TRACKING,
+            StageField::RESULTS,
             StageField::ENDING,
         ],
         StudentType::VALIDATED->value => [

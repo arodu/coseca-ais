@@ -3,10 +3,12 @@ declare(strict_types=1);
 
 namespace App\Enum;
 
-use App\Enum\Trait\ListTrait;
+use App\Enum\Trait\BasicEnumTrait;
 
-enum Active
+enum Active implements BadgeInterface
 {
+    use BasicEnumTrait;
+
     case TRUE;
     case FALSE;
 

@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\Model\Table;
 
 use App\Model\Entity\AppUser;
+use App\Model\Entity\Student;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use App\Model\Field\StudentType;
 use App\Model\Table\Traits\BasicTableTrait;
 use ArrayObject;
+use Cake\Cache\Cache;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\Log\Log;
@@ -224,12 +226,17 @@ class StudentsTable extends Table
     public function findWithStudentAdscriptions(Query $query, array $options = []): Query
     {
         return $query->contain([
-            'StudentAdscriptions' => [
-                'InstitutionProjects' => ['Institutions'],
-                'Tutors',
-                'Lapses',
-                'StudentDocuments',
-            ],
+            'StudentAdscriptions' => function (Query $query) use ($options) {
+                if (isset($options['status']) && is_array($options['status'])) {
+                    $query->where(['StudentAdscriptions.status IN' => $options['status']]);
+                }
+
+                return $query->contain([
+                    'InstitutionProjects' => ['Institutions'],
+                    'Tutors',
+                    'StudentDocuments',
+                ]);
+            },
         ]);
     }
 
@@ -328,5 +335,65 @@ class StudentsTable extends Table
         }
 
         return $affectedRows;
+    }
+
+
+    public function getStudentTrackingInfo(int $student_id): array
+    {
+        return Cache::remember('student_tracking_info_' . $student_id, function () use ($student_id) {
+            $adscriptionsIds = $this->StudentAdscriptions->find('activeProjects', ['student_id' => $student_id]);
+
+            $trackingCount = $this->StudentAdscriptions->StudentTracking->find()
+                ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
+                ->count();
+
+            $trackingFirstDate = null;
+            $trackingLastDate = null;
+            $totalHours = null;
+
+            if ($trackingCount > 0) {
+                $trackingFirstDate = $this->StudentAdscriptions->StudentTracking->find()
+                    ->select(['StudentTracking.date'])
+                    ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
+                    ->order(['StudentTracking.date' => 'ASC'])
+                    ->first();
+
+                $trackingLastDate = $this->StudentAdscriptions->StudentTracking->find()
+                    ->select(['StudentTracking.date'])
+                    ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
+                    ->order(['StudentTracking.date' => 'DESC'])
+                    ->first();
+
+                $totalHours = $this->StudentAdscriptions->StudentTracking->find()
+                    ->select(['total_hours' => 'SUM(StudentTracking.hours)'])
+                    ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
+                    ->first();
+            }
+
+            return [
+                'trackingCount' => $trackingCount ?? 0,
+                'trackingFirstDate' => $trackingFirstDate->date ?? null,
+                'trackingLastDate' => $trackingLastDate->date ?? null,
+                'totalHours' => $totalHours->total_hours ?? 0,
+            ];
+        }, '1day');
+    }
+
+    /**
+     * @param Student $student
+     * @return Student
+     */
+    public function updateTotalHours(Student $student): Student
+    {
+        $adscriptionsIds = $this->StudentAdscriptions->find('activeProjects', ['student_id' => $student->id]);
+
+        $totalHours = $this->StudentAdscriptions->StudentTracking->find()
+            ->select(['total_hours' => 'SUM(StudentTracking.hours)'])
+            ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
+            ->first();
+
+        $student->total_hours = $totalHours->total_hours ?? 0;
+
+        return $this->saveOrFail($student);
     }
 }

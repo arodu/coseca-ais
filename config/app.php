@@ -109,6 +109,18 @@ return [
             'url' => env('CACHE_DEFAULT_URL', null),
         ],
 
+        '1day' => [
+            'className' => FileEngine::class,
+            'path' => CACHE,
+            'url' => env('CACHE_DEFAULT_URL', null),
+        ],
+
+        '7days' => [
+            'className' => FileEngine::class,
+            'path' => CACHE,
+            'url' => env('CACHE_DEFAULT_URL', null),
+        ],
+
         /*
          * Configure the cache used for general framework caching.
          * Translation cache files are stored with this configuration.

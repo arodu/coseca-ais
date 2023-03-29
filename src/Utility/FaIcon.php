@@ -118,6 +118,7 @@ class FaIcon
         'edit' => ['fas', 'edit'],
         'locked' => ['fas', 'lock'],
         'delete' => ['fas', 'trash'],
+        'remove' => ['fas', 'times'],
         'add' => ['fas', 'plus'],
         'add-circle' => ['fas', 'plus-circle'],
         'refresh' => ['fas', 'sync'],

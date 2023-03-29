@@ -6,6 +6,7 @@ namespace App\Controller\Admin;
 
 use App\Controller\Traits\BulkActionsTrait;
 use App\Controller\Traits\ExportDataTrait;
+use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use Cake\Event\EventInterface;
@@ -111,7 +112,9 @@ class StudentsController extends AppAdminController
 
         $stageList = $this->Students->StudentStages->find('stageList', ['student' => $student]);
 
-        $this->set(compact('student', 'stageList'));
+        $trackingInfo = $this->Students->getStudentTrackingInfo($student->id);
+
+        $this->set(compact('student', 'stageList', 'trackingInfo'));
     }
 
     public function info($id = null)
@@ -143,7 +146,25 @@ class StudentsController extends AppAdminController
 
     public function tracking($id = null)
     {
-        $this->set('student_id', $id);
+        $student = $this->Students->get($id, [
+            'contain' => [
+                'Lapses' => [
+                    'LapseDates',
+                ],
+                'StudentAdscriptions' => [
+                    'StudentTracking' => [
+                        'sort' => ['StudentTracking.date' => 'ASC'],
+                    ],
+                    'InstitutionProjects' => [
+                        'Institutions',
+                    ],
+                ]
+            ],
+        ]);
+        $adscriptionsList = $this->Students->StudentAdscriptions->find('listOpen', ['student_id' => $id])->toArray();
+        $trackingInfo = $this->Students->getStudentTrackingInfo($student->id);
+
+        $this->set(compact('student', 'adscriptionsList', 'trackingInfo'));
     }
 
     public function prints($id = null)
@@ -234,5 +255,23 @@ class StudentsController extends AppAdminController
         $this->Flash->success(__('Cantidad de registros actualizados: {0}', $affectedRows));
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    public function changeEmail($id = null)
+    {
+        $student = $this->Students->get($id, [
+            'contain' => ['AppUsers'],
+        ]);
+
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $student = $this->Students->patchEntity($student, $this->request->getData());
+            if ($this->Students->save($student)) {
+                $this->Flash->success(__('The student email has been saved.'));
+
+                return $this->redirect(['action' => 'view', $student['id']]);
+            }
+            $this->Flash->error(__('The student email could not be saved. Please, try again.'));
+        }
+        $this->set(compact('student'));
     }
 }

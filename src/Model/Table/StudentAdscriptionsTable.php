@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -6,6 +7,7 @@ namespace App\Model\Table;
 use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\DocumentType;
 use ArrayObject;
+use Cake\Cache\Cache;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\ORM\Query;
@@ -13,6 +15,7 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Utility\Text;
 use Cake\Validation\Validator;
+use InvalidArgumentException;
 
 /**
  * StudentAdscriptions Model
@@ -64,10 +67,6 @@ class StudentAdscriptionsTable extends Table
             'foreignKey' => 'institution_project_id',
             'joinType' => 'INNER',
         ]);
-        $this->belongsTo('Lapses', [
-            'foreignKey' => 'lapse_id',
-            'joinType' => 'INNER',
-        ]);
         $this->belongsTo('Tutors', [
             'foreignKey' => 'tutor_id',
             'joinType' => 'INNER',
@@ -76,12 +75,12 @@ class StudentAdscriptionsTable extends Table
             'foreignKey' => 'foreign_key',
             'conditions' => ['model' => 'StudentAdscriptions'],
             'dependent' => true,
-            'cascadeCallbacks' => true,        
+            'cascadeCallbacks' => true,
         ]);
-        $this->hasMany('StudentTraking', [
+        $this->hasMany('StudentTracking', [
             'foreignKey' => 'student_adscription_id',
             'dependent' => true,
-            'cascadeCallbacks' => true,        
+            'cascadeCallbacks' => true,
         ]);
     }
 
@@ -123,7 +122,6 @@ class StudentAdscriptionsTable extends Table
     {
         $rules->add($rules->existsIn('student_id', 'Students'), ['errorField' => 'student_id']);
         $rules->add($rules->existsIn('institution_project_id', 'InstitutionProjects'), ['errorField' => 'institution_project_id']);
-        $rules->add($rules->existsIn('lapse_id', 'Lapses'), ['errorField' => 'lapse_id']);
         $rules->add($rules->existsIn('tutor_id', 'Tutors'), ['errorField' => 'tutor_id']);
 
         return $rules;
@@ -142,10 +140,68 @@ class StudentAdscriptionsTable extends Table
             $this->StudentDocuments->saveOrFail($this->StudentDocuments->newEntity([
                 'student_id' => $entity->student_id,
                 'token' => Text::uuid(),
-                'type' => DocumentType::ADSCRIPTION->value,
+                'type' => DocumentType::ADSCRIPTION_PROJECT->value,
                 'model' => 'StudentAdscriptions',
                 'foreign_key' => $entity->id,
             ]));
         }
+
+        $this->updateStudentTotalHours($entity);
     }
+
+    public function afterDelete(EventInterface $event, EntityInterface $entity, ArrayObject $options)
+    {
+        $this->updateStudentTotalHours($entity);
+    }
+
+    public function findListOpen(Query $query, array $options): Query
+    {
+        if (empty($options['student_id'])) {
+            throw new InvalidArgumentException('Missing student_id');
+        }
+
+        return $query
+            ->find('list', [
+                'keyField' => 'id',
+                'valueField' => 'institution_project.name',
+                'groupField' => 'institution_project.institution.name',
+            ])
+            ->contain([
+                'InstitutionProjects' => ['Institutions'],
+            ])
+            ->where([
+                'student_id' => $options['student_id'],
+                'status' => AdscriptionStatus::OPEN->value,
+            ]);
+    }
+
+    public function findActiveProjects(Query $query, array $options): Query
+    {
+        if (empty($options['student_id'])) {
+            throw new InvalidArgumentException('Missing student_id');
+        }
+
+        return $query
+            ->select(['StudentAdscriptions.id'])
+            ->where([
+                'StudentAdscriptions.student_id' => $options['student_id'],
+                'StudentAdscriptions.status IN' => [
+                    AdscriptionStatus::OPEN->value,
+                    AdscriptionStatus::CLOSED->value,
+                    AdscriptionStatus::VALIDATED->value,
+                ],
+            ]);
+    }
+
+    protected function updateStudentTotalHours(EntityInterface $entity)
+    {
+        $student = $this->get($entity->id, [
+            'contain' => ['Students'],
+        ])->student;
+
+        $this->Students->updateTotalHours($student);
+
+        Cache::delete('student_tracking_info_' . $student->id);
+    }
+
 }

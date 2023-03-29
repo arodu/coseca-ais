@@ -26,7 +26,7 @@ $this->Breadcrumbs->add([
             $studentStage = $studentStages[$itemStage->value] ?? null;
             $studentStageStatus = $studentStage?->status_obj ?? StageStatus::LOCKED;
             ?>
-            <div class="stage-list-item <?= $studentStageStatus->color()->cssClass('card') ?>">
+            <div class="stage-list-item <?= $studentStageStatus->color()->card() ?>">
                 <div class="card-header">
                     <h4 class="card-title w-100">
                         <a class="d-flex w-100" data-toggle="collapse" href="<?= '#collapse-' . $itemStage->value ?>">

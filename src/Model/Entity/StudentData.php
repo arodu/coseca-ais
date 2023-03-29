@@ -41,5 +41,6 @@ class StudentData extends Entity
         'interest_area_id' => true,
         'observations' => true,
         'student' => true,
+        'total_hours' => true,
     ];
 }

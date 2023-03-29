@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use Cake\Event\EventInterface;
+use Cake\Log\Log;
 
 /**
  * Lapses Controller
@@ -17,41 +18,6 @@ class LapsesController extends AppAdminController
     {
         $this->MenuLte->activeItem('lapses');
     }
-
-    /**
-     * Index method
-     *
-     * @return \Cake\Http\Response|null|void Renders view
-     */
-    /*
-    public function index()
-    {
-        $this->paginate = [
-            'contain' => ['Tenants'],
-        ];
-        $lapses = $this->paginate($this->Lapses);
-
-        $this->set(compact('lapses'));
-    }
-    */
-
-    /**
-     * View method
-     *
-     * @param string|null $id Lapse id.
-     * @return \Cake\Http\Response|null|void Renders view
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    /*
-    public function view($id = null)
-    {
-        $lapse = $this->Lapses->get($id, [
-            'contain' => ['Tenants', 'LapseDates'],
-        ]);
-
-        $this->set(compact('lapse'));
-    }
-    */
 
     /**
      * Add method
@@ -117,22 +83,33 @@ class LapsesController extends AppAdminController
     }
 
     /**
-     * Delete method
-     *
+     * Change active method
      * @param string|null $id Lapse id.
+     * @param int $active Active value
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    public function changeActive($id = null, $active = 0)
     {
-        $this->request->allowMethod(['post', 'delete']);
-        $lapse = $this->Lapses->get($id);
-        if ($this->Lapses->delete($lapse)) {
-            $this->Flash->success(__('The lapse has been deleted.'));
-        } else {
-            $this->Flash->error(__('The lapse could not be deleted. Please, try again.'));
+        $this->request->allowMethod(['post', 'put']);
+
+        try {
+            $this->Lapses->getConnection()->begin();
+            $lapse = $this->Lapses->get($id);
+
+            $this->Lapses->updateAll(['active' => 0], ['tenant_id' => $lapse->tenant_id]);
+
+            $lapse->active = (int) $active;
+            $this->Lapses->saveOrFail($lapse);
+            
+            $this->Flash->success(__('The lapse has been updated.'));
+            $this->Lapses->getConnection()->commit();
+        } catch (\Exception $e) {
+            $this->Lapses->getConnection()->rollback();
+            $this->Flash->error(__('The lapse could not be updated. Please, try again.'));
+            Log::error($e->getMessage());
         }
 
-        return $this->redirect(['controller' => 'Tenants', 'action' => 'view', $lapse->tenant_id]);
+        return $this->redirect(['controller' => 'Tenants', 'action' => 'view', $lapse->tenant_id, '?' => ['lapse_id' => $id]]);
     }
 }

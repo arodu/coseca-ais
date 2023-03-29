@@ -111,17 +111,17 @@ $this->Breadcrumbs->add([
                         <td><?= h($student->dni) ?></td>
                         <td><?= h($student->first_name) ?></td>
                         <td><?= h($student->last_name) ?></td>
-                        <td><?= h($student->lapse?->name) ?? '<code>N/A</code>'  ?></td>
+                        <td><?= h($student->lapse?->name) ?? $this->App->nan() ?></td>
                         <td>
                             <?= h($studentStage->stage_label) ?>
                             <?= $this->Html->tag(
                                 'span',
                                 $student->last_stage->status_label,
-                                ['class' => [$studentStage->status_obj->color()->cssClass('badge'), 'ml-2']]
+                                ['class' => [$studentStage->status_obj->color()->badge(), 'ml-2']]
                             ) ?>
                         </td>
                         <td class="project_progress">
-                            <?= $this->App->progressBar(rand(0, 130), Configure::read('coseca.hours-min')) ?>
+                            <?= $this->App->progressBar($student->total_hours, Configure::read('coseca.hours-min')) ?>
                         </td>
                         <td class="actions">
                             <?= $this->Html->link(__('View'), ['action' => 'view', $student->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>

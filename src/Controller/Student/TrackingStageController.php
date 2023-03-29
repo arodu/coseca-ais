@@ -10,8 +10,15 @@ use App\Controller\AppController;
  *
  * @method \App\Model\Entity\StudentTracking[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class StudentTrackingController extends AppController
+class TrackingStageController extends AppController
 {
+
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->StudentTracking = $this->fetchTable('StudentTracking');
+    }
+
     /**
      * Index method
      *

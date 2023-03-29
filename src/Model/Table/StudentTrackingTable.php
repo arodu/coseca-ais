@@ -3,7 +3,10 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
+use ArrayObject;
+use Cake\Cache\Cache;
+use Cake\Datasource\EntityInterface;
+use Cake\Event\EventInterface;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -96,5 +99,26 @@ class StudentTrackingTable extends Table
         $rules->add($rules->existsIn('student_adscription_id', 'StudentAdscriptions'), ['errorField' => 'student_adscription_id']);
 
         return $rules;
+    }
+
+    public function afterDelete(EventInterface $event, EntityInterface $entity, ArrayObject $options)
+    {
+        $this->updateStudentTotalHours($entity);
+    }
+
+    public function afterSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
+    {
+        $this->updateStudentTotalHours($entity);
+    }
+
+    protected function updateStudentTotalHours(EntityInterface $entity)
+    {
+        $student = $this->StudentAdscriptions->get($entity->student_adscription_id, [
+            'contain' => ['Students'],
+        ])->student;
+
+        $this->StudentAdscriptions->Students->updateTotalHours($student);
+
+        Cache::delete('student_tracking_info_' . $student->id);
     }
 }

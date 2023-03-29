@@ -33,15 +33,12 @@ class AdscriptionsController extends AppAdminController
      */
     public function add($student_id = null)
     {
-        $student = $this->StudentAdscriptions->Students->get($student_id, [
-            'contain' => ['Lapses']
-        ]);
+        $student = $this->StudentAdscriptions->Students->get($student_id);
 
         $student_adscription = $this->StudentAdscriptions->newEmptyEntity();
         if ($this->request->is('post')) {
             $student_adscription = $this->StudentAdscriptions->patchEntity($student_adscription, $this->request->getData());
             if ($this->StudentAdscriptions->save($student_adscription)) {
-                Stages::closeStudentStage($student->id, StageField::ADSCRIPTION, StageStatus::REVIEW);
                 $this->Flash->success(__('The student_adscription has been saved.'));
 
                 return $this->redirect(['_name' => 'admin:student_view', $student_id]);
@@ -80,7 +77,6 @@ class AdscriptionsController extends AppAdminController
         $adscription = $this->StudentAdscriptions->get($id, [
             'contain' => [
                 'InstitutionProjects' => ['Institutions'],
-                'Lapses',
                 'Tutors',
                 'Students'
             ],

@@ -4,6 +4,8 @@
  * @var \App\Model\Entity\StudentAdscription $student_adscription
  */
 
+use App\Enum\ActionColor;
+
 $this->student_id = $student->id;
 $this->active = null;
 $this->extend('/Admin/Common/view_student');
@@ -25,16 +27,17 @@ $this->Breadcrumbs->add([
 <div class="card-body">
     <?php
     echo $this->Form->hidden('student_id', ['value' => $student->id]);
-    echo $this->Form->control('lapse_id', ['options' => [$student->lapse->id => $student->lapse->name], 'readonly' => true]);
     echo $this->Form->control('institution_project_id', ['options' => $institution_projects, 'empty' => true]);
     echo $this->Form->control('tutor_id', ['options' => $tutors, 'empty' => true]);
     ?>
 </div>
 
 <div class="card-footer d-flex">
+    <div>
+        <?= $this->AppForm->buttonSave() ?>
+    </div>
     <div class="ml-auto">
-        <?= $this->Form->button(__('Guardar')) ?>
-        <?= $this->Html->link(__('Cancelar'), ['_name' => 'admin:student_view', $student->id], ['class' => 'btn btn-default']) ?>
+        <?= $this->Html->link(__('Cancelar'), ['_name' => 'admin:student_view', $student->id], ['class' => ActionColor::CANCEL->btn()]) ?>
     </div>
 </div>
 
