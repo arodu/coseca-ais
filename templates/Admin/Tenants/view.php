@@ -114,7 +114,7 @@ $this->Breadcrumbs->add([
                                     1,
                                 ],
                                 [
-                                    'class' => ActionColor::SPECIAL->btn(),
+                                    'class' => ActionColor::ACTIVATE->btn(),
                                     'target' => 'changeActive',
                                     'confirm' => __('¿Está seguro que desea activar este lapso?<br>Al hacerlo de desactivaran el resto de los lapsos de esta sede.'),
                                     'title' => __('Activar lapso académico {0}', $lapseSelected->name),
@@ -130,7 +130,7 @@ $this->Breadcrumbs->add([
                                     0,
                                 ],
                                 [
-                                    'class' => ActionColor::INACTIVE->btn(),
+                                    'class' => ActionColor::DEACTIVATE->btn(),
                                     'target' => 'changeActive',
                                     'confirm' => __('¿Está seguro que desea desactivar este lapso?'),
                                     'title' => __('Desactivar lapso académico {0}', $lapseSelected->name),

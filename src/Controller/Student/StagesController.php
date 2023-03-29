@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Student;
 
+use App\Model\Field\AdscriptionStatus;
 use App\Utility\Stages;
 
 /**
@@ -29,7 +30,9 @@ class StagesController extends AppStudentController
     public function index()
     {
         $student = $this->AppUsers->Students
-            ->find('withStudentAdscriptions')
+            ->find('withStudentAdscriptions', [
+                'status' => AdscriptionStatus::getStudentViewListValue(),
+            ])
             ->find('withStudentCourses')
             ->find('withTenants')
             ->find('withAppUsers')
@@ -44,6 +47,8 @@ class StagesController extends AppStudentController
             ->where(['student_id' => $student->id])
             ->toArray();
 
-        $this->set(compact('listStages', 'student', 'studentStages'));
+        $trackingInfo = $this->AppUsers->Students->getStudentTrackingInfo($student->id);
+
+        $this->set(compact('listStages', 'student', 'studentStages', 'trackingInfo'));
     }
 }

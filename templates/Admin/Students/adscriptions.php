@@ -48,7 +48,7 @@ $this->Breadcrumbs->add([
                                 ['controller' => 'Adscriptions', 'action' => 'changeStatus', $studentAdscription->id, AdscriptionStatus::OPEN->value, 'prefix' => 'Admin/Stage'],
                                 [
                                     'confirm' => __('Esta seguro que desea activar este proyecto?'),
-                                    'class' => ActionColor::SPECIAL->btn('btn-sm'),
+                                    'class' => ActionColor::ACTIVATE->btn('btn-sm'),
                                     'target' => 'changeStatus',
                                     'title' => __('Activar Proyecto'),
                                 ]
@@ -59,7 +59,7 @@ $this->Breadcrumbs->add([
                                 ['controller' => 'Adscriptions', 'action' => 'changeStatus', $studentAdscription->id, AdscriptionStatus::CLOSED->value, 'prefix' => 'Admin/Stage'],
                                 [
                                     'confirm' => __('Esta seguro que desea cerrar este proyecto?'),
-                                    'class' => ActionColor::INACTIVE->btn('btn-sm'),
+                                    'class' => ActionColor::DEACTIVATE->btn('btn-sm'),
                                     'target' => 'changeStatus',
                                     'title' => __('Cerrar Proyecto'),
                                 ]
@@ -116,7 +116,6 @@ $this->Breadcrumbs->add([
             </div>
         <?php endforeach; ?>
     <?php endif; ?>
-
 </div>
 
 <?php

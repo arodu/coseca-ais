@@ -14,23 +14,28 @@ enum ActionColor
     case SUBMIT;
     case VALIDATE;
     case DELETE;
-    case INACTIVE;
+    case ACTIVATE;
+    case DEACTIVATE;
     case SPECIAL;
     case REPORT;
     case ROOT;
 
+    /**
+     * @return Color
+     */
     public function color(): Color
     {
         return match ($this) {
-            static::VIEW => Color::SECONDARY,
-            static::CANCEL => Color::DEFAULT,
-            static::BACK => Color::DEFAULT,
+            static::VIEW => Color::DEFAULT,
+            static::CANCEL => Color::SECONDARY,
+            static::BACK => Color::SECONDARY,
             static::ADD => Color::INFO,
             static::EDIT => Color::INFO,
             static::SUBMIT => Color::PRIMARY,
             static::VALIDATE => Color::SUCCESS,
             static::DELETE => Color::DANGER,
-            static::INACTIVE => Color::SECONDARY,
+            static::ACTIVATE => Color::WARNING,
+            static::DEACTIVATE => Color::SECONDARY,
             static::SPECIAL => Color::WARNING,
             static::REPORT => Color::SUCCESS,
             static::ROOT => Color::INDIGO,
@@ -38,6 +43,11 @@ enum ActionColor
         };
     }
 
+    /**
+     * @param string|null $extra
+     * @param bool $outline
+     * @return string
+     */
     public function btn(?string $extra = null, bool $outline = false): string
     {
         $output = implode(' ', [
@@ -49,6 +59,9 @@ enum ActionColor
         return trim($output);
     }
 
+    /**
+     * @return string
+     */
     public function text(): string
     {
         return $this->color()->text();

@@ -4,6 +4,7 @@
  * @var \App\View\AppView $this
  */
 
+use App\Enum\ActionColor;
 use App\Model\Field\StageField;
 
 $this->student_id = $studentCourse->student_id;
@@ -49,7 +50,7 @@ $this->Breadcrumbs->add([
         <?= $this->AppForm->buttonValidate() ?>
     </div>
     <div class="ml-auto">
-        <?= $this->Html->link(__('Cancelar'), ['_name' => 'admin:student_view', $studentCourse->student_id], ['class' => 'btn btn-default']) ?>
+        <?= $this->AppForm->buttonCancel(['url' => ['_name' => 'admin:student_view', $studentCourse->student_id]]) ?>
     </div>
 </div>
 <?= $this->Form->end() ?>

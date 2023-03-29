@@ -226,11 +226,17 @@ class StudentsTable extends Table
     public function findWithStudentAdscriptions(Query $query, array $options = []): Query
     {
         return $query->contain([
-            'StudentAdscriptions' => [
-                'InstitutionProjects' => ['Institutions'],
-                'Tutors',
-                'StudentDocuments',
-            ],
+            'StudentAdscriptions' => function (Query $query) use ($options) {
+                if (isset($options['status']) && is_array($options['status'])) {
+                    $query->where(['StudentAdscriptions.status IN' => $options['status']]);
+                }
+
+                return $query->contain([
+                    'InstitutionProjects' => ['Institutions'],
+                    'Tutors',
+                    'StudentDocuments',
+                ]);
+            },
         ]);
     }
 

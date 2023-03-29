@@ -46,19 +46,24 @@ enum AdscriptionStatus: string implements BadgeInterface
         };
     }
 
-    public static function getEditableObj(): array
+    public static function getEditableListLabel(): array
     {
-        return [
+        return static::toListLabel([
             static::PENDING,
             static::OPEN,
             static::CLOSED,
             static::CANCELLED,
-        ];
+        ]);
     }
 
-    public static function getEditableListLabel(): array
+    public static function getStudentViewListValue(): array
     {
-        return static::toListLabel(static::getEditableObj());
+        return static::values([
+            static::PENDING,
+            static::OPEN,
+            static::CLOSED,
+            static::VALIDATED,
+        ]);
     }
 
 }

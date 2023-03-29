@@ -217,7 +217,7 @@ class StudentStagesTable extends Table
     public function close(StudentStage $entity, StageStatus $newStatus, bool $forced = false): StudentStage|bool
     {
         try {
-            return $this->closeOrFail($entity, $newStatus, $forced);
+            return $this->closeOrFail($entity, $newStatus, $forced) ?? true;
         } catch (\Exception $e) {
             return false;
         }
@@ -236,7 +236,7 @@ class StudentStagesTable extends Table
             $this->updateStatus($entity, $newStatus->value);
             $studentStage = $this->createNext($entity, $forced);
             $this->getConnection()->commit();
-            
+
             return $studentStage;
         } catch (\Exception $e) {
             $this->getConnection()->rollback();
