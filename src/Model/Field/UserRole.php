@@ -68,4 +68,14 @@ enum UserRole: string
     {
         return static::values(static::getSuperAdminRoles());
     }
+
+    public function isStudentGroup(): bool
+    {
+        return in_array($this, static::getStudentRoles(), true);
+    }
+
+    public function isAdminGroup(): bool
+    {
+        return in_array($this, static::getAdminRoles(), true);
+    }
 }

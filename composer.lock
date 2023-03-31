@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "86a72612328f0beca091a087ebdc0dab",
+    "content-hash": "af2bc7a1bad1c420dc0391b3389f7cfb",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -7222,6 +7222,124 @@
                 }
             ],
             "time": "2023-02-08T07:49:20+00:00"
+        },
+        {
+            "name": "vierge-noire/cakephp-fixture-factories",
+            "version": "v2.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vierge-noire/cakephp-fixture-factories.git",
+                "reference": "d117488a953da66dba8ec568627760fc478c4546"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vierge-noire/cakephp-fixture-factories/zipball/d117488a953da66dba8ec568627760fc478c4546",
+                "reference": "d117488a953da66dba8ec568627760fc478c4546",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/orm": "^4.2",
+                "fakerphp/faker": "^1.15",
+                "php": ">=7.2",
+                "vierge-noire/cakephp-test-suite-light": "^2.1"
+            },
+            "require-dev": {
+                "cakephp/bake": "^2.0",
+                "cakephp/cakephp-codesniffer": "^4.0",
+                "cakephp/migrations": "^3.1",
+                "josegonzalez/dotenv": "dev-master",
+                "phpstan/phpstan": "^0.12.48@dev",
+                "phpunit/phpunit": "^8.0",
+                "vierge-noire/cakephp-test-migrator": "^2.1",
+                "vimeo/psalm": "^4.0"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "CakephpFixtureFactories\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Masson",
+                    "email": "nicolas@b-projects.tech"
+                },
+                {
+                    "name": "Juan Pablo Ramìrez",
+                    "email": "pabloelcolombiano@gmail.com"
+                }
+            ],
+            "description": "CakePHP Dynamic Fixtures",
+            "keywords": [
+                "cakephp",
+                "dynamic",
+                "fixtures",
+                "tests"
+            ],
+            "support": {
+                "issues": "https://github.com/vierge-noire/cakephp-fixture-factories/issues",
+                "source": "https://github.com/vierge-noire/cakephp-fixture-factories/tree/v2.7.1"
+            },
+            "time": "2022-07-18T16:27:19+00:00"
+        },
+        {
+            "name": "vierge-noire/cakephp-test-suite-light",
+            "version": "v2.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vierge-noire/cakephp-test-suite-light.git",
+                "reference": "35a8055d0702e93bfa60e82e1e58a940f8bd52dc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vierge-noire/cakephp-test-suite-light/zipball/35a8055d0702e93bfa60e82e1e58a940f8bd52dc",
+                "reference": "35a8055d0702e93bfa60e82e1e58a940f8bd52dc",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/cakephp": "^4.3",
+                "ext-pdo": "*",
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "cakephp/migrations": "^3.2",
+                "josegonzalez/dotenv": "dev-master",
+                "phpunit/phpunit": "^8.5 || ^9.3"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "CakephpTestSuiteLight\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Masson",
+                    "email": "nicolas@b-projects.tech"
+                },
+                {
+                    "name": "Juan Pablo Ramìrez",
+                    "email": "pabloelcolombiano@gmail.com"
+                }
+            ],
+            "description": "A test suite for CakePHP application based on Sql queries",
+            "keywords": [
+                "cakephp",
+                "test"
+            ],
+            "support": {
+                "issues": "https://github.com/vierge-noire/cakephp-test-suite-light/issues",
+                "source": "https://github.com/vierge-noire/cakephp-test-suite-light/tree/v2.4"
+            },
+            "time": "2021-10-24T14:31:56+00:00"
         }
     ],
     "aliases": [],

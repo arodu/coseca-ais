@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -14,6 +15,7 @@ declare(strict_types=1);
  * @since     3.3.0
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App;
 
 use App\Event\StageNotificationListener;
@@ -70,8 +72,8 @@ class Application extends BaseApplication
         $this->addPlugin(\CakeLte\Plugin::class);
         $this->addPlugin(\CakeDC\Users\Plugin::class);
         Configure::write('Users.config', ['users']);
-        $this->addPlugin('QueryFilter');
-        $this->addPlugin('ModalForm');
+        $this->addPlugin(\QueryFilter\QueryFilterPlugin::class);
+        $this->addPlugin(\ModalForm\ModalFormPlugin::class);
 
         $this->getEventManager()->on(new UsersListener());
         //$this->getEventManager()->on(new StageNotificationListener());
@@ -143,5 +145,8 @@ class Application extends BaseApplication
         $this->addPlugin('Migrations');
 
         // Load more plugins here
+        if (Configure::read('debug')) {
+            $this->addPlugin('CakephpFixtureFactories');
+        }
     }
 }
