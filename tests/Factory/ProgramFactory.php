@@ -63,4 +63,14 @@ class ProgramFactory extends CakephpBaseFactory
             ],
         ]);
     }
+    
+    public function base(): self
+    {
+        return $this
+            ->withTenants();
+
+    }
+
+
+
 }

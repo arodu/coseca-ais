@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace App\Test\Factory;
 
+use App\Model\Entity\Student;
+use App\Model\Field\StageField;
+use App\Model\Field\StudentType;
 use App\Model\Field\UserRole;
 use Cake\I18n\FrozenDate;
 use Cake\Utility\Hash;
@@ -57,26 +60,26 @@ class AppUserFactory extends CakephpBaseFactory
     {
         $user = $this->patchData(['role' => $role->value]);
 
-        if ($role->isStudentGroup()) {
-            $user = $user->withStudent();
-        }
-
         return $user;
     }
 
-    //public function withTenants()
-    //{
-    //    $program = ProgramFactory::make()
-    //        ->withTenants()
-    //        ->persist();
-    //
-    //    return $this->patchData(['tenant_id' => Hash::get($program, 'tenants.0.id')]);
-    //}
-
     public function withStudents($makeParameter = [], int $times = 1)
     {
-        return $this->with('Students', StudentFactory::make($makeParameter, $times));
+        $student = StudentFactory::make($makeParameter, $times);
+
+        return $this->with('Students', $student);
     }
 
 
+    public static function getUserStudent(StudentType $type = StudentType::REGULAR, int $tenant_id)
+    {
+        $student = StudentFactory::make([
+            'tenant_id' => $tenant_id,
+            'type' => $type->value,
+        ]);
+
+        return static::make()
+            ->withRole(UserRole::STUDENT)
+            ->with('Students', $student);
+    }
 }
