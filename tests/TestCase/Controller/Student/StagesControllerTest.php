@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller\Student;
 
-use App\Controller\Student\StagesController;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use App\Model\Field\StudentType;
 use App\Model\Field\UserRole;
 use App\Test\Factory\AppUserFactory;
+use App\Test\Factory\CreateDataTrait;
 use App\Test\Factory\ProgramFactory;
 use App\Test\Factory\StudentStageFactory;
-use App\Utility\Stages;
+use Cake\I18n\FrozenDate;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 use Cake\Utility\Hash;
@@ -25,7 +25,9 @@ use Cake\Utility\Hash;
 class StagesControllerTest extends TestCase
 {
     use IntegrationTestTrait;
+    use CreateDataTrait;
 
+    protected $program;
     protected $user;
 
     protected function setUp(): void
@@ -35,6 +37,17 @@ class StagesControllerTest extends TestCase
         $this->enableRetainFlashMessages();
         $this->enableCsrfToken();
         $this->enableSecurityToken();
+
+        $this->program = $this->createProgram()->persist(true);
+        $this->user = $this->createUser(['role' => UserRole::STUDENT->value])->persist();
+    }
+
+    protected function tearDown(): void
+    {
+        unset($this->program);
+        unset($this->user);
+
+        parent::tearDown();
     }
 
     /**
@@ -45,11 +58,12 @@ class StagesControllerTest extends TestCase
      */
     public function testStudentRegularOk(): void
     {
-        $program = ProgramFactory::make()->withTenants()->persist();
-        $this->user = AppUserFactory::getUserStudent(
-            StudentType::REGULAR,
-            Hash::get($program, 'tenants.0.id')
-        )->persist();
+        $student = $this->createStudent([
+            'type' => StudentType::REGULAR->value,
+            'user_id' => $this->user->id,
+            'tenant_id' => $this->program->tenants[0]->id,
+        ])->persist();
+
         $this->session(['Auth' => $this->user]);
 
         $this->get('/student/stages');
@@ -66,11 +80,11 @@ class StagesControllerTest extends TestCase
 
     public function testStudentValidatedOk(): void
     {
-        $program = ProgramFactory::make()->withTenants()->persist();
-        $this->user = AppUserFactory::getUserStudent(
-            StudentType::VALIDATED,
-            Hash::get($program, 'tenants.0.id')
-        )->persist();
+        $student = $this->createStudent([
+            'type' => StudentType::VALIDATED->value,
+            'user_id' => $this->user->id,
+            'tenant_id' => $this->program->tenants[0]->id,
+        ])->persist();
 
         $this->session(['Auth' => $this->user]);
 
@@ -86,30 +100,50 @@ class StagesControllerTest extends TestCase
         $this->assertResponseContains('Convalidación');
     }
 
-
-
-    public function testRegisterTab(): void
+    public function testRegisterInProgressTab(): void
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $student = $this->createStudent([
+            'type' => StudentType::REGULAR->value,
+            'user_id' => $this->user->id,
+            'tenant_id' => $this->program->tenants[0]->id,
+        ])->persist();
+        $lapse_id = Hash::get($this->program, 'tenants.0.lapses.0.id');
 
-        $program = ProgramFactory::make()->withTenants()->persist();
-        $this->user = AppUserFactory::getUserStudent(
-            StudentType::REGULAR,
-            Hash::get($program, 'tenants.0.id')
-        )->persist();
+        $this->setDefaultLapseDates($lapse_id);
 
-        StudentStageFactory::make([
-            'student_id' => Hash::get($this->user, 'students.0.id'),
+        $stageRegistry = $this->createStudentStage([
+            'student_id' => $student->id,
             'stage' => StageField::REGISTER->value,
             'status' => StageStatus::IN_PROGRESS->value,
+            'lapse_id' => $lapse_id,
         ])->persist();
 
         $this->session(['Auth' => $this->user]);
 
+        // whitout lapse dates
         $this->get('/student/stages');
-
         $this->assertResponseOk();
+        $this->assertResponseContains('No existe fecha de registro');
+        $this->assertResponseContains('Comuníquese con la Coordinación de Servicio Comunitario para más información.');
 
-        debug($this->_response);
+        // with lapse dates in pass
+        $this->changeLapseDate($lapse_id, StageField::REGISTER, FrozenDate::now()->subDays(4), FrozenDate::now()->subDays(3));
+        $this->get('/student/stages');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Ya pasó el período de registro');
+        $this->assertResponseContains('Comuníquese con la Coordinación de Servicio Comunitario para más información.');
+
+        // with lapse dates in future
+        $dates = $this->changeLapseDate($lapse_id, StageField::REGISTER, FrozenDate::now()->addDays(3), FrozenDate::now()->addDays(4));
+        $this->get('/student/stages');
+        $this->assertResponseOk();
+        $this->assertResponseContains(__('Fecha de registro: {0}', $dates->show_dates));
+        $this->assertResponseContains('Comuníquese con la Coordinación de Servicio Comunitario para más información.');
+
+        // with lapse dates in progress
+        $this->changeLapseDate($lapse_id, StageField::REGISTER, FrozenDate::now()->subDays(1), FrozenDate::now()->addDays(1));
+        $this->get('/student/stages');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Formulario de registro');
     }
 }

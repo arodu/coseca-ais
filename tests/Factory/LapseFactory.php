@@ -3,20 +3,23 @@ declare(strict_types=1);
 
 namespace App\Test\Factory;
 
-use App\Model\Field\StudentType;
+use Cake\I18n\FrozenDate;
+use Cake\ORM\Locator\LocatorAwareTrait;
 use CakephpFixtureFactories\Factory\BaseFactory as CakephpBaseFactory;
 use Faker\Generator;
 
 /**
- * StudentFactory
+ * LapseFactory
  *
- * @method \App\Model\Entity\Student getEntity()
- * @method \App\Model\Entity\Student[] getEntities()
- * @method \App\Model\Entity\Student|\App\Model\Entity\Student[] persist()
- * @method static \App\Model\Entity\Student get(mixed $primaryKey, array $options = [])
+ * @method \App\Model\Entity\Lapse getEntity()
+ * @method \App\Model\Entity\Lapse[] getEntities()
+ * @method \App\Model\Entity\Lapse|\App\Model\Entity\Lapse[] persist()
+ * @method static \App\Model\Entity\Lapse get(mixed $primaryKey, array $options = [])
  */
-class StudentFactory extends CakephpBaseFactory
+class LapseFactory extends CakephpBaseFactory
 {
+    use LocatorAwareTrait;
+
     /**
      * Defines the Table Registry used to generate entities with
      *
@@ -24,7 +27,7 @@ class StudentFactory extends CakephpBaseFactory
      */
     protected function getRootTableRegistryName(): string
     {
-        return 'Students';
+        return 'Lapses';
     }
 
     /**
@@ -37,7 +40,8 @@ class StudentFactory extends CakephpBaseFactory
     {
         $this->setDefaultData(function (Generator $faker) {
             return [
-                'type' => StudentType::REGULAR->value,
+                'name' => '2023-1',
+                'active' => true,
             ];
         });
     }

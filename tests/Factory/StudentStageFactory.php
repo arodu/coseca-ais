@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Test\Factory;
 
+use App\Model\Field\StageField;
+use App\Model\Field\StageStatus;
 use CakephpFixtureFactories\Factory\BaseFactory as CakephpBaseFactory;
 use Faker\Generator;
 
@@ -36,10 +38,14 @@ class StudentStageFactory extends CakephpBaseFactory
     {
         $this->setDefaultData(function (Generator $faker) {
             return [
-                // set the model's default values
-                // For example:
-                // 'name' => $faker->lastName
+                'stage' => StageField::REGISTER->value,
+                'status' => StageStatus::WAITING->value,
             ];
         });
+    }
+
+    public function whitStage(StageField $stageField): self
+    {
+        return $this->patchData('stage', $stageField->value);
     }
 }

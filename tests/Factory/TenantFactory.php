@@ -36,11 +36,17 @@ class TenantFactory extends CakephpBaseFactory
     protected function setDefaultTemplate(): void
     {
         $this->setDefaultData(function (Generator $faker) {
+            $tenant = $faker->randomElement([
+                ['name' => 'San Juan', 'abbr' => 'SJM', 'active' => true],
+                ['name' => 'Ortiz', 'abbr' => 'ORT', 'active' => true],
+                ['name' => 'Mellado', 'abbr' => 'MEL', 'active' => true],
+                ['name' => 'Calabozo', 'abbr' => 'CAL', 'active' => true],
+            ]);
+
             return [
-                'program_id' => 1,
-                'name' => 'San Juan',
-                'abbr' => 'SJM',
-                'active' => true,
+                'name' => $tenant['name'],
+                'abbr' => $tenant['abbr'],
+                'active' => $tenant['active'],
             ];
         });
     }

@@ -49,7 +49,7 @@ class AppUserFactory extends CakephpBaseFactory
                 'first_name' => $faker->firstName,
                 'last_name' => $faker->lastName,
                 'active' => true,
-                'role' => null,
+                'role' => UserRole::STUDENT->value,
                 'created' => FrozenDate::now(),
                 'modified' => FrozenDate::now(),
             ];
@@ -68,18 +68,5 @@ class AppUserFactory extends CakephpBaseFactory
         $student = StudentFactory::make($makeParameter, $times);
 
         return $this->with('Students', $student);
-    }
-
-
-    public static function getUserStudent(StudentType $type = StudentType::REGULAR, int $tenant_id)
-    {
-        $student = StudentFactory::make([
-            'tenant_id' => $tenant_id,
-            'type' => $type->value,
-        ]);
-
-        return static::make()
-            ->withRole(UserRole::STUDENT)
-            ->with('Students', $student);
     }
 }

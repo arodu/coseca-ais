@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Test\Factory;
 
+use App\Model\Field\ProgramArea;
 use App\Model\Field\ProgramRegime;
+use Cake\ORM\Locator\LocatorAwareTrait;
 use CakephpFixtureFactories\Factory\BaseFactory as CakephpBaseFactory;
 use Faker\Generator;
 
@@ -37,40 +39,18 @@ class ProgramFactory extends CakephpBaseFactory
     protected function setDefaultTemplate(): void
     {
         $this->setDefaultData(function (Generator $faker) {
+            $program = $faker->randomElement([
+                ['name' => 'Informática', 'area' => ProgramArea::AIS->value, 'regime' => ProgramRegime::BIANNUAL->value, 'abbr' => 'INF'],
+                ['name' => 'Medicina', 'area' => ProgramArea::SALUD->value, 'regime' => ProgramRegime::ANNUALIZED->value, 'abbr' => 'MED'],
+                ['name' => 'Enfermería', 'area' => ProgramArea::SALUD->value, 'regime' => ProgramRegime::ANNUALIZED->value, 'abbr' => 'ENF'],
+            ]);
+
             return [
-                'name' => 'Informática',
-                'area' => 'ais',
-                'regime' => ProgramRegime::BIANNUAL->value,
-                'abbr' => 'INF',
+                'name' => $program['name'],
+                'area' => $program['area'],
+                'regime' => $program['regime'],
+                'abbr' => $program['abbr'],
             ];
         });
     }
-
-    public function withTenants(): self
-    {
-        return $this->with('Tenants', [
-            [
-                'name' => 'San Juan',
-                'abbr' => 'SJM',
-            ],
-            [
-                'name' => 'Mellado',
-                'abbr' => 'MEL',
-            ],
-            [
-                'name' => 'Ortiz',
-                'abbr' => 'ORT',
-            ],
-        ]);
-    }
-    
-    public function base(): self
-    {
-        return $this
-            ->withTenants();
-
-    }
-
-
-
 }
