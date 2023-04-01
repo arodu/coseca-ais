@@ -37,7 +37,7 @@ $this->Breadcrumbs->add([
         <?= $this->AppForm->buttonSave() ?>
     </div>
     <div class="ml-auto">
-        <?= $this->Html->link(__('Cancelar'), ['_name' => 'admin:student_view', $student->id], ['class' => ActionColor::CANCEL->btn()]) ?>
+        <?= $this->Html->link(__('Cancelar'), $back ?? ['_name' => 'admin:student_view', $student->id], ['class' => ActionColor::CANCEL->btn()]) ?>
     </div>
 </div>
 

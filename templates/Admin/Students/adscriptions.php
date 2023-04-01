@@ -22,7 +22,6 @@ $this->Breadcrumbs->add([
 ?>
 
 <div class="card-body">
-
     <?php if (empty($student->student_adscriptions)) : ?>
         <p><?= __('El estudiante no tiene proyectos adscritos.') ?></p>
         <p><?= __('Comuniquese con la coordinación de servicio comunitario para mas información.') ?></p>
@@ -116,6 +115,15 @@ $this->Breadcrumbs->add([
             </div>
         <?php endforeach; ?>
     <?php endif; ?>
+</div>
+<div class="card-footer d-flex">
+    <div>
+        <?= $this->Html->link(
+            __('Agregar Proyecto'),
+            ['controller' => 'Adscriptions', 'action' => 'add', $student->id, 'prefix' => 'Admin/Stage', '?' => ['redirect' => $this->Url->build()]],
+            ['class' => ActionColor::ADD->btn()]
+        ); ?>
+    </div>
 </div>
 
 <?php

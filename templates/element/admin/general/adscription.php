@@ -31,9 +31,7 @@ $this->end();
 ?>
 
 <?php if (empty($student->student_adscriptions)) : ?>
-    <div class="bg-warning p-1">
-        <?= __('No hay proyectos adscritos') ?>
-    </div>
+    <p><?= __('El estudiante no tiene proyectos adscritos.') ?></p>
 <?php else : ?>
     <div class="table-responsive">
         <table class="table table-sm table-borderless table-hover m-0">
