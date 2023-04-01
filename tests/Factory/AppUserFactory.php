@@ -44,7 +44,7 @@ class AppUserFactory extends CakephpBaseFactory
             return [
                 'username' => $faker->userName,
                 'email' => $faker->email,
-                'dni' => $faker->randomNumber(8),
+                'dni' => $faker->numberBetween(20000000, 29000000),
                 'password' => $faker->password,
                 'first_name' => $faker->firstName,
                 'last_name' => $faker->lastName,
