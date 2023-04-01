@@ -18,6 +18,7 @@ enum ActionColor
     case DEACTIVATE;
     case SPECIAL;
     case REPORT;
+    case SEARCH;
     case ROOT;
 
     /**
@@ -38,6 +39,7 @@ enum ActionColor
             static::DEACTIVATE => Color::SECONDARY,
             static::SPECIAL => Color::WARNING,
             static::REPORT => Color::SUCCESS,
+            static::SEARCH => Color::PRIMARY,
             static::ROOT => Color::INDIGO,
             default => Color::DEFAULT,
         };
