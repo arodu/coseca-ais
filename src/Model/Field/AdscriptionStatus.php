@@ -56,7 +56,7 @@ enum AdscriptionStatus: string implements BadgeInterface
         ]);
     }
 
-    public static function getStudentViewListValue(): array
+    public static function getTrackablesValues(): array
     {
         return static::values([
             static::PENDING,
@@ -65,5 +65,4 @@ enum AdscriptionStatus: string implements BadgeInterface
             static::VALIDATED,
         ]);
     }
-
 }

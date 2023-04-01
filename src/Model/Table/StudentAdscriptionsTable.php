@@ -185,11 +185,7 @@ class StudentAdscriptionsTable extends Table
             ->select(['StudentAdscriptions.id'])
             ->where([
                 'StudentAdscriptions.student_id' => $options['student_id'],
-                'StudentAdscriptions.status IN' => [
-                    AdscriptionStatus::OPEN->value,
-                    AdscriptionStatus::CLOSED->value,
-                    AdscriptionStatus::VALIDATED->value,
-                ],
+                'StudentAdscriptions.status IN' => AdscriptionStatus::getTrackablesValues(),
             ]);
     }
 
@@ -204,4 +200,25 @@ class StudentAdscriptionsTable extends Table
         Cache::delete('student_tracking_info_' . $student->id);
     }
 
+    public function findWithInstitution(Query $query, array $options): Query
+    {
+        return $query
+            ->contain([
+                'InstitutionProjects' => ['Institutions'],
+            ]);
+    }
+
+    public function findWithTracking(Query $query, array $options): Query
+    {
+        if (empty($options['sort'])) {
+            $options['sort'] = 'ASC';
+        }
+
+        return $query
+            ->contain([
+                'StudentTracking' => [
+                    'sort' => ['StudentTracking.created' => $options['sort']],
+                ],
+            ]);
+    }
 }

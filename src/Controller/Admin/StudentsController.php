@@ -63,7 +63,7 @@ class StudentsController extends AppAdminController
             'valueField' => 'name',
         ]);
         // /filterLogic
-        
+
         $students = $this->paginate($query);
 
         $this->set(compact('students', 'filtered', 'tenants', 'lapses'));
@@ -146,25 +146,22 @@ class StudentsController extends AppAdminController
 
     public function tracking($id = null)
     {
-        $student = $this->Students->get($id, [
-            'contain' => [
-                'Lapses' => [
-                    'LapseDates',
-                ],
-                'StudentAdscriptions' => [
-                    'StudentTracking' => [
-                        'sort' => ['StudentTracking.date' => 'ASC'],
-                    ],
-                    'InstitutionProjects' => [
-                        'Institutions',
-                    ],
-                ]
-            ],
-        ]);
-        $adscriptionsList = $this->Students->StudentAdscriptions->find('listOpen', ['student_id' => $id])->toArray();
+        $student = $this->Students
+            ->find('withLapses')
+            ->where(['Students.id' => $id])
+            ->first();
+
+        $adscriptions = $this->Students->StudentAdscriptions
+            ->find('withInstitution')
+            ->find('withTracking')
+            ->where([
+                'StudentAdscriptions.student_id' => $id,
+                'StudentAdscriptions.status IN' => AdscriptionStatus::getTrackablesValues(),
+            ]);
+
         $trackingInfo = $this->Students->getStudentTrackingInfo($student->id);
 
-        $this->set(compact('student', 'adscriptionsList', 'trackingInfo'));
+        $this->set(compact('student', 'adscriptions', 'trackingInfo'));
     }
 
     public function prints($id = null)

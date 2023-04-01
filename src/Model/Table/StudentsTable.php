@@ -240,6 +240,8 @@ class StudentsTable extends Table
         ]);
     }
 
+
+
     public function findWithStudentCourses(Query $query, array $options = []): Query
     {
         return $query->contain([
@@ -261,6 +263,44 @@ class StudentsTable extends Table
                 'InterestAreas',
             ],
         ]);
+    }
+
+    public function findWithLapses(Query $query, array $options = []): Query
+    {
+        return $query->contain([
+            'Lapses' => [
+                'LapseDates',
+            ],
+        ]);
+    }
+
+    public function findLoadProgress(Query $query, array $options = []): Query
+    {
+        if (empty($options['studentStages'])) {
+            return $query;
+        }
+
+        $studentStages = $options['studentStages'];
+
+        $query = $query->find('withLapses');
+
+        $stageRegister = $studentStages[StageField::REGISTER->value] ?? null;
+
+        // stage: registy, status: in-progress
+        if (!empty($stageRegister) && $stageRegister->status_obj->is([StageStatus::IN_PROGRESS])) {
+            $query = $query
+                ->find('withTenants');
+        }
+
+        // stage: registy, status: success
+        if (!empty($stageRegister) && $stageRegister->status_obj->is([StageStatus::SUCCESS])) {
+            $query = $query
+                ->contain(['Tenants' => ['Programs']])
+                ->find('withStudentData')
+                ->find('withAppUsers');
+        }
+
+        return $query;
     }
 
     public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)

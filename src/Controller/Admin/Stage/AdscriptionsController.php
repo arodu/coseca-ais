@@ -90,7 +90,7 @@ class AdscriptionsController extends AppAdminController
             if ($this->StudentAdscriptions->save($adscription)) {
                 $this->Flash->success(__('The student_adscription has been saved.'));
 
-                return $this->redirect(['_name' => 'admin:student_view', $adscription->student_id]);
+                return $this->redirect(['_name' => 'admin:student_adscriptions', $adscription->student_id]);
             }
             $this->Flash->error(__('The student_adscription could not be saved. Please, try again.'));
         }
@@ -103,27 +103,6 @@ class AdscriptionsController extends AppAdminController
 
         $this->set(compact('adscription', 'tutors'));
     }
-
-    /**
-     * Delete method
-     *
-     * @param string|null $id StudentAdscription id.
-     * @return \Cake\Http\Response|null|void Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $adscription = $this->StudentAdscriptions->get($id);
-        if ($this->StudentAdscriptions->delete($adscription)) {
-            $this->Flash->success(__('The student_adscription has been deleted.'));
-        } else {
-            $this->Flash->error(__('The student_adscription could not be deleted. Please, try again.'));
-        }
-
-        return $this->redirect(['_name' => 'admin:student_view', $adscription->student_id]);
-    }
-
 
     public function changeStatus($id, $status)
     {
