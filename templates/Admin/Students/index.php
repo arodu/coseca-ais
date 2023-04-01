@@ -5,6 +5,7 @@
  * @var \App\Model\Entity\Student[]|\Cake\Collection\CollectionInterface $students
  */
 
+use App\Enum\ActionColor;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use App\Utility\FaIcon;
@@ -57,11 +58,11 @@ $this->Breadcrumbs->add([
         </div>
         <div class="card-footer d-flex">
             <div>
-                <?= $this->Form->button(__('Exportar'), ['name' => 'export', 'value' => 'csv', 'class' => 'btn btn-warning']) ?>
+                <?= $this->Form->button(__('Buscar'), ['class' => ActionColor::SEARCH->btn()]) ?>
+                <?= $this->Form->button(__('Exportar'), ['name' => 'export', 'value' => 'csv', 'class' => ActionColor::REPORT->btn()]) ?>
             </div>
             <div class="ml-auto">
-                <?= $this->Html->link(__('Reset'), ['action' => 'index'], ['class' => 'btn btn-default']) ?>
-                <?= $this->Form->button(__('Buscar')) ?>
+                <?= $this->Html->link(__('Reset'), ['action' => 'index'], ['class' => ActionColor::CANCEL->btn()]) ?>
             </div>
         </div>
     </div>
