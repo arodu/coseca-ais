@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller\Student;
 
+use App\Model\Entity\Student;
 use App\Model\Field\AdscriptionStatus;
+use App\Model\Field\StageField;
+use App\Model\Field\StageStatus;
 use App\Utility\Stages;
 
 /**
@@ -20,6 +23,7 @@ class StagesController extends AppStudentController
         parent::initialize();
         $this->StudentStages = $this->fetchTable('StudentStages');
         $this->AppUsers = $this->fetchTable('AppUsers');
+        $this->Students = $this->fetchTable('Students');
     }
 
     /**
@@ -29,26 +33,32 @@ class StagesController extends AppStudentController
      */
     public function index()
     {
-        $student = $this->AppUsers->Students
+        $student_id = $this->getCurrentStudent()->id;
+        $studentStages = $this->StudentStages
+            ->find('objectList', ['keyField' => 'stage'])
+            ->where(['student_id' => $student_id])
+            ->toArray();
+
+        $trackingInfo = null;
+
+        $student = $this->Students->find('loadProgress', ['studentStages' => $studentStages])
+            ->where(['Students.id' => $student_id])
+
+            // @todo remove
+            ->find('withAppUsers')
+            ->find('withTenants')
             ->find('withStudentAdscriptions', [
-                'status' => AdscriptionStatus::getStudentViewListValue(),
+                'status' => AdscriptionStatus::getTrackablesValues(),
             ])
             ->find('withStudentCourses')
-            ->find('withTenants')
-            ->find('withAppUsers')
             ->find('withStudentData')
-            ->where(['Students.id' => $this->getCurrentStudent()->id])
+            // /remove
+
             ->first();
 
         $listStages = $student->getStageFieldList();
+        $trackingInfo = $this->AppUsers->Students->getStudentTrackingInfo($student->id);;
 
-        $studentStages = $this->StudentStages
-            ->find('objectList', ['keyField' => 'stage'])
-            ->where(['student_id' => $student->id])
-            ->toArray();
-
-        $trackingInfo = $this->AppUsers->Students->getStudentTrackingInfo($student->id);
-
-        $this->set(compact('listStages', 'student', 'studentStages', 'trackingInfo'));
+        $this->set(compact('student', 'listStages', 'studentStages', 'trackingInfo'));
     }
 }

@@ -164,7 +164,7 @@ $this->Breadcrumbs->add([
             <td><?= h($socialAccounts->created) ?></td>
             <td><?= h($socialAccounts->modified) ?></td>
             <td class="actions">
-              <?= $this->Html->link(__('View'), ['controller' => 'SocialAccounts', 'action' => 'view', $socialAccounts->id], ['class'=>'btn btn-xs btn-outline-primary']) ?>
+              <?= $this->Html->link(__('View'), ['controller' => 'SocialAccounts', 'action' => 'view', $socialAccounts->id], ['class'=>'xs btn-outline-primary']) ?>
               <?= $this->Html->link(__('Edit'), ['controller' => 'SocialAccounts', 'action' => 'edit', $socialAccounts->id], ['class'=>'btn btn-xs btn-outline-primary']) ?>
               <?= $this->Form->postLink(__('Delete'), ['controller' => 'SocialAccounts', 'action' => 'delete', $socialAccounts->id], ['class'=>'btn btn-xs btn-outline-danger', 'confirm' => __('Are you sure you want to delete # {0}?', $socialAccounts->id)]) ?>
             </td>

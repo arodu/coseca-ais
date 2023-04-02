@@ -4,6 +4,7 @@
  * @var \App\View\AppView $this
  */
 
+use App\Enum\ActionColor;
 use App\Model\Field\StageStatus;
 
 $this->student_id = $student->id;
@@ -19,113 +20,110 @@ $this->Breadcrumbs->add([
 ]);
 ?>
 
-<div class="card mx-3 mt-3">
+<div class="card mx-3 mt-3 collapsed-card">
     <div class="card-header">
-        <div class="card-title"><?= __('Cambiar Programa/Sede') ?></div>
-    </div>
-    <?= $this->Form->create($student, ['url' => ['controller' => 'Students', 'action' => 'changeProgram', $student->id]]) ?>
-    <div class="card-body">
-
-
-    </div>
-    <div class="card-footer d-flex">
-        <div class="ml-auto">
-            <?= $this->Form->submit('Guardar cambios', ['class' => 'btn btn-primary']) ?>
+        <h3 class="card-title"><?= __('Cambiar Programa/Sede') ?></h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+            </button>
         </div>
     </div>
-    <?= $this->Form->end() ?>
+    <div class="card-body">
+        <?= $this->Form->create($student, ['url' => ['controller' => 'Students', 'action' => 'changeProgram', $student->id]]) ?>
+
+        <div class="d-flex m-0">
+            <div class="ml-auto">
+                <?= $this->Form->submit('Guardar cambios', ['class' => ActionColor::SUBMIT->btn()]) ?>
+            </div>
+        </div>
+        <?= $this->Form->end() ?>
+    </div>
 </div>
 
-<div class="card mx-3 mt-3">
+<div class="card mx-3 collapsed-card">
     <div class="card-header">
-        <div class="card-title"><?= __('Cambiar email') ?></div>
+        <h3 class="card-title"><?= __('Cambiar email') ?></h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+            </button>
+        </div>
     </div>
-    <?= $this->Form->create($student, ['url' => ['controller' => 'Students', 'action' => 'changeEmail', $student->id]]) ?>
     <div class="card-body">
+        <?= $this->Form->create($student, ['url' => ['controller' => 'Students', 'action' => 'changeEmail', $student->id]]) ?>
+
         <?= $this->Form->control('app_user.email', ['class' => 'form-control']) ?>
-    </div>
-    <div class="card-footer d-flex">
-        <div class="ml-auto">
-            <?= $this->ModalForm->submit('Guardar cambios', ['class' => 'btn btn-primary']) ?>
+
+        <div class="d-flex m-0">
+            <div class="ml-auto">
+                <?= $this->Form->submit('Guardar cambios', ['class' => ActionColor::SUBMIT->btn()]) ?>
+            </div>
         </div>
+        <?= $this->Form->end() ?>
     </div>
-    <?= $this->Form->end() ?>
 </div>
 
-<div class="card mx-3 mt-3">
+<div class="card mx-3 collapsed-card">
     <div class="card-header">
-        <div class="card-title"><?= __('Convalidar servicio comunitario') ?></div>
-    </div>
-    <?= $this->Form->create($student, ['url' => ['controller' => 'Students', 'action' => 'convalidation', $student->id]]) ?>
-    <div class="card-body"></div>
-    <div class="card-footer d-flex">
-        <div class="ml-auto">
-            <?= $this->Form->submit('Guardar cambios', ['class' => 'btn btn-primary']) ?>
+        <h3 class="card-title"><?= __('Convalidar servicio comunitario') ?></h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+            </button>
         </div>
     </div>
-    <?= $this->Form->end() ?>
-</div>
-
-<div class="card mx-3 mt-3">
-    <div class="card-header">
-        <div class="card-title"><?= __('Cambiar contraseña') ?></div>
-    </div>
-    <?= $this->Form->create($student, ['url' => ['controller' => 'Students', 'action' => 'changePassword', $student->id]]) ?>
     <div class="card-body">
-    </div>
-    <div class="card-footer d-flex">
-        <div class="ml-auto">
-            <?= $this->ModalForm->submit(
-                __('Guardar cambios'),
-                [
-                    'confirm' => __('Esta seguro que desea cambiar la contraseña del estudiante {0}?', $student->full_name),
-                    'class' => 'btn btn-primary',
-                    'target' => 'changeEmail',
-                ]
-            ) ?>
+        <?= $this->Form->create($student, ['url' => ['controller' => 'Students', 'action' => 'convalidation', $student->id]]) ?>
+
+        <div class="d-flex m-0">
+            <div class="ml-auto">
+                <?= $this->Form->submit('Guardar cambios', ['class' => ActionColor::SUBMIT->btn()]) ?>
+            </div>
         </div>
+        <?= $this->Form->end() ?>
     </div>
-    <?= $this->Form->end() ?>
 </div>
 
-
-<div class="card mx-3 mt-3">
+<div class="card mx-3 collapsed-card">
     <div class="card-header">
-        <div class="card-title"><?= __('Eliminar Estudiante') ?></div>
-    </div>
-    <div class="card-footer d-flex">
-        <div class="ml-auto">
-            <?= $this->ModalForm->Link(
-                __('Eliminar Studiante'),
-                ['action' => 'delete', $student->id],
-                [
-                    'confirm' => __('Esta seguro que desea eliminar al estudiantes {0}?', $student->full_name),
-                    'class' => 'btn btn-danger',
-                    'target' => 'deleteStudent',
-                ]
-            ) ?>
+        <h3 class="card-title"><?= __('Cambiar contraseña') ?></h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+            </button>
         </div>
+    </div>
+    <div class="card-body">
+        <?= $this->Form->create($student, ['url' => ['controller' => 'Students', 'action' => 'changePassword', $student->id]]) ?>
+
+        <?= $this->Form->control('app_user.password', ['class' => 'form-control', 'value' => '']) ?>
+        <?= $this->Form->control('app_user.confirm_password', ['class' => 'form-control', 'type' => 'password']) ?>
+
+        <div class="d-flex m-0">
+            <div class="ml-auto">
+                <?= $this->Form->submit('Guardar cambios', ['class' => ActionColor::SUBMIT->btn()]) ?>
+            </div>
+        </div>
+        <?= $this->Form->end() ?>
     </div>
 </div>
 
-<?php
-echo  $this->ModalForm->modal('changeEmail', [
-    'element' => \ModalForm\ModalFormPlugin::FORM_TIMER,
-    'content' => [
-        'title' => __('Cambiar contraseña'),
-        'buttonOk'  => __('Realizar'),
-        'buttonCancel'  => __('Cancelar'),
-    ]
-]);
-?>
+<div class="card mx-3 collapsed-card">
+    <div class="card-header">
+        <h3 class="card-title"><?= __('Eliminar Estudiante') ?></h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <?= $this->Form->create($student, ['url' => ['controller' => 'Students', 'action' => 'changePassword', $student->id]]) ?>
 
-<?php
-echo  $this->ModalForm->modal('deleteStudent', [
-    'element' => \ModalForm\ModalFormPlugin::FORM_TIMER,
-    'content' => [
-        'title' => __('Eliminar Estudiante'),
-        'buttonOk'  => __('Realizar'),
-        'buttonCancel'  => __('Cancelar'),
-    ]
-]);
-?>
+        <div class="d-flex m-0">
+            <div class="ml-auto">
+                <?= $this->Form->submit('Guardar cambios', [
+                    'class' => ActionColor::DELETE->btn(),
+                    'confirm' => __('Esta seguro que desea eliminar al estudiantes {0}?', $student->full_name),
+                ]) ?>
+            </div>
+        </div>
+        <?= $this->Form->end() ?>
+    </div>
+</div>

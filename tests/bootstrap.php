@@ -63,3 +63,7 @@ session_id('cli');
 // use Cake\TestSuite\Fixture\SchemaLoader;
 // (new SchemaLoader())->loadSqlFiles('./tests/schema.sql', 'test');
 (new Migrator())->run();
+
+
+Configure::load('CakeDC/Users.users');
+Configure::load('users');

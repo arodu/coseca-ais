@@ -53,7 +53,7 @@ class TestingSeed extends AbstractSeed
     {
         $users[] = $this->setupUser([
             'email' => 'admin@example.com',
-            'password' => '1234',
+            'password' => '1234',            
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
             'role' => UserRole::ADMIN->value,
@@ -76,6 +76,7 @@ class TestingSeed extends AbstractSeed
             $users[] = $this->setupUser([
                 'email' => $this->faker->safeEmail(),
                 'password' => '1234',
+                'dni' => $this->faker->numberBetween(20000000, 29000000),
                 'first_name' => $this->faker->firstName(),
                 'last_name' => $this->faker->lastName(),
                 'role' => UserRole::STUDENT->value,

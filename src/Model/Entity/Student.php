@@ -117,7 +117,7 @@ class Student extends Entity
             return $this->lapse;
         }
 
-        if (!empty($this->tenant->current_lapse)) {
+        if (!empty($this->tenant->current_lapse) && $this->tenant->current_lapse instanceof Lapse) {
             return $this->tenant->current_lapse;
         }
 

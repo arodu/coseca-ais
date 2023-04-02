@@ -11,6 +11,7 @@ return [
         'table' => AppUsersTable::class,
         // Controller used to manage users plugin features & actions
         'controller' => 'CakeDC/Users.Users',
+        'passwordHasher' => '\Cake\Auth\DefaultPasswordHasher',
         'Social' => [
             'login' => false,
         ],

@@ -3,11 +3,11 @@ name: CI
 on:
   push:
     branches:
-      - 'main'
-      - 'develop'
+      - "main"
+      - "develop"
   pull_request:
     branches:
-      - '*'
+      - "*"
 
 jobs:
   testsuite:
@@ -15,38 +15,38 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-version: ['8.1']
+        php-version: ["8.1"]
         db-type: [mysql]
     name: PHP ${{ matrix.php-version }}
     env:
-      DATABASE_URL: 'mysql://root:root@127.0.0.1/cakephp?encoding=utf8'
-      DATABASE_TEST_URL: 'mysql://root:root@127.0.0.1/cakephp?encoding=utf8'
+      DATABASE_URL: "mysql://root:root@127.0.0.1/cakephp?encoding=utf8"
+      DATABASE_TEST_URL: "mysql://root:root@127.0.0.1/cakephp?encoding=utf8"
 
     steps:
-    - name: Setup MySQL latest
-      if: matrix.db-type == 'mysql'
-      run: docker run --rm --name=mysqld -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=cakephp -p 3306:3306 -d mysql --default-authentication-plugin=mysql_native_password --disable-log-bin
+      - name: Setup MySQL latest
+        if: matrix.db-type == 'mysql'
+        run: docker run --rm --name=mysqld -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=cakephp -p 3306:3306 -d mysql --default-authentication-plugin=mysql_native_password --disable-log-bin
 
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: ${{ matrix.php-version }}
-        extensions: mbstring, intl, apcu, sqlite, pdo_sqlite, pdo_${{ matrix.db-type }}, ${{ matrix.db-type }}
-        coverage: none
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: mbstring, intl, apcu, sqlite, pdo_sqlite, pdo_${{ matrix.db-type }}, ${{ matrix.db-type }}
+          coverage: none
 
-    - name: Composer install
-      run: |
-        cp config/app_local.example.php config/app_local.php
-        composer install --prefer-dist --no-interaction
+      - name: Composer install
+        run: |
+          cp config/app_local.example.php config/app_local.php
+          composer install --prefer-dist --no-interaction
 
-    - name: Run PHPUnit
-      run: |
-        vendor/bin/phpunit
+      - name: Run PHPUnit
+        run: |
+          vendor/bin/phpunit
 
-    #- name: Run PHP CodeSniffer
-    #  run: composer cs-check
+      #- name: Run PHP CodeSniffer
+      #  run: composer cs-check
 
-    #- name: Run phpstan
-    #  run: vendor/bin/phpstan
+      #- name: Run phpstan
+      #  run: vendor/bin/phpstan

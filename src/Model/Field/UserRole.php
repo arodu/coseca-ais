@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Model\Field;
 
+use App\Enum\Trait\BasicEnumTrait;
 use App\Enum\Trait\ListTrait;
 
 enum UserRole: string
 {
     use ListTrait;
+    use BasicEnumTrait;
 
     case STUDENT = 'student';
     case ADMIN = 'admin';
@@ -67,5 +69,15 @@ enum UserRole: string
     public static function getSuperAdminGroup(): array
     {
         return static::values(static::getSuperAdminRoles());
+    }
+
+    public function isStudentGroup(): bool
+    {
+        return in_array($this, static::getStudentRoles(), true);
+    }
+
+    public function isAdminGroup(): bool
+    {
+        return in_array($this, static::getAdminRoles(), true);
     }
 }

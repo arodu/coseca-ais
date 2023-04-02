@@ -10,3 +10,4 @@ use Cake\Core\Configure;
 ?>
 
 <p><?= __('En espera de revisión de documentos.') ?></p>
+<p><?= $this->App->alertMessage() ?></p>

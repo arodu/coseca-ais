@@ -191,4 +191,10 @@ class AppHelper extends Helper
 
         return $this->Html->tag($tag, $enum->label(), $options);
     }
+
+    public function alertMessage()
+    {
+        return __('Comuniquese con la coordinación de servicio comunitario para mas información');
+    }
+
 }

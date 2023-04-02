@@ -22,10 +22,9 @@ $this->Breadcrumbs->add([
 ?>
 
 <div class="card-body">
-
     <?php if (empty($student->student_adscriptions)) : ?>
         <p><?= __('El estudiante no tiene proyectos adscritos.') ?></p>
-        <p><?= __('Comuniquese con la coordinación de servicio comunitario para mas información.') ?></p>
+        <p><?= $this->App->alertMessage() ?></p>
     <?php else : ?>
         <?php foreach ($student->student_adscriptions as $studentAdscription) : ?>
             <?php
@@ -107,7 +106,7 @@ $this->Breadcrumbs->add([
                     </div>
                     <div class="ml-auto">
                         <?= $this->Html->link(
-                            __('Planilla de Adscripción'),
+                            __('Planilla de adscripción'),
                             ['controller' => 'StudentDocuments', 'action' => 'download', $studentAdscription->student_document->token],
                             ['class' => ActionColor::REPORT->btn(), 'target' => '_blank']
                         ) ?>
@@ -116,6 +115,15 @@ $this->Breadcrumbs->add([
             </div>
         <?php endforeach; ?>
     <?php endif; ?>
+</div>
+<div class="card-footer d-flex">
+    <div>
+        <?= $this->Html->link(
+            __('Agregar Proyecto'),
+            ['controller' => 'Adscriptions', 'action' => 'add', $student->id, 'prefix' => 'Admin/Stage', '?' => ['redirect' => $this->Url->build()]],
+            ['class' => ActionColor::ADD->btn()]
+        ); ?>
+    </div>
 </div>
 
 <?php

@@ -40,7 +40,7 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
     </div>
 
 
-    <?php foreach ($student->student_adscriptions as $adscription) : ?>
+    <?php foreach ($adscriptions as $adscription) : ?>
         <?php
         $canManageTracking = $user->can('manageTracking', $adscription);
         $count = 0;
@@ -87,7 +87,7 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
                         <?php if (empty($adscription->student_tracking)) : ?>
                             <tr>
                                 <td colspan="5">
-                                    <?= __('No hay seguimiento para esta adscripción') ?>
+                                    <?= __('No se encontraron actividades en este proyecto') ?>
                                 </td>
                             </tr>
                         <?php else : ?>
