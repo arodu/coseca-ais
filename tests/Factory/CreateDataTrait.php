@@ -78,11 +78,11 @@ trait CreateDataTrait
         return $this->fetchTable($repository)->find()->where($options)->firstOrFail();
     }
 
-    protected function loadInto(EntityInterface $entity, array $contain): EntityInterface
+    protected function loadInto($entities, array $contain)
     {
-        $table = $this->fetchTable($entity->getSource());
+        $table = $this->fetchTable($entities[0]->getSource());
 
-        return $table->loadInto($entity, $contain);
+        return $table->loadInto($entities, $contain);
     }
 
     protected function addRecord(string $repository, array $data = []): EntityInterface

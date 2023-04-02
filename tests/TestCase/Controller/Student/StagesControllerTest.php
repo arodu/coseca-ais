@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Test\TestCase\Controller\Student;
 
 use App\Model\Entity\Student;
+use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use App\Model\Field\StudentType;
 use App\Model\Field\UserRole;
-use App\Test\Factory\AppUserFactory;
 use App\Test\Factory\CreateDataTrait;
-use App\Test\Factory\ProgramFactory;
-use App\Test\Factory\StudentStageFactory;
+use App\Test\Factory\InstitutionFactory;
+use App\Test\Factory\TutorFactory;
 use Cake\I18n\FrozenDate;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
@@ -32,6 +32,8 @@ class StagesControllerTest extends TestCase
     protected $tenant_id;
     protected $user;
     protected $lapse_id;
+    protected $tutors;
+    protected $institution;
 
     protected $alertMessage = 'Comuniquese con la coordinación de servicio comunitario para mas información';
 
@@ -48,6 +50,19 @@ class StagesControllerTest extends TestCase
         $this->tenant_id = Hash::get($this->program, 'tenants.0.id');
         $this->lapse_id = Hash::get($this->program, 'tenants.0.lapses.0.id');
         $this->setDefaultLapseDates($this->lapse_id);
+
+        $this->tutors = TutorFactory::make([
+            'tenant_id' => $this->tenant_id,
+        ], 5)->persist();
+
+        $this->institution = InstitutionFactory::make([
+            'tenant_id' => $this->tenant_id,
+        ])
+            ->with('InstitutionProjects', [], 5)
+            ->persist();
+
+
+        $this->session(['Auth' => $this->user]);
     }
 
     protected function tearDown(): void
@@ -56,6 +71,8 @@ class StagesControllerTest extends TestCase
         unset($this->user);
         unset($this->lapse_id);
         unset($this->tenant_id);
+        unset($this->tutors);
+        unset($this->institution);
 
         parent::tearDown();
     }
@@ -65,27 +82,11 @@ class StagesControllerTest extends TestCase
         $interest_area_key = rand(0, count($this->program->interest_areas) - 1);
 
         return $this->createStudent([
-                'type' => StudentType::REGULAR->value,
-                'user_id' => $this->user->id,
-                'tenant_id' => $this->tenant_id,
-                'lapse_id' => $this->lapse_id,
-            ])
-            ->with('StudentData', [
-                'interest_area_id' => $this->program->interest_areas[$interest_area_key]->id,
-            ])
-            ->persist();
-    }
-
-    protected function createValidationStudent(): Student
-    {
-        $interest_area_key = rand(0, count($this->program->interest_areas) - 1);
-
-        return $this->createStudent([
-                'type' => StudentType::VALIDATED->value,
-                'user_id' => $this->user->id,
-                'tenant_id' => $this->tenant_id,
-                'lapse_id' => $this->lapse_id,
-            ])
+            'type' => StudentType::REGULAR->value,
+            'user_id' => $this->user->id,
+            'tenant_id' => $this->tenant_id,
+            'lapse_id' => $this->lapse_id,
+        ])
             ->with('StudentData', [
                 'interest_area_id' => $this->program->interest_areas[$interest_area_key]->id,
             ])
@@ -94,11 +95,9 @@ class StagesControllerTest extends TestCase
 
     public function testStudentTypeRegular(): void
     {
-        $this->createRegularStudent();
+        $student = $this->createRegularStudent();
 
-        $this->session(['Auth' => $this->user]);
         $this->get('/student/stages');
-
         $this->assertResponseOk();
         $this->assertResponseContains('Registro');
         $this->assertResponseContains('Taller');
@@ -107,15 +106,9 @@ class StagesControllerTest extends TestCase
         $this->assertResponseContains('Resultados');
         $this->assertResponseContains('Conclusión');
         $this->assertResponseNotContains('Convalidación');
-    }
 
-    public function testStudentTypeValidated(): void
-    {
-        $this->createValidationStudent();
-
-        $this->session(['Auth' => $this->user]);
+        $this->updateRecord($student, ['type' => StudentType::VALIDATED->value]);
         $this->get('/student/stages');
-
         $this->assertResponseOk();
         $this->assertResponseContains('Registro');
         $this->assertResponseNotContains('Taller');
@@ -136,8 +129,6 @@ class StagesControllerTest extends TestCase
             'stage' => StageField::REGISTER->value,
             'status' => StageStatus::IN_PROGRESS->value,
         ]);
-
-        $this->session(['Auth' => $this->user]);
 
         $lapseDate = $this->getRecordByOptions('LapseDates', [
             'lapse_id' => $lapse_id,
@@ -186,8 +177,6 @@ class StagesControllerTest extends TestCase
             'status' => StageStatus::REVIEW->value,
         ]);
 
-        $this->session(['Auth' => $this->user]);
-
         $this->get('/student/stages');
         $this->assertResponseOk();
         $this->assertResponseContains('En espera de revisión de documentos.');
@@ -202,8 +191,6 @@ class StagesControllerTest extends TestCase
             'stage' => StageField::REGISTER->value,
             'status' => StageStatus::SUCCESS->value,
         ]);
-
-        $this->session(['Auth' => $this->user]);
 
         $this->get('/student/stages');
         $this->assertResponseOk();
@@ -224,8 +211,6 @@ class StagesControllerTest extends TestCase
             'stage' => StageField::REGISTER->value,
             'status' => StageStatus::WAITING->value,
         ]);
-
-        $this->session(['Auth' => $this->user]);
 
         $this->get('/student/stages');
         $this->assertResponseOk();
@@ -255,8 +240,6 @@ class StagesControllerTest extends TestCase
             'status' => StageStatus::WAITING->value,
         ]);
 
-        $this->session(['Auth' => $this->user]);
-
         $lapseDate = $this->getRecordByOptions('LapseDates', [
             'lapse_id' => $lapse_id,
             'stage' => StageField::COURSE->value,
@@ -267,7 +250,7 @@ class StagesControllerTest extends TestCase
         $this->assertResponseOk();
         $this->assertResponseContains('En espera de la fecha del taller de Servicio Comunitario');
         $this->assertResponseContains($this->alertMessage);
-        
+
         // with lapse dates in pass
         $start_date = FrozenDate::now()->subDays(4);
         $this->updateRecord($lapseDate, compact('start_date'));
@@ -302,8 +285,6 @@ class StagesControllerTest extends TestCase
             'status' => StageStatus::SUCCESS->value,
         ]);
 
-        $this->session(['Auth' => $this->user]);
-
         $this->get('/student/stages');
         $this->assertResponseOk();
         $this->assertResponseContains('Sin información a mostrar');
@@ -330,8 +311,6 @@ class StagesControllerTest extends TestCase
             'stage' => StageField::COURSE->value,
             'status' => StageStatus::IN_PROGRESS->value,
         ]);
-
-        $this->session(['Auth' => $this->user]);
 
         $this->get('/student/stages');
         $this->assertResponseOk();
@@ -366,7 +345,72 @@ class StagesControllerTest extends TestCase
             'status' => StageStatus::WAITING->value,
         ]);
 
-        $this->session(['Auth' => $this->user]);
+        // whitout lapse dates
+        $this->get('/student/stages');
+        $this->assertResponseOk();
+        $this->assertResponseContains('El estudiante no tiene proyectos adscritos');
+        $this->assertResponseContains($this->alertMessage);
+
+        $project = Hash::get($this->institution, 'institution_projects.0');
+        $tutor = Hash::get($this->tutors, '0');
+        $adscription = $this->addRecord('StudentAdscriptions', [
+            'student_id' => $student->id,
+            'institution_project_id' => $project->id,
+            'tutor_id' => $tutor->id,
+            'status' => AdscriptionStatus::PENDING->value,
+        ]);
+        $project_label_name = __('{0}: {1}', $this->institution->name, $project->name);
+
+        $this->get('/student/stages');
+        $this->assertResponseOk();
+        $this->assertResponseContains($project_label_name);
+        $this->assertResponseContains('<span class="badge badge-warning ">Pendiente</span>');
+        $this->assertResponseContains('Planilla de Adscripción');
+        $this->assertResponseContains('<dd class="col-sm-8">' . $this->institution->name . '</dd>');
+        $this->assertResponseContains('<dd class="col-sm-8">' . $this->institution->contact_person . '</dd>');
+        $this->assertResponseContains('<dd class="col-sm-8">' . $this->institution->contact_phone . '</dd>');
+        $this->assertResponseContains('<dd class="col-sm-8">' . $this->institution->contact_email . '</dd>');
+        $this->assertResponseContains('<dd class="col-sm-8">' . $project->name . '</dd>');
+        $this->assertResponseContains('<dd class="col-sm-8">' . $tutor->name . '</dd>');
+        $this->assertResponseContains('<dd class="col-sm-8">' . $tutor->phone . '</dd>');
+        $this->assertResponseContains('<dd class="col-sm-8">' . $tutor->email . '</dd>');
+
+        $this->updateRecord($adscription, ['status' => AdscriptionStatus::OPEN->value]);
+        $this->get('/student/stages');
+        $this->assertResponseOk();
+        $this->assertResponseContains($project_label_name);
+        $this->assertResponseContains('<span class="badge badge-success ">Abierto</span>');
+        $this->assertResponseNotContains('Planilla de Adscripción');
+
+        $this->updateRecord($adscription, ['status' => AdscriptionStatus::CLOSED->value]);
+        $this->get('/student/stages');
+        $this->assertResponseOk();
+        $this->assertResponseContains($project_label_name);
+        $this->assertResponseContains('<span class="badge badge-danger ">Cerrado</span>');
+        $this->assertResponseNotContains('Planilla de Adscripción');
+
+        $this->updateRecord($adscription, ['status' => AdscriptionStatus::VALIDATED->value]);
+        $this->get('/student/stages');
+        $this->assertResponseOk();
+        $this->assertResponseContains($project_label_name);
+        $this->assertResponseContains('<span class="badge badge-primary ">Validado</span>');
+        $this->assertResponseNotContains('Planilla de Adscripción');
+
+        $this->updateRecord($adscription, ['status' => AdscriptionStatus::CANCELLED->value]);
+        $this->get('/student/stages');
+        $this->assertResponseOk();
+        $this->assertResponseNotContains($project_label_name);
+        $this->assertResponseNotContains($project->name);
+    }
+
+    public function testTrackingCardStatusInProgress(): void
+    {
+        $student = $this->createRegularStudent();
+        $this->addRecord('StudentStages', [
+            'student_id' => $student->id,
+            'stage' => StageField::TRACKING->value,
+            'status' => StageStatus::IN_PROGRESS->value,
+        ]);
 
         // whitout lapse dates
         $this->get('/student/stages');
@@ -374,8 +418,107 @@ class StagesControllerTest extends TestCase
         $this->assertResponseContains('El estudiante no tiene proyectos adscritos');
         $this->assertResponseContains($this->alertMessage);
 
-        
+        $project = Hash::get($this->institution, 'institution_projects.0');
+        $tutor = Hash::get($this->tutors, '0');
+        $adscription = $this->addRecord('StudentAdscriptions', [
+            'student_id' => $student->id,
+            'institution_project_id' => $project->id,
+            'tutor_id' => $tutor->id,
+            'status' => AdscriptionStatus::OPEN->value,
+        ]);
 
+        $this->get('/student/stages');
+        $this->assertResponseOk();
+        $this->assertResponseContains('<h5 class="tracking-count description-header">0</h5>');
+        $this->assertResponseContains('<h5 class="tracking-first-date description-header"><code>N/A</code></h5>');
+        $this->assertResponseContains('<h5 class="tracking-last-date description-header"><code>N/A</code></h5>');
+        $this->assertResponseContains('<h5 class="total-hours description-header">0</h5>');
+        $this->assertResponseContains('Ver actividades');
+        $this->assertResponseNotContains('Cerrar actividades');
+
+        $first_date = FrozenDate::now()->subDays(4);
+        $record[0] = $this->addRecord('StudentTracking', [
+            'student_adscription_id' => $adscription->id,
+            'date' => $first_date,
+            'hours' => 4,
+            'description' => 'test',
+        ]);
+        $this->get('/student/stages');
+        $this->assertResponseOk();
+        $this->assertResponseContains('<h5 class="tracking-count description-header">' . 1 . '</h5>');
+        $this->assertResponseContains('<h5 class="tracking-first-date description-header">' . $first_date . '</h5>');
+        $this->assertResponseContains('<h5 class="tracking-last-date description-header">' . $first_date . '</h5>');
+        $this->assertResponseContains('<h5 class="total-hours description-header">' . 4 . '</h5>');
+        $this->assertResponseContains('Ver actividades');
+        $this->assertResponseNotContains('Cerrar actividades');
+
+        $last_date = FrozenDate::now()->subDays(3);
+        $record[1] = $this->addRecord('StudentTracking', [
+            'student_adscription_id' => $adscription->id,
+            'date' => $last_date,
+            'hours' => 4,
+            'description' => 'test',
+        ]);
+        $this->get('/student/stages');
+        $this->assertResponseOk();
+        $this->assertResponseContains('<h5 class="tracking-count description-header">' . 2 . '</h5>');
+        $this->assertResponseContains('<h5 class="tracking-first-date description-header">' . $first_date . '</h5>');
+        $this->assertResponseContains('<h5 class="tracking-last-date description-header">' . $last_date . '</h5>');
+        $this->assertResponseContains('<h5 class="total-hours description-header">' . 8 . '</h5>');
+        $this->assertResponseContains('Ver actividades');
+        $this->assertResponseNotContains('Cerrar actividades');
+
+        $last_date = FrozenDate::now()->subDays(1);
+        $record[2] = $this->addRecord('StudentTracking', [
+            'student_adscription_id' => $adscription->id,
+            'date' => $last_date,
+            'hours' => 4,
+            'description' => 'test',
+        ]);
+        $this->get('/student/stages');
+        $this->assertResponseOk();
+        $this->assertResponseContains('<h5 class="tracking-count description-header">' . 3 . '</h5>');
+        $this->assertResponseContains('<h5 class="tracking-first-date description-header">' . $first_date . '</h5>');
+        $this->assertResponseContains('<h5 class="tracking-last-date description-header">' . $last_date . '</h5>');
+        $this->assertResponseContains('<h5 class="total-hours description-header">' . 12 . '</h5>');
+        $this->assertResponseContains('Ver actividades');
+        $this->assertResponseNotContains('Cerrar actividades');
+
+        $this->deleteRecord($record[1]);
+        $this->get('/student/stages');
+        $this->assertResponseOk();
+        $this->assertResponseContains('<h5 class="tracking-count description-header">' . 2 . '</h5>');
+        $this->assertResponseContains('<h5 class="tracking-first-date description-header">' . $first_date . '</h5>');
+        $this->assertResponseContains('<h5 class="tracking-last-date description-header">' . $last_date . '</h5>');
+        $this->assertResponseContains('<h5 class="total-hours description-header">' . 8 . '</h5>');
+        $this->assertResponseContains('Ver actividades');
+        $this->assertResponseNotContains('Cerrar actividades');
+
+        $first_date = $last_date;
+        $this->deleteRecord($record[0]);
+        $this->get('/student/stages');
+        $this->assertResponseOk();
+        $this->assertResponseContains('<h5 class="tracking-count description-header">' . 1 . '</h5>');
+        $this->assertResponseContains('<h5 class="tracking-first-date description-header">' . $first_date . '</h5>');
+        $this->assertResponseContains('<h5 class="tracking-last-date description-header">' . $last_date . '</h5>');
+        $this->assertResponseContains('<h5 class="total-hours description-header">' . 4 . '</h5>');
+        $this->assertResponseContains('Ver actividades');
+        $this->assertResponseNotContains('Cerrar actividades');
+
+        $last_date = FrozenDate::now();
+        $record[3] = $this->addRecord('StudentTracking', [
+            'student_adscription_id' => $adscription->id,
+            'date' => $last_date,
+            'hours' => 120,
+            'description' => 'test',
+        ]);
+        $this->get('/student/stages');
+        $this->assertResponseOk();
+        $this->assertResponseContains('<h5 class="tracking-count description-header">' . 2 . '</h5>');
+        $this->assertResponseContains('<h5 class="tracking-first-date description-header">' . $first_date . '</h5>');
+        $this->assertResponseContains('<h5 class="tracking-last-date description-header">' . $last_date . '</h5>');
+        $this->assertResponseContains('<h5 class="total-hours description-header">' . 124 . '</h5>');
+        $this->assertResponseContains('Ver actividades');
+        $this->assertResponseContains('Cerrar actividades');
     }
-
 }
