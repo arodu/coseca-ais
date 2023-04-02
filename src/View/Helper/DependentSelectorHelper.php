@@ -21,9 +21,12 @@ class DependentSelectorHelper extends Helper
     protected $_defaultConfig = [
         'selectorName' => 'dependent-selector',
         'empty' => null,
+        'allowDuplicateScript' => false,
     ];
 
     public $helpers = ['Form', 'Html'];
+
+    private $isDuplicated = false;
 
     /**
      * @inheritDoc
@@ -38,48 +41,53 @@ class DependentSelectorHelper extends Helper
     }
 
     protected $selectDependentTemplate = <<<SCRIPT_TEMPLATE
-    $(function () {
+    document.addEventListener('DOMContentLoaded', function() {
         function loadSelect(currentSelect, options) {
-            $(currentSelect).empty();
-            $(currentSelect).append('<option value="">{{empty}}</option>');
-            $.each(options, function (key, value) {
-                $(currentSelect).append('<option value="' + key + '">' + value + '</option>');
-            });
+            currentSelect.innerHTML = '';
+            const emptyOption = document.createElement('option');
+            emptyOption.text = '{{empty}}';
+            emptyOption.value = '';
+            currentSelect.add(emptyOption);
 
-            const target = $(currentSelect).data('target');
+            Object.entries(options).forEach(([key, value]) => {
+                const option = document.createElement('option');
+                option.value = key;
+                option.text = value;
+                currentSelect.add(option);
+            });
+    
+            const target = document.querySelector(currentSelect.dataset.target);
             if (target) {
                 loadSelect(target, []);
             }
         }
+    
+        document.querySelectorAll('{{selectorName}}').forEach(function(select) {
+            select.addEventListener('change', function() {
+                const value = this.value;
+                const target = document.querySelector(this.dataset.target);
+        
+                if (!target) {
+                    return;
+                }
 
-        $('{{selectorName}}').on('change', function() {
-            const value = $(this).val();
-            const target = $(this).data('target');
-
-            if (value === '') {
-                loadSelect(target, []);
-                return;
-            }
-
-            const url = $(target).data('url') + '/' + value;
-
-            $.ajax({
-                url: url,
-                type: '{{type}}',
-                beforeSend: function() {
+                if (value === '') {
                     loadSelect(target, []);
-                },
-                success: function(data) {
-                    loadSelect(target, data['data']);
-                },
-                error: function() {
-                    loadSelect(target, []);
-                },
+                    return;
+                }
+        
+                const url = target.dataset.url + '/' + value;
+        
+                fetch(url, {
+                    method: '{{type}}'
+                })
+                .then(response => response.json())
+                .then(data => loadSelect(target, data.data))
+                .catch(() => loadSelect(target, []));
             });
         });
-    })
+    });
     SCRIPT_TEMPLATE;
-
     /**
      * @param string|null $selectorName
      * @param array<string, mixed> $options
@@ -87,6 +95,10 @@ class DependentSelectorHelper extends Helper
      */
     public function script(?string $selectorName = null, array $options = []): ?string
     {
+        if ($this->isDuplicated && !$this->getConfig('allowDuplicateScript')) {
+            return null;
+        }
+
         $block = $options['block'] ?? true;
         unset($options['block']);
 
@@ -100,6 +112,8 @@ class DependentSelectorHelper extends Helper
             'before' => '{{',
             'after' => '}}',
         ]);
+
+        $this->isDuplicated = true;
 
         return $this->Html->scriptBlock($script, ['block' => $block]);
     }
@@ -122,7 +136,7 @@ class DependentSelectorHelper extends Helper
     protected function handleCssClass($class): string
     {
         if (is_array($class)) {
-            $class = implode(' ', $class);
+            $class = trim(implode(' ', $class));
         }
 
         $class = $class ?? '';

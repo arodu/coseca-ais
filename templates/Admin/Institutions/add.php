@@ -30,11 +30,11 @@ $this->Breadcrumbs->add([
         <?= $this->DependentSelector->control('municipality_id', [
             'id' => 'municipality-select',
             'data-target' => '#parish-select',
-            'data-url' => $this->Url->build(['action' => 'getMunicipalities']),
+            'data-url' => $this->Url->build(['action' => 'getList', 'SysMunicipalities', 'state_id']),
         ]) ?>
         <?= $this->DependentSelector->control('parish_id', [
             'id' => 'parish-select',
-            'data-url' => $this->Url->build(['action' => 'getParishes']),
+            'data-url' => $this->Url->build(['action' => 'getList', 'SysParishes', 'municipality_id']),
         ]) ?>
     </div>
     <div class="card-footer d-flex">
