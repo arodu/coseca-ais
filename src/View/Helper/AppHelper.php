@@ -118,68 +118,6 @@ class AppHelper extends Helper
         return $lapse->name . ' ' . $this->badge($lapse->getActive());
     }
 
-    protected $selectDependentTemplate = <<<SCRIPT_TEMPLATE
-    $(function () {
-        function loadSelect(currentSelect, options) {
-            $(currentSelect).empty();
-            $(currentSelect).append('<option value="">{{empty}}</option>');
-            $.each(options, function (key, value) {
-                $(currentSelect).append('<option value="' + key + '">' + value + '</option>');
-            });
-
-            const target = $(currentSelect).data('target');
-            if (target) {
-                loadSelect(target, []);
-            }
-        }
-
-        $('{{selectorName}}').on('change', function() {
-            const value = $(this).val();
-            const target = $(this).data('target');
-
-            if (value === '') {
-                loadSelect(target, []);
-                return;
-            }
-
-            const url = $(target).data('url') + '/' + value;
-
-            $.ajax({
-                url: url,
-                type: '{{type}}',
-                beforeSend: function() {
-                    loadSelect(target, []);
-                },
-                success: function(data) {
-                    loadSelect(target, data['data']);
-                },
-                error: function() {
-                    loadSelect(target, []);
-                },
-            });
-        });
-    })
-    SCRIPT_TEMPLATE;
-
-    /**
-     * @param string $selectorName
-     * @param array<string, mixed> $options
-     * @return string|null
-     */
-    public function selectDependentScript(string $selectorName = '.select-dependent', array $options = []): ?string
-    {
-        $script = Text::insert($this->selectDependentTemplate, [
-            'selectorName' => $selectorName,
-            'type' => $options['type'] ?? 'GET',
-            'empty' => $options['empty'] ?? __('Seleccione una opción'),
-        ], [
-            'before' => '{{',
-            'after' => '}}',
-        ]);
-
-        return $this->Html->scriptBlock($script, ['block' => true]);
-    }
-
     public function badge(BadgeInterface $enum, array $options = []): string
     {
         $options = [

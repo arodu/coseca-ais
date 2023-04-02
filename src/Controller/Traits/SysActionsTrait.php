@@ -4,60 +4,28 @@ declare(strict_types=1);
 
 namespace App\Controller\Traits;
 
-use Cake\Http\Exception\NotFoundException;
 use Cake\ORM\Locator\LocatorAwareTrait;
+use Cake\View\JsonView;
 
 trait SysActionsTrait
 {
     use LocatorAwareTrait;
 
-    public function getStates()
+    public function getList(string $repository, string $field = null, string $reference = null)
     {
         $this->RequestHandler->renderAs($this, 'json');
-        $this->viewBuilder()->setClassName('Json');
 
-        $states = $this->fetchTable('SysStates')->find('list');
+        $table = $this->fetchTable($repository);
 
-        $this->set('data', $states);
-        $this->set('_serialize', ['data']);
-    }
+        if (empty($reference) || empty($field)) {
+            $data = $table->find('list');
+        } else {
+            $data = $table->find('list', [
+                'conditions' => [$table->aliasField($field) => $reference],
+            ]);
+        }
 
-    public function getCities($state_id = null)
-    {
-        $this->RequestHandler->renderAs($this, 'json');
-        $this->viewBuilder()->setClassName('Json');
-
-        $cities = $this->fetchTable('SysCities')->find('list', [
-            'conditions' => ['state_id' => $state_id],
-        ]);
-
-        $this->set('data', $cities);
-        $this->set('_serialize', ['data']);
-    }
-
-    public function getMunicipalities($state_id = null)
-    {
-        $this->RequestHandler->renderAs($this, 'json');
-        $this->viewBuilder()->setClassName('Json');
-
-        $municipalities = $this->fetchTable('SysMunicipalities')->find('list', [
-            'conditions' => ['state_id' => $state_id],
-        ]);
-
-        $this->set('data', $municipalities);
-        $this->set('_serialize', ['data']);
-    }
-
-    public function getParishes($municipality_id = null)
-    {
-        $this->RequestHandler->renderAs($this, 'json');
-        $this->viewBuilder()->setClassName('Json');
-
-        $parishes = $this->fetchTable('SysParishes')->find('list', [
-            'conditions' => ['municipality_id' => $municipality_id],
-        ]);
-
-        $this->set('data', $parishes);
-        $this->set('_serialize', ['data']);
+        $this->set('data', $data);
+        $this->viewBuilder()->setOption('serialize', ['data']);
     }
 }

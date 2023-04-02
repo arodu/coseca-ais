@@ -4,18 +4,11 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller\Student;
 
-use App\Model\Entity\Student;
 use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use App\Model\Field\StudentType;
-use App\Model\Field\UserRole;
-use App\Test\Factory\CreateDataTrait;
-use App\Test\Factory\InstitutionFactory;
-use App\Test\Factory\TutorFactory;
 use Cake\I18n\FrozenDate;
-use Cake\TestSuite\IntegrationTestTrait;
-use Cake\TestSuite\TestCase;
 use Cake\Utility\Hash;
 
 /**
@@ -23,76 +16,8 @@ use Cake\Utility\Hash;
  *
  * @uses \App\Controller\Student\StagesController
  */
-class StagesControllerTest extends TestCase
+class StagesControllerTest extends StudentTestCase
 {
-    use IntegrationTestTrait;
-    use CreateDataTrait;
-
-    protected $program;
-    protected $tenant_id;
-    protected $user;
-    protected $lapse_id;
-    protected $tutors;
-    protected $institution;
-
-    protected $alertMessage = 'Comuniquese con la coordinación de servicio comunitario para mas información';
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->enableRetainFlashMessages();
-        $this->enableCsrfToken();
-        $this->enableSecurityToken();
-
-        $this->program = $this->createProgram()->persist();
-        $this->user = $this->createUser(['role' => UserRole::STUDENT->value])->persist();
-        $this->tenant_id = Hash::get($this->program, 'tenants.0.id');
-        $this->lapse_id = Hash::get($this->program, 'tenants.0.lapses.0.id');
-        $this->setDefaultLapseDates($this->lapse_id);
-
-        $this->tutors = TutorFactory::make([
-            'tenant_id' => $this->tenant_id,
-        ], 5)->persist();
-
-        $this->institution = InstitutionFactory::make([
-            'tenant_id' => $this->tenant_id,
-        ])
-            ->with('InstitutionProjects', [], 5)
-            ->persist();
-
-
-        $this->session(['Auth' => $this->user]);
-    }
-
-    protected function tearDown(): void
-    {
-        unset($this->program);
-        unset($this->user);
-        unset($this->lapse_id);
-        unset($this->tenant_id);
-        unset($this->tutors);
-        unset($this->institution);
-
-        parent::tearDown();
-    }
-
-    protected function createRegularStudent(): Student
-    {
-        $interest_area_key = rand(0, count($this->program->interest_areas) - 1);
-
-        return $this->createStudent([
-            'type' => StudentType::REGULAR->value,
-            'user_id' => $this->user->id,
-            'tenant_id' => $this->tenant_id,
-            'lapse_id' => $this->lapse_id,
-        ])
-            ->with('StudentData', [
-                'interest_area_id' => $this->program->interest_areas[$interest_area_key]->id,
-            ])
-            ->persist();
-    }
-
     public function testStudentTypeRegular(): void
     {
         $student = $this->createRegularStudent();
@@ -520,5 +445,25 @@ class StagesControllerTest extends TestCase
         $this->assertResponseContains('<h5 class="total-hours description-header">' . 124 . '</h5>');
         $this->assertResponseContains('Ver actividades');
         $this->assertResponseContains('Cerrar actividades');
+    }
+
+    public function testResultsCardStatusWaiting(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    public function testResultsCardStatusSuccess(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    public function testEndingCardStatusWaiting(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    public function testEndingCardStatusSuccess(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
     }
 }
