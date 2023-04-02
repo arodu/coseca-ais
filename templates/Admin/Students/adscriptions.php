@@ -106,7 +106,7 @@ $this->Breadcrumbs->add([
                     </div>
                     <div class="ml-auto">
                         <?= $this->Html->link(
-                            __('Planilla de Adscripción'),
+                            __('Planilla de adscripción'),
                             ['controller' => 'StudentDocuments', 'action' => 'download', $studentAdscription->student_document->token],
                             ['class' => ActionColor::REPORT->btn(), 'target' => '_blank']
                         ) ?>

@@ -7,10 +7,7 @@
 
 use App\Enum\ActionColor;
 use App\Model\Field\AdscriptionStatus;
-use App\Model\Field\StageStatus;
-
 ?>
-
 
 <?php if (empty($student->student_adscriptions)) : ?>
     <p><?= __('El estudiante no tiene proyectos adscritos.') ?></p>
@@ -66,7 +63,7 @@ use App\Model\Field\StageStatus;
                     <div class="ml-auto">
                         <?php if ($studentAdscription->status_obj->is(AdscriptionStatus::PENDING)) : ?>
                             <!-- <?= $this->Html->link(
-                                        __('Planilla de Adscripción'),
+                                        __('Planilla de adscripción'),
                                         ['controller' => 'StudentDocuments', 'action' => 'download', $studentAdscription->student_document->token],
                                         ['class' => ActionColor::REPORT->btn('btn-sm'), 'target' => '_blank']
                                     ) ?> -->
