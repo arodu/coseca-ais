@@ -25,18 +25,18 @@ $this->Breadcrumbs->add([
         <?= $this->Form->control('contact_email') ?>
         <?= $this->Form->control('tenant_id', ['options' => $tenants]) ?>
         <?= $this->DependentSelector->control('state_id', [
-            'options' => $states,
+            'options' => $states ?? [],
             'data-target' => '#municipality-select',
         ]) ?>
         <?= $this->DependentSelector->control('municipality_id', [
             'id' => 'municipality-select',
-            'options' => $municipalities,
+            'options' => $municipalities ?? [],
             'data-target' => '#parish-select',
             'data-url' => $this->Url->build(['action' => 'getList', 'SysMunicipalities', 'state_id']),
         ]) ?>
         <?= $this->DependentSelector->control('parish_id', [
             'id' => 'parish-select',
-            'options' => $parishes,
+            'options' => $parishes  ?? [],
             'data-url' => $this->Url->build(['action' => 'getList', 'SysParishes', 'municipality_id']),
         ]) ?>
     </div>

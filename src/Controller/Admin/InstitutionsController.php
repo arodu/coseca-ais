@@ -139,7 +139,7 @@ class InstitutionsController extends AppAdminController
         }
         $tenants = $this->Institutions->Tenants->find('list', ['limit' => 200])->all();
         $states = $this->Institutions->States->find('list', ['limit' => 200])->all();
-        $municipalities = $institution->state_id ? ($this->Institutions->Municipalities->find('list', ['limit' => 200])->where(['state_id' => $institution->state_id])->all()) : [];
+        $municipalities = $institution->state_id ? $this->Institutions->Municipalities->find('list', ['limit' => 200])->where(['state_id' => $institution->state_id])->all() : [];
         $parishes = $institution->municipality_id ? $this->Institutions->Parishes->find('list', ['limit' => 200])->where(['municipality_id' => $institution->municipality_id])->all() : [];
         $this->set(compact('institution', 'tenants', 'states', 'municipalities', 'parishes'));
     }
