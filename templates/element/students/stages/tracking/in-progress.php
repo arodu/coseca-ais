@@ -12,7 +12,7 @@ use App\Model\Field\StageStatus;
 
 <?php if (empty($student->student_adscriptions)) : ?>
     <p><?= __('El estudiante no tiene proyectos adscritos.') ?></p>
-    <p><?= __('Comuniquese con la coordinación de servicio comunitario para mas información.') ?></p>
+    <p><?= $this->App->alertMessage() ?></p>
 <?php else : ?>
     <?= $this->element('content/trackingInfo', ['trackingInfo' => $trackingInfo]) ?>
     <hr>

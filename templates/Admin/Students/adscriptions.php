@@ -24,7 +24,7 @@ $this->Breadcrumbs->add([
 <div class="card-body">
     <?php if (empty($student->student_adscriptions)) : ?>
         <p><?= __('El estudiante no tiene proyectos adscritos.') ?></p>
-        <p><?= __('Comuniquese con la coordinación de servicio comunitario para mas información.') ?></p>
+        <p><?= $this->App->alertMessage() ?></p>
     <?php else : ?>
         <?php foreach ($student->student_adscriptions as $studentAdscription) : ?>
             <?php

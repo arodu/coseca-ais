@@ -47,7 +47,7 @@ $this->Breadcrumbs->add([
                                 echo $this->element($element, ['student' => $student, 'studentStage' => $studentStage]);
                             } else {
                                 echo '<p>' . __('Sin información a mostrar') . '</p>';
-                                echo '<p>' . __('Comuníquese con la Coordinación de Servicio Comunitario para más información.') . '</p>';
+                                echo '<p>' . $this->App->alertMessage() . '</p>';
                                 if (Configure::read('debug')) {
                                     echo '<p>If you want to customize this message, create <em>templates/element/' . $element . '.php</em></p>';
                                 }

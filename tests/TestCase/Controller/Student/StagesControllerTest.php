@@ -33,6 +33,8 @@ class StagesControllerTest extends TestCase
     protected $user;
     protected $lapse_id;
 
+    protected $alertMessage = 'Comuniquese con la coordinación de servicio comunitario para mas información';
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -90,7 +92,7 @@ class StagesControllerTest extends TestCase
             ->persist();
     }
 
-    public function testStudentRegularOk(): void
+    public function testStudentTypeRegular(): void
     {
         $this->createRegularStudent();
 
@@ -107,7 +109,7 @@ class StagesControllerTest extends TestCase
         $this->assertResponseNotContains('Convalidación');
     }
 
-    public function testStudentValidatedOk(): void
+    public function testStudentTypeValidated(): void
     {
         $this->createValidationStudent();
 
@@ -124,7 +126,7 @@ class StagesControllerTest extends TestCase
         $this->assertResponseContains('Convalidación');
     }
 
-    public function testRegisterCardInProgress(): void
+    public function testRegisterCardStatusInProgress(): void
     {
         $student = $this->createRegularStudent();
         $lapse_id = $this->lapse_id;
@@ -146,7 +148,7 @@ class StagesControllerTest extends TestCase
         $this->get('/student/stages');
         $this->assertResponseOk();
         $this->assertResponseContains('No existe fecha de registro');
-        $this->assertResponseContains('Comuníquese con la Coordinación de Servicio Comunitario para más información.');
+        $this->assertResponseContains($this->alertMessage);
 
         // with lapse dates in pass
         $start_date = FrozenDate::now()->subDays(4);
@@ -155,7 +157,7 @@ class StagesControllerTest extends TestCase
         $this->get('/student/stages');
         $this->assertResponseOk();
         $this->assertResponseContains('Ya pasó el período de registro');
-        $this->assertResponseContains('Comuníquese con la Coordinación de Servicio Comunitario para más información.');
+        $this->assertResponseContains($this->alertMessage);
 
         // with lapse dates in future
         $start_date = FrozenDate::now()->addDays(3);
@@ -164,7 +166,7 @@ class StagesControllerTest extends TestCase
         $this->get('/student/stages');
         $this->assertResponseOk();
         $this->assertResponseContains(__('Fecha de registro: {0}', $lapseDate->show_dates));
-        $this->assertResponseContains('Comuníquese con la Coordinación de Servicio Comunitario para más información.');
+        $this->assertResponseContains($this->alertMessage);
 
         // with lapse dates in progress
         $start_date = FrozenDate::now()->subDays(1);
@@ -175,7 +177,7 @@ class StagesControllerTest extends TestCase
         $this->assertResponseContains('Formulario de registro');
     }
 
-    public function testRegisterCardReview(): void
+    public function testRegisterCardStatusReview(): void
     {
         $student = $this->createRegularStudent();
         $this->addRecord('StudentStages', [
@@ -189,10 +191,10 @@ class StagesControllerTest extends TestCase
         $this->get('/student/stages');
         $this->assertResponseOk();
         $this->assertResponseContains('En espera de revisión de documentos.');
-        $this->assertResponseContains('Comuníquese con la Coordinación de Servicio Comunitario para más información.');
+        $this->assertResponseContains($this->alertMessage);
     }
 
-    public function testRegisterCardSuccess(): void
+    public function testRegisterCardStatusSuccess(): void
     {
         $student = $this->createRegularStudent();
         $this->addRecord('StudentStages', [
@@ -228,22 +230,22 @@ class StagesControllerTest extends TestCase
         $this->get('/student/stages');
         $this->assertResponseOk();
         $this->assertResponseContains('Sin información a mostrar');
-        $this->assertResponseContains('Comuníquese con la Coordinación de Servicio Comunitario para más información.');
+        $this->assertResponseContains($this->alertMessage);
 
         $this->updateRecord($stageRegistry, ['status' => StageStatus::FAILED->value]);
         $this->get('/student/stages');
         $this->assertResponseOk();
         $this->assertResponseContains('Sin información a mostrar');
-        $this->assertResponseContains('Comuníquese con la Coordinación de Servicio Comunitario para más información.');
+        $this->assertResponseContains($this->alertMessage);
 
         $this->updateRecord($stageRegistry, ['status' => StageStatus::LOCKED->value]);
         $this->get('/student/stages');
         $this->assertResponseOk();
         $this->assertResponseContains('Sin información a mostrar');
-        $this->assertResponseContains('Comuníquese con la Coordinación de Servicio Comunitario para más información.');
+        $this->assertResponseContains($this->alertMessage);
     }
 
-    public function testCourseCardWaiting(): void
+    public function testCourseCardStatusWaiting(): void
     {
         $lapse_id = $this->lapse_id;
         $student = $this->createRegularStudent();
@@ -264,7 +266,7 @@ class StagesControllerTest extends TestCase
         $this->get('/student/stages');
         $this->assertResponseOk();
         $this->assertResponseContains('En espera de la fecha del taller de Servicio Comunitario');
-        $this->assertResponseContains('Comuníquese con la Coordinación de Servicio Comunitario para más información.');
+        $this->assertResponseContains($this->alertMessage);
         
         // with lapse dates in pass
         $start_date = FrozenDate::now()->subDays(4);
@@ -272,7 +274,7 @@ class StagesControllerTest extends TestCase
         $this->get('/student/stages');
         $this->assertResponseOk();
         $this->assertResponseContains('Fecha del taller de servicio comunitario: ' . $start_date . ' <small>(Caducado)</small>');
-        $this->assertResponseContains('Comuníquese con la Coordinación de Servicio Comunitario para más información.');
+        $this->assertResponseContains($this->alertMessage);
 
         // with lapse dates in future
         $start_date = FrozenDate::now()->addDays(4);
@@ -280,7 +282,7 @@ class StagesControllerTest extends TestCase
         $this->get('/student/stages');
         $this->assertResponseOk();
         $this->assertResponseContains('Fecha del taller de servicio comunitario: ' . $start_date . ' <small>(Pendiente)</small>');
-        $this->assertResponseContains('Comuníquese con la Coordinación de Servicio Comunitario para más información.');
+        $this->assertResponseContains($this->alertMessage);
 
         // with lapse dates in progress
         $start_date = FrozenDate::now();
@@ -288,10 +290,10 @@ class StagesControllerTest extends TestCase
         $this->get('/student/stages');
         $this->assertResponseOk();
         $this->assertResponseContains('Fecha del taller de servicio comunitario: ' . $start_date . ' <small>(En Progreso)</small>');
-        $this->assertResponseContains('Comuníquese con la Coordinación de Servicio Comunitario para más información.');
+        $this->assertResponseContains($this->alertMessage);
     }
 
-    public function testCourseCardSuccess(): void
+    public function testCourseCardStatusSuccess(): void
     {
         $student = $this->createRegularStudent();
         $this->addRecord('StudentStages', [
@@ -305,7 +307,7 @@ class StagesControllerTest extends TestCase
         $this->get('/student/stages');
         $this->assertResponseOk();
         $this->assertResponseContains('Sin información a mostrar');
-        $this->assertResponseContains('Comuníquese con la Coordinación de Servicio Comunitario para más información.');
+        $this->assertResponseContains($this->alertMessage);
 
         $courseDate = FrozenDate::now();
         $this->addRecord('StudentCourses', [
@@ -334,25 +336,46 @@ class StagesControllerTest extends TestCase
         $this->get('/student/stages');
         $this->assertResponseOk();
         $this->assertResponseContains('Sin información a mostrar');
-        $this->assertResponseContains('Comuníquese con la Coordinación de Servicio Comunitario para más información.');
+        $this->assertResponseContains($this->alertMessage);
 
         $this->updateRecord($stage, ['status' => StageStatus::REVIEW->value]);
         $this->get('/student/stages');
         $this->assertResponseOk();
         $this->assertResponseContains('Sin información a mostrar');
-        $this->assertResponseContains('Comuníquese con la Coordinación de Servicio Comunitario para más información.');
+        $this->assertResponseContains($this->alertMessage);
 
         $this->updateRecord($stage, ['status' => StageStatus::FAILED->value]);
         $this->get('/student/stages');
         $this->assertResponseOk();
         $this->assertResponseContains('Sin información a mostrar');
-        $this->assertResponseContains('Comuníquese con la Coordinación de Servicio Comunitario para más información.');
+        $this->assertResponseContains($this->alertMessage);
 
         $this->updateRecord($stage, ['status' => StageStatus::LOCKED->value]);
         $this->get('/student/stages');
         $this->assertResponseOk();
         $this->assertResponseContains('Sin información a mostrar');
-        $this->assertResponseContains('Comuníquese con la Coordinación de Servicio Comunitario para más información.');
+        $this->assertResponseContains($this->alertMessage);
+    }
+
+    public function testAdscriptionCardStatusWaiting(): void
+    {
+        $student = $this->createRegularStudent();
+        $this->addRecord('StudentStages', [
+            'student_id' => $student->id,
+            'stage' => StageField::ADSCRIPTION->value,
+            'status' => StageStatus::WAITING->value,
+        ]);
+
+        $this->session(['Auth' => $this->user]);
+
+        // whitout lapse dates
+        $this->get('/student/stages');
+        $this->assertResponseOk();
+        $this->assertResponseContains('El estudiante no tiene proyectos adscritos');
+        $this->assertResponseContains($this->alertMessage);
+
+        
+
     }
 
 }

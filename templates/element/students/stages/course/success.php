@@ -6,7 +6,7 @@
 ?>
 <?php if (empty($student->student_course)) : ?>
     <p><?= __('Sin información a mostrar') ?></p>
-    <p><?= __('Comuníquese con la Coordinación de Servicio Comunitario para más información.') ?></p>
+    <p><?= $this->App->alertMessage() ?></p>
 <?php else : ?>
     <ul class="list-unstyled">
         <li><strong><?= __('Fecha del Taller: ') ?></strong><?= h($student->student_course->date) ?></li>
