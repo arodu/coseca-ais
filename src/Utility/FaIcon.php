@@ -113,6 +113,7 @@ class FaIcon
         'review' => ['fas', 'eye'],
         'star' => ['fas', 'star'],
         'search' => ['fas', 'search'],
+        'view' => ['fas', 'search'],
         'filter' => ['fas', 'filter'],
         'error' => ['fas', 'bug'],
         'edit' => ['fas', 'edit'],
@@ -130,6 +131,7 @@ class FaIcon
         'home' => ['fas', 'home'],
         'university' => ['fas', 'university'],
         'copyrigth' => ['fas', 'copyrigth'],
+        'add' => ['fas', 'plus'],
     ];
 
     /**

@@ -4,7 +4,9 @@
  * @var \App\Model\Entity\Institution[]|\Cake\Collection\CollectionInterface $institutions
  */
 
+use App\Enum\ActionColor;
 use App\Utility\FaIcon;
+use Phinx\Db\Action\Action;
 
 ?>
 <?php
@@ -41,9 +43,11 @@ $this->Breadcrumbs->add([
             </div>
         </div>
         <div class="card-footer d-flex">
+            <div>
+                <?= $this->Form->button(__('Buscar'), ['class' => ActionColor::SEARCH->btn()]) ?>
+            </div>
             <div class="ml-auto">
-                <?= $this->Html->link(__('Reset'), ['action' => 'index'], ['class' => 'btn btn-default']) ?>
-                <?= $this->Form->button(__('Buscar')) ?>
+                <?= $this->Html->link(__('Reset'), ['action' => 'index'], ['class' => ActionColor::CANCEL->btn()]) ?>
             </div>
         </div>
     </div>
@@ -61,7 +65,11 @@ $this->Breadcrumbs->add([
                 'class' => 'form-control-sm',
                 'templates' => ['inputContainer' => '{{content}}']
             ]); ?>
-            <?= $this->Html->link(__('New Institution'), ['action' => 'add', 'prefix' => 'Admin'], ['class' => 'btn btn-primary btn-sm ml-2']) ?>
+            <?= $this->Button->add([
+                'url' => ['action' => 'add', 'prefix' => 'Admin'],
+                //'label' => __('Agregar Institución'),
+                'class' => 'btn-sm ml-2',
+            ]) ?>
         </div>
     </div>
     <!-- /.card-header -->
@@ -88,7 +96,7 @@ $this->Breadcrumbs->add([
                         <td><?= h($institution->contact_email) ?></td>
                         <td><?= h($institution->tenant->label) ?></td>
                         <td class="actions">
-                            <?= $this->Html->link(__('View'), ['action' => 'view', $institution->id, 'prefix' => 'Admin'], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
+                            <?= $this->Button->view(['url' => ['action' => 'view', $institution->id, 'prefix' => 'Admin'], 'class' => 'btn-xs']) ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

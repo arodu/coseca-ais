@@ -40,16 +40,14 @@ $this->Breadcrumbs->add([
             'data-url' => $this->Url->build(['action' => 'getList', 'SysParishes', 'municipality_id']),
         ]) ?>
     </div>
-
     <div class="card-footer d-flex">
-        <div></div>
+        <div>
+            <?= $this->AppForm->buttonSave() ?>
+        </div>
         <div class="ml-auto">
-            <?= $this->Form->button(__('Guardar')) ?>
-            <?= $this->Html->link(__('Cancelar'), ['action' => 'view', $institution->id, 'prefix' => 'Admin'], ['class' => 'btn btn-default']) ?>
-
+            <?= $this->AppForm->buttonCancel(['url' => ['action' => 'view', $institution->id, 'prefix' => 'Admin']]) ?>
         </div>
     </div>
-
     <?= $this->Form->end() ?>
 </div>
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\InstitutionProject $institutionProject
@@ -15,25 +16,22 @@ $this->Breadcrumbs->add([
 ?>
 
 <div class="card card-primary card-outline">
-  <?= $this->Form->create($institutionProject) ?>
-  <div class="card-body">
-    <?php
-      echo $this->Form->control('institution', ['value' => $institution->name, 'readonly' => true]);
-      echo $this->Form->control('name');
-      echo $this->Form->control('interest_area_id', ['options' => $interestAreas, 'empty' => true]);
-      echo $this->Form->control('active', ['custom' => true]);
-    ?>
-</div>
-
-  <div class="card-footer d-flex">
-    <div></div>
-    <div class="ml-auto">
-      <?= $this->Form->button(__('Save')) ?>
-      <?= $this->Html->link(__('Cancel'), ['action' => 'view', $institutionProject->id], ['class' => 'btn btn-default']) ?>
-
+    <?= $this->Form->create($institutionProject) ?>
+    <div class="card-body">
+        <?php
+        echo $this->Form->control('institution', ['value' => $institution->name, 'readonly' => true]);
+        echo $this->Form->control('name');
+        echo $this->Form->control('interest_area_id', ['options' => $interestAreas, 'empty' => true]);
+        echo $this->Form->control('active', ['custom' => true]);
+        ?>
     </div>
-  </div>
-
-  <?= $this->Form->end() ?>
+    <div class="card-footer d-flex">
+        <div>
+            <?= $this->AppForm->buttonSave() ?>
+        </div>
+        <div class="ml-auto">
+            <?= $this->AppForm->buttonCancel(['url' => ['action' => 'view', $institutionProject->id]]) ?>
+        </div>
+    </div>
+    <?= $this->Form->end() ?>
 </div>
-

@@ -20,6 +20,7 @@ enum ActionColor
     case REPORT;
     case SEARCH;
     case ROOT;
+    case DEFAULT;
 
     /**
      * @return Color
@@ -41,6 +42,7 @@ enum ActionColor
             static::REPORT => Color::SUCCESS,
             static::SEARCH => Color::PRIMARY,
             static::ROOT => Color::INDIGO,
+            static::DEFAULT => Color::DEFAULT,
             default => Color::DEFAULT,
         };
     }
