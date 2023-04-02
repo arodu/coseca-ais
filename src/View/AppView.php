@@ -49,5 +49,6 @@ class AppView extends View
         $this->initializeCakeLte();
         $this->loadHelper('Authentication.Identity');
         $this->loadHelper('ModalForm.ModalForm');
+        $this->loadHelper('DependentSelector');
     }
 }

@@ -12,16 +12,7 @@ $this->Breadcrumbs->add([
     ['title' => __('List Institutions'), 'url' => ['action' => 'index', 'prefix' => 'Admin']],
     ['title' => __('Add')],
 ]);
-
-
-
-$this->Form->addWidget(
-    'dependentSelector',
-    ['App\View\Widget\DependentSelectorWidget', '_view']
-);
-
 ?>
-
 
 <div class="card card-primary card-outline">
     <?= $this->Form->create($institution) ?>
@@ -30,30 +21,22 @@ $this->Form->addWidget(
         <?= $this->Form->control('active', ['custom' => true, 'checked' => true]) ?>
         <?= $this->Form->control('contact_person') ?>
         <?= $this->Form->control('contact_phone') ?>
-        <?= $this->Form->control('contact_email') ?>
+        <?= $this->Form->control('contact_email', ['type' => 'email']) ?>
         <?= $this->Form->control('tenant_id', ['options' => $tenants, 'empty' => true]) ?>
-        <?= $this->Form->control('state_id', [
+        <?= $this->DependentSelector->control('state_id', [
             'options' => $states,
-            'empty' => true,
-            'class' => 'select-dependent',
             'data-target' => '#municipality-select',
         ]) ?>
-        <?= $this->Form->control('municipality_id', [
+        <?= $this->DependentSelector->control('municipality_id', [
             'id' => 'municipality-select',
-            'options' => [],
-            'empty' => true,
-            'class' => 'select-dependent',
             'data-target' => '#parish-select',
             'data-url' => $this->Url->build(['action' => 'getMunicipalities']),
         ]) ?>
-        <?= $this->Form->control('parish_id', [
+        <?= $this->DependentSelector->control('parish_id', [
             'id' => 'parish-select',
-            'empty' => true,
-            'options' => [],
             'data-url' => $this->Url->build(['action' => 'getParishes']),
         ]) ?>
     </div>
-
     <div class="card-footer d-flex">
         <div class="ml-auto">
             <?= $this->Form->button(__('Guardar')) ?>
@@ -61,8 +44,7 @@ $this->Form->addWidget(
 
         </div>
     </div>
-
     <?= $this->Form->end() ?>
 </div>
 
-<?= $this->App->selectDependentScript('.select-dependent') ?>
+<?= $this->DependentSelector->script() ?>

@@ -43,15 +43,15 @@ $this->Breadcrumbs->add([
             </tr>
             <tr>
                 <th><?= __('Estado') ?></th>
-                <td><?= h($institution->state->name) ?></td>
+                <td><?= h($institution?->state?->name) ?? $this->App->nan() ?></td>
             </tr>
             <tr>
                 <th><?= __('Municipio') ?></th>
-                <td><?= h($institution->municipality->name) ?></td>
+                <td><?= h($institution?->municipality?->name) ?? $this->App->nan() ?></td>
             </tr>
             <tr>
                 <th><?= __('Parriquia') ?></th>
-                <td><?= h($institution->parish->name) ?></td>
+                <td><?= h($institution?->parish?->name) ?? $this->App->nan() ?></td>
             </tr>
         </table>
     </div>

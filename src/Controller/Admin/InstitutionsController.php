@@ -84,7 +84,7 @@ class InstitutionsController extends AppAdminController
             if ($this->Institutions->save($institution)) {
                 $this->Flash->success(__('The institution has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'view', $institution->id]);
             }
             $this->Flash->error(__('The institution could not be saved. Please, try again.'));
         }
@@ -105,7 +105,7 @@ class InstitutionsController extends AppAdminController
             if ($this->Institutions->InstitutionProjects->save($institutionProject)) {
                 $this->Flash->success(__('The project has been saved.'));
 
-                return $this->redirect(['action' => 'view', $id]);
+                return $this->redirect(['action' => 'view', $institutionProject->institution_id]);
             }
             $this->Flash->error(__('The project could not be saved. Please, try again.'));
         }
@@ -133,14 +133,14 @@ class InstitutionsController extends AppAdminController
             if ($this->Institutions->save($institution)) {
                 $this->Flash->success(__('The institution has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'view', $id]);
             }
             $this->Flash->error(__('The institution could not be saved. Please, try again.'));
         }
         $tenants = $this->Institutions->Tenants->find('list', ['limit' => 200])->all();
         $states = $this->Institutions->States->find('list', ['limit' => 200])->all();
-        $municipalities = $this->Institutions->Municipalities->find('list', ['limit' => 200])->where(['state_id' => $institution->state_id])->all();
-        $parishes = $this->Institutions->Parishes->find('list', ['limit' => 200])->where(['municipality_id' => $institution->municipality_id])->all();
+        $municipalities = $institution->state_id ? ($this->Institutions->Municipalities->find('list', ['limit' => 200])->where(['state_id' => $institution->state_id])->all()) : [];
+        $parishes = $institution->municipality_id ? $this->Institutions->Parishes->find('list', ['limit' => 200])->where(['municipality_id' => $institution->municipality_id])->all() : [];
         $this->set(compact('institution', 'tenants', 'states', 'municipalities', 'parishes'));
     }
 
@@ -181,6 +181,8 @@ class InstitutionsController extends AppAdminController
             $this->Flash->success(__('The institution has been deleted.'));
         } else {
             $this->Flash->error(__('The institution could not be deleted. Please, try again.'));
+
+            return $this->redirect(['action' => 'view', $id]);
         }
 
         return $this->redirect(['action' => 'index']);

@@ -24,23 +24,18 @@ $this->Breadcrumbs->add([
         <?= $this->Form->control('contact_phone') ?>
         <?= $this->Form->control('contact_email') ?>
         <?= $this->Form->control('tenant_id', ['options' => $tenants]) ?>
-        <?= $this->Form->control('state_id', [
+        <?= $this->DependentSelector->control('state_id', [
             'options' => $states,
-            'empty' => true,
-            'class' => 'select-dependent',
             'data-target' => '#municipality-select',
         ]) ?>
-        <?= $this->Form->control('municipality_id', [
+        <?= $this->DependentSelector->control('municipality_id', [
             'id' => 'municipality-select',
             'options' => $municipalities,
-            'empty' => true,
-            'class' => 'select-dependent',
             'data-target' => '#parish-select',
             'data-url' => $this->Url->build(['action' => 'getMunicipalities']),
         ]) ?>
-        <?= $this->Form->control('parish_id', [
+        <?= $this->DependentSelector->control('parish_id', [
             'id' => 'parish-select',
-            'empty' => true,
             'options' => $parishes,
             'data-url' => $this->Url->build(['action' => 'getParishes']),
         ]) ?>
@@ -58,4 +53,4 @@ $this->Breadcrumbs->add([
     <?= $this->Form->end() ?>
 </div>
 
-<?= $this->App->selectDependentScript('.select-dependent') ?>
+<?= $this->DependentSelector->script() ?>
