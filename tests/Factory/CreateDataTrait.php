@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace App\Test\Factory;
 
-use App\Model\Entity\StudentStage;
-use App\Model\Field\StageField;
-use App\Model\Field\UserRole;
-use Cake\I18n\FrozenDate;
+use Cake\Datasource\EntityInterface;
 use Cake\ORM\Locator\LocatorAwareTrait;
 
 trait CreateDataTrait
@@ -66,44 +63,48 @@ trait CreateDataTrait
         return AppUserFactory::make($options ?? [], $times);
     }
 
-    protected function createStudentStage(array $options = [], int $times = 1)
-    {
-        if (empty($options['student_id'])) {
-            throw new \InvalidArgumentException('student_id is required');
-        }
-
-        return StudentStageFactory::make($options ?? [], $times);
-    }
-
-    protected function updateStudentStage(StudentStage $studentStage): StudentStage
-    {
-        return $this->fetchTable('StudentStages')->saveOrFail($studentStage);
-    }
-
     protected function setDefaultLapseDates(int $lapse_id)
     {
         return $this->fetchTable('LapseDates')->saveDefaultDates($lapse_id);
     }
 
-    protected function changeLapseDate(int $lapse_id, StageField $stageField, FrozenDate $startDate, ?FrozenDate $endDate = null)
+    protected function getRecord(string $repository, int $id): EntityInterface
     {
-        $LapseDates = $this->fetchTable('LapseDates');
-
-        $lapseDate = $LapseDates->find()
-            ->where([
-                'lapse_id' => $lapse_id,
-                'stage' => $stageField->value,
-            ])
-            ->first();
-
-        $lapseDate->start_date = $startDate;
-        $lapseDate->end_date = $endDate;
-
-        return $LapseDates->saveOrFail($lapseDate);
+        return $this->fetchTable($repository)->get($id);
     }
 
-    protected function createStudentCourse(array $options = [], int $times = 1)
+    protected function getRecordByOptions(string $repository, array $options): EntityInterface
     {
-        return StudentCourseFactory::make($options ?? [], $times);
+        return $this->fetchTable($repository)->find()->where($options)->firstOrFail();
+    }
+
+    protected function loadInto(EntityInterface $entity, array $contain): EntityInterface
+    {
+        $table = $this->fetchTable($entity->getSource());
+
+        return $table->loadInto($entity, $contain);
+    }
+
+    protected function addRecord(string $repository, array $data = []): EntityInterface
+    {
+        $table = $this->fetchTable($repository);
+        $entity = $table->newEntity($data);
+
+        return $table->saveOrFail($entity);
+    }
+
+    protected function updateRecord(EntityInterface $entity, array $data = []): EntityInterface
+    {
+        $table = $this->fetchTable($entity->getSource());
+        $entity = $table->patchEntity($entity, $data);
+
+        return $table->saveOrFail($entity);
+    }
+
+    protected function deleteRecord(EntityInterface $entity)
+    {
+        $table = $this->fetchTable($entity->getSource());
+
+        return $table->deleteOrFail($entity);
     }
 }

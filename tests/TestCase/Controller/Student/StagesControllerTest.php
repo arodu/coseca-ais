@@ -53,6 +53,7 @@ class StagesControllerTest extends TestCase
         unset($this->program);
         unset($this->user);
         unset($this->lapse_id);
+        unset($this->tenant_id);
 
         parent::tearDown();
     }
@@ -128,13 +129,18 @@ class StagesControllerTest extends TestCase
         $student = $this->createRegularStudent();
         $lapse_id = $this->lapse_id;
 
-        $stageRegistry = $this->createStudentStage([
+        $this->addRecord('StudentStages', [
             'student_id' => $student->id,
             'stage' => StageField::REGISTER->value,
             'status' => StageStatus::IN_PROGRESS->value,
-        ])->persist();
+        ]);
 
         $this->session(['Auth' => $this->user]);
+
+        $lapseDate = $this->getRecordByOptions('LapseDates', [
+            'lapse_id' => $lapse_id,
+            'stage' => StageField::REGISTER->value,
+        ]);
 
         // whitout lapse dates
         $this->get('/student/stages');
@@ -143,21 +149,27 @@ class StagesControllerTest extends TestCase
         $this->assertResponseContains('Comuníquese con la Coordinación de Servicio Comunitario para más información.');
 
         // with lapse dates in pass
-        $this->changeLapseDate($lapse_id, StageField::REGISTER, FrozenDate::now()->subDays(4), FrozenDate::now()->subDays(3));
+        $start_date = FrozenDate::now()->subDays(4);
+        $end_date = FrozenDate::now()->subDays(3);
+        $this->updateRecord($lapseDate, compact('start_date', 'end_date'));
         $this->get('/student/stages');
         $this->assertResponseOk();
         $this->assertResponseContains('Ya pasó el período de registro');
         $this->assertResponseContains('Comuníquese con la Coordinación de Servicio Comunitario para más información.');
 
         // with lapse dates in future
-        $dates = $this->changeLapseDate($lapse_id, StageField::REGISTER, FrozenDate::now()->addDays(3), FrozenDate::now()->addDays(4));
+        $start_date = FrozenDate::now()->addDays(3);
+        $end_date = FrozenDate::now()->addDays(4);
+        $this->updateRecord($lapseDate, compact('start_date', 'end_date'));
         $this->get('/student/stages');
         $this->assertResponseOk();
-        $this->assertResponseContains(__('Fecha de registro: {0}', $dates->show_dates));
+        $this->assertResponseContains(__('Fecha de registro: {0}', $lapseDate->show_dates));
         $this->assertResponseContains('Comuníquese con la Coordinación de Servicio Comunitario para más información.');
 
         // with lapse dates in progress
-        $this->changeLapseDate($lapse_id, StageField::REGISTER, FrozenDate::now()->subDays(1), FrozenDate::now()->addDays(1));
+        $start_date = FrozenDate::now()->subDays(1);
+        $end_date = FrozenDate::now()->addDays(1);
+        $this->updateRecord($lapseDate, compact('start_date', 'end_date'));
         $this->get('/student/stages');
         $this->assertResponseOk();
         $this->assertResponseContains('Formulario de registro');
@@ -166,12 +178,11 @@ class StagesControllerTest extends TestCase
     public function testRegisterCardReview(): void
     {
         $student = $this->createRegularStudent();
-
-        $stageRegistry = $this->createStudentStage([
+        $this->addRecord('StudentStages', [
             'student_id' => $student->id,
             'stage' => StageField::REGISTER->value,
             'status' => StageStatus::REVIEW->value,
-        ])->persist();
+        ]);
 
         $this->session(['Auth' => $this->user]);
 
@@ -184,12 +195,11 @@ class StagesControllerTest extends TestCase
     public function testRegisterCardSuccess(): void
     {
         $student = $this->createRegularStudent();
-
-        $stageRegistry = $this->createStudentStage([
+        $this->addRecord('StudentStages', [
             'student_id' => $student->id,
             'stage' => StageField::REGISTER->value,
             'status' => StageStatus::SUCCESS->value,
-        ])->persist();
+        ]);
 
         $this->session(['Auth' => $this->user]);
 
@@ -207,11 +217,11 @@ class StagesControllerTest extends TestCase
     {
         $student = $this->createRegularStudent();
 
-        $stageRegistry = $this->createStudentStage([
+        $stageRegistry = $this->addRecord('StudentStages', [
             'student_id' => $student->id,
             'stage' => StageField::REGISTER->value,
             'status' => StageStatus::WAITING->value,
-        ])->persist();
+        ]);
 
         $this->session(['Auth' => $this->user]);
 
@@ -220,15 +230,13 @@ class StagesControllerTest extends TestCase
         $this->assertResponseContains('Sin información a mostrar');
         $this->assertResponseContains('Comuníquese con la Coordinación de Servicio Comunitario para más información.');
 
-        $stageRegistry->status = StageStatus::FAILED->value;
-        $this->updateStudentStage($stageRegistry);
+        $this->updateRecord($stageRegistry, ['status' => StageStatus::FAILED->value]);
         $this->get('/student/stages');
         $this->assertResponseOk();
         $this->assertResponseContains('Sin información a mostrar');
         $this->assertResponseContains('Comuníquese con la Coordinación de Servicio Comunitario para más información.');
 
-        $stageRegistry->status = StageStatus::LOCKED->value;
-        $this->updateStudentStage($stageRegistry);
+        $this->updateRecord($stageRegistry, ['status' => StageStatus::LOCKED->value]);
         $this->get('/student/stages');
         $this->assertResponseOk();
         $this->assertResponseContains('Sin información a mostrar');
@@ -239,13 +247,18 @@ class StagesControllerTest extends TestCase
     {
         $lapse_id = $this->lapse_id;
         $student = $this->createRegularStudent();
-        $this->createStudentStage([
+        $this->addRecord('StudentStages', [
             'student_id' => $student->id,
             'stage' => StageField::COURSE->value,
             'status' => StageStatus::WAITING->value,
-        ])->persist();
+        ]);
 
         $this->session(['Auth' => $this->user]);
+
+        $lapseDate = $this->getRecordByOptions('LapseDates', [
+            'lapse_id' => $lapse_id,
+            'stage' => StageField::COURSE->value,
+        ]);
 
         // whitout lapse dates
         $this->get('/student/stages');
@@ -254,38 +267,38 @@ class StagesControllerTest extends TestCase
         $this->assertResponseContains('Comuníquese con la Coordinación de Servicio Comunitario para más información.');
         
         // with lapse dates in pass
-        $date = FrozenDate::now()->subDays(4);
-        $this->changeLapseDate($lapse_id, StageField::COURSE, $date);
+        $start_date = FrozenDate::now()->subDays(4);
+        $this->updateRecord($lapseDate, compact('start_date'));
         $this->get('/student/stages');
         $this->assertResponseOk();
-        $this->assertResponseContains('Fecha del taller de servicio comunitario: ' . $date . ' <small>(Caducado)</small>');
+        $this->assertResponseContains('Fecha del taller de servicio comunitario: ' . $start_date . ' <small>(Caducado)</small>');
         $this->assertResponseContains('Comuníquese con la Coordinación de Servicio Comunitario para más información.');
 
         // with lapse dates in future
-        $date = FrozenDate::now()->addDays(4);
-        $this->changeLapseDate($lapse_id, StageField::COURSE, $date);
+        $start_date = FrozenDate::now()->addDays(4);
+        $this->updateRecord($lapseDate, compact('start_date'));
         $this->get('/student/stages');
         $this->assertResponseOk();
-        $this->assertResponseContains('Fecha del taller de servicio comunitario: ' . $date . ' <small>(Pendiente)</small>');
+        $this->assertResponseContains('Fecha del taller de servicio comunitario: ' . $start_date . ' <small>(Pendiente)</small>');
         $this->assertResponseContains('Comuníquese con la Coordinación de Servicio Comunitario para más información.');
 
         // with lapse dates in progress
-        $date = FrozenDate::now();
-        $this->changeLapseDate($lapse_id, StageField::COURSE, $date);
+        $start_date = FrozenDate::now();
+        $this->updateRecord($lapseDate, compact('start_date'));
         $this->get('/student/stages');
         $this->assertResponseOk();
-        $this->assertResponseContains('Fecha del taller de servicio comunitario: ' . $date . ' <small>(En Progreso)</small>');
+        $this->assertResponseContains('Fecha del taller de servicio comunitario: ' . $start_date . ' <small>(En Progreso)</small>');
         $this->assertResponseContains('Comuníquese con la Coordinación de Servicio Comunitario para más información.');
     }
 
     public function testCourseCardSuccess(): void
     {
         $student = $this->createRegularStudent();
-        $this->createStudentStage([
+        $this->addRecord('StudentStages', [
             'student_id' => $student->id,
             'stage' => StageField::COURSE->value,
             'status' => StageStatus::SUCCESS->value,
-        ])->persist();
+        ]);
 
         $this->session(['Auth' => $this->user]);
 
@@ -295,26 +308,26 @@ class StagesControllerTest extends TestCase
         $this->assertResponseContains('Comuníquese con la Coordinación de Servicio Comunitario para más información.');
 
         $courseDate = FrozenDate::now();
-        $course = $this->createStudentCourse([
+        $this->addRecord('StudentCourses', [
             'student_id' => $student->id,
             'date' => $courseDate,
-        ])->persist();
+            'comment' => 'Comentario de prueba',
+        ]);
 
         $this->get('/student/stages');
         $this->assertResponseOk();
-        $this->assertResponseContains('<strong>Fecha del Taller: </strong>01/04/23');
-        $this->assertResponseContains($course->comment);
+        $this->assertResponseContains('<strong>Fecha del Taller: </strong>' . $courseDate);
+        $this->assertResponseContains('Comentario de prueba');
     }
 
     public function testCourseCardOtherStatuses(): void
     {
         $student = $this->createRegularStudent();
-
-        $stageRegistry = $this->createStudentStage([
+        $stage = $this->addRecord('StudentStages', [
             'student_id' => $student->id,
             'stage' => StageField::COURSE->value,
             'status' => StageStatus::IN_PROGRESS->value,
-        ])->persist();
+        ]);
 
         $this->session(['Auth' => $this->user]);
 
@@ -323,22 +336,19 @@ class StagesControllerTest extends TestCase
         $this->assertResponseContains('Sin información a mostrar');
         $this->assertResponseContains('Comuníquese con la Coordinación de Servicio Comunitario para más información.');
 
-        $stageRegistry->status = StageStatus::REVIEW->value;
-        $this->updateStudentStage($stageRegistry);
+        $this->updateRecord($stage, ['status' => StageStatus::REVIEW->value]);
         $this->get('/student/stages');
         $this->assertResponseOk();
         $this->assertResponseContains('Sin información a mostrar');
         $this->assertResponseContains('Comuníquese con la Coordinación de Servicio Comunitario para más información.');
 
-        $stageRegistry->status = StageStatus::FAILED->value;
-        $this->updateStudentStage($stageRegistry);
+        $this->updateRecord($stage, ['status' => StageStatus::FAILED->value]);
         $this->get('/student/stages');
         $this->assertResponseOk();
         $this->assertResponseContains('Sin información a mostrar');
         $this->assertResponseContains('Comuníquese con la Coordinación de Servicio Comunitario para más información.');
 
-        $stageRegistry->status = StageStatus::LOCKED->value;
-        $this->updateStudentStage($stageRegistry);
+        $this->updateRecord($stage, ['status' => StageStatus::LOCKED->value]);
         $this->get('/student/stages');
         $this->assertResponseOk();
         $this->assertResponseContains('Sin información a mostrar');
