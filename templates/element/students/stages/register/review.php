@@ -10,3 +10,4 @@ use Cake\Core\Configure;
 ?>
 
 <p><?= __('En espera de revisión de documentos.') ?></p>
+<p><?= __('Comuníquese con la Coordinación de Servicio Comunitario para más información.') ?></p>

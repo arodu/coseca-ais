@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Test\Factory;
 
+use App\Model\Entity\StudentStage;
 use App\Model\Field\StageField;
 use App\Model\Field\UserRole;
 use Cake\I18n\FrozenDate;
@@ -24,8 +25,13 @@ trait CreateDataTrait
         $tenants = TenantFactory::make($option_tenants, $option_tenants['times'] ?? 1)
             ->with('Lapses', $lapses);
 
+        $option_interest_areas = $options['interest_areas'] ?? [];
+        unset($options['interest_areas']);
+        $interest_areas = InterestAreaFactory::make($option_interest_areas, $option_interest_areas['times'] ?? 6);
+
         return ProgramFactory::make($options ?? [], $times)
-            ->with('Tenants', $tenants);
+            ->with('Tenants', $tenants)
+            ->with('InterestAreas', $interest_areas);
     }
 
     protected function createInstitution(array $options = [], bool $persist = true)
@@ -66,11 +72,12 @@ trait CreateDataTrait
             throw new \InvalidArgumentException('student_id is required');
         }
 
-        if (empty($options['lapse_id'])) {
-            throw new \InvalidArgumentException('lapse_id is required');
-        }
-
         return StudentStageFactory::make($options ?? [], $times);
+    }
+
+    protected function updateStudentStage(StudentStage $studentStage): StudentStage
+    {
+        return $this->fetchTable('StudentStages')->saveOrFail($studentStage);
     }
 
     protected function setDefaultLapseDates(int $lapse_id)
@@ -93,5 +100,10 @@ trait CreateDataTrait
         $lapseDate->end_date = $endDate;
 
         return $LapseDates->saveOrFail($lapseDate);
+    }
+
+    protected function createStudentCourse(array $options = [], int $times = 1)
+    {
+        return StudentCourseFactory::make($options ?? [], $times);
     }
 }

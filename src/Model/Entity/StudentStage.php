@@ -51,7 +51,6 @@ class StudentStage extends Entity
         'modified' => true,
         'modified_by' => true,
         'student' => true,
-        'lapse' => true,
     ];
 
     protected $_virtual = [

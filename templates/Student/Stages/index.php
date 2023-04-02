@@ -46,7 +46,8 @@ $this->Breadcrumbs->add([
                             if ($this->elementExists($element)) {
                                 echo $this->element($element, ['student' => $student, 'studentStage' => $studentStage]);
                             } else {
-                                echo $this->Html->tag('div', __('Sin información a mostrar'), ['class' => 'alert alert-warning shadow p-2']);
+                                echo '<p>' . __('Sin información a mostrar') . '</p>';
+                                echo '<p>' . __('Comuníquese con la Coordinación de Servicio Comunitario para más información.') . '</p>';
                                 if (Configure::read('debug')) {
                                     echo '<p>If you want to customize this message, create <em>templates/element/' . $element . '.php</em></p>';
                                 }
