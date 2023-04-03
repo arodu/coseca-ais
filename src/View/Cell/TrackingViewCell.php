@@ -28,6 +28,8 @@ class TrackingViewCell extends Cell
     public function initialize(): void
     {
         $this->Students = $this->fetchTable('Students');
+        $this->viewBuilder()->addHelper('Button');
+        $this->viewBuilder()->addHelper('ModalForm');
     }
 
     /**

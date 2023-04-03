@@ -23,7 +23,7 @@ use Cake\Core\Configure;
         <div>
             <?= $this->Button->edit([
                 'label' => __('Registro de actividades'),
-                'url' => ['_name' => 'student:tracking:index'],
+                'url' => ['_name' => 'student:tracking'],
                 'actionColor' => ActionColor::SUBMIT,
                 'icon' => FaIcon::get('tasks', 'fa-fw mr-1'),
             ]); ?>

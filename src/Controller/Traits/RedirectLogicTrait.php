@@ -21,6 +21,8 @@ trait RedirectLogicTrait
 
     public function getRedirectUrl(): ?string
     {
-        return $this->getRequest()->getQuery($this->redirectKey) ?? null;
+        return $this->getRequest()->getQuery($this->redirectKey)
+            ?? $this->getRequest()->getData($this->redirectKey)
+            ?? null;
     }
 }

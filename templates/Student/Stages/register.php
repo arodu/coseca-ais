@@ -23,7 +23,7 @@ $this->Breadcrumbs->add([
     <div class="card-footer d-flex">
         <div class="ml-auto">
             <?= $this->Button->save() ?>
-            <?= $this->Button->cancel(['url' => ['controller' => 'Stages', 'action' => 'index']]) ?>
+            <?= $this->Button->cancel(['url' => ['_name' => 'student:home']]) ?>
         </div>
     </div>
 

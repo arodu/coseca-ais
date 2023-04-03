@@ -39,7 +39,7 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
                 <?php if ($adscription->statusObj->is(AdscriptionStatus::CLOSED)) : ?>
                     <?= $this->ModalForm->link(
                         __('Validar horas del proyecto'),
-                        ['controller' => 'Adscriptions', 'action' => 'validate', $adscription->id, 'prefix' => 'Admin/Stage'],
+                        ['controller' => 'Adscriptions', 'action' => 'validate', $adscription->id],
                         [
                             'class' => ActionColor::VALIDATE->btn('btn-sm'),
                             'confirm' => __('¿Está seguro de validar este proyecto?'),
@@ -84,9 +84,9 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
                                     if ($canDeleteTracking) :
                                         echo $this->ModalForm->link(
                                             __('Eliminar'),
-                                            ['controller' => 'Tracking', 'action' => 'delete', $tracking->id, 'prefix' => 'Admin/Stage'],
+                                            ['controller' => 'Tracking', 'action' => 'delete', $tracking->id, 'prefix' => 'Stage'],
                                             [
-                                                'confirm' => __('¿Está seguro de eliminar este seguimiento?'),
+                                                'confirm' => __('¿Está seguro de eliminar este registro de actividad?'),
                                                 'target' => 'deleteTracking' . $adscription->id,
                                                 'class' => ActionColor::DELETE->btn('btn-xs'),
                                                 'escape' => false,
@@ -126,7 +126,7 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <?= $this->Form->create(null, ['url' => ['controller' => 'Tracking', 'action' => 'add', 'prefix' => 'Admin/Stage']]) ?>
+                    <?= $this->Form->create(null, ['url' => ['controller' => 'Tracking', 'action' => 'add', $adscription->id, 'prefix' => 'Stage']]) ?>
                     <?= $this->Form->hidden('student_adscription_id', ['value' => $adscription->id]) ?>
                     <div class="modal-body">
                         <div class="row">
@@ -160,8 +160,8 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="<?= ActionColor::SUBMIT->btn() ?>"><?= __('Guardar') ?></button>
-                        <button type="button" class="<?= ActionColor::CANCEL->btn() ?>" data-dismiss="modal"><?= __('Cancelar') ?></button>
+                        <?= $this->Button->save() ?>
+                        <?= $this->Button->closeModal() ?>
                     </div>
                     <?= $this->Form->end() ?>
                 </div>
@@ -173,23 +173,23 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
     echo $this->ModalForm->modal('deleteTracking' . $adscription->id, [
         'element' => \ModalForm\ModalFormPlugin::FORM_CHECKBOX,
         'content' => [
-            'title' => __('Eliminar Seguimiento'),
+            'title' => __('Eliminar Registro de actividad'),
             'buttonOk'  => __('Si, eliminar'),
             'buttonCancel'  => __('Cancelar'),
         ]
     ]);
 
-    echo $this->ModalForm->modal('validateTracking' . $adscription->id, [
-        'element' => \ModalForm\ModalFormPlugin::FORM_TEXT_INPUT,
-        'content' => [
-            'title' => __('Validar proyecto'),
-            'buttonOk'  => __('Si, validar'),
-            'buttonCancel'  => __('Cancelar'),
-            'textConfirm' => $adscription->institution_project->label_name,
-            'label' => function ($content) {
-                return __('Escribe:<br><code>{0}</code><br>para confirmar', $content['textConfirm']);
-            }
-        ]
-    ]);
+    //echo $this->ModalForm->modal('validateTracking' . $adscription->id, [
+    //    'element' => \ModalForm\ModalFormPlugin::FORM_TEXT_INPUT,
+    //    'content' => [
+    //        'title' => __('Validar proyecto'),
+    //        'buttonOk'  => __('Si, validar'),
+    //        'buttonCancel'  => __('Cancelar'),
+    //        'textConfirm' => $adscription->institution_project->label_name,
+    //        'label' => function ($content) {
+    //            return __('Escribe:<br><code>{0}</code><br>para confirmar', $content['textConfirm']);
+    //        }
+    //    ]
+    //]);
     ?>
 <?php endforeach ?>

@@ -159,6 +159,19 @@ class ButtonHelper extends Helper
         return $this->submit($options);
     }
 
+    public function closeModal(array $options = []): string
+    {
+        $options = array_merge([
+            'type' => 'button',
+            'data-dismiss' => 'modal',
+            'icon' => false,
+            'label' => __('Cancelar'),
+            'actionColor' => ActionColor::CANCEL,
+        ], $options);
+
+        return $this->submit($options);
+    }
+
     /**
      * @param array<string, mixed> $options
      * @return string

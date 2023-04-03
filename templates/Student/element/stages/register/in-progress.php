@@ -19,7 +19,7 @@ $dates = $student->getCurrentLapse()->getDates(StageField::REGISTER);
 <?php elseif ($dates->status->is(StatusDate::IN_PROGRESS)) : ?>
     <p><?= __('Fecha de registro: {0}', $dates->show_dates) ?></p>
     <?= $this->Button->edit([
-        'url' => ['_name' => 'student:register:edit'],
+        'url' => ['_name' => 'student:register'],
         'label' => __('Formulario de registro'),
         'actionColor' => ActionColor::SUBMIT,
     ]) ?>

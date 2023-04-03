@@ -1,9 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Stage;
 
 use App\Controller\AppController;
+use App\Controller\Traits\RedirectLogicTrait;
+use Cake\Http\Exception\ForbiddenException;
 
 /**
  * Tracking Controller
@@ -12,32 +15,14 @@ use App\Controller\AppController;
  */
 class TrackingController extends AppController
 {
-    /**
-     * Index method
-     *
-     * @return \Cake\Http\Response|null|void Renders view
-     */
-    public function index()
+    use RedirectLogicTrait;
+
+    public function initialize(): void
     {
-        $tracking = $this->paginate($this->Tracking);
-
-        $this->set(compact('tracking'));
-    }
-
-    /**
-     * View method
-     *
-     * @param string|null $id Tracking id.
-     * @return \Cake\Http\Response|null|void Renders view
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function view($id = null)
-    {
-        $tracking = $this->Tracking->get($id, [
-            'contain' => [],
-        ]);
-
-        $this->set(compact('tracking'));
+        parent::initialize();
+        $this->loadComponent('Authentication.Authentication');
+        $this->loadComponent('Authorization.Authorization');
+        $this->Tracking = $this->fetchTable('StudentTracking');
     }
 
     /**
@@ -45,43 +30,27 @@ class TrackingController extends AppController
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function add($adscription_id = null)
     {
-        $tracking = $this->Tracking->newEmptyEntity();
-        if ($this->request->is('post')) {
-            $tracking = $this->Tracking->patchEntity($tracking, $this->request->getData());
-            if ($this->Tracking->save($tracking)) {
-                $this->Flash->success(__('The tracking has been saved.'));
+        $this->request->allowMethod(['post']);
 
-                return $this->redirect(['action' => 'index']);
-            }
+        $adscription = $this->Tracking->Adscriptions->get($adscription_id);
+
+        if (!$this->Authorization->can($adscription, 'addTracking')) {
+            $this->Flash->error(__('You are not authorized to add activity to this adscription.'));
+            
+            return $this->redirect($this->request->referer());
+        }
+
+        $tracking = $this->Tracking->newEntity($this->request->getData());
+
+        if ($this->Tracking->save($tracking)) {
+            $this->Flash->success(__('The tracking has been saved.'));   
+        } else {
             $this->Flash->error(__('The tracking could not be saved. Please, try again.'));
         }
-        $this->set(compact('tracking'));
-    }
 
-    /**
-     * Edit method
-     *
-     * @param string|null $id Tracking id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function edit($id = null)
-    {
-        $tracking = $this->Tracking->get($id, [
-            'contain' => [],
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $tracking = $this->Tracking->patchEntity($tracking, $this->request->getData());
-            if ($this->Tracking->save($tracking)) {
-                $this->Flash->success(__('The tracking has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The tracking could not be saved. Please, try again.'));
-        }
-        $this->set(compact('tracking'));
+        return $this->redirect($this->request->referer());
     }
 
     /**
@@ -93,14 +62,31 @@ class TrackingController extends AppController
      */
     public function delete($id = null)
     {
+        dd(__METHOD__);
+
         $this->request->allowMethod(['post', 'delete']);
-        $tracking = $this->Tracking->get($id);
+        $tracking = $this->Tracking->get($id, [
+            'contain' => ['Adscriptions'],
+        ]);
+
+        if (!$this->Authorization->can($tracking->adscription, 'deleteTracking')) {
+            $this->Flash->error(__('You are not authorized to delete this activity.'));
+            
+            return $this->redirect($this->request->referer());
+        }
+
         if ($this->Tracking->delete($tracking)) {
             $this->Flash->success(__('The tracking has been deleted.'));
         } else {
             $this->Flash->error(__('The tracking could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect($this->request->referer());
+    }
+
+    public function close($adscriptiond_id = null)
+    {
+
+        return $this->redirect($this->request->referer());
     }
 }
