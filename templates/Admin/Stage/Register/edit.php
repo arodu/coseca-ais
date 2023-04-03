@@ -4,11 +4,7 @@
  * @var \App\View\AppView $this
  */
 
-use App\Enum\ActionColor;
-use App\Enum\Gender;
 use App\Model\Field\StageField;
-use App\Model\Field\StageStatus;
-use App\Utility\Students;
 
 $this->student_id = $student->id;
 $this->active = null;

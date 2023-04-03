@@ -1,7 +1,7 @@
 <?php
 
 use App\Enum\Gender;
-use App\Utility\Students;
+use App\Utility\UtilityStudents;
 use Cake\Core\Configure;
 
 ?>
@@ -56,9 +56,9 @@ use Cake\Core\Configure;
 <div class="row">
     <div class="col">
         <?= $this->Form->control('student_data.current_semester', [
-            'label' => __('Semestre actual'),
+            'label' => UtilityStudents::getLabelLevel($student->tenant->program),
             'required' => true,
-            'options' => Students::getLeves($student->tenant),
+            'options' => UtilityStudents::getLeves($student->tenant->program),
             'empty' => true,
         ]) ?>
     </div>

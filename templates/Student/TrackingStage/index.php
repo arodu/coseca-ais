@@ -5,9 +5,6 @@
  * @var \App\Model\Entity\Student $student
  */
 
-use App\Enum\Gender;
-use App\Utility\Students;
-
 ?>
 <?php
 $this->assign('title', __('Registro de Actividades'));
