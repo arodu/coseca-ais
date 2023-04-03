@@ -11,6 +11,7 @@ use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use Cake\Event\EventInterface;
 use Cake\ORM\Query;
+use Cake\View\CellTrait;
 
 /**
  * Students Controller
@@ -22,6 +23,7 @@ class StudentsController extends AppAdminController
 {
     use BulkActionsTrait;
     use ExportDataTrait;
+    use CellTrait;
 
     public function beforeRender(EventInterface $event)
     {
@@ -45,28 +47,24 @@ class StudentsController extends AppAdminController
             ->find()
             ->contain(['AppUsers', 'Tenants', 'LastStage', 'Lapses']);
 
-        // filterLogic
-        $formData = $this->getRequest()->getQuery();
+        $filterKey = 'f';
 
-        if (!empty($formData)) {
-            $query = $this->Students->queryFilter($query, $formData);
-        }
+        $formData = $this->getRequest()->getQuery() ?? $this->getRequest()->getData() ?? [];
+        $query = $this->Students->queryFilter($query, $formData[$filterKey] ?? []);
 
         if (isset($formData['export']) && $formData['export'] == 'csv') {
             return $this->queryToCsv($query);
         }
 
-        $filtered = $this->Students->queryWasFiltered();
-        $tenants = $this->Students->Tenants->find('list');
-        $lapses = $this->Students->Lapses->find('list', [
-            'keyField' => 'name',
-            'valueField' => 'name',
-        ]);
-        // /filterLogic
-
         $students = $this->paginate($query);
+        $isFiltered = $this->Students->queryWasFiltered();
 
-        $this->set(compact('students', 'filtered', 'tenants', 'lapses'));
+        $formFilters = $this->cell('Filters::admin_students', [
+            'isFiltered' => $isFiltered,
+            'filterKey' => $filterKey,
+        ]);
+
+        $this->set(compact('students', 'formFilters'));
     }
 
     protected function queryToCsv(Query $query)
@@ -90,7 +88,7 @@ class StudentsController extends AppAdminController
             'last_stage.status_label' => __('Estatus'),
             'student_data.interest_area.name' => __('Area de Interes'),
         ], [
-            'filename' => 'estudiantes.csv',
+            'filename' => $this->filenameWithDate('estudiantes'),
         ]);
     }
 
