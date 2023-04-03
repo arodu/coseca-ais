@@ -5,9 +5,6 @@
  * @var \App\Model\Entity\Student $student
  */
 
-use App\Enum\Gender;
-use App\Utility\Students;
-
 ?>
 <?php
 $this->assign('title', __('Registro de Estudiante'));
@@ -25,8 +22,8 @@ $this->Breadcrumbs->add([
 
     <div class="card-footer d-flex">
         <div class="ml-auto">
-            <?= $this->Form->button(__('Guardar'), ['class' => 'btn btn-primary']) ?>
-            <?= $this->Html->link(__('Cancelar'), ['controller' => 'Stages', 'action' => 'index'], ['class' => 'btn btn-default']) ?>
+            <?= $this->Button->save() ?>
+            <?= $this->Button->cancel(['url' => ['controller' => 'Stages', 'action' => 'index']]) ?>
         </div>
     </div>
 

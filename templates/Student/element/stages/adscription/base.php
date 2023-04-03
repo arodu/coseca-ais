@@ -59,14 +59,14 @@ use App\Model\Field\AdscriptionStatus;
                 </div>
 
                 <div class="d-flex">
-                    <div></div>
                     <div class="ml-auto">
-                        <?php if ($studentAdscription->status_obj->is(AdscriptionStatus::PENDING)) : ?>
-                            <!-- <?= $this->Html->link(
-                                        __('Planilla de adscripción'),
-                                        ['controller' => 'StudentDocuments', 'action' => 'download', $studentAdscription->student_document->token],
-                                        ['class' => ActionColor::REPORT->btn('btn-sm'), 'target' => '_blank']
-                                    ) ?> -->
+                        <?php // @todo activar cuando los reportes esten activos
+                            if ($studentAdscription->status_obj->is(AdscriptionStatus::PENDING)) : ?>
+                            <!-- <?= $this->Button->report([
+                                'label' => __('Planilla de adscripción'),
+                                'url' => ['controller' => 'StudentDocuments', 'action' => 'download', $studentAdscription->student_document->token],
+                                'class' => 'btn-sm',
+                            ]) ?> -->
                         <?php endif ?>
                     </div>
                 </div>

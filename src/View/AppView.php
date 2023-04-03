@@ -28,8 +28,8 @@ use CakeLte\View\CakeLteTrait;
  * 
  * @property \App\View\Helper\AppHelper $App
  * @property \App\View\Helper\BulkActionHelper $BulkAction
- * @property \App\View\Helper\Button $Button
- * @property \App\View\Helper\DependentSelector $DependentSelector
+ * @property \App\View\Helper\ButtonHelper $Button
+ * @property \App\View\Helper\DependentSelectorHelper $DependentSelector
  * @property \ModalForm\View\Helper\ModalFormHelper $ModalForm
  */
 class AppView extends View
