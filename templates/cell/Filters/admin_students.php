@@ -1,6 +1,5 @@
 <?php
 
-use App\Enum\ActionColor;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use App\Utility\FaIcon;
@@ -43,9 +42,9 @@ use App\Utility\FaIcon;
         </div>
         <div class="card-footer d-flex">
             <div class="ml-auto">
-                <?= $this->Form->button(__('Buscar'), ['class' => ActionColor::SEARCH->btn()]) ?>
-                <?= $this->Form->button(__('Exportar'), ['name' => 'export', 'value' => 'csv', 'class' => ActionColor::REPORT->btn()]) ?>
-                <?= $this->Html->link(__('Reset'), ['action' => 'index'], ['class' => ActionColor::CANCEL->btn()]) ?>
+                <?= $this->Button->search() ?>
+                <?= $this->Button->export() ?>
+                <?= $this->Button->cancel(['url' => ['action' => 'index']]) ?>
             </div>
         </div>
     </div>

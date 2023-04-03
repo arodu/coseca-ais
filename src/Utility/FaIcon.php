@@ -132,6 +132,11 @@ class FaIcon
         'university' => ['fas', 'university'],
         'copyrigth' => ['fas', 'copyrigth'],
         'add' => ['fas', 'plus'],
+        'file-csv' => ['fas', 'file-csv'],
+        'validate' => ['fas', 'check'],
+        'save' => ['fas', 'save'],
+        'back' => ['fas', 'arrow-left'],
+        'link' => ['fas', 'external-link-alt'],
     ];
 
     /**

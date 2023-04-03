@@ -27,6 +27,7 @@ class FiltersCell extends Cell
     public function initialize(): void
     {
         $this->Students = $this->fetchTable('Students');
+        $this->viewBuilder()->addHelper('Button');
     }
 
     public function admin_students(bool $isFiltered = false, string $filterKey = 'f')
