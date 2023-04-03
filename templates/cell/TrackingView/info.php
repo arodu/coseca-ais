@@ -1,6 +1,3 @@
-<?php
-$trackingInfo = $trackingInfo ?? [];
-?>
 <div class="row">
     <div class="col-sm border-right">
         <div class="description-block">

@@ -39,8 +39,6 @@ class StagesController extends AppStudentController
             ->where(['student_id' => $student_id])
             ->toArray();
 
-        $trackingInfo = null;
-
         $student = $this->Students->find('loadProgress', ['studentStages' => $studentStages])
             ->where(['Students.id' => $student_id])
 
@@ -57,8 +55,7 @@ class StagesController extends AppStudentController
             ->first();
 
         $listStages = $student->getStageFieldList();
-        $trackingInfo = $this->AppUsers->Students->getStudentTrackingInfo($student->id);;
 
-        $this->set(compact('student', 'listStages', 'studentStages', 'trackingInfo'));
+        $this->set(compact('student', 'listStages', 'studentStages'));
     }
 }

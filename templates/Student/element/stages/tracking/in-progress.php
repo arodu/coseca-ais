@@ -17,12 +17,12 @@ use Cake\Core\Configure;
     <p><?= __('El estudiante no tiene proyectos adscritos.') ?></p>
     <p><?= $this->App->alertMessage() ?></p>
 <?php else : ?>
-    <?= $this->element('content/trackingInfo', ['trackingInfo' => $trackingInfo]) ?>
+    <?= $this->cell('TrackingView::info', ['student_id' => $student->id]) ?>
     <hr>
     <div class="d-flex">
         <div>
             <?= $this->Button->edit([
-                'label' => __('Registro actividades'),
+                'label' => __('Registro de actividades'),
                 'url' => ['controller' => 'TrackingStage', 'action' => 'index'],
                 'actionColor' => ActionColor::SUBMIT,
                 'icon' => FaIcon::get('tasks', 'fa-fw mr-1'),

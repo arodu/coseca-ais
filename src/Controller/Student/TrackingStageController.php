@@ -3,19 +3,23 @@ declare(strict_types=1);
 
 namespace App\Controller\Student;
 
-use App\Controller\AppController;
+use App\Model\Field\AdscriptionStatus;
+use Cake\View\CellTrait;
 
 /**
  * StudentTracking Controller
  *
  * @method \App\Model\Entity\StudentTracking[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class TrackingStageController extends AppController
+class TrackingStageController extends AppStudentController
 {
+    use CellTrait;
+
 
     public function initialize(): void
     {
         parent::initialize();
+        $this->Students = $this->fetchTable('Students');
         $this->StudentTracking = $this->fetchTable('StudentTracking');
     }
 
@@ -26,9 +30,9 @@ class TrackingStageController extends AppController
      */
     public function index()
     {
-        $studentTracking = $this->paginate($this->StudentTracking);
-
-        $this->set(compact('studentTracking'));
+        $student_id = $this->getCurrentStudent()->id;
+        $trackingView = $this->cell('TrackingView', ['student_id' => $student_id]);
+        $this->set(compact('student_id', 'trackingView'));
     }
 
     /**
@@ -38,6 +42,7 @@ class TrackingStageController extends AppController
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
+    /*
     public function view($id = null)
     {
         $studentTracking = $this->StudentTracking->get($id, [
@@ -46,12 +51,14 @@ class TrackingStageController extends AppController
 
         $this->set(compact('studentTracking'));
     }
+    */
 
     /**
      * Add method
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
+    /*
     public function add()
     {
         $studentTracking = $this->StudentTracking->newEmptyEntity();
@@ -66,6 +73,7 @@ class TrackingStageController extends AppController
         }
         $this->set(compact('studentTracking'));
     }
+    */
 
     /**
      * Edit method
@@ -74,6 +82,7 @@ class TrackingStageController extends AppController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
+    /*
     public function edit($id = null)
     {
         $studentTracking = $this->StudentTracking->get($id, [
@@ -90,6 +99,7 @@ class TrackingStageController extends AppController
         }
         $this->set(compact('studentTracking'));
     }
+    */
 
     /**
      * Delete method
@@ -98,6 +108,7 @@ class TrackingStageController extends AppController
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
+    /*
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
@@ -110,4 +121,5 @@ class TrackingStageController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+    */
 }

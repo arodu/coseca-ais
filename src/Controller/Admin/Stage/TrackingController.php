@@ -32,7 +32,7 @@ class TrackingController extends AppAdminController
 
         $adscription = $this->StudentTracking->StudentAdscriptions->get($data['student_adscription_id']);
 
-        if (!$this->Authorization->can($adscription, 'manageTracking')) {
+        if (!$this->Authorization->can($adscription, 'addTracking')) {
             $this->Flash->error(__('You are not authorized to add an student tracking.'));
             return $this->redirect(['_name' => 'admin:student_tracking', $adscription->student_id]);
         }
@@ -64,7 +64,7 @@ class TrackingController extends AppAdminController
         ]);
         $adscription = $studentTracking->student_adscription;
 
-        if (!$this->Authorization->can($adscription, 'manageTracking')) {
+        if (!$this->Authorization->can($adscription, 'deleteTracking')) {
             $this->Flash->error(__('You are not authorized to delete this student tracking.'));
             return $this->redirect(['_name' => 'admin:student_tracking', $adscription->student_id]);
         }

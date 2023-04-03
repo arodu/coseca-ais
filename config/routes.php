@@ -93,6 +93,11 @@ return static function (RouteBuilder $routes) {
         $builder->fallbacks(DashedRoute::class);
     });
 
+    $routes->prefix('Stage', function (RouteBuilder $builder) {
+
+        $builder->fallbacks(DashedRoute::class);
+    });
+
     /*
      * If you need a different set of middleware or none at all,
      * open new scope and define routes there.

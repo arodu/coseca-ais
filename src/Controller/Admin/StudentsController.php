@@ -110,9 +110,7 @@ class StudentsController extends AppAdminController
 
         $stageList = $this->Students->StudentStages->find('stageList', ['student' => $student]);
 
-        $trackingInfo = $this->Students->getStudentTrackingInfo($student->id);
-
-        $this->set(compact('student', 'stageList', 'trackingInfo'));
+        $this->set(compact('student', 'stageList'));
     }
 
     public function info($id = null)
@@ -144,22 +142,10 @@ class StudentsController extends AppAdminController
 
     public function tracking($id = null)
     {
-        $student = $this->Students
-            ->find('withLapses')
-            ->where(['Students.id' => $id])
-            ->first();
+        $student_id = $id;
+        $trackingView = $this->cell('TrackingView', compact('student_id'));
 
-        $adscriptions = $this->Students->StudentAdscriptions
-            ->find('withInstitution')
-            ->find('withTracking')
-            ->where([
-                'StudentAdscriptions.student_id' => $id,
-                'StudentAdscriptions.status IN' => AdscriptionStatus::getTrackablesValues(),
-            ]);
-
-        $trackingInfo = $this->Students->getStudentTrackingInfo($student->id);
-
-        $this->set(compact('student', 'adscriptions', 'trackingInfo'));
+        $this->set(compact('trackingView', 'student_id'));
     }
 
     public function prints($id = null)

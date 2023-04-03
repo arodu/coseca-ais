@@ -21,4 +21,4 @@ echo $this->Html->link(
 );
 $this->end();
 
-echo $this->element('content/trackingInfo', ['trackingInfo' => $trackingInfo]);
+echo $this->cell('TrackingView::info', ['student_id' => $studentStage->student_id]);

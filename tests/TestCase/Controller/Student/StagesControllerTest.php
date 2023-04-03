@@ -374,8 +374,8 @@ class StagesControllerTest extends StudentTestCase
         $this->assertResponseContains('<h5 class="tracking-first-date description-header"><code>N/A</code></h5>');
         $this->assertResponseContains('<h5 class="tracking-last-date description-header"><code>N/A</code></h5>');
         $this->assertResponseContains('<h5 class="total-hours description-header">0</h5>');
-        $this->assertResponseContains('Ver actividades');
-        $this->assertResponseNotContains('Cerrar actividades');
+        $this->assertResponseContains('Registro de actividades');
+        $this->assertResponseNotContains('Planilla de actividades');
 
         $first_date = FrozenDate::now()->subDays(4);
         $record[0] = $this->addRecord('StudentTracking', [
@@ -390,8 +390,8 @@ class StagesControllerTest extends StudentTestCase
         $this->assertResponseContains('<h5 class="tracking-first-date description-header">' . $first_date . '</h5>');
         $this->assertResponseContains('<h5 class="tracking-last-date description-header">' . $first_date . '</h5>');
         $this->assertResponseContains('<h5 class="total-hours description-header">' . 4 . '</h5>');
-        $this->assertResponseContains('Ver actividades');
-        $this->assertResponseNotContains('Cerrar actividades');
+        $this->assertResponseContains('Registro de actividades');
+        $this->assertResponseNotContains('Planilla de actividades');
 
         $last_date = FrozenDate::now()->subDays(3);
         $record[1] = $this->addRecord('StudentTracking', [
@@ -406,8 +406,8 @@ class StagesControllerTest extends StudentTestCase
         $this->assertResponseContains('<h5 class="tracking-first-date description-header">' . $first_date . '</h5>');
         $this->assertResponseContains('<h5 class="tracking-last-date description-header">' . $last_date . '</h5>');
         $this->assertResponseContains('<h5 class="total-hours description-header">' . 8 . '</h5>');
-        $this->assertResponseContains('Ver actividades');
-        $this->assertResponseNotContains('Cerrar actividades');
+        $this->assertResponseContains('Registro de actividades');
+        $this->assertResponseNotContains('Planilla de actividades');
 
         $last_date = FrozenDate::now()->subDays(1);
         $record[2] = $this->addRecord('StudentTracking', [
@@ -422,8 +422,8 @@ class StagesControllerTest extends StudentTestCase
         $this->assertResponseContains('<h5 class="tracking-first-date description-header">' . $first_date . '</h5>');
         $this->assertResponseContains('<h5 class="tracking-last-date description-header">' . $last_date . '</h5>');
         $this->assertResponseContains('<h5 class="total-hours description-header">' . 12 . '</h5>');
-        $this->assertResponseContains('Ver actividades');
-        $this->assertResponseNotContains('Cerrar actividades');
+        $this->assertResponseContains('Registro de actividades');
+        $this->assertResponseNotContains('Planilla de actividades');
 
         $this->deleteRecord($record[1]);
         $this->get('/student/stages');
@@ -432,8 +432,8 @@ class StagesControllerTest extends StudentTestCase
         $this->assertResponseContains('<h5 class="tracking-first-date description-header">' . $first_date . '</h5>');
         $this->assertResponseContains('<h5 class="tracking-last-date description-header">' . $last_date . '</h5>');
         $this->assertResponseContains('<h5 class="total-hours description-header">' . 8 . '</h5>');
-        $this->assertResponseContains('Ver actividades');
-        $this->assertResponseNotContains('Cerrar actividades');
+        $this->assertResponseContains('Registro de actividades');
+        $this->assertResponseNotContains('Planilla de actividades');
 
         $first_date = $last_date;
         $this->deleteRecord($record[0]);
@@ -443,8 +443,8 @@ class StagesControllerTest extends StudentTestCase
         $this->assertResponseContains('<h5 class="tracking-first-date description-header">' . $first_date . '</h5>');
         $this->assertResponseContains('<h5 class="tracking-last-date description-header">' . $last_date . '</h5>');
         $this->assertResponseContains('<h5 class="total-hours description-header">' . 4 . '</h5>');
-        $this->assertResponseContains('Ver actividades');
-        $this->assertResponseNotContains('Cerrar actividades');
+        $this->assertResponseContains('Registro de actividades');
+        $this->assertResponseNotContains('Planilla de actividades');
 
         $last_date = FrozenDate::now();
         $record[3] = $this->addRecord('StudentTracking', [
@@ -459,8 +459,8 @@ class StagesControllerTest extends StudentTestCase
         $this->assertResponseContains('<h5 class="tracking-first-date description-header">' . $first_date . '</h5>');
         $this->assertResponseContains('<h5 class="tracking-last-date description-header">' . $last_date . '</h5>');
         $this->assertResponseContains('<h5 class="total-hours description-header">' . 124 . '</h5>');
-        $this->assertResponseContains('Ver actividades');
-        $this->assertResponseContains('Cerrar actividades');
+        $this->assertResponseContains('Registro de actividades');
+        $this->assertResponseContains('Planilla de actividades');
     }
 
     public function testResultsCardStatusWaiting(): void

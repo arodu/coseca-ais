@@ -17,19 +17,50 @@ class StudentAdscriptionPolicy
      * @param StudentAdscription $adscription
      * @return Result
      */
-    public function canManageTracking(IdentityInterface $user, StudentAdscription $adscription)
+    public function canAddTracking(IdentityInterface $user, StudentAdscription $adscription)
     {
-        if (
-            in_array($user->role, UserRole::getStudentGroup())
-            && $adscription->student_id != $user->current_student->id
-        ) {
-            return new Result(false, 'student-not-owner');
+        $userIsStudent = in_array($user->role, UserRole::getStudentGroup());
+        $userIsAdmin = in_array($user->role, UserRole::getAdminGroup());
+        $userIsOwner = $adscription->student_id == $user?->current_student?->id;
+        $adscriptionIsOpen = $adscription->statusObj->is([AdscriptionStatus::OPEN]);
+
+        if ($adscriptionIsOpen && $userIsStudent && $userIsOwner) {
+            return true;
         }
 
-        if (!$adscription->statusObj->is([AdscriptionStatus::OPEN])) {
-            return new Result(false, 'adscription-not-open');
+        if ($adscriptionIsOpen && $userIsAdmin) {
+            return true;
         }
 
-        return new Result(true);
+        return false;
+    }
+
+    public function canDeleteTracking(IdentityInterface $user, StudentAdscription $adscription)
+    {
+        $userIsStudent = in_array($user->role, UserRole::getStudentGroup());
+        $userIsAdmin = in_array($user->role, UserRole::getAdminGroup());
+        $userIsOwner = $adscription->student_id == $user?->current_student?->id;
+        $adscriptionIsOpen = $adscription->statusObj->is([AdscriptionStatus::OPEN]);
+
+        if ($adscriptionIsOpen && $userIsStudent && $userIsOwner) {
+            return true;
+        }
+
+        if ($adscriptionIsOpen && $userIsAdmin) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canValidate(IdentityInterface $user, StudentAdscription $adscription)
+    {
+        $userIsAdmin = in_array($user->role, UserRole::getAdminGroup());
+        $adscriptionIsClosed = $adscription->statusObj->is([AdscriptionStatus::CLOSED]);
+        if ($userIsAdmin && $adscriptionIsClosed) {
+            return true;
+        }
+
+        return true;
     }
 }
