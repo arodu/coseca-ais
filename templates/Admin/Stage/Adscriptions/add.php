@@ -1,10 +1,9 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\StudentAdscription $student_adscription
  */
-
-use App\Enum\ActionColor;
 
 $this->student_id = $student->id;
 $this->active = null;
@@ -19,7 +18,6 @@ $this->Breadcrumbs->add([
 ]);
 ?>
 
-
 <?= $this->Form->create($student_adscription) ?>
 <div class="card-header">
     <div class="card-title"><?= __('Agregar Proyecto') ?></div>
@@ -31,14 +29,10 @@ $this->Breadcrumbs->add([
     echo $this->Form->control('tutor_id', ['options' => $tutors, 'empty' => true]);
     ?>
 </div>
-
 <div class="card-footer d-flex">
-    <div>
-        <?= $this->AppForm->buttonSave() ?>
-    </div>
     <div class="ml-auto">
-        <?= $this->Html->link(__('Cancelar'), $back ?? ['_name' => 'admin:student_view', $student->id], ['class' => ActionColor::CANCEL->btn()]) ?>
+        <?= $this->Button->save() ?>
+        <?= $this->Button->cancel(['url' => $back ?? ['_name' => 'admin:student_view', $student->id]]) ?>
     </div>
 </div>
-
 <?= $this->Form->end() ?>

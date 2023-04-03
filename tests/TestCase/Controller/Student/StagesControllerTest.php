@@ -270,11 +270,27 @@ class StagesControllerTest extends StudentTestCase
             'status' => StageStatus::WAITING->value,
         ]);
 
-        // whitout lapse dates
         $this->get('/student/stages');
         $this->assertResponseOk();
         $this->assertResponseContains('El estudiante no tiene proyectos adscritos');
         $this->assertResponseContains($this->alertMessage);
+        $this->assertResponseNotContains('Sin información a mostrar');
+    }
+
+    public function testAdscriptionCardStatusInProgress(): void
+    {
+        $student = $this->createRegularStudent();
+        $this->addRecord('StudentStages', [
+            'student_id' => $student->id,
+            'stage' => StageField::ADSCRIPTION->value,
+            'status' => StageStatus::IN_PROGRESS->value,
+        ]);
+
+        $this->get('/student/stages');
+        $this->assertResponseOk();
+        $this->assertResponseContains('El estudiante no tiene proyectos adscritos');
+        $this->assertResponseContains($this->alertMessage);
+        $this->assertResponseNotContains('Sin información a mostrar');
 
         $project = Hash::get($this->institution, 'institution_projects.0');
         $tutor = Hash::get($this->tutors, '0');

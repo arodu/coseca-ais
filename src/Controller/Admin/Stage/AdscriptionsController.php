@@ -10,6 +10,7 @@ use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use App\Utility\Stages;
+use Cake\Log\Log;
 
 /**
  * StudentAdscriptionsController Controller
@@ -36,16 +37,32 @@ class AdscriptionsController extends AppAdminController
     public function add($student_id = null)
     {
         $student = $this->StudentAdscriptions->Students->get($student_id);
-
         $student_adscription = $this->StudentAdscriptions->newEmptyEntity();
         if ($this->request->is('post')) {
-            $student_adscription = $this->StudentAdscriptions->patchEntity($student_adscription, $this->request->getData());
-            if ($this->StudentAdscriptions->save($student_adscription)) {
+            try {
+                $this->StudentStages->getConnection()->begin();
+
+                $student_adscription = $this->StudentAdscriptions->patchEntity($student_adscription, $this->request->getData());
+                $this->StudentAdscriptions->saveOrFail($student_adscription);
+
+                $adscriptionStage = $this->StudentStages
+                    ->find('byStudentStage', [
+                        'student_id' => $student->id,
+                        'stage' => StageField::ADSCRIPTION,
+                    ])
+                    ->first();
+                $this->StudentStages->updateStatus($adscriptionStage, StageStatus::IN_PROGRESS);
+
+                $this->StudentStages->getConnection()->commit();
+
                 $this->Flash->success(__('The student_adscription has been saved.'));
 
                 return $this->redirect(['_name' => 'admin:student_view', $student_id]);
+            } catch (\Exception $e) {
+                $this->StudentStages->getConnection()->rollback();
+                Log::error($e->getMessage());
+                $this->Flash->error(__('The student_adscription could not be saved. Please, try again.'));
             }
-            $this->Flash->error(__('The student_adscription could not be saved. Please, try again.'));
         }
 
         $institution_projects = $this->StudentAdscriptions->InstitutionProjects

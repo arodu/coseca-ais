@@ -42,15 +42,21 @@ $this->Breadcrumbs->add([
                     <div id="<?= 'collapse-' . $itemStage->value ?>" class="collapse <?= in_array($studentStageStatus, $statusActive) ? 'show' : '' ?>" data-parent="#stage-list">
                         <div class="card-body">
                             <?php
-                            $element = 'students/stages/' . $itemStage->value . '/' . $studentStageStatus->value;
+                            $element = 'stages/' . $itemStage->value . '/' . $studentStageStatus->value;
+
                             if ($this->elementExists($element)) {
                                 echo $this->element($element, ['student' => $student, 'studentStage' => $studentStage]);
                             } else {
                                 echo '<p>' . __('Sin información a mostrar') . '</p>';
                                 echo '<p>' . $this->App->alertMessage() . '</p>';
-                                if (Configure::read('debug')) {
-                                    echo '<p>If you want to customize this message, create <em>templates/element/' . $element . '.php</em></p>';
-                                }
+
+                                echo $this->devInfo(function () use ($element) {
+                                    echo 'Element file not found, the following paths were searched:';
+                                    echo $this->Html->nestedList([
+                                        'templates/Student/element/' . $element . '.php',
+                                        'templates/element/' . $element . '.php',
+                                    ]);
+                                });
                             }
                             ?>
                         </div>

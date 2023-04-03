@@ -13,7 +13,7 @@
     <div class="col-md-7 col-xl-9">
         <div class="card">
             <div class="card-header p-2">
-                <?= $this->element('admin/student_menu', ['active' => $this->active, 'student_id' => $this->student_id]) ?>
+                <?= $this->element('student_menu', ['active' => $this->active, 'student_id' => $this->student_id]) ?>
             </div><!-- /.card-header -->
             <?= $this->fetch('content') ?>
         </div>

@@ -15,6 +15,7 @@ declare(strict_types=1);
  */
 namespace App\View;
 
+use Cake\Core\Configure;
 use Cake\View\View;
 use CakeLte\View\CakeLteTrait;
 
@@ -53,5 +54,33 @@ class AppView extends View
         $this->loadHelper('ModalForm.ModalForm');
         $this->loadHelper('DependentSelector');
         $this->loadHelper('Button');
+    }
+
+    /**
+     * @param string|callable $info
+     * @param array $options
+     * @return string|null
+     */
+    public function devInfo(string|callable $info, array $options = []): ?string
+    {
+        if (!Configure::read('debug') || empty($info)) {
+            return null;
+        }
+
+        if (is_callable($info)) {
+            ob_start();
+            $info();
+            $info = ob_get_clean();
+        }
+
+        $options = array_merge([
+            'tag' => 'div',
+            'class' => 'alert alert-light border p-2',
+        ], $options);
+
+        $tag = $options['tag'];
+        unset($options['tag']);
+
+        return $this->Html->tag($tag, $info, $options);
     }
 }

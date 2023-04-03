@@ -6,6 +6,7 @@ namespace App\Controller\Student;
 
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
+use Cake\Log\Log;
 
 /**
  * RegisterStage Controller
@@ -29,15 +30,15 @@ class RegisterStageController extends AppStudentController
     public function edit()
     {
         $currentStudent = $this->getCurrentStudent();
-        /** @var \App\Model\Entity\StudentStage $studentStage */
-        $studentStage = $this->Students->StudentStages
+        /** @var \App\Model\Entity\StudentStage $registerStage */
+        $registerStage = $this->Students->StudentStages
             ->find('byStudentStage', [
                 'student_id' => $currentStudent->id,
                 'stage' => StageField::REGISTER,
             ])
             ->first();
 
-        if (empty($studentStage) || $studentStage->status_obj !== StageStatus::IN_PROGRESS) {
+        if (empty($registerStage) || $registerStage->status_obj !== StageStatus::IN_PROGRESS) {
             $this->Flash->warning(__('El Registro no esta activo para realizar cambios'));
             return $this->redirect(['_name' => 'student:home']);
         }
@@ -48,13 +49,19 @@ class RegisterStageController extends AppStudentController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $student = $this->Students->patchEntity($student, $this->request->getData());
 
-            if ($this->Students->save($student)) {
-                $this->Students->StudentStages->close($studentStage, StageStatus::REVIEW);
+            try {
+                $this->Students->getConnection()->begin();
+                $this->Students->saveOrFail($student);
+                $this->Students->StudentStages->updateStatus($registerStage, StageStatus::REVIEW);
+                $this->Students->getConnection()->commit();
                 $this->Flash->success(__('The student has been saved.'));
 
                 return $this->redirect(['_name' => 'student:home']);
+            } catch (\Exception $e) {
+                $this->Students->getConnection()->rollback();
+                Log::error($e->getMessage());
+                $this->Flash->error(__('The student could not be saved. Please, try again.'));
             }
-            $this->Flash->error(__('The student could not be saved. Please, try again.'));
         }
 
         $interestAreas = $this->Students->StudentData->InterestAreas->find('list', ['limit' => 200])

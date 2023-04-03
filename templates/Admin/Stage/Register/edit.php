@@ -34,12 +34,10 @@ $this->Breadcrumbs->add([
 </div>
 
 <div class="card-footer d-flex">
-    <div>
-        <?= $this->AppForm->buttonSave() ?>
-        <?= $this->AppForm->buttonValidate(['confirm' => __('Seguro que desea validar este registro?')]) ?>
-    </div>
     <div class="ml-auto">
-        <?= $this->Html->link(__('Cancelar'), ['controller' => 'Students', 'action' => 'view', $student->id, 'prefix' => 'Admin'], ['class' => ActionColor::CANCEL->btn()]) ?>
+        <?= $this->Button->save() ?>
+        <?= $this->Button->validate() ?>
+        <?= $this->Button->cancel(['url' => ['_name' => 'admin:student_view', $student->id]]) ?>
     </div>
 </div>
 <?= $this->Form->end() ?>

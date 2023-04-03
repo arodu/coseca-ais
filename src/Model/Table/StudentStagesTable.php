@@ -198,12 +198,12 @@ class StudentStagesTable extends Table
 
     /**
      * @param StudentStage $entity
-     * @param string $newStatus
+     * @param StageStatus $newStatus
      * @return StudentStage
      */
-    public function updateStatus(StudentStage $entity, string $newStatus): StudentStage
+    public function updateStatus(StudentStage $entity, StageStatus $newStatus): StudentStage
     {
-        $entity->status = $newStatus;
+        $entity->status = $newStatus->value;
 
         return $this->saveOrFail($entity);
     }
@@ -233,7 +233,7 @@ class StudentStagesTable extends Table
     {
         try {
             $this->getConnection()->begin();
-            $this->updateStatus($entity, $newStatus->value);
+            $this->updateStatus($entity, $newStatus);
             $studentStage = $this->createNext($entity, $forced);
             $this->getConnection()->commit();
 
