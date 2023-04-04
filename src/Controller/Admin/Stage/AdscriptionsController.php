@@ -57,7 +57,7 @@ class AdscriptionsController extends AppAdminController
 
                 $this->Flash->success(__('The student_adscription has been saved.'));
 
-                return $this->redirect(['_name' => 'admin:student_view', $student_id]);
+                return $this->redirect(['_name' => 'admin:student:view', $student_id]);
             } catch (\Exception $e) {
                 $this->StudentStages->getConnection()->rollback();
                 Log::error($e->getMessage());
@@ -107,7 +107,7 @@ class AdscriptionsController extends AppAdminController
             if ($this->StudentAdscriptions->save($adscription)) {
                 $this->Flash->success(__('The student_adscription has been saved.'));
 
-                return $this->redirect(['_name' => 'admin:student_adscriptions', $adscription->student_id]);
+                return $this->redirect(['_name' => 'admin:student:adscriptions', $adscription->student_id]);
             }
             $this->Flash->error(__('The student_adscription could not be saved. Please, try again.'));
         }

@@ -13,7 +13,7 @@ trait TrackingHandleTrait
 
         if (!$this->Authorization->can($adscription, 'addTracking')) {
             $this->Flash->error(__('You are not authorized to add an student tracking.'));
-            return $this->redirect(['_name' => 'admin:student_tracking', $adscription->student_id]);
+            return $this->redirect(['_name' => 'admin:student:tracking', $adscription->student_id]);
         }
 
         $tracking = $this->Tracking->newEntity($data);

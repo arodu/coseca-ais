@@ -120,7 +120,7 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <?= $this->Form->create(null, ['url' => ['controller' => 'Tracking', 'action' => 'add', $adscription->id, 'prefix' => 'Stage']]) ?>
+                    <?= $this->Form->create(null, ['url' => ['action' => 'add', $adscription->id]]) ?>
                     <?= $this->Form->hidden('student_adscription_id', ['value' => $adscription->id]) ?>
                     <div class="modal-body">
                         <div class="row">

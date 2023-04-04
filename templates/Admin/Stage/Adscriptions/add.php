@@ -13,7 +13,7 @@ $this->assign('title', __('Estudiante'));
 $this->Breadcrumbs->add([
     ['title' => __('Inicio'), 'url' => '/'],
     ['title' => __('Estudiantes'), 'url' => ['controller' => 'Students', 'action' => 'index']],
-    ['title' => __('Ver'), 'url' => ['_name' => 'admin:student_view', $student->id]],
+    ['title' => __('Ver'), 'url' => ['_name' => 'admin:student:view', $student->id]],
     ['title' => __('Agregar Proyecto')],
 ]);
 ?>
@@ -32,7 +32,7 @@ $this->Breadcrumbs->add([
 <div class="card-footer d-flex">
     <div class="ml-auto">
         <?= $this->Button->save() ?>
-        <?= $this->Button->cancel(['url' => $back ?? ['_name' => 'admin:student_view', $student->id]]) ?>
+        <?= $this->Button->cancel(['url' => $back ?? ['_name' => 'admin:student:view', $student->id]]) ?>
     </div>
 </div>
 <?= $this->Form->end() ?>

@@ -49,7 +49,7 @@ class CoursesController extends AppAdminController
                     $this->Flash->success(__('The {0} stage has been created.', $nextStage->stage));
                 }
 
-                return $this->redirect(['_name' => 'admin:student_view', $student_id]);
+                return $this->redirect(['_name' => 'admin:student:view', $student_id]);
             }
             $this->Flash->error(__('The student course could not be saved. Please, try again.'));
         }
@@ -83,7 +83,7 @@ class CoursesController extends AppAdminController
                     $this->Flash->success(__('The {0} stage has been created.', $nextStage->stage));
                 }
 
-                return $this->redirect(['_name' => 'admin:student_view', $studentCourse->student_id]);
+                return $this->redirect(['_name' => 'admin:student:view', $studentCourse->student_id]);
             }
             $this->Flash->error(__('The student course could not be saved. Please, try again.'));
         }
@@ -108,6 +108,6 @@ class CoursesController extends AppAdminController
             $this->Flash->error(__('The student course could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['_name' => 'admin:student_view', $studentCourse->student_id]);
+        return $this->redirect(['_name' => 'admin:student:view', $studentCourse->student_id]);
     }
 }

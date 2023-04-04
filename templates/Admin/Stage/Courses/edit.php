@@ -16,7 +16,7 @@ $this->assign('title', __('Estudiante'));
 $this->Breadcrumbs->add([
     ['title' => __('Inicio'), 'url' => '/'],
     ['title' => __('Estudiantes'), 'url' => ['controller' => 'Students', 'action' => 'index', 'prefix' => 'Admin']],
-    ['title' => __('Ver'), 'url' => ['_name' => 'admin:student_view', $studentCourse->student_id]],
+    ['title' => __('Ver'), 'url' => ['_name' => 'admin:student:view', $studentCourse->student_id]],
     ['title' => $stageField->label()],
     ['title' => __('Editar')],
 ]);
@@ -48,7 +48,7 @@ $this->Breadcrumbs->add([
     <div class="ml-auto">
         <?= $this->Button->save() ?>
         <?= $this->Button->validate() ?>
-        <?= $this->Button->cancel(['url' => ['_name' => 'admin:student_view', $studentCourse->student_id]]) ?>
+        <?= $this->Button->cancel(['url' => ['_name' => 'admin:student:view', $studentCourse->student_id]]) ?>
     </div>
 </div>
 <?= $this->Form->end() ?>

@@ -33,7 +33,7 @@ $this->Breadcrumbs->add([
     <div class="ml-auto">
         <?= $this->Button->save() ?>
         <?= $this->Button->validate() ?>
-        <?= $this->Button->cancel(['url' => ['_name' => 'admin:student_view', $student->id]]) ?>
+        <?= $this->Button->cancel(['url' => ['_name' => 'admin:student:view', $student->id]]) ?>
     </div>
 </div>
 <?= $this->Form->end() ?>

@@ -16,7 +16,7 @@ $this->assign('title', __('Estudiante'));
 $this->Breadcrumbs->add([
     ['title' => __('Inicio'), 'url' => '/'],
     ['title' => __('Estudiantes'), 'url' => ['controller' => 'Students', 'action' => 'index']],
-    ['title' => __('Ver'), 'url' => ['_name' => 'admin:student_view', $adscription->student_id]],
+    ['title' => __('Ver'), 'url' => ['_name' => 'admin:student:view', $adscription->student_id]],
     ['title' => __('Editar Proyecto')],
 ]);
 ?>
@@ -71,7 +71,7 @@ $this->Breadcrumbs->add([
         <?= $this->AppForm->buttonSave() ?>
     </div>
     <div class="ml-auto">
-        <?= $this->AppForm->buttonCancel(['url' => ['_name' => 'admin:student_adscriptions', $adscription->student_id]]) ?>
+        <?= $this->AppForm->buttonCancel(['url' => ['_name' => 'admin:student:adscriptions', $adscription->student_id]]) ?>
     </div>
 </div>
 

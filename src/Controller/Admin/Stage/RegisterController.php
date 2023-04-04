@@ -50,7 +50,7 @@ class RegisterController extends AppAdminController
                     $this->Flash->success(__('The {0} stage has been created.', $nextStage->stage));
                 }
 
-                return $this->redirect(['_name' => 'admin:student_view', $student->id]);
+                return $this->redirect(['_name' => 'admin:student:view', $student->id]);
             }
             $this->Flash->error(__('The register stage could not be saved. Please, try again.'));
         }

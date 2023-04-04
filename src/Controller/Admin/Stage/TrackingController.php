@@ -37,7 +37,7 @@ class TrackingController extends AppAdminController
             'tracking' => $tracking,
         ] = $this->handleAdd($this->request->getData());
         
-        return $this->redirect(['_name' => 'admin:student_tracking', $adscription->student_id]);
+        return $this->redirect(['_name' => 'admin:student:tracking', $adscription->student_id]);
     }
 
     /**
@@ -58,7 +58,7 @@ class TrackingController extends AppAdminController
 
         if (!$this->Authorization->can($adscription, 'deleteTracking')) {
             $this->Flash->error(__('You are not authorized to delete this student tracking.'));
-            return $this->redirect(['_name' => 'admin:student_tracking', $adscription->student_id]);
+            return $this->redirect(['_name' => 'admin:student:tracking', $adscription->student_id]);
         }
 
         if ($this->StudentTracking->delete($studentTracking)) {
@@ -67,6 +67,6 @@ class TrackingController extends AppAdminController
             $this->Flash->error(__('The student tracking could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['_name' => 'admin:student_tracking', $adscription->student_id]);
+        return $this->redirect(['_name' => 'admin:student:tracking', $adscription->student_id]);
     }
 }

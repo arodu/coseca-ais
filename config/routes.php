@@ -74,26 +74,26 @@ return static function (RouteBuilder $routes) {
         $builder->fallbacks();
     });
 
-    $routes->prefix('Student', function (RouteBuilder $builder) {
-        $builder->connect('/', ['controller' => 'Dashboard', 'action' => 'index', 'plugin' => false], ['_name' => 'student:home']);
+    $routes->prefix('Student', ['_namePrefix' => 'student:'], function (RouteBuilder $builder) {
+        $builder->connect('/', ['controller' => 'Dashboard', 'action' => 'index', 'plugin' => false], ['_name' => 'home']);
 
-        $builder->connect('/register', ['controller' => 'Stages', 'action' => 'register', 'plugin' => false], ['_name' => 'student:register']);
-        
-        $builder->connect('/tracking', ['controller' => 'Stages', 'action' => 'tracking', 'plugin' => false], ['_name' => 'student:tracking']);
+        //$builder->connect('/register', ['controller' => 'Stages', 'action' => 'register', 'plugin' => false], ['_name' => 'student:register']);
+        $builder->connect('/tracking', ['controller' => 'Tracking', 'action' => 'index', 'plugin' => false], ['_name' => 'tracking']);
 
         $builder->fallbacks(DashedRoute::class);
     });
 
 
-    $routes->prefix('Admin', function (RouteBuilder $builder) {
-        $builder->prefix('Stage', function (RouteBuilder $builder) {
+    $routes->prefix('Admin', ['_namePrefix' => 'admin:'], function (RouteBuilder $builder) {
+        $builder->prefix('Stage', ['_namePrefix' => 'stage:'], function (RouteBuilder $builder) {
             $builder->fallbacks(DashedRoute::class);
         });
 
-        $builder->connect('/', ['controller' => 'Tenants', 'action' => 'index', 'plugin' => false], ['_name' => 'admin:home']);
-        $builder->connect('/student/view/*', ['controller' => 'Students', 'action' => 'view', 'plugin' => false], ['_name' => 'admin:student_view']);
-        $builder->connect('/student/tracking/*', ['controller' => 'Students', 'action' => 'tracking', 'plugin' => false], ['_name' => 'admin:student_tracking']);
-        $builder->connect('/student/adscriptions/*', ['controller' => 'Students', 'action' => 'adscriptions', 'plugin' => false], ['_name' => 'admin:student_adscriptions']);
+        $builder->connect('/', ['controller' => 'Students', 'action' => 'index', 'plugin' => false], ['_name' => 'home']);
+        $builder->connect('/student', ['controller' => 'Students', 'action' => 'index', 'plugin' => false], ['_name' => 'student:index']);
+        $builder->connect('/student/view/*', ['controller' => 'Students', 'action' => 'view', 'plugin' => false], ['_name' => 'student:view']);
+        $builder->connect('/student/tracking/*', ['controller' => 'Students', 'action' => 'tracking', 'plugin' => false], ['_name' => 'student:tracking']);
+        $builder->connect('/student/adscriptions/*', ['controller' => 'Students', 'action' => 'adscriptions', 'plugin' => false], ['_name' => 'student:adscriptions']);
 
         $builder->fallbacks(DashedRoute::class);
     });
