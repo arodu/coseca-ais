@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Traits;
+namespace App\Controller\Traits\Stage;
 
-trait TrackingHandleTrait
+trait TrackingProcessTrait
 {
 
     protected function handleAdd(array $data)

@@ -3,7 +3,9 @@
 use App\Enum\Gender;
 use App\Utility\StudentLevels;
 use Cake\Core\Configure;
+use Cake\View\Form\EntityContext;
 
+$this->Form->context(new EntityContext(['entity' => $student]));
 ?>
 <div class="row">
     <div class="col">

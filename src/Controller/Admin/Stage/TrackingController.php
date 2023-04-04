@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin\Stage;
 
 use App\Controller\Admin\AppAdminController;
-use App\Controller\Traits\TrackingHandleTrait;
+use App\Controller\Traits\Stage\TrackingProcessTrait;
 
 /**
  * StudentTracking Controller
@@ -14,7 +14,7 @@ use App\Controller\Traits\TrackingHandleTrait;
  */
 class TrackingController extends AppAdminController
 {
-    use TrackingHandleTrait;
+    use TrackingProcessTrait;
 
     public function initialize(): void
     {

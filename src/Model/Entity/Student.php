@@ -6,6 +6,7 @@ namespace App\Model\Entity;
 
 use App\Model\Field\StudentType;
 use App\Utility\Stages;
+use Cake\Http\Exception\NotFoundException;
 use Cake\ORM\Entity;
 
 /**
@@ -121,6 +122,6 @@ class Student extends Entity
             return $this->tenant->current_lapse;
         }
 
-        throw new \Exception('No current lapse found');
+        throw new NotFoundException('student current_lapse not found');
     }
 }

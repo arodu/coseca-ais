@@ -5,6 +5,7 @@ namespace App\Model\Entity;
 
 use App\Enum\Active;
 use App\Model\Field\StageField;
+use Cake\Http\Exception\NotFoundException;
 use Cake\ORM\Entity;
 
 /**
@@ -99,7 +100,7 @@ class Lapse extends Entity
     public function getDates(StageField $stageField): ?LapseDate
     {
         if (empty($this->lapse_dates)) {
-            throw new \RuntimeException('Lapse dates not found');
+            throw new NotFoundException('Lapse dates not found');
         }
 
         foreach ($this->lapse_dates as $lapseDate) {

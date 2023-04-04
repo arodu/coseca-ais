@@ -77,7 +77,7 @@ return static function (RouteBuilder $routes) {
     $routes->prefix('Student', ['_namePrefix' => 'student:'], function (RouteBuilder $builder) {
         $builder->connect('/', ['controller' => 'Dashboard', 'action' => 'index', 'plugin' => false], ['_name' => 'home']);
 
-        //$builder->connect('/register', ['controller' => 'Stages', 'action' => 'register', 'plugin' => false], ['_name' => 'student:register']);
+        $builder->connect('/register', ['controller' => 'Register', 'action' => 'edit', 'plugin' => false], ['_name' => 'register']);
         $builder->connect('/tracking', ['controller' => 'Tracking', 'action' => 'index', 'plugin' => false], ['_name' => 'tracking']);
 
         $builder->fallbacks(DashedRoute::class);

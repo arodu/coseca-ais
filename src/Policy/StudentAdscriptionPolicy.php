@@ -12,6 +12,8 @@ use Authentication\IdentityInterface;
 
 class StudentAdscriptionPolicy
 {
+    use BasicChecksTrait;
+
     /**
      * @param IdentityInterface $user
      * @param StudentAdscription $adscription
@@ -19,16 +21,13 @@ class StudentAdscriptionPolicy
      */
     public function canAddTracking(IdentityInterface $user, StudentAdscription $adscription)
     {
-        $userIsStudent = in_array($user->role, UserRole::getStudentGroup());
-        $userIsAdmin = in_array($user->role, UserRole::getAdminGroup());
-        $userIsOwner = $adscription->student_id == $user?->current_student?->id;
         $adscriptionIsOpen = $adscription->statusObj->is([AdscriptionStatus::OPEN]);
 
-        if ($adscriptionIsOpen && $userIsStudent && $userIsOwner) {
+        if ($adscriptionIsOpen && $this->studentIsOwner($user, $adscription->student_id)) {
             return true;
         }
 
-        if ($adscriptionIsOpen && $userIsAdmin) {
+        if ($adscriptionIsOpen && $this->userIsAdmin($user)) {
             return true;
         }
 
@@ -37,17 +36,14 @@ class StudentAdscriptionPolicy
 
     public function canDeleteTracking(IdentityInterface $user, StudentAdscription $adscription)
     {
-        $userIsStudent = in_array($user->role, UserRole::getStudentGroup());
-        $userIsAdmin = in_array($user->role, UserRole::getAdminGroup());
-        $userIsOwner = $adscription->student_id == $user?->current_student?->id;
-        $adscriptionIsOpen = $adscription->statusObj->is([AdscriptionStatus::OPEN]);
+        if ($this->adscriptionIsOpen($adscription)) {
+            if ($this->studentIsOwner($user, $adscription->student_id)) {
+                return true;
+            }
 
-        if ($adscriptionIsOpen && $userIsStudent && $userIsOwner) {
-            return true;
-        }
-
-        if ($adscriptionIsOpen && $userIsAdmin) {
-            return true;
+            if ($this->userIsAdmin($user)) {
+                return true;
+            }
         }
 
         return false;
@@ -55,12 +51,20 @@ class StudentAdscriptionPolicy
 
     public function canValidate(IdentityInterface $user, StudentAdscription $adscription)
     {
-        $userIsAdmin = in_array($user->role, UserRole::getAdminGroup());
-        $adscriptionIsClosed = $adscription->statusObj->is([AdscriptionStatus::CLOSED]);
-        if ($userIsAdmin && $adscriptionIsClosed) {
+        if ($this->adscriptionIsClosed($adscription) && $this->userIsAdmin($user)) {
             return true;
         }
 
         return true;
+    }
+
+    protected function adscriptionIsOpen(StudentAdscription $adscription): bool
+    {
+        return $adscription->statusObj->is([AdscriptionStatus::OPEN]);
+    }
+
+    protected function adscriptionIsClosed(StudentAdscription $adscription): bool
+    {
+        return $adscription->statusObj->is([AdscriptionStatus::CLOSED]);
     }
 }
