@@ -217,7 +217,7 @@ class StudentAdscriptionsTable extends Table
         return $query
             ->contain([
                 'StudentTracking' => [
-                    'sort' => ['StudentTracking.created' => $options['sort']],
+                    'sort' => ['StudentTracking.date' => $options['sort']],
                 ],
             ]);
     }

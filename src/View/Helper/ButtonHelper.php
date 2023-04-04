@@ -36,7 +36,7 @@ class ButtonHelper extends Helper
             'back' => 'back',
             'report' => 'report',
         ],
-        'icon_class' => 'fa-fw mr-1',
+        'icon_class' => 'fa-fw',
         'icon_position' => self::ICON_POSITION_LEFT, // left, right
     ];
 
@@ -63,11 +63,11 @@ class ButtonHelper extends Helper
         $url = $options['url'];
         unset($options['url']);
 
-        $title = $this->setIcon($options['label'] ?? null, $options['icon'] ?? null, $options['icon_position'] ?? null);
+        $title = $this->setIconPosition($options['label'] ?? null, $options['icon'] ?? null, $options['icon_position'] ?? null);
         unset($options['label']);
         unset($options['icon']);
         unset($options['icon_position']);
-        
+
         $actionColor = $options['actionColor'];
         unset($options['actionColor']);
 
@@ -86,6 +86,48 @@ class ButtonHelper extends Helper
         return $this->Html->link($title, $url, $options);
     }
 
+    public function postLink(array $options): string
+    {
+        if (empty($options['url'])) {
+            throw new \InvalidArgumentException('url is required');
+        }
+
+        if (empty($options['label']) && empty($options['icon'])) {
+            $options['icon'] = FaIcon::get($this->getConfig('icon.link'), $this->getConfig('icon_class'));
+        }
+
+        if (empty($options['actionColor'])) {
+            throw new \InvalidArgumentException('actionColor is required');
+        }
+
+        $url = $options['url'];
+        unset($options['url']);
+
+        $title = $this->setIconPosition($options['label'] ?? null, $options['icon'] ?? null, $options['icon_position'] ?? null);
+        unset($options['label']);
+        unset($options['icon']);
+        unset($options['icon_position']);
+
+        $actionColor = $options['actionColor'];
+        unset($options['actionColor']);
+
+        $outline = $options['outline'] ?? false;
+        unset($options['outline']);
+
+        $options = array_merge([
+            'escape' => false,
+            'block' => true,
+        ], $options);
+
+        if (!empty($options['class']) && $options['override']) {
+        } else {
+            $options['class'] = $this->prepareClass($options['class'] ?? '', $actionColor, $outline);
+        }
+
+        return $this->Form->postLink($title, $url, $options);
+    }
+
+
     /**
      * @param array<string, mixed> $options
      * @return string
@@ -100,7 +142,7 @@ class ButtonHelper extends Helper
             throw new \InvalidArgumentException('label is required');
         }
 
-        $title = $this->setIcon($options['label'] ?? null, $options['icon'] ?? null, $options['icon_position'] ?? null);
+        $title = $this->setIconPosition($options['label'] ?? null, $options['icon'] ?? null, $options['icon_position'] ?? null);
         unset($options['label']);
         unset($options['icon']);
         unset($options['icon_position']);
@@ -307,7 +349,30 @@ class ButtonHelper extends Helper
             'confirm' => __('Seguro que desea eliminar este registro?'),
         ], $options);
 
-        return $this->link($options);
+        return $this->postLink($options);
+    }
+
+    /**
+     * @param array<string, mixed> $options
+     * @return string
+     */
+    public function remove(array $options = []): string
+    {
+        if (empty($options['url'])) {
+            throw new \InvalidArgumentException('url is required');
+        }
+
+        $options = array_merge([
+            'icon' => $this->getDefaultIcon(__FUNCTION__),
+            'label' => __('Eliminar'),
+            'escape' => false,
+            'actionColor' => ActionColor::DELETE,
+            'override' => false,
+            'outline' => false,
+            'confirm' => __('Seguro que desea eliminar este registro?'),
+        ], $options);
+
+        return $this->postLink($options);
     }
 
     /**
@@ -364,7 +429,7 @@ class ButtonHelper extends Helper
      * @param FaIcon|false|null $icon
      * @return string|null
      */
-    protected function setIcon(?string $label = null, $icon = null, $position = null): ?string
+    protected function setIconPosition(?string $label = null, $icon = null, $position = null): ?string
     {
         $position = $position ?? $this->getConfig('icon_position');
         if ($position === self::ICON_POSITION_RIGHT) {
@@ -374,5 +439,16 @@ class ButtonHelper extends Helper
         }
 
         return $title;
+    }
+
+    protected function getDefaultIcon(string $name): FaIcon
+    {
+        try {
+            $name = $this->getConfig('icon.' . $name, $name);
+
+            return FaIcon::get($name, $this->getConfig('icon_class'));
+        } catch (\Throwable $th) {
+            return FaIcon::get('default', $this->getConfig('icon_class'));
+        }
     }
 }

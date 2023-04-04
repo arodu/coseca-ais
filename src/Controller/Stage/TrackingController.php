@@ -62,8 +62,6 @@ class TrackingController extends AppController
      */
     public function delete($id = null)
     {
-        dd(__METHOD__);
-
         $this->request->allowMethod(['post', 'delete']);
         $tracking = $this->Tracking->get($id, [
             'contain' => ['Adscriptions'],

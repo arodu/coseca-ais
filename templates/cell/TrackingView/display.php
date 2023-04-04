@@ -37,7 +37,7 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
                     </button>
                 <?php endif ?>
                 <?php if ($adscription->statusObj->is(AdscriptionStatus::CLOSED)) : ?>
-                    <?= $this->ModalForm->link(
+                    <?php /* echo $this->ModalForm->link(
                         __('Validar horas del proyecto'),
                         ['controller' => 'Adscriptions', 'action' => 'validate', $adscription->id],
                         [
@@ -45,7 +45,7 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
                             'confirm' => __('¿Está seguro de validar este proyecto?'),
                             'target' => 'validateTracking' . $adscription->id,
                         ]
-                    );
+                    ); */
                     ?>
                 <?php endif ?>
             </div>
@@ -80,20 +80,14 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
                                 <td><?= h($tracking->description) ?></td>
                                 <td><?= h($tracking->hours) ?></td>
                                 <td class="actions">
-                                    <?php
-                                    if ($canDeleteTracking) :
-                                        echo $this->ModalForm->link(
-                                            __('Eliminar'),
-                                            ['controller' => 'Tracking', 'action' => 'delete', $tracking->id, 'prefix' => 'Stage'],
-                                            [
-                                                'confirm' => __('¿Está seguro de eliminar este registro de actividad?'),
-                                                'target' => 'deleteTracking' . $adscription->id,
-                                                'class' => ActionColor::DELETE->btn('btn-xs'),
-                                                'escape' => false,
-                                            ]
-                                        );
-                                    endif;
-                                    ?>
+                                    <?php if ($canDeleteTracking) : ?>
+                                        <?= $this->Button->remove([
+                                            'url' => ['controller' => 'Tracking', 'action' => 'delete', $tracking->id, 'prefix' => 'Stage'],
+                                            'class' => 'btn-xs',
+                                            'confirm' => __('¿Está seguro de eliminar esta actividad?'),
+                                            'label' => null,
+                                        ]) ?>
+                                    <?php endif ?>
                                 </td>
                             </tr>
                         <?php endforeach ?>
@@ -168,28 +162,6 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
             </div>
         </div>
     <?php endif ?>
-
-    <?php
-    echo $this->ModalForm->modal('deleteTracking' . $adscription->id, [
-        'element' => \ModalForm\ModalFormPlugin::FORM_CHECKBOX,
-        'content' => [
-            'title' => __('Eliminar Registro de actividad'),
-            'buttonOk'  => __('Si, eliminar'),
-            'buttonCancel'  => __('Cancelar'),
-        ]
-    ]);
-
-    //echo $this->ModalForm->modal('validateTracking' . $adscription->id, [
-    //    'element' => \ModalForm\ModalFormPlugin::FORM_TEXT_INPUT,
-    //    'content' => [
-    //        'title' => __('Validar proyecto'),
-    //        'buttonOk'  => __('Si, validar'),
-    //        'buttonCancel'  => __('Cancelar'),
-    //        'textConfirm' => $adscription->institution_project->label_name,
-    //        'label' => function ($content) {
-    //            return __('Escribe:<br><code>{0}</code><br>para confirmar', $content['textConfirm']);
-    //        }
-    //    ]
-    //]);
-    ?>
 <?php endforeach ?>
+
+<?= $this->fetch('postLink') ?>
