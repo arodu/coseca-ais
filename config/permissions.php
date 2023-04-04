@@ -105,9 +105,10 @@ return [
             ],
             'bypassAuth' => true,
         ],
+
         [
             'role' => UserRole::getAdminGroup(),
-            'prefix' => ['Admin', 'Stage'],
+            'prefix' => ['Admin', 'Admin/Stage'],
             'extension' => '*',
             'plugin' => '*',
             'controller' => '*',
@@ -120,14 +121,6 @@ return [
             'plugin' => '*',
             'controller' => '*',
             'action' => '*',
-        ],
-        [
-            'role' => UserRole::getStudentGroup(),
-            'prefix' => 'Stage',
-            'extension' => false,
-            'plugin' => false,
-            'controller' => 'Tracking',
-            'action' => ['add', 'delete'],
         ],
 
         //specific actions allowed for the all roles in Users plugin

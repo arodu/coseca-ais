@@ -14,7 +14,8 @@ enum ProgramRegime: string
 
     case BIANNUAL = 'biannual';
     case QUARTERLY = 'quarterly';
-    case ANNUALIZED = 'annualized';
+    case ANNUALIZED_5 = 'annualized_5';
+    case ANNUALIZED_6 = 'annualized_6';
 
     /**
      * @return string
@@ -24,9 +25,31 @@ enum ProgramRegime: string
         return match ($this) {
             static::BIANNUAL => __('Semestral'),
             static::QUARTERLY => __('Trimestral'),
-            static::ANNUALIZED => __('Anualizado'),
-
+            static::ANNUALIZED_5 => __('Anualizado (5 años)'),
+            static::ANNUALIZED_6 => __('Anualizado (6 años)'),
             default => __('NaN'),
+        };
+    }
+
+    public function formLabel(): string
+    {
+        return match ($this) {
+            static::BIANNUAL => __('Semestre'),
+            static::QUARTERLY => __('Trimestre'),
+            static::ANNUALIZED_5 => __('Año'),
+            static::ANNUALIZED_6 => __('Año'),
+            default => __('NaN'),
+        };
+    }
+
+    public function maxLevel(): int
+    {
+        return match ($this) {
+            static::BIANNUAL => 10,
+            static::QUARTERLY => 15,
+            static::ANNUALIZED_5 => 5,
+            static::ANNUALIZED_6 => 6,
+            default => 0,
         };
     }
 }
