@@ -322,7 +322,7 @@ class ButtonHelper extends Helper
             'escape' => false,
             'actionColor' => ActionColor::EDIT,
             'override' => false,
-            'outline' => true,
+            'outline' => false,
         ], $options);
 
         return $this->link($options);

@@ -46,16 +46,20 @@ trait RegisterProcessTrait
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             try {
-                $student = $this->Students->patchEntity($student, $this->request->getData());
-
                 $this->Students->getConnection()->begin();
+
+                $student = $this->Students->patchEntity($student, $this->request->getData());
                 $this->Students->saveOrFail($student);
 
                 if ($options['updateStatus'] ?? false) {
                     $this->Students->StudentStages->updateStatus($registerStage, StageStatus::REVIEW);
                 }
 
-                if (($options['validate'] ?? false) && $this->Authorization->can($registerStage, 'registerValidate')) {
+                if ($options['validate'] ?? false) {
+                    if (!$this->Authorization->can($registerStage, 'registerValidate')) {
+                        throw new ForbiddenException(__('No puede realizar cambios en el registro'));
+                    }
+
                     $this->Students->StudentStages->updateStatus($registerStage, StageStatus::SUCCESS);
                     $nextStage = $this->Students->StudentStages->createNext($registerStage);
                 }

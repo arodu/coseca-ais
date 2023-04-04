@@ -33,6 +33,36 @@ class StudentStagePolicy
 
     public function canRegisterValidate(IdentityInterface $user, StudentStage $studentStage)
     {
+        if (!$this->stageIsRegister($studentStage)) {
+            return false;
+        }
+
+        if ($this->userIsAdmin($user)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canCourseEdit(IdentityInterface $user, StudentStage $studentStage)
+    {
+        if (!$this->stageIsCourse($studentStage)) {
+            return false;
+        }
+
+        if ($this->userIsAdmin($user) && $this->stageIsCourse($studentStage)) {
+            return true;
+        }
+
+        return false;
+    }
+    
+    public function canCourseValidate(IdentityInterface $user, StudentStage $studentStage)
+    {
+        if (!$this->stageIsCourse($studentStage)) {
+            return false;
+        }
+
         if ($this->userIsAdmin($user)) {
             return true;
         }
@@ -45,8 +75,13 @@ class StudentStagePolicy
         return $studentStage->stage_obj->is(StageField::REGISTER);
     }
 
+    protected function stageIsCourse(StudentStage $studentStage): bool
+    {
+        return $studentStage->stage_obj->is(StageField::COURSE);
+    }
+
     protected function stageStatusIsInProgress(StudentStage $studentStage): bool
     {
-        return $studentStage->status_obj->is([StageStatus::IN_PROGRESS]);
+        return $studentStage->status_obj->is(StageStatus::IN_PROGRESS);
     }
 }
