@@ -17,7 +17,7 @@ use Cake\View\CellTrait;
  *
  * @property \App\Model\Table\StudentStagesTable $StudentStages
  */
-class StagesController extends AppStudentController
+class DashboardController extends AppStudentController
 {
     use CellTrait;
 

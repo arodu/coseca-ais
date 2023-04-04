@@ -11,7 +11,7 @@ use Cake\View\CellTrait;
  *
  * @method \App\Model\Entity\StudentTracking[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class TrackingStageController extends AppStudentController
+class TrackingController extends AppStudentController
 {
     use CellTrait;
 
