@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller\Student;
 
 use App\Controller\Traits\Stage\RegisterProcessTrait;
-use Cake\View\CellTrait;
 
 /**
  * Stages Controller
@@ -15,7 +14,6 @@ use Cake\View\CellTrait;
 class RegisterController extends AppStudentController
 {
     use RegisterProcessTrait;
-    use CellTrait;
 
     public function initialize(): void
     {
@@ -32,7 +30,7 @@ class RegisterController extends AppStudentController
         [
             'success' => $success,
             'student' => $student
-        ] = $this->processEdit($currentStudent->id, true);
+        ] = $this->processEdit($currentStudent->id, ['updateStatus' => true]);
 
         if ($success) {
             return $this->redirect(['_name' => 'student:home']);

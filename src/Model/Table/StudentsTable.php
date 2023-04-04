@@ -324,7 +324,7 @@ class StudentsTable extends Table
     public function afterSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
     {
         if ($entity->isNew()) {
-            $this->StudentStages->create([
+            $this->StudentStages->createOrFail([
                 'student_id' => $entity->id,
                 'stage' => StageField::default()->value,
             ]);

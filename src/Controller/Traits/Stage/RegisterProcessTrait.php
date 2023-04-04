@@ -9,9 +9,12 @@ use App\Model\Field\StageStatus;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Log\Log;
 
+/**
+ * @property \App\Model\Table\StudentsTable $Students
+ */
 trait RegisterProcessTrait
 {
-    protected function processEdit(int $student_id, bool $updateStatus = true): array
+    protected function processEdit(int $student_id, array $options = []): array
     {
         $success = false;
 
@@ -41,26 +44,32 @@ trait RegisterProcessTrait
             throw new ForbiddenException(__('No puede realizar cambios en el registro'));
         }
 
-        debug($student);
-        debug($student->getCurrentLapse());
-        exit();
-
-
         if ($this->request->is(['patch', 'post', 'put'])) {
             try {
                 $student = $this->Students->patchEntity($student, $this->request->getData());
 
                 $this->Students->getConnection()->begin();
                 $this->Students->saveOrFail($student);
-                if ($updateStatus) {
+
+                if ($options['updateStatus'] ?? false) {
                     $this->Students->StudentStages->updateStatus($registerStage, StageStatus::REVIEW);
                 }
+
+                if (($options['validate'] ?? false) && $this->Authorization->can($registerStage, 'registerValidate')) {
+                    $this->Students->StudentStages->updateStatus($registerStage, StageStatus::SUCCESS);
+                    $nextStage = $this->Students->StudentStages->createNext($registerStage);
+                }
+
                 $this->Students->getConnection()->commit();
-                $success = true;
+                $success = true;                
+
                 $this->Flash->success(__('The student has been saved.'));
+                if (($nextStage ?? false)) {
+                    $this->Flash->success(__('The {0} stage has been created.', $nextStage->stage));
+                }
             } catch (\Exception $e) {
-                $this->Students->getConnection()->rollback();
                 Log::error($e->getMessage());
+                $this->Students->getConnection()->rollback();
                 $this->Flash->error(__('The student could not be saved. Please, try again.'));
             }
         }

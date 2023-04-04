@@ -31,6 +31,15 @@ class StudentStagePolicy
         return false;
     }
 
+    public function canRegisterValidate(IdentityInterface $user, StudentStage $studentStage)
+    {
+        if ($this->userIsAdmin($user)) {
+            return true;
+        }
+
+        return false;
+    }
+
     protected function stageIsRegister(StudentStage $studentStage): bool
     {
         return $studentStage->stage_obj->is(StageField::REGISTER);

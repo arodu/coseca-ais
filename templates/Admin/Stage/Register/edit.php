@@ -26,7 +26,7 @@ $this->Breadcrumbs->add([
     <div class="card-title"><?= $stageField->label() ?></div>
 </div>
 <div class="card-body">
-    <?= $this->element('form/register', ['student' => $student]) ?>
+    <?= $this->cell('Forms::register', ['student' => $student]) ?>
 </div>
 
 <div class="card-footer d-flex">

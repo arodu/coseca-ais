@@ -173,11 +173,22 @@ class StudentStagesTable extends Table
         return $query;
     }
 
+    public function create(array $options): StudentStage|false
+    {
+        try {
+            return $this->createOrFail($options);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+
+            return false;
+        }
+    }
+
     /**
      * @param array $options
      * @return StudentStage
      */
-    public function create(array $options): StudentStage
+    public function createOrFail(array $options): StudentStage
     {
         if (empty($options['stage'])) {
             throw new InvalidArgumentException('param stage is necessary');
@@ -219,6 +230,8 @@ class StudentStagesTable extends Table
         try {
             return $this->closeOrFail($entity, $newStatus, $forced) ?? true;
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
+
             return false;
         }
     }
@@ -239,8 +252,8 @@ class StudentStagesTable extends Table
 
             return $studentStage;
         } catch (\Exception $e) {
-            $this->getConnection()->rollback();
             Log::error($e->getMessage());
+            $this->getConnection()->rollback();
 
             throw $e;
         }
@@ -249,25 +262,48 @@ class StudentStagesTable extends Table
     /**
      * @param StudentStage $entity
      * @param boolean $forced
-     * @return StudentStage|null
+     * @return StudentStage|false
      */
-    public function createNext(StudentStage $entity, bool $forced = false): ?StudentStage
+    public function createNext(StudentStage $entity, bool $forced = false): StudentStage|false
     {
-        if ($forced || in_array($entity->status_obj, [StageStatus::SUCCESS])) {
-            if (empty($entity->student)) {
-                $this->loadInto($entity, ['Students']);
-            }
-            $nextStageField = Stages::getNextStageField($entity->stage_obj, $entity->student->type_obj);
+        try {
+            return $this->createNextOrFail($entity, $forced);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
 
-            if ($nextStageField) {
-                return $this->create([
-                    'stage' => $nextStageField->value,
-                    'student_id' => $entity->student_id,
-                    'parent_id' => $entity->id,
-                ]);
-            }
+            return false;
+        }
+    }
+
+    /**
+     * @param StudentStage $entity
+     * @param boolean $forced
+     * @return StudentStage
+     * @throws InvalidArgumentException
+     */
+    public function createNextOrFail(StudentStage $entity, bool $forced = false): StudentStage
+    {
+        if (!($forced || in_array($entity->status_obj, [StageStatus::SUCCESS]))) {
+            throw new InvalidArgumentException('The stage has to be closed to create the next one');
         }
 
-        return null;
+        if (empty($entity->student)) {
+            $this->loadInto($entity, ['Students']);
+        }
+
+        $nextStageField = Stages::getNextStageField($entity->stage_obj, $entity->student->type_obj);
+        if (!$nextStageField) {
+            throw new InvalidArgumentException('The stage has no next stage');
+        }
+
+        if ($preview = $this->find()->where(['student_id' => $entity->student_id, 'stage' => $nextStageField->value])->first()) {
+            return $preview;
+        }
+
+        return $this->createOrFail([
+            'stage' => $nextStageField->value,
+            'student_id' => $entity->student_id,
+            'parent_id' => $entity->id,
+        ]);
     }
 }
