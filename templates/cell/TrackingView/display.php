@@ -82,7 +82,7 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
                                 <td class="actions">
                                     <?php if ($canDeleteTracking) : ?>
                                         <?= $this->Button->remove([
-                                            'url' => ['controller' => 'Tracking', 'action' => 'delete', $tracking->id, 'prefix' => 'Stage'],
+                                            'url' => ['controller' => 'Tracking', 'action' => 'delete', $tracking->id],
                                             'class' => 'btn-xs',
                                             'confirm' => __('¿Está seguro de eliminar esta actividad?'),
                                             'label' => null,

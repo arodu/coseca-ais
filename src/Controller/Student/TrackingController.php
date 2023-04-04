@@ -3,16 +3,20 @@ declare(strict_types=1);
 
 namespace App\Controller\Student;
 
-use App\Model\Field\AdscriptionStatus;
+use App\Controller\Traits\Stage\TrackingProcessTrait;
 use Cake\View\CellTrait;
 
 /**
  * StudentTracking Controller
  *
  * @method \App\Model\Entity\StudentTracking[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * 
+ * @property \App\Model\Table\StudentsTable $Students
+ * @property \App\Model\Table\StudentTrackingTable $Tracking
  */
 class TrackingController extends AppStudentController
 {
+    use TrackingProcessTrait;
     use CellTrait;
 
 
@@ -20,7 +24,6 @@ class TrackingController extends AppStudentController
     {
         parent::initialize();
         $this->Students = $this->fetchTable('Students');
-        $this->StudentTracking = $this->fetchTable('StudentTracking');
     }
 
     /**
@@ -33,5 +36,18 @@ class TrackingController extends AppStudentController
         $student_id = $this->getCurrentStudent()->id;
         $trackingView = $this->cell('TrackingView', ['student_id' => $student_id]);
         $this->set(compact('student_id', 'trackingView'));
+    }
+
+    public function add()
+    {
+        $this->request->allowMethod(['post']);
+
+        [
+            'success' => $success,
+            'adscription' => $adscription,
+            'tracking' => $tracking,
+        ] = $this->processAdd($this->request->getData());
+        
+        return $this->redirect(['_name' => 'admin:student:tracking', $adscription->student_id]);
     }
 }
