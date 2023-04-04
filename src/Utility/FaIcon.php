@@ -139,6 +139,7 @@ class FaIcon
         'link' => ['fas', 'external-link-alt'],
         'report' => ['fas', 'file-alt'],
         'tasks' => ['fas', 'tasks'],
+        'user' => ['fas', 'user-circle'],
     ];
 
     /**

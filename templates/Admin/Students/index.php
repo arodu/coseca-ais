@@ -5,6 +5,7 @@
  * @var \App\Model\Entity\Student[]|\Cake\Collection\CollectionInterface $students
  */
 
+use App\Utility\FaIcon;
 use Cake\Core\Configure;
 
 ?>
@@ -12,7 +13,7 @@ use Cake\Core\Configure;
 $this->assign('title', __('Students'));
 $this->Breadcrumbs->add([
     ['title' => __('Inicio'), 'url' => '/'],
-    ['title' => 'List Students'],
+    ['title' => __('Estudiantes')],
 ]);
 ?>
 
@@ -36,14 +37,16 @@ $this->Breadcrumbs->add([
     <!-- /.card-header -->
     <div class="card-body table-responsive p-0">
         <?= $this->Form->create(null, ['url' => ['action' => 'bulkActions']]) ?>
-        <table class="table table-striped table-hover text-nowrap institution-projects">
+        <table class="table table-hover text-nowrap institution-projects">
             <thead>
                 <tr>
                     <th class="narrow"><?= $this->BulkAction->checkbox('all') ?></th>
                     <th class="narrow"><?= $this->Paginator->sort('Tenants.abbr', __('Programa')) ?></th>
-                    <th><?= $this->Paginator->sort('dni', __('Cedula')) ?></th>
-                    <th><?= $this->Paginator->sort('AppUsers.first_name', __('Nombres')) ?></th>
-                    <th><?= $this->Paginator->sort('AppUsers.last_name', __('Apellidos')) ?></th>
+                    <th colspan="3">
+                        <span><?= $this->Paginator->sort('AppUsers.dni', __('Cedula')) ?></span>
+                        <span class="ml-3"><?= $this->Paginator->sort('AppUsers.first_name', __('Nombres'), ['class' => 'ml-2']) ?></span>
+                        <span class="ml-3"><?= $this->Paginator->sort('AppUsers.last_name', __('Apellidos')) ?></span>
+                    </th>
                     <th><?= __('Lapso') ?></th>
                     <th><?= __('Etapa') ?></th>
                     <th style="width:20%;"><?= __('Horas') ?></th>
@@ -58,9 +61,13 @@ $this->Breadcrumbs->add([
                     <tr>
                         <td><?= $this->BulkAction->checkbox('item', $student->id) ?></td>
                         <td><?= h($student->tenant->abbr_label) ?></td>
-                        <td><?= h($student->dni) ?></td>
-                        <td><?= h($student->first_name) ?></td>
-                        <td><?= h($student->last_name) ?></td>
+                        <td colspan=3>
+                            <?= $this->Html->link(
+                                FaIcon::get('user', 'fa-fw mr-1') . ' ' . __('{0}, {1} {2}', h($student->dni), h($student->last_name), h($student->first_name)),
+                                ['_name' => 'admin:student:view', $student->id],
+                                ['escape' => false]
+                            ) ?>
+                        </td>
                         <td><?= h($student->lapse?->name) ?? $this->App->nan() ?></td>
                         <td>
                             <?= h($studentStage->stage_label) ?>
@@ -74,7 +81,18 @@ $this->Breadcrumbs->add([
                             <?= $this->App->progressBar($student->total_hours ?? 0, Configure::read('coseca.hours-min')) ?>
                         </td>
                         <td class="actions">
-                            <?= $this->Html->link(__('View'), ['action' => 'view', $student->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
+                            <div class="dropdown">
+                                <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="<?= 'ddActionStudent' . $student->id ?>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Acciones
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="<?= 'ddActionStudent' . $student->id ?>">
+                                    <?= $this->Html->link(__('Ver'), ['_name' => 'admin:student:view', $student->id], ['class' => 'dropdown-item']) ?>
+                                    <?= $this->Html->link(__('Proyectos'), ['_name' => 'admin:student:adscriptions', $student->id], ['class' => 'dropdown-item']) ?>
+                                    <?= $this->Html->link(__('Actividades'), ['_name' => 'admin:student:tracking', $student->id], ['class' => 'dropdown-item']) ?>
+                                    <div class="dropdown-divider"></div>
+                                    <?= $this->Html->link(__('Planillas'), ['_name' => 'admin:student:prints', $student->id], ['class' => 'dropdown-item']) ?>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 <?php endforeach; ?>

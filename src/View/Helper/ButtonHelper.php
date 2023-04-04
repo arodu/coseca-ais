@@ -7,7 +7,6 @@ namespace App\View\Helper;
 use App\Enum\ActionColor;
 use App\Utility\FaIcon;
 use Cake\View\Helper;
-use Cake\View\View;
 
 /**
  * Button helper
@@ -60,19 +59,19 @@ class ButtonHelper extends Helper
             throw new \InvalidArgumentException('actionColor is required');
         }
 
-        $url = $options['url'];
-        unset($options['url']);
+        $url = $options['url']; unset($options['url']);
+        
+        $actionColor = $options['actionColor']; unset($options['actionColor']);
 
-        $title = $this->setIconPosition($options['label'] ?? null, $options['icon'] ?? null, $options['icon_position'] ?? null);
-        unset($options['label']);
-        unset($options['icon']);
-        unset($options['icon_position']);
+        $label = $options['label'] ?: null; unset($options['label']);
 
-        $actionColor = $options['actionColor'];
-        unset($options['actionColor']);
+        $icon = $options['icon'] ?: null; unset($options['icon']);
 
-        $outline = $options['outline'] ?? false;
-        unset($options['outline']);
+        $icon_position = $options['icon_position'] ?? $this->getConfig('icon_position') ?? self::ICON_POSITION_LEFT; unset($options['icon_position']);
+
+        $outline = (bool) $options['outline'] ?? false; unset($options['outline']);
+
+        $title = $this->createTitle($label, $icon, $icon_position);
 
         $options = array_merge([
             'escape' => false,
@@ -103,7 +102,7 @@ class ButtonHelper extends Helper
         $url = $options['url'];
         unset($options['url']);
 
-        $title = $this->setIconPosition($options['label'] ?? null, $options['icon'] ?? null, $options['icon_position'] ?? null);
+        $title = $this->createTitle($options['label'] ?? null, $options['icon'] ?? null, $options['icon_position'] ?? null);
         unset($options['label']);
         unset($options['icon']);
         unset($options['icon_position']);
@@ -142,7 +141,7 @@ class ButtonHelper extends Helper
             throw new \InvalidArgumentException('label is required');
         }
 
-        $title = $this->setIconPosition($options['label'] ?? null, $options['icon'] ?? null, $options['icon_position'] ?? null);
+        $title = $this->createTitle($options['label'] ?? null, $options['icon'] ?? null, $options['icon_position'] ?? null);
         unset($options['label']);
         unset($options['icon']);
         unset($options['icon_position']);
@@ -429,7 +428,7 @@ class ButtonHelper extends Helper
      * @param FaIcon|false|null $icon
      * @return string|null
      */
-    protected function setIconPosition(?string $label = null, $icon = null, $position = null): ?string
+    protected function createTitle(?string $label = null, $icon = null, $position = null): ?string
     {
         $position = $position ?? $this->getConfig('icon_position');
         if ($position === self::ICON_POSITION_RIGHT) {

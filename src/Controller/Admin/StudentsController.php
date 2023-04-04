@@ -39,7 +39,7 @@ class StudentsController extends AppAdminController
     {
         $this->paginate = [
             'sortableFields' => [
-                'Tenants.abbr', 'dni', 'AppUsers.first_name', 'AppUsers.last_name', 'LastStage.lapse.name', 'LastStage.stage',
+                'Tenants.abbr', 'AppUsers.dni', 'AppUsers.first_name', 'AppUsers.last_name', 'LastStage.lapse.name', 'LastStage.stage',
             ],
         ];
 
