@@ -10,6 +10,7 @@ use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use App\Utility\Stages;
+use Cake\Http\Exception\ForbiddenException;
 use Cake\Log\Log;
 
 /**
@@ -121,10 +122,15 @@ class AdscriptionsController extends AppAdminController
         $this->set(compact('adscription', 'tutors'));
     }
 
-    public function changeStatus($id, $status)
+    public function changeStatus($status, $id)
     {
         $this->request->allowMethod(['post', 'put']);
         $adscription = $this->StudentAdscriptions->get($id);
+
+        if ($status == AdscriptionStatus::VALIDATED->value && !$this->Authorization->can($adscription, 'validate')) {
+            throw new ForbiddenException('No tiene permisos para validar la adscripción');
+        }
+
         $adscription->status = $status;
         if ($this->StudentAdscriptions->save($adscription)) {
             $this->Flash->success(__('The student_adscription has been saved.'));

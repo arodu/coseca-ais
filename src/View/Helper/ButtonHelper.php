@@ -118,7 +118,7 @@ class ButtonHelper extends Helper
             'block' => true,
         ], $options);
 
-        if (!empty($options['class']) && $options['override']) {
+        if (!empty($options['class']) && ($options['override'] ?? false)) {
         } else {
             $options['class'] = $this->prepareClass($options['class'] ?? '', $actionColor, $outline);
         }
@@ -157,7 +157,7 @@ class ButtonHelper extends Helper
             'type' => 'submit',
         ], $options);
 
-        if (!empty($options['class']) && $options['override']) {
+        if (!empty($options['class']) && ($options['override'] ?? false)) {
         } else {
             $options['class'] = $this->prepareClass($options['class'] ?? '', $actionColor, $outline);
         }
@@ -208,6 +208,20 @@ class ButtonHelper extends Helper
             'icon' => false,
             'label' => __('Cancelar'),
             'actionColor' => ActionColor::CANCEL,
+        ], $options);
+
+        return $this->submit($options);
+    }
+
+    public function openModal(array $options = []): string
+    {
+        $options = array_merge([
+            'type' => 'button',
+            'data-toggle' => 'modal',
+            'data-target' => '#modal',
+            'icon' => $this->getDefaultIcon(__FUNCTION__),
+            'label' => __('Cancelar'),
+            'actionColor' => ActionColor::ADD,
         ], $options);
 
         return $this->submit($options);

@@ -143,7 +143,18 @@ class StudentsController extends AppAdminController
     public function tracking($id = null)
     {
         $student_id = $id;
-        $trackingView = $this->cell('TrackingView', compact('student_id'));
+        $trackingView = $this->cell('TrackingView', [
+            'student_id' => $student_id,
+            'urlList' => [
+                'add' => ['_name' => 'admin:stage:tracking:add'],
+                'delete' => ['_name' => 'admin:stage:tracking:delete'],
+                'validate' => [
+                    '_name' => 'admin:stage:adscription:changeStatus',
+                    // @todo poder poner claves en este array, revisar en rutas
+                    AdscriptionStatus::VALIDATED->value
+                ],
+            ]
+        ]);
 
         $this->set(compact('trackingView', 'student_id'));
     }

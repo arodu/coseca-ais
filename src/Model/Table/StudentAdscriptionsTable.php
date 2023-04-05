@@ -108,6 +108,10 @@ class StudentAdscriptionsTable extends Table
             ->integer('tutor_id')
             ->notEmptyString('tutor_id');
 
+        $validator
+            ->scalar('status')
+            ->notEmptyString('status');
+
         return $validator;
     }
 

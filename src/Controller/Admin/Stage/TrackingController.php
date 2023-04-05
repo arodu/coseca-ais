@@ -5,6 +5,7 @@ namespace App\Controller\Admin\Stage;
 
 use App\Controller\Admin\AppAdminController;
 use App\Controller\Traits\Stage\TrackingProcessTrait;
+use Cake\Http\Exception\ForbiddenException;
 
 /**
  * StudentTracking Controller
@@ -32,10 +33,8 @@ class TrackingController extends AppAdminController
         $this->request->allowMethod(['post']);
 
         [
-            'success' => $success,
             'adscription' => $adscription,
-            'tracking' => $tracking,
-        ] = $this->handleAdd($this->request->getData());
+        ] = $this->processAdd($this->request->getData());
         
         return $this->redirect(['_name' => 'admin:student:tracking', $adscription->student_id]);
     }
@@ -47,25 +46,13 @@ class TrackingController extends AppAdminController
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    public function delete($tracking_id)
     {
         $this->request->allowMethod(['post', 'delete']);
 
-        $studentTracking = $this->StudentTracking->get($id, [
-            'contain' => ['StudentAdscriptions'],
-        ]);
-        $adscription = $studentTracking->student_adscription;
-
-        if (!$this->Authorization->can($adscription, 'deleteTracking')) {
-            $this->Flash->error(__('You are not authorized to delete this student tracking.'));
-            return $this->redirect(['_name' => 'admin:student:tracking', $adscription->student_id]);
-        }
-
-        if ($this->StudentTracking->delete($studentTracking)) {
-            $this->Flash->success(__('The student tracking has been deleted.'));
-        } else {
-            $this->Flash->error(__('The student tracking could not be deleted. Please, try again.'));
-        }
+        [
+            'adscription' => $adscription,
+        ] = $this->processDelete((int) $tracking_id);
 
         return $this->redirect(['_name' => 'admin:student:tracking', $adscription->student_id]);
     }

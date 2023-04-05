@@ -36,7 +36,32 @@ trait TrackingProcessTrait
         ];
     }
 
-    protected function processDelete(int $id)
+    protected function processDelete(int $tracking_id)
     {
+
+        $tackingTable = $this->fetchTable('StudentTracking');
+
+        $tracking = $tackingTable->get($tracking_id, [
+            'contain' => ['Adscriptions'],
+        ]);
+        $adscription = $tracking->adscription;
+        $success = false;
+
+        if (!$this->Authorization->can($adscription, 'deleteTracking')) {
+            throw new ForbiddenException(__('You are not authorized to delete this student tracking'));
+        }
+
+        if ($tackingTable->delete($tracking)) {
+            $success = true;
+            $this->Flash->success(__('The student tracking has been deleted.'));
+        } else {
+            $this->Flash->error(__('The student tracking could not be deleted. Please, try again.'));
+        }
+
+        return [
+            'success' => $success,
+            'adscription' => $adscription,
+            'tracking' => $tracking,
+        ];
     }
 }

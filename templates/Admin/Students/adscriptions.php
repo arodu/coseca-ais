@@ -44,7 +44,7 @@ $this->Breadcrumbs->add([
                         if ($studentAdscription->status_obj->is(AdscriptionStatus::PENDING)) {
                             echo $this->ModalForm->link(
                                 __('Activar Proyecto'),
-                                ['controller' => 'Adscriptions', 'action' => 'changeStatus', $studentAdscription->id, AdscriptionStatus::OPEN->value, 'prefix' => 'Admin/Stage'],
+                                ['controller' => 'Adscriptions', 'action' => 'changeStatus', AdscriptionStatus::OPEN->value, $studentAdscription->id, 'prefix' => 'Admin/Stage'],
                                 [
                                     'confirm' => __('Esta seguro que desea activar este proyecto?'),
                                     'class' => ActionColor::ACTIVATE->btn('btn-sm'),
@@ -55,7 +55,7 @@ $this->Breadcrumbs->add([
                         } elseif ($studentAdscription->status_obj->is(AdscriptionStatus::OPEN)) {
                             echo $this->ModalForm->link(
                                 __('Cerrar Proyecto'),
-                                ['controller' => 'Adscriptions', 'action' => 'changeStatus', $studentAdscription->id, AdscriptionStatus::CLOSED->value, 'prefix' => 'Admin/Stage'],
+                                ['controller' => 'Adscriptions', 'action' => 'changeStatus', AdscriptionStatus::CLOSED->value, $studentAdscription->id, 'prefix' => 'Admin/Stage'],
                                 [
                                     'confirm' => __('Esta seguro que desea cerrar este proyecto?'),
                                     'class' => ActionColor::DEACTIVATE->btn('btn-sm'),

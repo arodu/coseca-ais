@@ -1,8 +1,13 @@
 <?php
 
+/**
+ * @var \App\View\AppView $this
+ */
+
 use App\Enum\ActionColor;
 use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\StageField;
+use App\Utility\FaIcon;
 
 $user = $this->request->getAttribute('identity');
 $trackingDates = $student->lapse->getDates(StageField::TRACKING);
@@ -21,6 +26,7 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
     <?php
     $canAddTracking = $user->can('addTracking', $adscription);
     $canDeleteTracking = $user->can('deleteTracking', $adscription);
+    $canValidateAdscription = $user->can('validate', $adscription);
     $count = 0;
     $sumHours = 0;
     ?>
@@ -31,22 +37,24 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
                 <?= $this->App->badge($adscription->status_obj) ?>
             </h3>
             <div class="card-tools">
+                <?php
+                if ($canValidateAdscription && !empty($urlList['validate'])) :
+                    echo $this->Button->openModal([
+                        'label' => __('Validar horas del proyecto'),
+                        'data-target' => '#validateAdscription' . $adscription->id,
+                        'class' => 'btn-sm',
+                        'actionColor' => ActionColor::VALIDATE,
+                        'icon' => FaIcon::get('validate', 'fa-fw'),
+                    ]);
+                endif;
+                ?>
                 <?php if ($canAddTracking) : ?>
-                    <button type="button" class="<?= ActionColor::ADD->btn('btn-sm') ?>" data-toggle="modal" data-target="<?= '#addTracking' . $adscription->id ?>">
-                        <?= __('Agregar Actividad') ?>
-                    </button>
-                <?php endif ?>
-                <?php if ($adscription->statusObj->is(AdscriptionStatus::CLOSED)) : ?>
-                    <?php /* echo $this->ModalForm->link(
-                        __('Validar horas del proyecto'),
-                        ['controller' => 'Adscriptions', 'action' => 'validate', $adscription->id],
-                        [
-                            'class' => ActionColor::VALIDATE->btn('btn-sm'),
-                            'confirm' => __('¿Está seguro de validar este proyecto?'),
-                            'target' => 'validateTracking' . $adscription->id,
-                        ]
-                    ); */
-                    ?>
+                    <?= $this->Button->openModal([
+                        'label' => __('Agregar Actividad'),
+                        'data-target' => '#addTracking' . $adscription->id,
+                        'class' => 'btn-sm',
+                        'icon' => FaIcon::get('tasks', 'fa-fw'),
+                    ]) ?>
                 <?php endif ?>
             </div>
         </div>
@@ -81,8 +89,9 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
                                 <td><?= h($tracking->hours) ?></td>
                                 <td class="actions">
                                     <?php if ($canDeleteTracking) : ?>
+                                        <?php $urlDelete = array_merge($urlList['delete'] ?? ['action' => 'delete'], [$tracking->id]) ?>
                                         <?= $this->Button->remove([
-                                            'url' => ['controller' => 'Tracking', 'action' => 'delete', $tracking->id],
+                                            'url' => $urlDelete,
                                             'class' => 'btn-xs',
                                             'confirm' => __('¿Está seguro de eliminar esta actividad?'),
                                             'label' => null,
@@ -96,7 +105,7 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
                 <tfoot>
                     <tr>
                         <td colspan="3" class="text-right">
-                            <strong><?= __('Total') ?></strong>
+                            <strong><?= __('Total horas') ?></strong>
                         </td>
                         <td>
                             <strong><?= $sumHours ?></strong>
@@ -109,20 +118,29 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
     </div>
 
     <?php if ($canAddTracking) : ?>
-        <div class="modal fade" id="<?= 'addTracking' . $adscription->id ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="<?= 'addTracking' . $adscription->id ?>" tabindex="-1" role="dialog" aria-labelledby="addTrackingModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">
-                            <?= h($adscription->institution_project->label_name) ?>
+                        <h5 class="modal-title" id="addTrackingModalLabel">
+                            <?= __('Agregar Actividad') ?>
                         </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <?= $this->Form->create(null, ['url' => ['action' => 'add', $adscription->id]]) ?>
+                    <?php $urlAdd = $urlList['add'] ?? ['action' => 'add'] ?>
+                    <?= $this->Form->create(null, ['url' => $urlAdd]) ?>
                     <?= $this->Form->hidden('student_adscription_id', ['value' => $adscription->id]) ?>
                     <div class="modal-body">
+                        <div class="row">
+                            <div class="col">
+                                <?= $this->App->control('project', [
+                                    'label' => __('Proyecto'),
+                                    'value' => h($adscription->institution_project->label_name),
+                                ]) ?>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-sm-8">
                                 <?= $this->Form->control('date', [
@@ -162,6 +180,43 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
             </div>
         </div>
     <?php endif ?>
-<?php endforeach ?>
 
-<?= $this->fetch('postLink') ?>
+    <?php if ($canValidateAdscription && !empty($urlList['validate'])) : ?>
+        <div class="modal fade" id="<?= 'validateAdscription' . $adscription->id ?>" tabindex="-1" role="dialog" aria-labelledby="addTrackingModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addTrackingModalLabel">
+                            <?= __('Validar horas del proyecto') ?>
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <?php $urlValidate = array_merge($urlList['validate'] ?? ['action' => 'validate'], [$adscription->id]) ?>
+                    <?= $this->Form->create(null, ['url' => $urlValidate]) ?>
+                    <div class="modal-body">
+                        <?= $this->Form->hidden('redirect', ['value' => $this->Url->build()]) ?>
+                        <?= $this->App->control('validate_token', [
+                            'label' => __('Código de validación'),
+                            'value' => 'wqdwqdwqd',
+                        ]) ?>
+                        <?= $this->Form->control('confirm', [
+                            'type' => 'checkbox',
+                            'label' => __('Confirmo que las actividades registradas son correctas'),
+                            'required' => true,
+                        ])  ?>
+                    </div>
+                    <div class="modal-footer">
+                        <?= $this->Button->validate([
+                            'label' => __('Validar'),
+                            'confirm' => false,
+                        ]) ?>
+                        <?= $this->Button->closeModal() ?>
+                    </div>
+                    <?= $this->Form->end() ?>
+                </div>
+            </div>
+        </div>
+    <?php endif ?>
+<?php endforeach ?>

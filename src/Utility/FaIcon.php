@@ -137,6 +137,7 @@ class FaIcon
         'save' => ['fas', 'save'],
         'back' => ['fas', 'arrow-left'],
         'link' => ['fas', 'external-link-alt'],
+        'openModal' => ['fas', 'external-link-alt'],
         'report' => ['fas', 'file-alt'],
         'tasks' => ['fas', 'tasks'],
         'user' => ['fas', 'user-circle'],

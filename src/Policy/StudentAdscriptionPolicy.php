@@ -55,7 +55,16 @@ class StudentAdscriptionPolicy
             return true;
         }
 
-        return true;
+        return false;
+    }
+
+    public function canChangeStatus(IdentityInterface $user, StudentAdscription $adscription)
+    {
+        //if ($this->adscriptionIsClosed($adscription)) {
+        //    return $this->canValidate($user, $adscription);
+        //}
+
+        return false;
     }
 
     protected function adscriptionIsOpen(StudentAdscription $adscription): bool

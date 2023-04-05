@@ -37,7 +37,7 @@ class TrackingViewCell extends Cell
      *
      * @return void
      */
-    public function display($student_id)
+    public function display($student_id, array $urlList = [])
     {
         $student = $this->Students
             ->find('withLapses')
@@ -51,7 +51,7 @@ class TrackingViewCell extends Cell
                 'StudentAdscriptions.student_id' => $student_id,
                 'StudentAdscriptions.status IN' => AdscriptionStatus::getTrackablesValues(),
             ]);
-        $this->set(compact('student', 'adscriptions'));
+        $this->set(compact('student', 'adscriptions', 'urlList'));
     }
 
     public function info($student_id)
