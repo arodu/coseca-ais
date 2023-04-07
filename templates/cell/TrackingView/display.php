@@ -122,7 +122,7 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addTrackingModalLabel">
+                        <h5 class="modal-title">
                             <?= __('Agregar Actividad') ?>
                         </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -186,7 +186,7 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addTrackingModalLabel">
+                        <h5 class="modal-title">
                             <?= __('Validar horas del proyecto') ?>
                         </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -219,4 +219,5 @@ $trackingDates = $student->lapse->getDates(StageField::TRACKING);
             </div>
         </div>
     <?php endif ?>
+
 <?php endforeach ?>

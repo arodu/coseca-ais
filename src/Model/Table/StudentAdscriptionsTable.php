@@ -225,4 +225,23 @@ class StudentAdscriptionsTable extends Table
                 ],
             ]);
     }
+
+    public function createValidationToken($adscription_id)
+    {
+        // @todo still in working
+        $adscription = $this->find()
+            ->where([$this->aliasField('id') => $adscription_id])
+            ->select(['student_id', 'institution_project_id', 'tutor_id'])
+            ->contain('Students', function (Query $query) {
+                return $query->select(['dni']);
+            })
+            ->contain('StudentTracking', function (Query $query) {
+                return $query->select(['date', 'description', 'hours']);
+            })
+            ->toArray();
+
+        $token = md5(serialize($adscription));
+
+        return $token;
+    }
 }
