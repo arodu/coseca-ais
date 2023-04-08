@@ -20,6 +20,7 @@ class DashboardControllerTest extends StudentTestCase
 {
     public function testStudentTypeRegular(): void
     {
+        $this->setSession();
         $student = $this->createRegularStudent();
 
         $this->get('/student');
@@ -46,6 +47,7 @@ class DashboardControllerTest extends StudentTestCase
 
     public function testRegisterCardStatusInProgress(): void
     {
+        $this->setSession();
         $student = $this->createRegularStudent();
         $lapse_id = $this->lapse_id;
 
@@ -95,6 +97,7 @@ class DashboardControllerTest extends StudentTestCase
 
     public function testRegisterCardStatusReview(): void
     {
+        $this->setSession();
         $student = $this->createRegularStudent();
         $this->addRecord('StudentStages', [
             'student_id' => $student->id,
@@ -110,6 +113,7 @@ class DashboardControllerTest extends StudentTestCase
 
     public function testRegisterCardStatusSuccess(): void
     {
+        $this->setSession();
         $student = $this->createRegularStudent();
         $this->addRecord('StudentStages', [
             'student_id' => $student->id,
@@ -129,6 +133,7 @@ class DashboardControllerTest extends StudentTestCase
 
     public function testRegisterCardOtherStatuses(): void
     {
+        $this->setSession();
         $student = $this->createRegularStudent();
 
         $stageRegistry = $this->addRecord('StudentStages', [
@@ -157,6 +162,7 @@ class DashboardControllerTest extends StudentTestCase
 
     public function testCourseCardStatusWaiting(): void
     {
+        $this->setSession();
         $lapse_id = $this->lapse_id;
         $student = $this->createRegularStudent();
         $this->addRecord('StudentStages', [
@@ -203,6 +209,7 @@ class DashboardControllerTest extends StudentTestCase
 
     public function testCourseCardStatusSuccess(): void
     {
+        $this->setSession();
         $student = $this->createRegularStudent();
         $this->addRecord('StudentStages', [
             'student_id' => $student->id,
@@ -230,6 +237,7 @@ class DashboardControllerTest extends StudentTestCase
 
     public function testCourseCardOtherStatuses(): void
     {
+        $this->setSession();
         $student = $this->createRegularStudent();
         $stage = $this->addRecord('StudentStages', [
             'student_id' => $student->id,
@@ -263,6 +271,7 @@ class DashboardControllerTest extends StudentTestCase
 
     public function testAdscriptionCardStatusWaiting(): void
     {
+        $this->setSession();
         $student = $this->createRegularStudent();
         $this->addRecord('StudentStages', [
             'student_id' => $student->id,
@@ -279,6 +288,7 @@ class DashboardControllerTest extends StudentTestCase
 
     public function testAdscriptionCardStatusInProgress(): void
     {
+        $this->setSession();
         $student = $this->createRegularStudent();
         $this->addRecord('StudentStages', [
             'student_id' => $student->id,
@@ -346,6 +356,7 @@ class DashboardControllerTest extends StudentTestCase
 
     public function testTrackingCardStatusInProgress(): void
     {
+        $this->setSession();
         $student = $this->createRegularStudent();
         $this->addRecord('StudentStages', [
             'student_id' => $student->id,

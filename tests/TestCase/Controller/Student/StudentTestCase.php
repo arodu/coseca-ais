@@ -50,9 +50,6 @@ abstract class StudentTestCase extends TestCase
         ])
             ->with('InstitutionProjects', [], 5)
             ->persist();
-
-
-        $this->session(['Auth' => $this->user]);
     }
 
     protected function tearDown(): void
@@ -65,6 +62,12 @@ abstract class StudentTestCase extends TestCase
         unset($this->institution);
 
         parent::tearDown();
+    }
+
+    protected function setSession($user = null)
+    {
+        $user = $user ?? $this->user;
+        $this->session(['Auth' => $user]);
     }
 
     protected function createRegularStudent(array $options = []): Student

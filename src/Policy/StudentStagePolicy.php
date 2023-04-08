@@ -7,7 +7,6 @@ namespace App\Policy;
 use App\Model\Entity\StudentStage;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
-use App\Model\Field\UserRole;
 use Authentication\IdentityInterface;
 
 class StudentStagePolicy
@@ -24,7 +23,7 @@ class StudentStagePolicy
             return true;
         }
 
-        if ($this->studentIsOwner($user, $studentStage->student_id) && $this->stageStatusIsInProgress($studentStage)) {
+        if ($this->studentIsOwner($user, $studentStage->student_id) && $this->studentStageStatusIsInProgress($studentStage)) {
             return true;
         }
 
@@ -80,7 +79,7 @@ class StudentStagePolicy
         return $studentStage->stage_obj->is(StageField::COURSE);
     }
 
-    protected function stageStatusIsInProgress(StudentStage $studentStage): bool
+    protected function studentStageStatusIsInProgress(StudentStage $studentStage): bool
     {
         return $studentStage->status_obj->is(StageStatus::IN_PROGRESS);
     }
