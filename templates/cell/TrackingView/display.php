@@ -10,12 +10,12 @@ use App\Model\Field\StageField;
 use App\Utility\FaIcon;
 
 $user = $this->request->getAttribute('identity');
-$trackingDates = $student->lapse->getDates(StageField::TRACKING);
+$trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
 
 ?>
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title"><?= __('Seguimiento: {0}', $student->lapse->name) ?></h3>
+        <h3 class="card-title"><?= __('Seguimiento: {0}', $student->lapse->name ?? $this->App->nan()) ?></h3>
     </div>
     <div class="card-body">
         <?= $this->cell('TrackingView::info', ['student_id' => $student->id]) ?>

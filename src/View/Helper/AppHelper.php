@@ -9,7 +9,6 @@ use App\Enum\Color;
 use App\Model\Entity\Lapse;
 use App\Utility\FaIcon;
 use Cake\Utility\Inflector;
-use Cake\Utility\Text;
 use Cake\View\Helper;
 
 /**
