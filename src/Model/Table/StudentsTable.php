@@ -329,6 +329,8 @@ class StudentsTable extends Table
                 'stage' => StageField::default()->value,
             ]);
         }
+
+        Cache::delete('student_info_' . $entity->id);
     }
 
     /**
