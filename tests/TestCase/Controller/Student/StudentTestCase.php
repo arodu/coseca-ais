@@ -67,7 +67,12 @@ abstract class StudentTestCase extends TestCase
     protected function setAuthSession($student = null, $user = null)
     {
         $user = $user ?? $this->user;
-        $user->current_student = $student ?? null;
+
+        if (!empty($student)) {
+            $student = $this->loadInto($student, ['Tenants']);
+            $user->current_student = $student ?? null;
+        }
+
         $this->session(['Auth' => $user]);
     }
 

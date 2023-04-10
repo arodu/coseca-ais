@@ -26,6 +26,9 @@ trait RegisterProcessTrait
             ])
             ->first();
 
+
+            debug(__METHOD__);
+
         if (empty($registerStage) || !$this->Authorization->can($registerStage, 'registerEdit')) {
             throw new ForbiddenException(__('No puede realizar cambios en el registro'));
         }
@@ -65,13 +68,14 @@ trait RegisterProcessTrait
                 }
 
                 $this->Students->getConnection()->commit();
-                $success = true;                
+                $success = true;
 
                 $this->Flash->success(__('The student has been saved.'));
                 if (($nextStage ?? false)) {
                     $this->Flash->success(__('The {0} stage has been created.', $nextStage->stage));
                 }
             } catch (\Exception $e) {
+                $success = false;
                 Log::error($e->getMessage());
                 $this->Students->getConnection()->rollback();
                 $this->Flash->error(__('The student could not be saved. Please, try again.'));
