@@ -12,24 +12,68 @@ use Authentication\IdentityInterface;
 
 class StudentAdscriptionPolicy
 {
+    use BasicChecksTrait;
+
     /**
      * @param IdentityInterface $user
      * @param StudentAdscription $adscription
      * @return Result
      */
-    public function canManageTracking(IdentityInterface $user, StudentAdscription $adscription)
+    public function canAddTracking(IdentityInterface $user, StudentAdscription $adscription)
     {
-        if (
-            in_array($user->role, UserRole::getStudentGroup())
-            && $adscription->student_id != $user->current_student->id
-        ) {
-            return new Result(false, 'student-not-owner');
+        $adscriptionIsOpen = $adscription->statusObj->is([AdscriptionStatus::OPEN]);
+
+        if ($adscriptionIsOpen && $this->studentIsOwner($user, $adscription->student_id)) {
+            return true;
         }
 
-        if (!$adscription->statusObj->is([AdscriptionStatus::OPEN])) {
-            return new Result(false, 'adscription-not-open');
+        if ($adscriptionIsOpen && $this->userIsAdmin($user)) {
+            return true;
         }
 
-        return new Result(true);
+        return false;
+    }
+
+    public function canDeleteTracking(IdentityInterface $user, StudentAdscription $adscription)
+    {
+        if ($this->adscriptionIsOpen($adscription)) {
+            if ($this->studentIsOwner($user, $adscription->student_id)) {
+                return true;
+            }
+
+            if ($this->userIsAdmin($user)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function canValidate(IdentityInterface $user, StudentAdscription $adscription)
+    {
+        if ($this->adscriptionIsClosed($adscription) && $this->userIsAdmin($user)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canChangeStatus(IdentityInterface $user, StudentAdscription $adscription)
+    {
+        //if ($this->adscriptionIsClosed($adscription)) {
+        //    return $this->canValidate($user, $adscription);
+        //}
+
+        return false;
+    }
+
+    protected function adscriptionIsOpen(StudentAdscription $adscription): bool
+    {
+        return $adscription->statusObj->is([AdscriptionStatus::OPEN]);
+    }
+
+    protected function adscriptionIsClosed(StudentAdscription $adscription): bool
+    {
+        return $adscription->statusObj->is([AdscriptionStatus::CLOSED]);
     }
 }

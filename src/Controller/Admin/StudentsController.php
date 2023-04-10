@@ -11,6 +11,7 @@ use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use Cake\Event\EventInterface;
 use Cake\ORM\Query;
+use Cake\View\CellTrait;
 
 /**
  * Students Controller
@@ -22,6 +23,7 @@ class StudentsController extends AppAdminController
 {
     use BulkActionsTrait;
     use ExportDataTrait;
+    use CellTrait;
 
     public function beforeRender(EventInterface $event)
     {
@@ -37,7 +39,7 @@ class StudentsController extends AppAdminController
     {
         $this->paginate = [
             'sortableFields' => [
-                'Tenants.abbr', 'dni', 'AppUsers.first_name', 'AppUsers.last_name', 'LastStage.lapse.name', 'LastStage.stage',
+                'Tenants.abbr', 'AppUsers.dni', 'AppUsers.first_name', 'AppUsers.last_name', 'LastStage.lapse.name', 'LastStage.stage',
             ],
         ];
 
@@ -45,28 +47,24 @@ class StudentsController extends AppAdminController
             ->find()
             ->contain(['AppUsers', 'Tenants', 'LastStage', 'Lapses']);
 
-        // filterLogic
-        $formData = $this->getRequest()->getQuery();
+        $filterKey = 'f';
 
-        if (!empty($formData)) {
-            $query = $this->Students->queryFilter($query, $formData);
-        }
+        $formData = $this->getRequest()->getQuery() ?? $this->getRequest()->getData() ?? [];
+        $query = $this->Students->queryFilter($query, $formData[$filterKey] ?? []);
 
         if (isset($formData['export']) && $formData['export'] == 'csv') {
             return $this->queryToCsv($query);
         }
 
-        $filtered = $this->Students->queryWasFiltered();
-        $tenants = $this->Students->Tenants->find('list');
-        $lapses = $this->Students->Lapses->find('list', [
-            'keyField' => 'name',
-            'valueField' => 'name',
-        ]);
-        // /filterLogic
-
         $students = $this->paginate($query);
+        $isFiltered = $this->Students->queryWasFiltered();
 
-        $this->set(compact('students', 'filtered', 'tenants', 'lapses'));
+        $formFilters = $this->cell('Filters::admin_students', [
+            'isFiltered' => $isFiltered,
+            'filterKey' => $filterKey,
+        ]);
+
+        $this->set(compact('students', 'formFilters'));
     }
 
     protected function queryToCsv(Query $query)
@@ -90,7 +88,7 @@ class StudentsController extends AppAdminController
             'last_stage.status_label' => __('Estatus'),
             'student_data.interest_area.name' => __('Area de Interes'),
         ], [
-            'filename' => 'estudiantes.csv',
+            'filename' => $this->filenameWithDate('estudiantes'),
         ]);
     }
 
@@ -112,9 +110,7 @@ class StudentsController extends AppAdminController
 
         $stageList = $this->Students->StudentStages->find('stageList', ['student' => $student]);
 
-        $trackingInfo = $this->Students->getStudentTrackingInfo($student->id);
-
-        $this->set(compact('student', 'stageList', 'trackingInfo'));
+        $this->set(compact('student', 'stageList'));
     }
 
     public function info($id = null)
@@ -146,22 +142,21 @@ class StudentsController extends AppAdminController
 
     public function tracking($id = null)
     {
-        $student = $this->Students
-            ->find('withLapses')
-            ->where(['Students.id' => $id])
-            ->first();
+        $student_id = $id;
+        $trackingView = $this->cell('TrackingView', [
+            'student_id' => $student_id,
+            'urlList' => [
+                'add' => ['_name' => 'admin:stage:tracking:add'],
+                'delete' => ['_name' => 'admin:stage:tracking:delete'],
+                'validate' => [
+                    '_name' => 'admin:stage:adscription:changeStatus',
+                    // @todo poder poner claves en este array, revisar en rutas
+                    AdscriptionStatus::VALIDATED->value
+                ],
+            ]
+        ]);
 
-        $adscriptions = $this->Students->StudentAdscriptions
-            ->find('withInstitution')
-            ->find('withTracking')
-            ->where([
-                'StudentAdscriptions.student_id' => $id,
-                'StudentAdscriptions.status IN' => AdscriptionStatus::getTrackablesValues(),
-            ]);
-
-        $trackingInfo = $this->Students->getStudentTrackingInfo($student->id);
-
-        $this->set(compact('student', 'adscriptions', 'trackingInfo'));
+        $this->set(compact('trackingView', 'student_id'));
     }
 
     public function prints($id = null)

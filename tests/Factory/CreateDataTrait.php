@@ -80,7 +80,11 @@ trait CreateDataTrait
 
     protected function loadInto($entities, array $contain)
     {
-        $table = $this->fetchTable($entities[0]->getSource());
+        if (is_array($entities)) {
+            $table = $this->fetchTable($entities[0]->getSource());
+        } else {
+            $table = $this->fetchTable($entities->getSource());
+        }
 
         return $table->loadInto($entities, $contain);
     }

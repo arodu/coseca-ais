@@ -30,7 +30,7 @@ $this->Breadcrumbs->add([
                     </div>
                 </div>
             <?php else : ?>
-                <?= $this->element('admin/general/' . $stage['stageField']->value, [
+                <?= $this->element('general/' . $stage['stageField']->value, [
                     'studentStage' => $stage['studentStage'],
                     'student' => $student,
                 ]);

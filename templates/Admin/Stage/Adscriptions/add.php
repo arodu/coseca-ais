@@ -1,10 +1,9 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\StudentAdscription $student_adscription
  */
-
-use App\Enum\ActionColor;
 
 $this->student_id = $student->id;
 $this->active = null;
@@ -14,11 +13,10 @@ $this->assign('title', __('Estudiante'));
 $this->Breadcrumbs->add([
     ['title' => __('Inicio'), 'url' => '/'],
     ['title' => __('Estudiantes'), 'url' => ['controller' => 'Students', 'action' => 'index']],
-    ['title' => __('Ver'), 'url' => ['_name' => 'admin:student_view', $student->id]],
+    ['title' => __('Ver'), 'url' => ['_name' => 'admin:student:view', $student->id]],
     ['title' => __('Agregar Proyecto')],
 ]);
 ?>
-
 
 <?= $this->Form->create($student_adscription) ?>
 <div class="card-header">
@@ -31,14 +29,10 @@ $this->Breadcrumbs->add([
     echo $this->Form->control('tutor_id', ['options' => $tutors, 'empty' => true]);
     ?>
 </div>
-
 <div class="card-footer d-flex">
-    <div>
-        <?= $this->AppForm->buttonSave() ?>
-    </div>
     <div class="ml-auto">
-        <?= $this->Html->link(__('Cancelar'), $back ?? ['_name' => 'admin:student_view', $student->id], ['class' => ActionColor::CANCEL->btn()]) ?>
+        <?= $this->Button->save() ?>
+        <?= $this->Button->cancel(['url' => $back ?? ['_name' => 'admin:student:view', $student->id]]) ?>
     </div>
 </div>
-
 <?= $this->Form->end() ?>

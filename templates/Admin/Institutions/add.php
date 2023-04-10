@@ -38,10 +38,11 @@ $this->Breadcrumbs->add([
         ]) ?>
     </div>
     <div class="card-footer d-flex">
+        <div>
+            <?= $this->AppForm->buttonSave() ?>
+        </div>
         <div class="ml-auto">
-            <?= $this->Form->button(__('Guardar')) ?>
-            <?= $this->Html->link(__('Cancelar'), ['action' => 'index', 'prefix' => 'Admin'], ['class' => 'btn btn-default']) ?>
-
+            <?= $this->AppForm->buttonCancel(['url' => ['action' => 'index', 'prefix' => 'Admin']]) ?>
         </div>
     </div>
     <?= $this->Form->end() ?>

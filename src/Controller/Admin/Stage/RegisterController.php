@@ -6,9 +6,7 @@ namespace App\Controller\Admin\Stage;
 
 use App\Controller\Admin\AppAdminController;
 use App\Controller\Traits\ActionValidateTrait;
-use App\Model\Field\StageField;
-use App\Model\Field\StageStatus;
-use App\Utility\Stages;
+use App\Controller\Traits\Stage\RegisterProcessTrait;
 
 /**
  * Register Controller
@@ -18,6 +16,7 @@ use App\Utility\Stages;
 class RegisterController extends AppAdminController
 {
     use ActionValidateTrait;
+    use RegisterProcessTrait;
 
     public function initialize(): void
     {
@@ -34,31 +33,15 @@ class RegisterController extends AppAdminController
      */
     public function edit($student_id = null)
     {
-        $student = $this->Students->get($student_id, [
-            'contain' => ['AppUsers', 'Tenants', 'StudentData'],
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $student = $this->Students->patchEntity($student, $this->request->getData());
+        [
+            'success' => $success,
+            'student' => $student
+        ] = $this->processEdit((int) $student_id, ['validate' => $this->actionValidate()]);
 
-            if ($this->Students->save($student)) {
-                $this->Flash->success(__('The register stage has been saved.'));
-
-                if (
-                    $this->actionValidate()
-                    && $nextStage = Stages::closeStudentStage($student->id, StageField::REGISTER, StageStatus::SUCCESS)
-                ) {
-                    $this->Flash->success(__('The {0} stage has been created.', $nextStage->stage));
-                }
-
-                return $this->redirect(['_name' => 'admin:student_view', $student->id]);
-            }
-            $this->Flash->error(__('The register stage could not be saved. Please, try again.'));
+        if ($success) {
+            return $this->redirect(['_name' => 'admin:student:view', $student_id]);
         }
 
-        $interestAreas = $this->Students->StudentData->InterestAreas->find('list', ['limit' => 200])
-            ->where(['InterestAreas.program_id' => $student->tenant->program_id])
-            ->all();
-
-        $this->set(compact('student', 'interestAreas'));
+        $this->set(compact('student'));
     }
 }

@@ -8,7 +8,7 @@ use App\Enum\BadgeInterface;
 use App\Enum\Color;
 use App\Model\Entity\Lapse;
 use App\Utility\FaIcon;
-use Cake\Utility\Text;
+use Cake\Utility\Inflector;
 use Cake\View\Helper;
 
 /**
@@ -23,7 +23,7 @@ class AppHelper extends Helper
      */
     protected $_defaultConfig = [];
 
-    public $helpers = ['Html'];
+    public $helpers = ['Html', 'Form'];
 
     public function nan(array $options = []): string
     {
@@ -135,4 +135,20 @@ class AppHelper extends Helper
         return __('Comuniquese con la coordinación de servicio comunitario para mas información');
     }
 
+    public function control(string $fieldName, array $options = []): string
+    {
+        $options = array_merge([
+            'templates' => [
+                'input' => '<div {{attrs}}/>{{text}}</div>',
+            ],
+            'templateVars' => ['text' => $options['value'] ?? $options['text'] ?? '&nbsp;'],
+            'style' => 'height: inherit;',
+            'value' => Inflector::humanize($fieldName),
+        ], $options);
+
+        unset($options['value']);
+        unset($options['text']);
+
+        return $this->Form->control($fieldName, $options);
+    }
 }

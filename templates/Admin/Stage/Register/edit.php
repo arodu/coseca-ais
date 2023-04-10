@@ -4,11 +4,7 @@
  * @var \App\View\AppView $this
  */
 
-use App\Enum\ActionColor;
-use App\Enum\Gender;
 use App\Model\Field\StageField;
-use App\Model\Field\StageStatus;
-use App\Utility\Students;
 
 $this->student_id = $student->id;
 $this->active = null;
@@ -30,16 +26,14 @@ $this->Breadcrumbs->add([
     <div class="card-title"><?= $stageField->label() ?></div>
 </div>
 <div class="card-body">
-    <?= $this->element('form/register', ['student' => $student]) ?>
+    <?= $this->cell('Forms::register', ['student' => $student]) ?>
 </div>
 
 <div class="card-footer d-flex">
-    <div>
-        <?= $this->AppForm->buttonSave() ?>
-        <?= $this->AppForm->buttonValidate(['confirm' => __('Seguro que desea validar este registro?')]) ?>
-    </div>
     <div class="ml-auto">
-        <?= $this->Html->link(__('Cancelar'), ['controller' => 'Students', 'action' => 'view', $student->id, 'prefix' => 'Admin'], ['class' => ActionColor::CANCEL->btn()]) ?>
+        <?= $this->Button->save() ?>
+        <?= $this->Button->validate() ?>
+        <?= $this->Button->cancel(['url' => ['_name' => 'admin:student:view', $student->id]]) ?>
     </div>
 </div>
 <?= $this->Form->end() ?>

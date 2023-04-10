@@ -71,8 +71,9 @@ class DependentSelectorHelper extends Helper
                     return;
                 }
 
+                loadSelect(target, []);
+
                 if (value === '') {
-                    loadSelect(target, []);
                     return;
                 }
         

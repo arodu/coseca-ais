@@ -14,7 +14,7 @@ use Cake\Validation\Validator;
 /**
  * StudentTracking Model
  *
- * @property \App\Model\Table\StudentAdscriptionsTable&\Cake\ORM\Association\BelongsTo $StudentAdscriptions
+ * @property \App\Model\Table\StudentAdscriptionsTable&\Cake\ORM\Association\BelongsTo $Adscriptions
  *
  * @method \App\Model\Entity\StudentTracking newEmptyEntity()
  * @method \App\Model\Entity\StudentTracking newEntity(array $data, array $options = [])
@@ -50,7 +50,8 @@ class StudentTrackingTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('StudentAdscriptions', [
+        $this->belongsTo('Adscriptions', [
+            'className' => 'StudentAdscriptions',
             'foreignKey' => 'student_adscription_id',
             'joinType' => 'INNER',
         ]);
@@ -96,7 +97,7 @@ class StudentTrackingTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn('student_adscription_id', 'StudentAdscriptions'), ['errorField' => 'student_adscription_id']);
+        $rules->add($rules->existsIn('student_adscription_id', 'Adscriptions'), ['errorField' => 'student_adscription_id']);
 
         return $rules;
     }
@@ -113,11 +114,11 @@ class StudentTrackingTable extends Table
 
     protected function updateStudentTotalHours(EntityInterface $entity)
     {
-        $student = $this->StudentAdscriptions->get($entity->student_adscription_id, [
+        $student = $this->Adscriptions->get($entity->student_adscription_id, [
             'contain' => ['Students'],
         ])->student;
 
-        $this->StudentAdscriptions->Students->updateTotalHours($student);
+        $this->Adscriptions->Students->updateTotalHours($student);
 
         Cache::delete('student_tracking_info_' . $student->id);
     }

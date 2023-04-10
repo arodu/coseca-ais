@@ -11,12 +11,12 @@ $menu['home'] = [
 if (in_array($this->Identity->get('role'), UserRole::getAdminGroup())) {
     $menu['students'] = [
         'label' => __('Estudiantes'),
-        'uri' => ['controller' => 'Students', 'action' => 'index', 'prefix' => 'Admin'],
+        'uri' => ['_name' => 'admin:student:index'],
     ];
 
     $menu['tenants'] = [
         'label' => __('Programas'),
-        'uri' => ['controller' => 'Tenants', 'action' => 'index', 'prefix' => 'Admin'],
+        'uri' => ['controller' => 'Tenants', 'action' => 'index', 'prefix' => 'Admin', 'plugin' => false],
     ];
 
     $menu['institutions'] = [

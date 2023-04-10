@@ -4,7 +4,8 @@ declare(strict_types=1);
 namespace App\Controller\Admin\Stage;
 
 use App\Controller\Admin\AppAdminController;
-use Cake\Event\EventInterface;
+use App\Controller\Traits\Stage\TrackingProcessTrait;
+use Cake\Http\Exception\ForbiddenException;
 
 /**
  * StudentTracking Controller
@@ -14,10 +15,12 @@ use Cake\Event\EventInterface;
  */
 class TrackingController extends AppAdminController
 {
+    use TrackingProcessTrait;
+
     public function initialize(): void
     {
         parent::initialize();
-        $this->StudentTracking = $this->fetchTable('StudentTracking');
+        $this->Tracking = $this->fetchTable('StudentTracking');
     }
 
     /**
@@ -28,24 +31,12 @@ class TrackingController extends AppAdminController
     public function add()
     {
         $this->request->allowMethod(['post']);
-        $data = $this->request->getData();
 
-        $adscription = $this->StudentTracking->StudentAdscriptions->get($data['student_adscription_id']);
-
-        if (!$this->Authorization->can($adscription, 'manageTracking')) {
-            $this->Flash->error(__('You are not authorized to add an student tracking.'));
-            return $this->redirect(['_name' => 'admin:student_tracking', $adscription->student_id]);
-        }
-
-        $tracking = $this->StudentTracking->newEntity($data);
-
-        if ($this->StudentTracking->save($tracking)) {
-            $this->Flash->success(__('The student tracking has been saved.'));
-        } else {
-            $this->Flash->error(__('The student tracking could not be saved. Please, try again.'));
-        }
+        [
+            'adscription' => $adscription,
+        ] = $this->processAdd($this->request->getData());
         
-        return $this->redirect(['_name' => 'admin:student_tracking', $adscription->student_id]);
+        return $this->redirect(['_name' => 'admin:student:tracking', $adscription->student_id]);
     }
 
     /**
@@ -55,26 +46,14 @@ class TrackingController extends AppAdminController
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    public function delete($tracking_id)
     {
         $this->request->allowMethod(['post', 'delete']);
 
-        $studentTracking = $this->StudentTracking->get($id, [
-            'contain' => ['StudentAdscriptions'],
-        ]);
-        $adscription = $studentTracking->student_adscription;
+        [
+            'adscription' => $adscription,
+        ] = $this->processDelete((int) $tracking_id);
 
-        if (!$this->Authorization->can($adscription, 'manageTracking')) {
-            $this->Flash->error(__('You are not authorized to delete this student tracking.'));
-            return $this->redirect(['_name' => 'admin:student_tracking', $adscription->student_id]);
-        }
-
-        if ($this->StudentTracking->delete($studentTracking)) {
-            $this->Flash->success(__('The student tracking has been deleted.'));
-        } else {
-            $this->Flash->error(__('The student tracking could not be deleted. Please, try again.'));
-        }
-
-        return $this->redirect(['_name' => 'admin:student_tracking', $adscription->student_id]);
+        return $this->redirect(['_name' => 'admin:student:tracking', $adscription->student_id]);
     }
 }

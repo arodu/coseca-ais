@@ -10,6 +10,8 @@ use Cake\View\View;
 
 /**
  * AppForm helper
+ * 
+ * @deprecated
  */
 class AppFormHelper extends Helper
 {

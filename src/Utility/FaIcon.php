@@ -113,6 +113,7 @@ class FaIcon
         'review' => ['fas', 'eye'],
         'star' => ['fas', 'star'],
         'search' => ['fas', 'search'],
+        'view' => ['fas', 'search'],
         'filter' => ['fas', 'filter'],
         'error' => ['fas', 'bug'],
         'edit' => ['fas', 'edit'],
@@ -130,6 +131,16 @@ class FaIcon
         'home' => ['fas', 'home'],
         'university' => ['fas', 'university'],
         'copyrigth' => ['fas', 'copyrigth'],
+        'add' => ['fas', 'plus'],
+        'file-csv' => ['fas', 'file-csv'],
+        'validate' => ['fas', 'check'],
+        'save' => ['fas', 'save'],
+        'back' => ['fas', 'arrow-left'],
+        'link' => ['fas', 'external-link-alt'],
+        'openModal' => ['fas', 'external-link-alt'],
+        'report' => ['fas', 'file-alt'],
+        'tasks' => ['fas', 'tasks'],
+        'user' => ['fas', 'user-circle'],
     ];
 
     /**

@@ -105,17 +105,10 @@ return [
             ],
             'bypassAuth' => true,
         ],
+
         [
             'role' => UserRole::getAdminGroup(),
-            'prefix' => 'Admin',
-            'extension' => '*',
-            'plugin' => '*',
-            'controller' => '*',
-            'action' => '*',
-        ],
-        [
-            'role' => UserRole::getAdminGroup(),
-            'prefix' => 'Admin/Stage',
+            'prefix' => ['Admin', 'Admin/Stage'],
             'extension' => '*',
             'plugin' => '*',
             'controller' => '*',

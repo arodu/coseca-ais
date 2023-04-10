@@ -27,7 +27,6 @@ enum UserRole: string
             static::ASSISTANT => __('Asistente'),
             static::SUPERUSER => __('superuser'),
             static::ADMIN => __('admin'),
-
             default => __('NaN'),
         };
     }
@@ -47,8 +46,8 @@ enum UserRole: string
     public static function getAdminRoles(): array
     {
         return [
-            static::ADMIN,
             static::ASSISTANT,
+            static::ADMIN,
             static::SUPERUSER,
         ];
     }

@@ -27,12 +27,12 @@ $this->Breadcrumbs->add([
     </div>
 
     <div class="card-footer d-flex">
+        <div>
+            <?= $this->AppForm->buttonSave() ?>
+        </div>
         <div class="ml-auto">
-            <?= $this->Form->button(__('Guardar')) ?>
-            <?= $this->Html->link(__('Cancelar'), ['action' => 'view', $institution->id], ['class' => 'btn btn-default']) ?>
-
+            <?= $this->AppForm->buttonCancel(['url' => ['action' => 'view', $institution->id]]) ?>
         </div>
     </div>
-
     <?= $this->Form->end() ?>
 </div>
