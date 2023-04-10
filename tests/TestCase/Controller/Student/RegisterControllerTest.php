@@ -28,7 +28,7 @@ class RegisterControllerTest extends StudentTestCase
     /*
     public function testEditResponseCodeError(): void
     {
-        $this->setSession();
+        $this->setAuthSession();
         $student = $this->createRegularStudent();
 
         $this->get('/studen/register');
@@ -64,7 +64,7 @@ class RegisterControllerTest extends StudentTestCase
     {
         $this->markTestSkipped('This test is not ready yet.');
 
-        $this->setSession();
+        $this->setAuthSession();
 
         $student = $this->createRegularStudent();
         $lapse_id = $this->lapse_id;
