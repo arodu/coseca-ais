@@ -26,9 +26,6 @@ trait RegisterProcessTrait
             ])
             ->first();
 
-
-            debug(__METHOD__);
-
         if (empty($registerStage) || !$this->Authorization->can($registerStage, 'registerEdit')) {
             throw new ForbiddenException(__('No puede realizar cambios en el registro'));
         }
