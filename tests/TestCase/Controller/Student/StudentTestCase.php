@@ -64,9 +64,15 @@ abstract class StudentTestCase extends TestCase
         parent::tearDown();
     }
 
-    protected function setSession($user = null)
+    protected function setAuthSession($student = null, $user = null)
     {
         $user = $user ?? $this->user;
+
+        if (!empty($student)) {
+            $student = $this->loadInto($student, ['Tenants']);
+            $user->current_student = $student ?? null;
+        }
+
         $this->session(['Auth' => $user]);
     }
 

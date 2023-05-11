@@ -11,10 +11,10 @@
     </div>
     <!-- /.col -->
     <div class="col-md-7 col-xl-9">
-        <div class="card">
-            <div class="card-header p-2">
-                <?= $this->element('student_menu', ['active' => $this->active, 'student_id' => $this->student_id]) ?>
-            </div><!-- /.card-header -->
+        <div class="card card-light card-tabs">
+            <div class="card-header p-0 pt-1">
+                <?= $this->cell('StudentInfo::menu', ['student_id' => $this->student_id, 'activeItem' => $this->active]) ?>
+            </div>
             <?= $this->fetch('content') ?>
         </div>
         <!-- /.card -->

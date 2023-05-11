@@ -20,7 +20,7 @@ class DashboardControllerTest extends StudentTestCase
 {
     public function testStudentTypeRegular(): void
     {
-        $this->setSession();
+        $this->setAuthSession();
         $student = $this->createRegularStudent();
 
         $this->get('/student');
@@ -47,8 +47,8 @@ class DashboardControllerTest extends StudentTestCase
 
     public function testRegisterCardStatusInProgress(): void
     {
-        $this->setSession();
-        $student = $this->createRegularStudent();
+        $this->setAuthSession();
+        $student = $this->createRegularStudent(['lapse_id' => null]);
         $lapse_id = $this->lapse_id;
 
         $this->addRecord('StudentStages', [
@@ -57,16 +57,16 @@ class DashboardControllerTest extends StudentTestCase
             'status' => StageStatus::IN_PROGRESS->value,
         ]);
 
-        $lapseDate = $this->getRecordByOptions('LapseDates', [
-            'lapse_id' => $lapse_id,
-            'stage' => StageField::REGISTER->value,
-        ]);
-
         // whitout lapse dates
         $this->get('/student');
         $this->assertResponseOk();
         $this->assertResponseContains('No existe fecha de registro');
         $this->assertResponseContains($this->alertMessage);
+
+        $lapseDate = $this->getRecordByOptions('LapseDates', [
+            'lapse_id' => $lapse_id,
+            'stage' => StageField::REGISTER->value,
+        ]);
 
         // with lapse dates in pass
         $start_date = FrozenDate::now()->subDays(4);
@@ -97,7 +97,7 @@ class DashboardControllerTest extends StudentTestCase
 
     public function testRegisterCardStatusReview(): void
     {
-        $this->setSession();
+        $this->setAuthSession();
         $student = $this->createRegularStudent();
         $this->addRecord('StudentStages', [
             'student_id' => $student->id,
@@ -113,7 +113,7 @@ class DashboardControllerTest extends StudentTestCase
 
     public function testRegisterCardStatusSuccess(): void
     {
-        $this->setSession();
+        $this->setAuthSession();
         $student = $this->createRegularStudent();
         $this->addRecord('StudentStages', [
             'student_id' => $student->id,
@@ -133,7 +133,7 @@ class DashboardControllerTest extends StudentTestCase
 
     public function testRegisterCardOtherStatuses(): void
     {
-        $this->setSession();
+        $this->setAuthSession();
         $student = $this->createRegularStudent();
 
         $stageRegistry = $this->addRecord('StudentStages', [
@@ -162,7 +162,7 @@ class DashboardControllerTest extends StudentTestCase
 
     public function testCourseCardStatusWaiting(): void
     {
-        $this->setSession();
+        $this->setAuthSession();
         $lapse_id = $this->lapse_id;
         $student = $this->createRegularStudent();
         $this->addRecord('StudentStages', [
@@ -209,7 +209,7 @@ class DashboardControllerTest extends StudentTestCase
 
     public function testCourseCardStatusSuccess(): void
     {
-        $this->setSession();
+        $this->setAuthSession();
         $student = $this->createRegularStudent();
         $this->addRecord('StudentStages', [
             'student_id' => $student->id,
@@ -237,7 +237,7 @@ class DashboardControllerTest extends StudentTestCase
 
     public function testCourseCardOtherStatuses(): void
     {
-        $this->setSession();
+        $this->setAuthSession();
         $student = $this->createRegularStudent();
         $stage = $this->addRecord('StudentStages', [
             'student_id' => $student->id,
@@ -271,7 +271,7 @@ class DashboardControllerTest extends StudentTestCase
 
     public function testAdscriptionCardStatusWaiting(): void
     {
-        $this->setSession();
+        $this->setAuthSession();
         $student = $this->createRegularStudent();
         $this->addRecord('StudentStages', [
             'student_id' => $student->id,
@@ -288,7 +288,7 @@ class DashboardControllerTest extends StudentTestCase
 
     public function testAdscriptionCardStatusInProgress(): void
     {
-        $this->setSession();
+        $this->setAuthSession();
         $student = $this->createRegularStudent();
         $this->addRecord('StudentStages', [
             'student_id' => $student->id,
@@ -356,7 +356,7 @@ class DashboardControllerTest extends StudentTestCase
 
     public function testTrackingCardStatusInProgress(): void
     {
-        $this->setSession();
+        $this->setAuthSession();
         $student = $this->createRegularStudent();
         $this->addRecord('StudentStages', [
             'student_id' => $student->id,

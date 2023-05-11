@@ -52,7 +52,7 @@ class TrackingController extends AppStudentController
             'adscription' => $adscription,
             'tracking' => $tracking,
         ] = $this->processAdd($this->request->getData());
-        
+
         return $this->redirect(['_name' => 'student:tracking']);
     }
 

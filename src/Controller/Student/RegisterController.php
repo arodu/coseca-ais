@@ -25,10 +25,6 @@ class RegisterController extends AppStudentController
 
     public function edit()
     {
-
-        //debug($this->Authorization->getIdentity());
-        //dd(__METHOD__);
-
         $currentStudent = $this->getCurrentStudent();
 
         [
