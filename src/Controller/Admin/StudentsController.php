@@ -266,4 +266,7 @@ class StudentsController extends AppAdminController
         }
         $this->set(compact('student'));
     }
+
+    
+
 }

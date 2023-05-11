@@ -23,4 +23,7 @@ $this->Breadcrumbs->add([
     <div class="alert alert-info">
         Prints
     </div>
+
+    <?= $this->Html->link('Formato de Actividades', ['controller' => 'StudentDocuments', 'action' => 'download', $student_id, 'activities'], ['class' => 'btn btn-primary']) ?>
+
 </div>
