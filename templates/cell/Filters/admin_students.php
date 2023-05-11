@@ -22,7 +22,7 @@ use App\Utility\FaIcon;
         </h2>
     </div>
     <?= $this->Form->create(null, ['type' => 'GET', 'valueSources' => ['query', 'context']]) ?>
-    <?= $this->Form->hidden('limit', ['value' => $this->Paginator->param('perPage')]) ?>
+    <?= $this->Form->hidden('limit', ['value' => $this->Paginator->param('perPage') ?? 20]) ?>
     <div class="collapse <?= (($isFiltered ?? false) ? 'show' : null) ?>" id="collapse-filters">
         <div class="card-body">
             <div class="row">
