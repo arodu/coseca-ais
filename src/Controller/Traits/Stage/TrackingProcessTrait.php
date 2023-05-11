@@ -64,4 +64,20 @@ trait TrackingProcessTrait
             'tracking' => $tracking,
         ];
     }
+
+
+    protected function printActivities(int $student_id)
+    {
+        $tackingTable = $this->fetchTable('StudentTracking');
+
+        $adscriptions = $tackingTable->Adscriptions->find()
+            ->where([
+                'Adscriptions.student_id' => $student_id,
+            ])
+            ->contain([
+                'Tracking',
+            ]);
+
+        $this->set(compact('adscriptions'));
+    }
 }

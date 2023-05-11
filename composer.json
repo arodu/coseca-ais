@@ -13,11 +13,13 @@
         "cakephp/cakephp": "4.4.*",
         "cakephp/migrations": "^3.2",
         "cakephp/plugin-installer": "^1.3",
+        "friendsofcake/cakepdf": "^4.1",
         "google/recaptcha": "@stable",
         "league/oauth2-facebook": "@stable",
         "league/oauth2-google": "@stable",
         "mobiledetect/mobiledetectlib": "^3.74",
-        "muffin/footprint": "^3.0"
+        "muffin/footprint": "^3.0",
+        "tecnickcom/tcpdf": "^6.6"
     },
     "require-dev": {
         "cakephp/bake": "^2.6",
