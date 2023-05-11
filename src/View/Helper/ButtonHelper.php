@@ -115,7 +115,6 @@ class ButtonHelper extends Helper
 
         $options = array_merge([
             'escape' => false,
-            'block' => true,
         ], $options);
 
         if (!empty($options['class']) && ($options['override'] ?? false)) {
