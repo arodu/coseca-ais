@@ -3,10 +3,6 @@
  * @var \App\View\AppView $this
  */
 
-/**
- * @var \App\View\AppView $this
- */
-
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use App\Utility\FaIcon;

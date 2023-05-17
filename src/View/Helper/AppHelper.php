@@ -76,15 +76,25 @@ class AppHelper extends Helper
      */
     public function progressBar(float $completed, float $total): string
     {
-        $percent = $this->progressBarCalc($completed, $total, 0);
+        $percent = $this->progressBarCalc($completed, $total, 1);
 
-        $output = '<div class="progress progress-sm" title="' . __('{0} horas', $completed) . '">'
-            . '<div class="progress-bar ' . $this->progressBarColor($percent) . '" role="progressbar" aria-valuenow="' . $percent . '" aria-valuemin="0" aria-valuemax="100" style="width:' . $percent . '%">'
-            . '</div>'
-            . '</div>'
-            . '<small>' . __('{0}% Completado', $percent) . '</small>';
+        $progressBar = $this->Html->tag('div', '', [
+            'class' => 'progress-bar ' . $this->progressBarColor($percent),
+            'role' => 'progressbar',
+            'aria-valuenow' => $percent,
+            'aria-valuemin' => 0,
+            'aria-valuemax' => 100,
+            'style' => 'width:' . $percent . '%',
+        ]);
 
-        return $output;
+        $contain = $this->Html->tag('div', $progressBar, [
+            'class' => 'progress progress-sm',
+            'title' => __('{0} horas', $completed),
+        ]);
+
+        $text = $this->Html->tag('small', __('{0}% Completado', $percent));
+
+        return $contain . $text;
     }
 
     public function error(string $tooltip = null): string

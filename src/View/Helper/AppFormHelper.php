@@ -25,6 +25,8 @@ class AppFormHelper extends Helper
     public $helpers = ['Form', 'Html'];
 
     /**
+     * @deprecated use ButtonHelper instead
+     * 
      * @param array<string, mixed> $options
      * @return string
      */
@@ -44,6 +46,8 @@ class AppFormHelper extends Helper
     }
 
     /**
+     * @deprecated use ButtonHelper instead
+     * 
      * @param array<string, mixed> $options
      * @return string
      */
@@ -63,6 +67,12 @@ class AppFormHelper extends Helper
         return $this->Form->button($title, $options);
     }
 
+    /**
+     * @deprecated use ButtonHelper instead
+     * 
+     * @param array<string, mixed> $options
+     * @return string
+     */
     public function buttonCancel(array $options = []): string
     {
         if (empty($options['url'])) {
