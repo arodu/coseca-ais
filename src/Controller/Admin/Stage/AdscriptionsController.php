@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Controller\Admin\Stage;
 
 use App\Controller\Admin\AppAdminController;
-use App\Controller\Traits\RedirectLogicTrait;
 use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use App\Utility\Stages;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Log\Log;
+use CakeLteTools\Controller\Traits\RedirectLogicTrait;
 
 /**
  * StudentAdscriptionsController Controller

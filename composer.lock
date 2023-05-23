@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a21db189edf09eb4256bbba9f1d30744",
+    "content-hash": "94612f1a0ace244ee038baf38a323471",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -87,6 +87,45 @@
                 "source": "https://github.com/arodu/cakelte/tree/2.next"
             },
             "time": "2022-11-29T13:52:45+00:00"
+        },
+        {
+            "name": "arodu/cakelte-tools",
+            "version": "dev-develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/arodu/cakelte-tools.git",
+                "reference": "1c24c45ad17e5d5056368e42210e62ce943f11d9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/arodu/cakelte-tools/zipball/1c24c45ad17e5d5056368e42210e62ce943f11d9",
+                "reference": "1c24c45ad17e5d5056368e42210e62ce943f11d9",
+                "shasum": ""
+            },
+            "require": {
+                "arodu/cakelte": "dev-2.next",
+                "cakephp/cakephp": "^4.0",
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.5 || ^9.3"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "CakeLteTools\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "CakeLteTools plugin for CakePHP",
+            "support": {
+                "issues": "https://github.com/arodu/cakelte-tools/issues",
+                "source": "https://github.com/arodu/cakelte-tools/tree/develop"
+            },
+            "time": "2023-05-23T23:46:20+00:00"
         },
         {
             "name": "arodu/cakephp-modal-form",
@@ -7348,6 +7387,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "arodu/cakelte": 20,
+        "arodu/cakelte-tools": 20,
         "arodu/cakephp-modal-form": 20,
         "arodu/cakephp-query-filter": 20,
         "google/recaptcha": 0,

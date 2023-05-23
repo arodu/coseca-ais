@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\View\Helper;
 
-use App\Enum\BadgeInterface;
-use App\Enum\Color;
 use App\Model\Entity\Lapse;
 use App\Utility\FaIcon;
 use Cake\Utility\Inflector;
 use Cake\View\Helper;
+use CakeLteTools\Enum\BadgeInterface;
+use CakeLteTools\Enum\Color;
 
 /**
  * App helper

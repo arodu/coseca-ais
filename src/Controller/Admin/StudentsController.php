@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use App\Controller\Traits\BulkActionsTrait;
-use App\Controller\Traits\ExportDataTrait;
+
 use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use Cake\Event\EventInterface;
 use Cake\ORM\Query;
 use Cake\View\CellTrait;
+use CakeLteTools\Controller\Traits\BulkActionsTrait;
+use CakeLteTools\Controller\Traits\ExportDataTrait;
 
 /**
  * Students Controller
