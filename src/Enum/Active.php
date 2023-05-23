@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace App\Enum;
 
-use App\Enum\Trait\BasicEnumTrait;
+use CakeLteTools\Enum\BadgeInterface;
+use CakeLteTools\Enum\Color;
+use CakeLteTools\Enum\Trait\BasicEnumTrait;
 
 enum Active implements BadgeInterface
 {

@@ -40,7 +40,7 @@ $this->Breadcrumbs->add([
         <table class="table table-hover text-nowrap institution-projects">
             <thead>
                 <tr>
-                    <th class="narrow"><?= $this->BulkAction->checkbox('all') ?></th>
+                    <th class="narrow"><?= $this->BulkAction->checkboxAll('all') ?></th>
                     <th class="narrow"><?= $this->Paginator->sort('Tenants.abbr', __('Programa')) ?></th>
                     <th colspan="3">
                         <span><?= $this->Paginator->sort('AppUsers.dni', __('Cedula')) ?></span>
@@ -59,7 +59,7 @@ $this->Breadcrumbs->add([
                     $studentStage = $student->last_stage;
                     ?>
                     <tr>
-                        <td><?= $this->BulkAction->checkbox('item', $student->id) ?></td>
+                        <td><?= $this->BulkAction->checkbox('item', ['value' => $student->id]) ?></td>
                         <td><?= h($student->tenant->abbr_label) ?></td>
                         <td colspan=3>
                             <?= $this->Html->link(

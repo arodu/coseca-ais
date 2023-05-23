@@ -7,6 +7,7 @@
     "require": {
         "php": ">=7.4",
         "arodu/cakelte": "dev-2.next",
+        "arodu/cakelte-tools": "dev-develop",
         "arodu/cakephp-modal-form": "dev-main",
         "arodu/cakephp-query-filter": "dev-develop",
         "cakedc/users": "^11.1",

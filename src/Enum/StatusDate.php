@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace App\Enum;
 
-use App\Enum\Trait\BasicEnumTrait;
 use Cake\I18n\FrozenDate;
+use CakeLteTools\Enum\BadgeInterface;
+use CakeLteTools\Enum\Color;
+use CakeLteTools\Enum\Trait\BasicEnumTrait;
 
 enum StatusDate implements BadgeInterface
 {
