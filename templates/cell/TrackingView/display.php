@@ -5,9 +5,8 @@
  */
 
 use App\Enum\ActionColor;
-use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\StageField;
-use App\Utility\FaIcon;
+use CakeLteTools\Utility\FaIcon;
 
 $user = $this->request->getAttribute('identity');
 $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);

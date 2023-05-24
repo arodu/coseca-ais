@@ -3,7 +3,7 @@
 /** @property \App\Model\Entity\StudentStage $studentStage */
 
 use App\Enum\ActionColor;
-use App\Utility\FaIcon;
+use CakeLteTools\Utility\FaIcon;
 
 /** @var \App\View\AppView $this */
 

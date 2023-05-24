@@ -8,8 +8,8 @@
  */
 
 use App\Enum\ActionColor;
-use App\Utility\FaIcon;
 use Cake\Core\Configure;
+use CakeLteTools\Utility\FaIcon;
 
 ?>
 
@@ -29,7 +29,8 @@ use Cake\Core\Configure;
             ]); ?>
         </div>
         <div class="ml-auto">
-            <?php //@todo move to a policy ?>
+            <?php //@todo move to a policy 
+            ?>
             <?php if (($student->total_hours ?? 0) >= Configure::read('coseca.hours-min')) : ?>
                 <!-- <?= $this->Button->report([
                             'label' => __('Planilla de actividades'),
