@@ -5,7 +5,8 @@
 
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
-use App\Utility\FaIcon;
+use CakeLteTools\Utility\FaIcon;
+
 ?>
 <div class="card card-success card-outline">
     <div class="card-header d-flex flex-column flex-md-row">

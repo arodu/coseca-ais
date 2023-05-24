@@ -7,7 +7,7 @@
 
 use App\Enum\ActionColor;
 use App\Enum\Active;
-use App\Utility\FaIcon;
+use CakeLteTools\Utility\FaIcon;
 
 ?>
 

@@ -5,7 +5,7 @@
  * @var \App\Model\Entity\Tutor[]|\Cake\Collection\CollectionInterface $tutors
  */
 
-use App\Utility\FaIcon;
+use CakeLteTools\Utility\FaIcon;
 
 ?>
 <?php
