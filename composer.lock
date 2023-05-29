@@ -4197,16 +4197,16 @@
         },
         {
             "name": "fakerphp/faker",
-            "version": "v1.21.0",
+            "version": "v1.22.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FakerPHP/Faker.git",
-                "reference": "92efad6a967f0b79c499705c69b662f738cc9e4d"
+                "reference": "f85772abd508bd04e20bb4b1bbe260a68d0066d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FakerPHP/Faker/zipball/92efad6a967f0b79c499705c69b662f738cc9e4d",
-                "reference": "92efad6a967f0b79c499705c69b662f738cc9e4d",
+                "url": "https://api.github.com/repos/FakerPHP/Faker/zipball/f85772abd508bd04e20bb4b1bbe260a68d0066d2",
+                "reference": "f85772abd508bd04e20bb4b1bbe260a68d0066d2",
                 "shasum": ""
             },
             "require": {
@@ -4259,9 +4259,9 @@
             ],
             "support": {
                 "issues": "https://github.com/FakerPHP/Faker/issues",
-                "source": "https://github.com/FakerPHP/Faker/tree/v1.21.0"
+                "source": "https://github.com/FakerPHP/Faker/tree/v1.22.0"
             },
-            "time": "2022-12-13T13:54:32+00:00"
+            "time": "2023-05-14T12:31:37+00:00"
         },
         {
             "name": "jasny/twig-extensions",
@@ -7226,16 +7226,16 @@
         },
         {
             "name": "vierge-noire/cakephp-fixture-factories",
-            "version": "v2.7.1",
+            "version": "v2.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vierge-noire/cakephp-fixture-factories.git",
-                "reference": "d117488a953da66dba8ec568627760fc478c4546"
+                "reference": "cba679d432945ae07d630ef85445fb7493c21984"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vierge-noire/cakephp-fixture-factories/zipball/d117488a953da66dba8ec568627760fc478c4546",
-                "reference": "d117488a953da66dba8ec568627760fc478c4546",
+                "url": "https://api.github.com/repos/vierge-noire/cakephp-fixture-factories/zipball/cba679d432945ae07d630ef85445fb7493c21984",
+                "reference": "cba679d432945ae07d630ef85445fb7493c21984",
                 "shasum": ""
             },
             "require": {
@@ -7247,10 +7247,10 @@
             "require-dev": {
                 "cakephp/bake": "^2.0",
                 "cakephp/cakephp-codesniffer": "^4.0",
-                "cakephp/migrations": "^3.1",
+                "cakephp/migrations": "^3.7",
                 "josegonzalez/dotenv": "dev-master",
-                "phpstan/phpstan": "^0.12.48@dev",
-                "phpunit/phpunit": "^8.0",
+                "phpstan/phpstan": "^1.0",
+                "phpunit/phpunit": "^8.5.31",
                 "vierge-noire/cakephp-test-migrator": "^2.1",
                 "vimeo/psalm": "^4.0"
             },
@@ -7283,9 +7283,9 @@
             ],
             "support": {
                 "issues": "https://github.com/vierge-noire/cakephp-fixture-factories/issues",
-                "source": "https://github.com/vierge-noire/cakephp-fixture-factories/tree/v2.7.1"
+                "source": "https://github.com/vierge-noire/cakephp-fixture-factories/tree/v2.8"
             },
-            "time": "2022-07-18T16:27:19+00:00"
+            "time": "2023-05-11T08:20:55+00:00"
         },
         {
             "name": "vierge-noire/cakephp-test-suite-light",
