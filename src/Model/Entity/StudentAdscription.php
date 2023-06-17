@@ -49,29 +49,16 @@ class StudentAdscription extends Entity
         'label_status',
     ];
 
-    private AdscriptionStatus $_adscriptionStatus;
-
     /**
-     * @return AdscriptionStatus
+     * @return AdscriptionStatus|null
      */
-    protected function _getStatusObj(): ?AdscriptionStatus
+    public function getStatus(): ?AdscriptionStatus
     {
-        if (empty($this?->status)) {
-            return null;
-        }
-
-        if (empty($this->_adscriptionStatus)) {
-            $this->_adscriptionStatus = AdscriptionStatus::from($this?->status);
-        }
-
-        return $this->_adscriptionStatus;
+        return AdscriptionStatus::tryFrom($this->status);
     }
 
-    /**
-     * @return string
-     */
-    protected function _getLabelStatus(): ?string
+    protected function _getLabelStatus(): string
     {
-        return $this->_getStatusObj()?->label();
+        return $this->getStatus()?->label() ?? '';
     }
 }
