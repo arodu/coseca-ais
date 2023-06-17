@@ -24,7 +24,7 @@ $lastStageColor = $student->last_stage->getStatus()?->color();
             <dd class="text-right mb-2"><?= h($student->lapse?->name) ?? $this->App->nan() ?></dd>
 
             <dt><?= __('Tipo') ?></dt>
-            <dd class="text-right"><?= h($student->type_obj->label()) ?? '&nbsp;' ?></dd>
+            <dd class="text-right"><?= h($student->getType()?->label()) ?? '&nbsp;' ?></dd>
 
             <dt><?= __('Última Sesión') ?></dt>
             <dd class="text-right"><?= h($student->app_user->last_login) ?? $this->App->nan() ?></dd>

@@ -18,7 +18,6 @@ use Cake\ORM\Entity;
  * @property int $created_by
  * @property \Cake\I18n\FrozenTime $modified
  * @property int $modified_by
- * @property \App\Model\Field\StudentType $type_obj
  *
  * @property \App\Model\Entity\AppUser $app_user
  * @property \App\Model\Entity\StudentStage[] $student_stages
@@ -56,26 +55,37 @@ class Student extends Entity
         'last_name',
         'email',
         'full_name',
-        'type_obj',
         'type_label',
     ];
 
-    protected function _getDni()
+    /**
+     * @return string|null
+     */
+    protected function _getDni(): ?string
     {
         return $this->app_user->dni ?? null;
     }
 
-    protected function _getFirstName()
+    /**
+     * @return string|null
+     */
+    protected function _getFirstName(): ?string
     {
         return $this->app_user->first_name ?? null;
     }
 
-    protected function _getLastName()
+    /**
+     * @return string|null
+     */
+    protected function _getLastName(): ?string
     {
         return $this->app_user->last_name ?? null;
     }
 
-    protected function _getFullName()
+    /**
+     * @return string|null
+     */
+    protected function _getFullName(): ?string
     {
         return implode(' ', [
             $this->first_name,
@@ -83,25 +93,28 @@ class Student extends Entity
         ]);
     }
 
-    protected function _getEmail()
+    /**
+     * @return string|null
+     */
+    protected function _getEmail(): ?string
     {
         return $this->app_user->email ?? null;
     }
 
-    private StudentType $_type_obj;
-
-    protected function _getTypeObj(): StudentType
+    /**
+     * @return string|null
+     */
+    protected function _getTypeLabel(): ?string
     {
-        if (empty($this->_type_obj)) {
-            $this->_type_obj = StudentType::from($this->type);
-        }
-
-        return $this->_type_obj;
+        return $this->getType()?->label() ?? null;
     }
 
-    protected function _getTypeLabel(): string
+    /**
+     * @return StudentType|null
+     */
+    public function getType(): ?StudentType
     {
-        return $this->type_obj->label();
+        return StudentType::tryFrom($this->type);
     }
 
     /**
@@ -109,9 +122,12 @@ class Student extends Entity
      */
     public function getStageFieldList(): array
     {
-        return Stages::getStageFieldList($this->type_obj);
+        return Stages::getStageFieldList($this->getType());
     }
 
+    /**
+     * @return Lapse
+     */
     public function getCurrentLapse(): Lapse
     {
         if (!empty($this->lapse) && $this->lapse instanceof Lapse) {
