@@ -45,10 +45,10 @@ $this->Breadcrumbs->add([
     </div>
     <div class="card-footer d-flex">
         <div>
-            <?= $this->AppForm->buttonSave() ?>
+            <?= $this->Button->save() ?>
         </div>
         <div class="ml-auto">
-            <?= $this->AppForm->buttonCancel(['url' => ['action' => 'view', $institution->id, 'prefix' => 'Admin']]) ?>
+            <?= $this->Button->cancel(['url' => ['action' => 'view', $institution->id, 'prefix' => 'Admin']]) ?>
         </div>
     </div>
     <?= $this->Form->end() ?>
