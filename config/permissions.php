@@ -145,6 +145,13 @@ return [
             }
         ],
 
+        [
+            'role' => '*',
+            'plugin' => 'System',
+            'controller' => '*',
+            'action' => '*',
+        ],
+
         //all roles allowed to Pages/display
         [
             'role' => '*',

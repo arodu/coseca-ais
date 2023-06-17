@@ -1,18 +1,18 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Model\Entity;
+namespace System\Model\Entity;
 
 use Cake\ORM\Entity;
 
 /**
- * SysParish Entity
+ * Parish Entity
  *
  * @property int $parish_id
  * @property int $municipality_id
  * @property string $name
  */
-class SysParish extends Entity
+class Parish extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
