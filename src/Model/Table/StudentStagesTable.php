@@ -291,7 +291,7 @@ class StudentStagesTable extends Table
             $this->loadInto($entity, ['Students']);
         }
 
-        $nextStageField = Stages::getNextStageField($entity->getStage(), $entity->student->type_obj);
+        $nextStageField = Stages::getNextStageField($entity->getStage(), $entity->student->getType());
         if (!$nextStageField) {
             throw new InvalidArgumentException('The stage has no next stage');
         }
