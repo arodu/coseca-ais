@@ -27,9 +27,6 @@ use Cake\ORM\Entity;
  */
 class StudentStage extends Entity
 {
-    private StageField $_stageObj;
-    private StageStatus $_stageStatusObj;
-
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
