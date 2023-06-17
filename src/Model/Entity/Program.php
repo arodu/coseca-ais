@@ -37,14 +37,14 @@ class Program extends Entity
         'tenants' => true,
     ];
 
-    public function _getAreaLabel()
+    public function _getAreaLabel(): ?string
     {
-        return ProgramArea::from($this->area)->label();
+        return ProgramArea::tryFrom($this->area)?->label() ?? null;
     }
 
-    public function _getRegimeLabel()
+    public function _getRegimeLabel(): ?string
     {
-        return ProgramRegime::from($this->regime)->label();
+        return ProgramRegime::tryFrom($this->regime)?->label() ?? null;
     }
 
 }
