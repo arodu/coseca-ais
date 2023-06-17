@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\View\Helper;
 
 use App\Model\Entity\Lapse;
+use App\Utility\Calc;
 use Cake\Utility\Inflector;
 use Cake\View\Helper;
 use CakeLteTools\Enum\BadgeInterface;
@@ -56,27 +57,11 @@ class AppHelper extends Helper
     /**
      * @param float $completed
      * @param float $total
-     * @param integer $decimals
-     * @return float
-     */
-    public function progressBarCalc(float $completed, float $total, int $decimals = 0): float
-    {
-        if ($completed >= $total) {
-            return 100;
-        }
-        $result = ($completed * 100) / $total;
-
-        return round($result, $decimals);
-    }
-
-    /**
-     * @param float $completed
-     * @param float $total
      * @return string
      */
-    public function progressBar(float $completed, float $total): string
+    public function progressBar(float $completed, float $total = null): string
     {
-        $percent = $this->progressBarCalc($completed, $total, 1);
+        $percent = Calc::percentHoursCompleted($completed, $total);
 
         $progressBar = $this->Html->tag('div', '', [
             'class' => 'progress-bar ' . $this->progressBarColor($percent),

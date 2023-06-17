@@ -51,7 +51,7 @@ $lastStageColor = $student->last_stage->getStatus()?->color();
             </dd>
 
             <dt><?= __('Horas') ?></dt>
-            <dd class=" text-right"><?= $this->App->progressBar($student->total_hours ?? 0, Configure::read('coseca.hours-min')) ?></dd>
+            <dd class=" text-right"><?= $this->App->progressBar($student->total_hours ?? 0) ?></dd>
         </dl>
     </div>
 </div>

@@ -78,7 +78,7 @@ $this->Breadcrumbs->add([
                             ) ?>
                         </td>
                         <td class="project_progress">
-                            <?= $this->App->progressBar($student->total_hours ?? 0, Configure::read('coseca.hours-min')) ?>
+                            <?= $this->App->progressBar($student->total_hours ?? 0) ?>
                         </td>
                         <td class="actions">
                             <div class="dropdown">
