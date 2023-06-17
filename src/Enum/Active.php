@@ -33,8 +33,16 @@ enum Active implements BadgeInterface
         };
     }
 
-    public static function get(bool $active): self
+    /**
+     * @param boolean|null $active
+     * @return self|null
+     */
+    public static function get(bool $active = null): ?self
     {
+        if (is_null($active)) {
+            return null;
+        }
+
         return $active ? self::TRUE : self::FALSE;
     }
 }
