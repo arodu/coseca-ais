@@ -37,11 +37,11 @@ $this->Breadcrumbs->add([
                 <div class="card-header d-flex">
                     <h3 class="card-title">
                         <?= h($studentAdscription->institution_project->label_name) ?>
-                        <?= $this->App->badge($studentAdscription->status_obj) ?>
+                        <?= $this->App->badge($studentAdscription->getStatus()) ?>
                     </h3>
                     <div class="ml-auto">
                         <?php
-                        if ($studentAdscription->status_obj->is(AdscriptionStatus::PENDING)) {
+                        if ($studentAdscription->getStatus()?->is(AdscriptionStatus::PENDING)) {
                             echo $this->ModalForm->link(
                                 __('Activar Proyecto'),
                                 ['controller' => 'Adscriptions', 'action' => 'changeStatus', AdscriptionStatus::OPEN->value, $studentAdscription->id, 'prefix' => 'Admin/Stage'],
@@ -52,7 +52,7 @@ $this->Breadcrumbs->add([
                                     'title' => __('Activar Proyecto'),
                                 ]
                             );
-                        } elseif ($studentAdscription->status_obj->is(AdscriptionStatus::OPEN)) {
+                        } elseif ($studentAdscription->getStatus()?->is(AdscriptionStatus::OPEN)) {
                             echo $this->ModalForm->link(
                                 __('Cerrar Proyecto'),
                                 ['controller' => 'Adscriptions', 'action' => 'changeStatus', AdscriptionStatus::CLOSED->value, $studentAdscription->id, 'prefix' => 'Admin/Stage'],

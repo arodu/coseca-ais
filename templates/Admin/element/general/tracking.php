@@ -6,7 +6,7 @@
 
 use App\Enum\ActionColor;
 
-$status = $studentStage->status_obj;
+$status = $studentStage->getStatus();
 $color = $status->color();
 $icon = $status->icon();
 
