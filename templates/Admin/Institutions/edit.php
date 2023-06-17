@@ -4,6 +4,9 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Institution $institution
  */
+
+use System\Utility\Lists;
+
 ?>
 <?php
 $this->assign('title', __('Edit Institution'));
@@ -25,19 +28,19 @@ $this->Breadcrumbs->add([
         <?= $this->Form->control('contact_email') ?>
         <?= $this->Form->control('tenant_id', ['options' => $tenants]) ?>
         <?= $this->DependentSelector->control('state_id', [
-            'options' => $states ?? [],
+            'options' => Lists::states(),
             'data-target' => '#municipality-select',
         ]) ?>
         <?= $this->DependentSelector->control('municipality_id', [
             'id' => 'municipality-select',
-            'options' => $municipalities ?? [],
+            'options' => $institution->state_id ? Lists::municipalities($institution->state_id) : [],
             'data-target' => '#parish-select',
-            'data-url' => $this->Url->build(['action' => 'getList', 'SysMunicipalities', 'state_id']),
+            'data-url' => $this->Url->build(['plugin' => 'System', 'controller' => 'Lists', 'action' => 'municipalities', 'prefix' => false]),
         ]) ?>
         <?= $this->DependentSelector->control('parish_id', [
             'id' => 'parish-select',
-            'options' => $parishes  ?? [],
-            'data-url' => $this->Url->build(['action' => 'getList', 'SysParishes', 'municipality_id']),
+            'options' => $institution->municipality_id ? Lists::parishes($institution->municipality_id) : [],
+            'data-url' => $this->Url->build(['plugin' => 'System', 'controller' => 'Lists', 'action' => 'parishes', 'prefix' => false]),
         ]) ?>
     </div>
     <div class="card-footer d-flex">

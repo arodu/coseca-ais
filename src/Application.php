@@ -78,6 +78,7 @@ class Application extends BaseApplication
 
         $this->getEventManager()->on(new UsersListener());
         //$this->getEventManager()->on(new StageNotificationListener());
+        $this->addPlugin('System');
     }
 
     /**
