@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Event;
 
+use App\Model\Entity\AppUser;
 use App\Model\Field\UserRole;
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
-use Cake\Log\Log;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use CakeDC\Users\Plugin as UsersPlugin;
 
@@ -31,13 +31,14 @@ class UsersListener implements EventListenerInterface
      */
     public function afterLogin(Event $event)
     {
+        /** @var AppUser $user */
         $user = $event->getData('user');
 
-        if (in_array($user->role, UserRole::getAdminGroup())) {
+        if ($user->getRole()->isAdminGroup()) {
             return $event->setResult(['_name' => 'admin:home']);
         }
 
-        if (in_array($user->role, UserRole::getStudentGroup())) {
+        if ($user->getRole()->isStudentGroup()) {
             return $event->setResult(['_name' => 'student:home']);
         }
     }
@@ -47,9 +48,10 @@ class UsersListener implements EventListenerInterface
      */
     public function afterRegister(Event $event)
     {
+        /** @var AppUser $user */
         $user = $event->getData('user');
 
-        if (in_array($user->role, UserRole::getStudentGroup())) {
+        if ($user->getRole()->isStudentGroup()) {
             $this->fetchTable('Students')->newRegularStudent($user);
         }
     }
