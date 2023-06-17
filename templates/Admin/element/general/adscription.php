@@ -6,7 +6,7 @@
 
 use App\Enum\ActionColor;
 
-$status = $studentStage->status_obj;
+$status = $studentStage->getStatus();
 $color = $status->color();
 $icon = $status->icon();
 
@@ -49,7 +49,7 @@ $this->end();
                         <td><?= $student_adscriptions->institution_project->institution->name ?></td>
                         <td><?= $student_adscriptions->institution_project->name ?></td>
                         <td><?= $student_adscriptions->tutor->name ?></td>
-                        <td><?= $this->App->badge($student_adscriptions->status_obj) ?></td>
+                        <td><?= $this->App->badge($student_adscriptions->getStatus()) ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

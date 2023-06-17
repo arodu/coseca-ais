@@ -71,16 +71,16 @@ class StudentStagePolicy
 
     protected function stageIsRegister(StudentStage $studentStage): bool
     {
-        return $studentStage->stage_obj->is(StageField::REGISTER);
+        return $studentStage->getStage()?->is(StageField::REGISTER) ?? false;
     }
 
     protected function stageIsCourse(StudentStage $studentStage): bool
     {
-        return $studentStage->stage_obj->is(StageField::COURSE);
+        return $studentStage->getStage()?->is(StageField::COURSE) ?? false;
     }
 
     protected function studentStageStatusIsInProgress(StudentStage $studentStage): bool
     {
-        return $studentStage->status_obj->is(StageStatus::IN_PROGRESS);
+        return $studentStage->getStatus()?->is(StageStatus::IN_PROGRESS) ?? false;
     }
 }

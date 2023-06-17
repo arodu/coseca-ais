@@ -54,7 +54,7 @@ $this->Breadcrumbs->add([
                     <td><?= $adscription->institution_project->institution->name ?></td>
                     <td><?= $adscription->institution_project->name ?></td>
                     <td><?= $adscription->tutor->name ?></td>
-                    <td><?= $this->App->badge($adscription->status_obj) ?></td>
+                    <td><?= $this->App->badge($adscription->getStatus()) ?></td>
                 </tr>
             </tbody>
         </table>

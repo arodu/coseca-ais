@@ -74,7 +74,7 @@ $this->Breadcrumbs->add([
                             <?= $this->Html->tag(
                                 'span',
                                 $student->last_stage->status_label,
-                                ['class' => [$studentStage->status_obj->color()->badge(), 'ml-2']]
+                                ['class' => [$studentStage->getStatus()?->color()->badge(), 'ml-2']]
                             ) ?>
                         </td>
                         <td class="project_progress">

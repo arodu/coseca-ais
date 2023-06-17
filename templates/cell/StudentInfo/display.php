@@ -2,7 +2,7 @@
 
 use Cake\Core\Configure;
 
-$lastStageColor = $student->last_stage->status_obj->color();
+$lastStageColor = $student->last_stage->getStatus()?->color();
 
 ?>
 <div class="card card-primary card-outline">
