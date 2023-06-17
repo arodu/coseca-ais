@@ -10,6 +10,7 @@ use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use App\Model\Field\StudentType;
 use App\Model\Table\Traits\BasicTableTrait;
+use App\Utility\Calc;
 use ArrayObject;
 use Cake\Cache\Cache;
 use Cake\Datasource\EntityInterface;
@@ -410,6 +411,8 @@ class StudentsTable extends Table
                     ->select(['total_hours' => 'SUM(StudentTracking.hours)'])
                     ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
                     ->first();
+
+                $totalPercent = Calc::percentHoursCompleted($totalHours->total_hours ?? 0);
             }
 
             return [
@@ -417,6 +420,7 @@ class StudentsTable extends Table
                 'trackingFirstDate' => $trackingFirstDate->date ?? null,
                 'trackingLastDate' => $trackingLastDate->date ?? null,
                 'totalHours' => $totalHours->total_hours ?? 0,
+                'totalPercent' => $totalPercent ?? 0,
             ];
         }, '1day');
     }
