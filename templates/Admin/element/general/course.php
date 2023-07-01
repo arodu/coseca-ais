@@ -7,7 +7,7 @@
 use App\Enum\ActionColor;
 use App\Model\Field\StageStatus;
 
-$status = $studentStage->status_obj;
+$status = $studentStage->getStatus();
 $color = $status->color();
 $icon = $status->icon();
 

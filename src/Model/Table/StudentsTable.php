@@ -10,6 +10,7 @@ use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use App\Model\Field\StudentType;
 use App\Model\Table\Traits\BasicTableTrait;
+use App\Utility\Calc;
 use ArrayObject;
 use Cake\Cache\Cache;
 use Cake\Datasource\EntityInterface;
@@ -287,13 +288,13 @@ class StudentsTable extends Table
         $stageRegister = $studentStages[StageField::REGISTER->value] ?? null;
 
         // stage: registy, status: in-progress
-        if (!empty($stageRegister) && $stageRegister->status_obj->is([StageStatus::IN_PROGRESS])) {
+        if (!empty($stageRegister) && $stageRegister->getStatus()->is([StageStatus::IN_PROGRESS])) {
             $query = $query
                 ->find('withTenants');
         }
 
         // stage: registy, status: success
-        if (!empty($stageRegister) && $stageRegister->status_obj->is([StageStatus::SUCCESS])) {
+        if (!empty($stageRegister) && $stageRegister->getStatus()->is([StageStatus::SUCCESS])) {
             $query = $query
                 ->contain(['Tenants' => ['Programs']])
                 ->find('withStudentData')
@@ -410,6 +411,8 @@ class StudentsTable extends Table
                     ->select(['total_hours' => 'SUM(StudentTracking.hours)'])
                     ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
                     ->first();
+
+                $totalPercent = Calc::percentHoursCompleted($totalHours->total_hours ?? 0);
             }
 
             return [
@@ -417,6 +420,7 @@ class StudentsTable extends Table
                 'trackingFirstDate' => $trackingFirstDate->date ?? null,
                 'trackingLastDate' => $trackingLastDate->date ?? null,
                 'totalHours' => $totalHours->total_hours ?? 0,
+                'totalPercent' => $totalPercent ?? 0,
             ];
         }, '1day');
     }

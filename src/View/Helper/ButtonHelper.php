@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\View\Helper;
 
 use App\Enum\ActionColor;
-use App\Utility\FaIcon;
 use Cake\View\Helper;
+use CakeLteTools\Utility\FaIcon;
 
 /**
  * Button helper
@@ -115,7 +115,6 @@ class ButtonHelper extends Helper
 
         $options = array_merge([
             'escape' => false,
-            'block' => true,
         ], $options);
 
         if (!empty($options['class']) && ($options['override'] ?? false)) {

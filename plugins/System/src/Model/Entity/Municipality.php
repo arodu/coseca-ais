@@ -1,18 +1,18 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Model\Entity;
+namespace System\Model\Entity;
 
 use Cake\ORM\Entity;
 
 /**
- * SysState Entity
+ * Municipality Entity
  *
+ * @property int $municipality_id
  * @property int $state_id
  * @property string $name
- * @property string $iso
  */
-class SysState extends Entity
+class Municipality extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -24,7 +24,7 @@ class SysState extends Entity
      * @var array<string, bool>
      */
     protected $_accessible = [
+        'state_id' => true,
         'name' => true,
-        'iso' => true,
     ];
 }

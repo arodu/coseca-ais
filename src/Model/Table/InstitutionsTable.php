@@ -57,17 +57,17 @@ class InstitutionsTable extends Table
         ]);
 
         $this->belongsTo('States', [
-            'className' => 'SysStates',
+            'className' => 'System.States',
             'foreignKey' => 'state_id',
             'joinType' => 'LEFT',
         ]);
         $this->belongsTo('Municipalities', [
-            'className' => 'SysMunicipalities',
+            'className' => 'System.Municipalities',
             'foreignKey' => 'municipality_id',
             'joinType' => 'LEFT',
         ]);
         $this->belongsTo('Parishes', [
-            'className' => 'SysParishes',
+            'className' => 'System.Parishes',
             'foreignKey' => 'parish_id',
             'joinType' => 'LEFT',
         ]);

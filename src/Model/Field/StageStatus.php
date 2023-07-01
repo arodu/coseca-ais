@@ -3,13 +3,14 @@ declare(strict_types=1);
 
 namespace App\Model\Field;
 
-use App\Enum\BadgeInterface;
-use App\Enum\Color;
-use App\Enum\Trait\BasicEnumTrait;
-use App\Utility\FaIcon;
-use App\Enum\Trait\ListTrait;
+use CakeLteTools\Enum\BadgeInterface;
+use CakeLteTools\Enum\Color;
+use CakeLteTools\Enum\ListInterface;
+use CakeLteTools\Enum\Trait\BasicEnumTrait;
+use CakeLteTools\Enum\Trait\ListTrait;
+use CakeLteTools\Utility\FaIcon;
 
-enum StageStatus: string implements BadgeInterface
+enum StageStatus: string implements BadgeInterface, ListInterface
 {
     use ListTrait;
     use BasicEnumTrait;

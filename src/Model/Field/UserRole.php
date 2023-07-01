@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Model\Field;
 
-use App\Enum\Trait\BasicEnumTrait;
-use App\Enum\Trait\ListTrait;
+use CakeLteTools\Enum\ListInterface;
+use CakeLteTools\Enum\Trait\BasicEnumTrait;
+use CakeLteTools\Enum\Trait\ListTrait;
 
-enum UserRole: string
+enum UserRole: string implements ListInterface
 {
     use ListTrait;
     use BasicEnumTrait;
@@ -16,6 +17,10 @@ enum UserRole: string
     case ADMIN = 'admin';
     case ASSISTANT = 'assistant';
     case SUPERUSER = 'superuser';
+
+    const GROUP_STUDENT = 'student';
+    const GROUP_ADMIN = 'admin';
+    const GROUP_SUPERADMIN = 'superadmin';
 
     /**
      * @return string
@@ -31,52 +36,85 @@ enum UserRole: string
         };
     }
 
-    public static function getStudentRoles(): array
+    /**
+     * @param string $name Group name
+     * @return array
+     */
+    public static function group(string $name): array
     {
-        return [
-            static::STUDENT,
+        $groups = [
+            static::GROUP_STUDENT => [
+                static::STUDENT,
+            ],
+            static::GROUP_ADMIN => [
+                static::ASSISTANT,
+                static::ADMIN,
+                static::SUPERUSER,
+            ],
+            static::GROUP_SUPERADMIN => [
+                static::ADMIN,
+                static::SUPERUSER,
+            ],
         ];
+
+        return $groups[$name] ?? [];
     }
 
+    /**
+     * @param string $name Group name
+     * @return boolean
+     */
+    public function inGroup(string $name): bool
+    {
+        return in_array($this, static::group($name), true);
+    }
+
+    /**
+     * @return array
+     */
     public static function getStudentGroup(): array
     {
-        return static::values(static::getStudentRoles());
+        return static::values(static::group(static::GROUP_STUDENT));
     }
 
-    public static function getAdminRoles(): array
-    {
-        return [
-            static::ASSISTANT,
-            static::ADMIN,
-            static::SUPERUSER,
-        ];
-    }
-
-    public static function getAdminGroup(): array
-    {
-        return static::values(static::getAdminRoles());
-    }
-
-    public static function getSuperAdminRoles(): array
-    {
-        return [
-            static::ADMIN,
-            static::SUPERUSER,
-        ];
-    }
-
-    public static function getSuperAdminGroup(): array
-    {
-        return static::values(static::getSuperAdminRoles());
-    }
-
+    /**
+     * @return boolean
+     */
     public function isStudentGroup(): bool
     {
-        return in_array($this, static::getStudentRoles(), true);
+        return $this->inGroup(static::GROUP_STUDENT);
     }
 
+    /**
+     * @return array
+     */
+    public static function getAdminGroup(): array
+    {
+        return static::values(static::group(static::GROUP_ADMIN));
+    }
+
+
+    /**
+     * @return boolean
+     */
     public function isAdminGroup(): bool
     {
-        return in_array($this, static::getAdminRoles(), true);
+        return $this->inGroup(static::GROUP_ADMIN);
+    }
+
+    /**
+     * @return array
+     */
+    public static function getSuperAdminGroup(): array
+    {
+        return static::values(static::group(static::GROUP_SUPERADMIN));
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isSuperAdminGroup(): bool
+    {
+        return $this->inGroup(static::GROUP_SUPERADMIN);
     }
 }

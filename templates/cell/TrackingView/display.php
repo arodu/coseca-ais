@@ -5,9 +5,8 @@
  */
 
 use App\Enum\ActionColor;
-use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\StageField;
-use App\Utility\FaIcon;
+use CakeLteTools\Utility\FaIcon;
 
 $user = $this->request->getAttribute('identity');
 $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
@@ -34,7 +33,7 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
         <div class="card-header">
             <h3 class="card-title">
                 <?= h($adscription->institution_project->label_name) ?>
-                <?= $this->App->badge($adscription->status_obj) ?>
+                <?= $this->App->badge($adscription->getStatus()) ?>
             </h3>
             <div class="card-tools">
                 <?php

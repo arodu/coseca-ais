@@ -21,7 +21,7 @@ class StudentAdscriptionPolicy
      */
     public function canAddTracking(IdentityInterface $user, StudentAdscription $adscription)
     {
-        $adscriptionIsOpen = $adscription->statusObj->is([AdscriptionStatus::OPEN]);
+        $adscriptionIsOpen = $adscription->getStatus()?->is([AdscriptionStatus::OPEN]);
 
         if ($adscriptionIsOpen && $this->studentIsOwner($user, $adscription->student_id)) {
             return true;
@@ -69,11 +69,11 @@ class StudentAdscriptionPolicy
 
     protected function adscriptionIsOpen(StudentAdscription $adscription): bool
     {
-        return $adscription->statusObj->is([AdscriptionStatus::OPEN]);
+        return $adscription->getStatus()?->is([AdscriptionStatus::OPEN]) ?? false;
     }
 
     protected function adscriptionIsClosed(StudentAdscription $adscription): bool
     {
-        return $adscription->statusObj->is([AdscriptionStatus::CLOSED]);
+        return $adscription->getStatus()?->is([AdscriptionStatus::CLOSED]) ?? false;
     }
 }

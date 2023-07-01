@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace App\Enum;
 
-use App\Enum\Trait\BasicEnumTrait;
+use CakeLteTools\Enum\BadgeInterface;
+use CakeLteTools\Enum\Color;
+use CakeLteTools\Enum\Trait\BasicEnumTrait;
 
 enum Active implements BadgeInterface
 {
@@ -31,8 +33,16 @@ enum Active implements BadgeInterface
         };
     }
 
-    public static function get(bool $active): self
+    /**
+     * @param boolean|null $active
+     * @return self|null
+     */
+    public static function get(bool $active = null): ?self
     {
+        if (is_null($active)) {
+            return null;
+        }
+
         return $active ? self::TRUE : self::FALSE;
     }
 }

@@ -44,7 +44,7 @@ $this->Breadcrumbs->add([
             <?= $this->Html->link(__('Editar'), ['action' => 'editProgram', $program->id], ['class' => ActionColor::EDIT->btn()]) ?>
         </div>
         <div class="ml-auto">
-            <?= $this->AppForm->buttonCancel(['label' => __('Volver'), 'url' => ['action' => 'index']]) ?>
+            <?= $this->Button->cancel(['label' => __('Volver'), 'url' => ['action' => 'index']]) ?>
         </div>
     </div>
 </div>

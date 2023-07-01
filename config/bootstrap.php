@@ -227,8 +227,8 @@ FrozenDate::setToStringFormat('dd/MM/yy');
 //Inflector::rules('irregular', ['red' => 'redlings']);
 //Inflector::rules('uninflected', ['dontinflectme']);
 
-Configure::write('coseca.hours-min', 120);
-Configure::write('coseca.uc-min', 90);
-Configure::write('coseca.uc-max', 192);
+Configure::write('coseca.hours-min', env('COSECA_HOURS_MIN', 120));
+Configure::write('coseca.uc-min', env('COSECA_UC_MIN', 90));
+Configure::write('coseca.uc-max', env('COSECA_UC_MAX', 192));
 
 Configure::load('stages');

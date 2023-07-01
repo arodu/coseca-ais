@@ -17,10 +17,16 @@
             <span><?= __('Ultima actividad') ?></span>
         </div>
     </div>
-    <div class="col-sm">
+    <div class="col-sm border-right">
         <div class="description-block">
             <h5 class="total-hours description-header"><?= $trackingInfo['totalHours'] ?? $this->App->nan() ?></h5>
             <span><?= __('Horas completadas') ?></span>
+        </div>
+    </div>
+    <div class="col-sm">
+        <div class="description-block">
+            <h5 class="total-percent description-header"><?= ($trackingInfo['totalPercent'] . '%') ?? $this->App->nan() ?></h5>
+            <span><?= __('Completado') ?></span>
         </div>
     </div>
 </div>

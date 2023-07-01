@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -13,6 +14,7 @@ declare(strict_types=1);
  * @since     3.0.0
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\View;
 
 use Cake\Core\Configure;
@@ -27,17 +29,18 @@ use CakeLte\View\CakeLteTrait;
  * @link https://book.cakephp.org/4/en/views.html#the-app-view
  * 
  * @property \App\View\Helper\AppHelper $App
- * @property \App\View\Helper\BulkActionHelper $BulkAction
  * @property \App\View\Helper\ButtonHelper $Button
- * @property \App\View\Helper\DependentSelectorHelper $DependentSelector
+ * @property \CakeLteTools\View\Helper\DependentSelectorHelper $DependentSelector
+ * @property \CakeLteTools\View\Helper\BulkActionHelper $BulkAction
  * @property \ModalForm\View\Helper\ModalFormHelper $ModalForm
+ * @property \App\View\Helper\AppFormHelper $AppForm
  */
 class AppView extends View
 {
     use CakeLteTrait;
 
     public $layout = 'CakeLte.top-nav';
-  
+
     /**
      * Initialization hook method.
      *
@@ -52,8 +55,9 @@ class AppView extends View
         $this->initializeCakeLte();
         $this->loadHelper('Authentication.Identity');
         $this->loadHelper('ModalForm.ModalForm');
-        $this->loadHelper('DependentSelector');
         $this->loadHelper('Button');
+        $this->loadHelper('CakeLteTools.DependentSelector');
+        $this->loadHelper('CakeLteTools.BulkAction');
     }
 
     /**

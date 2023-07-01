@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\View\Helper;
 
-use App\Enum\BadgeInterface;
-use App\Enum\Color;
 use App\Model\Entity\Lapse;
-use App\Utility\FaIcon;
+use App\Utility\Calc;
 use Cake\Utility\Inflector;
 use Cake\View\Helper;
+use CakeLteTools\Enum\BadgeInterface;
+use CakeLteTools\Enum\Color;
+use CakeLteTools\Utility\FaIcon;
 
 /**
  * App helper
@@ -56,35 +57,29 @@ class AppHelper extends Helper
     /**
      * @param float $completed
      * @param float $total
-     * @param integer $decimals
-     * @return float
-     */
-    public function progressBarCalc(float $completed, float $total, int $decimals = 0): float
-    {
-        if ($completed >= $total) {
-            return 100;
-        }
-        $result = ($completed * 100) / $total;
-
-        return round($result, $decimals);
-    }
-
-    /**
-     * @param float $completed
-     * @param float $total
      * @return string
      */
-    public function progressBar(float $completed, float $total): string
+    public function progressBar(float $completed, float $total = null): string
     {
-        $percent = $this->progressBarCalc($completed, $total, 0);
+        $percent = Calc::percentHoursCompleted($completed, $total);
 
-        $output = '<div class="progress progress-sm" title="' . __('{0} horas', $completed) . '">'
-            . '<div class="progress-bar ' . $this->progressBarColor($percent) . '" role="progressbar" aria-valuenow="' . $percent . '" aria-valuemin="0" aria-valuemax="100" style="width:' . $percent . '%">'
-            . '</div>'
-            . '</div>'
-            . '<small>' . __('{0}% Completado', $percent) . '</small>';
+        $progressBar = $this->Html->tag('div', '', [
+            'class' => 'progress-bar ' . $this->progressBarColor($percent),
+            'role' => 'progressbar',
+            'aria-valuenow' => $percent,
+            'aria-valuemin' => 0,
+            'aria-valuemax' => 100,
+            'style' => 'width:' . $percent . '%',
+        ]);
 
-        return $output;
+        $contain = $this->Html->tag('div', $progressBar, [
+            'class' => 'progress progress-sm',
+            'title' => __('{0} horas', $completed),
+        ]);
+
+        $text = $this->Html->tag('small', __('{0}% Completado', $percent));
+
+        return $contain . $text;
     }
 
     public function error(string $tooltip = null): string

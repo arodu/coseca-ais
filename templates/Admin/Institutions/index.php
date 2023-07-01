@@ -5,8 +5,7 @@
  */
 
 use App\Enum\ActionColor;
-use App\Utility\FaIcon;
-use Phinx\Db\Action\Action;
+use CakeLteTools\Utility\FaIcon;
 
 ?>
 <?php

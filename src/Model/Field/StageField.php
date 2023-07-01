@@ -3,11 +3,12 @@ declare(strict_types=1);
 
 namespace App\Model\Field;
 
-use App\Enum\Trait\BasicEnumTrait;
-use App\Enum\Trait\ListTrait;
 use Cake\Core\Configure;
+use CakeLteTools\Enum\ListInterface;
+use CakeLteTools\Enum\Trait\BasicEnumTrait;
+use CakeLteTools\Enum\Trait\ListTrait;
 
-enum StageField: string
+enum StageField: string implements ListInterface
 {
     use ListTrait;
     use BasicEnumTrait;
