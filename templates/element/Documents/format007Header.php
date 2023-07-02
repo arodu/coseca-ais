@@ -7,7 +7,7 @@ $tutor = $adscription->tutor;
 $institution = $project->institution;
 ?>
 
-<table style="width:100%">
+<table style="width:100%"  class="truncate">
     <tr>
         <td colspan="3" class="text-right">
             <strong>MFS-007</strong>

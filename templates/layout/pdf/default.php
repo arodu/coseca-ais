@@ -82,6 +82,13 @@ $footerBottomBase = -0 - $footerHeight;
         table td {
             padding: 4px;
         }
+
+        .truncate {
+            width: 250px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     </style>
 
 </head>
