@@ -70,7 +70,7 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
                                 'data-target' => '#closeAdscription' . $adscription->id,
                                 'class' => 'dropdown-item',
                                 //'actionColor' => ActionColor::VALIDATE,
-                                'icon' => FaIcon::get('close', 'fa-fw'),
+                                //'icon' => FaIcon::get('close', 'fa-fw'),
                             ]) ?>
                         <?php endif ?>
 
