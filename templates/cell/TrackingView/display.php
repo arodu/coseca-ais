@@ -26,6 +26,10 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
     $canAddTracking = $user->can('addTracking', $adscription);
     $canDeleteTracking = $user->can('deleteTracking', $adscription);
     $canValidateAdscription = $user->can('validate', $adscription);
+
+    $canCloseAdscription = $user->can('close', $adscription);
+    $canPrintFormat007 = $user->can('printFormat007', $adscription);
+
     $count = 0;
     $sumHours = 0;
     ?>
@@ -36,7 +40,57 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
                 <?= $this->App->badge($adscription->getStatus()) ?>
             </h3>
             <div class="card-tools">
+                <div class="btn-group">
+                    <?php if ($canAddTracking) : ?>
+                        <?= $this->Button->openModal([
+                            'label' => __('Agregar Actividad'),
+                            'data-target' => '#addTracking' . $adscription->id,
+                            'class' => 'btn-sm',
+                            'icon' => FaIcon::get('tasks', 'fa-fw'),
+                        ]) ?>
+                    <?php endif ?>
+                    <button type="button" class="btn btn-info btn-flat btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown">
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right" role="menu">
+                        <?php
+                        if ($canValidateAdscription && !empty($urlList['validate'])) : ?>
+                            <?= $this->Button->openModal([
+                                'label' => __('Validar horas del proyecto'),
+                                'data-target' => '#validateAdscription' . $adscription->id,
+                                'class' => 'dropdown-item',
+                                //'actionColor' => ActionColor::VALIDATE,
+                                'icon' => FaIcon::get('validate', 'fa-fw'),
+                            ]); ?>
+                        <?php endif ?>
+
+
+                        <?php if ($canCloseAdscription) : ?>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Cerrar Proyecto</a>
+                        <?php endif ?>
+
+                        <?php if ($canPrintFormat007) : ?>
+                            <div class="dropdown-divider"></div>
+                            <?= $this->Button->report([
+                                'url' => [
+                                    'controller' => 'Documents',
+                                    'action' => 'format007',
+                                    $adscription->id,
+                                    'format007.pdf',
+                                ],
+                                'label' => __('Planilla 007'),
+                                'class' => 'dropdown-item',
+                                'target' => '_blank',
+                            ]) ?>
+                        <?php endif ?>
+                    </div>
+                </div>
+
+
+
                 <?php
+                /*
                 if ($canValidateAdscription && !empty($urlList['validate'])) :
                     echo $this->Button->openModal([
                         'label' => __('Validar horas del proyecto'),
@@ -54,7 +108,9 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
                         'class' => 'btn-sm',
                         'icon' => FaIcon::get('tasks', 'fa-fw'),
                     ]) ?>
-                <?php endif ?>
+                <?php endif 
+                
+                */ ?>
             </div>
         </div>
         <div class="card-body table-responsive p-0">

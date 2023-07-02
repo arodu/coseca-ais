@@ -386,43 +386,48 @@ class StudentsTable extends Table
         return Cache::remember('student_tracking_info_' . $student_id, function () use ($student_id) {
             $adscriptionsIds = $this->StudentAdscriptions->find('activeProjects', ['student_id' => $student_id]);
 
-            $trackingCount = $this->StudentAdscriptions->StudentTracking->find()
-                ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
-                ->count();
-
-            $trackingFirstDate = null;
-            $trackingLastDate = null;
-            $totalHours = null;
-
-            if ($trackingCount > 0) {
-                $trackingFirstDate = $this->StudentAdscriptions->StudentTracking->find()
-                    ->select(['StudentTracking.date'])
-                    ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
-                    ->order(['StudentTracking.date' => 'ASC'])
-                    ->first();
-
-                $trackingLastDate = $this->StudentAdscriptions->StudentTracking->find()
-                    ->select(['StudentTracking.date'])
-                    ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
-                    ->order(['StudentTracking.date' => 'DESC'])
-                    ->first();
-
-                $totalHours = $this->StudentAdscriptions->StudentTracking->find()
-                    ->select(['total_hours' => 'SUM(StudentTracking.hours)'])
-                    ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
-                    ->first();
-
-                $totalPercent = Calc::percentHoursCompleted($totalHours->total_hours ?? 0);
-            }
-
-            return [
-                'trackingCount' => $trackingCount ?? 0,
-                'trackingFirstDate' => $trackingFirstDate->date ?? null,
-                'trackingLastDate' => $trackingLastDate->date ?? null,
-                'totalHours' => $totalHours->total_hours ?? 0,
-                'totalPercent' => $totalPercent ?? 0,
-            ];
+            return $this->getStudentTrackingInfoByAdscription($adscriptionsIds);
         }, '1day');
+    }
+
+    public function getStudentTrackingInfoByAdscription(array|Query $adscriptionsIds = []): array
+    {
+        $trackingCount = $this->StudentAdscriptions->StudentTracking->find()
+            ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
+            ->count();
+
+        $trackingFirstDate = null;
+        $trackingLastDate = null;
+        $totalHours = null;
+
+        if ($trackingCount > 0) {
+            $trackingFirstDate = $this->StudentAdscriptions->StudentTracking->find()
+                ->select(['StudentTracking.date'])
+                ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
+                ->order(['StudentTracking.date' => 'ASC'])
+                ->first();
+
+            $trackingLastDate = $this->StudentAdscriptions->StudentTracking->find()
+                ->select(['StudentTracking.date'])
+                ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
+                ->order(['StudentTracking.date' => 'DESC'])
+                ->first();
+
+            $totalHours = $this->StudentAdscriptions->StudentTracking->find()
+                ->select(['total_hours' => 'SUM(StudentTracking.hours)'])
+                ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
+                ->first();
+
+            $totalPercent = Calc::percentHoursCompleted($totalHours->total_hours ?? 0);
+        }
+
+        return [
+            'trackingCount' => $trackingCount ?? 0,
+            'trackingFirstDate' => $trackingFirstDate->date ?? null,
+            'trackingLastDate' => $trackingLastDate->date ?? null,
+            'totalHours' => $totalHours->total_hours ?? 0,
+            'totalPercent' => $totalPercent ?? 0,
+        ];
     }
 
     /**

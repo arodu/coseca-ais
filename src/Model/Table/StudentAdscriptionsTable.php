@@ -204,6 +204,19 @@ class StudentAdscriptionsTable extends Table
         Cache::delete('student_tracking_info_' . $student->id);
     }
 
+
+    public function findWithStudents(Query $query, array $options): Query
+    {
+        return $query
+            ->contain([
+                'Students' => [
+                    'AppUsers',
+                    'StudentData',
+                    'Lapses',
+                ],
+            ]);
+    }
+
     public function findWithInstitution(Query $query, array $options): Query
     {
         return $query
@@ -226,21 +239,30 @@ class StudentAdscriptionsTable extends Table
             ]);
     }
 
-    public function createValidationToken($adscription_id)
+    public function findWithTutor(Query $query, array $options): Query
     {
-        // @todo still in working
+        return $query
+            ->contain([
+                'Tutors',
+            ]);
+    }
+
+    public function createValidationToken(int $adscription_id): string
+    {
         $adscription = $this->find()
             ->where([$this->aliasField('id') => $adscription_id])
-            ->select(['student_id', 'institution_project_id', 'tutor_id'])
+            ->select(['id', 'student_id', 'institution_project_id', 'tutor_id'])
             ->contain('Students', function (Query $query) {
-                return $query->select(['dni']);
+                return $query
+                    ->contain(['AppUsers'])
+                    ->select(['AppUsers.dni']);
             })
             ->contain('StudentTracking', function (Query $query) {
-                return $query->select(['date', 'description', 'hours']);
+                return $query->select(['student_adscription_id', 'date', 'hours']);
             })
             ->toArray();
 
-        $token = md5(serialize($adscription));
+        $token = substr(md5(serialize($adscription)), 0, 8);
 
         return $token;
     }

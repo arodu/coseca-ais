@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Field;
@@ -14,4 +15,5 @@ enum DocumentType: string implements ListInterface
 
     case ADSCRIPTION_PROJECT = 'adscription_project';
     case ADSCRIPTION_TRACKING = 'adscription_tracking';
+    case ACTIVITIES = 'activities';
 }
