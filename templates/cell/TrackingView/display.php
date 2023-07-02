@@ -61,17 +61,20 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
                                 'class' => 'dropdown-item',
                                 //'actionColor' => ActionColor::VALIDATE,
                                 'icon' => FaIcon::get('validate', 'fa-fw'),
-                            ]); ?>
+                            ]) ?>
                         <?php endif ?>
 
-
                         <?php if ($canCloseAdscription) : ?>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Cerrar Proyecto</a>
+                            <?= $this->Button->openModal([
+                                'label' => __('Cerrar Proyecto'),
+                                'data-target' => '#closeAdscription' . $adscription->id,
+                                'class' => 'dropdown-item',
+                                //'actionColor' => ActionColor::VALIDATE,
+                                'icon' => FaIcon::get('close', 'fa-fw'),
+                            ]) ?>
                         <?php endif ?>
 
                         <?php if ($canPrintFormat007) : ?>
-                            <div class="dropdown-divider"></div>
                             <?= $this->Button->report([
                                 'url' => [
                                     'controller' => 'Documents',
@@ -86,35 +89,10 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
                         <?php endif ?>
                     </div>
                 </div>
-
-
-
-                <?php
-                /*
-                if ($canValidateAdscription && !empty($urlList['validate'])) :
-                    echo $this->Button->openModal([
-                        'label' => __('Validar horas del proyecto'),
-                        'data-target' => '#validateAdscription' . $adscription->id,
-                        'class' => 'btn-sm',
-                        'actionColor' => ActionColor::VALIDATE,
-                        'icon' => FaIcon::get('validate', 'fa-fw'),
-                    ]);
-                endif;
-                ?>
-                <?php if ($canAddTracking) : ?>
-                    <?= $this->Button->openModal([
-                        'label' => __('Agregar Actividad'),
-                        'data-target' => '#addTracking' . $adscription->id,
-                        'class' => 'btn-sm',
-                        'icon' => FaIcon::get('tasks', 'fa-fw'),
-                    ]) ?>
-                <?php endif 
-                
-                */ ?>
             </div>
         </div>
         <div class="card-body table-responsive p-0">
-            <table class="table table-hover text-nowrap">
+            <table class="table table-hover">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -275,4 +253,51 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
         </div>
     <?php endif ?>
 
+
+    <?php if ($canCloseAdscription) : ?>
+        <div class="modal fade" id="<?= 'closeAdscription' . $adscription->id ?>" tabindex="-1" role="dialog" aria-labelledby="closeAdscriptionModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <?= __('¿Está seguro de que desea cerrar este proyecto? Una vez cerrado, no podrá seguir agregando actividades') ?>
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <?php $urlClose = $urlList['close'] ?>
+                    <?= $this->Form->create(null, ['url' => $urlClose]) ?>
+                    <?= $this->Form->hidden('student_adscription_id', ['value' => $adscription->id]) ?>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col">
+                                <?= $this->App->control('project', [
+                                    'label' => __('Proyecto'),
+                                    'value' => h($adscription->institution_project->label_name),
+                                ]) ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <?= $this->Form->control('confirm', [
+                                    'type' => 'checkbox',
+                                    'label' => __('Confirmo que deseo cerrar este proyecto'),
+                                    'required' => true,
+                                ])  ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <?= $this->Button->save([
+                            'label' => __('Si'),
+                            'icon' => false,
+                        ]) ?>
+                        <?= $this->Button->closeModal() ?>
+                    </div>
+                    <?= $this->Form->end() ?>
+                </div>
+            </div>
+        </div>
+    <?php endif ?>
 <?php endforeach ?>
