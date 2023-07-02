@@ -154,6 +154,10 @@ class StudentsController extends AppAdminController
                     // @todo poder poner claves en este array, revisar en rutas
                     AdscriptionStatus::VALIDATED->value
                 ],
+                'close' => [
+                    '_name' => 'admin:stage:adscription:changeStatus',
+                    AdscriptionStatus::CLOSED->value
+                ],
             ]
         ]);
 

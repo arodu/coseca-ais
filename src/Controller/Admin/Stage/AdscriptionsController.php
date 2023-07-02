@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin\Stage;
 
 use App\Controller\Admin\AppAdminController;
+use App\Controller\Traits\Stage\AdscriptionsProcessTrait;
 use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
@@ -21,6 +22,7 @@ use CakeLteTools\Controller\Traits\RedirectLogicTrait;
  */
 class AdscriptionsController extends AppAdminController
 {
+    use AdscriptionsProcessTrait;
     use RedirectLogicTrait;
 
     public function initialize(): void
@@ -125,22 +127,8 @@ class AdscriptionsController extends AppAdminController
     public function changeStatus($status, $id)
     {
         $this->request->allowMethod(['post', 'put']);
-        $adscription = $this->StudentAdscriptions->get($id);
 
-        if ($status == AdscriptionStatus::VALIDATED->value && !$this->Authorization->can($adscription, 'validate')) {
-            throw new ForbiddenException('No tiene permisos para validar la adscripción');
-        }
-
-        $adscription->status = $status;
-        if ($this->StudentAdscriptions->save($adscription)) {
-            $this->Flash->success(__('The student_adscription has been saved.'));
-        } else {
-            $this->Flash->error(__('The student_adscription could not be saved. Please, try again.'));
-        }
-
-        if ($status == AdscriptionStatus::OPEN->value) {
-            Stages::closeStudentStage($adscription->student_id, StageField::ADSCRIPTION, StageStatus::SUCCESS);
-        }
+        $adscription = $this->processChangeStatus($status, $id);
 
         return $this->redirect(['controller' => 'Students', 'action' => 'adscriptions', $adscription->student_id, 'prefix' => 'Admin']);
     }

@@ -39,6 +39,7 @@ class TrackingController extends AppStudentController
             'urlList' => [
                 'add' => ['_name' => 'student:tracking:add'],
                 'delete' => ['_name' => 'student:tracking:delete'],
+                'close' => ['_name' => 'student:tracking:close'],
             ]
         ]);
         $this->set(compact('student_id', 'trackingView'));

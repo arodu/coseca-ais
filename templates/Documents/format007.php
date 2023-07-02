@@ -14,8 +14,8 @@ $num = 1;
         <tr>
             <th>#</th>
             <th><?= __('Fecha') ?></th>
-            <th><?= __('Horas cumplidas') ?></th>
             <th><?= __('Actividades realizadas') ?></th>
+            <th><?= __('Horas cumplidas') ?></th>
         </tr>
     </thead>
     <tbody>
@@ -23,8 +23,8 @@ $num = 1;
             <tr>
                 <td class="text-center"><?= h($num) ?></td>
                 <td class="text-center"><?= h($track->date) ?></td>
-                <td class="text-center"><?= h($track->hours) ?></td>
                 <td><?= h($track->description) ?></td>
+                <td class="text-center"><?= h($track->hours) ?></td>
             </tr>
             <?php $num++; ?>
         <?php endforeach; ?>

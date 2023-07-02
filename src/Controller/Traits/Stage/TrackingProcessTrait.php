@@ -38,7 +38,6 @@ trait TrackingProcessTrait
 
     protected function processDelete(int $tracking_id)
     {
-
         $tackingTable = $this->fetchTable('StudentTracking');
 
         $tracking = $tackingTable->get($tracking_id, [
@@ -63,21 +62,5 @@ trait TrackingProcessTrait
             'adscription' => $adscription,
             'tracking' => $tracking,
         ];
-    }
-
-
-    protected function printActivities(int $student_id)
-    {
-        $tackingTable = $this->fetchTable('StudentTracking');
-
-        $adscriptions = $tackingTable->Adscriptions->find()
-            ->where([
-                'Adscriptions.student_id' => $student_id,
-            ])
-            ->contain([
-                'Tracking',
-            ]);
-
-        $this->set(compact('adscriptions'));
     }
 }

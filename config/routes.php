@@ -83,6 +83,7 @@ return static function (RouteBuilder $routes) {
         $builder->connect('/tracking/add/*', ['controller' => 'Tracking', 'action' => 'add', 'plugin' => false], ['_name' => 'tracking:add']);
         $builder->connect('/tracking/delete/*', ['controller' => 'Tracking', 'action' => 'delete', 'plugin' => false], ['_name' => 'tracking:delete']);
         $builder->connect('/tracking/validate/*', ['controller' => 'Tracking', 'action' => 'validate', 'plugin' => false], ['_name' => 'tracking:validate']);
+        $builder->connect('/tracking/close/*', ['controller' => 'Adscriptions', 'action' => 'close', 'plugin' => false], ['_name' => 'tracking:close']);
 
         $builder->fallbacks(DashedRoute::class);
     });
