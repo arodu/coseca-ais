@@ -1,9 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
-namespace App\Controller\Admin;
+namespace App\Controller\Student;
 
-use App\Controller\AppController;
+use App\Controller\Traits\DocumentsTrait;
 
 /**
  * StudentDocuments Controller
@@ -11,12 +12,7 @@ use App\Controller\AppController;
  * @property \App\Model\Table\StudentDocumentsTable $StudentDocuments
  * @method \App\Model\Entity\StudentDocument[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class StudentDocumentsController extends AppController
+class DocumentsController extends AppStudentController
 {
-
-    public function download($student_id, $document)
-    {
-
-    }
-
+    use DocumentsTrait;
 }

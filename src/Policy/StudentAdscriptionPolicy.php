@@ -67,6 +67,35 @@ class StudentAdscriptionPolicy
         return false;
     }
 
+    public function canClose(IdentityInterface $user, StudentAdscription $adscription)
+    {
+        if ($this->adscriptionIsOpen($adscription) && $this->userIsAdmin($user)) {
+            return true;
+        }
+
+        if ($this->adscriptionIsOpen($adscription) && $this->studentIsOwner($user, $adscription->student_id)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function canPrintFormat007(IdentityInterface $user, StudentAdscription $adscription)
+    {
+        if ($this->adscriptionIsClosed($adscription) && $this->userIsAdmin($user)) {
+            return true;
+        }
+
+        if (
+            $this->adscriptionIsClosed($adscription)
+            && $this->studentIsOwner($user, $adscription->student_id)
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
     protected function adscriptionIsOpen(StudentAdscription $adscription): bool
     {
         return $adscription->getStatus()?->is([AdscriptionStatus::OPEN]) ?? false;

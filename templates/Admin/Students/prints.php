@@ -4,6 +4,7 @@
  * @var \App\View\AppView $this
  */
 
+use App\Model\Field\DocumentType;
 use App\Model\Field\StageStatus;
 
 $this->student_id = $student_id;
@@ -20,10 +21,5 @@ $this->Breadcrumbs->add([
 ?>
 
 <div class="card-body">
-    <div class="alert alert-info">
-        Prints
-    </div>
-
-    <?= $this->Html->link('Formato de Actividades', ['controller' => 'StudentDocuments', 'action' => 'download', $student_id, 'activities'], ['class' => 'btn btn-primary']) ?>
 
 </div>

@@ -232,3 +232,23 @@ Configure::write('coseca.uc-min', env('COSECA_UC_MIN', 90));
 Configure::write('coseca.uc-max', env('COSECA_UC_MAX', 192));
 
 Configure::load('stages');
+
+Configure::write('CakePdf', [
+    'engine' => [
+        'className' => 'CakePdf.DomPdf',
+        'options' => [
+            'isRemoteEnabled' => true,
+        ],
+    ],
+    'margin' => [
+        'bottom' => 15,
+        'left' => 50,
+        'right' => 30,
+        'top' => 45
+    ],
+    'setPrintHeader' => false,
+    'setPrintFooter' => false,
+    'header' => [
+        'right' => '123123123',
+    ],
+]);
