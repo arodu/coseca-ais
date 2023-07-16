@@ -35,4 +35,20 @@ trait DocumentsTrait
         $this->set(compact('adscription', 'trackingInfo', 'validationToken'));
         $this->render('/Documents/format007');
     }
+
+    public function format009($student_id = null)
+    {
+        $this->Students = $this->fetchTable('Students');
+
+        $student = $this->Students->find()
+            ->find('withAppUsers')
+            //->find('withTracking')
+            ->where(['Students.id' => $student_id])
+            ->firstOrFail();
+
+        $this->viewBuilder()->setClassName('CakePdf.Pdf');
+
+        $this->set(compact('student'));
+        $this->render('/Documents/format009');
+    }
 }

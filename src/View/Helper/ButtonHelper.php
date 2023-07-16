@@ -391,6 +391,29 @@ class ButtonHelper extends Helper
      * @param array<string, mixed> $options
      * @return string
      */
+    public function confirm(array $options = []): string
+    {
+        if (empty($options['url'])) {
+            throw new \InvalidArgumentException('url is required');
+        }
+
+        $options = array_merge([
+            'icon' => FaIcon::get($this->getConfig('icon.edit'), $this->getConfig('icon_class')),
+            'label' => false,
+            'escape' => false,
+            'actionColor' => ActionColor::EDIT,
+            'override' => false,
+            'outline' => false,
+            'confirm' => __('Seguro que desea realizar esta acción?'),
+        ], $options);
+
+        return $this->postLink($options);
+    }
+
+    /**
+     * @param array<string, mixed> $options
+     * @return string
+     */
     public function cancel(array $options = []): string
     {
         if (empty($options['url'])) {

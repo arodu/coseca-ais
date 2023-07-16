@@ -69,6 +69,11 @@ class StudentStage extends Entity
         return StageStatus::tryFrom($this->status);
     }
 
+    public function statusIs(mixed $item): bool
+    {
+        return $this->getStatus()?->is($item) ?? false;
+    }
+
     protected function _getStageLabel(): string
     {
         return $this->getStage()?->label() ?? '';

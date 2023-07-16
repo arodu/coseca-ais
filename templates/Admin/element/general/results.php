@@ -15,22 +15,16 @@ $this->extend('/Admin/Common/timeline_item');
 
 $this->start('actions');
 echo $this->Button->confirm([
-    'label' => __('Cerrar Seguimiento'),
+    'label' => __('Cerrar Resultados'),
     'url' => [
-        'controller' => 'Tracking',
+        'controller' => 'Results',
         'action' => 'closeStage',
         $studentStage->student_id,
         'prefix' => 'Admin/Stage'
     ],
-    'confirm' => __('¿Está seguro de cerrar la etapa de seguimiento?'),
+    'confirm' => __('¿Está seguro de cerrar la etapa de resultados?'),
     'class' => 'btn-sm',
 ]);
-
-echo $this->Html->link(
-    __('Ver Seguimiento'),
-    ['controller' => 'Students', 'action' => 'tracking', $studentStage->student_id, 'prefix' => 'Admin'],
-    ['class' => ActionColor::VIEW->btn('btn-sm ml-2')]
-);
 $this->end();
 
-echo $this->cell('TrackingView::info', ['student_id' => $studentStage->student_id]);
+// results

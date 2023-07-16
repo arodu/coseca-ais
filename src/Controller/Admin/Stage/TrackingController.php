@@ -1,10 +1,14 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Admin\Stage;
 
 use App\Controller\Admin\AppAdminController;
 use App\Controller\Traits\Stage\TrackingProcessTrait;
+use App\Model\Field\StageField;
+use App\Model\Field\StageStatus;
+use App\Utility\Calc;
 use Cake\Http\Exception\ForbiddenException;
 
 /**
@@ -21,6 +25,7 @@ class TrackingController extends AppAdminController
     {
         parent::initialize();
         $this->Tracking = $this->fetchTable('StudentTracking');
+        $this->StudentStages = $this->fetchTable('StudentStages');
     }
 
     /**
@@ -35,7 +40,7 @@ class TrackingController extends AppAdminController
         [
             'adscription' => $adscription,
         ] = $this->processAdd($this->request->getData());
-        
+
         return $this->redirect(['_name' => 'admin:student:tracking', $adscription->student_id]);
     }
 
@@ -55,5 +60,39 @@ class TrackingController extends AppAdminController
         ] = $this->processDelete((int) $tracking_id);
 
         return $this->redirect(['_name' => 'admin:student:tracking', $adscription->student_id]);
+    }
+
+    public function closeStage($student_id = null)
+    {
+        $this->request->allowMethod(['post', 'put']);
+        $trackingStage = $this->StudentStages
+            ->find('byStudentStage', [
+                'student_id' => $student_id,
+                'stage' => StageField::TRACKING,
+            ])
+            ->contain(['Students'])
+            ->first();
+
+        if (!$trackingStage) {
+            throw new ForbiddenException();
+        }
+
+        if ($trackingStage->student->total_hours < Calc::getTotalHours()) {
+            $this->Flash->error(__('El estudiante no ha completado las {0} horas de servicio comunitario.', Calc::getTotalHours()));
+            return $this->redirect(['_name' => 'admin:student:view', $student_id]);
+        }
+
+        // @todo verificar si los proyectos estan cerrados
+        // @todo verificar si los proyectos estan validados
+        // @todo verificar que tiene un proyecto por defecto
+
+        $this->StudentStages->updateStatus($trackingStage, StageStatus::SUCCESS);
+        $nextStage = $this->StudentStages->createNext($trackingStage);
+
+        if (($nextStage ?? false)) {
+            $this->Flash->success(__('The {0} stage has been created.', $nextStage->stage));
+        }
+
+        return $this->redirect(['_name' => 'admin:student:view', $student_id]);
     }
 }
