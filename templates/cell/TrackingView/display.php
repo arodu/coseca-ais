@@ -266,7 +266,7 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <?php $urlClose = $urlList['close'] ?>
+                    <?php $urlClose = array_merge($urlList['close'], [$adscription->id]) ?>
                     <?= $this->Form->create(null, ['url' => $urlClose]) ?>
                     <?= $this->Form->hidden('student_adscription_id', ['value' => $adscription->id]) ?>
                     <div class="modal-body">
