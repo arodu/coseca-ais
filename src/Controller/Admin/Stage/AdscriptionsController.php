@@ -132,4 +132,23 @@ class AdscriptionsController extends AppAdminController
 
         return $this->redirect(['controller' => 'Students', 'action' => 'adscriptions', $adscription->student_id, 'prefix' => 'Admin']);
     }
+
+    public function setPrincipal($id)
+    {
+        $this->request->allowMethod(['post', 'put']);
+
+        $adscription = $this->StudentAdscriptions->get($id);
+
+        $this->StudentAdscriptions->getConnection()->transactional(function () use ($adscription) {
+            $this->StudentAdscriptions->updateAll(
+                ['principal' => false],
+                ['student_id' => $adscription->student_id]
+            );
+
+            $adscription->principal = true;
+            $this->StudentAdscriptions->saveOrFail($adscription);
+        });
+
+        return $this->redirect(['_name' => 'admin:student:adscriptions', $adscription->student_id]);
+    }
 }

@@ -38,6 +38,7 @@ $this->Breadcrumbs->add([
                     <h3 class="card-title">
                         <?= h($studentAdscription->institution_project->label_name) ?>
                         <?= $this->App->badge($studentAdscription->getStatus()) ?>
+                        <?= $this->App->badge($studentAdscription->getPrincipal()) ?>
                     </h3>
                     <div class="ml-auto">
                         <?php
@@ -103,6 +104,13 @@ $this->Breadcrumbs->add([
                             ['controller' => 'Adscriptions', 'action' => 'edit', $studentAdscription->id, 'prefix' => 'Admin/Stage'],
                             ['class' => ActionColor::EDIT->btn()]
                         ) ?>
+
+                        <?php if (!$studentAdscription->principal) {
+                            echo $this->Button->confirm([
+                                'label' => __('Establecer como principal'),
+                                'url' => ['controller' => 'Adscriptions', 'action' => 'setPrincipal', $studentAdscription->id, 'prefix' => 'Admin/Stage'],
+                            ]);
+                        } ?>
                     </div>
                     <div class="ml-auto">
                         <?= $this->Html->link(
