@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Traits;
 
+use App\Model\Field\StageField;
 use Cake\ORM\Locator\LocatorAwareTrait;
 
 trait DocumentsTrait
@@ -39,16 +40,30 @@ trait DocumentsTrait
     public function format009($student_id = null)
     {
         $this->Students = $this->fetchTable('Students');
+        $this->StudentStages = $this->fetchTable('StudentStages');
 
         $student = $this->Students->find()
             ->find('withAppUsers')
-            //->find('withTracking')
+            ->find('withTenants')
             ->where(['Students.id' => $student_id])
+            ->contain([
+                'PrincipalAdscription' => [
+                    'Tutors',
+                    'InstitutionProjects' => [
+                        'Institutions',
+                    ],
+                ],
+            ])
             ->firstOrFail();
+
+        $endingStage = $this->StudentStages->find('byStudentStage', [
+            'student_id' => $student->id,
+            'stage' => StageField::ENDING,
+        ])->firstOrFail();
 
         $this->viewBuilder()->setClassName('CakePdf.Pdf');
 
-        $this->set(compact('student'));
+        $this->set(compact('student', 'endingStage'));
         $this->render('/Documents/format009');
     }
 }
