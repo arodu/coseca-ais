@@ -5,7 +5,7 @@ namespace App\Controller\Admin\Stage;
 use App\Controller\AppController;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
-use Cake\Http\Exception\ForbiddenException;
+use Cake\Http\Exception\NotFoundException;
 
 class EndingsController extends AppController
 {
@@ -13,6 +13,7 @@ class EndingsController extends AppController
     {
         parent::initialize();
         $this->StudentStages = $this->fetchTable('StudentStages');
+        $this->Students = $this->fetchTable('Students');
     }
 
 
@@ -27,10 +28,16 @@ class EndingsController extends AppController
             ->first();
 
         if (!$endingStage) {
-            throw new ForbiddenException();
+            throw new NotFoundException(__('No se encontró la etapa de conclusiones.'));
         }
 
-        // @todo verificar que tiene un proyecto por defecto
+        $student = $this->Students->get($student_id, [
+            'contain' => ['PrincipalAdscription'],
+        ]);
+
+        if (!$student->principal_adscription) {
+            throw new NotFoundException(__('El estudiante no tiene un proyecto principal.'));
+        }
 
         $this->StudentStages->updateStatus($endingStage, StageStatus::SUCCESS);
 

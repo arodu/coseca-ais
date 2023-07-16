@@ -247,6 +247,14 @@ class StudentAdscriptionsTable extends Table
             ]);
     }
 
+    public function findPrincipal(Query $query, array $options): Query
+    {
+        return $query
+            ->where([
+                $this->aliasField('principal') => true,
+            ]);
+    }
+
     public function createValidationToken(int $adscription_id): string
     {
         $adscription = $this->find()

@@ -108,6 +108,13 @@ class StudentsTable extends Table
             'dependent' => true,
             'cascadeCallbacks' => true,
         ]);
+        $this->hasOne('PrincipalAdscription', [
+            'className' => 'StudentAdscriptions',
+            'foreignKey' => 'student_id',
+            'dependent' => true,
+            'cascadeCallbacks' => true,
+            'finder' => 'principal',
+        ]);
         $this->hasOne('StudentCourses', [
             'foreignKey' => 'student_id',
             'dependent' => true,
