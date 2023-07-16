@@ -9,16 +9,16 @@ xdebug_enabled: false
 additional_hostnames: []
 additional_fqdns: []
 database:
-  type: mysql
-  version: "5.7"
-host_db_port: "6601"
+    type: mysql
+    version: "8.0"
 nfs_mount_enabled: false
 mutagen_enabled: false
 bind_all_interfaces: true
+host_db_port: "6601"
 host_webserver_port: "8081"
 use_dns_when_possible: true
 composer_version: "2"
-web_environment:
+web_environment: []
 nodejs_version: "16"
 
 # Key features of ddev's config.yaml:
