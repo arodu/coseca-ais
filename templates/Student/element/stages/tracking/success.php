@@ -1,0 +1,1 @@
+<?= $this->cell('TrackingView::info', ['student_id' => $student->id]) ?>

@@ -26,7 +26,7 @@ echo $this->Button->confirm([
     'class' => 'btn-sm',
 ]);
 
-if ($studentStage->statusIs(StageStatus::SUCCESS)) {
+if ($studentStage->statusIs([StageStatus::WAITING, StageStatus::SUCCESS])) {
     echo $this->Button->report([
         'label' => __('Planilla 009'),
         'url' => [

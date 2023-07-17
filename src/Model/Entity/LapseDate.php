@@ -59,8 +59,14 @@ class LapseDate extends Entity
 
     /**
      * @return StatusDate|null
+     * @deprecated
      */
     protected function _getStatus(): ?StatusDate
+    {
+        return StatusDate::get($this->start_date, $this->end_date);
+    }
+
+    public function getStatus(): ?StatusDate
     {
         return StatusDate::get($this->start_date, $this->end_date);
     }

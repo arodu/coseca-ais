@@ -14,5 +14,12 @@ use App\Controller\Traits\DocumentsTrait;
  */
 class DocumentsController extends AppStudentController
 {
-    use DocumentsTrait;
+    use DocumentsTrait {
+        format009 as protected traitFormat009;
+    }
+
+    public function format009()
+    {
+        $this->traitFormat009($this->getCurrentStudent()->id);
+    }
 }
