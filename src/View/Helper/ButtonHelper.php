@@ -59,17 +59,23 @@ class ButtonHelper extends Helper
             throw new \InvalidArgumentException('actionColor is required');
         }
 
-        $url = $options['url']; unset($options['url']);
-        
-        $actionColor = $options['actionColor']; unset($options['actionColor']);
+        $url = $options['url'];
+        unset($options['url']);
 
-        $label = $options['label'] ?: null; unset($options['label']);
+        $actionColor = $options['actionColor'];
+        unset($options['actionColor']);
 
-        $icon = $options['icon'] ?: null; unset($options['icon']);
+        $label = $options['label'] ?: null;
+        unset($options['label']);
 
-        $icon_position = $options['icon_position'] ?? $this->getConfig('icon_position') ?? self::ICON_POSITION_LEFT; unset($options['icon_position']);
+        $icon = $options['icon'] ?: null;
+        unset($options['icon']);
 
-        $outline = (bool) $options['outline'] ?? false; unset($options['outline']);
+        $icon_position = $options['icon_position'] ?? $this->getConfig('icon_position') ?? self::ICON_POSITION_LEFT;
+        unset($options['icon_position']);
+
+        $outline = (bool) $options['outline'] ?? false;
+        unset($options['outline']);
 
         $title = $this->createTitle($label, $icon, $icon_position);
 
@@ -124,7 +130,6 @@ class ButtonHelper extends Helper
 
         return $this->Form->postLink($title, $url, $options);
     }
-
 
     /**
      * @param array<string, mixed> $options
