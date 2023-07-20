@@ -33,7 +33,6 @@ use CakeLte\View\CakeLteTrait;
  * @property \CakeLteTools\View\Helper\DependentSelectorHelper $DependentSelector
  * @property \CakeLteTools\View\Helper\BulkActionHelper $BulkAction
  * @property \ModalForm\View\Helper\ModalFormHelper $ModalForm
- * @property \App\View\Helper\AppFormHelper $AppForm
  */
 class AppView extends View
 {
