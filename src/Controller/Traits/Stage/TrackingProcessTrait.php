@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Controller\Traits\Stage;
 
+use App\Model\Field\StageField;
+use App\Model\Field\StageStatus;
 use Cake\Http\Exception\ForbiddenException;
+use Cake\Http\Exception\NotFoundException;
 
 trait TrackingProcessTrait
 {
-
     protected function processAdd(array $data = [])
     {
         $tackingTable = $this->fetchTable('StudentTracking');
@@ -62,5 +64,63 @@ trait TrackingProcessTrait
             'adscription' => $adscription,
             'tracking' => $tracking,
         ];
+    }
+
+    protected function processCloseStage(int $student_id = null)
+    {
+        $this->request->allowMethod(['post', 'put']);
+        $trackingStage = $this->Students->StudentStages
+            ->find('byStudentStage', [
+                'student_id' => $student_id,
+                'stage' => StageField::TRACKING,
+            ])
+            ->contain(['Students'])
+            ->first();
+
+        if (!$trackingStage) {
+            throw new NotFoundException(__('Invalid stage'));
+        }
+
+        $result = $this->Authorization->canResult($trackingStage, 'close');
+        if (!$result->getStatus()) {
+            $this->Flash->error($result->getReason());
+
+            return;
+        }
+
+        // @todo Cerrar todas las adscripciones abiertas
+
+
+        $this->Students->StudentStages->updateStatus($trackingStage, StageStatus::REVIEW);
+    }
+
+    protected function processValidateStage($student_id = null)
+    {
+        $this->request->allowMethod(['post', 'put']);
+        $trackingStage = $this->Students->StudentStages
+            ->find('byStudentStage', [
+                'student_id' => $student_id,
+                'stage' => StageField::TRACKING,
+            ])
+            ->contain(['Students'])
+            ->first();
+
+        if (!$trackingStage) {
+            throw new NotFoundException(__('Invalid stage'));
+        }
+
+        $result = $this->Authorization->canResult($trackingStage, 'validate');
+        if (!$result->getStatus()) {
+            $this->Flash->error($result->getReason());
+            
+            return;
+        }
+
+        $this->Students->StudentStages->updateStatus($trackingStage, StageStatus::SUCCESS);
+        $nextStage = $this->Students->StudentStages->createNext($trackingStage);
+
+        if (($nextStage ?? false)) {
+            $this->Flash->success(__('The {0} stage has been created.', $nextStage->stage));
+        }
     }
 }

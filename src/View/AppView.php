@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace App\View;
 
+use Authentication\IdentityInterface;
 use Cake\Core\Configure;
 use Cake\View\View;
 use CakeLte\View\CakeLteTrait;
@@ -85,5 +86,10 @@ class AppView extends View
         unset($options['tag']);
 
         return $this->Html->tag($tag, $info, $options);
+    }
+
+    public function getIdentity(): IdentityInterface
+    {
+        return $this->getRequest()->getAttribute('identity');
     }
 }

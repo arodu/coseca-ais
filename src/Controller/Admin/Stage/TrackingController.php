@@ -10,6 +10,7 @@ use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use App\Utility\Calc;
 use Cake\Http\Exception\ForbiddenException;
+use Cake\Http\Exception\NotFoundException;
 
 /**
  * StudentTracking Controller
@@ -24,8 +25,7 @@ class TrackingController extends AppAdminController
     public function initialize(): void
     {
         parent::initialize();
-        $this->Tracking = $this->fetchTable('StudentTracking');
-        $this->StudentStages = $this->fetchTable('StudentStages');
+        $this->Students = $this->fetchTable('Students');
     }
 
     /**
@@ -64,34 +64,14 @@ class TrackingController extends AppAdminController
 
     public function closeStage($student_id = null)
     {
-        $this->request->allowMethod(['post', 'put']);
-        $trackingStage = $this->StudentStages
-            ->find('byStudentStage', [
-                'student_id' => $student_id,
-                'stage' => StageField::TRACKING,
-            ])
-            ->contain(['Students'])
-            ->first();
+        $this->processCloseStage((int) $student_id);
 
-        if (!$trackingStage) {
-            throw new ForbiddenException();
-        }
+        return $this->redirect(['_name' => 'admin:student:view', $student_id]);
+    }
 
-        if ($trackingStage->student->total_hours < Calc::getTotalHours()) {
-            $this->Flash->error(__('El estudiante no ha completado las {0} horas de servicio comunitario.', Calc::getTotalHours()));
-            return $this->redirect(['_name' => 'admin:student:view', $student_id]);
-        }
-
-        // @todo verificar si los proyectos estan cerrados
-        // @todo verificar si los proyectos estan validados
-        // @todo verificar que tiene un proyecto por defecto
-
-        $this->StudentStages->updateStatus($trackingStage, StageStatus::SUCCESS);
-        $nextStage = $this->StudentStages->createNext($trackingStage);
-
-        if (($nextStage ?? false)) {
-            $this->Flash->success(__('The {0} stage has been created.', $nextStage->stage));
-        }
+    public function validateStage($student_id = null)
+    {
+        $this->processValidateStage((int) $student_id);
 
         return $this->redirect(['_name' => 'admin:student:view', $student_id]);
     }
