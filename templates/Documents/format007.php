@@ -1,5 +1,7 @@
 <?php
 
+dd($adscriptions->toArray());
+
 $this->footerHeight = 100;
 $this->assign('contentHeader', $this->element('Documents/format007Header', ['adscription' => $adscription]));
 $this->assign('contentFooter', $this->element('Documents/format007Footer', ['validationToken' => $validationToken]));

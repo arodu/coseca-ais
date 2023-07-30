@@ -16,28 +16,36 @@ trait DocumentsTrait
         parent::initialize();
     }
 
-    public function format007($adscription_id = null)
+    public function format007(int|string $student_id = null)
     {
-        $this->StudentAdscriptions = $this->fetchTable('StudentAdscriptions');
-
-        $adscription = $this->StudentAdscriptions->find()
+        $adscriptions = $this->Students->StudentAdscriptions->find()
             ->find('withInstitution')
             ->find('withTracking')
             ->find('withStudents')
             ->find('withTutor')
-            ->where(['StudentAdscriptions.id' => $adscription_id])
-            ->firstOrFail();
+            ->where(['StudentAdscriptions.student_id' => $student_id])
+            ->formatResults(function ($results) {
+                return $results->map(function ($row) {
+                    $row->totalHours = array_reduce($row->student_tracking, function ($carry, $item) { return $carry + $item->hours; }, 0);
+
+                    return $row;
+                });
+            })
+            ->all();
 
         $this->viewBuilder()->setClassName('CakePdf.Pdf');
 
-        $trackingInfo = $this->StudentAdscriptions->Students->getStudentTrackingInfoByAdscription([$adscription->id]);
-        $validationToken = $this->StudentAdscriptions->createValidationToken($adscription->id);
+        //$validationToken = $this->StudentAdscriptions->createValidationToken($adscription->id);
 
-        $this->set(compact('adscription', 'trackingInfo', 'validationToken'));
+        $this->set(compact('adscriptions'));
         $this->render('/Documents/format007');
     }
 
-    public function format009($student_id = null)
+    /**
+     * @param int|string $student_id
+     * @return void
+     */
+    public function format009(int|string $student_id = null)
     {
         $this->Students = $this->fetchTable('Students');
         $this->StudentStages = $this->fetchTable('StudentStages');

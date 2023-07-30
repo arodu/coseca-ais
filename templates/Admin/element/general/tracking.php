@@ -25,10 +25,11 @@ echo $this->Html->link(
 echo $this->Button->report([
     'label' => __('Planilla 007'),
     'url' => [
-        'controller' => 'Tracking',
-        'action' => 'report',
+        'controller' => 'Documents',
+        'action' => 'format007',
         $studentStage->student_id,
-        'prefix' => 'Admin/Stage'
+        'prefix' => 'Admin',
+        'format007.pdf',
     ],
     'class' => 'btn-sm mr-2',
     'activeCondition' => function () use ($studentStage) {
@@ -42,7 +43,7 @@ echo $this->Button->confirm([
         'controller' => 'Tracking',
         'action' => 'closeStage',
         $studentStage->student_id,
-        'prefix' => 'Admin/Stage'
+        'prefix' => 'Admin/Stage',
     ],
     'confirm' => __('¿Está seguro de cerrar la etapa de seguimiento?'),
     'class' => 'btn-sm mr-2',
