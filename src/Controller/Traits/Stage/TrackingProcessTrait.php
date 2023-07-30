@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Controller\Traits\Stage;
 
+use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\NotFoundException;
+use Cake\Log\Log;
 
 trait TrackingProcessTrait
 {
@@ -88,10 +90,25 @@ trait TrackingProcessTrait
             return;
         }
 
-        // @todo Cerrar todas las adscripciones abiertas
+        try {
+            $this->Students->getConnection()->begin();
 
+            $this->Students->StudentAdscriptions
+                ->updateAll(
+                    ['status' => AdscriptionStatus::CLOSED->value],
+                    [
+                        'student_id' => $student_id,
+                        'status IN' => AdscriptionStatus::getOpenedValues()
+                    ]
+                );
 
-        $this->Students->StudentStages->updateStatus($trackingStage, StageStatus::REVIEW);
+            $this->Students->StudentStages->updateStatus($trackingStage, StageStatus::REVIEW);
+
+            $this->Students->getConnection()->commit();
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            $this->Students->getConnection()->rollback();
+        }
     }
 
     protected function processValidateStage($student_id = null)
@@ -112,15 +129,24 @@ trait TrackingProcessTrait
         $result = $this->Authorization->canResult($trackingStage, 'validate');
         if (!$result->getStatus()) {
             $this->Flash->error($result->getReason());
-            
+
             return;
         }
 
-        $this->Students->StudentStages->updateStatus($trackingStage, StageStatus::SUCCESS);
-        $nextStage = $this->Students->StudentStages->createNext($trackingStage);
+        try {
+            $this->Students->getConnection()->begin();
 
-        if (($nextStage ?? false)) {
-            $this->Flash->success(__('The {0} stage has been created.', $nextStage->stage));
+            $this->Students->StudentStages->updateStatus($trackingStage, StageStatus::SUCCESS);
+            $nextStage = $this->Students->StudentStages->createNext($trackingStage);
+
+            if (($nextStage ?? false)) {
+                $this->Flash->success(__('The {0} stage has been created.', $nextStage->stage));
+            }
+
+            $this->Students->getConnection()->commit();
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            $this->Students->getConnection()->rollback();
         }
     }
 }

@@ -86,8 +86,6 @@ class StudentStagePolicy
                 return new Result(false, __('The student has not completed the required hours ({0}h)', Calc::getTotalHours()));
             }
 
-            // @todo verificar si los proyectos estan cerrados
-            // @todo verificar si los proyectos estan validados
             // @todo verificar que tiene un proyecto por defecto
 
             return new Result(true);

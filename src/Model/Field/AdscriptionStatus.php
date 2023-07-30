@@ -66,4 +66,12 @@ enum AdscriptionStatus: string implements BadgeInterface, ListInterface
             static::VALIDATED,
         ]);
     }
+
+    public static function getOpenedValues(): array
+    {
+        return static::values([
+            static::PENDING,
+            static::OPEN,
+        ]);
+    }
 }
