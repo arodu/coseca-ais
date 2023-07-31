@@ -1,14 +1,3 @@
-<?php
-$headerHeight = $this->headerHeight ?? 0;
-$marginTopBase = 170 + $headerHeight;
-$headerTopBase = -130 - $headerHeight;
-
-$footerHeight = $this->footerHeight ?? 0;
-$marginBottonBase = 50 + $footerHeight;
-$footerBottomBase = -0 - $footerHeight;
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,8 +8,8 @@ $footerBottomBase = -0 - $footerHeight;
 
     <style>
         @page {
-            margin-top: <?= $marginTopBase ?>px;
-            margin-bottom: <?= $marginBottonBase ?>px;
+            margin-top: <?= $this->Pdf->getMarginTopBase() . 'px' ?>;
+            margin-bottom: <?= $this->Pdf->getMarginBottonBase() . 'px' ?>;
             margin-left: 40pt;
             margin-right: 40pt;
         }
@@ -36,7 +25,7 @@ $footerBottomBase = -0 - $footerHeight;
 
         header {
             position: fixed;
-            top: <?= $headerTopBase ?>px;
+            top: <?= $this->Pdf->getHeaderTopBase() . 'px' ?>;
             left: 0px;
             right: 0px;
             height: 100px;
@@ -44,7 +33,7 @@ $footerBottomBase = -0 - $footerHeight;
 
         footer {
             position: fixed;
-            bottom: <?= $footerBottomBase ?>px;
+            bottom: <?= $this->Pdf->getFooterBottomBase() . 'px' ?>;
             left: 0px;
             right: 0px;
             height: 50px;

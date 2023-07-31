@@ -30,10 +30,11 @@ use CakeLte\View\CakeLteTrait;
  * @link https://book.cakephp.org/4/en/views.html#the-app-view
  * 
  * @property \App\View\Helper\AppHelper $App
- * @property \App\View\Helper\ButtonHelper $Button
  * @property \CakeLteTools\View\Helper\DependentSelectorHelper $DependentSelector
  * @property \CakeLteTools\View\Helper\BulkActionHelper $BulkAction
  * @property \ModalForm\View\Helper\ModalFormHelper $ModalForm
+ * @property \App\View\Helper\ButtonHelper $Button
+ * @property \App\View\Helper\PdfHelper $Pdf
  */
 class AppView extends View
 {
@@ -55,9 +56,10 @@ class AppView extends View
         $this->initializeCakeLte();
         $this->loadHelper('Authentication.Identity');
         $this->loadHelper('ModalForm.ModalForm');
-        $this->loadHelper('Button');
         $this->loadHelper('CakeLteTools.DependentSelector');
         $this->loadHelper('CakeLteTools.BulkAction');
+        $this->loadHelper('Button');
+        $this->loadHelper('Pdf');
     }
 
     /**

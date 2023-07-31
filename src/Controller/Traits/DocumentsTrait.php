@@ -16,7 +16,7 @@ trait DocumentsTrait
         parent::initialize();
     }
 
-    public function format007(int|string $student_id = null)
+    public function format007(string $student_id = null)
     {
         $adscriptions = $this->Students->StudentAdscriptions->find()
             ->find('withInstitution')
