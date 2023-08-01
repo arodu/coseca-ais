@@ -20,6 +20,9 @@ class PdfHelper extends Helper
     protected $_defaultConfig = [
         'headerHeight' => 0,
         'footerHeight' => 0,
+
+        'header' => 'Documents/pdfHeader',
+        'footer' => 'Documents/pdfFooter',
     ];
 
     public function getMarginTopBase(): int
@@ -40,5 +43,19 @@ class PdfHelper extends Helper
     public function getFooterBottomBase(): int
     {
         return -0 - $this->getConfig('footerHeight');
+    }
+
+    public function pageBreak(): string
+    {
+        return '<div style="page-break-after: always;"></div>';
+    }
+
+    public function conditionalPageBreak(int $i, int $total): string
+    {
+        if ($i === $total) {
+            return '';
+        }
+
+        return $this->pageBreak();
     }
 }

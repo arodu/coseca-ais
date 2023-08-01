@@ -78,6 +78,10 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
+        .border-cells th, .border-cells td, td.border-cells, th.border-cells {
+            border: 1px solid black;
+        }
     </style>
 
 </head>
