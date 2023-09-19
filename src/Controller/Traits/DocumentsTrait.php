@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Traits;
 
+use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\StageField;
 use Cake\ORM\Locator\LocatorAwareTrait;
 
@@ -27,10 +28,19 @@ trait DocumentsTrait
             ->find('withTracking')
             ->find('withStudents')
             ->find('withTutor')
-            ->where(['StudentAdscriptions.student_id' => $student_id])
+            ->where([
+                'StudentAdscriptions.student_id' => $student_id,
+                'StudentAdscriptions.status IN' => AdscriptionStatus::getPrintValues(),
+            ])
             ->formatResults(function ($results) {
                 return $results->map(function ($row) {
-                    $row->totalHours = array_reduce($row->student_tracking, function ($carry, $item) { return $carry + $item->hours; }, 0);
+                    $row->totalHours = array_reduce(
+                        $row->student_tracking,
+                        function ($carry, $item) {
+                            return $carry + $item->hours;
+                        },
+                        0
+                    );
 
                     return $row;
                 });

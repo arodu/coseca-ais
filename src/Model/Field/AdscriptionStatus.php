@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Field;
@@ -25,7 +26,7 @@ enum AdscriptionStatus: string implements BadgeInterface, ListInterface
      */
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             static::PENDING => __('Pendiente'),
             static::OPEN => __('Abierto'),
             static::CLOSED => __('Cerrado'),
@@ -37,7 +38,7 @@ enum AdscriptionStatus: string implements BadgeInterface, ListInterface
 
     public function color(): Color
     {
-        return match($this) {
+        return match ($this) {
             static::PENDING => Color::WARNING,
             static::OPEN => Color::SUCCESS,
             static::CLOSED => Color::DANGER,
@@ -72,6 +73,14 @@ enum AdscriptionStatus: string implements BadgeInterface, ListInterface
         return static::values([
             static::PENDING,
             static::OPEN,
+        ]);
+    }
+
+    public static function getPrintValues(): array
+    {
+        return static::values([
+            static::CLOSED,
+            static::VALIDATED,
         ]);
     }
 }
