@@ -27,11 +27,11 @@ class DocumentsController extends AppStudentController
 
     public function format007()
     {
-        $this->traitFormat007($this->getCurrentStudent()->id);
+        $this->traitFormat007((string) $this->getCurrentStudent()->id);
     }
 
     public function format009()
     {
-        $this->traitFormat009($this->getCurrentStudent()->id);
+        $this->traitFormat009((string) $this->getCurrentStudent()->id);
     }
 }

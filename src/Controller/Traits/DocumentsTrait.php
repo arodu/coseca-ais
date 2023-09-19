@@ -20,7 +20,7 @@ trait DocumentsTrait
      * @param integer|string|null $student_id
      * @return void
      */
-    public function format007(int|string $student_id = null)
+    public function format007(string $student_id = null)
     {
         $adscriptions = $this->Students->StudentAdscriptions->find()
             ->find('withInstitution')
@@ -49,7 +49,7 @@ trait DocumentsTrait
      * @param integer|string|null $student_id
      * @return void
      */
-    public function format009(int|string $student_id = null)
+    public function format009(string $student_id = null)
     {
         $this->Students = $this->fetchTable('Students');
         $this->StudentStages = $this->fetchTable('StudentStages');
