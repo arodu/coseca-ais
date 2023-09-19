@@ -140,4 +140,22 @@ class Student extends Entity
 
         throw new NotFoundException('student current_lapse not found');
     }
+
+    /**
+     * @return boolean
+     */
+    public function hasPrincipalAdscription(): bool
+    {
+        if (empty($this->student_adscriptions)) {
+            return false;
+        }
+
+        foreach ($this->student_adscriptions as $studentAdscription) {
+            if ($studentAdscription->principal ?? false) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

@@ -156,7 +156,7 @@ class StudentsController extends AppAdminController
                 ],
                 'close' => [
                     '_name' => 'admin:stage:adscription:changeStatus',
-                    AdscriptionStatus::CLOSED->value
+                    AdscriptionStatus::CLOSED->value,
                 ],
             ]
         ]);

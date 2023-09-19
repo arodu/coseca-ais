@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Traits;
 
+use App\Model\Field\StageField;
 use Cake\ORM\Locator\LocatorAwareTrait;
 
 trait DocumentsTrait
@@ -15,24 +16,66 @@ trait DocumentsTrait
         parent::initialize();
     }
 
-    public function format007($adscription_id = null)
+    /**
+     * @param integer|string|null $student_id
+     * @return void
+     */
+    public function format007(int|string $student_id = null)
     {
-        $this->StudentAdscriptions = $this->fetchTable('StudentAdscriptions');
-
-        $adscription = $this->StudentAdscriptions->find()
+        $adscriptions = $this->Students->StudentAdscriptions->find()
             ->find('withInstitution')
             ->find('withTracking')
             ->find('withStudents')
             ->find('withTutor')
-            ->where(['StudentAdscriptions.id' => $adscription_id])
-            ->firstOrFail();
+            ->where(['StudentAdscriptions.student_id' => $student_id])
+            ->formatResults(function ($results) {
+                return $results->map(function ($row) {
+                    $row->totalHours = array_reduce($row->student_tracking, function ($carry, $item) { return $carry + $item->hours; }, 0);
+
+                    return $row;
+                });
+            })
+            ->all();
 
         $this->viewBuilder()->setClassName('CakePdf.Pdf');
 
-        $trackingInfo = $this->StudentAdscriptions->Students->getStudentTrackingInfoByAdscription([$adscription->id]);
-        $validationToken = $this->StudentAdscriptions->createValidationToken($adscription->id);
+        //$validationToken = $this->StudentAdscriptions->createValidationToken($adscription->id);
 
-        $this->set(compact('adscription', 'trackingInfo', 'validationToken'));
+        $this->set(compact('adscriptions'));
         $this->render('/Documents/format007');
+    }
+
+    /**
+     * @param integer|string|null $student_id
+     * @return void
+     */
+    public function format009(int|string $student_id = null)
+    {
+        $this->Students = $this->fetchTable('Students');
+        $this->StudentStages = $this->fetchTable('StudentStages');
+
+        $student = $this->Students->find()
+            ->find('withAppUsers')
+            ->find('withTenants')
+            ->where(['Students.id' => $student_id])
+            ->contain([
+                'PrincipalAdscription' => [
+                    'Tutors',
+                    'InstitutionProjects' => [
+                        'Institutions',
+                    ],
+                ],
+            ])
+            ->firstOrFail();
+
+        $endingStage = $this->StudentStages->find('byStudentStage', [
+            'student_id' => $student->id,
+            'stage' => StageField::ENDING,
+        ])->firstOrFail();
+
+        $this->viewBuilder()->setClassName('CakePdf.Pdf');
+
+        $this->set(compact('student', 'endingStage'));
+        $this->render('/Documents/format009');
     }
 }

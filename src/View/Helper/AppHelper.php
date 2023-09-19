@@ -146,4 +146,27 @@ class AppHelper extends Helper
 
         return $this->Form->control($fieldName, $options);
     }
+
+    /**
+     * @param integer $month
+     * @return string
+     */
+    public function month(int $month): string
+    {
+        return match ($month) {
+            1 => __('Enero'),
+            2 => __('Febrero'),
+            3 => __('Marzo'),
+            4 => __('Abril'),
+            5 => __('Mayo'),
+            6 => __('Junio'),
+            7 => __('Julio'),
+            8 => __('Agosto'),
+            9 => __('Septiembre'),
+            10 => __('Octubre'),
+            11 => __('Noviembre'),
+            12 => __('Diciembre'),
+            default => __('NaN'),
+        };
+    }
 }

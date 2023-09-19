@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
+use App\Model\Field\AdscriptionPrincipal;
 use App\Model\Field\AdscriptionStatus;
 use Cake\ORM\Entity;
 
@@ -43,6 +44,7 @@ class StudentAdscription extends Entity
         'institution_project' => true,
         'tutor' => true,
         'status' => true,
+        'principal' => true,
     ];
     
     protected $_virtual = [
@@ -54,11 +56,19 @@ class StudentAdscription extends Entity
      */
     public function getStatus(): ?AdscriptionStatus
     {
-        return AdscriptionStatus::tryFrom($this->status);
+        return AdscriptionStatus::tryFrom($this->status ?? '');
     }
 
     protected function _getLabelStatus(): string
     {
         return $this->getStatus()?->label() ?? '';
+    }
+
+    /**
+     * @return AdscriptionPrincipal|null
+     */
+    public function getPrincipal(): ?AdscriptionPrincipal
+    {
+        return AdscriptionPrincipal::get($this->principal ?? false);
     }
 }

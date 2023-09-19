@@ -28,6 +28,6 @@ class LapsePolicy
 
     protected function lapseDatesIsInProgress(Lapse $lapse, StageField $stage): bool
     {
-        return $lapse?->getDates($stage)?->status?->is([StatusDate::IN_PROGRESS]) ?? false;
+        return $lapse?->getDates($stage)?->getStatus()?->is([StatusDate::IN_PROGRESS]) ?? false;
     }
 }

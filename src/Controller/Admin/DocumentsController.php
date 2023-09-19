@@ -13,7 +13,13 @@ use App\Controller\Traits\DocumentsTrait;
  * @property \App\Model\Table\StudentDocumentsTable $StudentDocuments
  * @method \App\Model\Entity\StudentDocument[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class DocumentsController extends AppController
+class DocumentsController extends AppAdminController
 {
     use DocumentsTrait;
+
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->Students = $this->fetchTable('Students');
+    }
 }

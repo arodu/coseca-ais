@@ -140,15 +140,15 @@ class StudentAdscriptionsTable extends Table
 
     public function afterSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
     {
-        if ($entity->isNew()) {
-            $this->StudentDocuments->saveOrFail($this->StudentDocuments->newEntity([
-                'student_id' => $entity->student_id,
-                'token' => Text::uuid(),
-                'type' => DocumentType::ADSCRIPTION_PROJECT->value,
-                'model' => 'StudentAdscriptions',
-                'foreign_key' => $entity->id,
-            ]));
-        }
+        //if ($entity->isNew()) {
+        //    $this->StudentDocuments->saveOrFail($this->StudentDocuments->newEntity([
+        //        'student_id' => $entity->student_id,
+        //        'token' => Text::uuid(),
+        //        'type' => DocumentType::ADSCRIPTION_PROJECT->value,
+        //        'model' => 'StudentAdscriptions',
+        //        'foreign_key' => $entity->id,
+        //    ]));
+        //}
 
         $this->updateStudentTotalHours($entity);
     }
@@ -244,6 +244,14 @@ class StudentAdscriptionsTable extends Table
         return $query
             ->contain([
                 'Tutors',
+            ]);
+    }
+
+    public function findPrincipal(Query $query, array $options): Query
+    {
+        return $query
+            ->where([
+                $this->aliasField('principal') => true,
             ]);
     }
 
