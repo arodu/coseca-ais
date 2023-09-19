@@ -204,7 +204,6 @@ class StudentAdscriptionsTable extends Table
         Cache::delete('student_tracking_info_' . $student->id);
     }
 
-
     public function findWithStudents(Query $query, array $options): Query
     {
         return $query

@@ -27,6 +27,7 @@ $this->Breadcrumbs->add([
     echo $this->Form->hidden('student_id', ['value' => $student->id]);
     echo $this->Form->control('institution_project_id', ['options' => $institution_projects, 'empty' => true]);
     echo $this->Form->control('tutor_id', ['options' => $tutors, 'empty' => true]);
+    echo $this->Form->control('principal', ['type' => 'checkbox', 'label' => __('Establecer como proyecto principal')]);
     ?>
 </div>
 <div class="card-footer d-flex">

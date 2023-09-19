@@ -46,6 +46,19 @@ class AdscriptionsController extends AppAdminController
                 $this->StudentStages->getConnection()->begin();
 
                 $student_adscription = $this->StudentAdscriptions->patchEntity($student_adscription, $this->request->getData());
+
+                $adscriptions = $this->StudentAdscriptions->find()->where(['student_id' => $student_id])->toArray();
+                if (empty($adscriptions)) {
+                    $student_adscription->principal = true;
+                }
+
+                if ($student_adscription->principal) {
+                    $this->StudentAdscriptions->updateAll(
+                        ['principal' => false],
+                        ['student_id' => $student_id]
+                    );
+                }
+
                 $this->StudentAdscriptions->saveOrFail($student_adscription);
 
                 $adscriptionStage = $this->StudentStages
