@@ -606,16 +606,16 @@
         },
         {
             "name": "cakephp/chronos",
-            "version": "2.4.0",
+            "version": "2.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/chronos.git",
-                "reference": "9c7e438cba4eed1796ec19ad3874defa9eb9aeac"
+                "reference": "dd583900b26971e84d56c482d6c5fc16961bd103"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/chronos/zipball/9c7e438cba4eed1796ec19ad3874defa9eb9aeac",
-                "reference": "9c7e438cba4eed1796ec19ad3874defa9eb9aeac",
+                "url": "https://api.github.com/repos/cakephp/chronos/zipball/dd583900b26971e84d56c482d6c5fc16961bd103",
+                "reference": "dd583900b26971e84d56c482d6c5fc16961bd103",
                 "shasum": ""
             },
             "require": {
@@ -660,20 +660,20 @@
                 "issues": "https://github.com/cakephp/chronos/issues",
                 "source": "https://github.com/cakephp/chronos"
             },
-            "time": "2023-08-06T22:54:27+00:00"
+            "time": "2023-09-12T03:12:29+00:00"
         },
         {
             "name": "cakephp/migrations",
-            "version": "3.8.2",
+            "version": "3.8.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/migrations.git",
-                "reference": "1c7c060f8d91d62b0716f9b08e3d41bfece5386e"
+                "reference": "5fad3fe9503924d24152770d067ae7ffe03dc83e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/migrations/zipball/1c7c060f8d91d62b0716f9b08e3d41bfece5386e",
-                "reference": "1c7c060f8d91d62b0716f9b08e3d41bfece5386e",
+                "url": "https://api.github.com/repos/cakephp/migrations/zipball/5fad3fe9503924d24152770d067ae7ffe03dc83e",
+                "reference": "5fad3fe9503924d24152770d067ae7ffe03dc83e",
                 "shasum": ""
             },
             "require": {
@@ -720,7 +720,7 @@
                 "issues": "https://github.com/cakephp/migrations/issues",
                 "source": "https://github.com/cakephp/migrations"
             },
-            "time": "2023-06-12T01:40:01+00:00"
+            "time": "2023-09-14T18:10:15+00:00"
         },
         {
             "name": "cakephp/plugin-installer",
