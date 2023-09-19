@@ -1,3 +1,7 @@
+<?php
+    $this->Pdf->setConfig('footerHeight', 100);
+?>
+
 <table>
     <tr>
         <th>
@@ -24,7 +28,7 @@
 
     <tr>
         <td colspan="3" class="text-right">
-            <?= __('CV:{0}', $validationToken ?? $this->App->nan()) ?>
+            <?php // __('CV:{0}', $validationToken ?? $this->App->nan()) ?>
         </td>
     </tr>
 </table>

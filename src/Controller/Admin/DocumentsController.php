@@ -16,4 +16,10 @@ use App\Controller\Traits\DocumentsTrait;
 class DocumentsController extends AppAdminController
 {
     use DocumentsTrait;
+
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->Students = $this->fetchTable('Students');
+    }
 }

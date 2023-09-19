@@ -6,7 +6,7 @@
 
 use App\Enum\ActionColor;
 use App\Model\Field\AdscriptionStatus;
-use App\Model\Field\StageStatus;
+use CakeLteTools\Utility\FaIcon;
 
 $this->student_id = $student->id;
 $this->active = 'adscriptions';
@@ -99,25 +99,24 @@ $this->Breadcrumbs->add([
                 </div>
                 <div class="card-footer d-flex">
                     <div>
-                        <?= $this->Html->link(
-                            __('Editar'),
-                            ['controller' => 'Adscriptions', 'action' => 'edit', $studentAdscription->id, 'prefix' => 'Admin/Stage'],
-                            ['class' => ActionColor::EDIT->btn()]
-                        ) ?>
-
-                        <?php if (!$studentAdscription->principal) {
-                            echo $this->Button->confirm([
-                                'label' => __('Establecer como principal'),
-                                'url' => ['controller' => 'Adscriptions', 'action' => 'setPrincipal', $studentAdscription->id, 'prefix' => 'Admin/Stage'],
-                            ]);
-                        } ?>
+                        <?= $this->Button->edit([
+                            'label' => __('Editar'),
+                            'url' => ['controller' => 'Adscriptions', 'action' => 'edit', $studentAdscription->id, 'prefix' => 'Admin/Stage'],
+                        ]) ?>
+                        <?= $this->Button->confirm([
+                            'displayCondition' => !$studentAdscription->principal,
+                            'label' => __('Establecer como principal'),
+                            'url' => ['controller' => 'Adscriptions', 'action' => 'setPrincipal', $studentAdscription->id, 'prefix' => 'Admin/Stage'],
+                            'actionColor' => ActionColor::ACTIVATE,
+                            'icon' => FaIcon::get('success'),
+                        ]) ?>
                     </div>
                     <div class="ml-auto">
-                        <?= $this->Html->link(
+                        <?php /* $this->Html->link(
                             __('Planilla de adscripción'),
                             ['controller' => 'StudentDocuments', 'action' => 'download', $studentAdscription->student_document->token],
                             ['class' => ActionColor::REPORT->btn(), 'target' => '_blank']
-                        ) ?>
+                        ) */ ?>
                     </div>
                 </div>
             </div>

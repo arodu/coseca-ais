@@ -15,7 +15,19 @@ use App\Controller\Traits\DocumentsTrait;
 class DocumentsController extends AppStudentController
 {
     use DocumentsTrait {
+        format007 as protected traitFormat007;
         format009 as protected traitFormat009;
+    }
+
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->Students = $this->fetchTable('Students');
+    }
+
+    public function format007()
+    {
+        $this->traitFormat007($this->getCurrentStudent()->id);
     }
 
     public function format009()

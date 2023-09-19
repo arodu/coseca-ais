@@ -49,6 +49,9 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
                             'icon' => FaIcon::get('tasks', 'fa-fw'),
                         ]) ?>
                     <?php endif ?>
+
+                    <?php   
+                    /*
                     <button type="button" class="btn btn-info btn-flat btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown">
                         <span class="sr-only">Toggle Dropdown</span>
                     </button>
@@ -88,6 +91,7 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
                             ]) ?>
                         <?php endif ?>
                     </div>
+                    */ ?>
                 </div>
             </div>
         </div>

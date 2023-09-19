@@ -42,4 +42,14 @@ if ($studentStage->statusIs([StageStatus::WAITING, StageStatus::SUCCESS])) {
 
 $this->end();
 
-// ending
+?>
+
+<?php if (!$student->hasPrincipalAdscription()) : ?>
+    <div class="alert alert-warning p-2">
+        <?= __('El estudiante no tiene una adscripción principal.') ?>
+        <?= $this->Html->link(
+            __('Ver Proyectos'),
+            ['controller' => 'Students', 'action' => 'adscriptions', $student->id, 'prefix' => 'Admin'],
+        ) ?>
+    </div>
+<?php endif ?>

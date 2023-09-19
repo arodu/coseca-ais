@@ -81,6 +81,7 @@
         },
         "preferred-install": {
             "arodu/*": "source",
+            "cakedc/*": "source",
             "*": "dist"
         }
     }

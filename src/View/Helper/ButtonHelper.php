@@ -59,6 +59,19 @@ class ButtonHelper extends Helper
             throw new \InvalidArgumentException('actionColor is required');
         }
 
+        if (isset($options['displayCondition'])) {
+            $displayCondition = $options['displayCondition'];
+            unset($options['displayCondition']);
+
+            if (is_callable($displayCondition)) {
+                $displayCondition = $displayCondition();
+            }
+
+            if (!$displayCondition) {
+                return '';
+            }
+        }
+
         $url = $options['url'];
         unset($options['url']);
 
@@ -88,11 +101,37 @@ class ButtonHelper extends Helper
             $options['class'] = $this->prepareClass($options['class'] ?? '', $actionColor, $outline);
         }
 
+        if (isset($options['activeCondition'])) {
+            $activeCondition = $options['activeCondition'];
+            unset($options['activeCondition']);
+
+            if (is_callable($activeCondition)) {
+                $activeCondition = (bool) $activeCondition();
+            }
+
+            if (!$activeCondition) {
+                $options['class'] .= ' disabled';
+            }
+        }
+
         return $this->Html->link($title, $url, $options);
     }
 
     public function postLink(array $options): string
     {
+        if (isset($options['displayCondition'])) {
+            $displayCondition = $options['displayCondition'];
+            unset($options['displayCondition']);
+
+            if (is_callable($displayCondition)) {
+                $displayCondition = (bool) $displayCondition();
+            }
+
+            if (!$displayCondition) {
+                return '';
+            }
+        }
+
         if (empty($options['url'])) {
             throw new \InvalidArgumentException('url is required');
         }
@@ -128,6 +167,19 @@ class ButtonHelper extends Helper
             $options['class'] = $this->prepareClass($options['class'] ?? '', $actionColor, $outline);
         }
 
+        if (isset($options['activeCondition'])) {
+            $activeCondition = $options['activeCondition'];
+            unset($options['activeCondition']);
+
+            if (is_callable($activeCondition)) {
+                $activeCondition = (bool) $activeCondition();
+            }
+
+            if (!$activeCondition) {
+                $options['class'] .= ' disabled';
+            }
+        }
+
         return $this->Form->postLink($title, $url, $options);
     }
 
@@ -135,7 +187,7 @@ class ButtonHelper extends Helper
      * @param array<string, mixed> $options
      * @return string
      */
-    public function submit(array $options = []): string
+    public function button(array $options = []): string
     {
         if (empty($options['actionColor'])) {
             throw new \InvalidArgumentException('actionColor is required');
@@ -143,6 +195,19 @@ class ButtonHelper extends Helper
 
         if (empty($options['label']) && empty($options['icon'])) {
             throw new \InvalidArgumentException('label is required');
+        }
+
+        if (isset($options['displayCondition'])) {
+            $displayCondition = $options['displayCondition'];
+            unset($options['displayCondition']);
+
+            if (is_callable($displayCondition)) {
+                $displayCondition = $displayCondition();
+            }
+
+            if (!$displayCondition) {
+                return '';
+            }
         }
 
         $title = $this->createTitle($options['label'] ?? null, $options['icon'] ?? null, $options['icon_position'] ?? null);
@@ -166,6 +231,19 @@ class ButtonHelper extends Helper
             $options['class'] = $this->prepareClass($options['class'] ?? '', $actionColor, $outline);
         }
 
+        if (isset($options['activeCondition'])) {
+            $activeCondition = $options['activeCondition'];
+            unset($options['activeCondition']);
+
+            if (is_callable($activeCondition)) {
+                $displayCondition = $activeCondition();
+            }
+
+            if (!$activeCondition) {
+                $options['disabled'] = 'disabled';
+            }
+        }
+
         return $this->Form->button($title, $options);
     }
 
@@ -176,6 +254,7 @@ class ButtonHelper extends Helper
     public function save(array $options = []): string
     {
         $options = array_merge([
+            'type' => 'submit',
             'name' => 'action',
             'value' => 'save',
             'icon' => FaIcon::get($this->getConfig('icon.save'), $this->getConfig('icon_class')),
@@ -183,7 +262,7 @@ class ButtonHelper extends Helper
             'actionColor' => ActionColor::SUBMIT,
         ], $options);
 
-        return $this->submit($options);
+        return $this->button($options);
     }
 
     /**
@@ -193,6 +272,7 @@ class ButtonHelper extends Helper
     public function validate(array $options = []): string
     {
         $options = array_merge([
+            'type' => 'submit',
             'name' => 'action',
             'value' => 'validate',
             'icon' => FaIcon::get($this->getConfig('icon.validate'), $this->getConfig('icon_class')),
@@ -201,7 +281,7 @@ class ButtonHelper extends Helper
             'confirm' => __('Seguro que desea validar este registro?'),
         ], $options);
 
-        return $this->submit($options);
+        return $this->button($options);
     }
 
     public function closeModal(array $options = []): string
@@ -214,7 +294,7 @@ class ButtonHelper extends Helper
             'actionColor' => ActionColor::CANCEL,
         ], $options);
 
-        return $this->submit($options);
+        return $this->button($options);
     }
 
     public function openModal(array $options = []): string
@@ -228,7 +308,7 @@ class ButtonHelper extends Helper
             'actionColor' => ActionColor::ADD,
         ], $options);
 
-        return $this->submit($options);
+        return $this->button($options);
     }
 
     /**
@@ -238,6 +318,7 @@ class ButtonHelper extends Helper
     public function export(array $options = []): string
     {
         $options = array_merge([
+            'type' => 'submit',
             'name' => 'export',
             'value' => 'csv',
             'icon' => FaIcon::get($this->getConfig('icon.export'), $this->getConfig('icon_class')),
@@ -245,7 +326,7 @@ class ButtonHelper extends Helper
             'actionColor' => ActionColor::REPORT,
         ], $options);
 
-        return $this->submit($options);
+        return $this->button($options);
     }
 
     /**
@@ -255,6 +336,7 @@ class ButtonHelper extends Helper
     public function search(array $options = []): string
     {
         $options = array_merge([
+            'type' => 'submit',
             'name' => 'action',
             'value' => 'search',
             'icon' => FaIcon::get($this->getConfig('icon.search'), $this->getConfig('icon_class')),
@@ -262,7 +344,7 @@ class ButtonHelper extends Helper
             'actionColor' => ActionColor::SEARCH,
         ], $options);
 
-        return $this->submit($options);
+        return $this->button($options);
     }
 
     /**

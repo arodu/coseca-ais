@@ -19,7 +19,6 @@ class TrackingController extends AppStudentController
     use TrackingProcessTrait;
     use CellTrait;
 
-
     public function initialize(): void
     {
         parent::initialize();
@@ -61,6 +60,14 @@ class TrackingController extends AppStudentController
     {
         $this->request->allowMethod(['post', 'delete']);
         $this->processDelete((int) $tracking_id);
+
+        return $this->redirect(['_name' => 'student:tracking']);
+    }
+
+    public function closeStage()
+    {
+        $student_id = $this->getCurrentStudent()->id;
+        $this->processCloseStage((int) $student_id);
 
         return $this->redirect(['_name' => 'student:tracking']);
     }
