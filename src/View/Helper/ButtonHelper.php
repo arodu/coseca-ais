@@ -119,6 +119,19 @@ class ButtonHelper extends Helper
 
     public function postLink(array $options): string
     {
+        if (isset($options['displayCondition'])) {
+            $displayCondition = $options['displayCondition'];
+            unset($options['displayCondition']);
+
+            if (is_callable($displayCondition)) {
+                $displayCondition = (bool) $displayCondition();
+            }
+
+            if (!$displayCondition) {
+                return '';
+            }
+        }
+
         if (empty($options['url'])) {
             throw new \InvalidArgumentException('url is required');
         }
@@ -129,19 +142,6 @@ class ButtonHelper extends Helper
 
         if (empty($options['actionColor'])) {
             throw new \InvalidArgumentException('actionColor is required');
-        }
-
-        if (isset($options['displayCondition'])) {
-            $displayCondition = $options['displayCondition'];
-            unset($options['displayCondition']);
-
-            if (is_callable($displayCondition)) {
-                $displayCondition = $displayCondition();
-            }
-
-            if (!$displayCondition) {
-                return '';
-            }
         }
 
         $url = $options['url'];

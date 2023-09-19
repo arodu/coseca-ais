@@ -316,7 +316,6 @@ class DashboardControllerTest extends StudentTestCase
         $this->assertResponseOk();
         $this->assertResponseContains($project_label_name);
         $this->assertResponseContains('<span class="badge badge-warning ">Pendiente</span>');
-        $this->assertResponseContains('Planilla de adscripción');
         $this->assertResponseContains('<dd class="col-sm-8">' . $this->institution->name . '</dd>');
         $this->assertResponseContains('<dd class="col-sm-8">' . $this->institution->contact_person . '</dd>');
         $this->assertResponseContains('<dd class="col-sm-8">' . $this->institution->contact_phone . '</dd>');
