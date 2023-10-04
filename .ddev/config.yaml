@@ -24,6 +24,8 @@ hooks:
     post-start:
         - exec: mysql -uroot -proot -e "CREATE DATABASE IF NOT EXISTS test; GRANT ALL ON test.* to 'db'@'%';"
           service: db
+
+
 # Key features of ddev's config.yaml:
 
 # name: <projectname> # Name of the project, automatically provides
