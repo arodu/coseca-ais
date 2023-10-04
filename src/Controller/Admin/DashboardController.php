@@ -28,7 +28,9 @@ class DashboardController extends AppAdminController
             ->contain([
                 'CurrentLapse',
                 'Programs'
-            ]);
+            ])
+            //->cache('active_tenants')
+        ;
 
 
         $this->set(compact('activeTenants'));
