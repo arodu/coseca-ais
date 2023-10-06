@@ -29,7 +29,7 @@
                     <td><?= h($adscription->student->dni) ?></td>
                     <td><?= h($adscription->student->first_name) ?></td>
                     <td><?= h($adscription->student->last_name) ?></td>
-                    <td><?= $this->App->boolYN($adscription->principal) ?></td>
+                    <td><?= $this->App->yn($adscription->principal) ?></td>
                     <td>
                         <?= __('{0} - {1}', h($adscription->student->last_stage->stage_label), h($adscription->student->last_stage->status_label)) ?>
                     </td>

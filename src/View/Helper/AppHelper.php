@@ -170,11 +170,8 @@ class AppHelper extends Helper
         };
     }
 
-    public function boolYN(bool $bool): string
+    public function App(bool $bool): string
     {
-        return match ($bool) {
-            true => __('Si'),
-            false => __('No'),
-        };
+        return $bool ? __('Si') : __('No');
     }
 }

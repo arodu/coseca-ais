@@ -49,7 +49,7 @@ $this->Breadcrumbs->add([
             </tr>
             <tr>
                 <th><?= __('Activo') ?></th>
-                <td><?= $tenant->active ? __('Si') : __('No'); ?></td>
+                <td><?= $this->App->yn($tenant->active) ?></td>
             </tr>
         </table>
     </div>

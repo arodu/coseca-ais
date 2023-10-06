@@ -77,7 +77,7 @@ $this->Breadcrumbs->add([
                             <tr>
                                 <td><?= h($tenants->name) ?></td>
                                 <td><?= h($tenants->abbr) ?></td>
-                                <td><?= $tenants->active ? __('Si') : __('No') ?></td>
+                                <td><?= $this->App->yn($tenants->active) ?></td>
                                 <td class="actions">
                                     <?= $this->Html->link(__('Ver'), ['controller' => 'Tenants', 'action' => 'view', $tenants->id], ['class' => ActionColor::VIEW->btn('btn-xs', true)]) ?>
                                 </td>
@@ -116,7 +116,7 @@ $this->Breadcrumbs->add([
                             <?php foreach ($program->interest_areas as $interestArea) : ?>
                                 <tr>
                                     <td><?= h($interestArea->name) ?></td>
-                                    <td><?= $interestArea->active ? __('Si') : __('No') ?></td>
+                                    <td><?= $this->App->yn($interestArea->active) ?></td>
                                     <td class="actions">
                                         <?= $this->Html->link(__('Edit'), ['controller' => 'Tenants', 'action' => 'editInterestArea', $interestArea->id], ['class' => ActionColor::EDIT->btn('btn-xs', true)]) ?>
                                     </td>

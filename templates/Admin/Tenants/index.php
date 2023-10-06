@@ -53,7 +53,7 @@ $this->Breadcrumbs->add([
                         <td><?= h($tenant->abbr_label) ?></td>
                         <td><?= h($tenant->program->regime_label) ?></td>
                         <td><?= $this->App->lapseLabel($tenant->current_lapse) ?? $this->App->error(__('Programa debe tener al menos un lapso activo')) ?></td>
-                        <td><?= ($tenant->active) ? __('Si') : __('No') ?></td>
+                        <td><?= $this->App->yn($tenant->active) ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
