@@ -92,7 +92,7 @@ return static function (RouteBuilder $routes) {
     $routes->prefix('Admin', ['_namePrefix' => 'admin:'], function (RouteBuilder $builder) {
 
 
-        $builder->connect('/', ['controller' => 'Dashboard', 'action' => 'index', 'plugin' => false], ['_name' => 'home']);
+        $builder->connect('/', ['controller' => 'Reports', 'action' => 'dashboard', 'plugin' => false], ['_name' => 'home']);
         $builder->connect('/students', ['controller' => 'Students', 'action' => 'index', 'plugin' => false], ['_name' => 'student:index']);
         $builder->connect('/student/view/*', ['controller' => 'Students', 'action' => 'view', 'plugin' => false], ['_name' => 'student:view']);
         

@@ -123,5 +123,49 @@ $this->Breadcrumbs->add([
     </div>
 </div>
 
-<?php // debug($activeTenants->toArray()) 
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-header border-0">
+                <h3 class="card-title"><?= __('Estadisticas San Juan, 2023-1') ?></h3>
+            </div>
+            <div class="card-body">
+                <?= __('Cantidad Estudiantes que aprobaron el curso {0}', $cursoAprovado->count()); ?>
+            </div>
+            <div class="card-body table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th><?= __('no') ?></th>
+                            <th><?= __('cedula') ?></th>
+                            <th><?= __('nombre') ?></th>
+                            <th><?= __('apellido') ?></th>
+                            <th><?= __('nombre proyecto') ?></th>
+                            <th><?= __('tutor academico') ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $no = 1 ?>
+                        <?php foreach ($servicioAprovado as $studentStage) : ?>
+                            <tr>
+                                <td><?= $no++ ?></td>
+                                <td><?= h($studentStage->student->dni) ?></td>
+                                <td><?= h($studentStage->student->first_name) ?></td>
+                                <td><?= h($studentStage->student->last_name) ?></td>
+                                <td>
+                                    <?= h($studentStage->student->principal_adscription->institution_project->label_name) ?>
+                                </td>
+                                <td><?= h($studentStage->student->principal_adscription->tutor->name) ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php //debug($servicioAprovado->toArray())
 ?>
