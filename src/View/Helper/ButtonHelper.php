@@ -34,6 +34,7 @@ class ButtonHelper extends Helper
             'delete' => 'delete',
             'back' => 'back',
             'report' => 'report',
+            'statistics' => 'chart-bar',
         ],
         'icon_class' => 'fa-fw',
         'icon_position' => self::ICON_POSITION_LEFT, // left, right
@@ -97,6 +98,10 @@ class ButtonHelper extends Helper
         ], $options);
 
         if (!empty($options['class']) && $options['override']) {
+        } else if ($options['icon-link'] ?? false) {
+            $options['class'] = trim($actionColor->text() . ' ' . ($options['class'] ?? ''));
+            $options['title'] = $options['title'] ?? $label ?? null;
+            $title = $icon;
         } else {
             $options['class'] = $this->prepareClass($options['class'] ?? '', $actionColor, $outline);
         }
@@ -383,6 +388,24 @@ class ButtonHelper extends Helper
             'override' => false,
             'outline' => false,
             'target' => '_blank',
+        ], $options);
+
+        return $this->link($options);
+    }
+
+    public function statistics(array $options = []): string
+    {
+        if (empty($options['url'])) {
+            throw new \InvalidArgumentException('url is required');
+        }
+
+        $options = array_merge([
+            'icon' => FaIcon::get($this->getConfig('icon.statistics'), $this->getConfig('icon_class')),
+            'label' => __('Reportes'),
+            'escape' => false,
+            'actionColor' => ActionColor::REPORT,
+            'override' => false,
+            'outline' => false,
         ], $options);
 
         return $this->link($options);

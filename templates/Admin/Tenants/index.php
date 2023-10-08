@@ -42,6 +42,7 @@ $this->Breadcrumbs->add([
                     <th><?= $this->Paginator->sort('programs.regime', __('Regimen')) ?></th>
                     <th><?= $this->Paginator->sort('current_lapse', __('Lapso Actual')) ?></th>
                     <th><?= $this->Paginator->sort('active', __('Activo')) ?></th>
+                    <th class="actions"></th>
                 </tr>
             </thead>
             <tbody>
@@ -53,7 +54,13 @@ $this->Breadcrumbs->add([
                         <td><?= h($tenant->abbr_label) ?></td>
                         <td><?= h($tenant->program->regime_label) ?></td>
                         <td><?= $this->App->lapseLabel($tenant->current_lapse) ?? $this->App->error(__('Programa debe tener al menos un lapso activo')) ?></td>
-                        <td><?= ($tenant->active) ? __('Si') : __('No') ?></td>
+                        <td><?= $this->App->yn($tenant->active) ?></td>
+                        <td class="actions">
+                            <?= $this->Button->statistics([
+                                'url' => ['controller' => 'Reports', 'action' => 'tenant', $tenant->id],
+                                'class' => 'btn-xs'
+                            ]) ?>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

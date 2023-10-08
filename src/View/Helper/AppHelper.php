@@ -169,4 +169,9 @@ class AppHelper extends Helper
             default => __('NaN'),
         };
     }
+
+    public function yn(bool $bool): string
+    {
+        return $bool ? __('Si') : __('No');
+    }
 }

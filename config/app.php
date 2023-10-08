@@ -109,16 +109,25 @@ return [
             'url' => env('CACHE_DEFAULT_URL', null),
         ],
 
+        '2min' => [
+            'className' => FileEngine::class,
+            'path' => CACHE,
+            'url' => env('CACHE_DEFAULT_URL', null),
+            'duration' => '+2 minutes',
+        ],
+
         '1day' => [
             'className' => FileEngine::class,
             'path' => CACHE,
             'url' => env('CACHE_DEFAULT_URL', null),
+            'duration' => '+1 days',
         ],
 
         '7days' => [
             'className' => FileEngine::class,
             'path' => CACHE,
             'url' => env('CACHE_DEFAULT_URL', null),
+            'duration' => '+7 days',
         ],
 
         /*
