@@ -5,12 +5,13 @@
  */
 ?>
 <?php
-$this->assign('title', __('Inicio'));
+$this->assign('title', __('Dashboard'));
 $this->Breadcrumbs->add([
     ['title' => __('Inicio')],
 ]);
 ?>
 
+<?php /*
 <div class="row">
     <div class="col-12 col-sm-6 col-md-3">
         <div class="info-box">
@@ -72,6 +73,7 @@ $this->Breadcrumbs->add([
     </div>
     <!-- /.col -->
 </div>
+*/ ?>
 
 <div class="row">
     <div class="col">
@@ -79,14 +81,6 @@ $this->Breadcrumbs->add([
             <div class="card-header border-0">
                 <h3 class="card-title"><?= __('Sedes Activas') ?></h3>
                 <div class="card-tools">
-                    <!--
-                    <a href="#" class="btn btn-tool btn-sm">
-                        <i class="fas fa-download"></i>
-                    </a>
-                    <a href="#" class="btn btn-tool btn-sm">
-                        <i class="fas fa-bars"></i>
-                    </a>
-                    -->
                 </div>
             </div>
             <div class="card-body table-responsive p-0">
@@ -97,6 +91,7 @@ $this->Breadcrumbs->add([
                             <th><?= __('Programa') ?></th>
                             <th><?= __('Sede') ?></th>
                             <th><?= __('Lapso actual') ?></th>
+                            <th class="actions"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -106,6 +101,13 @@ $this->Breadcrumbs->add([
                                 <td><?= $this->Html->link($tenant->program->name, ['action' => 'viewProgram', $tenant->program_id], ['class' => '', 'escape' => false]) ?></td>
                                 <td><?= $this->Html->link($tenant->name, ['action' => 'view', $tenant->id], ['class' => '', 'escape' => false]) ?></td>
                                 <td><?= $this->App->lapseLabel($tenant->current_lapse) ?? $this->App->error(__('Programa debe tener al menos un lapso activo')) ?></td>
+                                <td class="actions">
+                                    <?= $this->Button->statistics([
+                                        'url' => ['controller' => 'Reports', 'action' => 'tenant', $tenant->id],
+                                        'icon-link' => true,
+                                        'data-toggle' => 'tooltip',
+                                    ]) ?>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -114,58 +116,13 @@ $this->Breadcrumbs->add([
         </div>
     </div>
     <div class="col">
+        <!--
         <div class="card">
             <div class="card-header border-0">
                 <h3 class="card-title"><?= __('Actualizaciones') ?></h3>
 
             </div>
         </div>
+        -->
     </div>
 </div>
-
-
-<div class="row">
-    <div class="col">
-        <div class="card">
-            <div class="card-header border-0">
-                <h3 class="card-title"><?= __('Estadisticas San Juan, 2023-1') ?></h3>
-            </div>
-            <div class="card-body">
-                <?= __('Cantidad Estudiantes que aprobaron el curso {0}', $cursoAprovado->count()); ?>
-            </div>
-            <div class="card-body table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th><?= __('no') ?></th>
-                            <th><?= __('cedula') ?></th>
-                            <th><?= __('nombre') ?></th>
-                            <th><?= __('apellido') ?></th>
-                            <th><?= __('nombre proyecto') ?></th>
-                            <th><?= __('tutor academico') ?></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php $no = 1 ?>
-                        <?php foreach ($servicioAprovado as $studentStage) : ?>
-                            <tr>
-                                <td><?= $no++ ?></td>
-                                <td><?= h($studentStage->student->dni) ?></td>
-                                <td><?= h($studentStage->student->first_name) ?></td>
-                                <td><?= h($studentStage->student->last_name) ?></td>
-                                <td>
-                                    <?= h($studentStage->student->principal_adscription->institution_project->label_name) ?>
-                                </td>
-                                <td><?= h($studentStage->student->principal_adscription->tutor->name) ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-<?php //debug($servicioAprovado->toArray())
-?>

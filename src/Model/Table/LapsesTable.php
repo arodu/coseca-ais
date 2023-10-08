@@ -101,4 +101,23 @@ class LapsesTable extends Table
             $this->LapseDates->saveDefaultDates($entity->id);
         }
     }
+
+    /**
+     * @param \Cake\ORM\Query $query query
+     * @param array $options options
+     * @return \Cake\ORM\Query
+     */
+    public function findCurrentLapse(Query $query, array $options): Query
+    {
+        if (empty($options['tenant_id'])) {
+            throw new \InvalidArgumentException('Missing tenant_id');
+        }
+
+        return $query
+            ->find('lastElement')
+            ->where([
+                $this->aliasField('tenant_id') => $options['tenant_id'],
+                $this->aliasField('active') => true,
+            ]);
+    }
 }

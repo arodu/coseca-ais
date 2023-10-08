@@ -7,12 +7,18 @@ namespace App\Controller\Admin;
 use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
+use Cake\Http\Exception\NotFoundException;
+use Cake\View\CellTrait;
 
 /**
  * Reports Controller
  */
 class ReportsController extends AppAdminController
 {
+
+    /**
+     * @inheritDoc
+     */
     public function initialize(): void
     {
         parent::initialize();
@@ -20,6 +26,9 @@ class ReportsController extends AppAdminController
         $this->Students = $this->fetchTable('Students');
     }
 
+    /**
+     * @return void
+     */
     public function dashboard()
     {
         $this->MenuLte->activeItem('home');
@@ -32,139 +41,56 @@ class ReportsController extends AppAdminController
         ;
 
         $this->set(compact('activeTenants'));
-
-        // emergency
-        $sanJuan = 1;
-        $lapse20231 = $this->Students->Lapses->find()
-            ->where([
-                'Lapses.name' => '2023-1',
-                'Lapses.tenant_id' => $sanJuan,
-            ]);
-        $students = $this->Students->find()
-            ->where([
-                'Students.tenant_id' => $sanJuan,
-                'Students.lapse_id IN' => $lapse20231->select(['id']),
-            ]);
-        $cursoAprovado = $this->Students->StudentStages->find()
-            ->where([
-                'StudentStages.student_id IN' => $students->select(['id']),
-                'StudentStages.stage' => StageField::COURSE->value,
-                'StudentStages.status' => StageStatus::SUCCESS->value
-            ]);
-
-        $this->set(compact('cursoAprovado'));
-
-
-        $servicioAprovado = $this->Students->StudentStages->find()
-            ->where([
-                'StudentStages.student_id IN' => $students->select(['id']),
-                'StudentStages.stage' => StageField::ENDING->value,
-                'StudentStages.status' => StageStatus::WAITING->value,
-            ])
-            ->contain([
-                'Students' => [
-                    'AppUsers',
-                    'PrincipalAdscription' => [
-                        'InstitutionProjects' => [
-                            'Institutions',
-                        ],
-                        'Tutors',
-                    ],
-                ],
-            ]);
-
-        $this->set(compact('servicioAprovado'));
-
-        //debug($servicioAprovado->toArray());
-
-        //exit();
     }
 
-    public function tenant(string $tenant_id, string $lapse_id = null)
+    /**
+     * @param string $tenant_id
+     * @return void
+     */
+    public function tenant(string $tenant_id)
     {
-        $tenant = $this->Tenants->get($tenant_id, [
-            'contain' => [
-                'Programs',
-                'CurrentLapse',
-            ],
-        ]);
+        $currentTab = $this->getRequest()->getQuery('tab', 'general');
+        $lapse_id = $this->getRequest()->getQuery('lapse_id', null);
 
-        if (!empty($lapse_id)) {
-            $lapse = $this->Tenants->Lapses->get($lapse_id);
-        } else {
-            $lapse = $tenant->current_lapse;
+        $tenant = $this->Tenants->find()
+            ->where(['Tenants.id' => $tenant_id])
+            ->contain(['Programs'])
+            ->first();
+
+        if (!$tenant) {
+            throw new NotFoundException(__('No se encontró el programa'));
         }
 
-        $this->set(compact('tenant', 'lapse'));
-
-        $students = $this->Students->find()
-            ->where([
-                'Students.tenant_id' => $tenant->id,
-                'Students.lapse_id' => $lapse->id,
-            ]);
-
-        $approvedCourse = $this->Students->StudentStages->find()
-            ->where([
-                'StudentStages.student_id IN' => $students->select(['id']),
-                'StudentStages.stage' => StageField::COURSE->value,
-                'StudentStages.status' => StageStatus::SUCCESS->value
-            ]);
-
-        $approvedService = $this->Students->StudentStages->find()
-            ->where([
-                'StudentStages.student_id IN' => $students->select(['id']),
-                'StudentStages.stage' => StageField::ENDING->value,
-                'StudentStages.status' => StageStatus::SUCCESS->value,
-            ])
-            ->contain([
-                'Students' => [
-                    'AppUsers',
-                    'PrincipalAdscription' => [
-                        'InstitutionProjects' => [
-                            'Institutions',
-                        ],
-                        'Tutors',
-                    ],
-                ],
-            ]);
-
-        $studentAdscriptions = $this->Students->StudentAdscriptions->find()
-            ->where([
-                'StudentAdscriptions.student_id IN' => $students->select(['id']),
-            ])
-            ->contain([
-                'Students' => [
-                    'AppUsers',
-                    'LastStage',
-                ],
-                'Tutors',
-            ])
-            ->where([
-                'StudentAdscriptions.status NOT IN' => [AdscriptionStatus::CANCELLED->value],
-            ])
-            ->formatResults(function ($results) {
-                return $results->combine(
-                    'student_id',
-                    function ($row) {
-                        return $row;
-                    },
-                    'institution_project_id'
-                );
-            })
-            ->toArray();
-
-        $projects = [];
-        if (!empty($studentAdscriptions)) {
-            $projects = $this->Students->StudentAdscriptions->InstitutionProjects->find()
+        if ($lapse_id) {
+            $lapseSelected = $this->Tenants->Lapses->find()
                 ->where([
-                    'InstitutionProjects.id IN' => array_keys($studentAdscriptions),
-                ])
-                ->contain([
-                    'Institutions',
-                ])
-                ->toArray();
+                    'Lapses.id' => $lapse_id,
+                    'Lapses.tenant_id' => $tenant->id,
+                ])->first();
         }
 
-        $this->set(compact('approvedCourse', 'approvedService', 'studentAdscriptions', 'projects'));
+        if (!$lapse_id || !$lapseSelected) {
+            $lapseSelected = $this->Tenants->Lapses
+                ->find('currentLapse', [
+                    'tenant_id' => $tenant_id,
+                ])
+                ->first();
+        }
+
+        if (!$lapseSelected) {
+            throw new NotFoundException(__('No se encontró el periodo'));
+        }
+
+        $lapses = $this->Tenants->Lapses
+            ->find('list', [
+                'keyField' => 'id',
+                'valueField' => 'name',
+                'groupField' => 'label_active',
+            ])
+            ->order(['active' => 'DESC'])
+            ->where(['tenant_id' => $tenant->id]);
+
+
+        $this->set(compact('tenant', 'lapseSelected', 'lapses', 'currentTab'));
     }
 }

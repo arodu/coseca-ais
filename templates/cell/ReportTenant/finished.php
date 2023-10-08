@@ -6,6 +6,7 @@
             <th><?= __('nombre') ?></th>
             <th><?= __('apellido') ?></th>
             <th><?= __('nombre proyecto') ?></th>
+            <th><?= __('estatus') ?></th>
             <th><?= __('tutor academico') ?></th>
         </tr>
     </thead>
@@ -20,6 +21,7 @@
                 <td>
                     <?= h($studentStage->student->principal_adscription->institution_project->label_name) ?>
                 </td>
+                <td><?= $this->App->badge($studentStage->getStatus()) ?></td>
                 <td><?= h($studentStage->student->principal_adscription->tutor->name) ?></td>
             </tr>
         <?php endforeach; ?>
