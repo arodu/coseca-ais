@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
+use App\Enum\Active;
 use App\Model\Field\StudentType;
 use App\Utility\Stages;
 use Cake\Http\Exception\NotFoundException;
@@ -47,6 +48,7 @@ class Student extends Entity
         'student_adscriptions' => true,
         'student_data' => true,
         'lapse_id' => true,
+        'active' => true,
     ];
 
     protected $_virtual = [
@@ -56,6 +58,7 @@ class Student extends Entity
         'email',
         'full_name',
         'type_label',
+        'active_label',
     ];
 
     /**
@@ -157,5 +160,21 @@ class Student extends Entity
         }
 
         return false;
+    }
+
+    /**
+     * @return string|null
+     */
+    protected function _getActiveLabel(): ?string
+    {
+        return $this->getActive()?->label() ?? null;
+    }
+
+    /**
+     * @return Active|null
+     */
+    public function getActive(): ?Active
+    {
+        return Active::get($this->active ?? false);
     }
 }

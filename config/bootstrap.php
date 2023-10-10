@@ -47,6 +47,7 @@ use Cake\Mailer\Mailer;
 use Cake\Mailer\TransportFactory;
 use Cake\Routing\Router;
 use Cake\Utility\Security;
+use CakeLteTools\Utility\FaIcon;
 
 /*
  * See https://github.com/josegonzalez/php-dotenv for API details.
@@ -251,4 +252,11 @@ Configure::write('CakePdf', [
     'header' => [
         'right' => '123123123',
     ],
+]);
+
+FaIcon::setIcon([
+    //'user' => ['fas', 'user-circle'],
+    //'close' => ['fas', 'window-close'],
+    //'check' => ['fas', 'check-circle'],
+    //'chart-bar' => ['fas', 'chart-bar'],
 ]);

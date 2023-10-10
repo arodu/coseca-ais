@@ -48,6 +48,7 @@ $this->Breadcrumbs->add([
                         <span class="ml-3"><?= $this->Paginator->sort('AppUsers.last_name', __('Apellidos')) ?></span>
                     </th>
                     <th><?= __('Lapso') ?></th>
+                    <th><?= __('Estatus') ?></th>
                     <th><?= __('Etapa') ?></th>
                     <th style="width:20%;"><?= __('Horas') ?></th>
                     <th class="actions"><?= __('Acciones') ?></th>
@@ -69,13 +70,10 @@ $this->Breadcrumbs->add([
                             ) ?>
                         </td>
                         <td><?= h($student->lapse?->name) ?? $this->App->nan() ?></td>
+                        <td><?= $this->App->badge($student->getActive())?></td>
                         <td>
                             <?= h($studentStage->stage_label) ?>
-                            <?= $this->Html->tag(
-                                'span',
-                                $student->last_stage->status_label,
-                                ['class' => [$studentStage->getStatus()?->color()->badge(), 'ml-2']]
-                            ) ?>
+                            <?= $this->App->badge($studentStage->getStatus())?>
                         </td>
                         <td class="project_progress">
                             <?= $this->App->progressBar($student->total_hours ?? 0) ?>

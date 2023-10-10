@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\View\Cell;
 
-use Cake\Cache\Cache;
+use App\Utility\CacheRequest;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\View\Cell;
 
@@ -65,10 +65,10 @@ class StudentInfoCell extends Cell
                 'url' => ['controller' => 'Students', 'action' => 'tracking', $student->id, 'prefix' => 'Admin'],
                 'label' => __('Seguimiento'),
             ],
-            'prints' => [
-                'url' => ['controller' => 'Students', 'action' => 'prints', $student->id, 'prefix' => 'Admin'],
-                'label' => __('Planillas'),
-            ],
+            //'prints' => [
+            //    'url' => ['controller' => 'Students', 'action' => 'prints', $student->id, 'prefix' => 'Admin'],
+            //    'label' => __('Planillas'),
+            //],
             'settings' => [
                 'url' => ['controller' => 'Students', 'action' => 'settings', $student->id, 'prefix' => 'Admin'],
                 'label' => __('Configuración'),
@@ -80,8 +80,7 @@ class StudentInfoCell extends Cell
 
     protected function getStudent($student_id)
     {
-        // @todo falta borrar cache al momento de modificar los datos del student
-        return Cache::remember('student_info_' . $student_id, function () use ($student_id) {
+        return CacheRequest::remember('student_info_' . $student_id, function () use ($student_id) {
             return $this->Students->get($student_id, [
                 'contain' => [
                     'AppUsers',
@@ -90,6 +89,6 @@ class StudentInfoCell extends Cell
                     'LastStage',
                 ],
             ]);
-        }, 'default');
+        });
     }
 }
