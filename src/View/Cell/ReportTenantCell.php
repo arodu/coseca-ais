@@ -92,27 +92,6 @@ class ReportTenantCell extends Cell
                 'Students.lapse_id' => $lapseSelected->id,
             ]);
 
-        $courseSuccess = $this->Students->StudentStages->find()
-            ->where([
-                'StudentStages.student_id IN' => $students->select(['id']),
-                'StudentStages.stage' => StageField::COURSE->value,
-                'StudentStages.status' => StageStatus::SUCCESS->value
-            ]);
-
-        $registerReview = $this->Students->StudentStages->find()
-            ->where([
-                'StudentStages.student_id IN' => $students->select(['id']),
-                'StudentStages.stage' => StageField::REGISTER->value,
-                'StudentStages.status' => StageStatus::REVIEW->value
-            ]);
-
-        $registerSuccess = $this->Students->StudentStages->find()
-            ->where([
-                'StudentStages.student_id IN' => $students->select(['id']),
-                'StudentStages.stage' => StageField::REGISTER->value,
-                'StudentStages.status' => StageStatus::SUCCESS->value
-            ]);
-
         $studentWithoutLapse = $this->Students->find()
             ->find('active')
             ->where([
@@ -120,7 +99,32 @@ class ReportTenantCell extends Cell
                 'Students.lapse_id IS' => null,
             ]);
 
-        $this->set(compact('courseSuccess', 'registerReview', 'registerSuccess', 'studentWithoutLapse'));
+        $reports = $this->Students->StudentStages->find()
+            ->select([
+                'stage' => 'StudentStages.stage',
+                'status' => 'StudentStages.status',
+                'count' => 'COUNT(StudentStages.id)',
+            ])
+            ->where([
+                'StudentStages.student_id IN' => $students->select(['id']),
+            ])
+            ->group([
+                'StudentStages.stage',
+                'StudentStages.status',
+            ])
+            ->formatResults(function ($results) {
+                return $results->combine(
+                    function ($row) {
+                        return $row['stage'] . '-' . $row['status'];
+                    },
+                    function ($row) {
+                        return $row['count'];
+                    }
+                );
+            })
+            ->toArray();
+
+        $this->set(compact('reports', 'studentWithoutLapse'));
     }
 
     public function projects(Tenant $tenant, Lapse $lapseSelected)
