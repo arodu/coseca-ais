@@ -72,6 +72,9 @@ class StudentsTable extends Table
 
         $this->addBehavior('LastElement', [
             'fieldGroup' => 'user_id',
+            'subQueryConditions' => [
+                $this->aliasField('active') => true,
+            ],
         ]);
 
         $this->belongsTo('AppUsers', [
@@ -111,8 +114,6 @@ class StudentsTable extends Table
         $this->hasOne('PrincipalAdscription', [
             'className' => 'StudentAdscriptions',
             'foreignKey' => 'student_id',
-            'dependent' => true,
-            'cascadeCallbacks' => true,
             'finder' => 'principal',
         ]);
         $this->hasOne('StudentCourses', [
@@ -344,9 +345,9 @@ class StudentsTable extends Table
     /**
      * @param AppUser $user
      * @param integer|null $tenant_id
-     * @return void
+     * @return Student|null
      */
-    public function newRegularStudent(AppUser $user, array $options = [])
+    public function newRegularStudent(AppUser $user, array $options = []): ?Student
     {
         $data = array_merge([
             'user_id' => $user->id,
@@ -359,6 +360,8 @@ class StudentsTable extends Table
         if (!$this->save($student)) {
             Log::warning('student already exists');
         }
+
+        return $student;
     }
 
     public function closeLastStageMasive(mixed $ids, StageField $stageField, StageStatus $stageStatus): int

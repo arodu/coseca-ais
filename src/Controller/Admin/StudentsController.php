@@ -8,6 +8,7 @@ namespace App\Controller\Admin;
 use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
+use App\Model\Field\StudentType;
 use Cake\Event\EventInterface;
 use Cake\ORM\Query;
 use Cake\View\CellTrait;
@@ -135,7 +136,7 @@ class StudentsController extends AppAdminController
     public function settings($id = null)
     {
         $student = $this->Students->get($id, [
-            'contain' => ['AppUsers', 'StudentData'],
+            'contain' => ['AppUsers'],
         ]);
 
         $this->set(compact('student'));
@@ -143,9 +144,9 @@ class StudentsController extends AppAdminController
 
     public function tracking($id = null)
     {
-        $student_id = $id;
+        $student = $this->Students->get($id);
         $trackingView = $this->cell('TrackingView', [
-            'student_id' => $student_id,
+            'student_id' => $student->id,
             'urlList' => [
                 'add' => ['_name' => 'admin:stage:tracking:add'],
                 'delete' => ['_name' => 'admin:stage:tracking:delete'],
@@ -161,7 +162,7 @@ class StudentsController extends AppAdminController
             ]
         ]);
 
-        $this->set(compact('trackingView', 'student_id'));
+        $this->set(compact('trackingView', 'student'));
     }
 
     public function prints($id = null)
@@ -272,6 +273,64 @@ class StudentsController extends AppAdminController
         $this->set(compact('student'));
     }
 
+    public function newProgram(string $id)
+    {
+        $this->request->allowMethod(['post', 'put']);
+
+        try {
+            $this->Students->getConnection()->begin();
+            $student = $this->Students->get($id, [
+                'contain' => ['AppUsers'],
+            ]);
+            $student->active = false;
+            $this->Students->saveOrFail($student);
     
+            $newStudent = $this->Students->newEntity([
+                'user_id' => $student->user_id,
+                'tenant_id' => $this->request->getData('tenant_id'),
+                'type' => StudentType::REGULAR->value,
+            ]);
+
+            $this->Students->saveOrFail($newStudent);
+            $this->Students->getConnection()->commit();
+            $this->Flash->success(__('A new student record has been created, and the previous one has been deactivated.'));
+            
+            return $this->redirect(['action' => 'view', $newStudent->id]);
+        } catch (\Exception $e) {
+            $this->Flash->error(__('The student could not be saved. Please, try again.'));
+            
+            $this->Students->getConnection()->rollback();
+        }
+
+        return $this->redirect(['action' => 'view', $id]);
+    }
+
+    public function deactivate(string $id)
+    {
+        $this->request->allowMethod(['post', 'put']);
+        $student = $this->Students->get($id);
+        $student->active = false;
+        if ($this->Students->save($student)) {
+            $this->Flash->success(__('The student has been deactivate'));
+        } else {
+            $this->Flash->error(__('The student could not be deactivate. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'view', $id]);
+    }
+
+    public function reactivate(string $id)
+    {
+        $this->request->allowMethod(['post', 'put']);
+        $student = $this->Students->get($id);
+        $student->active = true;
+        if ($this->Students->save($student)) {
+            $this->Flash->success(__('The student has been activate'));
+        } else {
+            $this->Flash->error(__('The student could not be activate. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'view', $id]);
+    }
 
 }

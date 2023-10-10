@@ -94,12 +94,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/arodu/cakelte-tools.git",
-                "reference": "ec185ff772f4a184631761e4c7de9e4235fb0a29"
+                "reference": "10b5ec4c91b62ecfd5eb9d1ff36a2ce3d849245f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/arodu/cakelte-tools/zipball/ec185ff772f4a184631761e4c7de9e4235fb0a29",
-                "reference": "ec185ff772f4a184631761e4c7de9e4235fb0a29",
+                "url": "https://api.github.com/repos/arodu/cakelte-tools/zipball/10b5ec4c91b62ecfd5eb9d1ff36a2ce3d849245f",
+                "reference": "10b5ec4c91b62ecfd5eb9d1ff36a2ce3d849245f",
                 "shasum": ""
             },
             "require": {
@@ -125,7 +125,7 @@
                 "issues": "https://github.com/arodu/cakelte-tools/issues",
                 "source": "https://github.com/arodu/cakelte-tools/tree/develop"
             },
-            "time": "2023-10-08T14:42:09+00:00"
+            "time": "2023-10-10T22:28:18+00:00"
         },
         {
             "name": "arodu/cakephp-modal-form",
@@ -7695,5 +7695,5 @@
         "php": ">=7.4"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
