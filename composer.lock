@@ -94,12 +94,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/arodu/cakelte-tools.git",
-                "reference": "ec185ff772f4a184631761e4c7de9e4235fb0a29"
+                "reference": "10b5ec4c91b62ecfd5eb9d1ff36a2ce3d849245f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/arodu/cakelte-tools/zipball/ec185ff772f4a184631761e4c7de9e4235fb0a29",
-                "reference": "ec185ff772f4a184631761e4c7de9e4235fb0a29",
+                "url": "https://api.github.com/repos/arodu/cakelte-tools/zipball/10b5ec4c91b62ecfd5eb9d1ff36a2ce3d849245f",
+                "reference": "10b5ec4c91b62ecfd5eb9d1ff36a2ce3d849245f",
                 "shasum": ""
             },
             "require": {
@@ -125,7 +125,7 @@
                 "issues": "https://github.com/arodu/cakelte-tools/issues",
                 "source": "https://github.com/arodu/cakelte-tools/tree/develop"
             },
-            "time": "2023-10-08T14:42:09+00:00"
+            "time": "2023-10-10T22:28:18+00:00"
         },
         {
             "name": "arodu/cakephp-modal-form",
@@ -494,16 +494,16 @@
         },
         {
             "name": "cakephp/cakephp",
-            "version": "4.4.17",
+            "version": "4.4.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/cakephp.git",
-                "reference": "9ff254d6d60720089dec1e10aa1907e24e39a98e"
+                "reference": "34b4920bc8c13f8897434003e8aaaa605153d051"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/9ff254d6d60720089dec1e10aa1907e24e39a98e",
-                "reference": "9ff254d6d60720089dec1e10aa1907e24e39a98e",
+                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/34b4920bc8c13f8897434003e8aaaa605153d051",
+                "reference": "34b4920bc8c13f8897434003e8aaaa605153d051",
                 "shasum": ""
             },
             "require": {
@@ -602,7 +602,7 @@
                 "issues": "https://github.com/cakephp/cakephp/issues",
                 "source": "https://github.com/cakephp/cakephp"
             },
-            "time": "2023-08-20T02:36:22+00:00"
+            "time": "2023-09-22T07:53:48+00:00"
         },
         {
             "name": "cakephp/chronos",
@@ -5190,16 +5190,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.10.35",
+            "version": "1.10.38",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "e730e5facb75ffe09dfb229795e8c01a459f26c3"
+                "reference": "5302bb402c57f00fb3c2c015bac86e0827e4b691"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/e730e5facb75ffe09dfb229795e8c01a459f26c3",
-                "reference": "e730e5facb75ffe09dfb229795e8c01a459f26c3",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/5302bb402c57f00fb3c2c015bac86e0827e4b691",
+                "reference": "5302bb402c57f00fb3c2c015bac86e0827e4b691",
                 "shasum": ""
             },
             "require": {
@@ -5248,7 +5248,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-09-19T15:27:56+00:00"
+            "time": "2023-10-06T14:19:14+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",

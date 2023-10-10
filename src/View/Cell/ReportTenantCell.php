@@ -86,20 +86,45 @@ class ReportTenantCell extends Cell
     public function general(Tenant $tenant, Lapse $lapseSelected)
     {
         $students = $this->Students->find()
+            ->find('active')
             ->where([
                 'Students.tenant_id' => $tenant->id,
                 'Students.lapse_id' => $lapseSelected->id,
             ]);
 
-        $approvedCourse = $this->Students->StudentStages->find()
+        $studentWithoutLapse = $this->Students->find()
+            ->find('active')
             ->where([
-                'StudentStages.student_id IN' => $students->select(['id']),
-                'StudentStages.stage' => StageField::COURSE->value,
-                'StudentStages.status' => StageStatus::SUCCESS->value
+                'Students.tenant_id' => $tenant->id,
+                'Students.lapse_id IS' => null,
             ]);
 
+        $reports = $this->Students->StudentStages->find()
+            ->select([
+                'stage' => 'StudentStages.stage',
+                'status' => 'StudentStages.status',
+                'count' => 'COUNT(StudentStages.id)',
+            ])
+            ->where([
+                'StudentStages.student_id IN' => $students->select(['id']),
+            ])
+            ->group([
+                'StudentStages.stage',
+                'StudentStages.status',
+            ])
+            ->formatResults(function ($results) {
+                return $results->combine(
+                    function ($row) {
+                        return $row['stage'] . '-' . $row['status'];
+                    },
+                    function ($row) {
+                        return $row['count'];
+                    }
+                );
+            })
+            ->toArray();
 
-        $this->set(compact('approvedCourse'));
+        $this->set(compact('reports', 'studentWithoutLapse'));
     }
 
     public function projects(Tenant $tenant, Lapse $lapseSelected)
