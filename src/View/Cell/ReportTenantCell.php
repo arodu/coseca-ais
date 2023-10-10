@@ -86,20 +86,41 @@ class ReportTenantCell extends Cell
     public function general(Tenant $tenant, Lapse $lapseSelected)
     {
         $students = $this->Students->find()
+            ->find('active')
             ->where([
                 'Students.tenant_id' => $tenant->id,
                 'Students.lapse_id' => $lapseSelected->id,
             ]);
 
-        $approvedCourse = $this->Students->StudentStages->find()
+        $courseSuccess = $this->Students->StudentStages->find()
             ->where([
                 'StudentStages.student_id IN' => $students->select(['id']),
                 'StudentStages.stage' => StageField::COURSE->value,
                 'StudentStages.status' => StageStatus::SUCCESS->value
             ]);
 
+        $registerReview = $this->Students->StudentStages->find()
+            ->where([
+                'StudentStages.student_id IN' => $students->select(['id']),
+                'StudentStages.stage' => StageField::REGISTER->value,
+                'StudentStages.status' => StageStatus::REVIEW->value
+            ]);
 
-        $this->set(compact('approvedCourse'));
+        $registerSuccess = $this->Students->StudentStages->find()
+            ->where([
+                'StudentStages.student_id IN' => $students->select(['id']),
+                'StudentStages.stage' => StageField::REGISTER->value,
+                'StudentStages.status' => StageStatus::SUCCESS->value
+            ]);
+
+        $studentWithoutLapse = $this->Students->find()
+            ->find('active')
+            ->where([
+                'Students.tenant_id' => $tenant->id,
+                'Students.lapse_id IS' => null,
+            ]);
+
+        $this->set(compact('courseSuccess', 'registerReview', 'registerSuccess', 'studentWithoutLapse'));
     }
 
     public function projects(Tenant $tenant, Lapse $lapseSelected)

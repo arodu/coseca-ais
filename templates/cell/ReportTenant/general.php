@@ -3,13 +3,22 @@
         <table class="table table-sm table-hover">
             <tbody>
                 <tr>
-                    <th><?= __('Estudiantes registrados') ?></th>
-                    <td><?= $this->App->nan() ?></td>
+                    <th><?= __('cantidad de estudiantes - registro: sin lapso') ?></th>
+                    <td><?= $studentWithoutLapse->count() ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('Aprobados taller') ?></th>
-                    <td><?= $approvedCourse->count() ?></td>
+                    <th><?= __('cantidad de estudiantes - registro: en revision') ?></th>
+                    <td><?= $registerReview->count() ?></td>
                 </tr>
+                <tr>
+                    <th><?= __('cantidad de estudiantes - registro: completado') ?></th>
+                    <td><?= $registerSuccess->count() ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('cantidad de estudiantes - taller: completado') ?></th>
+                    <td><?= $courseSuccess->count() ?></td>
+                </tr>
+                <!--
                 <tr>
                     <th><?= __('Proyectos activos') ?></th>
                     <td><?= $this->App->nan() ?></td>
@@ -34,6 +43,7 @@
                     <th><?= __('Estudiantes con servicio aprobado') ?></th>
                     <td><?= $this->App->nan() ?></td>
                 </tr>
+                -->
             </tbody>
         </table>
     </div>
