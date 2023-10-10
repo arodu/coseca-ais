@@ -72,6 +72,9 @@ class StudentsTable extends Table
 
         $this->addBehavior('LastElement', [
             'fieldGroup' => 'user_id',
+            'subQueryConditions' => [
+                $this->aliasField('active') => true,
+            ],
         ]);
 
         $this->belongsTo('AppUsers', [
