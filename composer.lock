@@ -55,12 +55,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/arodu/cakelte.git",
-                "reference": "9be7cd6b4b419a6fa6d3c8582abba09a9e89b549"
+                "reference": "ef92e173468a4352dacc0803282415e4531bace0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/arodu/cakelte/zipball/9be7cd6b4b419a6fa6d3c8582abba09a9e89b549",
-                "reference": "9be7cd6b4b419a6fa6d3c8582abba09a9e89b549",
+                "url": "https://api.github.com/repos/arodu/cakelte/zipball/ef92e173468a4352dacc0803282415e4531bace0",
+                "reference": "ef92e173468a4352dacc0803282415e4531bace0",
                 "shasum": ""
             },
             "require": {
@@ -86,7 +86,13 @@
                 "issues": "https://github.com/arodu/cakelte/issues",
                 "source": "https://github.com/arodu/cakelte/tree/2.next"
             },
-            "time": "2022-11-29T13:52:45+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/CakeDC",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-10-15T13:43:58+00:00"
         },
         {
             "name": "arodu/cakelte-tools",
