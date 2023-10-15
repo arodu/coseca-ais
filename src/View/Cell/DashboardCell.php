@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace App\View\Cell;
 
+use App\Model\Field\StageField;
+use App\Model\Field\StageStatus;
 use App\Utility\CacheRequest;
+use App\Utility\ReportsUtility;
 use Cake\I18n\FrozenDate;
+use Cake\ORM\ResultSet;
 use Cake\View\Cell;
 
 /**
@@ -34,16 +38,7 @@ class DashboardCell extends Cell
 
     public function blocks()
     {
-        $currentLapses = $this->Tenants->Lapses
-            ->find('lastElement')
-            ->where([
-                'Lapses.tenant_id IN' => $this->getCurrentTenants(),
-                'Lapses.active' => true,
-            ])
-            ->order([
-                'Lapses.name' => 'DESC',
-            ]);
-
+        $currentLapses = $this->getCurrentLapses();
         $studentsActives = $this->Students->find()
             ->where([
                 'Students.lapse_id IN' => $currentLapses->extract('id')->toArray(),
@@ -111,6 +106,28 @@ class DashboardCell extends Cell
         $this->set(compact('events'));
     }
 
+    public function stages()
+    {
+        $students = $this->Students->find()
+            ->find('active')
+            ->where([
+                'Students.tenant_id IN' => $this->getCurrentTenants(),
+                'Students.lapse_id IN' => $this->getCurrentLapses()->extract('id')->toArray(),
+            ]);
+
+        $reports = $this->Students->StudentStages
+            ->find('report', [
+                'student_ids' => $students->select(['id']),
+            ])
+            ->toArray();
+
+        $this->set([
+            'statuses' => ReportsUtility::getStatusList(),
+            'stages' => ReportsUtility::getStageList(),
+            'reports' => $reports,
+        ]);
+    }
+
     protected function getCurrentTenants(): array
     {
         return CacheRequest::remember('current_tenants', function () {
@@ -119,6 +136,19 @@ class DashboardCell extends Cell
                 ->select(['id'])
                 ->extract('id')
                 ->toArray();
+        });
+    }
+
+    protected function getCurrentLapses(): ResultSet
+    {
+        return CacheRequest::remember('current_lapses', function () {
+            return $this->Tenants->Lapses
+                ->find('lastElement')
+                ->where([
+                    'Lapses.tenant_id IN' => $this->getCurrentTenants(),
+                    'Lapses.active' => true,
+                ])
+                ->all();
         });
     }
 }

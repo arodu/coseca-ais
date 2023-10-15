@@ -16,10 +16,11 @@ $this->Breadcrumbs->add([
 </div>
 
 <div class="row">
-    <div class="col">
+    <div class="col-md-6">
         <?= $this->cell('Dashboard::activeTenants') ?>
-    </div>
-    <div class="col">
         <?= $this->cell('Dashboard::events') ?>
+    </div>
+    <div class="col-md-6">
+        <?= $this->cell('Dashboard::stages') ?>
     </div>
 </div>
