@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\View\Helper;
 
 use App\Model\Entity\Lapse;
+use App\Model\Entity\Tenant;
 use App\Utility\Calc;
 use Cake\Utility\Inflector;
 use Cake\View\Helper;
@@ -173,5 +174,19 @@ class AppHelper extends Helper
     public function yn(bool $bool): string
     {
         return $bool ? __('Si') : __('No');
+    }
+
+    public function tenant(Tenant $tenant): string
+    {
+        if (empty($tenant->program)) {
+            throw new \Exception('Tenant program is empty');
+        }
+
+        return __(
+            '{0} / {1} / {2}',
+            $tenant->program->area_label,
+            $this->Html->link($tenant->program->name, ['controller' => 'Tenants', 'action' => 'viewProgram', $tenant->program_id]),
+            $this->Html->link($tenant->name, ['controller' => 'Tenants', 'action' => 'view', $tenant->id]),
+        );
     }
 }

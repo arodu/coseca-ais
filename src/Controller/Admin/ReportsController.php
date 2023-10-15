@@ -8,6 +8,7 @@ use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use Cake\Http\Exception\NotFoundException;
+use Cake\I18n\FrozenDate;
 use Cake\View\CellTrait;
 
 /**
@@ -36,11 +37,33 @@ class ReportsController extends AppAdminController
             ->contain([
                 'CurrentLapse',
                 'Programs'
-            ])
-            //->cache('active_tenants')
-        ;
+            ]);
 
-        $this->set(compact('activeTenants'));
+        $activities = $this->Tenants->Lapses->LapseDates->find()
+            ->contain([
+                'Lapses' => [
+                    'Tenants' => [
+                        'Programs'
+                    ]
+                ]
+            ])
+            ->where([
+                'Lapses.tenant_id IN' => $this->Tenants->find('active')->select(['id']),
+                'OR' => [
+                    'LapseDates.start_date IS NOT' => null,
+                    'LapseDates.end_date IS NOT' => null,
+                ],
+                'OR' => [
+                    'LapseDates.start_date >=' => FrozenDate::now(),
+                    'LapseDates.end_date >=' => FrozenDate::now(),
+                ],
+            ])
+            ->order([
+                'LapseDates.end_date' => 'DESC',
+                'LapseDates.start_date' => 'DESC',
+            ]);
+
+        $this->set(compact('activeTenants', 'activities'));
     }
 
     /**

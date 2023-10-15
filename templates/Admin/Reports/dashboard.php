@@ -87,9 +87,7 @@ $this->Breadcrumbs->add([
                 <table class="table table-striped table-valign-middle">
                     <thead>
                         <tr>
-                            <th><?= __('Area') ?></th>
-                            <th><?= __('Programa') ?></th>
-                            <th><?= __('Sede') ?></th>
+                            <th><?= __('Area / Programa / Sede') ?></th>
                             <th><?= __('Lapso actual') ?></th>
                             <th class="actions"></th>
                         </tr>
@@ -97,9 +95,7 @@ $this->Breadcrumbs->add([
                     <tbody>
                         <?php foreach ($activeTenants as $tenant) : ?>
                             <tr>
-                                <td><?= h($tenant->program->area_label) ?></td>
-                                <td><?= $this->Html->link($tenant->program->name, ['controller' => 'Tenants', 'action' => 'viewProgram', $tenant->program_id], ['class' => '', 'escape' => false]) ?></td>
-                                <td><?= $this->Html->link($tenant->name, ['controller' => 'Tenants', 'action' => 'view', $tenant->id], ['class' => '', 'escape' => false]) ?></td>
+                                <td><?= $this->App->tenant($tenant) ?></td>
                                 <td><?= $this->App->lapseLabel($tenant->current_lapse) ?? $this->App->error(__('Programa debe tener al menos un lapso activo')) ?></td>
                                 <td class="actions">
                                     <?= $this->Button->statistics([
@@ -116,13 +112,32 @@ $this->Breadcrumbs->add([
         </div>
     </div>
     <div class="col">
-        <!--
         <div class="card">
             <div class="card-header border-0">
-                <h3 class="card-title"><?= __('Actualizaciones') ?></h3>
-
+                <h3 class="card-title"><?= __('Proximos eventos') ?></h3>
+            </div>
+            <div class="card-body table-responsive p-0">
+                <table class="table table-striped table-valign-middle">
+                    <thead>
+                        <tr>
+                            <th><?= __('Area / Programa / Sede') ?></th>
+                            <th><?= __('Etapa') ?></th>
+                            <th><?= __('Fecha') ?></th>
+                            <th><?= __('Estado') ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($activities as $activity) : ?>
+                            <tr>
+                                <td><?= $this->App->tenant($activity->lapse->tenant) ?></td>
+                                <td><?= h($activity->title) ?></td>
+                                <td><?= h($activity->show_dates) ?></td>
+                                <td><code><?= $activity->status?->label() ?? __('N/A') ?></code></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
             </div>
         </div>
-        -->
     </div>
 </div>
