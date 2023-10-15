@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -37,6 +38,11 @@ class Tenant extends Entity
         'active' => true,
         'current_lapse' => true,
         'program_id' => true,
+    ];
+
+    protected $_virtual = [
+        'label',
+        'abbr_label',
     ];
 
     public function _getLabel()

@@ -38,6 +38,12 @@ class Program extends Entity
         'tenants' => true,
     ];
 
+    protected $_virtual = [
+        'area_label',
+        'regime_label',
+        'area_print_label',
+    ];
+
     public function _getAreaLabel(): ?string
     {
         return ProgramArea::tryFrom($this->area)?->label() ?? null;

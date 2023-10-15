@@ -44,4 +44,11 @@ class AppUser extends User
     {
         return UserRole::tryFrom($this->role);
     }
+
+    protected $_virtual = ['full_name'];
+
+    protected function _getFullName(): string
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
 }
