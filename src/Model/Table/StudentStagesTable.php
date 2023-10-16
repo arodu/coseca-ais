@@ -173,6 +173,30 @@ class StudentStagesTable extends Table
         return $query;
     }
 
+    /**
+     * @param Query $query
+     * @param array $options
+     * @return Query
+     */
+    public function findReport(Query $query, array $options = []): Query
+    {
+        if (empty($options['student_ids'])) {
+            throw new InvalidArgumentException(__('param student_ids is necessary'));
+        }
+
+        return $query
+            ->select([
+                'stage' => 'StudentStages.stage',
+                'status' => 'StudentStages.status',
+                'count' => 'COUNT(StudentStages.id)',
+            ])
+            ->where(['StudentStages.student_id IN' => $options['student_ids']])
+            ->group(['StudentStages.stage', 'StudentStages.status'])
+            ->formatResults(function ($results) {
+                return $results->combine('status', 'count', 'stage');
+            });
+    }
+
     public function create(array $options): StudentStage|false
     {
         try {
