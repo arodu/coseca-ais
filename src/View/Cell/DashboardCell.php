@@ -134,6 +134,7 @@ class DashboardCell extends Cell
             return $this->Tenants
                 ->find('active')
                 ->select(['id'])
+                ->all()
                 ->extract('id')
                 ->toArray();
         });
