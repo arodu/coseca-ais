@@ -36,9 +36,11 @@ class CoursesController extends AppAdminController
      */
     public function edit($student_id = null, $id = null)
     {
+        $student = $this->Students->get($student_id);
+
         $courseStage = $this->Students->StudentStages
             ->find('byStudentStage', [
-                'student_id' => $student_id,
+                'student_id' => $student->id,
                 'stage' => StageField::COURSE,
             ])
             ->first();
@@ -79,7 +81,7 @@ class CoursesController extends AppAdminController
                     $this->Flash->success(__('The {0} stage has been created.', $nextStage->stage));
                 }
 
-                return $this->redirect(['_name' => 'admin:student:view', $student_id]);
+                return $this->redirect(['_name' => 'admin:student:view', $student->id]);
             } catch (\Exception $e) {
                 Log::error($e->getMessage());
                 $this->Students->getConnection()->rollback();
@@ -88,7 +90,7 @@ class CoursesController extends AppAdminController
         }
 
         $selectedDate = $session->read('courseSelectedDate', FrozenDate::now());
-        $this->set(compact('studentCourse', 'selectedDate', 'student_id'));
+        $this->set(compact('studentCourse', 'selectedDate', 'student'));
     }
 
     /**
