@@ -10,15 +10,19 @@
                     <?php foreach ($statuses as $status) : ?>
                         <th><?= $this->App->badge($status) ?></th>
                     <?php endforeach; ?>
+                    <th><?= $this->Html->tag('span', __('Total'), ['class' => 'badge badge-dark']) ?></th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($stages as $stage) : ?>
                     <tr>
                         <th><?= $stage->label() ?></th>
+                        <?php $sum = 0 ?>
                         <?php foreach ($statuses as $status) : ?>
                             <td><?= $reports[$stage->value][$status->value] ?? 0 ?></td>
+                            <?php $sum += $reports[$stage->value][$status->value] ?? 0 ?>
                         <?php endforeach; ?>
+                        <td><?= $sum ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
