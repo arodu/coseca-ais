@@ -83,6 +83,7 @@ class StudentsController extends AppAdminController
             'first_name' => __('Nombres'),
             'last_name' => __('Apellidos'),
             'app_user.email' => __('Email'),
+            'student_data.phone' => __('Telefono'),
             'student_data.uc' => __('UC'),
             'student_data.gender' => __('Genero'),
             'lapse.name' => __('Lapso'),
