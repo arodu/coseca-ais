@@ -69,6 +69,7 @@ class StudentsTable extends Table
         $this->addBehavior('QueryFilter.QueryFilter');
         $this->addBehavior('Timestamp');
         $this->addBehavior('Muffin/Footprint.Footprint');
+        $this->addBehavior('FilterTenant.FilterTenant');
 
         $this->addBehavior('LastElement', [
             'fieldGroup' => 'user_id',

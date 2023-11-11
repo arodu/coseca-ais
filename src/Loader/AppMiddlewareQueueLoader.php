@@ -8,6 +8,7 @@ use Authentication\AuthenticationServiceProviderInterface;
 use Authentication\Middleware\AuthenticationMiddleware;
 use Cake\Http\MiddlewareQueue;
 use CakeDC\Users\Loader\MiddlewareQueueLoader;
+use FilterTenant\Middleware\FilterTenantMiddleware;
 use ModalForm\Middleware\ModalFormMiddleware;
 use Muffin\Footprint\Middleware\FootprintMiddleware;
 
@@ -21,5 +22,6 @@ class AppMiddlewareQueueLoader extends MiddlewareQueueLoader
         $middlewareQueue->add($authentication);
         $middlewareQueue->add(FootprintMiddleware::class);
         $middlewareQueue->add(ModalFormMiddleware::class);
+        $middlewareQueue->add(FilterTenantMiddleware::class);
     }
 }

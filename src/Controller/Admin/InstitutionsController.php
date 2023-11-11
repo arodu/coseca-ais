@@ -38,7 +38,7 @@ class InstitutionsController extends AppAdminController
             $query = $this->Institutions->queryFilter($query, $formData);
         }
         $filtered = $this->Institutions->queryWasFiltered();
-        $tenants = $this->Institutions->Tenants->find('list');
+        $tenants = $this->Institutions->Tenants->find('listLabel');
         // /filterLogic
 
         $institutions = $this->paginate($query);
@@ -85,7 +85,7 @@ class InstitutionsController extends AppAdminController
             }
             $this->Flash->error(__('The institution could not be saved. Please, try again.'));
         }
-        $tenants = $this->Institutions->Tenants->find('list', ['limit' => 200])->all();
+        $tenants = $this->Institutions->Tenants->find('listLabel', ['limit' => 200])->all();
         $this->set(compact('institution', 'tenants'));
     }
 
@@ -133,7 +133,7 @@ class InstitutionsController extends AppAdminController
             }
             $this->Flash->error(__('The institution could not be saved. Please, try again.'));
         }
-        $tenants = $this->Institutions->Tenants->find('list', ['limit' => 200])->all();
+        $tenants = $this->Institutions->Tenants->find('listLabel', ['limit' => 200])->all();
         $this->set(compact('institution', 'tenants'));
     }
 

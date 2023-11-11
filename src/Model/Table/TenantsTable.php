@@ -50,6 +50,9 @@ class TenantsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('QueryFilter.QueryFilter');
+        $this->addBehavior('FilterTenant.FilterTenant', [
+            'field' => 'id',
+        ]);
 
         $this->hasMany('Lapses', [
             'foreignKey' => 'tenant_id',
@@ -102,7 +105,7 @@ class TenantsTable extends Table
         return $query->contain(['Programs']);
     }
 
-    public function findList(Query $query, array $options): Query
+    public function findListLabel(Query $query, array $options): Query
     {
         $options = array_merge([
             'keyField' => 'id',
