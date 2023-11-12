@@ -21,6 +21,7 @@ enum UserRole: string implements ListInterface
     const GROUP_STUDENT = 'student';
     const GROUP_ADMIN = 'admin';
     const GROUP_SUPERADMIN = 'superadmin';
+    const GROUP_ROOT = 'root';
 
     /**
      * @return string
@@ -55,6 +56,9 @@ enum UserRole: string implements ListInterface
                 static::ADMIN,
                 static::SUPERUSER,
             ],
+            static::GROUP_ROOT => [
+                static::SUPERUSER,
+            ],
         ];
 
         return $groups[$name] ?? [];
@@ -70,11 +74,29 @@ enum UserRole: string implements ListInterface
     }
 
     /**
+     * @param string $name Group name
+     * @return boolean
+     */
+    public function isGroup(string $name): bool
+    {
+        return $this->inGroup($name);
+    }
+
+    /**
+     * @param string $name Group name
+     * @return array
+     */
+    public static function getGroup(string $name): array
+    {
+        return static::values(static::group($name));
+    }
+
+    /**
      * @return array
      */
     public static function getStudentGroup(): array
     {
-        return static::values(static::group(static::GROUP_STUDENT));
+        return static::getGroup(static::GROUP_STUDENT);
     }
 
     /**
@@ -82,7 +104,7 @@ enum UserRole: string implements ListInterface
      */
     public function isStudentGroup(): bool
     {
-        return $this->inGroup(static::GROUP_STUDENT);
+        return $this->isGroup(static::GROUP_STUDENT);
     }
 
     /**
@@ -90,7 +112,7 @@ enum UserRole: string implements ListInterface
      */
     public static function getAdminGroup(): array
     {
-        return static::values(static::group(static::GROUP_ADMIN));
+        return static::getGroup(static::GROUP_ADMIN);
     }
 
 

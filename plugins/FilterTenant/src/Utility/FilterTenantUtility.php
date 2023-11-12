@@ -37,6 +37,7 @@ class FilterTenantUtility
                 ->find('list', [
                     'keyField' => 'id',
                     'valueField' => 'id',
+                    'skipFilterTenant' => true,
                 ])
                 ->toArray();
         } else {

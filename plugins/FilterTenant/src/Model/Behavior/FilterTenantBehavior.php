@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace FilterTenant\Model\Behavior;
@@ -41,10 +42,15 @@ class FilterTenantBehavior extends Behavior
     public function findTenant(Query $query, array $options): Query
     {
         $skipFilterTenant = Hash::get($options, 'skipFilterTenant', false);
+        $tenant_list = FilterTenantUtility::read();
 
-        if (!$skipFilterTenant && $this->table()->hasField($this->getConfig('field'))) {
+        if (
+            !$skipFilterTenant
+            && !empty($tenant_list)
+            && $this->table()->hasField($this->getConfig('field'))
+        ) {
             $query = $query->where([
-                $this->table()->aliasField($this->getConfig('field')) . ' IN' => FilterTenantUtility::read(),
+                $this->table()->aliasField($this->getConfig('field')) . ' IN' => $tenant_list,
             ]);
         }
 

@@ -47,11 +47,19 @@ class Tenant extends Entity
 
     public function _getLabel()
     {
+        if (!$this->program) {
+            return $this->name;
+        }
+
         return $this->program->name . ', ' . $this->name;
     }
 
     public function _getAbbrLabel()
     {
+        if (!$this->program) {
+            return $this->abbr;
+        }
+
         return $this->program->abbr . '-' . $this->abbr;
     }
 }
