@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Model\Field\UserRole;
+use Cake\ORM\Query;
 
 class AppUsersController extends AppAdminController
 {
@@ -26,7 +27,14 @@ class AppUsersController extends AppAdminController
     public function view($id = null)
     {
         $user = $this->AppUsers->get($id, [
-            'contain' => [],
+            'contain' => [
+                'TenantFilters' => [
+                    'Tenants' => function (Query $q) {
+                        return $q->applyOptions(['skipFilterTenant' => true]);
+                    },
+                ],
+                'SocialAccounts',
+            ],
         ]);
 
         $this->set(compact('user'));
