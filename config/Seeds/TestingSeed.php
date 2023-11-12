@@ -52,6 +52,15 @@ class TestingSeed extends AbstractSeed
     protected function createAdmins()
     {
         $users[] = $this->setupUser([
+            'email' => 'root@example.com',
+            'password' => '1234',
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'role' => UserRole::SUPERUSER->value,
+            'active' => true,
+        ]);
+
+        $users[] = $this->setupUser([
             'email' => 'admin@example.com',
             'password' => '1234',
             'first_name' => $this->faker->firstName(),
@@ -72,7 +81,6 @@ class TestingSeed extends AbstractSeed
             'last_name' => $this->faker->lastName(),
             'role' => UserRole::ADMIN->value,
             'active' => true,
-            'is_superuser' => true,
             'tenant_filters' => [
                 ['tenant_id' => 1], // San Juan
             ],
@@ -85,7 +93,6 @@ class TestingSeed extends AbstractSeed
             'last_name' => $this->faker->lastName(),
             'role' => UserRole::ADMIN->value,
             'active' => true,
-            'is_superuser' => true,
             'tenant_filters' => [
                 ['tenant_id' => 2], // Mellado
             ],
@@ -98,7 +105,6 @@ class TestingSeed extends AbstractSeed
             'last_name' => $this->faker->lastName(),
             'role' => UserRole::ADMIN->value,
             'active' => true,
-            'is_superuser' => true,
             'tenant_filters' => [
                 ['tenant_id' => 3], // Ortíz
             ],
@@ -111,7 +117,6 @@ class TestingSeed extends AbstractSeed
             'last_name' => $this->faker->lastName(),
             'role' => UserRole::ADMIN->value,
             'active' => true,
-            'is_superuser' => true,
             'tenant_filters' => [
                 ['tenant_id' => 4], // Calabozo
             ],

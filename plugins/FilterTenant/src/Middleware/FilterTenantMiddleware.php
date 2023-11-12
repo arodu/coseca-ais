@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FilterTenant\Middleware;
 
+use Cake\Http\Exception\NotFoundException;
 use FilterTenant\Utility\FilterTenantUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -30,7 +31,7 @@ class FilterTenantMiddleware implements MiddlewareInterface
             $tenant_ids = $filterTenantUtility->getTenantIds($user);
 
             if (empty($tenant_ids)) {
-                throw new \Exception('No tenant ids found for user');
+                throw new NotFoundException(__('No tenant ids found for user'));
             }
 
             FilterTenantUtility::write($tenant_ids);            

@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace FilterTenant\Utility;
 
 use App\Model\Entity\AppUser;
+use App\Model\Field\UserRole;
 use Cake\Cache\Cache;
-use Cake\Core\Configure;
 use Cake\ORM\Locator\LocatorAwareTrait;
+use Cake\Routing\Router;
 
 class FilterTenantUtility
 {
@@ -16,6 +17,10 @@ class FilterTenantUtility
 
     use LocatorAwareTrait;
 
+    /**
+     * @param AppUser $user
+     * @return array
+     */
     public function getTenantIds(AppUser $user): array
     {
         return Cache::remember(self::TENANT_IDS_CACHE_KEY . $user->id, function () use ($user) {
@@ -23,16 +28,24 @@ class FilterTenantUtility
         });
     }
 
+    /**
+     * @param AppUser $user
+     * @return void
+     */
     public function clearCache(AppUser $user): void
     {
         Cache::delete(self::TENANT_IDS_CACHE_KEY . $user->id);
     }
 
-    public function getTenantIdsFromDatabase($user): array
+    /**
+     * @param AppUser $user
+     * @return array
+     */
+    public function getTenantIdsFromDatabase(AppUser $user): array
     {
         $output = [];
         $tenantsTable = $this->fetchTable('Tenants');
-        if ($user->is_superuser) {
+        if ($user->getRole()->inGroup(UserRole::GROUP_ROOT)) {
             $output = $tenantsTable
                 ->find('list', [
                     'keyField' => 'id',
@@ -55,15 +68,28 @@ class FilterTenantUtility
         return $output ?? [];
     }
 
-    public static function write($tenant_ids): void
+    /**
+     * @param array $tenant_ids
+     * @return void
+     */
+    public static function write(array $tenant_ids): void
     {
-        Configure::write(self::TENANT_FILTER_KEY, $tenant_ids);
+        Router::getRequest()->getSession()->write(self::TENANT_FILTER_KEY, $tenant_ids);
     }
 
+    /**
+     * @return array
+     */
     public static function read(): array
     {
-        return Configure::read(self::TENANT_FILTER_KEY) ?? [];
+        return Router::getRequest()->getSession()->read(self::TENANT_FILTER_KEY, []);
     }
 
-
+    /**
+     * @return void
+     */
+    public static function clear(): void
+    {
+        Router::getRequest()->getSession()->delete(self::TENANT_FILTER_KEY);
+    }
 }
