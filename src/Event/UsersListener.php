@@ -10,6 +10,7 @@ use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use CakeDC\Users\Plugin as UsersPlugin;
+use App\Utility\FilterTenantUtility;
 
 class UsersListener implements EventListenerInterface
 {
@@ -33,6 +34,10 @@ class UsersListener implements EventListenerInterface
     {
         /** @var AppUser $user */
         $user = $event->getData('user');
+
+        $filterTenantUtility = new FilterTenantUtility;
+        $tenant_ids = $filterTenantUtility->getTenantIdsFromDatabase($user);
+        FilterTenantUtility::write($tenant_ids);
 
         if ($user->getRole()->isAdminGroup()) {
             return $event->setResult(['_name' => 'admin:home']);

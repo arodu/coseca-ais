@@ -46,7 +46,7 @@ class InstitutionsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('QueryFilter.QueryFilter');
-        $this->addBehavior('FilterTenant.FilterTenant');
+        $this->addBehavior('FilterTenant');
 
         $this->belongsTo('Tenants', [
             'foreignKey' => 'tenant_id',

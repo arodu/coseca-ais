@@ -2,40 +2,18 @@
 
 declare(strict_types=1);
 
-namespace FilterTenant\Utility;
+namespace App\Utility;
 
 use App\Model\Entity\AppUser;
 use App\Model\Field\UserRole;
-use Cake\Cache\Cache;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\Routing\Router;
 
 class FilterTenantUtility
 {
-    const TENANT_IDS_CACHE_KEY = 'tenant_ids_';
     const TENANT_FILTER_KEY = 'FilterTenant.tenant_ids';
 
     use LocatorAwareTrait;
-
-    /**
-     * @param AppUser $user
-     * @return array
-     */
-    public function getTenantIds(AppUser $user): array
-    {
-        return Cache::remember(self::TENANT_IDS_CACHE_KEY . $user->id, function () use ($user) {
-            return $this->getTenantIdsFromDatabase($user);
-        });
-    }
-
-    /**
-     * @param AppUser $user
-     * @return void
-     */
-    public function clearCache(AppUser $user): void
-    {
-        Cache::delete(self::TENANT_IDS_CACHE_KEY . $user->id);
-    }
 
     /**
      * @param AppUser $user

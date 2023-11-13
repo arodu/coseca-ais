@@ -8,7 +8,7 @@ $menu['home'] = [
     'uri' => '/',
 ];
 
-if (in_array($this->Identity->get('role'), UserRole::getAdminGroup())) {
+if (in_array($this->Identity->get('role'), UserRole::getGroup(UserRole::GROUP_ADMIN))) {
     $menu['students'] = [
         'label' => __('Estudiantes'),
         'uri' => ['_name' => 'admin:student:index'],
@@ -30,7 +30,7 @@ if (in_array($this->Identity->get('role'), UserRole::getAdminGroup())) {
     ];
 }
 
-if (in_array($this->Identity->get('role'), UserRole::getSuperAdminGroup())) {
+if (in_array($this->Identity->get('role'), UserRole::getGroup(UserRole::GROUP_ROOT))) {
     $menu['users'] = [
         'label' => __('Usuarios'),
         'uri' => ['controller' => 'AppUsers', 'action' => 'index', 'prefix' => 'Admin'],

@@ -16,11 +16,10 @@ enum UserRole: string implements ListInterface
     case STUDENT = 'student';
     case ADMIN = 'admin';
     case ASSISTANT = 'assistant';
-    case SUPERUSER = 'superuser';
+    case ROOT = 'root';
 
     const GROUP_STUDENT = 'student';
     const GROUP_ADMIN = 'admin';
-    const GROUP_SUPERADMIN = 'superadmin';
     const GROUP_ROOT = 'root';
 
     /**
@@ -31,8 +30,8 @@ enum UserRole: string implements ListInterface
         return match ($this) {
             static::STUDENT => __('Estudiante'),
             static::ASSISTANT => __('Asistente'),
-            static::SUPERUSER => __('superuser'),
-            static::ADMIN => __('admin'),
+            static::ADMIN => __('Admin'),
+            static::ROOT => __('Root'),
             default => __('NaN'),
         };
     }
@@ -50,14 +49,10 @@ enum UserRole: string implements ListInterface
             static::GROUP_ADMIN => [
                 static::ASSISTANT,
                 static::ADMIN,
-                static::SUPERUSER,
-            ],
-            static::GROUP_SUPERADMIN => [
-                static::ADMIN,
-                static::SUPERUSER,
+                static::ROOT,
             ],
             static::GROUP_ROOT => [
-                static::SUPERUSER,
+                static::ROOT,
             ],
         ];
 
@@ -122,21 +117,5 @@ enum UserRole: string implements ListInterface
     public function isAdminGroup(): bool
     {
         return $this->inGroup(static::GROUP_ADMIN);
-    }
-
-    /**
-     * @return array
-     */
-    public static function getSuperAdminGroup(): array
-    {
-        return static::values(static::group(static::GROUP_SUPERADMIN));
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isSuperAdminGroup(): bool
-    {
-        return $this->inGroup(static::GROUP_SUPERADMIN);
     }
 }

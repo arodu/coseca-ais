@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-namespace FilterTenant\Model\Behavior;
+namespace App\Model\Behavior;
 
 use ArrayObject;
 use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
 use Cake\ORM\Query;
-use Cake\ORM\Table;
 use Cake\Utility\Hash;
-use FilterTenant\Utility\FilterTenantUtility;
+use App\Utility\FilterTenantUtility;
 
 /**
  * FilterTenant behavior

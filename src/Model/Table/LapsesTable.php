@@ -57,6 +57,7 @@ class LapsesTable extends Table
                 $this->aliasField('active') => true,
             ],
         ]);
+        $this->addBehavior('FilterTenant');
 
         $this->hasMany('LapseDates', [
             'foreignKey' => 'lapse_id',

@@ -50,7 +50,7 @@ class TenantsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('QueryFilter.QueryFilter');
-        $this->addBehavior('FilterTenant.FilterTenant', [
+        $this->addBehavior('FilterTenant', [
             'field' => 'id',
         ]);
 
