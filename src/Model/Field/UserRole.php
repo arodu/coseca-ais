@@ -20,6 +20,7 @@ enum UserRole: string implements ListInterface
 
     const GROUP_STUDENT = 'student';
     const GROUP_ADMIN = 'admin';
+    const GROUP_STAFF = 'staff';
     const GROUP_ROOT = 'root';
 
     /**
@@ -37,17 +38,21 @@ enum UserRole: string implements ListInterface
     }
 
     /**
-     * @param string $name Group name
+     * @param string $group_name Group name
      * @return array
      */
-    public static function group(string $name): array
+    public static function group(string $group_name): array
     {
         $groups = [
             static::GROUP_STUDENT => [
                 static::STUDENT,
             ],
-            static::GROUP_ADMIN => [
+            static::GROUP_STAFF => [
                 static::ASSISTANT,
+                static::ADMIN,
+                static::ROOT,
+            ],
+            static::GROUP_ADMIN => [
                 static::ADMIN,
                 static::ROOT,
             ],
@@ -56,66 +61,30 @@ enum UserRole: string implements ListInterface
             ],
         ];
 
-        return $groups[$name] ?? [];
+        return $groups[$group_name] ?? [];
     }
 
     /**
      * @param string $name Group name
      * @return boolean
      */
-    public function inGroup(string $name): bool
+    public function isGroup(string $group_name): bool
     {
-        return in_array($this, static::group($name), true);
+        return in_array($this, static::group($group_name), true);
     }
 
-    /**
-     * @param string $name Group name
-     * @return boolean
-     */
-    public function isGroup(string $name): bool
-    {
-        return $this->inGroup($name);
-    }
-
-    /**
-     * @param string $name Group name
-     * @return array
-     */
-    public static function getGroup(string $name): array
-    {
-        return static::values(static::group($name));
-    }
-
-    /**
-     * @return array
-     */
-    public static function getStudentGroup(): array
-    {
-        return static::getGroup(static::GROUP_STUDENT);
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isStudentGroup(): bool
-    {
-        return $this->isGroup(static::GROUP_STUDENT);
-    }
-
-    /**
-     * @return array
-     */
     public static function getAdminGroup(): array
     {
-        return static::getGroup(static::GROUP_ADMIN);
+        return static::values(static::group(static::GROUP_ADMIN));
     }
 
-
-    /**
-     * @return boolean
-     */
-    public function isAdminGroup(): bool
+    public static function getStudentGroup(): array
     {
-        return $this->inGroup(static::GROUP_ADMIN);
+        return static::values(static::group(static::GROUP_STUDENT));
+    }
+
+    public static function getStaffGroup(): array
+    {
+        return static::values(static::group(static::GROUP_STAFF));
     }
 }
