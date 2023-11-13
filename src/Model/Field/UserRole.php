@@ -73,18 +73,68 @@ enum UserRole: string implements ListInterface
         return in_array($this, static::group($group_name), true);
     }
 
+    /**
+     * @return boolean
+     */
+    public function isAdminGroup(): bool
+    {
+        return $this->isGroup(static::GROUP_ADMIN);
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isStudentGroup(): bool
+    {
+        return $this->isGroup(static::GROUP_STUDENT);
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isStaffGroup(): bool
+    {
+        return $this->isGroup(static::GROUP_STAFF);
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isRootGroup(): bool
+    {
+        return $this->isGroup(static::GROUP_ROOT);
+    }
+
+    /**
+     * @param string $group_name
+     * @return array
+     */
+    public static function getGroup(string $group_name): array
+    {
+        return static::values(static::group($group_name));
+    }
+
+    /**
+     * @return array
+     */
     public static function getAdminGroup(): array
     {
-        return static::values(static::group(static::GROUP_ADMIN));
+        return static::getGroup(static::GROUP_ADMIN);
     }
 
+    /**
+     * @return array
+     */
     public static function getStudentGroup(): array
     {
-        return static::values(static::group(static::GROUP_STUDENT));
+        return static::getGroup(static::GROUP_STUDENT);
     }
 
+    /**
+     * @return array
+     */
     public static function getStaffGroup(): array
     {
-        return static::values(static::group(static::GROUP_STAFF));
+        return static::getGroup(static::GROUP_STAFF);
     }
 }
