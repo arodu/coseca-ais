@@ -56,7 +56,7 @@ class TestingSeed extends AbstractSeed
             'password' => '1234',
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
-            'role' => UserRole::SUPERUSER->value,
+            'role' => UserRole::ROOT->value,
             'active' => true,
         ]);
 

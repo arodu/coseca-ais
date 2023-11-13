@@ -4,10 +4,18 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Model\Field\UserRole;
+use Cake\Event\EventInterface;
 use Cake\ORM\Query;
 
 class AppUsersController extends AppAdminController
 {
+    /**
+     * @inheritDoc
+     */
+    public function beforeRender(EventInterface $event)
+    {
+        $this->MenuLte->activeItem('users');
+    }
 
     public function index()
     {

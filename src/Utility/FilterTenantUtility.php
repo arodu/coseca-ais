@@ -60,7 +60,7 @@ class FilterTenantUtility
      */
     public static function read(): array
     {
-        return Router::getRequest()->getSession()->read(self::TENANT_FILTER_KEY, []);
+        return Router::getRequest()?->getSession()?->read(self::TENANT_FILTER_KEY) ?? [];
     }
 
     /**
