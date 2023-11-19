@@ -32,7 +32,7 @@ $this->Breadcrumbs->add([
       echo $this->Form->control('secret_verified', ['custom' => true]);
       echo $this->Form->control('tos_date', ['empty' => true]);
       echo $this->Form->control('active', ['custom' => true]);
-      echo $this->Form->control('is_superuser', ['custom' => true]);
+      //echo $this->Form->control('is_superuser', ['custom' => true]);
       echo $this->Form->control('role');
       echo $this->Form->control('additional_data');
       echo $this->Form->control('last_login', ['empty' => true]);

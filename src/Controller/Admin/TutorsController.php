@@ -38,7 +38,7 @@ class TutorsController extends AppAdminController
             $query = $this->Tutors->queryFilter($query, $formData);
         }
         $filtered = $this->Tutors->queryWasFiltered();
-        $tenants = $this->Tutors->Tenants->find('list');
+        $tenants = $this->Tutors->Tenants->find('listLabel');
         // /filterLogic
 
         $tutors = $this->paginate($query);
@@ -79,7 +79,7 @@ class TutorsController extends AppAdminController
             }
             $this->Flash->error(__('The tutor could not be saved. Please, try again.'));
         }
-        $tenants = $this->Tutors->Tenants->find('list', ['limit' => 200])->all();
+        $tenants = $this->Tutors->Tenants->find('listLabel', ['limit' => 200])->all();
         $this->set(compact('tutor', 'tenants'));
     }
 
@@ -104,7 +104,7 @@ class TutorsController extends AppAdminController
             }
             $this->Flash->error(__('The tutor could not be saved. Please, try again.'));
         }
-        $tenants = $this->Tutors->Tenants->find('list', ['limit' => 200])->all();
+        $tenants = $this->Tutors->Tenants->find('listLabel', ['limit' => 200])->all();
         $this->set(compact('tutor', 'tenants'));
     }
 

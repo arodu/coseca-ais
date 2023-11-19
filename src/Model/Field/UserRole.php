@@ -16,11 +16,12 @@ enum UserRole: string implements ListInterface
     case STUDENT = 'student';
     case ADMIN = 'admin';
     case ASSISTANT = 'assistant';
-    case SUPERUSER = 'superuser';
+    case ROOT = 'root';
 
     const GROUP_STUDENT = 'student';
     const GROUP_ADMIN = 'admin';
-    const GROUP_SUPERADMIN = 'superadmin';
+    const GROUP_STAFF = 'staff';
+    const GROUP_ROOT = 'root';
 
     /**
      * @return string
@@ -30,51 +31,54 @@ enum UserRole: string implements ListInterface
         return match ($this) {
             static::STUDENT => __('Estudiante'),
             static::ASSISTANT => __('Asistente'),
-            static::SUPERUSER => __('superuser'),
-            static::ADMIN => __('admin'),
+            static::ADMIN => __('Admin'),
+            static::ROOT => __('Root'),
             default => __('NaN'),
         };
     }
 
     /**
-     * @param string $name Group name
+     * @param string $group_name Group name
      * @return array
      */
-    public static function group(string $name): array
+    public static function group(string $group_name): array
     {
         $groups = [
             static::GROUP_STUDENT => [
                 static::STUDENT,
             ],
-            static::GROUP_ADMIN => [
+            static::GROUP_STAFF => [
                 static::ASSISTANT,
                 static::ADMIN,
-                static::SUPERUSER,
+                static::ROOT,
             ],
-            static::GROUP_SUPERADMIN => [
+            static::GROUP_ADMIN => [
                 static::ADMIN,
-                static::SUPERUSER,
+                static::ROOT,
+            ],
+            static::GROUP_ROOT => [
+                static::ROOT,
             ],
         ];
 
-        return $groups[$name] ?? [];
+        return $groups[$group_name] ?? [];
     }
 
     /**
      * @param string $name Group name
      * @return boolean
      */
-    public function inGroup(string $name): bool
+    public function isGroup(string $group_name): bool
     {
-        return in_array($this, static::group($name), true);
+        return in_array($this, static::group($group_name), true);
     }
 
     /**
-     * @return array
+     * @return boolean
      */
-    public static function getStudentGroup(): array
+    public function isAdminGroup(): bool
     {
-        return static::values(static::group(static::GROUP_STUDENT));
+        return $this->isGroup(static::GROUP_ADMIN);
     }
 
     /**
@@ -82,7 +86,32 @@ enum UserRole: string implements ListInterface
      */
     public function isStudentGroup(): bool
     {
-        return $this->inGroup(static::GROUP_STUDENT);
+        return $this->isGroup(static::GROUP_STUDENT);
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isStaffGroup(): bool
+    {
+        return $this->isGroup(static::GROUP_STAFF);
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isRootGroup(): bool
+    {
+        return $this->isGroup(static::GROUP_ROOT);
+    }
+
+    /**
+     * @param string $group_name
+     * @return array
+     */
+    public static function getGroup(string $group_name): array
+    {
+        return static::values(static::group($group_name));
     }
 
     /**
@@ -90,31 +119,22 @@ enum UserRole: string implements ListInterface
      */
     public static function getAdminGroup(): array
     {
-        return static::values(static::group(static::GROUP_ADMIN));
-    }
-
-
-    /**
-     * @return boolean
-     */
-    public function isAdminGroup(): bool
-    {
-        return $this->inGroup(static::GROUP_ADMIN);
+        return static::getGroup(static::GROUP_ADMIN);
     }
 
     /**
      * @return array
      */
-    public static function getSuperAdminGroup(): array
+    public static function getStudentGroup(): array
     {
-        return static::values(static::group(static::GROUP_SUPERADMIN));
+        return static::getGroup(static::GROUP_STUDENT);
     }
 
     /**
-     * @return boolean
+     * @return array
      */
-    public function isSuperAdminGroup(): bool
+    public static function getStaffGroup(): array
     {
-        return $this->inGroup(static::GROUP_SUPERADMIN);
+        return static::getGroup(static::GROUP_STAFF);
     }
 }

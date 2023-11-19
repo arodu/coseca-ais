@@ -32,7 +32,7 @@ class FiltersCell extends Cell
 
     public function admin_students(bool $isFiltered = false, string $filterKey = 'f')
     {
-        $tenants = $this->Students->Tenants->find('list');
+        $tenants = $this->Students->Tenants->find('listLabel');
         $lapses = $this->Students->Lapses->find('list', [
             'keyField' => 'name',
             'valueField' => 'name',
