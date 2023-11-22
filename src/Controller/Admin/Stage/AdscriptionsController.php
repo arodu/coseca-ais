@@ -89,6 +89,7 @@ class AdscriptionsController extends AppAdminController
             ->contain(['Institutions'])
             ->where([
                 'Institutions.tenant_id' => $student->tenant_id,
+                'InstitutionProjects.active' => true,
             ]);
 
         $tutors = $this->StudentAdscriptions->Tutors
