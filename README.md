@@ -10,7 +10,6 @@
 2. **COSECA AIS** tiene configurado los contenedores para la ejecucion del proyecto, asi que luego de instalar DDEV basta con correr el siguiente comando para levantar el servidor de desarrollo en tu computador.
 
    <br>
-
     ```bash
     ddev start
     ```
