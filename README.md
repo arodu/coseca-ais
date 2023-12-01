@@ -6,13 +6,15 @@
 ## Instalación
 
 1. Lo primero sera instalar **DDEV** como plataforma para el entorno de desarrollo. DDEV se basa en Docker y si aun no lo tienes instalado consulta: [DDEV DOCS](https://ddev.readthedocs.io/en/stable/users/install/ddev-installation/) para instalarlo en el sistema operativo que estes usando.
-<br>
-2. **COSECA AIS** tiene configurado los contenedores para la ejecucion del proyecto, asi que luego de instalar DDEV basta con correr el siguiente comando para levantar el servidor de desarrollo en tu computador.
 
-   <br>
+<br>
+
+2. El proyecto **COSECA AIS** tiene configurado los contenedores para la ejecucion del proyecto, asi que luego de instalar DDEV basta con correr el siguiente comando para levantar el servidor de desarrollo en tu computador.
+
     ```bash
     ddev start
     ```
+
 3. Con esto ya tendremos corriendo el servidor de desarrollo de la aplicación, sin embargo debemos configurar algunas cosas antes de continuar.
 
    3.1 Configurar los **assets** de nuestra aplicación correctamente, para ello ejecutamos:
