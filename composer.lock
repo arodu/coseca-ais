@@ -281,16 +281,16 @@
         },
         {
             "name": "cakedc/users",
-            "version": "11.2.5",
+            "version": "11.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/CakeDC/users.git",
-                "reference": "9229d7705e17abdfc6f9d197de4c206f4bcb3da6"
+                "reference": "3678457d05828630a8edf25aa4c70ac51dcb53cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CakeDC/users/zipball/9229d7705e17abdfc6f9d197de4c206f4bcb3da6",
-                "reference": "9229d7705e17abdfc6f9d197de4c206f4bcb3da6",
+                "url": "https://api.github.com/repos/CakeDC/users/zipball/3678457d05828630a8edf25aa4c70ac51dcb53cc",
+                "reference": "3678457d05828630a8edf25aa4c70ac51dcb53cc",
                 "shasum": ""
             },
             "require": {
@@ -362,7 +362,7 @@
                 "issues": "https://github.com/CakeDC/users/issues",
                 "source": "https://github.com/CakeDC/users"
             },
-            "time": "2023-10-19T16:47:08+00:00"
+            "time": "2023-11-23T10:56:24+00:00"
         },
         {
             "name": "cakephp/authentication",
