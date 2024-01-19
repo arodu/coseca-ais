@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller\Admin;
 
-use App\Controller\Admin\InstitutionsController;
-use App\Model\Entity\Tenant;
 use App\Test\Factory\InstitutionFactory;
+use App\Test\Factory\InstitutionProjectFactory;
+use App\Test\Factory\InterestAreaFactory;
 use App\Test\Factory\ProgramFactory;
-use App\Test\Factory\TenantFactory;
+
 use App\Test\TestCase\Controller\Admin\AdminTestCase;
 use Cake\TestSuite\IntegrationTestTrait;
-use Cake\TestSuite\TestCase;
 
 /**
  * App\Controller\Admin\InstitutionsController Test Case
@@ -57,7 +56,7 @@ class InstitutionsControllerTest extends AdminTestCase
     public function testAddForm(): void
     {
         $this->setAuthSession();
-        
+
         $this->get('/admin/institutions/add');
         $this->assertResponseCode(200);
     }
@@ -86,10 +85,20 @@ class InstitutionsControllerTest extends AdminTestCase
      * @return void
      * @uses \App\Controller\Admin\InstitutionsController::view()
      */
-    //public function testView(): void
-    //{
-    //    $this->markTestIncomplete('Not implemented yet.');
-    //}
+    public function testView(): void
+    {
+        $this->setAuthSession();
+
+        $intitution = InstitutionFactory::make([
+            'tenant_id' => $this->tenant_id,
+        ])->persist();
+
+        $this->get('/admin/institutions/view/' . $intitution->id);
+        $this->assertResponseCode(200);
+        $this->assertResponseContains($intitution->contact_person);
+        $this->assertResponseContains($intitution->contact_phone);
+        $this->assertResponseContains($intitution->contact_email);
+    }
 
     /**
      * Test addProject method
@@ -97,10 +106,26 @@ class InstitutionsControllerTest extends AdminTestCase
      * @return void
      * @uses \App\Controller\Admin\InstitutionsController::addProject()
      */
-    //public function testAddProject(): void
-    //{
-    //    $this->markTestIncomplete('Not implemented yet.');
-    //}
+    public function testAddProject(): void
+    {
+        $this->setAuthSession();
+
+        $program = ProgramFactory::make()->persist();
+        $interes_area = InterestAreaFactory::make([
+            'program_id' => $program->id
+        ])->persist();
+        $institution = InstitutionFactory::make([
+            'tenant_id' => $this->tenant_id
+        ])->persist();
+
+        $this->post('/admin/institutions/add-project', [
+            'name' => 'Agregar a proyecto de prueba',
+            'institution_id' => $institution->id,
+            'interest_area_id' => $interes_area->id,
+        ]);
+
+        $this->assertResponseContains('Agregar a proyecto de prueba');
+    }
 
     /**
      * Test edit method
@@ -115,7 +140,7 @@ class InstitutionsControllerTest extends AdminTestCase
         $intitution = InstitutionFactory::make([
             'tenant_id' => $this->tenant_id,
         ])->persist();
-        
+
         $this->get('/admin/institutions/edit/' . $intitution->id);
         $this->assertResponseCode(200);
 
@@ -135,10 +160,35 @@ class InstitutionsControllerTest extends AdminTestCase
      * @return void
      * @uses \App\Controller\Admin\InstitutionsController::editProject()
      */
-    //public function testEditProject(): void
-    //{
-    //    $this->markTestIncomplete('Not implemented yet.');
-    //}
+    public function testEditProject(): void
+    {
+        $this->setAuthSession();
+
+        $program = ProgramFactory::make()->persist();
+        $interes_area = InterestAreaFactory::make([
+            'program_id' => $program->id
+        ])->persist();
+
+        $institution = InstitutionFactory::make([
+            'tenant_id' => $this->tenant_id
+        ])->persist();
+
+        $institution_project = InstitutionProjectFactory::make([
+            'institution_id' => $institution->id,
+            'interest_area_id' => $interes_area->id
+        ])->persist();
+
+        $this->get('/admin/institutions/edit-project/' . $institution_project->id);
+        $this->assertResponseCode(200);
+
+        $this->post('/admin/institutions/edit-project/' . $institution_project->id, [
+            'name' => 'edit institution project',
+        ]);
+
+        $res = $this->getRecord('InstitutionProjects', $institution_project->id);
+        $this->assertEquals('edit institution project', $res->name);
+
+    }
 
     /**
      * Test delete method
@@ -146,8 +196,18 @@ class InstitutionsControllerTest extends AdminTestCase
      * @return void
      * @uses \App\Controller\Admin\InstitutionsController::delete()
      */
-    //public function testDelete(): void
-    //{
-    //    $this->markTestIncomplete('Not implemented yet.');
-    //}
+    public function testDelete(): void
+    {
+        $this->setAuthSession();
+
+        $institution = InstitutionFactory::make([
+            'tenant_id' => $this->tenant_id
+        ])->persist();
+
+        $this->delete('/admin/intitutions/delete/' . $institution->id);
+
+        $res = $this->getRecordExists('Institutions', $institution->id);
+        $this->assertTrue($res);
+
+    }
 }

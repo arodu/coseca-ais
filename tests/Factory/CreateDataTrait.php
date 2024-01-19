@@ -111,4 +111,9 @@ trait CreateDataTrait
 
         return $table->deleteOrFail($entity);
     }
+
+    protected function getRecordExists(string $repository, int $id): bool
+    {
+        return $this->fetchTable($repository)->exists(['id' => $id]);
+    }
 }
