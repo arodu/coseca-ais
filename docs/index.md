@@ -13,8 +13,8 @@
 
 ### [Módulo de Tutores - Crear nuevo tutor](https://github.com/arodu/coseca-ais/blob/feature/docs/docs/6_tutor.md)
 
-### [Módulo de Tutores - Adscribir estudiante a un tutor]()
+### [Módulo de Tutores - Adscribir estudiante a un tutor](https://github.com/arodu/coseca-ais/blob/feature/docs/docs/7_et.md)
 
-### [Editar o eliminar un tutor]()
+### [Editar o eliminar un tutor](https://github.com/arodu/coseca-ais/blob/feature/docs/docs/8_editar.md)
 
 
