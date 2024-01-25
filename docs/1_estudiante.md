@@ -4,7 +4,7 @@
 
 1. Ingresar al módulo estudiantes de la parte lateral izquierda
 
-![Modulo estudiantes](https://github.com/arodu/coseca-ais/blob/feature/docs/docs/resources/ESTUDIANTE_1.JPG)
+![Modulo estudiantes](/docs/resources/estudiante_1.jpg)
 
 2. Seleccionamos al estudiante y en el botón de acciones seleccionamos “Proyectos”
 
