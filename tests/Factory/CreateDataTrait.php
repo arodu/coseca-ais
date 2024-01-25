@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Test\Factory;
 
+use App\Model\Field\UserRole;
 use Cake\Datasource\EntityInterface;
 use Cake\ORM\Locator\LocatorAwareTrait;
 
@@ -112,8 +113,12 @@ trait CreateDataTrait
         return $table->deleteOrFail($entity);
     }
 
-    protected function getRecordExists(string $repository, int $id): bool
+    protected function getRecordExists(string $repository, $id): bool
     {
         return $this->fetchTable($repository)->exists(['id' => $id]);
+    }
+
+    protected function createUserWithAdminRole () {
+        return $this->createUser(['role' => UserRole::ADMIN->value])->persist();
     }
 }

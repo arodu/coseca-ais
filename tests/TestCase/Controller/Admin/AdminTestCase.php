@@ -22,7 +22,7 @@ abstract class AdminTestCase extends TestCase
     protected $program;
     protected $tenant_id;
     protected $user;
-    //protected $lapse_id;
+    protected $lapse_id;
     //protected $tutors;
     //protected $institution;
     //protected $alertMessage = 'Comuniquese con la coordinación de servicio comunitario para mas información';
@@ -38,6 +38,9 @@ abstract class AdminTestCase extends TestCase
         $this->program = $this->createProgram()->persist();
         $this->user = $this->createUser(['role' => UserRole::ADMIN->value])->persist();
         $this->tenant_id = Hash::get($this->program, 'tenants.0.id');
+        $this->lapse_id = Hash::get($this->program, 'tenants.0.lapses.0.id');
+        $this->setDefaultLapseDates($this->lapse_id);
+
         //$this->lapse_id = Hash::get($this->program, 'tenants.0.lapses.0.id');
         //$this->setDefaultLapseDates($this->lapse_id);
 
@@ -69,5 +72,23 @@ abstract class AdminTestCase extends TestCase
         $user = $user ?? $this->user;
 
         $this->session(['Auth' => $user]);
+    }
+
+    protected function createRegularStudent(array $options = []): Student
+    {
+        $options = array_merge([
+            'type' => StudentType::REGULAR->value,
+            'user_id' => $this->user->id,
+            'tenant_id' => $this->tenant_id,
+            'lapse_id' => $this->lapse_id,
+        ], $options);
+
+        $interest_area_key = rand(0, count($this->program->interest_areas) - 1);
+
+        return $this->createStudent($options)
+            ->with('StudentData', [
+                'interest_area_id' => $this->program->interest_areas[$interest_area_key]->id,
+            ])
+            ->persist();
     }
 }
