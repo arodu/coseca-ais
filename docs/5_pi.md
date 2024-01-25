@@ -1,4 +1,4 @@
-# Módulo de instituciones . Agregar proyectos a instituciones
+# Módulo de instituciones - Agregar proyectos a instituciones
 
 1. Ingresamos al módulo de "Instituciones" ubicado en el lateral izquierdo de la pantalla
 ![Modulo instituciones](/docs/resources/institucion_1.jpg)
