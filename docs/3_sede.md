@@ -1,22 +1,29 @@
-# Crear nuevas sedes y áreas de interés desde un programa
+# Agregar nueva sede o área de interés a un programa
 
-1. Damos clic en el programa al que queremos acceder.
+1. Ingresa al módulo de "Programas" ubicado en la parte lateral izquierda de la pantalla.
+   
 ![Modulo programas](/docs/resources/sede_1.jpg)
 
-2. Seleccionamos la opción de “nueva sede” o “Nueva área de interés” según corresponda.
+2. En la columna de "Programa" haga clic en el programa al que desee acceder.
+   
+![Modulo programas](/docs/resources/sede_1.jpg)
+
+4. Selecciona la opción de “Nueva sede” o “Nueva área de interés” según corresponda.
+   
 ![Modulo programas](/docs/resources/sede_2.jpg)
 
-3. Rellenamos los campos y seleccionamos guardar.
+6. El sistema mostrará un formulario, rellena los campos y selecciona la opción "Guardar".
+   
 ![Modulo programas](/docs/resources/sede_3.jpg)
 
-4. Ahora, podremos visualizarlo en la vista detallada del programa.
-![Modulo programas](/docs/resources/sede_4.jpg)
+8. Ahora, el nuevo registro se mostrará en la vista detallada del programa.
+
 
 ___Otra forma para crear una nueva sede___
 
-1. Accedemos al apartado de programas que se encuentra en el menú lateral izquierdo, y seleccionamos el botón de “Nueva sede”.
+1. Acceda al apartado de programas que se encuentra en el menú lateral izquierdo, y seleccione el botón de “Nueva sede”.
 ![Modulo programas](/docs/resources/ps_1.jpg)
 
-2. Rellenamos los campos requeridos y presionamos “guardar”
+2. Rellene los campos requeridos y presione el botón “Guardar”
 ![Modulo programas](/docs/resources/ps_2.jpg)
 
