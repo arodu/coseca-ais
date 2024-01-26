@@ -27,3 +27,5 @@ Dentro del módulo de Configuración, podemos realizar cambios en el programa o 
 
 ![Modulo estudiantes](/docs/resources/estudiante_5.jpg)
 
+
+[Volver al índice](https://github.com/arodu/coseca-ais/blob/feature/docs/docs/index.md)
