@@ -13,3 +13,5 @@
 ![Tutor estudiante](/docs/resources/et_2.jpg)
 
 6. Rellena los campos del formulario que se muestra y presiona el botón “Guardar”.
+
+[Volver al índice](/docs/index.md)
