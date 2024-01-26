@@ -15,3 +15,5 @@
 4. Una vez completado el proceso, el sistema le mostrará el siguiente mensaje:
 
 ![Tutor](/docs/resources/tutor_3.jpg)
+
+[Volver al índice](/docs/index.md)
