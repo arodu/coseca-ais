@@ -27,3 +27,4 @@ ___Otra forma para crear una nueva sede___
 2. Rellene los campos requeridos y presione el botón “Guardar”
 ![Modulo programas](/docs/resources/ps_2.jpg)
 
+[Volver al índice](/docs/index.md)
