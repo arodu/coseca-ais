@@ -15,3 +15,5 @@
 7. Rellena los campos pertinentes y presiona el botón “Guardar”.
    
 ![Modulo instituciones](/docs/resources/pi_3.jpg)
+
+[Volver al índice](/docs/index.md)
