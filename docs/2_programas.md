@@ -13,3 +13,5 @@
 ![Programas_2](/docs/resources/programas_2.jpg)
 
 7. Presiona el botón "Guardar" y ahora podrá visualizar el nuevo programa en la lista de programas existentes.
+
+[Volver al índice](/docs/index.md)
