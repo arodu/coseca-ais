@@ -11,3 +11,5 @@
 3. En el caso de editar: Realiza los cambios pertinentes y presiona el botón “Guardar”.
    
 ![Editar tutor](/docs/resources/editar_1.jpg)
+
+[Volver al índice](/docs/index.md)
