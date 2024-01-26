@@ -41,32 +41,14 @@ class StudentsControllerTest extends AdminTestCase
 
         $this->get('/admin/students');
 
-        $student = $this->createRegularStudent();
+        $student = StudentFactory::make([
+            'user_id' => '2',
+            'tenant_id' => $this->tenant_id
+        ])->persist();
+        
         $this->assertResponseCode(200);
 
-        // dd($student->id);
-
-        // $this->assertRedirectContains('/admin/students');
-
-        // dd($student);
-        // $this->assertResponseContains($student->name);
-
-        // $lapse_id = $this->lapse_id;
-
-        // $trackingStage = $this->addRecord('StudentStages', [
-        //     'student_id' => $student->id,
-        //     'stage' => StageField::TRACKING->value,
-        //     'status' => StageStatus::IN_PROGRESS->value,
-        // ]);
-
-        // $lapseDate = $this->getRecordByOptions('LapseDates', [
-        //     'lapse_id' => $lapse_id,
-        //     'stage' => StageField::TRACKING->value,
-        // ]);
-
-        // $this->get('/student/tracking');
-
-        // $this->assertResponseOk();
+        $this->assertResponseContains($student->name);
     }
 
     /**
