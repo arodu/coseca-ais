@@ -126,7 +126,9 @@ trait CreateDataTrait
 
     protected function createUserWithUserRole()
     {
-        return AppUserFactory::make(['role' => UserRole::STUDENT->value])->with('Students', ['tenant_id' => $this->tenant_id])->persist();
+        return AppUserFactory::make(['role' => UserRole::STUDENT->value])
+            ->with('Students', ['tenant_id' => $this->tenant_id])
+            ->persist();
     }
 
     // Enviar datos a una url tipo post
