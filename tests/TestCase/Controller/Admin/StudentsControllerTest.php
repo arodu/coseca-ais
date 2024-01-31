@@ -9,6 +9,8 @@ use App\Model\Entity\Student;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use App\Model\Field\StudentType;
+use App\Model\Field\UserRole;
+use App\Test\Factory\AppUserFactory;
 use App\Test\Factory\LapseFactory;
 use App\Test\Factory\StudentFactory;
 use Cake\TestSuite\IntegrationTestTrait;
@@ -41,14 +43,11 @@ class StudentsControllerTest extends AdminTestCase
 
         $this->get('/admin/students');
 
-        $student = StudentFactory::make([
-            'user_id' => '2',
-            'tenant_id' => $this->tenant_id
-        ])->persist();
-        
+        $user = $this->createUserWithUserRole();
+
         $this->assertResponseCode(200);
 
-        $this->assertResponseContains($student->name);
+        $this->assertResponseContains((string) $user->students[0]->dni);
     }
 
     /**

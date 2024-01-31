@@ -38,7 +38,7 @@ class Lapse extends Entity
 
     /**
      * @return string|null
-     * 
+     *
      * @deprecated
      */
     protected function _getTenantName(): ?string

@@ -10,6 +10,7 @@ use App\Model\Field\UserRole;
 use App\Test\Factory\CreateDataTrait;
 use App\Test\Factory\InstitutionFactory;
 use App\Test\Factory\TutorFactory;
+use Cake\I18n\FrozenDate;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 use Cake\Utility\Hash;
@@ -23,6 +24,7 @@ abstract class AdminTestCase extends TestCase
     protected $tenant_id;
     protected $user;
     protected $lapse_id;
+    protected $today;
     //protected $tutors;
     //protected $institution;
     //protected $alertMessage = 'Comuniquese con la coordinación de servicio comunitario para mas información';
@@ -40,6 +42,7 @@ abstract class AdminTestCase extends TestCase
         $this->tenant_id = Hash::get($this->program, 'tenants.0.id');
         $this->lapse_id = Hash::get($this->program, 'tenants.0.lapses.0.id');
         $this->setDefaultLapseDates($this->lapse_id);
+        $this->today = FrozenDate::now();
 
         //$this->lapse_id = Hash::get($this->program, 'tenants.0.lapses.0.id');
         //$this->setDefaultLapseDates($this->lapse_id);
@@ -90,5 +93,12 @@ abstract class AdminTestCase extends TestCase
                 'interest_area_id' => $this->program->interest_areas[$interest_area_key]->id,
             ])
             ->persist();
+    }
+
+    protected function getResponseContainsForUrl($url, $id, $contains)
+    {
+        $this->get($url . $id);
+        $this->assertResponseContains($contains);
+        $this->assertResponseCode(200);
     }
 }
