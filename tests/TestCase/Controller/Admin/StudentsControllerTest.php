@@ -57,24 +57,33 @@ class StudentsControllerTest extends AdminTestCase
      * @return void
      * @uses \App\Controller\Admin\StudentsController::view()
      */
-    // public function testView(): void
-    // {
-    //     $this->setAuthSession();
-    //     $this->program = $this->createProgram()->persist();
-    //     $user = $this->createUserWithUserRole();
+    public function testView(): void
+    {
+        $this->setAuthSession();
+        $program = $this->createProgram()->persist();
+        $user = $this->createUser(['role' => UserRole::STUDENT->value]);
 
-    //     $student = StudentFactory::make([
-    //         'type' => StudentType::REGULAR->value,
-    //         'user_id' => $user->students[0]->id,
-    //         'tenant_id' => $this->tenant_id,
-    //         'lapse_id' => $this->lapse_id,
-    //     ])->persist();
+        $student = StudentFactory::make([
+            'type' => StudentType::REGULAR->value,
+            'lapse_id' => $this->lapse_id,
+        ])
+            ->with('StudentStages', [
+                [
+                    'stage' => StageField::REGISTER->value,
+                    'status' => StageStatus::IN_PROGRESS->value,
+                ],
+                [
+                    'stage' => StageField::COURSE->value,
+                    'status' => StageStatus::IN_PROGRESS->value,
+                ],
+            ])
+            ->with('Tenants', $program->tenants[0])
+            ->with('AppUsers', $user)
+            ->persist();
 
-    //     dd($student);
-
-    //     $this->get('/admin/students/view/' . $student->id);
-    //     $this->assertResponseCode(200);
-    // }
+        $this->get('/admin/students/view/' . $student->id);
+        $this->assertResponseCode(200);
+    }
 
     /**
      * Test info method
