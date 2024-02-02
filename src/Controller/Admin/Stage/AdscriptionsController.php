@@ -135,8 +135,8 @@ class AdscriptionsController extends AppAdminController
             ->where([
                 'Tutors.tenant_id' => $adscription->student->tenant_id,
             ]);
-
-        $this->set(compact('adscription', 'tutors'));
+        $student = $adscription->student;
+        $this->set(compact('adscription', 'tutors', 'student'));
     }
 
     public function changeStatus($status, $id)
