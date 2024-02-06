@@ -35,7 +35,7 @@ class InstitutionsControllerTest extends AdminTestCase
         $this->get('/admin/institutions');
         $this->assertResponseCode(302);
 
-        $this->setAuthSession(); // Establece una sesión de autenticación para simular un usuario autenticado. // Establece una sesión de autenticación para simular un usuario autenticado.
+        $this->setAuthSession(); // Establece una sesión de autenticación para simular un usuario autenticado.
         $this->get('/admin/institutions'); // Verificar que cargue la ruta con la vista correspondiente
         $this->assertResponseCode(200);
 

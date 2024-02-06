@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace App\Test\TestCase\Controller\Admin;
 
 use App\Model\Entity\Student;
+use App\Model\Field\StageField;
+use App\Model\Field\StageStatus;
 use App\Model\Field\StudentType;
 use App\Model\Field\UserRole;
 use App\Test\Factory\CreateDataTrait;
 use App\Test\Factory\InstitutionFactory;
+use App\Test\Factory\StudentFactory;
 use App\Test\Factory\TutorFactory;
 use Cake\I18n\FrozenDate;
 use Cake\TestSuite\IntegrationTestTrait;
@@ -100,5 +103,28 @@ abstract class AdminTestCase extends TestCase
         $this->get($url . $id);
         $this->assertResponseContains($contains);
         $this->assertResponseCode(200);
+    }
+
+    protected function getUserStudentCreated($program)
+    {
+        $user = $this->createUser(['role' => UserRole::STUDENT->value]);
+
+        return StudentFactory::make([
+            'type' => StudentType::REGULAR->value,
+            'lapse_id' => $this->lapse_id,
+        ])
+            ->with('StudentStages', [
+                [
+                    'stage' => StageField::REGISTER->value,
+                    'status' => StageStatus::IN_PROGRESS->value,
+                ],
+                [
+                    'stage' => StageField::COURSE->value,
+                    'status' => StageStatus::IN_PROGRESS->value,
+                ],
+            ])
+            ->with('Tenants', $program->tenants[0])
+            ->with('AppUsers', $user)
+            ->persist();
     }
 }

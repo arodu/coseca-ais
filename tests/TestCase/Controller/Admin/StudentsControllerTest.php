@@ -11,13 +11,20 @@ use App\Model\Field\StageStatus;
 use App\Model\Field\StudentType;
 use App\Model\Field\UserRole;
 use App\Test\Factory\AppUserFactory;
+use App\Test\Factory\InstitutionFactory;
 use App\Test\Factory\LapseFactory;
+use App\Test\Factory\ProgramFactory;
 use App\Test\Factory\StudentFactory;
+use App\Test\Factory\TenantFactory;
+use App\Test\Factory\TutorFactory;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
+use SebastianBergmann\Type\FalseType;
 
 /**
  * App\Controller\Admin\StudentsController Test Case
+ *
+ * Pruebas para el controlador StudentsCrontroller
  *
  * @uses \App\Controller\Admin\StudentsController
  */
@@ -27,107 +34,143 @@ class StudentsControllerTest extends AdminTestCase
 
 
     /**
-     * Test index method
+     * Prueba de funcionalidad para obtener la vista y que exista en ella los datos de Estudiantes.
      *
      * @return void
      * @uses \App\Controller\Admin\StudentsController::index()
      */
     public function testIndex(): void
     {
+        // Configuracion inicial
         $this->get('/admin/students');
         $this->assertResponseCode(302);
 
-        $this->setAuthSession();
-        $this->get('/admin/students');
+        $this->setAuthSession(); // Establece una sesión de autenticación para simular un usuario autenticado.
+        $this->get('/admin/students'); //Verificar que cargue la ruta con la vista correspondiente
         $this->assertResponseCode(200);
 
-        $this->get('/admin/students');
-
+        // Crear un Usario con rol Admin para la prueba
         $user = $this->createUserWithUserRole();
-
         $this->assertResponseCode(200);
-
-        $this->assertResponseContains((string) $user->students[0]->dni);
-        $this->assertResponseContains((string) $user->students[0]->email);
+        // Verificacion de resultados
+        $this->assertResponseContains((string) $user->students[0]->dni); //Verificacion que exista el DNI del estudiante en la vista
+        $this->assertResponseContains((string) $user->students[0]->email); //Verificacion que exista el email del estudiante en la vista
     }
 
     /**
-     * Test view method
+     * Prueba de funcionalidad para obtener la vista detalle de un usuario
      *
      * @return void
      * @uses \App\Controller\Admin\StudentsController::view()
      */
     public function testView(): void
     {
-        $this->setAuthSession();
-        $program = $this->createProgram()->persist();
-        $user = $this->createUser(['role' => UserRole::STUDENT->value]);
+        // Configuracion inicial
+        $this->setAuthSession(); // Establece una sesión de autenticación para simular un usuario autenticado.
+        $program = $this->createProgram()->persist(); //Creacion de un programa
+        $student = $this->getUserStudentCreated($program); //Creacion de un estudiante asociado a un programa
 
-        $student = StudentFactory::make([
-            'type' => StudentType::REGULAR->value,
-            'lapse_id' => $this->lapse_id,
-        ])
-            ->with('StudentStages', [
-                [
-                    'stage' => StageField::REGISTER->value,
-                    'status' => StageStatus::IN_PROGRESS->value,
-                ],
-                [
-                    'stage' => StageField::COURSE->value,
-                    'status' => StageStatus::IN_PROGRESS->value,
-                ],
-            ])
-            ->with('Tenants', $program->tenants[0])
-            ->with('AppUsers', $user)
-            ->persist();
-
-        $this->get('/admin/students/view/' . $student->id);
+        // Verificacion de resultados
+        $this->get('/admin/students/view/' . $student->id); //Cargar la vista con el ID del estudiante creado
+        $this->assertResponseContains((string) $student->dni); //Verificacion que exista el DNI del estudiante en la vista
+        $this->assertResponseContains((string) $student->email); //Verificacion que exista el email del estudiante en la vista
+        $this->assertResponseContains((string) $program->name);  //Verificacion que exista el nombre del programa en la vista
         $this->assertResponseCode(200);
     }
 
     /**
-     * Test info method
+     * Prueba de funcionalidad para cargar la vista Info del Estudiante
      *
      * @return void
      * @uses \App\Controller\Admin\StudentsController::info()
      */
-    // public function testInfo(): void
-    // {
-    //     $this->markTestIncomplete('Not implemented yet.');
-    // }
+    public function testInfo(): void
+    {
+        // Configuracion inicial
+        $this->setAuthSession(); // Establece una sesión de autenticación para simular un usuario autenticado.
+        $program = $this->createProgram()->persist(); //Creacion de un programa
+        $student = $this->getUserStudentCreated($program); //Creacion de un estudiante asociado a un programa
+
+        $this->get('/admin/students/info/' . $student->id); //Cargar la vista con el ID del estudiante creado
+        $this->assertResponseContains((string) $student->dni); //Verificacion que exista el DNI del estudiante en la vista
+        $this->assertResponseContains((string) $student->email); //Verificacion que exista el email del estudiante en la vista
+        $this->assertResponseContains((string) $program->name);  //Verificacion que exista el nombre del programa en la vista
+        $this->assertResponseCode(200);
+    }
 
     /**
-     * Test adscriptions method
+     * Prueba de funcionalidad para Adscripciones de Estudiante
      *
      * @return void
      * @uses \App\Controller\Admin\StudentsController::adscriptions()
      */
-    // public function testAdscriptions(): void
-    // {
-    //     $this->markTestIncomplete('Not implemented yet.');
-    // }
+    public function testAdscriptions(): void
+    {
+        // Configuracion inicial
+        $this->setAuthSession(); // Establece una sesión de autenticación para simular un usuario autenticado.
+        $program = $this->createProgram()->persist(); //Creacion de un programa
+        $student = $this->getUserStudentCreated($program); //Creacion de un estudiante asociado a un programa
+
+        $institution = InstitutionFactory::make(['tenant_id' => $this->tenant_id])->persist(); // Creacion de una Institucion
+        $tutor = TutorFactory::make(['tenant_id' => $this->tenant_id])->persist(); // Creacion de un Tutor
+
+        $this->get('/admin/stage/adscriptions/add/' . $student->id); //Carga la vista Adscripciones con el ID del Estudiante correspondiente
+        $this->assertResponseCode(200);
+
+        //Verificaion de acciones
+        $this->post('/admin/stage/adscriptions/add/' . $student->id, [
+            'institution_project_id' => $institution->id,
+            'tutor_id' => $tutor->id,
+            'principal' => False
+        ]); // Envio de formulario actualizando los datos, sin dejar esta adscricion como principal.
+        $this->assertResponseCode(200);
+
+        $this->post('/admin/stage/adscriptions/add/' . $student->id, [
+            'institution_project_id' => $institution->id,
+            'tutor_id' => $tutor->id,
+            'principal' => True
+        ]);// Envio de formulario actualizando los datos, dejando esta adscricion como principal.
+        $this->assertResponseCode(200);
+    }
 
     /**
-     * Test settings method
+     * Prueba de funcionalidad para verificar la vista de Configuraciones de un Estudiante.
      *
      * @return void
      * @uses \App\Controller\Admin\StudentsController::settings()
      */
-    // public function testSettings(): void
-    // {
-    //     $this->markTestIncomplete('Not implemented yet.');
-    // }
+    public function testSettings(): void
+    {
+        // Configuracion inicial
+        $this->setAuthSession(); // Establece una sesión de autenticación para simular un usuario autenticado.
+        $program = $this->createProgram()->persist(); //Creacion de un programa
+        $student = $this->getUserStudentCreated($program); //Creacion de un estudiante asociado a un programa
+
+        // Verificacion de resultados.
+        $this->get('/admin/students/settings/' . $student->id); //Cargar la vista con el ID del estudiante creado
+        $this->assertResponseContains((string) $student->tenant->name); //Verificacion que exista el nombre del estudiante en la vista
+        $this->assertResponseCode(200);
+    }
 
     /**
-     * Test tracking method
+     * Prueba de funcionalidad para verificar el Seguimiento de un Estudiante.
      *
      * @return void
      * @uses \App\Controller\Admin\StudentsController::tracking()
      */
-    // public function testTracking(): void
-    // {
-    //     $this->markTestIncomplete('Not implemented yet.');
-    // }
+    public function testTracking(): void
+    {
+        // Configuracion inicial
+        $this->setAuthSession(); // Establece una sesión de autenticación para simular un usuario autenticado.
+        $program = $this->createProgram()->persist(); //Creacion de un programa.
+        $student = $this->getUserStudentCreated($program); //Creacion de un estudiante asociado a un programa.
+        $lapse = LapseFactory::make(['tenant_id' => $this->tenant_id])->persist(); //Creacion de un lapso
+
+        // Verificacion de resultados.
+        $this->get('/admin/students/tracking/' . $student->id); //Verificacion de la vista con el ID correspondiente
+        $this->assertResponseContains((string) $lapse->name); //Verificacion del nombre del lapso en la vista
+        $this->assertResponseCode(200);
+    }
 
     /**
      * Test prints method
@@ -157,10 +200,25 @@ class StudentsControllerTest extends AdminTestCase
      * @return void
      * @uses \App\Controller\Admin\StudentsController::edit()
      */
-    // public function testEdit(): void
-    // {
-    //     $this->markTestIncomplete('Not implemented yet.');
-    // }
+    public function testEdit(): void
+    {
+        // Configuracion inicial
+        $this->setAuthSession(); // Establece una sesión de autenticación para simular un usuario autenticado.
+        $program = $this->createProgram()->persist(); //Creacion de un programa.
+        $student = $this->getUserStudentCreated($program); //Creacion de un estudiante asociado a un programa.
+
+        // Comprobar que cargue la vista con el ID del estudiante seleccionado
+        $this->get('/admin/stage/register/edit/' . $student->id);
+        $this->assertResponseCode(200);
+
+        $this->post('/admin/stage/register/edit/' . $student->id, [
+            'name' => 'prueba edit',
+        ]); //Envio de formulario actualizando campos
+
+        // Verificacion de resultados
+        $this->get('/admin/student/view/' . $student->id); //Verificacion que cargue la vista detalle del Estudiante
+        $this->assertResponseCode(200);
+    }
 
     /**
      * Test delete method
@@ -190,10 +248,28 @@ class StudentsControllerTest extends AdminTestCase
      * @return void
      * @uses \App\Controller\Admin\StudentsController::newProgram()
      */
-    // public function testNewProgram(): void
-    // {
-    //     $this->markTestIncomplete('Not implemented yet.');
-    // }
+    public function testNewProgram(): void
+    {
+        // Configuracion inicial
+        $this->setAuthSession(); // Establece una sesión de autenticación para simular un usuario autenticado.
+        $program = $this->createProgram()->persist(); //Creacion de un programa.
+        $tenant = TenantFactory::make(['program_id' => $program->id])->persist(); //Creacion de un Tenant
+
+        $program = $this->createProgram()->persist(); //Creacion de otro programa
+        $student = $this->getUserStudentCreated($program); // Creacion de Estudiante asociado a un programa
+
+        $this->post('/admin/students/view/' . $student->id, [
+            'tenant_id' => $tenant->id,
+            'active' => False
+        ]); //Envio de formulario desactivando al Estudiante
+        $this->assertResponseCode(200);
+
+        $this->post('/admin/students/view/' . $student->id, [
+            'tenant_id' => $tenant->id,
+            'active' => True
+        ]);  //Envio de formulario activando al Estudiante
+        $this->assertResponseCode(200);
+    }
 
     /**
      * Test deactivate method
@@ -201,10 +277,22 @@ class StudentsControllerTest extends AdminTestCase
      * @return void
      * @uses \App\Controller\Admin\StudentsController::deactivate()
      */
-    // public function testDeactivate(): void
-    // {
-    //     $this->markTestIncomplete('Not implemented yet.');
-    // }
+    public function testDeactivate(): void
+    {
+        // Configuracion inicial
+        $this->setAuthSession(); // Establece una sesión de autenticación para simular un usuario autenticado.
+        $program = $this->createProgram()->persist(); //Creacion de un programa.
+        $tenant = TenantFactory::make(['program_id' => $program->id])->persist(); //Creacion de un Tenant
+
+        $program = $this->createProgram()->persist(); //Creacion de otro programa
+        $student = $this->getUserStudentCreated($program); // Creacion de Estudiante asociado a un programa
+
+        $this->post('/admin/students/view/' . $student->id, [
+            'tenant_id' => $tenant->id,
+            'active' => False
+        ]); //Envio de formulario para Desactivar Estudiante
+        $this->assertResponseCode(200);
+    }
 
     /**
      * Test reactivate method
@@ -212,10 +300,18 @@ class StudentsControllerTest extends AdminTestCase
      * @return void
      * @uses \App\Controller\Admin\StudentsController::reactivate()
      */
-    // public function testReactivate(): void
-    // {
-    //     $this->markTestIncomplete('Not implemented yet.');
-    // }
+    public function testReactivate(): void
+    {
+        // Configuracion inicial
+        $this->setAuthSession(); // Establece una sesión de autenticación para simular un usuario autenticado.
+        $program = $this->createProgram()->persist(); //Creacion de un programa.
+        $student = $this->getUserStudentCreated($program); // Creacion de Estudiante asociado a un programa
+
+        $this->post('/admin/students/view/' . $student->id, [
+            'active' => True
+        ]);//Envio de formulario para Desactivar Estudiante
+        $this->assertResponseCode(200);
+    }
 
     /**
      * Test bulkActions method
