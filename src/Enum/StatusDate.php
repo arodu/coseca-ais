@@ -41,8 +41,8 @@ enum StatusDate implements BadgeInterface
     }
 
     /**
-     * @param \Cake\I18n\FrozenDate|null $start_date
-     * @param \Cake\I18n\FrozenDate|null $end_date
+     * @param \Cake\I18n\FrozenDate|null $start_date The start date.
+     * @param \Cake\I18n\FrozenDate|null $end_date The end date.
      * @return \App\Enum\StatusDate|null
      */
     public static function get(?FrozenDate $start_date, ?FrozenDate $end_date = null): ?StatusDate

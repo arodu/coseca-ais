@@ -38,6 +38,9 @@ class ReportTenantCell extends Cell
         $this->Students = $this->fetchTable('Students');
     }
 
+    /**
+     * @return array
+     */
     protected function tabList(): array
     {
         return [
@@ -82,6 +85,11 @@ class ReportTenantCell extends Cell
         $this->set(compact('tenant', 'currentTab', 'lapseSelected', 'tabs'));
     }
 
+    /**
+     * @param \App\Model\Entity\Tenant $tenant
+     * @param \App\Model\Entity\Lapse $lapseSelected
+     * @return void
+     */
     public function general(Tenant $tenant, Lapse $lapseSelected)
     {
         $students = $this->Students->find()
@@ -126,6 +134,11 @@ class ReportTenantCell extends Cell
         $this->set(compact('reports', 'studentWithoutLapse'));
     }
 
+    /**
+     * @param \App\Model\Entity\Tenant $tenant
+     * @param \App\Model\Entity\Lapse $lapseSelected
+     * @return void
+     */
     public function projects(Tenant $tenant, Lapse $lapseSelected)
     {
         $students = $this->Students->find()
@@ -174,11 +187,21 @@ class ReportTenantCell extends Cell
         $this->set(compact('studentAdscriptions', 'projects'));
     }
 
+    /**
+     * @param \App\Model\Entity\Tenant $tenant
+     * @param \App\Model\Entity\Lapse $lapseSelected
+     * @return void
+     */
     public function tutors(Tenant $tenant, Lapse $lapseSelected)
     {
         $this->set(compact('tenant', 'lapseSelected'));
     }
 
+    /**
+     * @param \App\Model\Entity\Tenant $tenant
+     * @param \App\Model\Entity\Lapse $lapseSelected
+     * @return void
+     */
     public function finished(Tenant $tenant, Lapse $lapseSelected)
     {
         $students = $this->Students->find()

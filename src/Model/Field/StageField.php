@@ -62,10 +62,10 @@ enum StageField: string implements ListInterface
     }
 
     /**
-     * @return \App\Model\Field\StageField
+     * @return self
      */
-    public static function default(): StageField
+    public static function default(): self
     {
-        return static::REGISTER;
+        return self::REGISTER;
     }
 }

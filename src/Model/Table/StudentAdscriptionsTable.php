@@ -126,6 +126,12 @@ class StudentAdscriptionsTable extends Table
         return $rules;
     }
 
+    /**
+     * @param \Cake\Event\EventInterface $event
+     * @param \Cake\Datasource\EntityInterface $entity
+     * @param \ArrayObject $options
+     * @return void
+     */
     public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
     {
         if ($entity->isNew()) {
@@ -133,26 +139,33 @@ class StudentAdscriptionsTable extends Table
         }
     }
 
+    /**
+     * @param \Cake\Event\EventInterface $event
+     * @param \Cake\Datasource\EntityInterface $entity
+     * @param \ArrayObject $options
+     * @return void
+     */
     public function afterSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
     {
-        //if ($entity->isNew()) {
-        //    $this->StudentDocuments->saveOrFail($this->StudentDocuments->newEntity([
-        //        'student_id' => $entity->student_id,
-        //        'token' => Text::uuid(),
-        //        'type' => DocumentType::ADSCRIPTION_PROJECT->value,
-        //        'model' => 'StudentAdscriptions',
-        //        'foreign_key' => $entity->id,
-        //    ]));
-        //}
-
         $this->updateStudentTotalHours($entity);
     }
 
+    /**
+     * @param \Cake\Event\EventInterface $event
+     * @param \Cake\Datasource\EntityInterface $entity
+     * @param \ArrayObject $options
+     * @return void
+     */
     public function afterDelete(EventInterface $event, EntityInterface $entity, ArrayObject $options)
     {
         $this->updateStudentTotalHours($entity);
     }
 
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
     public function findListOpen(Query $query, array $options): Query
     {
         if (empty($options['student_id'])) {
@@ -174,6 +187,11 @@ class StudentAdscriptionsTable extends Table
             ]);
     }
 
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
     public function findActiveProjects(Query $query, array $options): Query
     {
         if (empty($options['student_id'])) {
@@ -188,6 +206,10 @@ class StudentAdscriptionsTable extends Table
             ]);
     }
 
+    /**
+     * @param \Cake\Datasource\EntityInterface $entity
+     * @return void
+     */
     protected function updateStudentTotalHours(EntityInterface $entity)
     {
         $student = $this->get($entity->id, [
@@ -199,6 +221,11 @@ class StudentAdscriptionsTable extends Table
         Cache::delete('student_tracking_info_' . $student->id);
     }
 
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
     public function findWithStudents(Query $query, array $options): Query
     {
         return $query
@@ -211,6 +238,11 @@ class StudentAdscriptionsTable extends Table
             ]);
     }
 
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
     public function findWithInstitution(Query $query, array $options): Query
     {
         return $query
@@ -219,6 +251,11 @@ class StudentAdscriptionsTable extends Table
             ]);
     }
 
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
     public function findWithTracking(Query $query, array $options): Query
     {
         if (empty($options['sort'])) {
@@ -233,6 +270,11 @@ class StudentAdscriptionsTable extends Table
             ]);
     }
 
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
     public function findWithTutor(Query $query, array $options): Query
     {
         return $query
@@ -241,6 +283,11 @@ class StudentAdscriptionsTable extends Table
             ]);
     }
 
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
     public function findPrincipal(Query $query, array $options): Query
     {
         return $query
@@ -249,6 +296,10 @@ class StudentAdscriptionsTable extends Table
             ]);
     }
 
+    /**
+     * @param int $adscription_id
+     * @return string
+     */
     public function createValidationToken(int $adscription_id): string
     {
         $adscription = $this->find()

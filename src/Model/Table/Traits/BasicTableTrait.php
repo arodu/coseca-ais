@@ -18,6 +18,11 @@ trait BasicTableTrait
         ]);
     }
 
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
     public function findObjectList(Query $query, array $options = []): Query
     {
         $options += [

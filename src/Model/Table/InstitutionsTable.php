@@ -118,6 +118,9 @@ class InstitutionsTable extends Table
         return $validator;
     }
 
+    /**
+     * @return void
+     */
     public function loadQueryFilters()
     {
         $this->addFilterField('tenant_id', [

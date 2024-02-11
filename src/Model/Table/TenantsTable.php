@@ -98,11 +98,21 @@ class TenantsTable extends Table
         return $validator;
     }
 
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
     public function findWithPrograms(Query $query, array $options): Query
     {
         return $query->contain(['Programs']);
     }
 
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
     public function findListLabel(Query $query, array $options): Query
     {
         $options = array_merge([
@@ -114,20 +124,16 @@ class TenantsTable extends Table
         return parent::findList($query, $options)->contain(['Programs']);
     }
 
+    /**
+     * @return void
+     */
     public function loadQueryFilters()
     {
-        //$this->addFilterField('area', [
-        //    'tableField' => $this->aliasField('program_id'),
-        //    'finder' => QueryFilterPlugin::FINDER_SELECT,
-        //]);
         $this->addFilterField('name', [
             'tableField' => $this->aliasField('name'),
             'finder' => QueryFilterPlugin::FINDER_SELECT,
         ]);
-        //$this->addFilterField('area', [
-        //    'tableField' => $this->aliasField('program_id'),
-        //    'finder' => QueryFilterPlugin::FINDER_SELECT,
-        //]);
+
         $this->addFilterField('program_id', [
             'tableField' => $this->aliasField('program_id'),
             'finder' => QueryFilterPlugin::FINDER_SELECT,

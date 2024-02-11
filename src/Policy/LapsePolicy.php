@@ -12,6 +12,11 @@ class LapsePolicy
 {
     use BasicChecksTrait;
 
+    /**
+     * @param \Authentication\IdentityInterface $user
+     * @param \App\Model\Entity\Lapse $lapse
+     * @return bool
+     */
     public function canRegisterEdit(IdentityInterface $user, Lapse $lapse)
     {
         if ($this->userIsAdmin($user)) {
@@ -25,6 +30,11 @@ class LapsePolicy
         return false;
     }
 
+    /**
+     * @param \App\Model\Entity\Lapse $lapse
+     * @param \App\Model\Field\StageField $stage
+     * @return bool
+     */
     protected function lapseDatesIsInProgress(Lapse $lapse, StageField $stage): bool
     {
         return $lapse?->getDates($stage)?->getStatus()?->is([StatusDate::IN_PROGRESS]) ?? false;

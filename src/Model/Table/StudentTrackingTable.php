@@ -100,16 +100,32 @@ class StudentTrackingTable extends Table
         return $rules;
     }
 
+    /**
+     * @param \Cake\Event\EventInterface $event
+     * @param \Cake\Datasource\EntityInterface $entity
+     * @param \ArrayObject $options
+     * @return void
+     */
     public function afterDelete(EventInterface $event, EntityInterface $entity, ArrayObject $options)
     {
         $this->updateStudentTotalHours($entity);
     }
 
+    /**
+     * @param \Cake\Event\EventInterface $event
+     * @param \Cake\Datasource\EntityInterface $entity
+     * @param \ArrayObject $options
+     * @return void
+     */
     public function afterSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
     {
         $this->updateStudentTotalHours($entity);
     }
 
+    /**
+     * @param \Cake\Datasource\EntityInterface $entity
+     * @return void
+     */
     protected function updateStudentTotalHours(EntityInterface $entity)
     {
         $student = $this->Adscriptions->get($entity->student_adscription_id, [

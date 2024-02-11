@@ -29,6 +29,11 @@ class FiltersCell extends Cell
         $this->viewBuilder()->addHelper('Button');
     }
 
+    /**
+     * @param bool $isFiltered
+     * @param string $filterKey
+     * @return void
+     */
     public function admin_students(bool $isFiltered = false, string $filterKey = 'f')
     {
         $tenants = $this->Students->Tenants->find('listLabel');
@@ -41,18 +46,33 @@ class FiltersCell extends Cell
         $this->set(compact('isFiltered', 'filterKey'));
     }
 
+    /**
+     * @param bool $isFiltered
+     * @param string $filterKey
+     * @return void
+     */
     public function admin_programs(bool $isFiltered = false, string $filterKey = 'f')
     {
 
         $this->set(compact('isFiltered', 'filterKey'));
     }
 
+    /**
+     * @param bool $isFiltered
+     * @param string $filterKey
+     * @return void
+     */
     public function admin_institutions(bool $isFiltered = false, string $filterKey = 'f')
     {
 
         $this->set(compact('isFiltered', 'filterKey'));
     }
 
+    /**
+     * @param bool $isFiltered
+     * @param string $filterKey
+     * @return void
+     */
     public function admin_tutors(bool $isFiltered = false, string $filterKey = 'f')
     {
 

@@ -25,6 +25,9 @@ enum AdscriptionPrincipal implements BadgeInterface
         };
     }
 
+    /**
+     * @return \CakeLteTools\Enum\Color
+     */
     public function color(): Color
     {
         return match ($this) {

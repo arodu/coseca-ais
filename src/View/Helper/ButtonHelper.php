@@ -39,6 +39,9 @@ class ButtonHelper extends Helper
         'icon_position' => self::ICON_POSITION_LEFT, // left, right
     ];
 
+    /**
+     * @var array
+     */
     public $helpers = ['Form', 'Html'];
 
     /**
@@ -119,6 +122,10 @@ class ButtonHelper extends Helper
         return $this->Html->link($title, $url, $options);
     }
 
+    /**
+     * @param array $options
+     * @return string
+     */
     public function postLink(array $options): string
     {
         if (isset($options['displayCondition'])) {
@@ -284,6 +291,10 @@ class ButtonHelper extends Helper
         return $this->button($options);
     }
 
+    /**
+     * @param array $options
+     * @return string
+     */
     public function closeModal(array $options = []): string
     {
         $options = array_merge([
@@ -297,6 +308,10 @@ class ButtonHelper extends Helper
         return $this->button($options);
     }
 
+    /**
+     * @param array $options
+     * @return string
+     */
     public function openModal(array $options = []): string
     {
         $options = array_merge([
@@ -367,6 +382,10 @@ class ButtonHelper extends Helper
         return $this->link($options);
     }
 
+    /**
+     * @param array $options
+     * @return string
+     */
     public function report(array $options = []): string
     {
         $this->requireUrl($options);
@@ -384,6 +403,10 @@ class ButtonHelper extends Helper
         return $this->link($options);
     }
 
+    /**
+     * @param array $options
+     * @return string
+     */
     public function fileReport(array $options = []): string
     {
         $this->requireUrl($options);
@@ -401,6 +424,10 @@ class ButtonHelper extends Helper
         return $this->link($options);
     }
 
+    /**
+     * @param array $options
+     * @return string
+     */
     public function statistics(array $options = []): string
     {
         $this->requireUrl($options);
@@ -567,10 +594,11 @@ class ButtonHelper extends Helper
 
     /**
      * @param string|null $label
-     * @param \CakeLteTools\Utility\FaIcon|false|null $icon
+     * @param string|null $icon
+     * @param string|null $position
      * @return string|null
      */
-    protected function createTitle(?string $label = null, $icon = null, $position = null): ?string
+    protected function createTitle(?string $label = null, ?string $icon = null, ?string $position = null): ?string
     {
         $position = $position ?? $this->getConfig('icon_position');
         if ($position === self::ICON_POSITION_RIGHT) {
@@ -582,6 +610,10 @@ class ButtonHelper extends Helper
         return $title;
     }
 
+    /**
+     * @param string $name
+     * @return \CakeLteTools\Utility\FaIcon
+     */
     protected function getDefaultIcon(string $name): FaIcon
     {
         try {
@@ -593,6 +625,11 @@ class ButtonHelper extends Helper
         }
     }
 
+    /**
+     * @param array $options
+     * @return void
+     * @throws \InvalidArgumentException
+     */
     protected function requireUrl(array $options): void
     {
         if (empty($options['url'])) {

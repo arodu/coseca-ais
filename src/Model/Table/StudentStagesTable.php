@@ -155,19 +155,18 @@ class StudentStagesTable extends Table
         $query->find('objectList', ['keyField' => $keyField])
             ->where(['student_id' => $student->id]);
 
-        return $query->formatResults(function ($results) use ($listStages) {
-            /** @var \Cake\Collection\CollectionInterface $results */
-            $studentStages = $results->toArray();
+        return $query
+            ->formatResults(function ($results) use ($listStages) {
+                /** @var \Cake\Collection\CollectionInterface $results */
+                $studentStages = $results->toArray();
 
-            return array_map(function ($item) use ($studentStages) {
-                return [
-                    'stageField' => $item,
-                    'studentStage' => $studentStages[$item->value] ?? null,
-                ];
-            }, $listStages);
-        });
-
-        return $query;
+                return array_map(function ($item) use ($studentStages) {
+                    return [
+                        'stageField' => $item,
+                        'studentStage' => $studentStages[$item->value] ?? null,
+                    ];
+                }, $listStages);
+            });
     }
 
     /**
@@ -194,6 +193,10 @@ class StudentStagesTable extends Table
             });
     }
 
+    /**
+     * @param array $options
+     * @return \App\Model\Entity\StudentStage|false
+     */
     public function create(array $options): StudentStage|false
     {
         try {
@@ -317,7 +320,8 @@ class StudentStagesTable extends Table
             throw new InvalidArgumentException('The stage has no next stage');
         }
 
-        if ($preview = $this->find()->where(['student_id' => $entity->student_id, 'stage' => $nextStageField->value])->first()) {
+        $preview = $this->find()->where(['student_id' => $entity->student_id, 'stage' => $nextStageField->value])->first();
+        if ($preview) {
             return $preview;
         }
 

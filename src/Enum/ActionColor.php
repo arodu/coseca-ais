@@ -49,9 +49,9 @@ enum ActionColor
     }
 
     /**
-     * @param string|null $extra
-     * @param bool $outline
-     * @return string
+     * @param string|null $extra Additional attributes for the button element.
+     * @param bool $outline Determines whether the button should have an outline style.
+     * @return string The generated button HTML element.
      */
     public function btn(?string $extra = null, bool $outline = false): string
     {

@@ -42,7 +42,8 @@ class LastElementBehavior extends Behavior
     ];
 
     /**
-     * @param \Cake\ORM\Query $query query
+     * @param \Cake\ORM\Query $query
+     * @param array $options
      * @return \Cake\ORM\Query
      */
     public function findLastElement(Query $query, array $options = []): Query
@@ -55,12 +56,17 @@ class LastElementBehavior extends Behavior
         }
 
         $query->where([
-            $this->table()->aliasField('id') . ' IN'  => $subQuery,
+            $this->table()->aliasField('id') . ' IN' => $subQuery,
         ]);
 
         return $query;
     }
 
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
     public function findSubQueryLastElement(Query $query, array $options = []): Query
     {
         $fieldGroup = $options['fieldGroup'] ?? $this->getConfig('fieldGroup');

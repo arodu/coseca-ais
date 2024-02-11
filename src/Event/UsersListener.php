@@ -25,7 +25,8 @@ class UsersListener implements EventListenerInterface
     }
 
     /**
-     * @param \Cake\Event\Event $event
+     * @param \Cake\Event\Event $event The event object.
+     * @return void|\Cake\Event\Event
      */
     public function afterLogin(Event $event)
     {
@@ -47,6 +48,7 @@ class UsersListener implements EventListenerInterface
 
     /**
      * @param \Cake\Event\Event $event
+     * @return void
      */
     public function afterRegister(Event $event)
     {

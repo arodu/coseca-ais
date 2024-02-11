@@ -59,6 +59,9 @@ class StudentAdscription extends Entity
         return AdscriptionStatus::tryFrom($this->status ?? '');
     }
 
+    /**
+     * @return string
+     */
     protected function _getLabelStatus(): string
     {
         return $this->getStatus()?->label() ?? '';

@@ -85,6 +85,10 @@ class Lapse extends Entity
         return Active::get($this->active ?? false);
     }
 
+    /**
+     * @param \App\Model\Field\StageField $stageField
+     * @return \App\Model\Entity\LapseDate|null
+     */
     public function getDates(StageField $stageField): ?LapseDate
     {
         if (empty($this->lapse_dates)) {

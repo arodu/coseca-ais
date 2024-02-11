@@ -178,6 +178,10 @@ class Student extends Entity
         return Active::get($this->active ?? false);
     }
 
+    /**
+     * @param \App\Model\Field\StageField $stageField
+     * @return \App\Model\Entity\StudentStage|null
+     */
     public function getStudentStage(StageField $stageField): ?StudentStage
     {
         if (empty($this->student_stages)) {

@@ -40,7 +40,10 @@ class InstitutionProject extends Entity
         'label_name',
     ];
 
-    protected function _getLabelName()
+    /**
+     * @return string
+     */
+    protected function _getLabelName(): string
     {
         if (empty($this->institution)) {
             return null;

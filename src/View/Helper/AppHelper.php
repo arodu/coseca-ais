@@ -26,6 +26,10 @@ class AppHelper extends Helper
 
     public $helpers = ['Html', 'Form'];
 
+    /**
+     * @param array $options
+     * @return string
+     */
     public function nan(array $options = []): string
     {
         $text = $options['text'] ?? 'N/A';
@@ -82,6 +86,10 @@ class AppHelper extends Helper
         return $contain . $text;
     }
 
+    /**
+     * @param string|null $tooltip
+     * @return string
+     */
     public function error(?string $tooltip = null): string
     {
         $options['class'] = [
@@ -100,6 +108,10 @@ class AppHelper extends Helper
         return $this->Html->tag('span', $icon . __('Error'), $options);
     }
 
+    /**
+     * @param \App\Model\Entity\Lapse|null $lapse
+     * @return string|null
+     */
     public function lapseLabel(?Lapse $lapse): ?string
     {
         if (empty($lapse)) {
@@ -113,6 +125,11 @@ class AppHelper extends Helper
         return $lapse->name . ' ' . $this->badge($lapse->getActive());
     }
 
+    /**
+     * @param \CakeLteTools\Enum\BadgeInterface $enum
+     * @param array $options
+     * @return string
+     */
     public function badge(BadgeInterface $enum, array $options = []): string
     {
         $options = [
@@ -125,11 +142,19 @@ class AppHelper extends Helper
         return $this->Html->tag($tag, $enum->label(), $options);
     }
 
-    public function alertMessage()
+    /**
+     * @return string
+     */
+    public function alertMessage(): string
     {
         return __('Comuniquese con la coordinación de servicio comunitario para mas información');
     }
 
+    /**
+     * @param string $fieldName
+     * @param array $options
+     * @return string
+     */
     public function control(string $fieldName, array $options = []): string
     {
         $options = array_merge([
@@ -170,11 +195,19 @@ class AppHelper extends Helper
         };
     }
 
+    /**
+     * @param bool $bool
+     * @return string
+     */
     public function yn(bool $bool): string
     {
         return $bool ? __('Si') : __('No');
     }
 
+    /**
+     * @param \App\Model\Entity\Tenant $tenant
+     * @return string
+     */
     public function tenant(Tenant $tenant): string
     {
         if (empty($tenant->program)) {

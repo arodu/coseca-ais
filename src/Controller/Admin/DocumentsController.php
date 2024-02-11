@@ -15,6 +15,9 @@ class DocumentsController extends AppAdminController
 {
     use DocumentsTrait;
 
+    /**
+     * @return void
+     */
     public function initialize(): void
     {
         parent::initialize();

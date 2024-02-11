@@ -44,6 +44,10 @@ class AppUsersTable extends UsersTable
         ]);
     }
 
+    /**
+     * @param \Cake\Validation\Validator $validator
+     * @return \Cake\Validation\Validator
+     */
     public function validationDefault(Validator $validator): Validator
     {
         $validator = parent::validationDefault($validator);
@@ -56,6 +60,10 @@ class AppUsersTable extends UsersTable
         return $validator;
     }
 
+    /**
+     * @param \Cake\ORM\RulesChecker $rules
+     * @return \Cake\ORM\RulesChecker
+     */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules = parent::buildRules($rules);
@@ -84,7 +92,7 @@ class AppUsersTable extends UsersTable
     /**
      * @param \Cake\ORM\Query $query
      * @param array $options
-     * @return void
+     * @return \Cake\ORM\Query
      */
     public function findAuth(Query $query, array $options = []): Query
     {

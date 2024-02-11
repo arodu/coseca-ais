@@ -55,6 +55,7 @@ enum StageStatus: string implements BadgeInterface, ListInterface
     }
 
     /**
+     * @param string|array $extraCssClass
      * @return \CakeLteTools\Utility\FaIcon
      */
     public function icon(string|array $extraCssClass = []): FaIcon

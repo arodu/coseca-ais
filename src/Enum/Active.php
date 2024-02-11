@@ -25,6 +25,9 @@ enum Active implements BadgeInterface
         };
     }
 
+    /**
+     * @return \CakeLteTools\Enum\Color
+     */
     public function color(): Color
     {
         return match ($this) {
@@ -34,7 +37,7 @@ enum Active implements BadgeInterface
     }
 
     /**
-     * @param bool|null $active
+     * @param bool|null $active Active
      * @return self|null
      */
     public static function get(?bool $active = null): ?self

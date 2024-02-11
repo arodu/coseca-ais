@@ -16,7 +16,12 @@ class StudentStagePolicy
     use BasicChecksTrait;
     use LocatorAwareTrait;
 
-    public function canRegisterEdit(IdentityInterface $user, StudentStage $studentStage)
+    /**
+     * @param \Authentication\IdentityInterface $user
+     * @param \App\Model\Entity\StudentStage $studentStage
+     * @return bool
+     */
+    public function canRegisterEdit(IdentityInterface $user, StudentStage $studentStage): bool
     {
         if (!$this->stageIs($studentStage, StageField::REGISTER)) {
             return false;
@@ -33,7 +38,12 @@ class StudentStagePolicy
         return false;
     }
 
-    public function canRegisterValidate(IdentityInterface $user, StudentStage $studentStage)
+    /**
+     * @param \Authentication\IdentityInterface $user
+     * @param \App\Model\Entity\StudentStage $studentStage
+     * @return bool
+     */
+    public function canRegisterValidate(IdentityInterface $user, StudentStage $studentStage): bool
     {
         if (!$this->stageIs($studentStage, StageField::REGISTER)) {
             return false;
@@ -46,7 +56,12 @@ class StudentStagePolicy
         return false;
     }
 
-    public function canCourseEdit(IdentityInterface $user, StudentStage $studentStage)
+    /**
+     * @param \Authentication\IdentityInterface $user
+     * @param \App\Model\Entity\StudentStage $studentStage
+     * @return bool
+     */
+    public function canCourseEdit(IdentityInterface $user, StudentStage $studentStage): bool
     {
         if (!$this->stageIs($studentStage, StageField::COURSE)) {
             return false;
@@ -59,7 +74,12 @@ class StudentStagePolicy
         return false;
     }
 
-    public function canCourseValidate(IdentityInterface $user, StudentStage $studentStage)
+    /**
+     * @param \Authentication\IdentityInterface $user
+     * @param \App\Model\Entity\StudentStage $studentStage
+     * @return bool
+     */
+    public function canCourseValidate(IdentityInterface $user, StudentStage $studentStage): bool
     {
         if (!$this->stageIs($studentStage, StageField::COURSE)) {
             return false;
@@ -72,6 +92,11 @@ class StudentStagePolicy
         return false;
     }
 
+    /**
+     * @param \Authentication\IdentityInterface $user
+     * @param \App\Model\Entity\StudentStage $studentStage
+     * @return \Authorization\Policy\Result
+     */
     public function canClose(IdentityInterface $user, StudentStage $studentStage): Result
     {
         if ($this->userIsStudent($user) && !$this->studentIsOwner($user, $studentStage->student_id)) {
@@ -98,6 +123,11 @@ class StudentStagePolicy
         return new Result(false, __('stage {0} does not allow closing', $studentStage->stage_label));
     }
 
+    /**
+     * @param \Authentication\IdentityInterface $user
+     * @param \App\Model\Entity\StudentStage $studentStage
+     * @return \Authorization\Policy\Result
+     */
     public function canValidate(IdentityInterface $user, StudentStage $studentStage): Result
     {
         if (!$this->userIsAdmin($user)) {

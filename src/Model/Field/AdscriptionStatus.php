@@ -35,6 +35,9 @@ enum AdscriptionStatus: string implements BadgeInterface, ListInterface
         };
     }
 
+    /**
+     * @return \CakeLteTools\Enum\Color
+     */
     public function color(): Color
     {
         return match ($this) {
@@ -47,6 +50,9 @@ enum AdscriptionStatus: string implements BadgeInterface, ListInterface
         };
     }
 
+    /**
+     * @return array
+     */
     public static function getEditableListLabel(): array
     {
         return static::toListLabel([
@@ -57,6 +63,9 @@ enum AdscriptionStatus: string implements BadgeInterface, ListInterface
         ]);
     }
 
+    /**
+     * @return array
+     */
     public static function getTrackablesValues(): array
     {
         return static::values([
@@ -67,6 +76,9 @@ enum AdscriptionStatus: string implements BadgeInterface, ListInterface
         ]);
     }
 
+    /**
+     * @return array
+     */
     public static function getOpenedValues(): array
     {
         return static::values([
@@ -75,6 +87,9 @@ enum AdscriptionStatus: string implements BadgeInterface, ListInterface
         ]);
     }
 
+    /**
+     * @return array
+     */
     public static function getPrintValues(): array
     {
         return static::values([

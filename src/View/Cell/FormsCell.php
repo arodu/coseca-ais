@@ -29,8 +29,7 @@ class FormsCell extends Cell
     }
 
     /**
-     * Default display method.
-     *
+     * @param \App\Model\Entity\Student $student
      * @return void
      */
     public function register(Student $student)

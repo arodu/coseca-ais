@@ -95,6 +95,11 @@ class TutorsTable extends Table
         return $validator;
     }
 
+    /**
+     * Load query filters
+     *
+     * @return void
+     */
     public function loadQueryFilters()
     {
         $this->addFilterField('tenant_id', [
