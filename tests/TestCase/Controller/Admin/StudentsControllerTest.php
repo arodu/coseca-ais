@@ -32,7 +32,6 @@ class StudentsControllerTest extends AdminTestCase
 {
     use IntegrationTestTrait;
 
-
     /**
      * Prueba de funcionalidad para obtener la vista y que exista en ella los datos de Estudiantes.
      *
