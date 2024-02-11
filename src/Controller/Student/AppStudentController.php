@@ -9,6 +9,9 @@ use App\Model\Entity\Student;
 
 class AppStudentController extends AppController
 {
+    /**
+     * @return void
+     */
     public function initialize(): void
     {
         parent::initialize();

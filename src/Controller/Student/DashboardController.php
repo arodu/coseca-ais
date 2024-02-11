@@ -15,6 +15,9 @@ class DashboardController extends AppStudentController
 {
     use CellTrait;
 
+    /**
+     * @return void
+     */
     public function initialize(): void
     {
         parent::initialize();

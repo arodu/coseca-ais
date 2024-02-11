@@ -14,6 +14,9 @@ class RegisterController extends AppStudentController
 {
     use RegisterProcessTrait;
 
+    /**
+     * @return void
+     */
     public function initialize(): void
     {
         parent::initialize();
@@ -22,6 +25,9 @@ class RegisterController extends AppStudentController
         $this->Students = $this->fetchTable('Students');
     }
 
+    /**
+     * @return \Cake\Http\Response|null|void Renders view
+     */
     public function edit()
     {
         $currentStudent = $this->getCurrentStudent();

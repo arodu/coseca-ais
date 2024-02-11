@@ -12,7 +12,11 @@ use Cake\Log\Log;
 
 trait TrackingProcessTrait
 {
-    protected function processAdd(array $data = [])
+    /**
+     * @param array $data
+     * @return array
+     */
+    protected function processAdd(array $data = []): array
     {
         $tackingTable = $this->fetchTable('StudentTracking');
 
@@ -39,7 +43,11 @@ trait TrackingProcessTrait
         ];
     }
 
-    protected function processDelete(int $tracking_id)
+    /**
+     * @param int $tracking_id
+     * @return array
+     */
+    protected function processDelete(int $tracking_id): array
     {
         $tackingTable = $this->fetchTable('StudentTracking');
 
@@ -67,7 +75,11 @@ trait TrackingProcessTrait
         ];
     }
 
-    protected function processCloseStage(?int $student_id = null)
+    /**
+     * @param int|null $student_id
+     * @return array
+     */
+    protected function processCloseStage(?int $student_id = null): array
     {
         $this->request->allowMethod(['post', 'put']);
         $trackingStage = $this->Students->StudentStages
@@ -86,7 +98,7 @@ trait TrackingProcessTrait
         if (!$result->getStatus()) {
             $this->Flash->error($result->getReason());
 
-            return;
+            return [];
         }
 
         try {
@@ -110,7 +122,11 @@ trait TrackingProcessTrait
         }
     }
 
-    protected function processValidateStage($student_id = null)
+    /**
+     * @param int|string|null $student_id
+     * @return array
+     */
+    protected function processValidateStage(int|string|null $student_id = null): array
     {
         $this->request->allowMethod(['post', 'put']);
         $trackingStage = $this->Students->StudentStages
@@ -129,7 +145,7 @@ trait TrackingProcessTrait
         if (!$result->getStatus()) {
             $this->Flash->error($result->getReason());
 
-            return;
+            return [];
         }
 
         try {

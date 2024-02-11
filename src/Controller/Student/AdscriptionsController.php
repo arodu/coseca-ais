@@ -17,6 +17,9 @@ class AdscriptionsController extends AppStudentController
 {
     use AdscriptionsProcessTrait;
 
+    /**
+     * @return \Cake\Http\Response|null|void Renders view
+     */
     public function close()
     {
         $this->request->allowMethod(['post', 'put']);

@@ -10,9 +10,9 @@ use Cake\Routing\Router;
 
 class FilterTenantUtility
 {
-    public const TENANT_FILTER_KEY = 'FilterTenant.tenant_ids';
-
     use LocatorAwareTrait;
+
+    public const TENANT_FILTER_KEY = 'FilterTenant.tenant_ids';
 
     /**
      * @param \App\Model\Entity\AppUser $user

@@ -26,6 +26,9 @@ class Calc
         return round($result, $decimals);
     }
 
+    /**
+     * @return float
+     */
     public static function getTotalHours(): float
     {
         return (float)Configure::read('coseca.hours-min');

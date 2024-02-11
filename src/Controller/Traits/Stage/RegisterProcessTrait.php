@@ -13,6 +13,11 @@ use Cake\Log\Log;
  */
 trait RegisterProcessTrait
 {
+    /**
+     * @param int $student_id
+     * @param array $options
+     * @return array
+     */
     protected function processEdit(int $student_id, array $options = []): array
     {
         $success = false;

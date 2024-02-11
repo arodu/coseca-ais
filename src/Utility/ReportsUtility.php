@@ -8,6 +8,9 @@ use App\Model\Field\StageStatus;
 
 class ReportsUtility
 {
+    /**
+     * @return array
+     */
     public static function getStatusList(): array
     {
         return [
@@ -18,6 +21,9 @@ class ReportsUtility
         ];
     }
 
+    /**
+     * @return array
+     */
     public static function getStageList(): array
     {
         return [

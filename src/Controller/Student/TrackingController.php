@@ -18,6 +18,9 @@ class TrackingController extends AppStudentController
     use TrackingProcessTrait;
     use CellTrait;
 
+    /**
+     * @return void
+     */
     public function initialize(): void
     {
         parent::initialize();
@@ -43,6 +46,9 @@ class TrackingController extends AppStudentController
         $this->set(compact('student_id', 'trackingView'));
     }
 
+    /**
+     * @return \Cake\Http\Response|null|void Renders view
+     */
     public function add()
     {
         $this->request->allowMethod(['post']);
@@ -55,6 +61,10 @@ class TrackingController extends AppStudentController
         return $this->redirect(['_name' => 'student:tracking']);
     }
 
+    /**
+     * @param int $tracking_id
+     * @return \Cake\Http\Response|null|void Renders view
+     */
     public function delete($tracking_id)
     {
         $this->request->allowMethod(['post', 'delete']);
@@ -63,6 +73,9 @@ class TrackingController extends AppStudentController
         return $this->redirect(['_name' => 'student:tracking']);
     }
 
+    /**
+     * @return \Cake\Http\Response|null|void Renders view
+     */
     public function closeStage()
     {
         $student_id = $this->getCurrentStudent()->id;

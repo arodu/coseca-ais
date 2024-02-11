@@ -53,7 +53,6 @@ class FiltersCell extends Cell
      */
     public function adminPrograms(bool $isFiltered = false, string $filterKey = 'f')
     {
-
         $this->set(compact('isFiltered', 'filterKey'));
     }
 
@@ -64,7 +63,6 @@ class FiltersCell extends Cell
      */
     public function adminInstitutions(bool $isFiltered = false, string $filterKey = 'f')
     {
-
         $this->set(compact('isFiltered', 'filterKey'));
     }
 
@@ -75,7 +73,6 @@ class FiltersCell extends Cell
      */
     public function adminTutors(bool $isFiltered = false, string $filterKey = 'f')
     {
-
         $this->set(compact('isFiltered', 'filterKey'));
     }
 }

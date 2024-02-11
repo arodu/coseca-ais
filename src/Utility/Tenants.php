@@ -7,11 +7,15 @@ use Cake\ORM\TableRegistry;
 
 class Tenants
 {
-    public static function getTenantList()
+    /**
+     * @return array
+     */
+    public static function getTenantList(): array
     {
         return TableRegistry::getTableLocator()
             ->get('Tenants')
             ->find('active')
-            ->find('list');
+            ->find('list')
+            ?? [];
     }
 }

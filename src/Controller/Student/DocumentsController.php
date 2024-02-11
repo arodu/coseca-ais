@@ -18,17 +18,26 @@ class DocumentsController extends AppStudentController
         format009 as protected traitFormat009;
     }
 
+    /**
+     * @return void
+     */
     public function initialize(): void
     {
         parent::initialize();
         $this->Students = $this->fetchTable('Students');
     }
 
+    /**
+     * @return \Cake\Http\Response|null|void Renders view
+     */
     public function format007()
     {
         $this->traitFormat007((string)$this->getCurrentStudent()->id);
     }
 
+    /**
+     * @return \Cake\Http\Response|null|void Renders view
+     */
     public function format009()
     {
         $this->traitFormat009((string)$this->getCurrentStudent()->id);
