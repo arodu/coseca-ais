@@ -28,9 +28,9 @@ enum StageStatus: string implements BadgeInterface, ListInterface
     public function label(): string
     {
         return match($this) {
-            static::WAITING => __('En Espera'),
-            static::IN_PROGRESS => __('En Proceso'),
-            static::REVIEW => __('En Revisión'),
+            static::WAITING => __('En espera'),
+            static::IN_PROGRESS => __('En proceso'),
+            static::REVIEW => __('En revisión'),
             static::SUCCESS => __('Realizado'),
             static::FAILED => __('Fallido'),
             static::LOCKED => __('Bloqueado'),

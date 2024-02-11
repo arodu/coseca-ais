@@ -48,9 +48,7 @@ class ButtonHelper extends Helper
      */
     public function link(array $options = []): string
     {
-        if (empty($options['url'])) {
-            throw new \InvalidArgumentException('url is required');
-        }
+        $this->requireUrl($options);
 
         if (empty($options['label']) && empty($options['icon'])) {
             $options['icon'] = FaIcon::get($this->getConfig('icon.link'), $this->getConfig('icon_class'));
@@ -137,9 +135,7 @@ class ButtonHelper extends Helper
             }
         }
 
-        if (empty($options['url'])) {
-            throw new \InvalidArgumentException('url is required');
-        }
+        $this->requireUrl($options);
 
         if (empty($options['label']) && empty($options['icon'])) {
             $options['icon'] = FaIcon::get($this->getConfig('icon.link'), $this->getConfig('icon_class'));
@@ -358,9 +354,7 @@ class ButtonHelper extends Helper
      */
     public function view(array $options = []): string
     {
-        if (empty($options['url'])) {
-            throw new \InvalidArgumentException('url is required');
-        }
+        $this->requireUrl($options);
 
         $options = array_merge([
             'icon' => FaIcon::get($this->getConfig('icon.view'), $this->getConfig('icon_class')),
@@ -376,9 +370,24 @@ class ButtonHelper extends Helper
 
     public function report(array $options = []): string
     {
-        if (empty($options['url'])) {
-            throw new \InvalidArgumentException('url is required');
-        }
+        $this->requireUrl($options);
+
+        $options = array_merge([
+            'icon' => FaIcon::get($this->getConfig('icon.report'), $this->getConfig('icon_class')),
+            'label' => false,
+            'escape' => false,
+            'actionColor' => ActionColor::REPORT,
+            'override' => false,
+            'outline' => false,
+            'target' => '_blank',
+        ], $options);
+
+        return $this->link($options);
+    }
+
+    public function fileReport(array $options = []): string
+    {
+        $this->requireUrl($options);
 
         $options = array_merge([
             'icon' => FaIcon::get($this->getConfig('icon.report'), $this->getConfig('icon_class')),
@@ -395,9 +404,7 @@ class ButtonHelper extends Helper
 
     public function statistics(array $options = []): string
     {
-        if (empty($options['url'])) {
-            throw new \InvalidArgumentException('url is required');
-        }
+        $this->requireUrl($options);
 
         $options = array_merge([
             'icon' => FaIcon::get($this->getConfig('icon.statistics'), $this->getConfig('icon_class')),
@@ -435,9 +442,7 @@ class ButtonHelper extends Helper
      */
     public function edit(array $options = []): string
     {
-        if (empty($options['url'])) {
-            throw new \InvalidArgumentException('url is required');
-        }
+        $this->requireUrl($options);
 
         $options = array_merge([
             'icon' => FaIcon::get($this->getConfig('icon.edit'), $this->getConfig('icon_class')),
@@ -457,9 +462,7 @@ class ButtonHelper extends Helper
      */
     public function delete(array $options = []): string
     {
-        if (empty($options['url'])) {
-            throw new \InvalidArgumentException('url is required');
-        }
+        $this->requireUrl($options);
 
         $options = array_merge([
             'icon' => FaIcon::get($this->getConfig('icon.delete'), $this->getConfig('icon_class')),
@@ -480,9 +483,7 @@ class ButtonHelper extends Helper
      */
     public function remove(array $options = []): string
     {
-        if (empty($options['url'])) {
-            throw new \InvalidArgumentException('url is required');
-        }
+        $this->requireUrl($options);
 
         $options = array_merge([
             'icon' => $this->getDefaultIcon(__FUNCTION__),
@@ -503,9 +504,7 @@ class ButtonHelper extends Helper
      */
     public function confirm(array $options = []): string
     {
-        if (empty($options['url'])) {
-            throw new \InvalidArgumentException('url is required');
-        }
+        $this->requireUrl($options);
 
         $options = array_merge([
             'icon' => FaIcon::get($this->getConfig('icon.edit'), $this->getConfig('icon_class')),
@@ -526,9 +525,7 @@ class ButtonHelper extends Helper
      */
     public function cancel(array $options = []): string
     {
-        if (empty($options['url'])) {
-            throw new \InvalidArgumentException('url is required');
-        }
+        $this->requireUrl($options);
 
         $options = array_merge([
             'icon' => false,
@@ -594,6 +591,13 @@ class ButtonHelper extends Helper
             return FaIcon::get($name, $this->getConfig('icon_class'));
         } catch (\Throwable $th) {
             return FaIcon::get('default', $this->getConfig('icon_class'));
+        }
+    }
+
+    protected function requireUrl(array $options): void
+    {
+        if (empty($options['url'])) {
+            throw new \InvalidArgumentException('url param is required');
         }
     }
 }

@@ -10,10 +10,12 @@ use App\Model\Field\StageStatus;
 use App\Utility\Calc;
 use Authentication\IdentityInterface;
 use Authorization\Policy\Result;
+use Cake\ORM\Locator\LocatorAwareTrait;
 
 class StudentStagePolicy
 {
     use BasicChecksTrait;
+    use LocatorAwareTrait;
 
     public function canRegisterEdit(IdentityInterface $user, StudentStage $studentStage)
     {
@@ -78,11 +80,14 @@ class StudentStagePolicy
         }
 
         if ($this->stageIs($studentStage, StageField::TRACKING, StageStatus::IN_PROGRESS)) {
-            if (empty($studentStage->student)) {
-                return new Result(false, __('student not found'));
+            if (!empty($studentStage->student)) {
+                $totalHours = $studentStage->student?->total_hours ?? 0;
+            } else {
+                $student = $this->fetchTable('Students')->get($studentStage->student_id);
+                $totalHours = $student?->total_hours ?? 0;
             }
 
-            if (($studentStage->student->total_hours ?? 0) < Calc::getTotalHours()) {
+            if (($totalHours ?? 0) < Calc::getTotalHours()) {
                 return new Result(false, __('The student has not completed the required hours ({0}h)', Calc::getTotalHours()));
             }
 
@@ -123,7 +128,7 @@ class StudentStagePolicy
                 return new Result(false, __('You are not the owner of this stage'));
             }
 
-            if ($this->stageIs($studentStage, StageField::TRACKING, StageStatus::REVIEW) ) {
+            if ($this->stageIs($studentStage, StageField::TRACKING, StageStatus::REVIEW)) {
                 // print 007
                 return new Result(true);
             }
@@ -133,7 +138,7 @@ class StudentStagePolicy
                 return new Result(true);
             }
         }
-        
+
         if ($this->userIsAdmin($user)) {
             if ($this->stageIs($studentStage, StageField::TRACKING, [StageStatus::REVIEW, StageStatus::SUCCESS])) {
                 // print 007
@@ -147,6 +152,24 @@ class StudentStagePolicy
         }
 
         return new Result(false, __('stage {0} does not allow printing', $studentStage->stage_label));
+    }
+
+    /**
+     * @param IdentityInterface $user
+     * @param StudentStage $studentStage
+     * @return Result
+     */
+    public function canDisplayActions(IdentityInterface $user, StudentStage $studentStage): bool
+    {
+        if ($this->canPrint($user, $studentStage)->getStatus()) {
+            return true;
+        }
+
+        if ($this->canClose($user, $studentStage)->getStatus()) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
