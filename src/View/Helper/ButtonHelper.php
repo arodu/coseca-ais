@@ -594,11 +594,11 @@ class ButtonHelper extends Helper
 
     /**
      * @param string|null $label
-     * @param string|null $icon
+     * @param \CakeLteTools\Utility\FaIcon|null $icon
      * @param string|null $position
      * @return string|null
      */
-    protected function createTitle(?string $label = null, ?string $icon = null, ?string $position = null): ?string
+    protected function createTitle(?string $label = null, ?FaIcon $icon = null, ?string $position = null): ?string
     {
         $position = $position ?? $this->getConfig('icon_position');
         if ($position === self::ICON_POSITION_RIGHT) {

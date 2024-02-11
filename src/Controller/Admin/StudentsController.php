@@ -59,7 +59,7 @@ class StudentsController extends AppAdminController
         $students = $this->paginate($query);
         $isFiltered = $this->Students->queryWasFiltered();
 
-        $formFilters = $this->cell('Filters::admin_students', [
+        $formFilters = $this->cell('Filters::adminStudents', [
             'isFiltered' => $isFiltered,
             'filterKey' => $filterKey,
         ]);
