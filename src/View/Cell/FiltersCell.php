@@ -44,19 +44,20 @@ class FiltersCell extends Cell
 
     public function admin_programs(bool $isFiltered = false, string $filterKey = 'f')
     {
-
         $this->set(compact('isFiltered', 'filterKey'));
     }
 
     public function admin_institutions(bool $isFiltered = false, string $filterKey = 'f')
     {
-
         $this->set(compact('isFiltered', 'filterKey'));
     }
 
     public function admin_tutors(bool $isFiltered = false, string $filterKey = 'f')
     {
-
         $this->set(compact('isFiltered', 'filterKey'));
+    }
+
+    public function admin_reports()
+    {
     }
 }

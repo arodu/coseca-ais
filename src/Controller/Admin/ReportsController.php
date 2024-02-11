@@ -20,6 +20,16 @@ class ReportsController extends AppAdminController
         parent::initialize();
         $this->Tenants = $this->fetchTable('Tenants');
         $this->Students = $this->fetchTable('Students');
+
+        $this->MenuLte->activeItem('reports');
+    }
+
+    /**
+     * @return void
+     */
+    public function index()
+    {
+
     }
 
     /**
@@ -80,4 +90,8 @@ class ReportsController extends AppAdminController
 
         $this->set(compact('tenant', 'lapseSelected', 'lapses', 'currentTab'));
     }
+
+
+
+
 }

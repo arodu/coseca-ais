@@ -28,6 +28,11 @@ if (in_array($this->Identity->get('role'), UserRole::getStaffGroup())) {
         'label' => __('Tutores'),
         'uri' => ['controller' => 'Tutors', 'action' => 'index', 'prefix' => 'Admin'],
     ];
+
+    $menu['reports'] = [
+        'label' => __('Reportes'),
+        'uri' => ['controller' => 'Reports', 'action' => 'index', 'prefix' => 'Admin'],
+    ];
 }
 
 if (in_array($this->Identity->get('role'), UserRole::getAdminGroup())) {
