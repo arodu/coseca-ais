@@ -90,8 +90,28 @@ class AppView extends View
         return $this->Html->tag($tag, $info, $options);
     }
 
+    /**
+     * @return IdentityInterface
+     */
     public function getIdentity(): IdentityInterface
     {
         return $this->getRequest()->getAttribute('identity');
+    }
+
+    /**
+     * @param array $options
+     * @return string
+     */
+    public function getPrefix(array $options = []): string
+    {
+        $options = array_merge([
+            'current' => 'Student',
+            'then' => 'Student',
+            'else' => 'Admin',
+        ], $options);
+
+        return $this->getRequest()->getParam('prefix') === $options['current']
+            ? $options['then']
+            : $options['else'];
     }
 }
