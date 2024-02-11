@@ -5,7 +5,6 @@ namespace App\View\Cell;
 
 use App\Model\Entity\Student;
 use Cake\View\Cell;
-use Cake\View\View;
 
 /**
  * Forms cell

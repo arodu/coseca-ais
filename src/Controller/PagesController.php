@@ -28,7 +28,6 @@ use Cake\Log\Log;
  */
 class PagesController extends AppController
 {
-
     public function initialize(): void
     {
         parent::initialize();
@@ -53,7 +52,6 @@ class PagesController extends AppController
             if (in_array($identity->role, UserRole::getStudentGroup())) {
                 return $this->redirect(['_name' => 'student:home']);
             }
-
         } catch (\Throwable $e) {
             Log::alert($e->getMessage());
         }

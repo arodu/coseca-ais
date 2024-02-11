@@ -29,7 +29,7 @@ class AppUsersTable extends UsersTable
     public function initialize(array $config): void
     {
         parent::initialize($config);
-        
+
         $this->hasMany('Students', [
             'foreignKey' => 'user_id',
         ]);
@@ -69,9 +69,9 @@ class AppUsersTable extends UsersTable
     }
 
     /**
-     * @param EventInterface $event
-     * @param EntityInterface $entity
-     * @param ArrayObject $options
+     * @param \Cake\Event\EventInterface $event
+     * @param \Cake\Datasource\EntityInterface $entity
+     * @param \ArrayObject $options
      * @return void
      */
     public function afterMarshal(EventInterface $event, EntityInterface $entity, ArrayObject $options)
@@ -82,7 +82,7 @@ class AppUsersTable extends UsersTable
     }
 
     /**
-     * @param Query $query
+     * @param \Cake\ORM\Query $query
      * @param array $options
      * @return void
      */

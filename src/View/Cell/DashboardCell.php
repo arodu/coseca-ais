@@ -1,11 +1,8 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\View\Cell;
 
-use App\Model\Field\StageField;
-use App\Model\Field\StageStatus;
 use App\Utility\CacheRequest;
 use App\Utility\ReportsUtility;
 use Cake\I18n\FrozenDate;
@@ -51,8 +48,6 @@ class DashboardCell extends Cell
         //        'StudentStages.lapse_id' => $currentLapse->id,
         //    ])
         //    ->firstOrFail();
-        //
-
 
         //debug($currentLapses->extract('tenant_id')->toArray());
         //exit();
@@ -71,7 +66,7 @@ class DashboardCell extends Cell
             ])
             ->contain([
                 'CurrentLapse',
-                'Programs'
+                'Programs',
             ]);
 
         $this->set(compact('activeTenants'));
@@ -83,9 +78,9 @@ class DashboardCell extends Cell
             ->contain([
                 'Lapses' => [
                     'Tenants' => [
-                        'Programs'
-                    ]
-                ]
+                        'Programs',
+                    ],
+                ],
             ])
             ->where([
                 'Lapses.tenant_id IN' => $this->getCurrentTenants(),

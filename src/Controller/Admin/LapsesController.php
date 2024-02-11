@@ -84,6 +84,7 @@ class LapsesController extends AppAdminController
 
     /**
      * Change active method
+     *
      * @param string|null $id Lapse id.
      * @param int $active Active value
      * @return \Cake\Http\Response|null|void Redirects to index.
@@ -99,9 +100,9 @@ class LapsesController extends AppAdminController
 
             $this->Lapses->updateAll(['active' => 0], ['tenant_id' => $lapse->tenant_id]);
 
-            $lapse->active = (int) $active;
+            $lapse->active = (int)$active;
             $this->Lapses->saveOrFail($lapse);
-            
+
             $this->Flash->success(__('The lapse has been updated.'));
             $this->Lapses->getConnection()->commit();
         } catch (\Exception $e) {

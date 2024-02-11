@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -54,7 +53,7 @@ class StudentStage extends Entity
     ];
 
     /**
-     * @return StageField|null
+     * @return \App\Model\Field\StageField|null
      */
     public function getStage(): ?StageField
     {
@@ -62,7 +61,7 @@ class StudentStage extends Entity
     }
 
     /**
-     * @return StageStatus|null
+     * @return \App\Model\Field\StageStatus|null
      */
     public function getStatus(): ?StageStatus
     {

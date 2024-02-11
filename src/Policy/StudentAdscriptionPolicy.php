@@ -1,13 +1,10 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Policy;
 
 use App\Model\Entity\StudentAdscription;
-use Authorization\Policy\Result;
 use App\Model\Field\AdscriptionStatus;
-use App\Model\Field\UserRole;
 use Authentication\IdentityInterface;
 
 class StudentAdscriptionPolicy
@@ -15,9 +12,9 @@ class StudentAdscriptionPolicy
     use BasicChecksTrait;
 
     /**
-     * @param IdentityInterface $user
-     * @param StudentAdscription $adscription
-     * @return Result
+     * @param \Authentication\IdentityInterface $user
+     * @param \App\Model\Entity\StudentAdscription $adscription
+     * @return \App\Policy\Result
      */
     public function canAddTracking(IdentityInterface $user, StudentAdscription $adscription)
     {

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller\Admin\Stage;
 
@@ -15,7 +16,6 @@ class EndingsController extends AppController
         $this->StudentStages = $this->fetchTable('StudentStages');
         $this->Students = $this->fetchTable('Students');
     }
-
 
     public function closeStage($student_id = null)
     {

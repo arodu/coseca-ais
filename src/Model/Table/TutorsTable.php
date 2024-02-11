@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -14,7 +13,6 @@ use QueryFilter\QueryFilterPlugin;
  *
  * @property \App\Model\Table\TenantsTable&\Cake\ORM\Association\BelongsTo $Tenants
  * @property \App\Model\Table\StudentAdscriptionsTable&\Cake\ORM\Association\HasMany $StudentAdscriptions
- *
  * @method \App\Model\Entity\Tutor newEmptyEntity()
  * @method \App\Model\Entity\Tutor newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Tutor[] newEntities(array $data, array $options = [])
@@ -97,7 +95,8 @@ class TutorsTable extends Table
         return $validator;
     }
 
-    public function loadQueryFilters() {
+    public function loadQueryFilters()
+    {
         $this->addFilterField('tenant_id', [
             'tableField' => $this->aliasField('tenant_id'),
             'finder' => QueryFilterPlugin::FINDER_SELECT,

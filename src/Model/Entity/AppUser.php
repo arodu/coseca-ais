@@ -1,11 +1,9 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
 
 use App\Model\Field\UserRole;
-use Cake\ORM\Entity;
 use CakeDC\Users\Model\Entity\User;
 
 /**
@@ -38,7 +36,7 @@ use CakeDC\Users\Model\Entity\User;
 class AppUser extends User
 {
     /**
-     * @return UserRole|null
+     * @return \App\Model\Field\UserRole|null
      */
     public function getRole(): ?UserRole
     {

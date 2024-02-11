@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Enum;
@@ -25,7 +24,7 @@ enum ActionColor
     case DEFAULT;
 
     /**
-     * @return Color
+     * @return \CakeLteTools\Enum\Color
      */
     public function color(): Color
     {

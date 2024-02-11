@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Utility;
@@ -11,12 +10,12 @@ use Cake\Routing\Router;
 
 class FilterTenantUtility
 {
-    const TENANT_FILTER_KEY = 'FilterTenant.tenant_ids';
+    public const TENANT_FILTER_KEY = 'FilterTenant.tenant_ids';
 
     use LocatorAwareTrait;
 
     /**
-     * @param AppUser $user
+     * @param \App\Model\Entity\AppUser $user
      * @return array
      */
     public function getTenantIdsFromDatabase(AppUser $user): array

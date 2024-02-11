@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Field;
@@ -22,7 +21,6 @@ enum ProgramArea: string implements ListInterface
     case AIA = 'aia';
     case VET = 'vet';
     case EDU = 'edu';
-
 
     /**
      * @return string

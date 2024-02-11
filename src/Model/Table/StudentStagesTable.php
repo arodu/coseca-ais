@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -22,7 +21,6 @@ use InvalidArgumentException;
  *
  * @property \App\Model\Table\StudentsTable&\Cake\ORM\Association\BelongsTo $Students
  * @property \App\Model\Table\LapsesTable&\Cake\ORM\Association\BelongsTo $Lapses
- *
  * @method \App\Model\Entity\StudentStage newEmptyEntity()
  * @method \App\Model\Entity\StudentStage newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\StudentStage[] newEntities(array $data, array $options = [])
@@ -36,7 +34,6 @@ use InvalidArgumentException;
  * @method \App\Model\Entity\StudentStage[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
  * @method \App\Model\Entity\StudentStage[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
  * @method \App\Model\Entity\StudentStage[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
- *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class StudentStagesTable extends Table
@@ -113,9 +110,9 @@ class StudentStagesTable extends Table
     }
 
     /**
-     * @param Query $query
+     * @param \Cake\ORM\Query $query
      * @param array $options
-     * @return Query
+     * @return \Cake\ORM\Query
      */
     public function findByStudentStage(Query $query, array $options = []): Query
     {
@@ -138,9 +135,9 @@ class StudentStagesTable extends Table
     }
 
     /**
-     * @param Query $query
+     * @param \Cake\ORM\Query $query
      * @param array $options
-     * @return Query
+     * @return \Cake\ORM\Query
      */
     public function findStageList(Query $query, array $options = []): Query
     {
@@ -150,7 +147,7 @@ class StudentStagesTable extends Table
             );
         }
 
-        /** @var Student $student */
+        /** @var \App\Model\Entity\Student $student */
         $student = $options['student'];
         $listStages = $student->getStageFieldList();
         $keyField = $options['keyField'] ?? 'stage';
@@ -174,9 +171,9 @@ class StudentStagesTable extends Table
     }
 
     /**
-     * @param Query $query
+     * @param \Cake\ORM\Query $query
      * @param array $options
-     * @return Query
+     * @return \Cake\ORM\Query
      */
     public function findReport(Query $query, array $options = []): Query
     {
@@ -210,7 +207,7 @@ class StudentStagesTable extends Table
 
     /**
      * @param array $options
-     * @return StudentStage
+     * @return \App\Model\Entity\StudentStage
      */
     public function createOrFail(array $options): StudentStage
     {
@@ -232,9 +229,9 @@ class StudentStagesTable extends Table
     }
 
     /**
-     * @param StudentStage $entity
-     * @param StageStatus $newStatus
-     * @return StudentStage
+     * @param \App\Model\Entity\StudentStage $entity
+     * @param \App\Model\Field\StageStatus $newStatus
+     * @return \App\Model\Entity\StudentStage
      */
     public function updateStatus(StudentStage $entity, StageStatus $newStatus): StudentStage
     {
@@ -244,10 +241,10 @@ class StudentStagesTable extends Table
     }
 
     /**
-     * @param StudentStage $entity
-     * @param StageStatus $newStatus
-     * @param boolean $forced
-     * @return StudentStage|bool
+     * @param \App\Model\Entity\StudentStage $entity
+     * @param \App\Model\Field\StageStatus $newStatus
+     * @param bool $forced
+     * @return \App\Model\Entity\StudentStage|bool
      */
     public function close(StudentStage $entity, StageStatus $newStatus, bool $forced = false): StudentStage|bool
     {
@@ -261,10 +258,10 @@ class StudentStagesTable extends Table
     }
 
     /**
-     * @param StudentStage $entity
-     * @param StageStatus $newStatus
-     * @param boolean $forced
-     * @return StudentStage|null
+     * @param \App\Model\Entity\StudentStage $entity
+     * @param \App\Model\Field\StageStatus $newStatus
+     * @param bool $forced
+     * @return \App\Model\Entity\StudentStage|null
      */
     public function closeOrFail(StudentStage $entity, StageStatus $newStatus, bool $forced = false): ?StudentStage
     {
@@ -284,9 +281,9 @@ class StudentStagesTable extends Table
     }
 
     /**
-     * @param StudentStage $entity
-     * @param boolean $forced
-     * @return StudentStage|false
+     * @param \App\Model\Entity\StudentStage $entity
+     * @param bool $forced
+     * @return \App\Model\Entity\StudentStage|false
      */
     public function createNext(StudentStage $entity, bool $forced = false): StudentStage|false
     {
@@ -300,10 +297,10 @@ class StudentStagesTable extends Table
     }
 
     /**
-     * @param StudentStage $entity
-     * @param boolean $forced
-     * @return StudentStage
-     * @throws InvalidArgumentException
+     * @param \App\Model\Entity\StudentStage $entity
+     * @param bool $forced
+     * @return \App\Model\Entity\StudentStage
+     * @throws \InvalidArgumentException
      */
     public function createNextOrFail(StudentStage $entity, bool $forced = false): StudentStage
     {

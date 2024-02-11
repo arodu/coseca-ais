@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Student;
@@ -29,7 +28,7 @@ class RegisterController extends AppStudentController
 
         [
             'success' => $success,
-            'student' => $student
+            'student' => $student,
         ] = $this->processEdit($currentStudent->id, ['updateStatus' => true]);
 
         if ($success) {

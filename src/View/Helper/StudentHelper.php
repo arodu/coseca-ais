@@ -5,9 +5,7 @@ namespace App\View\Helper;
 
 use App\Model\Entity\AppUser;
 use App\Model\Entity\Student;
-use App\Model\Entity\Tenant;
 use Cake\View\Helper;
-use Cake\View\View;
 
 /**
  * Student helper

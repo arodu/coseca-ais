@@ -1,16 +1,12 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Admin\Stage;
 
 use App\Controller\Admin\AppAdminController;
 use App\Controller\Traits\Stage\AdscriptionsProcessTrait;
-use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
-use App\Utility\Stages;
-use Cake\Http\Exception\ForbiddenException;
 use Cake\Log\Log;
 use CakeLteTools\Controller\Traits\RedirectLogicTrait;
 
@@ -84,7 +80,7 @@ class AdscriptionsController extends AppAdminController
         $institution_projects = $this->StudentAdscriptions->InstitutionProjects
             ->find('list', [
                 'groupField' => 'institution.name',
-                'limit' => 200
+                'limit' => 200,
             ])
             ->contain(['Institutions'])
             ->where([
@@ -98,7 +94,7 @@ class AdscriptionsController extends AppAdminController
             ->where([
                 'Tutors.tenant_id' => $student->tenant_id,
             ]);
-        
+
         $back = $this->getRedirectUrl();
 
         $this->set(compact('student', 'student_adscription', 'institution_projects', 'tutors', 'back'));
@@ -117,7 +113,7 @@ class AdscriptionsController extends AppAdminController
             'contain' => [
                 'InstitutionProjects' => ['Institutions'],
                 'Tutors',
-                'Students'
+                'Students',
             ],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {

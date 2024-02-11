@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\View\Helper;
@@ -60,7 +59,7 @@ class AppHelper extends Helper
      * @param float $total
      * @return string
      */
-    public function progressBar(float $completed, float $total = null): string
+    public function progressBar(float $completed, ?float $total = null): string
     {
         $percent = Calc::percentHoursCompleted($completed, $total);
 
@@ -83,7 +82,7 @@ class AppHelper extends Helper
         return $contain . $text;
     }
 
-    public function error(string $tooltip = null): string
+    public function error(?string $tooltip = null): string
     {
         $options['class'] = [
             Color::DANGER->badge(),
@@ -149,7 +148,7 @@ class AppHelper extends Helper
     }
 
     /**
-     * @param integer $month
+     * @param int $month
      * @return string
      */
     public function month(int $month): string

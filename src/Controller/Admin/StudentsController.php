@@ -1,9 +1,7 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Admin;
-
 
 use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\StageField;
@@ -95,7 +93,6 @@ class StudentsController extends AppAdminController
         ]);
     }
 
-
     /**
      * View method
      *
@@ -154,13 +151,13 @@ class StudentsController extends AppAdminController
                 'validate' => [
                     '_name' => 'admin:stage:adscription:changeStatus',
                     // @todo poder poner claves en este array, revisar en rutas
-                    AdscriptionStatus::VALIDATED->value
+                    AdscriptionStatus::VALIDATED->value,
                 ],
                 'close' => [
                     '_name' => 'admin:stage:adscription:changeStatus',
                     AdscriptionStatus::CLOSED->value,
                 ],
-            ]
+            ],
         ]);
 
         $this->set(compact('trackingView', 'student'));
@@ -238,7 +235,7 @@ class StudentsController extends AppAdminController
     }
 
     /**
-     * @param array $items
+     * @param array $ids
      * @param array|null $redirect
      * @return \Cake\Http\Response|null|void Redirects to index.
      */
@@ -246,6 +243,7 @@ class StudentsController extends AppAdminController
     {
         if (empty($ids)) {
             $this->Flash->warning(__('No se han seleccionado estudiantes'));
+
             return $this->redirect(['action' => 'index']);
         }
 
@@ -285,7 +283,7 @@ class StudentsController extends AppAdminController
             ]);
             $student->active = false;
             $this->Students->saveOrFail($student);
-    
+
             $newStudent = $this->Students->newEntity([
                 'user_id' => $student->user_id,
                 'tenant_id' => $this->request->getData('tenant_id'),
@@ -295,11 +293,11 @@ class StudentsController extends AppAdminController
             $this->Students->saveOrFail($newStudent);
             $this->Students->getConnection()->commit();
             $this->Flash->success(__('A new student record has been created, and the previous one has been deactivated.'));
-            
+
             return $this->redirect(['action' => 'view', $newStudent->id]);
         } catch (\Exception $e) {
             $this->Flash->error(__('The student could not be saved. Please, try again.'));
-            
+
             $this->Students->getConnection()->rollback();
         }
 
@@ -333,5 +331,4 @@ class StudentsController extends AppAdminController
 
         return $this->redirect(['action' => 'view', $id]);
     }
-
 }

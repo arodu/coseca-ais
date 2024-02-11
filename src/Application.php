@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -18,7 +17,6 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\Event\StageNotificationListener;
 use App\Event\UsersListener;
 use Cake\Core\Configure;
 use Cake\Core\ContainerInterface;

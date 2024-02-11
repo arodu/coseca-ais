@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Student;
@@ -27,11 +26,11 @@ class DocumentsController extends AppStudentController
 
     public function format007()
     {
-        $this->traitFormat007((string) $this->getCurrentStudent()->id);
+        $this->traitFormat007((string)$this->getCurrentStudent()->id);
     }
 
     public function format009()
     {
-        $this->traitFormat009((string) $this->getCurrentStudent()->id);
+        $this->traitFormat009((string)$this->getCurrentStudent()->id);
     }
 }

@@ -46,13 +46,13 @@ class StudentAdscription extends Entity
         'status' => true,
         'principal' => true,
     ];
-    
+
     protected $_virtual = [
         'label_status',
     ];
 
     /**
-     * @return AdscriptionStatus|null
+     * @return \App\Model\Field\AdscriptionStatus|null
      */
     public function getStatus(): ?AdscriptionStatus
     {
@@ -65,7 +65,7 @@ class StudentAdscription extends Entity
     }
 
     /**
-     * @return AdscriptionPrincipal|null
+     * @return \App\Model\Field\AdscriptionPrincipal|null
      */
     public function getPrincipal(): ?AdscriptionPrincipal
     {

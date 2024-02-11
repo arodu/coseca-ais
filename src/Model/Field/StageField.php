@@ -42,7 +42,7 @@ enum StageField: string implements ListInterface
     }
 
     /**
-     * @return StageStatus
+     * @return \App\Model\Field\StageStatus
      */
     public function getDefaultStatus(): StageStatus
     {
@@ -62,7 +62,7 @@ enum StageField: string implements ListInterface
     }
 
     /**
-     * @return StageField
+     * @return \App\Model\Field\StageField
      */
     public static function default(): StageField
     {

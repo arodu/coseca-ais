@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\View\Cell;
@@ -24,10 +23,10 @@ class ReportTenantCell extends Cell
      */
     protected $_validCellOptions = [];
 
-    const TAB_GENERAL = 'general';
-    const TAB_PROJECTS = 'projects';
-    const TAB_TUTORS = 'tutors';
-    const TAB_FINISHED = 'finished';
+    public const TAB_GENERAL = 'general';
+    public const TAB_PROJECTS = 'projects';
+    public const TAB_TUTORS = 'tutors';
+    public const TAB_FINISHED = 'finished';
 
     /**
      * Initialization logic run at the end of object construction.
@@ -53,7 +52,7 @@ class ReportTenantCell extends Cell
             ],
             self::TAB_FINISHED => [
                 'label' => __('Finalizado'),
-            ]
+            ],
         ];
     }
 
@@ -61,7 +60,7 @@ class ReportTenantCell extends Cell
      * @param string|null $currentTab
      * @return string
      */
-    protected function getCurrentTab(string $currentTab = null): string
+    protected function getCurrentTab(?string $currentTab = null): string
     {
         if (in_array($currentTab, array_keys($this->tabList()), true)) {
             return $currentTab;
@@ -71,9 +70,9 @@ class ReportTenantCell extends Cell
     }
 
     /**
-     * @param Tenant $tenant
+     * @param \App\Model\Entity\Tenant $tenant
      * @param string $currentTab
-     * @param Lapse $lapseSelected
+     * @param \App\Model\Entity\Lapse $lapseSelected
      * @return void
      */
     public function tabs(Tenant $tenant, string $currentTab, Lapse $lapseSelected)
@@ -171,7 +170,6 @@ class ReportTenantCell extends Cell
                 ])
                 ->toArray();
         }
-
 
         $this->set(compact('studentAdscriptions', 'projects'));
     }

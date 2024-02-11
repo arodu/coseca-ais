@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table\Traits;
@@ -30,7 +29,7 @@ trait BasicTableTrait
             /** @var \Cake\Collection\CollectionInterface $results */
             return $results->combine(
                 $options['keyField'],
-                fn ($item) => ($item),
+                fn ($item) => $item,
                 $options['groupField'],
             );
         });

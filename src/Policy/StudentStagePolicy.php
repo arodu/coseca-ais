@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Policy;
@@ -117,9 +116,9 @@ class StudentStagePolicy
     }
 
     /**
-     * @param IdentityInterface $user
-     * @param StudentStage $studentStage
-     * @return Result
+     * @param \Authentication\IdentityInterface $user
+     * @param \App\Model\Entity\StudentStage $studentStage
+     * @return \Authorization\Policy\Result
      */
     public function canPrint(IdentityInterface $user, StudentStage $studentStage): Result
     {
@@ -155,9 +154,9 @@ class StudentStagePolicy
     }
 
     /**
-     * @param IdentityInterface $user
-     * @param StudentStage $studentStage
-     * @return Result
+     * @param \Authentication\IdentityInterface $user
+     * @param \App\Model\Entity\StudentStage $studentStage
+     * @return \Authorization\Policy\Result
      */
     public function canDisplayActions(IdentityInterface $user, StudentStage $studentStage): bool
     {
@@ -173,12 +172,12 @@ class StudentStagePolicy
     }
 
     /**
-     * @param StudentStage $studentStage
-     * @param StageField $stageField
-     * @param StageStatus|array|null $stageStatus
-     * @return boolean
+     * @param \App\Model\Entity\StudentStage $studentStage
+     * @param \App\Model\Field\StageField $stageField
+     * @param \App\Model\Field\StageStatus|array|null $stageStatus
+     * @return bool
      */
-    protected function stageIs(StudentStage $studentStage, StageField $stageField, StageStatus|array $stageStatus = null): bool
+    protected function stageIs(StudentStage $studentStage, StageField $stageField, StageStatus|array|null $stageStatus = null): bool
     {
         $isStageField = $studentStage->getStage()?->is($stageField) ?? false;
 
@@ -190,9 +189,9 @@ class StudentStagePolicy
     }
 
     /**
-     * @param StudentStage $studentStage
-     * @param StageStatus $stageStatus
-     * @return boolean
+     * @param \App\Model\Entity\StudentStage $studentStage
+     * @param \App\Model\Field\StageStatus $stageStatus
+     * @return bool
      */
     protected function stageStatusIs(StudentStage $studentStage, StageStatus|array $stageStatus): bool
     {

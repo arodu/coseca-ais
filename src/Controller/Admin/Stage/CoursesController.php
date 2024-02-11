@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Admin\Stage;
@@ -8,7 +7,6 @@ use App\Controller\Admin\AppAdminController;
 use App\Controller\Traits\ActionValidateTrait;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
-use App\Utility\Stages;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\I18n\FrozenDate;
 use Cake\Log\Log;

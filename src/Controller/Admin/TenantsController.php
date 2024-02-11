@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Admin;
@@ -22,7 +21,6 @@ class TenantsController extends AppAdminController
 
         $this->Programs = $this->fetchTable('Programs');
     }
-
 
     public function beforeRender(EventInterface $event)
     {
@@ -95,7 +93,7 @@ class TenantsController extends AppAdminController
             'contain' => [
                 'Tenants',
                 'InterestAreas',
-            ]
+            ],
         ]);
 
         $this->set(compact('program'));
@@ -109,7 +107,7 @@ class TenantsController extends AppAdminController
 
         if (!empty($lapse_id)) {
             return $this->Tenants->Lapses->get($lapse_id, [
-                'contain' => ['LapseDates']
+                'contain' => ['LapseDates'],
             ]);
         }
 
@@ -119,7 +117,6 @@ class TenantsController extends AppAdminController
             ->order(['id' => 'DESC'])
             ->first();
     }
-
 
     /**
      * Add method

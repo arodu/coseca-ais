@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Admin\Stage;
@@ -27,7 +26,7 @@ class RegisterController extends AppAdminController
     /**
      * Edit method
      *
-     * @param string|null $id Register Stage id.
+     * @param null $student_id Register Stage id.
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
@@ -35,8 +34,8 @@ class RegisterController extends AppAdminController
     {
         [
             'success' => $success,
-            'student' => $student
-        ] = $this->processEdit((int) $student_id, ['validate' => $this->actionValidate()]);
+            'student' => $student,
+        ] = $this->processEdit((int)$student_id, ['validate' => $this->actionValidate()]);
 
         if ($success) {
             return $this->redirect(['_name' => 'admin:student:view', $student_id]);

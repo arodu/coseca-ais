@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\View\Helper;
@@ -13,8 +12,8 @@ use CakeLteTools\Utility\FaIcon;
  */
 class ButtonHelper extends Helper
 {
-    const ICON_POSITION_LEFT = 'left';
-    const ICON_POSITION_RIGHT = 'right';
+    public const ICON_POSITION_LEFT = 'left';
+    public const ICON_POSITION_RIGHT = 'right';
 
     /**
      * Default configuration.
@@ -86,7 +85,7 @@ class ButtonHelper extends Helper
         $icon_position = $options['icon_position'] ?? $this->getConfig('icon_position') ?? self::ICON_POSITION_LEFT;
         unset($options['icon_position']);
 
-        $outline = (bool) $options['outline'] ?? false;
+        $outline = (bool)$options['outline'] ?? false;
         unset($options['outline']);
 
         $title = $this->createTitle($label, $icon, $icon_position);
@@ -96,7 +95,7 @@ class ButtonHelper extends Helper
         ], $options);
 
         if (!empty($options['class']) && $options['override']) {
-        } else if ($options['icon-link'] ?? false) {
+        } elseif ($options['icon-link'] ?? false) {
             $options['class'] = trim($actionColor->text() . ' ' . ($options['class'] ?? ''));
             $options['title'] = $options['title'] ?? $label ?? null;
             $title = $icon;
@@ -109,7 +108,7 @@ class ButtonHelper extends Helper
             unset($options['activeCondition']);
 
             if (is_callable($activeCondition)) {
-                $activeCondition = (bool) $activeCondition();
+                $activeCondition = (bool)$activeCondition();
             }
 
             if (!$activeCondition) {
@@ -127,7 +126,7 @@ class ButtonHelper extends Helper
             unset($options['displayCondition']);
 
             if (is_callable($displayCondition)) {
-                $displayCondition = (bool) $displayCondition();
+                $displayCondition = (bool)$displayCondition();
             }
 
             if (!$displayCondition) {
@@ -173,7 +172,7 @@ class ButtonHelper extends Helper
             unset($options['activeCondition']);
 
             if (is_callable($activeCondition)) {
-                $activeCondition = (bool) $activeCondition();
+                $activeCondition = (bool)$activeCondition();
             }
 
             if (!$activeCondition) {
@@ -553,8 +552,8 @@ class ButtonHelper extends Helper
 
     /**
      * @param array|string $class
-     * @param ActionColor $actionColor
-     * @param boolean $outline
+     * @param \App\Enum\ActionColor $actionColor
+     * @param bool $outline
      * @return string
      */
     protected function prepareClass(array|string $class, ActionColor $actionColor, bool $outline = false): string
@@ -568,7 +567,7 @@ class ButtonHelper extends Helper
 
     /**
      * @param string|null $label
-     * @param FaIcon|false|null $icon
+     * @param \CakeLteTools\Utility\FaIcon|false|null $icon
      * @return string|null
      */
     protected function createTitle(?string $label = null, $icon = null, $position = null): ?string

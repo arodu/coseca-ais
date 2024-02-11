@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Student;
@@ -18,7 +17,7 @@ class AppStudentController extends AppController
     }
 
     /**
-     * @return Student
+     * @return \App\Model\Entity\Student
      */
     public function getCurrentStudent(): Student
     {
@@ -26,7 +25,7 @@ class AppStudentController extends AppController
     }
 
     /**
-     * @return AppUser
+     * @return \App\Model\Entity\AppUser
      */
     public function getAuthUser(): AppUser
     {
@@ -39,7 +38,7 @@ class AppStudentController extends AppController
     }
 
     /**
-     * @return AppUser
+     * @return \App\Model\Entity\AppUser
      */
     public function reloadAuthUserStudent(): AppUser
     {

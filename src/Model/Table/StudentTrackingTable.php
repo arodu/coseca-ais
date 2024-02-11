@@ -15,7 +15,6 @@ use Cake\Validation\Validator;
  * StudentTracking Model
  *
  * @property \App\Model\Table\StudentAdscriptionsTable&\Cake\ORM\Association\BelongsTo $Adscriptions
- *
  * @method \App\Model\Entity\StudentTracking newEmptyEntity()
  * @method \App\Model\Entity\StudentTracking newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\StudentTracking[] newEntities(array $data, array $options = [])
@@ -29,7 +28,6 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\StudentTracking[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
  * @method \App\Model\Entity\StudentTracking[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
  * @method \App\Model\Entity\StudentTracking[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
- *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class StudentTrackingTable extends Table

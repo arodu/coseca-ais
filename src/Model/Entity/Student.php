@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -114,7 +113,7 @@ class Student extends Entity
     }
 
     /**
-     * @return StudentType|null
+     * @return \App\Model\Field\StudentType|null
      */
     public function getType(): ?StudentType
     {
@@ -130,7 +129,7 @@ class Student extends Entity
     }
 
     /**
-     * @return Lapse
+     * @return \App\Model\Entity\Lapse
      */
     public function getCurrentLapse(): Lapse
     {
@@ -146,7 +145,7 @@ class Student extends Entity
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function hasPrincipalAdscription(): bool
     {
@@ -172,7 +171,7 @@ class Student extends Entity
     }
 
     /**
-     * @return Active|null
+     * @return \App\Enum\Active|null
      */
     public function getActive(): ?Active
     {

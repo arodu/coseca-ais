@@ -1,12 +1,10 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Behavior;
 
 use Cake\ORM\Behavior;
 use Cake\ORM\Query;
-use Cake\ORM\Table;
 use InvalidArgumentException;
 /*
     // TenantsTable
@@ -25,9 +23,9 @@ use InvalidArgumentException;
         ],
     ]);
 */
+
 /**
  * LastElement behavior
- * 
  */
 class LastElementBehavior extends Behavior
 {

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Traits\Stage;
@@ -68,7 +67,7 @@ trait TrackingProcessTrait
         ];
     }
 
-    protected function processCloseStage(int $student_id = null)
+    protected function processCloseStage(?int $student_id = null)
     {
         $this->request->allowMethod(['post', 'put']);
         $trackingStage = $this->Students->StudentStages
@@ -98,7 +97,7 @@ trait TrackingProcessTrait
                     ['status' => AdscriptionStatus::CLOSED->value],
                     [
                         'student_id' => $student_id,
-                        'status IN' => AdscriptionStatus::getOpenedValues()
+                        'status IN' => AdscriptionStatus::getOpenedValues(),
                     ]
                 );
 

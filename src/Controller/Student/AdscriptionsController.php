@@ -10,7 +10,6 @@ use App\Model\Field\AdscriptionStatus;
  * StudentTracking Controller
  *
  * @method \App\Model\Entity\StudentTracking[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
- * 
  * @property \App\Model\Table\StudentsTable $Students
  * @property \App\Model\Table\StudentTrackingTable $Tracking
  */

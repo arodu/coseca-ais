@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\View\Cell;
@@ -74,7 +73,7 @@ class TrackingViewCell extends Cell
         $this->set(compact('trackingInfo'));
     }
 
-    public function actions($student_id, StudentStage $trackingStage = null)
+    public function actions($student_id, ?StudentStage $trackingStage = null)
     {
         if (empty($trackingStage)) {
             $trackingStage = $this->Students->StudentStages

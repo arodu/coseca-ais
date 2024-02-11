@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -58,7 +57,7 @@ class LapseDate extends Entity
     ];
 
     /**
-     * @return StatusDate|null
+     * @return \App\Enum\StatusDate|null
      * @deprecated
      */
     protected function _getStatus(): ?StatusDate

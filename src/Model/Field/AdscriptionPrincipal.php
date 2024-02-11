@@ -19,7 +19,7 @@ enum AdscriptionPrincipal implements BadgeInterface
      */
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             static::PRINCIPAL => __('Principal'),
             static::NOT_PRINCIPAL => '',
         };
@@ -27,17 +27,17 @@ enum AdscriptionPrincipal implements BadgeInterface
 
     public function color(): Color
     {
-        return match($this) {
+        return match ($this) {
             static::PRINCIPAL => Color::PRIMARY,
             static::NOT_PRINCIPAL => Color::SECONDARY,
         };
     }
 
     /**
-     * @param boolean|null $active
+     * @param null $principal
      * @return self|null
      */
-    public static function get(bool $principal = null): ?self
+    public static function get(?bool $principal = null): ?self
     {
         if (is_null($principal)) {
             return null;

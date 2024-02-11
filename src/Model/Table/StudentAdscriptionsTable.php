@@ -1,11 +1,9 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
 
 use App\Model\Field\AdscriptionStatus;
-use App\Model\Field\DocumentType;
 use ArrayObject;
 use Cake\Cache\Cache;
 use Cake\Datasource\EntityInterface;
@@ -13,7 +11,6 @@ use Cake\Event\EventInterface;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
-use Cake\Utility\Text;
 use Cake\Validation\Validator;
 use InvalidArgumentException;
 
@@ -24,7 +21,6 @@ use InvalidArgumentException;
  * @property \App\Model\Table\InstitutionProjectsTable&\Cake\ORM\Association\BelongsTo $InstitutionProjects
  * @property \App\Model\Table\LapsesTable&\Cake\ORM\Association\BelongsTo $Lapses
  * @property \App\Model\Table\TutorsTable&\Cake\ORM\Association\BelongsTo $Tutors
- *
  * @method \App\Model\Entity\StudentAdscription newEmptyEntity()
  * @method \App\Model\Entity\StudentAdscription newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\StudentAdscription[] newEntities(array $data, array $options = [])
@@ -38,7 +34,6 @@ use InvalidArgumentException;
  * @method \App\Model\Entity\StudentAdscription[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
  * @method \App\Model\Entity\StudentAdscription[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
  * @method \App\Model\Entity\StudentAdscription[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
- *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class StudentAdscriptionsTable extends Table

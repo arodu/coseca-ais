@@ -10,7 +10,6 @@ use Cake\View\CellTrait;
  * StudentTracking Controller
  *
  * @method \App\Model\Entity\StudentTracking[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
- * 
  * @property \App\Model\Table\StudentsTable $Students
  * @property \App\Model\Table\StudentTrackingTable $Tracking
  */
@@ -39,7 +38,7 @@ class TrackingController extends AppStudentController
                 'add' => ['_name' => 'student:tracking:add'],
                 'delete' => ['_name' => 'student:tracking:delete'],
                 'close' => ['_name' => 'student:tracking:close'],
-            ]
+            ],
         ]);
         $this->set(compact('student_id', 'trackingView'));
     }
@@ -59,7 +58,7 @@ class TrackingController extends AppStudentController
     public function delete($tracking_id)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $this->processDelete((int) $tracking_id);
+        $this->processDelete((int)$tracking_id);
 
         return $this->redirect(['_name' => 'student:tracking']);
     }
@@ -67,7 +66,7 @@ class TrackingController extends AppStudentController
     public function closeStage()
     {
         $student_id = $this->getCurrentStudent()->id;
-        $this->processCloseStage((int) $student_id);
+        $this->processCloseStage((int)$student_id);
 
         return $this->redirect(['_name' => 'student:tracking']);
     }
