@@ -45,7 +45,7 @@ class LapseDate extends Entity
     protected function _getShowDates(): ?string
     {
         if ($this->is_single_date) {
-            return $this->start_date;
+            return __('{0}', $this->start_date);
         }
 
         if (!empty($this->start_date) && !empty($this->end_date)) {
