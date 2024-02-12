@@ -15,8 +15,8 @@ use App\Utility\FilePrint;
         'controller' => 'Documents',
         'action' => 'format007',
         $trackingStage->student_id,
-        'prefix' => $this->getPrefix(),
         FilePrint::format007($trackingStage->student),
+        'prefix' => $this->getPrefix(),
     ],
     'class' => 'btn-sm',
     'displayCondition' => function () use ($trackingStage) {

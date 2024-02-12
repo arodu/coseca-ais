@@ -37,11 +37,13 @@ class Program extends Entity
         'tenants' => true,
     ];
 
+    /**
+     * @return \App\Model\Field\ProgramArea|null
+     */
     public function getProgramArea(): ?ProgramArea
     {
         return ProgramArea::tryFrom($this->area);
     }
-
 
     protected $_virtual = [
         'area_label',
@@ -66,7 +68,7 @@ class Program extends Entity
 
     /**
      * area_print_label
-     * 
+     *
      * @return string|null
      */
     protected function _getAreaPrintLabel(): ?string
@@ -76,7 +78,7 @@ class Program extends Entity
 
     /**
      * area_print_logo
-     * 
+     *
      * @return string|null
      */
     protected function _getAreaPrintLogo(): ?string

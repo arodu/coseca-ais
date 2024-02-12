@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Utility;
@@ -8,7 +7,6 @@ use App\Model\Entity\Student;
 
 class FilePrint
 {
-
     /**
      * @param \App\Model\Entity\Student $student
      * @return string

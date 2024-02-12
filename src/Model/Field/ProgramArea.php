@@ -48,7 +48,7 @@ enum ProgramArea: string implements ListInterface
     {
         return match ($this) {
             static::AIS => __('Área de Ingeniería de Sistemas'),
-            
+
             //static::ACES => __('ACES'),
             //static::AIAT => __('AIAT'),
             //static::ACPJ => __('ACPJ'),
