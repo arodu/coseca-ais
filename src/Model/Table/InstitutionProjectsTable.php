@@ -94,4 +94,24 @@ class InstitutionProjectsTable extends Table
 
         return $rules;
     }
+
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
+    public function findListForSelect(Query $query, array $options = []): Query
+    {
+        return $query
+            ->find('list', [
+                'keyField' => 'id',
+                'valueField' => 'name',
+                'groupField' => 'institution.name',
+            ])
+            ->contain('Institutions')
+            ->where([
+                'Institutions.active' => true,
+                'InstitutionProjects.active' => true,
+            ]);
+    }
 }

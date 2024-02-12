@@ -136,7 +136,8 @@ class AdscriptionsController extends AppAdminController
                 'Tutors.tenant_id' => $adscription->student->tenant_id,
             ]);
         $student = $adscription->student;
-        $this->set(compact('adscription', 'tutors', 'student'));
+        $projects = $this->StudentAdscriptions->InstitutionProjects->find('listForSelect')->toArray();
+        $this->set(compact('adscription', 'tutors', 'student', 'projects'));
     }
 
     /**
