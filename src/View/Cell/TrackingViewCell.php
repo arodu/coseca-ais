@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\View\Cell;
@@ -49,7 +50,9 @@ class TrackingViewCell extends Cell
 
         $trackingStage = $this->Students->StudentStages
             ->find()
-            ->contain(['Students'])
+            ->contain([
+                'Students' => ['AppUsers']
+            ])
             ->where([
                 'StudentStages.student_id' => $student_id,
                 'StudentStages.stage' => StageField::TRACKING->value,
@@ -87,7 +90,9 @@ class TrackingViewCell extends Cell
         if (empty($trackingStage)) {
             $trackingStage = $this->Students->StudentStages
                 ->find()
-                ->contain(['Students'])
+                ->contain([
+                    'Students' => ['AppUsers']
+                ])
                 ->where([
                     'StudentStages.student_id' => $student_id,
                     'StudentStages.stage' => StageField::TRACKING->value,

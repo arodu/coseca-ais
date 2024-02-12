@@ -25,10 +25,16 @@ trait DocumentsTrait
      */
     public function format007(?string $student_id = null)
     {
+        $student = $this->Students->find()
+            ->find('withTenants')
+            ->find('withAppUsers')
+            ->find('withLapses')
+            ->where(['Students.id' => $student_id])
+            ->first();
+
         $adscriptions = $this->Students->StudentAdscriptions->find()
             ->find('withInstitution')
             ->find('withTracking')
-            ->find('withStudents')
             ->find('withTutor')
             ->where([
                 'StudentAdscriptions.student_id' => $student_id,
@@ -53,7 +59,7 @@ trait DocumentsTrait
 
         //$validationToken = $this->StudentAdscriptions->createValidationToken($adscription->id);
 
-        $this->set(compact('adscriptions'));
+        $this->set(compact('adscriptions', 'student'));
         $this->render('/Documents/format007');
     }
 

@@ -5,6 +5,8 @@
  */
 
 use App\Enum\ActionColor;
+use App\Utility\FilePrint;
+
 ?>
 
 <?= $this->Button->report([
@@ -14,7 +16,7 @@ use App\Enum\ActionColor;
         'action' => 'format007',
         $trackingStage->student_id,
         'prefix' => $this->getPrefix(),
-        'format007.pdf',
+        FilePrint::format007($trackingStage->student),
     ],
     'class' => 'btn-sm',
     'displayCondition' => function () use ($trackingStage) {

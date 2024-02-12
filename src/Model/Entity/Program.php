@@ -37,10 +37,15 @@ class Program extends Entity
         'tenants' => true,
     ];
 
+    public function getProgramArea(): ?ProgramArea
+    {
+        return ProgramArea::tryFrom($this->area);
+    }
+
+
     protected $_virtual = [
         'area_label',
         'regime_label',
-        'area_print_label',
     ];
 
     /**
@@ -48,7 +53,7 @@ class Program extends Entity
      */
     protected function _getAreaLabel(): ?string
     {
-        return ProgramArea::tryFrom($this->area)?->label() ?? null;
+        return $this->getProgramArea()?->label() ?? null;
     }
 
     /**
@@ -60,10 +65,22 @@ class Program extends Entity
     }
 
     /**
+     * area_print_label
+     * 
      * @return string|null
      */
-    protected function getAreaPrintLabel(): ?string
+    protected function _getAreaPrintLabel(): ?string
     {
-        return ProgramArea::tryFrom($this->area)?->printLabel() ?? null;
+        return $this->getProgramArea()?->printLabel() ?? null;
+    }
+
+    /**
+     * area_print_logo
+     * 
+     * @return string|null
+     */
+    protected function _getAreaPrintLogo(): ?string
+    {
+        return $this->getProgramArea()?->printLogo() ?? null;
     }
 }
