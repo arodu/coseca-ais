@@ -77,9 +77,10 @@ trait TrackingProcessTrait
 
     /**
      * @param int|null $student_id
-     * @return array
+     * @return void
+     * @throws \Cake\Http\Exception\NotFoundException
      */
-    protected function processCloseStage(?int $student_id = null): array
+    protected function processCloseStage(?int $student_id = null)
     {
         $this->request->allowMethod(['post', 'put']);
         $trackingStage = $this->Students->StudentStages
@@ -98,7 +99,7 @@ trait TrackingProcessTrait
         if (!$result->getStatus()) {
             $this->Flash->error($result->getReason());
 
-            return [];
+            return;
         }
 
         try {
@@ -124,9 +125,10 @@ trait TrackingProcessTrait
 
     /**
      * @param int|string|null $student_id
-     * @return array
+     * @return void
+     * @throws \Cake\Http\Exception\NotFoundException
      */
-    protected function processValidateStage(int|string|null $student_id = null): array
+    protected function processValidateStage($student_id = null)
     {
         $this->request->allowMethod(['post', 'put']);
         $trackingStage = $this->Students->StudentStages
@@ -145,7 +147,7 @@ trait TrackingProcessTrait
         if (!$result->getStatus()) {
             $this->Flash->error($result->getReason());
 
-            return [];
+            return;
         }
 
         try {

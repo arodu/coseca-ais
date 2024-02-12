@@ -6,7 +6,7 @@
  * @var \App\Model\Entity\StudentStage $studentStage
  */
 
-use App\Enum\ActionColor;
+use App\Utility\FilePrint;
 
 ?>
 
@@ -21,6 +21,7 @@ use App\Enum\ActionColor;
             'prefix' => 'Student',
             'controller' => 'Documents',
             'action' => 'format009',
+            FilePrint::format009($student),
         ],
         'label' => __('Descargar planilla 009'),
         'target' => '_blank',

@@ -114,6 +114,7 @@ class StudentsController extends AppAdminController
         $student = $this->Students
             ->find('withStudentAdscriptions')
             ->find('withStudentCourses')
+            ->find('withAppUsers')
             ->where(['Students.id' => $id])
             ->first();
 

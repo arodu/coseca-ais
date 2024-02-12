@@ -63,7 +63,7 @@ class TrackingController extends AppAdminController
      * @param int|string|null $student_id
      * @return \Cake\Http\Response|null|void
      */
-    public function closeStage(int|string|null $student_id = null)
+    public function closeStage($student_id = null)
     {
         $this->processCloseStage((int)$student_id);
 
@@ -74,7 +74,7 @@ class TrackingController extends AppAdminController
      * @param int|string|null $student_id
      * @return \Cake\Http\Response|null|void
      */
-    public function validateStage(int|string|null $student_id = null)
+    public function validateStage($student_id = null)
     {
         $this->processValidateStage((int)$student_id);
 
