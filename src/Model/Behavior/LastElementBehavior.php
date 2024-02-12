@@ -1,12 +1,10 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Behavior;
 
 use Cake\ORM\Behavior;
 use Cake\ORM\Query;
-use Cake\ORM\Table;
 use InvalidArgumentException;
 /*
     // TenantsTable
@@ -25,9 +23,9 @@ use InvalidArgumentException;
         ],
     ]);
 */
+
 /**
  * LastElement behavior
- * 
  */
 class LastElementBehavior extends Behavior
 {
@@ -44,7 +42,8 @@ class LastElementBehavior extends Behavior
     ];
 
     /**
-     * @param \Cake\ORM\Query $query query
+     * @param \Cake\ORM\Query $query
+     * @param array $options
      * @return \Cake\ORM\Query
      */
     public function findLastElement(Query $query, array $options = []): Query
@@ -57,12 +56,17 @@ class LastElementBehavior extends Behavior
         }
 
         $query->where([
-            $this->table()->aliasField('id') . ' IN'  => $subQuery,
+            $this->table()->aliasField('id') . ' IN' => $subQuery,
         ]);
 
         return $query;
     }
 
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
     public function findSubQueryLastElement(Query $query, array $options = []): Query
     {
         $fieldGroup = $options['fieldGroup'] ?? $this->getConfig('fieldGroup');

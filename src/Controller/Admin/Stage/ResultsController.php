@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller\Admin\Stage;
 
@@ -9,14 +10,20 @@ use Cake\Http\Exception\ForbiddenException;
 
 class ResultsController extends AppController
 {
+    /**
+     * @return void
+     */
     public function initialize(): void
     {
         parent::initialize();
         $this->StudentStages = $this->fetchTable('StudentStages');
     }
 
-
-    public function closeStage($student_id = null)
+    /**
+     * @param int|string|null $student_id
+     * @return \Cake\Http\Response|null|void
+     */
+    public function closeStage(int|string|null $student_id = null)
     {
         $this->request->allowMethod(['post', 'put']);
         $resultsStage = $this->StudentStages

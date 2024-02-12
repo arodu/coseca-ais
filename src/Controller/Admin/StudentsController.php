@@ -1,9 +1,7 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Admin;
-
 
 use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\StageField;
@@ -27,8 +25,13 @@ class StudentsController extends AppAdminController
     use ExportDataTrait;
     use CellTrait;
 
+    /**
+     * @param \Cake\Event\EventInterface $event
+     * @return void
+     */
     public function beforeRender(EventInterface $event)
     {
+        parent::beforeRender($event);
         $this->MenuLte->activeItem('students');
     }
 
@@ -61,7 +64,7 @@ class StudentsController extends AppAdminController
         $students = $this->paginate($query);
         $isFiltered = $this->Students->queryWasFiltered();
 
-        $formFilters = $this->cell('Filters::admin_students', [
+        $formFilters = $this->cell('Filters::adminStudents', [
             'isFiltered' => $isFiltered,
             'filterKey' => $filterKey,
         ]);
@@ -69,6 +72,10 @@ class StudentsController extends AppAdminController
         $this->set(compact('students', 'formFilters'));
     }
 
+    /**
+     * @param \Cake\ORM\Query $query
+     * @return \Cake\Http\Response|null|void
+     */
     protected function queryToCsv(Query $query)
     {
         $query = $query->contain([
@@ -95,7 +102,6 @@ class StudentsController extends AppAdminController
         ]);
     }
 
-
     /**
      * View method
      *
@@ -116,6 +122,10 @@ class StudentsController extends AppAdminController
         $this->set(compact('student', 'stageList'));
     }
 
+    /**
+     * @param int|string $id
+     * @return \Cake\Http\Response|null|void
+     */
     public function info($id = null)
     {
         $student = $this->Students->get($id, [
@@ -125,6 +135,10 @@ class StudentsController extends AppAdminController
         $this->set(compact('student'));
     }
 
+    /**
+     * @param int|string $id
+     * @return \Cake\Http\Response|null|void
+     */
     public function adscriptions($id = null)
     {
         $student = $this->Students->find('withStudentAdscriptions')
@@ -134,6 +148,10 @@ class StudentsController extends AppAdminController
         $this->set(compact('student'));
     }
 
+    /**
+     * @param int|string $id
+     * @return \Cake\Http\Response|null|void
+     */
     public function settings($id = null)
     {
         $student = $this->Students->get($id, [
@@ -143,6 +161,10 @@ class StudentsController extends AppAdminController
         $this->set(compact('student'));
     }
 
+    /**
+     * @param int|string $id
+     * @return \Cake\Http\Response|null|void
+     */
     public function tracking($id = null)
     {
         $student = $this->Students->get($id);
@@ -154,18 +176,22 @@ class StudentsController extends AppAdminController
                 'validate' => [
                     '_name' => 'admin:stage:adscription:changeStatus',
                     // @todo poder poner claves en este array, revisar en rutas
-                    AdscriptionStatus::VALIDATED->value
+                    AdscriptionStatus::VALIDATED->value,
                 ],
                 'close' => [
                     '_name' => 'admin:stage:adscription:changeStatus',
                     AdscriptionStatus::CLOSED->value,
                 ],
-            ]
+            ],
         ]);
 
         $this->set(compact('trackingView', 'student'));
     }
 
+    /**
+     * @param int|string $id
+     * @return \Cake\Http\Response|null|void
+     */
     public function prints($id = null)
     {
         $this->set('student_id', $id);
@@ -238,14 +264,14 @@ class StudentsController extends AppAdminController
     }
 
     /**
-     * @param array $items
-     * @param array|null $redirect
+     * @param array $ids
      * @return \Cake\Http\Response|null|void Redirects to index.
      */
     protected function closeStageCourse(array $ids = [])
     {
         if (empty($ids)) {
             $this->Flash->warning(__('No se han seleccionado estudiantes'));
+
             return $this->redirect(['action' => 'index']);
         }
 
@@ -256,6 +282,10 @@ class StudentsController extends AppAdminController
         return $this->redirect(['action' => 'index']);
     }
 
+    /**
+     * @param int|string $id
+     * @return \Cake\Http\Response|null|void
+     */
     public function changeEmail($id = null)
     {
         $student = $this->Students->get($id, [
@@ -274,6 +304,10 @@ class StudentsController extends AppAdminController
         $this->set(compact('student'));
     }
 
+    /**
+     * @param int|string $id
+     * @return \Cake\Http\Response|null|void
+     */
     public function newProgram(string $id)
     {
         $this->request->allowMethod(['post', 'put']);
@@ -285,7 +319,7 @@ class StudentsController extends AppAdminController
             ]);
             $student->active = false;
             $this->Students->saveOrFail($student);
-    
+
             $newStudent = $this->Students->newEntity([
                 'user_id' => $student->user_id,
                 'tenant_id' => $this->request->getData('tenant_id'),
@@ -295,17 +329,21 @@ class StudentsController extends AppAdminController
             $this->Students->saveOrFail($newStudent);
             $this->Students->getConnection()->commit();
             $this->Flash->success(__('A new student record has been created, and the previous one has been deactivated.'));
-            
+
             return $this->redirect(['action' => 'view', $newStudent->id]);
         } catch (\Exception $e) {
             $this->Flash->error(__('The student could not be saved. Please, try again.'));
-            
+
             $this->Students->getConnection()->rollback();
         }
 
         return $this->redirect(['action' => 'view', $id]);
     }
 
+    /**
+     * @param int|string $id
+     * @return \Cake\Http\Response|null|void
+     */
     public function deactivate(string $id)
     {
         $this->request->allowMethod(['post', 'put']);
@@ -320,6 +358,10 @@ class StudentsController extends AppAdminController
         return $this->redirect(['action' => 'view', $id]);
     }
 
+    /**
+     * @param int|string $id
+     * @return \Cake\Http\Response|null|void
+     */
     public function reactivate(string $id)
     {
         $this->request->allowMethod(['post', 'put']);
@@ -333,5 +375,4 @@ class StudentsController extends AppAdminController
 
         return $this->redirect(['action' => 'view', $id]);
     }
-
 }

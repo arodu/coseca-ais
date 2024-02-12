@@ -5,9 +5,7 @@ namespace App\View\Helper;
 
 use App\Model\Entity\AppUser;
 use App\Model\Entity\Student;
-use App\Model\Entity\Tenant;
 use Cake\View\Helper;
-use Cake\View\View;
 
 /**
  * Student helper
@@ -21,20 +19,36 @@ class StudentHelper extends Helper
      */
     protected $_defaultConfig = [];
 
+    /**
+     * @var \App\Model\Entity\Student
+     */
     protected Student $_student;
 
+    /**
+     * @var array
+     */
     public $helpers = ['Identity'];
 
+    /**
+     * @param array $config
+     * @return void
+     */
     public function initialize(array $config): void
     {
         $this->_student = $this->Identity->get('current_student');
     }
 
+    /**
+     * @return \App\Model\Entity\Student
+     */
     public function get(): Student
     {
         return $this->_student;
     }
 
+    /**
+     * @return \App\Model\Entity\AppUser
+     */
     public function getUser(): AppUser
     {
         return $this->Identity->get();

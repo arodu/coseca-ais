@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Traits;
@@ -12,16 +11,19 @@ trait DocumentsTrait
 {
     use LocatorAwareTrait;
 
+    /**
+     * @return void
+     */
     public function initialize(): void
     {
         parent::initialize();
     }
 
     /**
-     * @param integer|string|null $student_id
+     * @param int|string|null $student_id
      * @return void
      */
-    public function format007(string $student_id = null)
+    public function format007(?string $student_id = null)
     {
         $adscriptions = $this->Students->StudentAdscriptions->find()
             ->find('withInstitution')
@@ -56,10 +58,10 @@ trait DocumentsTrait
     }
 
     /**
-     * @param integer|string|null $student_id
+     * @param int|string|null $student_id
      * @return void
      */
-    public function format009(string $student_id = null)
+    public function format009(?string $student_id = null)
     {
         $this->Students = $this->fetchTable('Students');
         $this->StudentStages = $this->fetchTable('StudentStages');

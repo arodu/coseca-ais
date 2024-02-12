@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -28,7 +27,6 @@ use CakeLte\View\CakeLteTrait;
  * Your application's default view class
  *
  * @link https://book.cakephp.org/4/en/views.html#the-app-view
- * 
  * @property \App\View\Helper\AppHelper $App
  * @property \CakeLteTools\View\Helper\DependentSelectorHelper $DependentSelector
  * @property \CakeLteTools\View\Helper\BulkActionHelper $BulkAction
@@ -91,7 +89,7 @@ class AppView extends View
     }
 
     /**
-     * @return IdentityInterface
+     * @return \Authentication\IdentityInterface
      */
     public function getIdentity(): IdentityInterface
     {

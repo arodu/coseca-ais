@@ -258,7 +258,7 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
                     <div class="modal-footer">
                         <?= $this->Button->save([
                             'label' => __('Si'),
-                            'icon' => false,
+                            'icon' => null,
                         ]) ?>
                         <?= $this->Button->closeModal() ?>
                     </div>

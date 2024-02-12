@@ -1,12 +1,10 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Test\Factory;
 
 use App\Model\Field\ProgramArea;
 use App\Model\Field\ProgramRegime;
-use Cake\ORM\Locator\LocatorAwareTrait;
 use CakephpFixtureFactories\Factory\BaseFactory as CakephpBaseFactory;
 use Faker\Generator;
 

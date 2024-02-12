@@ -1,11 +1,8 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\View\Cell;
 
-use App\Model\Field\StageField;
-use App\Model\Field\StageStatus;
 use App\Utility\CacheRequest;
 use App\Utility\ReportsUtility;
 use Cake\I18n\FrozenDate;
@@ -36,6 +33,9 @@ class DashboardCell extends Cell
         $this->Students = $this->fetchTable('Students');
     }
 
+    /**
+     * @return void
+     */
     public function blocks()
     {
         $currentLapses = $this->getCurrentLapses();
@@ -45,24 +45,15 @@ class DashboardCell extends Cell
                 'Students.active' => true,
             ]);
 
-        //$lastStage = $this->Tenants->Students->StudentStages
-        //    ->find('lastElement')
-        //    ->where([
-        //        'StudentStages.lapse_id' => $currentLapse->id,
-        //    ])
-        //    ->firstOrFail();
-        //
-
-
-        //debug($currentLapses->extract('tenant_id')->toArray());
-        //exit();
-
         $this->set([
             'currentLapses' => array_unique($currentLapses->extract('name')->toArray()),
             'studentsActives' => $studentsActives->count(),
         ]);
     }
 
+    /**
+     * @return void
+     */
     public function activeTenants()
     {
         $activeTenants = $this->Tenants->find()
@@ -71,21 +62,24 @@ class DashboardCell extends Cell
             ])
             ->contain([
                 'CurrentLapse',
-                'Programs'
+                'Programs',
             ]);
 
         $this->set(compact('activeTenants'));
     }
 
+    /**
+     * @return void
+     */
     public function events()
     {
         $events = $this->Tenants->Lapses->LapseDates->find()
             ->contain([
                 'Lapses' => [
                     'Tenants' => [
-                        'Programs'
-                    ]
-                ]
+                        'Programs',
+                    ],
+                ],
             ])
             ->where([
                 'Lapses.tenant_id IN' => $this->getCurrentTenants(),
@@ -106,6 +100,9 @@ class DashboardCell extends Cell
         $this->set(compact('events'));
     }
 
+    /**
+     * @return void
+     */
     public function stages()
     {
         $students = $this->Students->find()
@@ -128,6 +125,9 @@ class DashboardCell extends Cell
         ]);
     }
 
+    /**
+     * @return array
+     */
     protected function getCurrentTenants(): array
     {
         return CacheRequest::remember('current_tenants', function () {
@@ -140,6 +140,9 @@ class DashboardCell extends Cell
         });
     }
 
+    /**
+     * @return \Cake\ORM\ResultSet
+     */
     protected function getCurrentLapses(): ResultSet
     {
         return CacheRequest::remember('current_lapses', function () {

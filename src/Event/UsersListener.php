@@ -1,16 +1,13 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Event;
 
-use App\Model\Entity\AppUser;
-use App\Model\Field\UserRole;
+use App\Utility\FilterTenantUtility;
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use CakeDC\Users\Plugin as UsersPlugin;
-use App\Utility\FilterTenantUtility;
 
 class UsersListener implements EventListenerInterface
 {
@@ -28,14 +25,15 @@ class UsersListener implements EventListenerInterface
     }
 
     /**
-     * @param \Cake\Event\Event $event
+     * @param \Cake\Event\Event $event The event object.
+     * @return void|\Cake\Event\Event
      */
     public function afterLogin(Event $event)
     {
-        /** @var AppUser $user */
+        /** @var \App\Model\Entity\AppUser $user */
         $user = $event->getData('user');
 
-        $filterTenantUtility = new FilterTenantUtility;
+        $filterTenantUtility = new FilterTenantUtility();
         $tenant_ids = $filterTenantUtility->getTenantIdsFromDatabase($user);
         FilterTenantUtility::write($tenant_ids);
 
@@ -50,10 +48,11 @@ class UsersListener implements EventListenerInterface
 
     /**
      * @param \Cake\Event\Event $event
+     * @return void
      */
     public function afterRegister(Event $event)
     {
-        /** @var AppUser $user */
+        /** @var \App\Model\Entity\AppUser $user */
         $user = $event->getData('user');
 
         if ($user->getRole()->isStudentGroup()) {

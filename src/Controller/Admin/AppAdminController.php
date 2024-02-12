@@ -1,14 +1,15 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
 use App\Controller\AppController;
-use App\Model\Field\StageField;
-use App\Model\Field\StageStatus;
-use App\Utility\Stages;
 
 class AppAdminController extends AppController
 {
+    /**
+     * @return void
+     */
     public function initialize(): void
     {
         parent::initialize();

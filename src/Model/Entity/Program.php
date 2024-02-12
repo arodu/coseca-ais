@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -44,17 +43,26 @@ class Program extends Entity
         'area_print_label',
     ];
 
-    public function _getAreaLabel(): ?string
+    /**
+     * @return string|null
+     */
+    protected function _getAreaLabel(): ?string
     {
         return ProgramArea::tryFrom($this->area)?->label() ?? null;
     }
 
-    public function _getRegimeLabel(): ?string
+    /**
+     * @return string|null
+     */
+    protected function _getRegimeLabel(): ?string
     {
         return ProgramRegime::tryFrom($this->regime)?->label() ?? null;
     }
 
-    public function getAreaPrintLabel(): ?string
+    /**
+     * @return string|null
+     */
+    protected function getAreaPrintLabel(): ?string
     {
         return ProgramArea::tryFrom($this->area)?->printLabel() ?? null;
     }

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Admin\Stage;
@@ -8,7 +7,6 @@ use App\Controller\Admin\AppAdminController;
 use App\Controller\Traits\ActionValidateTrait;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
-use App\Utility\Stages;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\I18n\FrozenDate;
 use Cake\Log\Log;
@@ -23,6 +21,9 @@ class CoursesController extends AppAdminController
 {
     use ActionValidateTrait;
 
+    /**
+     * @return void
+     */
     public function initialize(): void
     {
         parent::initialize();
@@ -30,11 +31,11 @@ class CoursesController extends AppAdminController
     }
 
     /**
-     * Add method
-     *
-     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
+     * @param int|string|null $student_id
+     * @param int|string|null $id
+     * @return \Cake\Http\Response|null|void
      */
-    public function edit($student_id = null, $id = null)
+    public function edit(int|string|null $student_id = null, int|string|null $id = null)
     {
         $student = $this->Students->get($student_id);
 

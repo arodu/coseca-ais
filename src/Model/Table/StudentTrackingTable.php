@@ -15,7 +15,6 @@ use Cake\Validation\Validator;
  * StudentTracking Model
  *
  * @property \App\Model\Table\StudentAdscriptionsTable&\Cake\ORM\Association\BelongsTo $Adscriptions
- *
  * @method \App\Model\Entity\StudentTracking newEmptyEntity()
  * @method \App\Model\Entity\StudentTracking newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\StudentTracking[] newEntities(array $data, array $options = [])
@@ -29,7 +28,6 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\StudentTracking[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
  * @method \App\Model\Entity\StudentTracking[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
  * @method \App\Model\Entity\StudentTracking[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
- *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class StudentTrackingTable extends Table
@@ -102,16 +100,32 @@ class StudentTrackingTable extends Table
         return $rules;
     }
 
+    /**
+     * @param \Cake\Event\EventInterface $event
+     * @param \Cake\Datasource\EntityInterface $entity
+     * @param \ArrayObject $options
+     * @return void
+     */
     public function afterDelete(EventInterface $event, EntityInterface $entity, ArrayObject $options)
     {
         $this->updateStudentTotalHours($entity);
     }
 
+    /**
+     * @param \Cake\Event\EventInterface $event
+     * @param \Cake\Datasource\EntityInterface $entity
+     * @param \ArrayObject $options
+     * @return void
+     */
     public function afterSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
     {
         $this->updateStudentTotalHours($entity);
     }
 
+    /**
+     * @param \Cake\Datasource\EntityInterface $entity
+     * @return void
+     */
     protected function updateStudentTotalHours(EntityInterface $entity)
     {
         $student = $this->Adscriptions->get($entity->student_adscription_id, [

@@ -1,15 +1,9 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Student;
 
-use App\Model\Entity\Student;
 use App\Model\Field\AdscriptionStatus;
-use App\Model\Field\StageField;
-use App\Model\Field\StageStatus;
-use App\Utility\Stages;
-use Cake\Log\Log;
 use Cake\View\CellTrait;
 
 /**
@@ -21,6 +15,9 @@ class DashboardController extends AppStudentController
 {
     use CellTrait;
 
+    /**
+     * @return void
+     */
     public function initialize(): void
     {
         parent::initialize();
