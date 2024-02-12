@@ -16,7 +16,7 @@ trait AdscriptionsProcessTrait
      * @param int|string $id
      * @return \App\Model\Entity\StudentAdscription
      */
-    protected function processChangeStatus(string $status, int|string $id)
+    protected function processChangeStatus($status, $id)
     {
         $this->Adscriptions = $this->fetchTable('StudentAdscriptions');
 

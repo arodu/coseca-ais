@@ -39,7 +39,7 @@ class AppUsersController extends AppAdminController
      * @param int|string|null $id
      * @return \Cake\Http\Response|null|void
      */
-    public function view(int|string|null $id = null)
+    public function view($id = null)
     {
         $user = $this->AppUsers->get($id, [
             'contain' => [
@@ -77,7 +77,7 @@ class AppUsersController extends AppAdminController
      * @param int|string|null $id
      * @return \Cake\Http\Response|null|void
      */
-    public function edit(int|string|null $id = null)
+    public function edit($id = null)
     {
         $user = $this->AppUsers->get($id, [
             'contain' => [],
@@ -98,7 +98,7 @@ class AppUsersController extends AppAdminController
      * @param int|string|null $id
      * @return \Cake\Http\Response|null|void
      */
-    public function delete(int|string|null $id = null)
+    public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
         $user = $this->AppUsers->get($id);

@@ -37,7 +37,7 @@ class AdscriptionsController extends AppAdminController
      * @param int|string|null $student_id Student id.
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add(int|string|null $student_id = null)
+    public function add($student_id = null)
     {
         $student = $this->StudentAdscriptions->Students->get($student_id);
         $student_adscription = $this->StudentAdscriptions->newEmptyEntity();
@@ -147,7 +147,7 @@ class AdscriptionsController extends AppAdminController
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function changeStatus(string $status, int|string $id)
+    public function changeStatus($status, $id)
     {
         $this->request->allowMethod(['post', 'put']);
 
@@ -163,7 +163,7 @@ class AdscriptionsController extends AppAdminController
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function setPrincipal(int|string $id)
+    public function setPrincipal($id)
     {
         $this->request->allowMethod(['post', 'put']);
 

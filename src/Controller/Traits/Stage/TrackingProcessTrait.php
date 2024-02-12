@@ -126,7 +126,7 @@ trait TrackingProcessTrait
      * @param int|string|null $student_id
      * @return array
      */
-    protected function processValidateStage(int|string|null $student_id = null): array
+    protected function processValidateStage($student_id = null): array
     {
         $this->request->allowMethod(['post', 'put']);
         $trackingStage = $this->Students->StudentStages

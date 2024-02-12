@@ -35,7 +35,7 @@ class CoursesController extends AppAdminController
      * @param int|string|null $id
      * @return \Cake\Http\Response|null|void
      */
-    public function edit(int|string|null $student_id = null, int|string|null $id = null)
+    public function edit($student_id = null, $id = null)
     {
         $student = $this->Students->get($student_id);
 
