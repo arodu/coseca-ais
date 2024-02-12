@@ -103,6 +103,10 @@ class InstitutionProjectsTable extends Table
      */
     public function findListForSelect(Query $query, array $options = []): Query
     {
+        if (empty($options['tenant_id'])) {
+            throw new \InvalidArgumentException('tenant_id is required');
+        }
+
         return $query
             ->find('list', [
                 'keyField' => 'id',
@@ -111,8 +115,9 @@ class InstitutionProjectsTable extends Table
             ])
             ->contain('Institutions')
             ->where([
-                'Institutions.active' => true,
-                'InstitutionProjects.active' => true,
+                $this->Institutions->aliasField('tenant_id') => $options['tenant_id'],
+                $this->Institutions->aliasField('active') => true,
+                $this->aliasField('active') => true,
             ]);
     }
 }
