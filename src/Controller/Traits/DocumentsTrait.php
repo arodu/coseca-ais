@@ -11,6 +11,9 @@ trait DocumentsTrait
 {
     use LocatorAwareTrait;
 
+    /**
+     * @return void
+     */
     public function initialize(): void
     {
         parent::initialize();

@@ -21,6 +21,9 @@ class AdscriptionsController extends AppAdminController
     use AdscriptionsProcessTrait;
     use RedirectLogicTrait;
 
+    /**
+     * @return void
+     */
     public function initialize(): void
     {
         parent::initialize();
@@ -31,9 +34,10 @@ class AdscriptionsController extends AppAdminController
     /**
      * Add method
      *
+     * @param int|string|null $student_id Student id.
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add($student_id = null)
+    public function add(int|string|null $student_id = null)
     {
         $student = $this->StudentAdscriptions->Students->get($student_id);
         $student_adscription = $this->StudentAdscriptions->newEmptyEntity();
@@ -135,7 +139,15 @@ class AdscriptionsController extends AppAdminController
         $this->set(compact('adscription', 'tutors', 'student'));
     }
 
-    public function changeStatus($status, $id)
+    /**
+     * Delete method
+     *
+     * @param string $status StudentAdscription id.
+     * @param int|string $id StudentAdscription id.
+     * @return \Cake\Http\Response|null|void Redirects to index.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function changeStatus(string $status, int|string $id)
     {
         $this->request->allowMethod(['post', 'put']);
 
@@ -144,7 +156,14 @@ class AdscriptionsController extends AppAdminController
         return $this->redirect(['controller' => 'Students', 'action' => 'adscriptions', $adscription->student_id, 'prefix' => 'Admin']);
     }
 
-    public function setPrincipal($id)
+    /**
+     * Set principal method
+     *
+     * @param string|null $id StudentAdscription id.
+     * @return \Cake\Http\Response|null|void Redirects to index.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function setPrincipal(int|string $id)
     {
         $this->request->allowMethod(['post', 'put']);
 

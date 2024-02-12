@@ -10,6 +10,9 @@ use Cake\Http\Exception\NotFoundException;
 
 class EndingsController extends AppController
 {
+    /**
+     * @return void
+     */
     public function initialize(): void
     {
         parent::initialize();
@@ -17,7 +20,11 @@ class EndingsController extends AppController
         $this->Students = $this->fetchTable('Students');
     }
 
-    public function closeStage($student_id = null)
+    /**
+     * @param int|string|null $student_id
+     * @return \Cake\Http\Response|null|void
+     */
+    public function closeStage(int|string|null $student_id = null)
     {
         $this->request->allowMethod(['post', 'put']);
         $endingStage = $this->StudentStages

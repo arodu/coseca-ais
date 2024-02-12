@@ -7,6 +7,9 @@ use App\Controller\AppController;
 
 class AppAdminController extends AppController
 {
+    /**
+     * @return void
+     */
     public function initialize(): void
     {
         parent::initialize();

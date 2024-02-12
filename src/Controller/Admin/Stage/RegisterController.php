@@ -17,6 +17,9 @@ class RegisterController extends AppAdminController
     use ActionValidateTrait;
     use RegisterProcessTrait;
 
+    /**
+     * @return void
+     */
     public function initialize(): void
     {
         parent::initialize();

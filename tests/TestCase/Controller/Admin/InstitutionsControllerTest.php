@@ -1,17 +1,10 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller\Admin;
 
-use App\Controller\Admin\InstitutionsController;
-use App\Model\Entity\Tenant;
 use App\Test\Factory\InstitutionFactory;
-use App\Test\Factory\ProgramFactory;
-use App\Test\Factory\TenantFactory;
-use App\Test\TestCase\Controller\Admin\AdminTestCase;
 use Cake\TestSuite\IntegrationTestTrait;
-use Cake\TestSuite\TestCase;
 
 /**
  * App\Controller\Admin\InstitutionsController Test Case
@@ -57,7 +50,7 @@ class InstitutionsControllerTest extends AdminTestCase
     public function testAddForm(): void
     {
         $this->setAuthSession();
-        
+
         $this->get('/admin/institutions/add');
         $this->assertResponseCode(200);
     }
@@ -115,7 +108,7 @@ class InstitutionsControllerTest extends AdminTestCase
         $intitution = InstitutionFactory::make([
             'tenant_id' => $this->tenant_id,
         ])->persist();
-        
+
         $this->get('/admin/institutions/edit/' . $intitution->id);
         $this->assertResponseCode(200);
 

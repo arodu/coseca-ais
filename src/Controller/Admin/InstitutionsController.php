@@ -13,6 +13,10 @@ use Cake\Event\EventInterface;
  */
 class InstitutionsController extends AppAdminController
 {
+    /**
+     * @param \Cake\Event\EventInterface $event
+     * @return void
+     */
     public function beforeRender(EventInterface $event)
     {
         $this->MenuLte->activeItem('institutions');
@@ -88,6 +92,10 @@ class InstitutionsController extends AppAdminController
         $this->set(compact('institution', 'tenants'));
     }
 
+    /**
+     * @param int|string $id
+     * @return \Cake\Http\Response|null|void
+     */
     public function addProject($id = null)
     {
         $institution = $this->Institutions->get($id, [
@@ -136,6 +144,10 @@ class InstitutionsController extends AppAdminController
         $this->set(compact('institution', 'tenants'));
     }
 
+    /**
+     * @param int|string $project_id
+     * @return \Cake\Http\Response|null|void
+     */
     public function editProject($project_id = null)
     {
         $institutionProject = $this->Institutions->InstitutionProjects->get($project_id);

@@ -17,6 +17,9 @@ class AppUsersController extends AppAdminController
         $this->MenuLte->activeItem('users');
     }
 
+    /**
+     * @return \Cake\Http\Response|null|void
+     */
     public function index()
     {
         $this->paginate = [
@@ -32,7 +35,11 @@ class AppUsersController extends AppAdminController
         $this->set(compact('users'));
     }
 
-    public function view($id = null)
+    /**
+     * @param int|string|null $id
+     * @return \Cake\Http\Response|null|void
+     */
+    public function view(int|string|null $id = null)
     {
         $user = $this->AppUsers->get($id, [
             'contain' => [
@@ -48,6 +55,9 @@ class AppUsersController extends AppAdminController
         $this->set(compact('user'));
     }
 
+    /**
+     * @return \Cake\Http\Response|null|void
+     */
     public function add()
     {
         $user = $this->AppUsers->newEmptyEntity();
@@ -63,7 +73,11 @@ class AppUsersController extends AppAdminController
         $this->set(compact('user'));
     }
 
-    public function edit($id = null)
+    /**
+     * @param int|string|null $id
+     * @return \Cake\Http\Response|null|void
+     */
+    public function edit(int|string|null $id = null)
     {
         $user = $this->AppUsers->get($id, [
             'contain' => [],
@@ -80,7 +94,11 @@ class AppUsersController extends AppAdminController
         $this->set(compact('user'));
     }
 
-    public function delete($id = null)
+    /**
+     * @param int|string|null $id
+     * @return \Cake\Http\Response|null|void
+     */
+    public function delete(int|string|null $id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
         $user = $this->AppUsers->get($id);

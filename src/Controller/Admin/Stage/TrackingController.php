@@ -16,6 +16,9 @@ class TrackingController extends AppAdminController
 {
     use TrackingProcessTrait;
 
+    /**
+     * @return void
+     */
     public function initialize(): void
     {
         parent::initialize();
@@ -56,14 +59,22 @@ class TrackingController extends AppAdminController
         return $this->redirect(['_name' => 'admin:student:tracking', $adscription->student_id]);
     }
 
-    public function closeStage($student_id = null)
+    /**
+     * @param int|string|null $student_id
+     * @return \Cake\Http\Response|null|void
+     */
+    public function closeStage(int|string|null $student_id = null)
     {
         $this->processCloseStage((int)$student_id);
 
         return $this->redirect(['_name' => 'admin:student:view', $student_id]);
     }
 
-    public function validateStage($student_id = null)
+    /**
+     * @param int|string|null $student_id
+     * @return \Cake\Http\Response|null|void
+     */
+    public function validateStage(int|string|null $student_id = null)
     {
         $this->processValidateStage((int)$student_id);
 

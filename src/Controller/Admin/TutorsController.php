@@ -13,6 +13,10 @@ use Cake\Event\EventInterface;
  */
 class TutorsController extends AppAdminController
 {
+    /**
+     * @param \Cake\Event\EventInterface $event
+     * @return void
+     */
     public function beforeRender(EventInterface $event)
     {
         $this->MenuLte->activeItem('tutors');

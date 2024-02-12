@@ -25,8 +25,13 @@ class StudentsController extends AppAdminController
     use ExportDataTrait;
     use CellTrait;
 
+    /**
+     * @param \Cake\Event\EventInterface $event
+     * @return void
+     */
     public function beforeRender(EventInterface $event)
     {
+        parent::beforeRender($event);
         $this->MenuLte->activeItem('students');
     }
 
@@ -67,6 +72,10 @@ class StudentsController extends AppAdminController
         $this->set(compact('students', 'formFilters'));
     }
 
+    /**
+     * @param \Cake\ORM\Query $query
+     * @return \Cake\Http\Response|null|void
+     */
     protected function queryToCsv(Query $query)
     {
         $query = $query->contain([
@@ -113,6 +122,10 @@ class StudentsController extends AppAdminController
         $this->set(compact('student', 'stageList'));
     }
 
+    /**
+     * @param int|string $id
+     * @return \Cake\Http\Response|null|void
+     */
     public function info($id = null)
     {
         $student = $this->Students->get($id, [
@@ -122,6 +135,10 @@ class StudentsController extends AppAdminController
         $this->set(compact('student'));
     }
 
+    /**
+     * @param int|string $id
+     * @return \Cake\Http\Response|null|void
+     */
     public function adscriptions($id = null)
     {
         $student = $this->Students->find('withStudentAdscriptions')
@@ -131,6 +148,10 @@ class StudentsController extends AppAdminController
         $this->set(compact('student'));
     }
 
+    /**
+     * @param int|string $id
+     * @return \Cake\Http\Response|null|void
+     */
     public function settings($id = null)
     {
         $student = $this->Students->get($id, [
@@ -140,6 +161,10 @@ class StudentsController extends AppAdminController
         $this->set(compact('student'));
     }
 
+    /**
+     * @param int|string $id
+     * @return \Cake\Http\Response|null|void
+     */
     public function tracking($id = null)
     {
         $student = $this->Students->get($id);
@@ -163,6 +188,10 @@ class StudentsController extends AppAdminController
         $this->set(compact('trackingView', 'student'));
     }
 
+    /**
+     * @param int|string $id
+     * @return \Cake\Http\Response|null|void
+     */
     public function prints($id = null)
     {
         $this->set('student_id', $id);
@@ -236,7 +265,6 @@ class StudentsController extends AppAdminController
 
     /**
      * @param array $ids
-     * @param array|null $redirect
      * @return \Cake\Http\Response|null|void Redirects to index.
      */
     protected function closeStageCourse(array $ids = [])
@@ -254,6 +282,10 @@ class StudentsController extends AppAdminController
         return $this->redirect(['action' => 'index']);
     }
 
+    /**
+     * @param int|string $id
+     * @return \Cake\Http\Response|null|void
+     */
     public function changeEmail($id = null)
     {
         $student = $this->Students->get($id, [
@@ -272,6 +304,10 @@ class StudentsController extends AppAdminController
         $this->set(compact('student'));
     }
 
+    /**
+     * @param int|string $id
+     * @return \Cake\Http\Response|null|void
+     */
     public function newProgram(string $id)
     {
         $this->request->allowMethod(['post', 'put']);
@@ -304,6 +340,10 @@ class StudentsController extends AppAdminController
         return $this->redirect(['action' => 'view', $id]);
     }
 
+    /**
+     * @param int|string $id
+     * @return \Cake\Http\Response|null|void
+     */
     public function deactivate(string $id)
     {
         $this->request->allowMethod(['post', 'put']);
@@ -318,6 +358,10 @@ class StudentsController extends AppAdminController
         return $this->redirect(['action' => 'view', $id]);
     }
 
+    /**
+     * @param int|string $id
+     * @return \Cake\Http\Response|null|void
+     */
     public function reactivate(string $id)
     {
         $this->request->allowMethod(['post', 'put']);
