@@ -300,7 +300,7 @@ class ButtonHelper extends Helper
         $options = array_merge([
             'type' => 'button',
             'data-dismiss' => 'modal',
-            'icon' => false,
+            'icon' => null,
             'label' => __('Cancelar'),
             'actionColor' => ActionColor::CANCEL,
         ], $options);
@@ -554,7 +554,7 @@ class ButtonHelper extends Helper
         $this->requireUrl($options);
 
         $options = array_merge([
-            'icon' => false,
+            'icon' => null,
             'label' => __('Cancelar'),
             'escape' => false,
             'actionColor' => ActionColor::CANCEL,
