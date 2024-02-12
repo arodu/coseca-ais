@@ -61,7 +61,7 @@ $this->Breadcrumbs->add([
     </div>
 
     <hr>
-    <?= $this->Form->control('institution_project_id', ['options' => $projects ?? [], 'empty' => true]) ?>
+    <?= $this->Form->control('institution_project_id', ['options' => $institution_projects ?? [], 'empty' => true]) ?>
     <?= $this->Form->control('status', ['options' => AdscriptionStatus::getEditableListLabel(), 'empty' => true]) ?>
     <?= $this->Form->control('tutor_id', ['options' => $tutors, 'empty' => true]) ?>
 </div>
