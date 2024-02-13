@@ -29,11 +29,9 @@ class TutorsController extends AppAdminController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['Tenants'],
-        ];
+        $this->paginate = [];
 
-        $query = $this->Tutors->find();
+        $query = $this->Tutors->find()->contain(['Tenants']);
 
         // filterLogic
         $formData = $this->getRequest()->getQuery();
