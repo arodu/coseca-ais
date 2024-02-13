@@ -75,15 +75,15 @@ return static function (RouteBuilder $routes) {
     });
 
     $routes->prefix('Student', ['_namePrefix' => 'student:'], function (RouteBuilder $builder) {
-        $builder->connect('/', ['controller' => 'Dashboard', 'action' => 'index', 'plugin' => false], ['_name' => 'home']);
+        $builder->connect('/', ['controller' => 'Dashboard', 'action' => 'index', 'plugin' => null], ['_name' => 'home']);
 
-        $builder->connect('/register', ['controller' => 'Register', 'action' => 'edit', 'plugin' => false], ['_name' => 'register']);
+        $builder->connect('/register', ['controller' => 'Register', 'action' => 'edit', 'plugin' => null], ['_name' => 'register']);
 
-        $builder->connect('/tracking', ['controller' => 'Tracking', 'action' => 'index', 'plugin' => false], ['_name' => 'tracking']);
-        $builder->connect('/tracking/add/*', ['controller' => 'Tracking', 'action' => 'add', 'plugin' => false], ['_name' => 'tracking:add']);
-        $builder->connect('/tracking/delete/*', ['controller' => 'Tracking', 'action' => 'delete', 'plugin' => false], ['_name' => 'tracking:delete']);
-        $builder->connect('/tracking/validate/*', ['controller' => 'Tracking', 'action' => 'validate', 'plugin' => false], ['_name' => 'tracking:validate']);
-        $builder->connect('/tracking/close/*', ['controller' => 'Adscriptions', 'action' => 'close', 'plugin' => false], ['_name' => 'tracking:close']);
+        $builder->connect('/tracking', ['controller' => 'Tracking', 'action' => 'index', 'plugin' => null], ['_name' => 'tracking']);
+        $builder->connect('/tracking/add/*', ['controller' => 'Tracking', 'action' => 'add', 'plugin' => null], ['_name' => 'tracking:add']);
+        $builder->connect('/tracking/delete/*', ['controller' => 'Tracking', 'action' => 'delete', 'plugin' => null], ['_name' => 'tracking:delete']);
+        $builder->connect('/tracking/validate/*', ['controller' => 'Tracking', 'action' => 'validate', 'plugin' => null], ['_name' => 'tracking:validate']);
+        $builder->connect('/tracking/close/*', ['controller' => 'Adscriptions', 'action' => 'close', 'plugin' => null], ['_name' => 'tracking:close']);
 
         $builder->fallbacks(DashedRoute::class);
     });
@@ -92,22 +92,22 @@ return static function (RouteBuilder $routes) {
     $routes->prefix('Admin', ['_namePrefix' => 'admin:'], function (RouteBuilder $builder) {
 
 
-        $builder->connect('/', ['controller' => 'Reports', 'action' => 'dashboard', 'plugin' => false], ['_name' => 'home']);
-        $builder->connect('/students', ['controller' => 'Students', 'action' => 'index', 'plugin' => false], ['_name' => 'student:index']);
-        $builder->connect('/student/view/*', ['controller' => 'Students', 'action' => 'view', 'plugin' => false], ['_name' => 'student:view']);
+        $builder->connect('/', ['controller' => 'Reports', 'action' => 'dashboard', 'plugin' => null], ['_name' => 'home']);
+        $builder->connect('/students', ['controller' => 'Students', 'action' => 'index', 'plugin' => null], ['_name' => 'student:index']);
+        $builder->connect('/student/view/*', ['controller' => 'Students', 'action' => 'view', 'plugin' => null], ['_name' => 'student:view']);
 
-        $builder->connect('/student/adscriptions/*', ['controller' => 'Students', 'action' => 'adscriptions', 'plugin' => false], ['_name' => 'student:adscriptions']);
-        $builder->connect('/student/prints/*', ['controller' => 'Students', 'action' => 'prints', 'plugin' => false], ['_name' => 'student:prints']);
+        $builder->connect('/student/adscriptions/*', ['controller' => 'Students', 'action' => 'adscriptions', 'plugin' => null], ['_name' => 'student:adscriptions']);
+        $builder->connect('/student/prints/*', ['controller' => 'Students', 'action' => 'prints', 'plugin' => null], ['_name' => 'student:prints']);
 
-        $builder->connect('/student/tracking/*', ['controller' => 'Students', 'action' => 'tracking', 'plugin' => false], ['_name' => 'student:tracking']);
+        $builder->connect('/student/tracking/*', ['controller' => 'Students', 'action' => 'tracking', 'plugin' => null], ['_name' => 'student:tracking']);
 
         $builder->prefix('Stage', ['_namePrefix' => 'stage:'], function (RouteBuilder $builder) {
 
-            $builder->connect('/tracking/add/*', ['controller' => 'Tracking', 'action' => 'add', 'plugin' => false], ['_name' => 'tracking:add']);
-            $builder->connect('/tracking/delete/*', ['controller' => 'Tracking', 'action' => 'delete', 'plugin' => false], ['_name' => 'tracking:delete']);
-            $builder->connect('/tracking/validate/*', ['controller' => 'Tracking', 'action' => 'validate', 'plugin' => false], ['_name' => 'tracking:validate']);
+            $builder->connect('/tracking/add/*', ['controller' => 'Tracking', 'action' => 'add', 'plugin' => null], ['_name' => 'tracking:add']);
+            $builder->connect('/tracking/delete/*', ['controller' => 'Tracking', 'action' => 'delete', 'plugin' => null], ['_name' => 'tracking:delete']);
+            $builder->connect('/tracking/validate/*', ['controller' => 'Tracking', 'action' => 'validate', 'plugin' => null], ['_name' => 'tracking:validate']);
 
-            $builder->connect('/adscription/change-status/*', ['controller' => 'Adscriptions', 'action' => 'changeStatus', 'plugin' => false], ['_name' => 'adscription:changeStatus']);
+            $builder->connect('/adscription/change-status/*', ['controller' => 'Adscriptions', 'action' => 'changeStatus', 'plugin' => null], ['_name' => 'adscription:changeStatus']);
 
             $builder->fallbacks(DashedRoute::class);
         });

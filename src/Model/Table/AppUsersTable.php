@@ -20,7 +20,7 @@ class AppUsersTable extends UsersTable
 {
     use BasicTableTrait;
 
-    public $isValidateEmail = true;
+    public bool $isValidateEmail = true;
 
     /**
      * @param array $config
