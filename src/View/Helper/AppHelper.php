@@ -163,7 +163,7 @@ class AppHelper extends Helper
             ],
             'templateVars' => ['text' => $options['value'] ?? $options['text'] ?? '&nbsp;'],
             'style' => 'height: inherit;',
-            'value' => Inflector::humanize($fielButtonHelperdName),
+            'value' => Inflector::humanize($fieldName),
         ], $options);
 
         unset($options['value']);

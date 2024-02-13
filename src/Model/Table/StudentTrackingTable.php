@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -128,9 +129,10 @@ class StudentTrackingTable extends Table
      */
     protected function updateStudentTotalHours(EntityInterface $entity)
     {
-        $student = $this->Adscriptions->get($entity->student_adscription_id, [
-            'contain' => ['Students'],
-        ])->student;
+        $student = $this->Adscriptions->get(
+            $entity->student_adscription_id,
+            contain: ['Students']
+        )->student;
 
         $this->Adscriptions->Students->updateTotalHours($student);
 

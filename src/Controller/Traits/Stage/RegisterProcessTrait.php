@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Traits\Stage;
@@ -24,10 +25,13 @@ trait RegisterProcessTrait
 
         /** @var \App\Model\Entity\StudentStage $registerStage */
         $registerStage = $this->Students->StudentStages
-            ->find('byStudentStage', [
-                'student_id' => $student_id,
-                'stage' => StageField::REGISTER,
-            ])
+            ->find(
+                'byStudentStage',
+                options: [
+                    'student_id' => $student_id,
+                    'stage' => StageField::REGISTER,
+                ]
+            )
             ->first();
 
         if (empty($registerStage) || !$this->Authorization->can($registerStage, 'registerEdit')) {

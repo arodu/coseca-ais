@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Student;
@@ -35,19 +36,20 @@ class DashboardController extends AppStudentController
     {
         $student_id = $this->getCurrentStudent()->id;
         $studentStages = $this->StudentStages
-            ->find('objectList', keyField: 'stage')
+            ->find('objectList', options: ['keyField' => 'stage'])
             ->where(['student_id' => $student_id])
             ->toArray();
 
-        $student = $this->Students->find('loadProgress', ['studentStages' => $studentStages])
+        $student = $this->Students->find('loadProgress', options: ['studentStages' => $studentStages])
             ->where(['Students.id' => $student_id])
-
-            // @todo remove
             ->find('withAppUsers')
             ->find('withTenants')
-            ->find('withStudentAdscriptions', [
-                'status' => AdscriptionStatus::getTrackablesValues(),
-            ])
+            ->find(
+                'withStudentAdscriptions',
+                options: [
+                    'status' => AdscriptionStatus::getTrackablesValues(),
+                ]
+            )
             ->find('withStudentCourses')
             ->find('withStudentData')
             // /remove

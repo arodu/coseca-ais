@@ -438,7 +438,7 @@ class StudentsTable extends Table
     public function getStudentTrackingInfo(int $student_id): array
     {
         return Cache::remember('student_tracking_info_' . $student_id, function () use ($student_id) {
-            $adscriptionsIds = $this->StudentAdscriptions->find('activeProjects', ['student_id' => $student_id]);
+            $adscriptionsIds = $this->StudentAdscriptions->find('activeProjects', options: ['student_id' => $student_id]);
 
             return $this->getStudentTrackingInfoByAdscription($adscriptionsIds);
         }, '1day');
@@ -494,7 +494,7 @@ class StudentsTable extends Table
      */
     public function updateTotalHours(Student $student): Student
     {
-        $adscriptionsIds = $this->StudentAdscriptions->find('activeProjects', ['student_id' => $student->id]);
+        $adscriptionsIds = $this->StudentAdscriptions->find('activeProjects', options: ['student_id' => $student->id]);
 
         $totalHours = $this->StudentAdscriptions->StudentTracking->find()
             ->select(['total_hours' => 'SUM(StudentTracking.hours)'])
