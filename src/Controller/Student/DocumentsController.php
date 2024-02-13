@@ -31,7 +31,7 @@ class DocumentsController extends AppStudentController
     /**
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function format007(): Response|null|null
+    public function format007()
     {
         $this->traitFormat007((string)$this->getCurrentStudent()->id);
     }
@@ -39,7 +39,7 @@ class DocumentsController extends AppStudentController
     /**
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function format009(): Response|null|null
+    public function format009()
     {
         $this->traitFormat009((string)$this->getCurrentStudent()->id);
     }

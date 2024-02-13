@@ -32,7 +32,7 @@ class DashboardController extends AppStudentController
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function index(): Response|null|null
+    public function index()
     {
         $student_id = $this->getCurrentStudent()->id;
         $studentStages = $this->StudentStages

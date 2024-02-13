@@ -45,7 +45,7 @@ class PagesController extends AppController
     /**
      * @return \Cake\Http\Response|null|void
      */
-    public function home(): Response|null|null
+    public function home()
     {
         try {
             $identity = $this->Authentication->getIdentity();

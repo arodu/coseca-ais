@@ -21,7 +21,7 @@ class AdscriptionsController extends AppStudentController
     /**
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function close(): Response|null|null
+    public function close()
     {
         $this->request->allowMethod(['post', 'put']);
 

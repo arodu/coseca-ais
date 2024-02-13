@@ -39,7 +39,7 @@ class AdscriptionsController extends AppAdminController
      * @param string|int|null $student_id Student id.
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add(int|string|null $student_id = null): Response|null|null
+    public function add(int|string|null $student_id = null)
     {
         $student = $this->StudentAdscriptions->Students->get($student_id);
         $student_adscription = $this->StudentAdscriptions->newEmptyEntity();
@@ -99,7 +99,7 @@ class AdscriptionsController extends AppAdminController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit(?string $id = null): Response|null|null
+    public function edit(?string $id = null)
     {
         $adscription = $this->StudentAdscriptions->get($id, contain: [
             'InstitutionProjects' => ['Institutions'],
@@ -135,7 +135,7 @@ class AdscriptionsController extends AppAdminController
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function changeStatus(string $status, int|string $id): Response|null|null
+    public function changeStatus(string $status, int|string $id)
     {
         $this->request->allowMethod(['post', 'put']);
 
@@ -151,7 +151,7 @@ class AdscriptionsController extends AppAdminController
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function setPrincipal(?string $id): Response|null|null
+    public function setPrincipal(?string $id)
     {
         $this->request->allowMethod(['post', 'put']);
 

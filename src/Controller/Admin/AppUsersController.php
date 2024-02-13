@@ -21,7 +21,7 @@ class AppUsersController extends AppAdminController
     /**
      * @return \Cake\Http\Response|null|void
      */
-    public function index(): Response|null|null
+    public function index()
     {
         $this->paginate = [];
 
@@ -39,7 +39,7 @@ class AppUsersController extends AppAdminController
      * @param string|int|null $id
      * @return \Cake\Http\Response|null|void
      */
-    public function view(int|string|null $id = null): Response|null|null
+    public function view(int|string|null $id = null)
     {
         $user = $this->AppUsers->get($id, [
             'contain' => [
@@ -58,7 +58,7 @@ class AppUsersController extends AppAdminController
     /**
      * @return \Cake\Http\Response|null|void
      */
-    public function add(): Response|null|null
+    public function add()
     {
         $user = $this->AppUsers->newEmptyEntity();
         if ($this->request->is('post')) {
@@ -77,7 +77,7 @@ class AppUsersController extends AppAdminController
      * @param string|int|null $id
      * @return \Cake\Http\Response|null|void
      */
-    public function edit(int|string|null $id = null): Response|null|null
+    public function edit(int|string|null $id = null)
     {
         $user = $this->AppUsers->get($id, [
             'contain' => [],
@@ -98,7 +98,7 @@ class AppUsersController extends AppAdminController
      * @param string|int|null $id
      * @return \Cake\Http\Response|null|void
      */
-    public function delete(int|string|null $id = null): Response|null|null
+    public function delete(int|string|null $id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
         $user = $this->AppUsers->get($id);

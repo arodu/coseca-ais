@@ -25,7 +25,7 @@ class EndingsController extends AppController
      * @param string|int|null $student_id
      * @return \Cake\Http\Response|null|void
      */
-    public function closeStage(int|string|null $student_id = null): Response|null|null
+    public function closeStage(int|string|null $student_id = null)
     {
         $this->request->allowMethod(['post', 'put']);
         $endingStage = $this->StudentStages
