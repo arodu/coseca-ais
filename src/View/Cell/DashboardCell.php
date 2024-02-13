@@ -113,9 +113,7 @@ class DashboardCell extends Cell
             ]);
 
         $reports = $this->Students->StudentStages
-            ->find('report', [
-                'student_ids' => $students->select(['id']),
-            ])
+            ->find('report', student_ids: $students->select(['id']))
             ->toArray();
 
         $this->set([

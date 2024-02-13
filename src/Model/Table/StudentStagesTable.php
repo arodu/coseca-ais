@@ -11,6 +11,7 @@ use App\Model\Table\Traits\BasicTableTrait;
 use App\Utility\Stages;
 use Cake\Log\Log;
 use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -174,9 +175,9 @@ class StudentStagesTable extends Table
      * @param array $options
      * @return \Cake\ORM\Query
      */
-    public function findReport(Query $query, array $options = []): Query
+    public function findReport(SelectQuery $query, SelectQuery $student_ids = null): SelectQuery
     {
-        if (empty($options['student_ids'])) {
+        if (empty($student_ids)) {
             throw new InvalidArgumentException(__('param student_ids is necessary'));
         }
 
@@ -186,7 +187,7 @@ class StudentStagesTable extends Table
                 'status' => 'StudentStages.status',
                 'count' => 'COUNT(StudentStages.id)',
             ])
-            ->where(['StudentStages.student_id IN' => $options['student_ids']])
+            ->where(['StudentStages.student_id IN' => $student_ids])
             ->group(['StudentStages.stage', 'StudentStages.status'])
             ->formatResults(function ($results) {
                 return $results->combine('status', 'count', 'stage');

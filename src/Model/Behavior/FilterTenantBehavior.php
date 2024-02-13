@@ -8,6 +8,7 @@ use ArrayObject;
 use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
 use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\Utility\Hash;
 
 /**
@@ -27,17 +28,17 @@ class FilterTenantBehavior extends Behavior
     /**
      * @inheritDoc
      */
-    public function beforeFind(EventInterface $event, Query $query, ArrayObject $options, $primary)
+    public function beforeFind(EventInterface $event, SelectQuery $query, ArrayObject $options, $primary)
     {
-        return $query->find('tenant', $options->getArrayCopy());
+        return $query
+            ->find('tenant', options: $options->getArrayCopy());
     }
 
     /**
-     * @param \Cake\ORM\Query $query
-     * @param array $options
-     * @return \Cake\ORM\Query
+     * @param \Cake\ORM\Query\SelectQuery $query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findTenant(Query $query, array $options): Query
+    public function findTenant(SelectQuery $query, array $options = []): SelectQuery
     {
         $skipFilterTenant = Hash::get($options, 'skipFilterTenant', false);
         $tenant_list = FilterTenantUtility::read();

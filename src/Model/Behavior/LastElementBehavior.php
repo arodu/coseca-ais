@@ -5,6 +5,7 @@ namespace App\Model\Behavior;
 
 use Cake\ORM\Behavior;
 use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use InvalidArgumentException;
 /*
     // TenantsTable
@@ -43,23 +44,26 @@ class LastElementBehavior extends Behavior
 
     /**
      * @param \Cake\ORM\Query $query
-     * @param array $options
+     * @param $options
      * @return \Cake\ORM\Query
      */
-    public function findLastElement(Query $query, array $options = []): Query
+    public function findLastElement(SelectQuery $query): SelectQuery
     {
-        $subQuery = $this->table()->find($this->getConfig('subQuery'), $options);
+        $options = $query->getOptions();
+
+        $subQuery = $this->table()
+            ->find()
+            ->applyOptions($options)
+            ->find($this->getConfig('subQuery'));
 
         $subQueryConditions = $options['subQueryConditions'] ?? $this->getConfig('subQueryConditions');
         if (!empty($subQueryConditions) && is_array($subQueryConditions)) {
             $subQuery->where($subQueryConditions);
         }
 
-        $query->where([
+        return $query->where([
             $this->table()->aliasField('id') . ' IN' => $subQuery,
         ]);
-
-        return $query;
     }
 
     /**
@@ -67,8 +71,10 @@ class LastElementBehavior extends Behavior
      * @param array $options
      * @return \Cake\ORM\Query
      */
-    public function findSubQueryLastElement(Query $query, array $options = []): Query
+    public function findSubQueryLastElement(SelectQuery $query): SelectQuery
     {
+        $options = $query->getOptions();
+
         $fieldGroup = $options['fieldGroup'] ?? $this->getConfig('fieldGroup');
         if (empty($fieldGroup)) {
             throw new InvalidArgumentException('param fieldGroup is necessary');
@@ -79,10 +85,8 @@ class LastElementBehavior extends Behavior
             throw new InvalidArgumentException('param filterBy is necessary');
         }
 
-        $query
+        return $query
             ->select([$filterBy => 'MAX(' . $this->table()->aliasField($filterBy) . ')'])
             ->group([$this->table()->aliasField($fieldGroup)]);
-
-        return $query;
     }
 }

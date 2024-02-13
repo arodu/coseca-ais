@@ -101,7 +101,7 @@ class ButtonHelper extends Helper
         } elseif ($options['icon-link'] ?? false) {
             $options['class'] = trim($actionColor->text() . ' ' . ($options['class'] ?? ''));
             $options['title'] = $options['title'] ?? $label ?? null;
-            $title = $icon;
+            $title = $icon->render();
         } else {
             $options['class'] = $this->prepareClass($options['class'] ?? '', $actionColor, $outline);
         }

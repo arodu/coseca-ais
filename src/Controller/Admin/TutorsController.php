@@ -101,7 +101,7 @@ class TutorsController extends AppAdminController
             }
             $this->Flash->error(__('The tutor could not be saved. Please, try again.'));
         }
-        $tenants = $this->Tutors->Tenants->find('listLabel', ['limit' => 200])->all();
+        $tenants = $this->Tutors->Tenants->find('listLabel')->all();
         $this->set(compact('tutor', 'tenants'));
     }
 
