@@ -258,10 +258,3 @@ Configure::write('CakePdf', [
         'right' => '123123123',
     ],
 ]);
-
-FaIcon::setIcon([
-    //'user' => ['fas', 'user-circle'],
-    //'close' => ['fas', 'window-close'],
-    //'check' => ['fas', 'check-circle'],
-    //'chart-bar' => ['fas', 'chart-bar'],
-]);
