@@ -21,7 +21,7 @@ class ReportTenantCell extends Cell
      *
      * @var array<string, mixed>
      */
-    protected $_validCellOptions = [];
+    protected array $_validCellOptions = [];
 
     public const TAB_GENERAL = 'general';
     public const TAB_PROJECTS = 'projects';

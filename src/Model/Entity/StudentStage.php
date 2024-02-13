@@ -15,9 +15,9 @@ use Cake\ORM\Entity;
  * @property string $stage
  * @property int $lapse_id
  * @property string $status
- * @property \Cake\I18n\FrozenTime $created
+ * @property \Cake\I18n\DateTime $created
  * @property int $created_by
- * @property \Cake\I18n\FrozenTime $modified
+ * @property \Cake\I18n\DateTime $modified
  * @property string $stage_label
  * @property string $status_label
  *
@@ -35,7 +35,7 @@ class StudentStage extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'student_id' => true,
         'stage' => true,
         'status' => true,
@@ -47,7 +47,7 @@ class StudentStage extends Entity
         'student' => true,
     ];
 
-    protected $_virtual = [
+    protected array $_virtual = [
         'stage_label',
         'status_label',
     ];

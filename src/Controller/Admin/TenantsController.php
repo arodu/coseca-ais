@@ -62,11 +62,9 @@ class TenantsController extends AppAdminController
      */
     public function view($id = null)
     {
-        $tenant = $this->Tenants->get($id, [
-            'contain' => [
-                'Programs',
-                'CurrentLapse' => ['LapseDates'],
-            ],
+        $tenant = $this->Tenants->get($id, contain: [
+            'Programs',
+            'CurrentLapse' => ['LapseDates'],
         ]);
 
         $lapses = $this->Tenants->Lapses
@@ -200,9 +198,7 @@ class TenantsController extends AppAdminController
      */
     public function edit($id = null)
     {
-        $tenant = $this->Tenants->get($id, [
-            'contain' => [],
-        ]);
+        $tenant = $this->Tenants->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $tenant = $this->Tenants->patchEntity($tenant, $this->request->getData());
             if ($this->Tenants->save($tenant)) {

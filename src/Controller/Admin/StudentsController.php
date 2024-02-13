@@ -129,9 +129,7 @@ class StudentsController extends AppAdminController
      */
     public function info($id = null)
     {
-        $student = $this->Students->get($id, [
-            'contain' => ['AppUsers', 'StudentData' => ['InterestAreas']],
-        ]);
+        $student = $this->Students->get($id, contain: ['AppUsers', 'StudentData' => ['InterestAreas']]);
 
         $this->set(compact('student'));
     }
@@ -155,9 +153,7 @@ class StudentsController extends AppAdminController
      */
     public function settings($id = null)
     {
-        $student = $this->Students->get($id, [
-            'contain' => ['AppUsers'],
-        ]);
+        $student = $this->Students->get($id, contain: ['AppUsers']);
 
         $this->set(compact('student'));
     }
@@ -228,9 +224,7 @@ class StudentsController extends AppAdminController
      */
     public function edit($id = null)
     {
-        $student = $this->Students->get($id, [
-            'contain' => [],
-        ]);
+        $student = $this->Students->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $student = $this->Students->patchEntity($student, $this->request->getData());
             if ($this->Students->save($student)) {
@@ -289,9 +283,7 @@ class StudentsController extends AppAdminController
      */
     public function changeEmail($id = null)
     {
-        $student = $this->Students->get($id, [
-            'contain' => ['AppUsers'],
-        ]);
+        $student = $this->Students->get($id, contain: ['AppUsers']);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $student = $this->Students->patchEntity($student, $this->request->getData());
@@ -315,9 +307,7 @@ class StudentsController extends AppAdminController
 
         try {
             $this->Students->getConnection()->begin();
-            $student = $this->Students->get($id, [
-                'contain' => ['AppUsers'],
-            ]);
+            $student = $this->Students->get($id, contain: ['AppUsers']);
             $student->active = false;
             $this->Students->saveOrFail($student);
 

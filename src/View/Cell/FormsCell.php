@@ -17,7 +17,7 @@ class FormsCell extends Cell
      *
      * @var array<string, mixed>
      */
-    protected $_validCellOptions = [];
+    protected array $_validCellOptions = [];
 
     /**
      * Initialization logic run at the end of object construction.
@@ -34,7 +34,7 @@ class FormsCell extends Cell
      */
     public function register(Student $student)
     {
-        $interestAreas = $this->fetchTable('InterestAreas')->find('list', ['limit' => 200])
+        $interestAreas = $this->fetchTable('InterestAreas')->find('list', limit: 200)
             ->where(['InterestAreas.program_id' => $student->tenant->program_id])
             ->all();
 

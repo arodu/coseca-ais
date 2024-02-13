@@ -30,7 +30,7 @@ class Institution extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'name' => true,
         'active' => true,
         'contact_person' => true,

@@ -56,9 +56,7 @@ class TutorsController extends AppAdminController
      */
     public function view($id = null)
     {
-        $tutor = $this->Tutors->get($id, [
-            'contain' => ['Tenants', 'StudentAdscriptions'],
-        ]);
+        $tutor = $this->Tutors->get($id, contain: ['Tenants', 'StudentAdscriptions']);
 
         $this->set(compact('tutor'));
     }
@@ -93,9 +91,7 @@ class TutorsController extends AppAdminController
      */
     public function edit($id = null)
     {
-        $tutor = $this->Tutors->get($id, [
-            'contain' => [],
-        ]);
+        $tutor = $this->Tutors->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $tutor = $this->Tutors->patchEntity($tutor, $this->request->getData());
             if ($this->Tutors->save($tutor)) {

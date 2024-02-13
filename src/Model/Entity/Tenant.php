@@ -27,7 +27,7 @@ class Tenant extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'name' => true,
         'abbr' => true,
         'lapses' => true,
@@ -39,7 +39,7 @@ class Tenant extends Entity
         'program_id' => true,
     ];
 
-    protected $_virtual = [
+    protected array $_virtual = [
         'label',
         'abbr_label',
     ];

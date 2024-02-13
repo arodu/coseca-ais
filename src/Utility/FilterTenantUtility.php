@@ -24,11 +24,10 @@ class FilterTenantUtility
         $tenantsTable = $this->fetchTable('Tenants');
         if ($user->getRole()->isGroup(UserRole::GROUP_ROOT)) {
             $output = $tenantsTable
-                ->find('list', [
-                    'keyField' => 'id',
-                    'valueField' => 'id',
-                    'skipFilterTenant' => true,
-                ])
+                ->find('list',
+                keyField: 'id',
+                valueField: 'id',
+                skipFilterTenant: true)
                 ->toArray();
         } else {
             $output = $tenantsTable->TenantFilters

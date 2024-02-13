@@ -10,7 +10,7 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property int $student_id
- * @property \Cake\I18n\FrozenDate $date
+ * @property \Cake\I18n\Date $date
  * @property string|null $comment
  *
  * @property \App\Model\Entity\Student $student
@@ -26,7 +26,7 @@ class StudentCourse extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'student_id' => true,
         'date' => true,
         'comment' => true,

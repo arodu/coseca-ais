@@ -35,7 +35,7 @@ class DashboardController extends AppStudentController
     {
         $student_id = $this->getCurrentStudent()->id;
         $studentStages = $this->StudentStages
-            ->find('objectList', ['keyField' => 'stage'])
+            ->find('objectList', keyField: 'stage')
             ->where(['student_id' => $student_id])
             ->toArray();
 

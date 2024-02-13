@@ -20,7 +20,7 @@ class ButtonHelper extends Helper
      *
      * @var array<string, mixed>
      */
-    protected $_defaultConfig = [
+    protected array $_defaultConfig = [
         'icon' => [
             'link' => 'default',
             'save' => 'save',
@@ -42,7 +42,7 @@ class ButtonHelper extends Helper
     /**
      * @var array
      */
-    public $helpers = ['Form', 'Html'];
+    public array $helpers = ['Form', 'Html'];
 
     /**
      * @param array<string, mixed> $options

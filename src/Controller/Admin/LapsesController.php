@@ -54,9 +54,7 @@ class LapsesController extends AppAdminController
      */
     public function edit($id = null)
     {
-        $lapse = $this->Lapses->get($id, [
-            'contain' => ['Tenants'],
-        ]);
+        $lapse = $this->Lapses->get($id, contain: ['Tenants']);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $lapse = $this->Lapses->patchEntity($lapse, $this->request->getData());
             if ($this->Lapses->save($lapse)) {

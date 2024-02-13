@@ -17,7 +17,7 @@ class StudentHelper extends Helper
      *
      * @var array<string, mixed>
      */
-    protected $_defaultConfig = [];
+    protected array $_defaultConfig = [];
 
     /**
      * @var \App\Model\Entity\Student
@@ -27,7 +27,7 @@ class StudentHelper extends Helper
     /**
      * @var array
      */
-    public $helpers = ['Identity'];
+    public array $helpers = ['Identity'];
 
     /**
      * @param array $config

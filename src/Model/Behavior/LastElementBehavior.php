@@ -34,7 +34,7 @@ class LastElementBehavior extends Behavior
      *
      * @var array<string, mixed>
      */
-    protected $_defaultConfig = [
+    protected array $_defaultConfig = [
         'fieldGroup' => null,
         'filterBy' => 'id',
         'subQuery' => 'subQueryLastElement',

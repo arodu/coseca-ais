@@ -27,7 +27,7 @@ class InterestArea extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'program_id' => true,
         'name' => true,
         'description' => true,

@@ -20,7 +20,7 @@ class DashboardCell extends Cell
      *
      * @var array<string, mixed>
      */
-    protected $_validCellOptions = [];
+    protected array $_validCellOptions = [];
 
     /**
      * Initialization logic run at the end of object construction.
@@ -88,8 +88,8 @@ class DashboardCell extends Cell
                     'LapseDates.end_date IS NOT' => null,
                 ],
                 'OR' => [
-                    'LapseDates.start_date >=' => FrozenDate::now(),
-                    'LapseDates.end_date >=' => FrozenDate::now(),
+                    'LapseDates.start_date >=' => \Cake\I18n\Date::now(),
+                    'LapseDates.end_date >=' => \Cake\I18n\Date::now(),
                 ],
             ])
             ->order([

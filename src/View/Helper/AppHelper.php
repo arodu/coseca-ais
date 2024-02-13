@@ -22,9 +22,9 @@ class AppHelper extends Helper
      *
      * @var array<string, mixed>
      */
-    protected $_defaultConfig = [];
+    protected array $_defaultConfig = [];
 
-    public $helpers = ['Html', 'Form'];
+    public array $helpers = ['Html', 'Form'];
 
     /**
      * @param array $options
@@ -163,7 +163,7 @@ class AppHelper extends Helper
             ],
             'templateVars' => ['text' => $options['value'] ?? $options['text'] ?? '&nbsp;'],
             'style' => 'height: inherit;',
-            'value' => Inflector::humanize($fieldName),
+            'value' => Inflector::humanize($fielButtonHelperdName),
         ], $options);
 
         unset($options['value']);

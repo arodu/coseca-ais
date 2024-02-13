@@ -15,8 +15,8 @@ use Cake\ORM\Entity;
  * @property int $institution_project_id
  * @property int $lapse_id
  * @property int $tutor_id
- * @property \Cake\I18n\FrozenTime $created
- * @property \Cake\I18n\FrozenTime $modified
+ * @property \Cake\I18n\DateTime $created
+ * @property \Cake\I18n\DateTime $modified
  *
  * @property \App\Model\Entity\Student $student
  * @property \App\Model\Entity\InstitutionProject $institution_project
@@ -34,7 +34,7 @@ class StudentAdscription extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'student_id' => true,
         'institution_project_id' => true,
         'tutor_id' => true,
@@ -47,7 +47,7 @@ class StudentAdscription extends Entity
         'principal' => true,
     ];
 
-    protected $_virtual = [
+    protected array $_virtual = [
         'label_status',
     ];
 

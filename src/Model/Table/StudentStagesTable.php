@@ -152,7 +152,7 @@ class StudentStagesTable extends Table
         $listStages = $student->getStageFieldList();
         $keyField = $options['keyField'] ?? 'stage';
 
-        $query->find('objectList', ['keyField' => $keyField])
+        $query->find('objectList', keyField: $keyField)
             ->where(['student_id' => $student->id]);
 
         return $query

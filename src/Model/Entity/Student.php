@@ -15,9 +15,9 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $user_id
- * @property \Cake\I18n\FrozenTime $created
+ * @property \Cake\I18n\DateTime $created
  * @property int $created_by
- * @property \Cake\I18n\FrozenTime $modified
+ * @property \Cake\I18n\DateTime $modified
  * @property int $modified_by
  *
  * @property \App\Model\Entity\AppUser $app_user
@@ -34,7 +34,7 @@ class Student extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'user_id' => true,
         'tenant_id' => true,
         'type' => true,
@@ -51,7 +51,7 @@ class Student extends Entity
         'active' => true,
     ];
 
-    protected $_virtual = [
+    protected array $_virtual = [
         'dni',
         'first_name',
         'last_name',

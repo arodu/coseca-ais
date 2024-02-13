@@ -20,7 +20,7 @@ class FilterTenantBehavior extends Behavior
      *
      * @var array<string, mixed>
      */
-    protected $_defaultConfig = [
+    protected array $_defaultConfig = [
         'field' => 'tenant_id',
     ];
 

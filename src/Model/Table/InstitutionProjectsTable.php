@@ -108,11 +108,10 @@ class InstitutionProjectsTable extends Table
         }
 
         return $query
-            ->find('list', [
-                'keyField' => 'id',
-                'valueField' => 'name',
-                'groupField' => 'institution.name',
-            ])
+            ->find('list',
+            keyField: 'id',
+            valueField: 'name',
+            groupField: 'institution.name')
             ->contain('Institutions')
             ->where([
                 $this->Institutions->aliasField('tenant_id') => $options['tenant_id'],

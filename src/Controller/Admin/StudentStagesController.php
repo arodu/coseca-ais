@@ -22,9 +22,7 @@ class StudentStagesController extends AppAdminController
      */
     public function edit($id = null)
     {
-        $studentStage = $this->StudentStages->get($id, [
-            'contain' => ['Students'],
-        ]);
+        $studentStage = $this->StudentStages->get($id, contain: ['Students']);
         $student = $studentStage->student;
 
         if ($this->request->is(['patch', 'post', 'put'])) {

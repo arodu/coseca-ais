@@ -10,10 +10,10 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property int $student_adscription_id
- * @property \Cake\I18n\FrozenDate $date
+ * @property \Cake\I18n\Date $date
  * @property float $hours
  * @property string $description
- * @property \Cake\I18n\FrozenTime $created
+ * @property \Cake\I18n\DateTime $created
  *
  * @property \App\Model\Entity\StudentAdscription $student_adscription
  */
@@ -28,7 +28,7 @@ class StudentTracking extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'student_adscription_id' => true,
         'date' => true,
         'hours' => true,

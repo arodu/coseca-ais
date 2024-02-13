@@ -99,12 +99,10 @@ class AdscriptionsController extends AppAdminController
      */
     public function edit($id = null)
     {
-        $adscription = $this->StudentAdscriptions->get($id, [
-            'contain' => [
-                'InstitutionProjects' => ['Institutions'],
-                'Tutors',
-                'Students',
-            ],
+        $adscription = $this->StudentAdscriptions->get($id, contain: [
+            'InstitutionProjects' => ['Institutions'],
+            'Tutors',
+            'Students',
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $adscription = $this->StudentAdscriptions->patchEntity($adscription, $this->request->getData());

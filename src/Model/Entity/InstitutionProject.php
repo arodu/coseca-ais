@@ -27,7 +27,7 @@ class InstitutionProject extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'institution_id' => true,
         'name' => true,
         'active' => true,
@@ -36,7 +36,7 @@ class InstitutionProject extends Entity
         'interest_area_id' => true,
     ];
 
-    protected $_virtual = [
+    protected array $_virtual = [
         'label_name',
     ];
 

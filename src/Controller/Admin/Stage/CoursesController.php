@@ -90,7 +90,7 @@ class CoursesController extends AppAdminController
             }
         }
 
-        $selectedDate = $session->read('courseSelectedDate', FrozenDate::now());
+        $selectedDate = $session->read('courseSelectedDate', \Cake\I18n\Date::now());
         $this->set(compact('studentCourse', 'selectedDate', 'student'));
     }
 

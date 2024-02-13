@@ -11,7 +11,7 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property int $user_id
  * @property int $tenant_id
- * @property \Cake\I18n\FrozenTime $created
+ * @property \Cake\I18n\DateTime $created
  *
  * @property \App\Model\Entity\AppUser $user
  * @property \App\Model\Entity\Tenant $tenant
@@ -27,7 +27,7 @@ class TenantFilter extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'user_id' => true,
         'tenant_id' => true,
         'created' => true,

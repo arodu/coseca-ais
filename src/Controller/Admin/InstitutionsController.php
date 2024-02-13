@@ -58,14 +58,12 @@ class InstitutionsController extends AppAdminController
      */
     public function view($id = null)
     {
-        $institution = $this->Institutions->get($id, [
-            'contain' => [
-                'Tenants',
-                'InstitutionProjects' => ['InterestAreas'],
-                'States',
-                'Municipalities',
-                'Parishes',
-            ],
+        $institution = $this->Institutions->get($id, contain: [
+            'Tenants',
+            'InstitutionProjects' => ['InterestAreas'],
+            'States',
+            'Municipalities',
+            'Parishes',
         ]);
 
         $this->set(compact('institution'));
@@ -98,9 +96,7 @@ class InstitutionsController extends AppAdminController
      */
     public function addProject($id = null)
     {
-        $institution = $this->Institutions->get($id, [
-            'contain' => ['Tenants'],
-        ]);
+        $institution = $this->Institutions->get($id, contain: ['Tenants']);
         $institutionProject = $this->Institutions->InstitutionProjects->newEmptyEntity();
         if ($this->request->is('post')) {
             $institutionProject = $this->Institutions->InstitutionProjects->patchEntity($institutionProject, $this->request->getData());
@@ -128,9 +124,7 @@ class InstitutionsController extends AppAdminController
      */
     public function edit($id = null)
     {
-        $institution = $this->Institutions->get($id, [
-            'contain' => [],
-        ]);
+        $institution = $this->Institutions->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $institution = $this->Institutions->patchEntity($institution, $this->request->getData());
             if ($this->Institutions->save($institution)) {
@@ -151,9 +145,7 @@ class InstitutionsController extends AppAdminController
     public function editProject($project_id = null)
     {
         $institutionProject = $this->Institutions->InstitutionProjects->get($project_id);
-        $institution = $this->Institutions->get($institutionProject->institution_id, [
-            'contain' => ['Tenants'],
-        ]);
+        $institution = $this->Institutions->get($institutionProject->institution_id, contain: ['Tenants']);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $institutionProject = $this->Institutions->InstitutionProjects->patchEntity($institutionProject, $this->request->getData());
             if ($this->Institutions->InstitutionProjects->save($institutionProject)) {

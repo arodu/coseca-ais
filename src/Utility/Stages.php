@@ -51,10 +51,9 @@ class Stages
     {
         $studentStagesTable = TableRegistry::getTableLocator()->get('StudentStages');
 
-        $studentStage = $studentStagesTable->find('byStudentStage', [
-            'stage' => $stageField,
-            'student_id' => $student_id,
-        ])->first();
+        $studentStage = $studentStagesTable->find('byStudentStage',
+        stage: $stageField,
+        student_id: $student_id)->first();
 
         return $studentStagesTable->close($studentStage, $stageStatus);
     }

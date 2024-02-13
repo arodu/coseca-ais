@@ -173,11 +173,10 @@ class StudentAdscriptionsTable extends Table
         }
 
         return $query
-            ->find('list', [
-                'keyField' => 'id',
-                'valueField' => 'institution_project.name',
-                'groupField' => 'institution_project.institution.name',
-            ])
+            ->find('list',
+            keyField: 'id',
+            valueField: 'institution_project.name',
+            groupField: 'institution_project.institution.name')
             ->contain([
                 'InstitutionProjects' => ['Institutions'],
             ])
@@ -212,9 +211,7 @@ class StudentAdscriptionsTable extends Table
      */
     protected function updateStudentTotalHours(EntityInterface $entity)
     {
-        $student = $this->get($entity->id, [
-            'contain' => ['Students'],
-        ])->student;
+        $student = $this->get($entity->id, contain: ['Students'])->student;
 
         $this->Students->updateTotalHours($student);
 
