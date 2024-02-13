@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use Cake\Event\EventInterface;
-use Cake\ORM\Query;
 
 /**
  * Institutions Controller
@@ -33,7 +32,7 @@ class InstitutionsController extends AppAdminController
         $this->paginate = [
             'order' => ['Institutions.name' => 'ASC'],
         ];
-        
+
         $query = $this->Institutions->find()->contain(['Tenants']);
 
         // filterLogic
