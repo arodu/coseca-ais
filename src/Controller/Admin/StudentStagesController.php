@@ -4,6 +4,9 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Model\Field\StageStatus;
+use Cake\Http\Response;
+use Cake\ORM\Exception\PersistenceFailedException;
+use Throwable;
 
 /**
  * StudentStages Controller
@@ -20,7 +23,7 @@ class StudentStagesController extends AppAdminController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
+    public function edit(?string $id = null): Response|null|null
     {
         $studentStage = $this->StudentStages->get($id, contain: ['Students']);
         $student = $studentStage->student;
@@ -44,17 +47,17 @@ class StudentStagesController extends AppAdminController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function forcedClose($id = null)
+    public function forcedClose(?string $id = null): Response|null|null
     {
         $this->request->allowMethod(['patch', 'post', 'put']);
         $studentStage = $this->StudentStages->get($id);
         try {
             $this->StudentStages->close($studentStage, StageStatus::SUCCESS, true);
             $this->Flash->success(__('Etapa cerrada con exito: <strong>{0}</strong>', $studentStage->stage_label), ['escape' => false]);
-        } catch (\Cake\ORM\Exception\PersistenceFailedException $e) {
+        } catch (PersistenceFailedException $e) {
             $this->Flash->success(__('Etapa cerrada con exito: <strong>{0}</strong>', $studentStage->stage_label), ['escape' => false]);
             $this->Flash->warning(__('Siguiente etapa no creada'));
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             $this->Flash->danger($th->getMessage());
         }
 

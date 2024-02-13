@@ -18,7 +18,9 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Model\Field\UserRole;
+use Cake\Http\Response;
 use Cake\Log\Log;
+use Throwable;
 
 /**
  * Static content controller
@@ -43,7 +45,7 @@ class PagesController extends AppController
     /**
      * @return \Cake\Http\Response|null|void
      */
-    public function home()
+    public function home(): Response|null|null
     {
         try {
             $identity = $this->Authentication->getIdentity();
@@ -59,7 +61,7 @@ class PagesController extends AppController
             if (in_array($identity->role, UserRole::getStudentGroup())) {
                 return $this->redirect(['_name' => 'student:home']);
             }
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             Log::alert($e->getMessage());
         }
 

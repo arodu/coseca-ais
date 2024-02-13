@@ -11,6 +11,7 @@ use Cake\View\Helper;
 use CakeLteTools\Enum\BadgeInterface;
 use CakeLteTools\Enum\Color;
 use CakeLteTools\Utility\FaIcon;
+use Exception;
 
 /**
  * App helper
@@ -211,7 +212,7 @@ class AppHelper extends Helper
     public function tenant(Tenant $tenant): string
     {
         if (empty($tenant->program)) {
-            throw new \Exception('Tenant program is empty');
+            throw new Exception('Tenant program is empty');
         }
 
         return __(

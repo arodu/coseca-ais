@@ -7,6 +7,7 @@ use App\Controller\AppController;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use Cake\Http\Exception\ForbiddenException;
+use Cake\Http\Response;
 
 class ResultsController extends AppController
 {
@@ -20,10 +21,10 @@ class ResultsController extends AppController
     }
 
     /**
-     * @param int|string|null $student_id
+     * @param string|int|null $student_id
      * @return \Cake\Http\Response|null|void
      */
-    public function closeStage($student_id = null)
+    public function closeStage(int|string|null $student_id = null): Response|null|null
     {
         $this->request->allowMethod(['post', 'put']);
         $resultsStage = $this->StudentStages

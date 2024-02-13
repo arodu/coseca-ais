@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller\Student;
 
 use App\Controller\Traits\Stage\RegisterProcessTrait;
+use Cake\Http\Response;
 
 /**
  * Stages Controller
@@ -28,7 +29,7 @@ class RegisterController extends AppStudentController
     /**
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function edit()
+    public function edit(): Response|null|null
     {
         $currentStudent = $this->getCurrentStudent();
 

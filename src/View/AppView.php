@@ -61,7 +61,7 @@ class AppView extends View
     }
 
     /**
-     * @param string|callable $info
+     * @param callable|string $info
      * @param array $options
      * @return string|null
      */

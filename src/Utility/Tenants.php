@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Utility;
 
-use Cake\ORM\Query;
 use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\TableRegistry;
 

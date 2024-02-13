@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use Cake\Event\EventInterface;
+use Cake\Http\Response;
 use Cake\Log\Log;
+use Exception;
 
 /**
  * Lapses Controller
@@ -18,7 +20,7 @@ class LapsesController extends AppAdminController
      * @param \Cake\Event\EventInterface $event
      * @return void
      */
-    public function beforeRender(EventInterface $event)
+    public function beforeRender(EventInterface $event): void
     {
         $this->MenuLte->activeItem('lapses');
     }
@@ -29,7 +31,7 @@ class LapsesController extends AppAdminController
      * @param string|null $tenant_id Tenant id.
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add($tenant_id)
+    public function add(?string $tenant_id): Response|null|null
     {
         $lapse = $this->Lapses->newEmptyEntity();
         if ($this->request->is('post')) {
@@ -52,7 +54,7 @@ class LapsesController extends AppAdminController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
+    public function edit(?string $id = null): Response|null|null
     {
         $lapse = $this->Lapses->get($id, contain: ['Tenants']);
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -68,10 +70,10 @@ class LapsesController extends AppAdminController
     }
 
     /**
-     * @param int|string $lapse_dates_id
+     * @param string|int $lapse_dates_id
      * @return \Cake\Http\Response|null|void
      */
-    public function editDates($lapse_dates_id = null)
+    public function editDates(int|string|null $lapse_dates_id = null): Response|null|null
     {
         $lapse_date = $this->Lapses->LapseDates->get($lapse_dates_id, [
             'contain' => ['Lapses' => ['Tenants']],
@@ -97,7 +99,7 @@ class LapsesController extends AppAdminController
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function changeActive($id = null, $active = 0)
+    public function changeActive(?string $id = null, int $active = 0): Response|null|null
     {
         $this->request->allowMethod(['post', 'put']);
 
@@ -112,7 +114,7 @@ class LapsesController extends AppAdminController
 
             $this->Flash->success(__('The lapse has been updated.'));
             $this->Lapses->getConnection()->commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->Lapses->getConnection()->rollback();
             $this->Flash->error(__('The lapse could not be updated. Please, try again.'));
             Log::error($e->getMessage());

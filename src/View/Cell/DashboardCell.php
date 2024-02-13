@@ -5,7 +5,7 @@ namespace App\View\Cell;
 
 use App\Utility\CacheRequest;
 use App\Utility\ReportsUtility;
-use Cake\I18n\FrozenDate;
+use Cake\I18n\Date;
 use Cake\ORM\ResultSet;
 use Cake\View\Cell;
 
@@ -36,7 +36,7 @@ class DashboardCell extends Cell
     /**
      * @return void
      */
-    public function blocks()
+    public function blocks(): void
     {
         $currentLapses = $this->getCurrentLapses();
         $studentsActives = $this->Students->find()
@@ -54,7 +54,7 @@ class DashboardCell extends Cell
     /**
      * @return void
      */
-    public function activeTenants()
+    public function activeTenants(): void
     {
         $activeTenants = $this->Tenants->find()
             ->where([
@@ -71,7 +71,7 @@ class DashboardCell extends Cell
     /**
      * @return void
      */
-    public function events()
+    public function events(): void
     {
         $events = $this->Tenants->Lapses->LapseDates->find()
             ->contain([
@@ -88,8 +88,8 @@ class DashboardCell extends Cell
                     'LapseDates.end_date IS NOT' => null,
                 ],
                 'OR' => [
-                    'LapseDates.start_date >=' => \Cake\I18n\Date::now(),
-                    'LapseDates.end_date >=' => \Cake\I18n\Date::now(),
+                    'LapseDates.start_date >=' => Date::now(),
+                    'LapseDates.end_date >=' => Date::now(),
                 ],
             ])
             ->order([
@@ -103,7 +103,7 @@ class DashboardCell extends Cell
     /**
      * @return void
      */
-    public function stages()
+    public function stages(): void
     {
         $students = $this->Students->find()
             ->find('active')

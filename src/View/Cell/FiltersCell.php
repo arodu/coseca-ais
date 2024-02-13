@@ -34,7 +34,7 @@ class FiltersCell extends Cell
      * @param string $filterKey
      * @return void
      */
-    public function adminStudents(bool $isFiltered = false, string $filterKey = 'f')
+    public function adminStudents(bool $isFiltered = false, string $filterKey = 'f'): void
     {
         $tenants = $this->Students->Tenants->find('listLabel');
         $lapses = $this->Students->Lapses->find('list', [
@@ -51,7 +51,7 @@ class FiltersCell extends Cell
      * @param string $filterKey
      * @return void
      */
-    public function adminPrograms(bool $isFiltered = false, string $filterKey = 'f')
+    public function adminPrograms(bool $isFiltered = false, string $filterKey = 'f'): void
     {
         $this->set(compact('isFiltered', 'filterKey'));
     }
@@ -61,7 +61,7 @@ class FiltersCell extends Cell
      * @param string $filterKey
      * @return void
      */
-    public function adminInstitutions(bool $isFiltered = false, string $filterKey = 'f')
+    public function adminInstitutions(bool $isFiltered = false, string $filterKey = 'f'): void
     {
         $this->set(compact('isFiltered', 'filterKey'));
     }
@@ -71,7 +71,7 @@ class FiltersCell extends Cell
      * @param string $filterKey
      * @return void
      */
-    public function adminTutors(bool $isFiltered = false, string $filterKey = 'f')
+    public function adminTutors(bool $isFiltered = false, string $filterKey = 'f'): void
     {
         $this->set(compact('isFiltered', 'filterKey'));
     }

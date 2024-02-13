@@ -8,8 +8,10 @@ use App\Controller\Traits\ActionValidateTrait;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use Cake\Http\Exception\ForbiddenException;
-use Cake\I18n\FrozenDate;
+use Cake\Http\Response;
+use Cake\I18n\Date;
 use Cake\Log\Log;
+use Exception;
 
 /**
  * Courses Controller
@@ -31,11 +33,11 @@ class CoursesController extends AppAdminController
     }
 
     /**
-     * @param int|string|null $student_id
-     * @param int|string|null $id
+     * @param string|int|null $student_id
+     * @param string|int|null $id
      * @return \Cake\Http\Response|null|void
      */
-    public function edit($student_id = null, $id = null)
+    public function edit(int|string|null $student_id = null, int|string|null $id = null): Response|null|null
     {
         $student = $this->Students->get($student_id);
 
@@ -83,14 +85,14 @@ class CoursesController extends AppAdminController
                 }
 
                 return $this->redirect(['_name' => 'admin:student:view', $student->id]);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 Log::error($e->getMessage());
                 $this->Students->getConnection()->rollback();
                 $this->Flash->error(__('The student course could not be saved. Please, try again.'));
             }
         }
 
-        $selectedDate = $session->read('courseSelectedDate', \Cake\I18n\Date::now());
+        $selectedDate = $session->read('courseSelectedDate', Date::now());
         $this->set(compact('studentCourse', 'selectedDate', 'student'));
     }
 
@@ -101,7 +103,7 @@ class CoursesController extends AppAdminController
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    public function delete(?string $id = null): Response|null|null
     {
         $this->request->allowMethod(['post', 'delete']);
         $studentCourse = $this->Students->StudentCourses->get($id);

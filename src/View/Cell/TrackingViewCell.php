@@ -36,11 +36,11 @@ class TrackingViewCell extends Cell
     }
 
     /**
-     * @param int|string $student_id
+     * @param string|int $student_id
      * @param array $urlList
      * @return void
      */
-    public function display(int|string $student_id, array $urlList = [])
+    public function display(int|string $student_id, array $urlList = []): void
     {
         $student = $this->Students
             ->find('withLapses')
@@ -70,21 +70,21 @@ class TrackingViewCell extends Cell
     }
 
     /**
-     * @param int|string $student_id
+     * @param string|int $student_id
      * @return void
      */
-    public function info(int|string $student_id)
+    public function info(int|string $student_id): void
     {
         $trackingInfo = $this->Students->getStudentTrackingInfo($student_id) ?? [];
         $this->set(compact('trackingInfo'));
     }
 
     /**
-     * @param int|string $student_id
+     * @param string|int $student_id
      * @param \App\Model\Entity\StudentStage|null $trackingStage
      * @return void
      */
-    public function actions(int|string $student_id, ?StudentStage $trackingStage = null)
+    public function actions(int|string $student_id, ?StudentStage $trackingStage = null): void
     {
         if (empty($trackingStage)) {
             $trackingStage = $this->Students->StudentStages

@@ -6,6 +6,7 @@ namespace App\Controller\Admin;
 use App\Model\Entity\Lapse;
 use App\Model\Entity\Tenant;
 use Cake\Event\EventInterface;
+use Cake\Http\Response;
 
 /**
  * Tenants Controller
@@ -29,7 +30,7 @@ class TenantsController extends AppAdminController
      * @param \Cake\Event\EventInterface $event
      * @return void
      */
-    public function beforeRender(EventInterface $event)
+    public function beforeRender(EventInterface $event): void
     {
         parent::beforeRender($event);
         $this->MenuLte->activeItem('tenants');
@@ -40,7 +41,7 @@ class TenantsController extends AppAdminController
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function index()
+    public function index(): Response|null|null
     {
         $this->paginate = [];
 
@@ -60,7 +61,7 @@ class TenantsController extends AppAdminController
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view(?string $id = null): Response|null|null
     {
         $tenant = $this->Tenants->get($id, contain: [
             'Programs',
@@ -85,7 +86,7 @@ class TenantsController extends AppAdminController
      * @param string $program_id
      * @return \Cake\Http\Response|null|void
      */
-    public function viewProgram($program_id = null)
+    public function viewProgram(?string $program_id = null): Response|null|null
     {
         $program = $this->Programs->get($program_id, [
             'contain' => [
@@ -99,10 +100,10 @@ class TenantsController extends AppAdminController
 
     /**
      * @param \App\Model\Entity\Tenant $tenant
-     * @param int|string $lapse_id
+     * @param string|int $lapse_id
      * @return \App\Model\Entity\Lapse|null
      */
-    private function getLapseSelected(Tenant $tenant, $lapse_id): ?Lapse
+    private function getLapseSelected(Tenant $tenant, int|string $lapse_id): ?Lapse
     {
         if (empty($lapse_id) && !empty($tenant->current_lapse)) {
             return $tenant->current_lapse;
@@ -126,7 +127,7 @@ class TenantsController extends AppAdminController
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function add(): Response|null|null
     {
         $tenant = $this->Tenants->newEmptyEntity();
         if ($this->request->is('post')) {
@@ -150,7 +151,7 @@ class TenantsController extends AppAdminController
     /**
      * @return \Cake\Http\Response|null|void
      */
-    public function addProgram()
+    public function addProgram(): Response|null|null
     {
         $program = $this->Programs->newEmptyEntity();
         if ($this->request->is('post')) {
@@ -168,10 +169,10 @@ class TenantsController extends AppAdminController
     }
 
     /**
-     * @param int|string $program_id
+     * @param string|int $program_id
      * @return \Cake\Http\Response|null|void
      */
-    public function addInterestArea($program_id = null)
+    public function addInterestArea(int|string|null $program_id = null): Response|null|null
     {
         $interestArea = $this->Programs->InterestAreas->newEmptyEntity();
         $program = $this->Programs->get($program_id);
@@ -196,7 +197,7 @@ class TenantsController extends AppAdminController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
+    public function edit(?string $id = null): Response|null|null
     {
         $tenant = $this->Tenants->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -213,10 +214,10 @@ class TenantsController extends AppAdminController
     }
 
     /**
-     * @param int|string $program_id
+     * @param string|int $program_id
      * @return \Cake\Http\Response|null|void
      */
-    public function editProgram($program_id = null)
+    public function editProgram(int|string|null $program_id = null): Response|null|null
     {
         $program = $this->Programs->get($program_id);
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -232,10 +233,10 @@ class TenantsController extends AppAdminController
     }
 
     /**
-     * @param int|string $interestArea_id
+     * @param string|int $interestArea_id
      * @return \Cake\Http\Response|null|void
      */
-    public function editInterestArea($interestArea_id = null)
+    public function editInterestArea(int|string|null $interestArea_id = null): Response|null|null
     {
         $interestArea = $this->Programs->InterestAreas->get($interestArea_id);
         $program = $this->Programs->get($interestArea->program_id);
@@ -258,7 +259,7 @@ class TenantsController extends AppAdminController
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    public function delete(?string $id = null): Response|null|null
     {
         $this->request->allowMethod(['post', 'delete']);
         $tenant = $this->Tenants->get($id);

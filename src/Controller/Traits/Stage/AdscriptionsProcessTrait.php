@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Traits\Stage;
 
+use App\Model\Entity\StudentAdscription;
 use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
@@ -13,10 +14,10 @@ trait AdscriptionsProcessTrait
 {
     /**
      * @param string $status
-     * @param int|string $id
+     * @param string|int $id
      * @return \App\Model\Entity\StudentAdscription
      */
-    protected function processChangeStatus($status, $id)
+    protected function processChangeStatus(string $status, int|string $id): StudentAdscription
     {
         $this->Adscriptions = $this->fetchTable('StudentAdscriptions');
 

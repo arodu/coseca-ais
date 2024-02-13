@@ -6,6 +6,8 @@ namespace App\View\Helper;
 use App\Enum\ActionColor;
 use Cake\View\Helper;
 use CakeLteTools\Utility\FaIcon;
+use InvalidArgumentException;
+use Throwable;
 
 /**
  * Button helper
@@ -57,7 +59,7 @@ class ButtonHelper extends Helper
         }
 
         if (empty($options['actionColor'])) {
-            throw new \InvalidArgumentException('actionColor is required');
+            throw new InvalidArgumentException('actionColor is required');
         }
 
         if (isset($options['displayCondition'])) {
@@ -148,7 +150,7 @@ class ButtonHelper extends Helper
         }
 
         if (empty($options['actionColor'])) {
-            throw new \InvalidArgumentException('actionColor is required');
+            throw new InvalidArgumentException('actionColor is required');
         }
 
         $url = $options['url'];
@@ -197,11 +199,11 @@ class ButtonHelper extends Helper
     public function button(array $options = []): string
     {
         if (empty($options['actionColor'])) {
-            throw new \InvalidArgumentException('actionColor is required');
+            throw new InvalidArgumentException('actionColor is required');
         }
 
         if (empty($options['label']) && empty($options['icon'])) {
-            throw new \InvalidArgumentException('label is required');
+            throw new InvalidArgumentException('label is required');
         }
 
         if (isset($options['displayCondition'])) {
@@ -620,7 +622,7 @@ class ButtonHelper extends Helper
             $name = $this->getConfig('icon.' . $name, $name);
 
             return FaIcon::get($name, $this->getConfig('icon_class'));
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             return FaIcon::get('default', $this->getConfig('icon_class'));
         }
     }
@@ -633,7 +635,7 @@ class ButtonHelper extends Helper
     protected function requireUrl(array $options): void
     {
         if (empty($options['url'])) {
-            throw new \InvalidArgumentException('url param is required');
+            throw new InvalidArgumentException('url param is required');
         }
     }
 }

@@ -78,7 +78,7 @@ class ReportTenantCell extends Cell
      * @param \App\Model\Entity\Lapse $lapseSelected
      * @return void
      */
-    public function tabs(Tenant $tenant, string $currentTab, Lapse $lapseSelected)
+    public function tabs(Tenant $tenant, string $currentTab, Lapse $lapseSelected): void
     {
         $tabs = $this->tabList();
         $currentTab = $this->getCurrentTab($currentTab);
@@ -90,7 +90,7 @@ class ReportTenantCell extends Cell
      * @param \App\Model\Entity\Lapse $lapseSelected
      * @return void
      */
-    public function general(Tenant $tenant, Lapse $lapseSelected)
+    public function general(Tenant $tenant, Lapse $lapseSelected): void
     {
         $students = $this->Students->find()
             ->find('active')
@@ -139,7 +139,7 @@ class ReportTenantCell extends Cell
      * @param \App\Model\Entity\Lapse $lapseSelected
      * @return void
      */
-    public function projects(Tenant $tenant, Lapse $lapseSelected)
+    public function projects(Tenant $tenant, Lapse $lapseSelected): void
     {
         $students = $this->Students->find()
             ->where([
@@ -192,7 +192,7 @@ class ReportTenantCell extends Cell
      * @param \App\Model\Entity\Lapse $lapseSelected
      * @return void
      */
-    public function tutors(Tenant $tenant, Lapse $lapseSelected)
+    public function tutors(Tenant $tenant, Lapse $lapseSelected): void
     {
         $this->set(compact('tenant', 'lapseSelected'));
     }
@@ -202,7 +202,7 @@ class ReportTenantCell extends Cell
      * @param \App\Model\Entity\Lapse $lapseSelected
      * @return void
      */
-    public function finished(Tenant $tenant, Lapse $lapseSelected)
+    public function finished(Tenant $tenant, Lapse $lapseSelected): void
     {
         $students = $this->Students->find()
             ->where([

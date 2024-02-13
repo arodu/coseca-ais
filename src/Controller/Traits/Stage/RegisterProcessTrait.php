@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Traits\Stage;
@@ -8,6 +7,7 @@ use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Log\Log;
+use Exception;
 
 /**
  * @property \App\Model\Table\StudentsTable $Students
@@ -79,7 +79,7 @@ trait RegisterProcessTrait
                 if (($nextStage ?? false)) {
                     $this->Flash->success(__('The {0} stage has been created.', $nextStage->stage));
                 }
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $success = false;
                 Log::error($e->getMessage());
                 $this->Students->getConnection()->rollback();

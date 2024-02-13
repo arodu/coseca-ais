@@ -16,7 +16,7 @@ class StudentAdscriptionPolicy
      * @param \App\Model\Entity\StudentAdscription $adscription
      * @return \App\Policy\Result
      */
-    public function canAddTracking(IdentityInterface $user, StudentAdscription $adscription)
+    public function canAddTracking(IdentityInterface $user, StudentAdscription $adscription): Result
     {
         $adscriptionIsOpen = $adscription->getStatus()?->is([AdscriptionStatus::OPEN]);
 
@@ -36,7 +36,7 @@ class StudentAdscriptionPolicy
      * @param \App\Model\Entity\StudentAdscription $adscription
      * @return bool
      */
-    public function canDeleteTracking(IdentityInterface $user, StudentAdscription $adscription)
+    public function canDeleteTracking(IdentityInterface $user, StudentAdscription $adscription): bool
     {
         if ($this->adscriptionIsOpen($adscription)) {
             if ($this->studentIsOwner($user, $adscription->student_id)) {
@@ -56,7 +56,7 @@ class StudentAdscriptionPolicy
      * @param \App\Model\Entity\StudentAdscription $adscription
      * @return bool
      */
-    public function canValidate(IdentityInterface $user, StudentAdscription $adscription)
+    public function canValidate(IdentityInterface $user, StudentAdscription $adscription): bool
     {
         if ($this->adscriptionIsClosed($adscription) && $this->userIsAdmin($user)) {
             return true;
@@ -72,7 +72,7 @@ class StudentAdscriptionPolicy
      * @param \App\Model\Entity\StudentAdscription $adscription
      * @return bool
      */
-    public function canChangeStatus(IdentityInterface $user, StudentAdscription $adscription)
+    public function canChangeStatus(IdentityInterface $user, StudentAdscription $adscription): bool
     {
         // @todo not implement yet
 
@@ -84,7 +84,7 @@ class StudentAdscriptionPolicy
      * @param \App\Model\Entity\StudentAdscription $adscription
      * @return bool
      */
-    public function canClose(IdentityInterface $user, StudentAdscription $adscription)
+    public function canClose(IdentityInterface $user, StudentAdscription $adscription): bool
     {
         if ($this->adscriptionIsOpen($adscription) && $this->userIsAdmin($user)) {
             return true;
@@ -102,7 +102,7 @@ class StudentAdscriptionPolicy
      * @param \App\Model\Entity\StudentAdscription $adscription
      * @return bool
      */
-    public function canPrintFormat007(IdentityInterface $user, StudentAdscription $adscription)
+    public function canPrintFormat007(IdentityInterface $user, StudentAdscription $adscription): bool
     {
         if ($this->adscriptionIsClosed($adscription) && $this->userIsAdmin($user)) {
             return true;

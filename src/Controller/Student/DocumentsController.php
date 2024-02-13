@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller\Student;
 
 use App\Controller\Traits\DocumentsTrait;
+use Cake\Http\Response;
 
 /**
  * StudentDocuments Controller
@@ -30,7 +31,7 @@ class DocumentsController extends AppStudentController
     /**
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function format007()
+    public function format007(): Response|null|null
     {
         $this->traitFormat007((string)$this->getCurrentStudent()->id);
     }
@@ -38,7 +39,7 @@ class DocumentsController extends AppStudentController
     /**
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function format009()
+    public function format009(): Response|null|null
     {
         $this->traitFormat009((string)$this->getCurrentStudent()->id);
     }

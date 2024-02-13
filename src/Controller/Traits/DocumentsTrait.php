@@ -20,10 +20,10 @@ trait DocumentsTrait
     }
 
     /**
-     * @param int|string|null $student_id
+     * @param string|int|null $student_id
      * @return void
      */
-    public function format007(?string $student_id = null)
+    public function format007(?string $student_id = null): void
     {
         $student = $this->Students->find()
             ->find('withTenants')
@@ -64,10 +64,10 @@ trait DocumentsTrait
     }
 
     /**
-     * @param int|string|null $student_id
+     * @param string|int|null $student_id
      * @return void
      */
-    public function format009(?string $student_id = null)
+    public function format009(?string $student_id = null): void
     {
         $this->Students = $this->fetchTable('Students');
         $this->StudentStages = $this->fetchTable('StudentStages');

@@ -7,7 +7,6 @@ use App\Utility\FilterTenantUtility;
 use ArrayObject;
 use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
-use Cake\ORM\Query;
 use Cake\ORM\Query\SelectQuery;
 use Cake\Utility\Hash;
 

@@ -1,10 +1,10 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Student;
 
 use App\Model\Field\AdscriptionStatus;
+use Cake\Http\Response;
 use Cake\View\CellTrait;
 
 /**
@@ -32,7 +32,7 @@ class DashboardController extends AppStudentController
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function index()
+    public function index(): Response|null|null
     {
         $student_id = $this->getCurrentStudent()->id;
         $studentStages = $this->StudentStages

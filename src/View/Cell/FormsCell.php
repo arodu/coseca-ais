@@ -32,7 +32,7 @@ class FormsCell extends Cell
      * @param \App\Model\Entity\Student $student
      * @return void
      */
-    public function register(Student $student)
+    public function register(Student $student): void
     {
         $interestAreas = $this->fetchTable('InterestAreas')->find('list', limit: 200)
             ->where(['InterestAreas.program_id' => $student->tenant->program_id])

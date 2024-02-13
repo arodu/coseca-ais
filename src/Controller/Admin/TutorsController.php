@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use Cake\Event\EventInterface;
+use Cake\Http\Response;
 
 /**
  * Tutors Controller
@@ -17,7 +18,7 @@ class TutorsController extends AppAdminController
      * @param \Cake\Event\EventInterface $event
      * @return void
      */
-    public function beforeRender(EventInterface $event)
+    public function beforeRender(EventInterface $event): void
     {
         $this->MenuLte->activeItem('tutors');
     }
@@ -27,7 +28,7 @@ class TutorsController extends AppAdminController
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function index()
+    public function index(): Response|null|null
     {
         $this->paginate = [];
 
@@ -54,7 +55,7 @@ class TutorsController extends AppAdminController
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view(?string $id = null): Response|null|null
     {
         $tutor = $this->Tutors->get($id, contain: ['Tenants', 'StudentAdscriptions']);
 
@@ -66,7 +67,7 @@ class TutorsController extends AppAdminController
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function add(): Response|null|null
     {
         $tutor = $this->Tutors->newEmptyEntity();
         if ($this->request->is('post')) {
@@ -89,7 +90,7 @@ class TutorsController extends AppAdminController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
+    public function edit(?string $id = null): Response|null|null
     {
         $tutor = $this->Tutors->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -112,7 +113,7 @@ class TutorsController extends AppAdminController
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    public function delete(?string $id = null): Response|null|null
     {
         $modalForm = $this->getRequest()->getAttribute('modalForm');
         if (empty($modalForm) || !$modalForm->isValid()) {
