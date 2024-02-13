@@ -14,9 +14,9 @@ class StudentAdscriptionPolicy
     /**
      * @param \Authentication\IdentityInterface $user
      * @param \App\Model\Entity\StudentAdscription $adscription
-     * @return \App\Policy\Result
+     * @return bool
      */
-    public function canAddTracking(IdentityInterface $user, StudentAdscription $adscription): Result
+    public function canAddTracking(IdentityInterface $user, StudentAdscription $adscription): bool
     {
         $adscriptionIsOpen = $adscription->getStatus()?->is([AdscriptionStatus::OPEN]);
 
