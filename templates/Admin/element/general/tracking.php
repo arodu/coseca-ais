@@ -5,6 +5,7 @@
 /** @var \App\View\AppView $this */
 
 use App\Enum\ActionColor;
+use App\Utility\FilePrint;
 
 $studentStage->student = $student;
 $status = $studentStage->getStatus();
@@ -29,7 +30,7 @@ echo $this->Button->report([
         'action' => 'format007',
         $studentStage->student_id,
         'prefix' => 'Admin',
-        'format007.pdf',
+        FilePrint::format007($student),
     ],
     'class' => 'btn-sm mr-2',
     'displayCondition' => function () use ($studentStage) {

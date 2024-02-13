@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -16,7 +15,6 @@ use QueryFilter\QueryFilterPlugin;
  * @property \App\Model\Table\LapsesTable&\Cake\ORM\Association\HasMany $Lapses
  * @property \App\Model\Table\StudentsTable&\Cake\ORM\Association\HasMany $Students
  * @property \App\Model\Table\TenantFiltersTable&\Cake\ORM\Association\HasMany $TenantFilters
- *
  * @method \App\Model\Entity\Tenant newEmptyEntity()
  * @method \App\Model\Entity\Tenant newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Tenant[] newEntities(array $data, array $options = [])
@@ -100,36 +98,42 @@ class TenantsTable extends Table
         return $validator;
     }
 
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
     public function findWithPrograms(Query $query, array $options): Query
     {
         return $query->contain(['Programs']);
     }
 
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
     public function findListLabel(Query $query, array $options): Query
     {
         $options = array_merge([
             'keyField' => 'id',
             'valueField' => 'label',
-            'groupField' => 'program.area_label'
+            'groupField' => 'program.area_label',
         ], $options);
 
         return parent::findList($query, $options)->contain(['Programs']);
     }
 
+    /**
+     * @return void
+     */
     public function loadQueryFilters()
     {
-        //$this->addFilterField('area', [
-        //    'tableField' => $this->aliasField('program_id'),
-        //    'finder' => QueryFilterPlugin::FINDER_SELECT,
-        //]);
         $this->addFilterField('name', [
             'tableField' => $this->aliasField('name'),
             'finder' => QueryFilterPlugin::FINDER_SELECT,
         ]);
-        //$this->addFilterField('area', [
-        //    'tableField' => $this->aliasField('program_id'),
-        //    'finder' => QueryFilterPlugin::FINDER_SELECT,
-        //]);
+
         $this->addFilterField('program_id', [
             'tableField' => $this->aliasField('program_id'),
             'finder' => QueryFilterPlugin::FINDER_SELECT,

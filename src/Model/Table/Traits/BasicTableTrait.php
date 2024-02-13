@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table\Traits;
@@ -19,6 +18,11 @@ trait BasicTableTrait
         ]);
     }
 
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
     public function findObjectList(Query $query, array $options = []): Query
     {
         $options += [
@@ -30,7 +34,7 @@ trait BasicTableTrait
             /** @var \Cake\Collection\CollectionInterface $results */
             return $results->combine(
                 $options['keyField'],
-                fn ($item) => ($item),
+                fn ($item) => $item,
                 $options['groupField'],
             );
         });

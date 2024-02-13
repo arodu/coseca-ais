@@ -38,7 +38,6 @@ class Lapse extends Entity
 
     /**
      * @return string|null
-     * 
      * @deprecated
      */
     protected function _getTenantName(): ?string
@@ -70,7 +69,6 @@ class Lapse extends Entity
         return __('{0} ({1})', $this->name, $this->label_active);
     }
 
-
     /**
      * @return string|null
      */
@@ -80,13 +78,17 @@ class Lapse extends Entity
     }
 
     /**
-     * @return Active|null
+     * @return \App\Enum\Active|null
      */
     public function getActive(): ?Active
     {
         return Active::get($this->active ?? false);
     }
 
+    /**
+     * @param \App\Model\Field\StageField $stageField
+     * @return \App\Model\Entity\LapseDate|null
+     */
     public function getDates(StageField $stageField): ?LapseDate
     {
         if (empty($this->lapse_dates)) {

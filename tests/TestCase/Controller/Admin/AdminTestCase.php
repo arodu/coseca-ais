@@ -1,15 +1,10 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller\Admin;
 
-use App\Model\Entity\Student;
-use App\Model\Field\StudentType;
 use App\Model\Field\UserRole;
 use App\Test\Factory\CreateDataTrait;
-use App\Test\Factory\InstitutionFactory;
-use App\Test\Factory\TutorFactory;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 use Cake\Utility\Hash;

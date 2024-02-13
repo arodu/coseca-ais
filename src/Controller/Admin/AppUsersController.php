@@ -17,6 +17,9 @@ class AppUsersController extends AppAdminController
         $this->MenuLte->activeItem('users');
     }
 
+    /**
+     * @return \Cake\Http\Response|null|void
+     */
     public function index()
     {
         $this->paginate = [
@@ -24,7 +27,7 @@ class AppUsersController extends AppAdminController
 
         $query = $this->AppUsers->find()
             ->where([
-                'AppUsers.role IN' => UserRole::getAdminGroup(), 
+                'AppUsers.role IN' => UserRole::getAdminGroup(),
             ]);
 
         $users = $this->paginate($query);
@@ -32,6 +35,10 @@ class AppUsersController extends AppAdminController
         $this->set(compact('users'));
     }
 
+    /**
+     * @param int|string|null $id
+     * @return \Cake\Http\Response|null|void
+     */
     public function view($id = null)
     {
         $user = $this->AppUsers->get($id, [
@@ -48,6 +55,9 @@ class AppUsersController extends AppAdminController
         $this->set(compact('user'));
     }
 
+    /**
+     * @return \Cake\Http\Response|null|void
+     */
     public function add()
     {
         $user = $this->AppUsers->newEmptyEntity();
@@ -63,6 +73,10 @@ class AppUsersController extends AppAdminController
         $this->set(compact('user'));
     }
 
+    /**
+     * @param int|string|null $id
+     * @return \Cake\Http\Response|null|void
+     */
     public function edit($id = null)
     {
         $user = $this->AppUsers->get($id, [
@@ -80,6 +94,10 @@ class AppUsersController extends AppAdminController
         $this->set(compact('user'));
     }
 
+    /**
+     * @param int|string|null $id
+     * @return \Cake\Http\Response|null|void
+     */
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);

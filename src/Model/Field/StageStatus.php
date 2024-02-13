@@ -27,7 +27,7 @@ enum StageStatus: string implements BadgeInterface, ListInterface
      */
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             static::WAITING => __('En espera'),
             static::IN_PROGRESS => __('En proceso'),
             static::REVIEW => __('En revisión'),
@@ -39,11 +39,11 @@ enum StageStatus: string implements BadgeInterface, ListInterface
     }
 
     /**
-     * @return Color
+     * @return \CakeLteTools\Enum\Color
      */
     public function color(): Color
     {
-        return match($this) {
+        return match ($this) {
             static::WAITING => Color::INFO,
             static::IN_PROGRESS => Color::WARNING,
             static::REVIEW => Color::PRIMARY,
@@ -55,11 +55,12 @@ enum StageStatus: string implements BadgeInterface, ListInterface
     }
 
     /**
-     * @return FaIcon
+     * @param string|array $extraCssClass
+     * @return \CakeLteTools\Utility\FaIcon
      */
     public function icon(string|array $extraCssClass = []): FaIcon
     {
-        return match($this) {
+        return match ($this) {
             static::WAITING => FaIcon::get('waiting', $extraCssClass),
             static::IN_PROGRESS => FaIcon::get('in-progress', $extraCssClass),
             static::REVIEW => FaIcon::get('review', $extraCssClass),

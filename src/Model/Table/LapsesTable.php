@@ -1,11 +1,8 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use App\Model\Entity\Lapse;
-use App\Model\Field\StageField;
 use App\Model\Table\Traits\BasicTableTrait;
 use ArrayObject;
 use Cake\Datasource\EntityInterface;
@@ -18,7 +15,6 @@ use Cake\Validation\Validator;
  * Lapses Model
  *
  * @property \App\Model\Table\StudentStagesTable&\Cake\ORM\Association\HasMany $StudentStages
- *
  * @method \App\Model\Entity\Lapse newEmptyEntity()
  * @method \App\Model\Entity\Lapse newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Lapse[] newEntities(array $data, array $options = [])
@@ -91,9 +87,9 @@ class LapsesTable extends Table
     }
 
     /**
-     * @param EventInterface $event
-     * @param EntityInterface $entity
-     * @param ArrayObject $options
+     * @param \Cake\Event\EventInterface $event
+     * @param \Cake\Datasource\EntityInterface $entity
+     * @param \ArrayObject $options
      * @return void
      */
     public function afterSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)

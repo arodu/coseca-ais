@@ -19,25 +19,28 @@ enum Active implements BadgeInterface
      */
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             static::TRUE => __('Activo'),
             static::FALSE => __('Inactivo'),
         };
     }
 
+    /**
+     * @return \CakeLteTools\Enum\Color
+     */
     public function color(): Color
     {
-        return match($this) {
+        return match ($this) {
             static::TRUE => Color::PRIMARY,
             static::FALSE => Color::SECONDARY,
         };
     }
 
     /**
-     * @param boolean|null $active
+     * @param bool|null $active Active
      * @return self|null
      */
-    public static function get(bool $active = null): ?self
+    public static function get(?bool $active = null): ?self
     {
         if (is_null($active)) {
             return null;

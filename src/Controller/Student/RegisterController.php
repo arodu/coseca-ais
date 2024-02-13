@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Student;
@@ -15,6 +14,9 @@ class RegisterController extends AppStudentController
 {
     use RegisterProcessTrait;
 
+    /**
+     * @return void
+     */
     public function initialize(): void
     {
         parent::initialize();
@@ -23,13 +25,16 @@ class RegisterController extends AppStudentController
         $this->Students = $this->fetchTable('Students');
     }
 
+    /**
+     * @return \Cake\Http\Response|null|void Renders view
+     */
     public function edit()
     {
         $currentStudent = $this->getCurrentStudent();
 
         [
             'success' => $success,
-            'student' => $student
+            'student' => $student,
         ] = $this->processEdit($currentStudent->id, ['updateStatus' => true]);
 
         if ($success) {

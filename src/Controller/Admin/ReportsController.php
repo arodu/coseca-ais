@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Admin;
@@ -11,7 +10,6 @@ use Cake\Http\Exception\NotFoundException;
  */
 class ReportsController extends AppAdminController
 {
-
     /**
      * @inheritDoc
      */
@@ -86,7 +84,6 @@ class ReportsController extends AppAdminController
             ])
             ->order(['active' => 'DESC'])
             ->where(['tenant_id' => $tenant->id]);
-
 
         $this->set(compact('tenant', 'lapseSelected', 'lapses', 'currentTab'));
     }

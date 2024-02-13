@@ -46,26 +46,29 @@ class StudentAdscription extends Entity
         'status' => true,
         'principal' => true,
     ];
-    
+
     protected $_virtual = [
         'label_status',
     ];
 
     /**
-     * @return AdscriptionStatus|null
+     * @return \App\Model\Field\AdscriptionStatus|null
      */
     public function getStatus(): ?AdscriptionStatus
     {
         return AdscriptionStatus::tryFrom($this->status ?? '');
     }
 
+    /**
+     * @return string
+     */
     protected function _getLabelStatus(): string
     {
         return $this->getStatus()?->label() ?? '';
     }
 
     /**
-     * @return AdscriptionPrincipal|null
+     * @return \App\Model\Field\AdscriptionPrincipal|null
      */
     public function getPrincipal(): ?AdscriptionPrincipal
     {
