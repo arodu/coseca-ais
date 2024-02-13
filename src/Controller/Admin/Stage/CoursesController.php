@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Admin\Stage;
@@ -8,7 +7,6 @@ use App\Controller\Admin\AppAdminController;
 use App\Controller\Traits\ActionValidateTrait;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
-use App\Utility\Stages;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\I18n\FrozenDate;
 use Cake\Log\Log;
@@ -23,6 +21,9 @@ class CoursesController extends AppAdminController
 {
     use ActionValidateTrait;
 
+    /**
+     * @return void
+     */
     public function initialize(): void
     {
         parent::initialize();
@@ -30,15 +31,17 @@ class CoursesController extends AppAdminController
     }
 
     /**
-     * Add method
-     *
-     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
+     * @param int|string|null $student_id
+     * @param int|string|null $id
+     * @return \Cake\Http\Response|null|void
      */
     public function edit($student_id = null, $id = null)
     {
+        $student = $this->Students->get($student_id);
+
         $courseStage = $this->Students->StudentStages
             ->find('byStudentStage', [
-                'student_id' => $student_id,
+                'student_id' => $student->id,
                 'stage' => StageField::COURSE,
             ])
             ->first();
@@ -79,7 +82,7 @@ class CoursesController extends AppAdminController
                     $this->Flash->success(__('The {0} stage has been created.', $nextStage->stage));
                 }
 
-                return $this->redirect(['_name' => 'admin:student:view', $student_id]);
+                return $this->redirect(['_name' => 'admin:student:view', $student->id]);
             } catch (\Exception $e) {
                 Log::error($e->getMessage());
                 $this->Students->getConnection()->rollback();
@@ -88,7 +91,7 @@ class CoursesController extends AppAdminController
         }
 
         $selectedDate = $session->read('courseSelectedDate', FrozenDate::now());
-        $this->set(compact('studentCourse', 'selectedDate', 'student_id'));
+        $this->set(compact('studentCourse', 'selectedDate', 'student'));
     }
 
     /**

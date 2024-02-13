@@ -1,9 +1,10 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
 
+use App\Enum\Active;
+use App\Model\Field\StageField;
 use App\Model\Field\StudentType;
 use App\Utility\Stages;
 use Cake\Http\Exception\NotFoundException;
@@ -18,7 +19,6 @@ use Cake\ORM\Entity;
  * @property int $created_by
  * @property \Cake\I18n\FrozenTime $modified
  * @property int $modified_by
- * @property \App\Model\Field\StudentType $type_obj
  *
  * @property \App\Model\Entity\AppUser $app_user
  * @property \App\Model\Entity\StudentStage[] $student_stages
@@ -48,6 +48,7 @@ class Student extends Entity
         'student_adscriptions' => true,
         'student_data' => true,
         'lapse_id' => true,
+        'active' => true,
     ];
 
     protected $_virtual = [
@@ -56,26 +57,38 @@ class Student extends Entity
         'last_name',
         'email',
         'full_name',
-        'type_obj',
         'type_label',
+        'active_label',
     ];
 
-    protected function _getDni()
+    /**
+     * @return string|null
+     */
+    protected function _getDni(): ?string
     {
         return $this->app_user->dni ?? null;
     }
 
-    protected function _getFirstName()
+    /**
+     * @return string|null
+     */
+    protected function _getFirstName(): ?string
     {
         return $this->app_user->first_name ?? null;
     }
 
-    protected function _getLastName()
+    /**
+     * @return string|null
+     */
+    protected function _getLastName(): ?string
     {
         return $this->app_user->last_name ?? null;
     }
 
-    protected function _getFullName()
+    /**
+     * @return string|null
+     */
+    protected function _getFullName(): ?string
     {
         return implode(' ', [
             $this->first_name,
@@ -83,25 +96,28 @@ class Student extends Entity
         ]);
     }
 
-    protected function _getEmail()
+    /**
+     * @return string|null
+     */
+    protected function _getEmail(): ?string
     {
         return $this->app_user->email ?? null;
     }
 
-    private StudentType $_type_obj;
-
-    protected function _getTypeObj(): StudentType
+    /**
+     * @return string|null
+     */
+    protected function _getTypeLabel(): ?string
     {
-        if (empty($this->_type_obj)) {
-            $this->_type_obj = StudentType::from($this->type);
-        }
-
-        return $this->_type_obj;
+        return $this->getType()?->label() ?? null;
     }
 
-    protected function _getTypeLabel(): string
+    /**
+     * @return \App\Model\Field\StudentType|null
+     */
+    public function getType(): ?StudentType
     {
-        return $this->type_obj->label();
+        return StudentType::tryFrom($this->type);
     }
 
     /**
@@ -109,9 +125,12 @@ class Student extends Entity
      */
     public function getStageFieldList(): array
     {
-        return Stages::getStageFieldList($this->type_obj);
+        return Stages::getStageFieldList($this->getType());
     }
 
+    /**
+     * @return \App\Model\Entity\Lapse
+     */
     public function getCurrentLapse(): Lapse
     {
         if (!empty($this->lapse) && $this->lapse instanceof Lapse) {
@@ -123,5 +142,58 @@ class Student extends Entity
         }
 
         throw new NotFoundException('student current_lapse not found');
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasPrincipalAdscription(): bool
+    {
+        if (empty($this->student_adscriptions)) {
+            return false;
+        }
+
+        foreach ($this->student_adscriptions as $studentAdscription) {
+            if ($studentAdscription->principal ?? false) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @return string|null
+     */
+    protected function _getActiveLabel(): ?string
+    {
+        return $this->getActive()?->label() ?? null;
+    }
+
+    /**
+     * @return \App\Enum\Active|null
+     */
+    public function getActive(): ?Active
+    {
+        return Active::get($this->active ?? false);
+    }
+
+    /**
+     * @param \App\Model\Field\StageField $stageField
+     * @return \App\Model\Entity\StudentStage|null
+     */
+    public function getStudentStage(StageField $stageField): ?StudentStage
+    {
+        if (empty($this->student_stages)) {
+            return null;
+        }
+
+        foreach ($this->student_stages as $studentStage) {
+            if ($studentStage->getStage() === $stageField) {
+                return $studentStage;
+            }
+        }
+
+        return null;
     }
 }

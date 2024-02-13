@@ -7,7 +7,7 @@
 
 use App\Enum\ActionColor;
 use App\Enum\Active;
-use App\Utility\FaIcon;
+use CakeLteTools\Utility\FaIcon;
 
 ?>
 
@@ -49,7 +49,7 @@ $this->Breadcrumbs->add([
             </tr>
             <tr>
                 <th><?= __('Activo') ?></th>
-                <td><?= $tenant->active ? __('Si') : __('No'); ?></td>
+                <td><?= $this->App->yn($tenant->active) ?></td>
             </tr>
         </table>
     </div>
@@ -58,6 +58,9 @@ $this->Breadcrumbs->add([
             <?= $this->Html->link(__('Editar'), ['action' => 'edit', $tenant->id], ['class' => ActionColor::EDIT->btn()]) ?>
         </div>
         <div class="ml-auto">
+            <?= $this->Button->statistics([
+                'url' => ['controller' => 'Reports', 'action' => 'tenant', $tenant->id],
+            ]) ?>
             <?= $this->Html->link(__('Volver'), ['action' => 'index'], ['class' => ActionColor::BACK->btn()]) ?>
         </div>
     </div>

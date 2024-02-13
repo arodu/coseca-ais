@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -21,17 +20,12 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\FrozenTime $modified
  * @property string $stage_label
  * @property string $status_label
- * @property \App\Model\Field\StageField $stage_obj
- * @property \App\Model\Field\StageStatus $status_obj
  *
  * @property \App\Model\Entity\Student $student
  * @property \App\Model\Entity\Lapse $lapse
  */
 class StudentStage extends Entity
 {
-    private StageField $_stageObj;
-    private StageStatus $_stageStatusObj;
-
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
@@ -55,51 +49,47 @@ class StudentStage extends Entity
 
     protected $_virtual = [
         'stage_label',
-        'stage_obj',
         'status_label',
-        'status_obj',
     ];
 
+    /**
+     * @return \App\Model\Field\StageField|null
+     */
+    public function getStage(): ?StageField
+    {
+        return StageField::tryFrom($this->stage);
+    }
+
+    /**
+     * @return \App\Model\Field\StageStatus|null
+     */
+    public function getStatus(): ?StageStatus
+    {
+        return StageStatus::tryFrom($this->status);
+    }
+
+    /**
+     * @param mixed $item
+     * @return bool
+     */
+    public function statusIs(mixed $item): bool
+    {
+        return $this->getStatus()?->is($item) ?? false;
+    }
+
+    /**
+     * @return string
+     */
     protected function _getStageLabel(): string
     {
-        return $this->stage_obj->label();
+        return $this->getStage()?->label() ?? '';
     }
 
+    /**
+     * @return string
+     */
     protected function _getStatusLabel(): string
     {
-        return $this->status_obj->label();
-    }
-
-    /**
-     * @return StageField
-     */
-    protected function _getStageObj(): StageField
-    {
-        if (empty($this->_stageObj)) {
-            $this->_stageObj = StageField::from($this->stage);
-        }
-
-        return $this->_stageObj;
-    }
-
-    /**
-     * @return StageStatus
-     */
-    protected function _getStatusObj(): StageStatus
-    {
-        if (empty($this->_stageStatusObj)) {
-            $this->_stageStatusObj = StageStatus::from($this->status);
-        }
-
-        return $this->_stageStatusObj;
-    }
-
-    /**
-     * @return void
-     */
-    public function objReset()
-    {
-        $this->_stageStatusObj = null;
-        $this->_stageObj = null;
+        return $this->getStatus()?->label() ?? '';
     }
 }

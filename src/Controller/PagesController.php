@@ -14,6 +14,7 @@ declare(strict_types=1);
  * @since     0.2.9
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\Controller;
 
 use App\Model\Field\UserRole;
@@ -28,7 +29,9 @@ use Cake\Log\Log;
  */
 class PagesController extends AppController
 {
-
+    /**
+     * @return void
+     */
     public function initialize(): void
     {
         parent::initialize();
@@ -37,6 +40,9 @@ class PagesController extends AppController
         $this->Authentication->allowUnauthenticated(['home']);
     }
 
+    /**
+     * @return \Cake\Http\Response|null|void
+     */
     public function home()
     {
         try {
@@ -53,7 +59,6 @@ class PagesController extends AppController
             if (in_array($identity->role, UserRole::getStudentGroup())) {
                 return $this->redirect(['_name' => 'student:home']);
             }
-
         } catch (\Throwable $e) {
             Log::alert($e->getMessage());
         }

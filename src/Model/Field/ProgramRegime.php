@@ -1,13 +1,13 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Field;
 
-use App\Enum\Trait\BasicEnumTrait;
-use App\Enum\Trait\ListTrait;
+use CakeLteTools\Enum\ListInterface;
+use CakeLteTools\Enum\Trait\BasicEnumTrait;
+use CakeLteTools\Enum\Trait\ListTrait;
 
-enum ProgramRegime: string
+enum ProgramRegime: string implements ListInterface
 {
     use ListTrait;
     use BasicEnumTrait;
@@ -31,6 +31,9 @@ enum ProgramRegime: string
         };
     }
 
+    /**
+     * @return string
+     */
     public function formLabel(): string
     {
         return match ($this) {
@@ -42,6 +45,9 @@ enum ProgramRegime: string
         };
     }
 
+    /**
+     * @return int
+     */
     public function maxLevel(): int
     {
         return match ($this) {

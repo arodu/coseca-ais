@@ -26,7 +26,7 @@ use App\Model\Field\AdscriptionStatus;
                     <?= h($studentAdscription->institution_project->label_name) ?>
                 </h3>
                 <div class="ml-auto">
-                    <?= $this->App->badge($studentAdscription->status_obj) ?>
+                    <?= $this->App->badge($studentAdscription->getStatus()) ?>
                 </div>
             </div>
             <div class="card-body">
@@ -60,14 +60,14 @@ use App\Model\Field\AdscriptionStatus;
 
                 <div class="d-flex">
                     <div class="ml-auto">
-                        <?php // @todo activar cuando los reportes esten activos
-                            if ($studentAdscription->status_obj->is(AdscriptionStatus::PENDING)) : ?>
+                        <?php /* // @todo activar cuando los reportes esten activos
+                            if ($studentAdscription->getStatus()?->is(AdscriptionStatus::PENDING)) : ?>
                             <!-- <?= $this->Button->report([
                                 'label' => __('Planilla de adscripción'),
                                 'url' => ['controller' => 'StudentDocuments', 'action' => 'download', $studentAdscription->student_document->token],
                                 'class' => 'btn-sm',
                             ]) ?> -->
-                        <?php endif ?>
+                        <?php endif  */ ?>
                     </div>
                 </div>
             </div>

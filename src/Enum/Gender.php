@@ -3,9 +3,10 @@ declare(strict_types=1);
 
 namespace App\Enum;
 
-use App\Enum\Trait\ListTrait;
+use CakeLteTools\Enum\ListInterface;
+use CakeLteTools\Enum\Trait\ListTrait;
 
-enum Gender: string
+enum Gender: string implements ListInterface
 {
     use ListTrait;
 
@@ -17,7 +18,7 @@ enum Gender: string
      */
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             static::FEMALE => __('Femenino'),
             static::MALE => __('Masculino'),
 

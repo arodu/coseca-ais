@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
+use App\Model\Field\AdscriptionPrincipal;
 use App\Model\Field\AdscriptionStatus;
 use Cake\ORM\Entity;
 
@@ -43,35 +44,34 @@ class StudentAdscription extends Entity
         'institution_project' => true,
         'tutor' => true,
         'status' => true,
+        'principal' => true,
     ];
-    
+
     protected $_virtual = [
         'label_status',
     ];
 
-    private AdscriptionStatus $_adscriptionStatus;
-
     /**
-     * @return AdscriptionStatus
+     * @return \App\Model\Field\AdscriptionStatus|null
      */
-    protected function _getStatusObj(): ?AdscriptionStatus
+    public function getStatus(): ?AdscriptionStatus
     {
-        if (empty($this?->status)) {
-            return null;
-        }
-
-        if (empty($this->_adscriptionStatus)) {
-            $this->_adscriptionStatus = AdscriptionStatus::from($this?->status);
-        }
-
-        return $this->_adscriptionStatus;
+        return AdscriptionStatus::tryFrom($this->status ?? '');
     }
 
     /**
      * @return string
      */
-    protected function _getLabelStatus(): ?string
+    protected function _getLabelStatus(): string
     {
-        return $this->_getStatusObj()?->label();
+        return $this->getStatus()?->label() ?? '';
+    }
+
+    /**
+     * @return \App\Model\Field\AdscriptionPrincipal|null
+     */
+    public function getPrincipal(): ?AdscriptionPrincipal
+    {
+        return AdscriptionPrincipal::get($this->principal ?? false);
     }
 }

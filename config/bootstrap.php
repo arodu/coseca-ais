@@ -47,6 +47,7 @@ use Cake\Mailer\Mailer;
 use Cake\Mailer\TransportFactory;
 use Cake\Routing\Router;
 use Cake\Utility\Security;
+use CakeLteTools\Utility\FaIcon;
 
 /*
  * See https://github.com/josegonzalez/php-dotenv for API details.
@@ -227,8 +228,35 @@ FrozenDate::setToStringFormat('dd/MM/yy');
 //Inflector::rules('irregular', ['red' => 'redlings']);
 //Inflector::rules('uninflected', ['dontinflectme']);
 
-Configure::write('coseca.hours-min', 120);
-Configure::write('coseca.uc-min', 90);
-Configure::write('coseca.uc-max', 192);
+Configure::write('coseca.hours-min', env('COSECA_HOURS_MIN', 120));
+Configure::write('coseca.uc-min', env('COSECA_UC_MIN', 90));
+Configure::write('coseca.uc-max', env('COSECA_UC_MAX', 192));
 
 Configure::load('stages');
+
+Configure::write('CakePdf', [
+    'engine' => [
+        'className' => 'CakePdf.DomPdf',
+        'options' => [
+            'isRemoteEnabled' => true,
+        ],
+    ],
+    'margin' => [
+        'bottom' => 15,
+        'left' => 50,
+        'right' => 30,
+        'top' => 45
+    ],
+    'setPrintHeader' => false,
+    'setPrintFooter' => false,
+    'header' => [
+        'right' => '123123123',
+    ],
+]);
+
+FaIcon::setIcon([
+    //'user' => ['fas', 'user-circle'],
+    //'close' => ['fas', 'window-close'],
+    //'check' => ['fas', 'check-circle'],
+    //'chart-bar' => ['fas', 'chart-bar'],
+]);

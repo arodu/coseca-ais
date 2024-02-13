@@ -5,8 +5,8 @@
  * @var \App\Model\Entity\Student[]|\Cake\Collection\CollectionInterface $students
  */
 
-use App\Utility\FaIcon;
 use Cake\Core\Configure;
+use CakeLteTools\Utility\FaIcon;
 
 ?>
 <?php
@@ -40,7 +40,7 @@ $this->Breadcrumbs->add([
         <table class="table table-hover text-nowrap institution-projects">
             <thead>
                 <tr>
-                    <th class="narrow"><?= $this->BulkAction->checkbox('all') ?></th>
+                    <th class="narrow"><?= $this->BulkAction->checkboxAll('all') ?></th>
                     <th class="narrow"><?= $this->Paginator->sort('Tenants.abbr', __('Programa')) ?></th>
                     <th colspan="3">
                         <span><?= $this->Paginator->sort('AppUsers.dni', __('Cedula')) ?></span>
@@ -48,6 +48,7 @@ $this->Breadcrumbs->add([
                         <span class="ml-3"><?= $this->Paginator->sort('AppUsers.last_name', __('Apellidos')) ?></span>
                     </th>
                     <th><?= __('Lapso') ?></th>
+                    <th><?= __('Estatus') ?></th>
                     <th><?= __('Etapa') ?></th>
                     <th style="width:20%;"><?= __('Horas') ?></th>
                     <th class="actions"><?= __('Acciones') ?></th>
@@ -59,7 +60,7 @@ $this->Breadcrumbs->add([
                     $studentStage = $student->last_stage;
                     ?>
                     <tr>
-                        <td><?= $this->BulkAction->checkbox('item', $student->id) ?></td>
+                        <td><?= $this->BulkAction->checkbox('item', ['value' => $student->id]) ?></td>
                         <td><?= h($student->tenant->abbr_label) ?></td>
                         <td colspan=3>
                             <?= $this->Html->link(
@@ -69,16 +70,13 @@ $this->Breadcrumbs->add([
                             ) ?>
                         </td>
                         <td><?= h($student->lapse?->name) ?? $this->App->nan() ?></td>
+                        <td><?= $this->App->badge($student->getActive())?></td>
                         <td>
                             <?= h($studentStage->stage_label) ?>
-                            <?= $this->Html->tag(
-                                'span',
-                                $student->last_stage->status_label,
-                                ['class' => [$studentStage->status_obj->color()->badge(), 'ml-2']]
-                            ) ?>
+                            <?= $this->App->badge($studentStage->getStatus())?>
                         </td>
                         <td class="project_progress">
-                            <?= $this->App->progressBar($student->total_hours ?? 0, Configure::read('coseca.hours-min')) ?>
+                            <?= $this->App->progressBar($student->total_hours ?? 0) ?>
                         </td>
                         <td class="actions">
                             <div class="dropdown">

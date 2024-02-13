@@ -13,8 +13,10 @@ declare(strict_types=1);
  * @since     3.0.0
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\View;
 
+use Authentication\IdentityInterface;
 use Cake\Core\Configure;
 use Cake\View\View;
 use CakeLte\View\CakeLteTrait;
@@ -25,19 +27,19 @@ use CakeLte\View\CakeLteTrait;
  * Your application's default view class
  *
  * @link https://book.cakephp.org/4/en/views.html#the-app-view
- * 
  * @property \App\View\Helper\AppHelper $App
- * @property \App\View\Helper\BulkActionHelper $BulkAction
- * @property \App\View\Helper\ButtonHelper $Button
- * @property \App\View\Helper\DependentSelectorHelper $DependentSelector
+ * @property \CakeLteTools\View\Helper\DependentSelectorHelper $DependentSelector
+ * @property \CakeLteTools\View\Helper\BulkActionHelper $BulkAction
  * @property \ModalForm\View\Helper\ModalFormHelper $ModalForm
+ * @property \App\View\Helper\ButtonHelper $Button
+ * @property \App\View\Helper\PdfHelper $Pdf
  */
 class AppView extends View
 {
     use CakeLteTrait;
 
     public $layout = 'CakeLte.top-nav';
-  
+
     /**
      * Initialization hook method.
      *
@@ -50,10 +52,12 @@ class AppView extends View
     public function initialize(): void
     {
         $this->initializeCakeLte();
-        $this->loadHelper('Authentication.Identity');
-        $this->loadHelper('ModalForm.ModalForm');
-        $this->loadHelper('DependentSelector');
-        $this->loadHelper('Button');
+        $this->addHelper('Authentication.Identity');
+        $this->addHelper('ModalForm.ModalForm');
+        $this->addHelper('CakeLteTools.DependentSelector');
+        $this->addHelper('CakeLteTools.BulkAction');
+        $this->addHelper('Button');
+        $this->addHelper('Pdf');
     }
 
     /**
@@ -82,5 +86,30 @@ class AppView extends View
         unset($options['tag']);
 
         return $this->Html->tag($tag, $info, $options);
+    }
+
+    /**
+     * @return \Authentication\IdentityInterface
+     */
+    public function getIdentity(): IdentityInterface
+    {
+        return $this->getRequest()->getAttribute('identity');
+    }
+
+    /**
+     * @param array $options
+     * @return string
+     */
+    public function getPrefix(array $options = []): string
+    {
+        $options = array_merge([
+            'current' => 'Student',
+            'then' => 'Student',
+            'else' => 'Admin',
+        ], $options);
+
+        return $this->getRequest()->getParam('prefix') === $options['current']
+            ? $options['then']
+            : $options['else'];
     }
 }

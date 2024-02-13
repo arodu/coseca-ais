@@ -39,13 +39,32 @@ class Tenant extends Entity
         'program_id' => true,
     ];
 
-    public function _getLabel()
+    protected $_virtual = [
+        'label',
+        'abbr_label',
+    ];
+
+    /**
+     * @return string
+     */
+    protected function _getLabel(): string
     {
+        if (!$this->program) {
+            return $this->name;
+        }
+
         return $this->program->name . ', ' . $this->name;
     }
 
-    public function _getAbbrLabel()
+    /**
+     * @return string
+     */
+    protected function _getAbbrLabel(): string
     {
+        if (!$this->program) {
+            return $this->abbr;
+        }
+
         return $this->program->abbr . '-' . $this->abbr;
     }
 }

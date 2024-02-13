@@ -1,17 +1,17 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use App\Controller\Traits\BulkActionsTrait;
-use App\Controller\Traits\ExportDataTrait;
 use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
+use App\Model\Field\StudentType;
 use Cake\Event\EventInterface;
 use Cake\ORM\Query;
 use Cake\View\CellTrait;
+use CakeLteTools\Controller\Traits\BulkActionsTrait;
+use CakeLteTools\Controller\Traits\ExportDataTrait;
 
 /**
  * Students Controller
@@ -25,8 +25,13 @@ class StudentsController extends AppAdminController
     use ExportDataTrait;
     use CellTrait;
 
+    /**
+     * @param \Cake\Event\EventInterface $event
+     * @return void
+     */
     public function beforeRender(EventInterface $event)
     {
+        parent::beforeRender($event);
         $this->MenuLte->activeItem('students');
     }
 
@@ -59,7 +64,7 @@ class StudentsController extends AppAdminController
         $students = $this->paginate($query);
         $isFiltered = $this->Students->queryWasFiltered();
 
-        $formFilters = $this->cell('Filters::admin_students', [
+        $formFilters = $this->cell('Filters::adminStudents', [
             'isFiltered' => $isFiltered,
             'filterKey' => $filterKey,
         ]);
@@ -67,6 +72,10 @@ class StudentsController extends AppAdminController
         $this->set(compact('students', 'formFilters'));
     }
 
+    /**
+     * @param \Cake\ORM\Query $query
+     * @return \Cake\Http\Response|null|void
+     */
     protected function queryToCsv(Query $query)
     {
         $query = $query->contain([
@@ -81,6 +90,7 @@ class StudentsController extends AppAdminController
             'first_name' => __('Nombres'),
             'last_name' => __('Apellidos'),
             'app_user.email' => __('Email'),
+            'student_data.phone' => __('Telefono'),
             'student_data.uc' => __('UC'),
             'student_data.gender' => __('Genero'),
             'lapse.name' => __('Lapso'),
@@ -91,7 +101,6 @@ class StudentsController extends AppAdminController
             'filename' => $this->filenameWithDate('estudiantes'),
         ]);
     }
-
 
     /**
      * View method
@@ -105,6 +114,7 @@ class StudentsController extends AppAdminController
         $student = $this->Students
             ->find('withStudentAdscriptions')
             ->find('withStudentCourses')
+            ->find('withAppUsers')
             ->where(['Students.id' => $id])
             ->first();
 
@@ -113,6 +123,10 @@ class StudentsController extends AppAdminController
         $this->set(compact('student', 'stageList'));
     }
 
+    /**
+     * @param int|string $id
+     * @return \Cake\Http\Response|null|void
+     */
     public function info($id = null)
     {
         $student = $this->Students->get($id, [
@@ -122,6 +136,10 @@ class StudentsController extends AppAdminController
         $this->set(compact('student'));
     }
 
+    /**
+     * @param int|string $id
+     * @return \Cake\Http\Response|null|void
+     */
     public function adscriptions($id = null)
     {
         $student = $this->Students->find('withStudentAdscriptions')
@@ -131,34 +149,50 @@ class StudentsController extends AppAdminController
         $this->set(compact('student'));
     }
 
+    /**
+     * @param int|string $id
+     * @return \Cake\Http\Response|null|void
+     */
     public function settings($id = null)
     {
         $student = $this->Students->get($id, [
-            'contain' => ['AppUsers', 'StudentData'],
+            'contain' => ['AppUsers'],
         ]);
 
         $this->set(compact('student'));
     }
 
+    /**
+     * @param int|string $id
+     * @return \Cake\Http\Response|null|void
+     */
     public function tracking($id = null)
     {
-        $student_id = $id;
+        $student = $this->Students->get($id);
         $trackingView = $this->cell('TrackingView', [
-            'student_id' => $student_id,
+            'student_id' => $student->id,
             'urlList' => [
                 'add' => ['_name' => 'admin:stage:tracking:add'],
                 'delete' => ['_name' => 'admin:stage:tracking:delete'],
                 'validate' => [
                     '_name' => 'admin:stage:adscription:changeStatus',
                     // @todo poder poner claves en este array, revisar en rutas
-                    AdscriptionStatus::VALIDATED->value
+                    AdscriptionStatus::VALIDATED->value,
                 ],
-            ]
+                'close' => [
+                    '_name' => 'admin:stage:adscription:changeStatus',
+                    AdscriptionStatus::CLOSED->value,
+                ],
+            ],
         ]);
 
-        $this->set(compact('trackingView', 'student_id'));
+        $this->set(compact('trackingView', 'student'));
     }
 
+    /**
+     * @param int|string $id
+     * @return \Cake\Http\Response|null|void
+     */
     public function prints($id = null)
     {
         $this->set('student_id', $id);
@@ -231,14 +265,14 @@ class StudentsController extends AppAdminController
     }
 
     /**
-     * @param array $items
-     * @param array|null $redirect
+     * @param array $ids
      * @return \Cake\Http\Response|null|void Redirects to index.
      */
     protected function closeStageCourse(array $ids = [])
     {
         if (empty($ids)) {
             $this->Flash->warning(__('No se han seleccionado estudiantes'));
+
             return $this->redirect(['action' => 'index']);
         }
 
@@ -249,6 +283,10 @@ class StudentsController extends AppAdminController
         return $this->redirect(['action' => 'index']);
     }
 
+    /**
+     * @param int|string $id
+     * @return \Cake\Http\Response|null|void
+     */
     public function changeEmail($id = null)
     {
         $student = $this->Students->get($id, [
@@ -265,5 +303,77 @@ class StudentsController extends AppAdminController
             $this->Flash->error(__('The student email could not be saved. Please, try again.'));
         }
         $this->set(compact('student'));
+    }
+
+    /**
+     * @param int|string $id
+     * @return \Cake\Http\Response|null|void
+     */
+    public function newProgram(string $id)
+    {
+        $this->request->allowMethod(['post', 'put']);
+
+        try {
+            $this->Students->getConnection()->begin();
+            $student = $this->Students->get($id, [
+                'contain' => ['AppUsers'],
+            ]);
+            $student->active = false;
+            $this->Students->saveOrFail($student);
+
+            $newStudent = $this->Students->newEntity([
+                'user_id' => $student->user_id,
+                'tenant_id' => $this->request->getData('tenant_id'),
+                'type' => StudentType::REGULAR->value,
+            ]);
+
+            $this->Students->saveOrFail($newStudent);
+            $this->Students->getConnection()->commit();
+            $this->Flash->success(__('A new student record has been created, and the previous one has been deactivated.'));
+
+            return $this->redirect(['action' => 'view', $newStudent->id]);
+        } catch (\Exception $e) {
+            $this->Flash->error(__('The student could not be saved. Please, try again.'));
+
+            $this->Students->getConnection()->rollback();
+        }
+
+        return $this->redirect(['action' => 'view', $id]);
+    }
+
+    /**
+     * @param int|string $id
+     * @return \Cake\Http\Response|null|void
+     */
+    public function deactivate(string $id)
+    {
+        $this->request->allowMethod(['post', 'put']);
+        $student = $this->Students->get($id);
+        $student->active = false;
+        if ($this->Students->save($student)) {
+            $this->Flash->success(__('The student has been deactivate'));
+        } else {
+            $this->Flash->error(__('The student could not be deactivate. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'view', $id]);
+    }
+
+    /**
+     * @param int|string $id
+     * @return \Cake\Http\Response|null|void
+     */
+    public function reactivate(string $id)
+    {
+        $this->request->allowMethod(['post', 'put']);
+        $student = $this->Students->get($id);
+        $student->active = true;
+        if ($this->Students->save($student)) {
+            $this->Flash->success(__('The student has been activate'));
+        } else {
+            $this->Flash->error(__('The student could not be activate. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'view', $id]);
     }
 }

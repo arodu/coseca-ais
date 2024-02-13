@@ -5,8 +5,9 @@
 /** @var \App\View\AppView $this */
 
 use App\Enum\ActionColor;
+use CakeLteTools\Utility\FaIcon;
 
-$status = $studentStage->status_obj;
+$status = $studentStage->getStatus();
 $color = $status->color();
 $icon = $status->icon();
 
@@ -37,6 +38,7 @@ $this->end();
         <table class="table table-sm table-borderless table-hover m-0">
             <thead>
                 <tr>
+                    <th></th>
                     <th><?= __('Institución') ?></th>
                     <th><?= __('Proyecto') ?></th>
                     <th><?= __('Tutor') ?></th>
@@ -46,10 +48,14 @@ $this->end();
             <tbody>
                 <?php foreach ($student->student_adscriptions as $student_adscriptions) : ?>
                     <tr>
+                        <td><?= $student_adscriptions->principal ? FaIcon::get('check', 'text-primary', [
+                                'title' => __('Proyecto Principal'),
+                                'data-toggle' => 'tooltip',
+                            ]) : '' ?></td>
                         <td><?= $student_adscriptions->institution_project->institution->name ?></td>
                         <td><?= $student_adscriptions->institution_project->name ?></td>
                         <td><?= $student_adscriptions->tutor->name ?></td>
-                        <td><?= $this->App->badge($student_adscriptions->status_obj) ?></td>
+                        <td><?= $this->App->badge($student_adscriptions->getStatus()) ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

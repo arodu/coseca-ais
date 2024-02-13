@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -10,6 +9,7 @@ use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use App\Model\Field\StudentType;
 use App\Model\Table\Traits\BasicTableTrait;
+use App\Utility\Calc;
 use ArrayObject;
 use Cake\Cache\Cache;
 use Cake\Datasource\EntityInterface;
@@ -30,7 +30,6 @@ use QueryFilter\QueryFilterPlugin;
  * @property \App\Model\Table\TenantsTable&\Cake\ORM\Association\BelongsTo $Tenants
  * @property \App\Model\Table\StudentStagesTable&\Cake\ORM\Association\HasMany $StudentStages
  * @property \App\Model\Table\StudentStagesTable&\Cake\ORM\Association\HasOne $LastStage
- *
  * @method \App\Model\Entity\Student newEmptyEntity()
  * @method \App\Model\Entity\Student newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Student[] newEntities(array $data, array $options = [])
@@ -44,7 +43,6 @@ use QueryFilter\QueryFilterPlugin;
  * @method \App\Model\Entity\Student[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
  * @method \App\Model\Entity\Student[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
  * @method \App\Model\Entity\Student[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
- *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class StudentsTable extends Table
@@ -68,9 +66,13 @@ class StudentsTable extends Table
         $this->addBehavior('QueryFilter.QueryFilter');
         $this->addBehavior('Timestamp');
         $this->addBehavior('Muffin/Footprint.Footprint');
+        $this->addBehavior('FilterTenant');
 
         $this->addBehavior('LastElement', [
             'fieldGroup' => 'user_id',
+            'subQueryConditions' => [
+                $this->aliasField('active') => true,
+            ],
         ]);
 
         $this->belongsTo('AppUsers', [
@@ -107,6 +109,11 @@ class StudentsTable extends Table
             'dependent' => true,
             'cascadeCallbacks' => true,
         ]);
+        $this->hasOne('PrincipalAdscription', [
+            'className' => 'StudentAdscriptions',
+            'foreignKey' => 'student_id',
+            'finder' => 'principal',
+        ]);
         $this->hasOne('StudentCourses', [
             'foreignKey' => 'student_id',
             'dependent' => true,
@@ -117,8 +124,8 @@ class StudentsTable extends Table
     }
 
     /**
-     * @param Validator $validator
-     * @return Validator
+     * @param \Cake\Validation\Validator $validator
+     * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator): Validator
     {
@@ -153,6 +160,9 @@ class StudentsTable extends Table
         return $rules;
     }
 
+    /**
+     * @return void
+     */
     public function loadQueryFilters()
     {
         $this->addFilterField('tenant_id', [
@@ -185,14 +195,14 @@ class StudentsTable extends Table
                     ->where(
                         [$this->aliasField('lapse_id') . ' IN' => $lapses_ids]
                     );
-            }
+            },
         ]);
     }
 
     /**
-     * @param Query $query
+     * @param \Cake\ORM\Query $query
      * @param array $options
-     * @return Query
+     * @return \Cake\ORM\Query
      */
     public function findLastStageFilter(Query $query, array $options = []): Query
     {
@@ -208,9 +218,9 @@ class StudentsTable extends Table
     }
 
     /**
-     * @param Query $query
+     * @param \Cake\ORM\Query $query
      * @param array $options
-     * @return Query
+     * @return \Cake\ORM\Query
      */
     public function findWithTenants(Query $query, array $options = []): Query
     {
@@ -223,6 +233,11 @@ class StudentsTable extends Table
         ]);
     }
 
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
     public function findWithStudentAdscriptions(Query $query, array $options = []): Query
     {
         return $query->contain([
@@ -240,8 +255,11 @@ class StudentsTable extends Table
         ]);
     }
 
-
-
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
     public function findWithStudentCourses(Query $query, array $options = []): Query
     {
         return $query->contain([
@@ -249,6 +267,11 @@ class StudentsTable extends Table
         ]);
     }
 
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
     public function findWithAppUsers(Query $query, array $options = []): Query
     {
         return $query->contain([
@@ -256,6 +279,11 @@ class StudentsTable extends Table
         ]);
     }
 
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
     public function findWithStudentData(Query $query, array $options = []): Query
     {
         return $query->contain([
@@ -265,6 +293,11 @@ class StudentsTable extends Table
         ]);
     }
 
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
     public function findWithLapses(Query $query, array $options = []): Query
     {
         return $query->contain([
@@ -274,6 +307,11 @@ class StudentsTable extends Table
         ]);
     }
 
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
     public function findLoadProgress(Query $query, array $options = []): Query
     {
         if (empty($options['studentStages'])) {
@@ -287,13 +325,13 @@ class StudentsTable extends Table
         $stageRegister = $studentStages[StageField::REGISTER->value] ?? null;
 
         // stage: registy, status: in-progress
-        if (!empty($stageRegister) && $stageRegister->status_obj->is([StageStatus::IN_PROGRESS])) {
+        if (!empty($stageRegister) && $stageRegister->getStatus()->is([StageStatus::IN_PROGRESS])) {
             $query = $query
                 ->find('withTenants');
         }
 
         // stage: registy, status: success
-        if (!empty($stageRegister) && $stageRegister->status_obj->is([StageStatus::SUCCESS])) {
+        if (!empty($stageRegister) && $stageRegister->getStatus()->is([StageStatus::SUCCESS])) {
             $query = $query
                 ->contain(['Tenants' => ['Programs']])
                 ->find('withStudentData')
@@ -303,6 +341,12 @@ class StudentsTable extends Table
         return $query;
     }
 
+    /**
+     * @param \Cake\Event\EventInterface $event
+     * @param \Cake\Datasource\EntityInterface $entity
+     * @param \ArrayObject $options
+     * @return void
+     */
     public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
     {
         if (!$entity->isNew() && empty($entity->lapse_id)) {
@@ -316,9 +360,9 @@ class StudentsTable extends Table
     }
 
     /**
-     * @param EventInterface $event
-     * @param EntityInterface $entity
-     * @param ArrayObject $options
+     * @param \Cake\Event\EventInterface $event
+     * @param \Cake\Datasource\EntityInterface $entity
+     * @param \ArrayObject $options
      * @return void
      */
     public function afterSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
@@ -334,11 +378,11 @@ class StudentsTable extends Table
     }
 
     /**
-     * @param AppUser $user
-     * @param integer|null $tenant_id
-     * @return void
+     * @param \App\Model\Entity\AppUser $user
+     * @param null $options
+     * @return \App\Model\Entity\Student|null
      */
-    public function newRegularStudent(AppUser $user, array $options = [])
+    public function newRegularStudent(AppUser $user, array $options = []): ?Student
     {
         $data = array_merge([
             'user_id' => $user->id,
@@ -351,12 +395,20 @@ class StudentsTable extends Table
         if (!$this->save($student)) {
             Log::warning('student already exists');
         }
+
+        return $student;
     }
 
+    /**
+     * @param mixed $ids
+     * @param \App\Model\Field\StageField $stageField
+     * @param \App\Model\Field\StageStatus $stageStatus
+     * @return int
+     */
     public function closeLastStageMasive(mixed $ids, StageField $stageField, StageStatus $stageStatus): int
     {
         if (is_string($ids) || is_int($ids)) {
-            $ids = [(int) $ids];
+            $ids = [(int)$ids];
         }
 
         $studentStages = $this->StudentStages
@@ -379,51 +431,66 @@ class StudentsTable extends Table
         return $affectedRows;
     }
 
-
+    /**
+     * @param int $student_id
+     * @return array
+     */
     public function getStudentTrackingInfo(int $student_id): array
     {
         return Cache::remember('student_tracking_info_' . $student_id, function () use ($student_id) {
             $adscriptionsIds = $this->StudentAdscriptions->find('activeProjects', ['student_id' => $student_id]);
 
-            $trackingCount = $this->StudentAdscriptions->StudentTracking->find()
-                ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
-                ->count();
-
-            $trackingFirstDate = null;
-            $trackingLastDate = null;
-            $totalHours = null;
-
-            if ($trackingCount > 0) {
-                $trackingFirstDate = $this->StudentAdscriptions->StudentTracking->find()
-                    ->select(['StudentTracking.date'])
-                    ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
-                    ->order(['StudentTracking.date' => 'ASC'])
-                    ->first();
-
-                $trackingLastDate = $this->StudentAdscriptions->StudentTracking->find()
-                    ->select(['StudentTracking.date'])
-                    ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
-                    ->order(['StudentTracking.date' => 'DESC'])
-                    ->first();
-
-                $totalHours = $this->StudentAdscriptions->StudentTracking->find()
-                    ->select(['total_hours' => 'SUM(StudentTracking.hours)'])
-                    ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
-                    ->first();
-            }
-
-            return [
-                'trackingCount' => $trackingCount ?? 0,
-                'trackingFirstDate' => $trackingFirstDate->date ?? null,
-                'trackingLastDate' => $trackingLastDate->date ?? null,
-                'totalHours' => $totalHours->total_hours ?? 0,
-            ];
+            return $this->getStudentTrackingInfoByAdscription($adscriptionsIds);
         }, '1day');
     }
 
     /**
-     * @param Student $student
-     * @return Student
+     * @param array $adscriptionsIds
+     * @return array
+     */
+    public function getStudentTrackingInfoByAdscription(array|Query $adscriptionsIds = []): array
+    {
+        $trackingCount = $this->StudentAdscriptions->StudentTracking->find()
+            ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
+            ->count();
+
+        $trackingFirstDate = null;
+        $trackingLastDate = null;
+        $totalHours = null;
+
+        if ($trackingCount > 0) {
+            $trackingFirstDate = $this->StudentAdscriptions->StudentTracking->find()
+                ->select(['StudentTracking.date'])
+                ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
+                ->order(['StudentTracking.date' => 'ASC'])
+                ->first();
+
+            $trackingLastDate = $this->StudentAdscriptions->StudentTracking->find()
+                ->select(['StudentTracking.date'])
+                ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
+                ->order(['StudentTracking.date' => 'DESC'])
+                ->first();
+
+            $totalHours = $this->StudentAdscriptions->StudentTracking->find()
+                ->select(['total_hours' => 'SUM(StudentTracking.hours)'])
+                ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])
+                ->first();
+
+            $totalPercent = Calc::percentHoursCompleted($totalHours->total_hours ?? 0);
+        }
+
+        return [
+            'trackingCount' => $trackingCount ?? 0,
+            'trackingFirstDate' => $trackingFirstDate->date ?? null,
+            'trackingLastDate' => $trackingLastDate->date ?? null,
+            'totalHours' => $totalHours->total_hours ?? 0,
+            'totalPercent' => $totalPercent ?? 0,
+        ];
+    }
+
+    /**
+     * @param \App\Model\Entity\Student $student
+     * @return \App\Model\Entity\Student
      */
     public function updateTotalHours(Student $student): Student
     {

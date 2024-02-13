@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -22,7 +21,6 @@ use InvalidArgumentException;
  *
  * @property \App\Model\Table\StudentsTable&\Cake\ORM\Association\BelongsTo $Students
  * @property \App\Model\Table\LapsesTable&\Cake\ORM\Association\BelongsTo $Lapses
- *
  * @method \App\Model\Entity\StudentStage newEmptyEntity()
  * @method \App\Model\Entity\StudentStage newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\StudentStage[] newEntities(array $data, array $options = [])
@@ -36,7 +34,6 @@ use InvalidArgumentException;
  * @method \App\Model\Entity\StudentStage[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
  * @method \App\Model\Entity\StudentStage[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
  * @method \App\Model\Entity\StudentStage[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
- *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class StudentStagesTable extends Table
@@ -113,9 +110,9 @@ class StudentStagesTable extends Table
     }
 
     /**
-     * @param Query $query
+     * @param \Cake\ORM\Query $query
      * @param array $options
-     * @return Query
+     * @return \Cake\ORM\Query
      */
     public function findByStudentStage(Query $query, array $options = []): Query
     {
@@ -138,9 +135,9 @@ class StudentStagesTable extends Table
     }
 
     /**
-     * @param Query $query
+     * @param \Cake\ORM\Query $query
      * @param array $options
-     * @return Query
+     * @return \Cake\ORM\Query
      */
     public function findStageList(Query $query, array $options = []): Query
     {
@@ -150,7 +147,7 @@ class StudentStagesTable extends Table
             );
         }
 
-        /** @var Student $student */
+        /** @var \App\Model\Entity\Student $student */
         $student = $options['student'];
         $listStages = $student->getStageFieldList();
         $keyField = $options['keyField'] ?? 'stage';
@@ -158,21 +155,48 @@ class StudentStagesTable extends Table
         $query->find('objectList', ['keyField' => $keyField])
             ->where(['student_id' => $student->id]);
 
-        return $query->formatResults(function ($results) use ($listStages) {
-            /** @var \Cake\Collection\CollectionInterface $results */
-            $studentStages = $results->toArray();
+        return $query
+            ->formatResults(function ($results) use ($listStages) {
+                /** @var \Cake\Collection\CollectionInterface $results */
+                $studentStages = $results->toArray();
 
-            return array_map(function ($item) use ($studentStages) {
-                return [
-                    'stageField' => $item,
-                    'studentStage' => $studentStages[$item->value] ?? null,
-                ];
-            }, $listStages);
-        });
-
-        return $query;
+                return array_map(function ($item) use ($studentStages) {
+                    return [
+                        'stageField' => $item,
+                        'studentStage' => $studentStages[$item->value] ?? null,
+                    ];
+                }, $listStages);
+            });
     }
 
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
+    public function findReport(Query $query, array $options = []): Query
+    {
+        if (empty($options['student_ids'])) {
+            throw new InvalidArgumentException(__('param student_ids is necessary'));
+        }
+
+        return $query
+            ->select([
+                'stage' => 'StudentStages.stage',
+                'status' => 'StudentStages.status',
+                'count' => 'COUNT(StudentStages.id)',
+            ])
+            ->where(['StudentStages.student_id IN' => $options['student_ids']])
+            ->group(['StudentStages.stage', 'StudentStages.status'])
+            ->formatResults(function ($results) {
+                return $results->combine('status', 'count', 'stage');
+            });
+    }
+
+    /**
+     * @param array $options
+     * @return \App\Model\Entity\StudentStage|false
+     */
     public function create(array $options): StudentStage|false
     {
         try {
@@ -186,7 +210,7 @@ class StudentStagesTable extends Table
 
     /**
      * @param array $options
-     * @return StudentStage
+     * @return \App\Model\Entity\StudentStage
      */
     public function createOrFail(array $options): StudentStage
     {
@@ -208,9 +232,9 @@ class StudentStagesTable extends Table
     }
 
     /**
-     * @param StudentStage $entity
-     * @param StageStatus $newStatus
-     * @return StudentStage
+     * @param \App\Model\Entity\StudentStage $entity
+     * @param \App\Model\Field\StageStatus $newStatus
+     * @return \App\Model\Entity\StudentStage
      */
     public function updateStatus(StudentStage $entity, StageStatus $newStatus): StudentStage
     {
@@ -220,10 +244,10 @@ class StudentStagesTable extends Table
     }
 
     /**
-     * @param StudentStage $entity
-     * @param StageStatus $newStatus
-     * @param boolean $forced
-     * @return StudentStage|bool
+     * @param \App\Model\Entity\StudentStage $entity
+     * @param \App\Model\Field\StageStatus $newStatus
+     * @param bool $forced
+     * @return \App\Model\Entity\StudentStage|bool
      */
     public function close(StudentStage $entity, StageStatus $newStatus, bool $forced = false): StudentStage|bool
     {
@@ -237,10 +261,10 @@ class StudentStagesTable extends Table
     }
 
     /**
-     * @param StudentStage $entity
-     * @param StageStatus $newStatus
-     * @param boolean $forced
-     * @return StudentStage|null
+     * @param \App\Model\Entity\StudentStage $entity
+     * @param \App\Model\Field\StageStatus $newStatus
+     * @param bool $forced
+     * @return \App\Model\Entity\StudentStage|null
      */
     public function closeOrFail(StudentStage $entity, StageStatus $newStatus, bool $forced = false): ?StudentStage
     {
@@ -260,9 +284,9 @@ class StudentStagesTable extends Table
     }
 
     /**
-     * @param StudentStage $entity
-     * @param boolean $forced
-     * @return StudentStage|false
+     * @param \App\Model\Entity\StudentStage $entity
+     * @param bool $forced
+     * @return \App\Model\Entity\StudentStage|false
      */
     public function createNext(StudentStage $entity, bool $forced = false): StudentStage|false
     {
@@ -276,14 +300,14 @@ class StudentStagesTable extends Table
     }
 
     /**
-     * @param StudentStage $entity
-     * @param boolean $forced
-     * @return StudentStage
-     * @throws InvalidArgumentException
+     * @param \App\Model\Entity\StudentStage $entity
+     * @param bool $forced
+     * @return \App\Model\Entity\StudentStage
+     * @throws \InvalidArgumentException
      */
     public function createNextOrFail(StudentStage $entity, bool $forced = false): StudentStage
     {
-        if (!($forced || in_array($entity->status_obj, [StageStatus::SUCCESS]))) {
+        if (!($forced || in_array($entity->getStatus(), [StageStatus::SUCCESS]))) {
             throw new InvalidArgumentException('The stage has to be closed to create the next one');
         }
 
@@ -291,12 +315,13 @@ class StudentStagesTable extends Table
             $this->loadInto($entity, ['Students']);
         }
 
-        $nextStageField = Stages::getNextStageField($entity->stage_obj, $entity->student->type_obj);
+        $nextStageField = Stages::getNextStageField($entity->getStage(), $entity->student->getType());
         if (!$nextStageField) {
             throw new InvalidArgumentException('The stage has no next stage');
         }
 
-        if ($preview = $this->find()->where(['student_id' => $entity->student_id, 'stage' => $nextStageField->value])->first()) {
+        $preview = $this->find()->where(['student_id' => $entity->student_id, 'stage' => $nextStageField->value])->first();
+        if ($preview) {
             return $preview;
         }
 

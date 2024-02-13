@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Admin;
@@ -26,6 +25,8 @@ class StudentStagesController extends AppAdminController
         $studentStage = $this->StudentStages->get($id, [
             'contain' => ['Students'],
         ]);
+        $student = $studentStage->student;
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $studentStage = $this->StudentStages->patchEntity($studentStage, $this->request->getData());
             if ($this->StudentStages->save($studentStage)) {
@@ -35,7 +36,7 @@ class StudentStagesController extends AppAdminController
             }
             $this->Flash->error(__('The student stage could not be saved. Please, try again.'));
         }
-        $this->set(compact('studentStage'));
+        $this->set(compact('studentStage', 'student'));
     }
 
     /**

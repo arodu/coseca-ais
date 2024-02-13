@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -40,10 +39,13 @@ class LapseDate extends Entity
         'is_single_date' => true,
     ];
 
-    protected function _getShowDates()
+    /**
+     * @return string|null
+     */
+    protected function _getShowDates(): ?string
     {
         if ($this->is_single_date) {
-            return $this->start_date;
+            return __('{0}', $this->start_date);
         }
 
         if (!empty($this->start_date) && !empty($this->end_date)) {
@@ -58,9 +60,18 @@ class LapseDate extends Entity
     ];
 
     /**
-     * @return StatusDate|null
+     * @return \App\Enum\StatusDate|null
+     * @deprecated
      */
     protected function _getStatus(): ?StatusDate
+    {
+        return StatusDate::get($this->start_date, $this->end_date);
+    }
+
+    /**
+     * @return \App\Enum\StatusDate|null
+     */
+    public function getStatus(): ?StatusDate
     {
         return StatusDate::get($this->start_date, $this->end_date);
     }

@@ -1,10 +1,10 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\View\Cell;
 
-use Cake\Cache\Cache;
+use App\Model\Entity\Student;
+use App\Utility\CacheRequest;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\View\Cell;
 
@@ -34,17 +34,21 @@ class StudentInfoCell extends Cell
     }
 
     /**
-     * Default display method.
-     *
+     * @param int|string $student_id
      * @return void
      */
-    public function display($student_id)
+    public function display(int|string $student_id)
     {
         $student = $this->getStudent($student_id);
         $this->set(compact('student'));
     }
 
-    public function menu(int $student_id, $activeItem = null)
+    /**
+     * @param int|string $student_id
+     * @param string|null $activeItem
+     * @return void
+     */
+    public function menu(int|string $student_id, ?string $activeItem = null)
     {
         $student = $this->getStudent($student_id);
 
@@ -65,10 +69,6 @@ class StudentInfoCell extends Cell
                 'url' => ['controller' => 'Students', 'action' => 'tracking', $student->id, 'prefix' => 'Admin'],
                 'label' => __('Seguimiento'),
             ],
-            'prints' => [
-                'url' => ['controller' => 'Students', 'action' => 'prints', $student->id, 'prefix' => 'Admin'],
-                'label' => __('Planillas'),
-            ],
             'settings' => [
                 'url' => ['controller' => 'Students', 'action' => 'settings', $student->id, 'prefix' => 'Admin'],
                 'label' => __('Configuración'),
@@ -78,10 +78,13 @@ class StudentInfoCell extends Cell
         $this->set(compact('student_menu', 'activeItem'));
     }
 
-    protected function getStudent($student_id)
+    /**
+     * @param int|string $student_id
+     * @return \App\Model\Entity\Student|null
+     */
+    protected function getStudent(int|string $student_id): ?Student
     {
-        // @todo falta borrar cache al momento de modificar los datos del student
-        return Cache::remember('student_info_' . $student_id, function () use ($student_id) {
+        return CacheRequest::remember('student_info_' . $student_id, function () use ($student_id) {
             return $this->Students->get($student_id, [
                 'contain' => [
                     'AppUsers',
@@ -90,6 +93,6 @@ class StudentInfoCell extends Cell
                     'LastStage',
                 ],
             ]);
-        }, 'default');
+        });
     }
 }

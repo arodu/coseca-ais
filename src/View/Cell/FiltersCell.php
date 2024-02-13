@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\View\Cell;
@@ -30,9 +29,14 @@ class FiltersCell extends Cell
         $this->viewBuilder()->addHelper('Button');
     }
 
-    public function admin_students(bool $isFiltered = false, string $filterKey = 'f')
+    /**
+     * @param bool $isFiltered
+     * @param string $filterKey
+     * @return void
+     */
+    public function adminStudents(bool $isFiltered = false, string $filterKey = 'f')
     {
-        $tenants = $this->Students->Tenants->find('list');
+        $tenants = $this->Students->Tenants->find('listLabel');
         $lapses = $this->Students->Lapses->find('list', [
             'keyField' => 'name',
             'valueField' => 'name',
@@ -42,21 +46,33 @@ class FiltersCell extends Cell
         $this->set(compact('isFiltered', 'filterKey'));
     }
 
-    public function admin_programs(bool $isFiltered = false, string $filterKey = 'f')
+    /**
+     * @param bool $isFiltered
+     * @param string $filterKey
+     * @return void
+     */
+    public function adminPrograms(bool $isFiltered = false, string $filterKey = 'f')
     {
-
         $this->set(compact('isFiltered', 'filterKey'));
     }
 
-    public function admin_institutions(bool $isFiltered = false, string $filterKey = 'f')
+    /**
+     * @param bool $isFiltered
+     * @param string $filterKey
+     * @return void
+     */
+    public function adminInstitutions(bool $isFiltered = false, string $filterKey = 'f')
     {
-
         $this->set(compact('isFiltered', 'filterKey'));
     }
 
-    public function admin_tutors(bool $isFiltered = false, string $filterKey = 'f')
+    /**
+     * @param bool $isFiltered
+     * @param string $filterKey
+     * @return void
+     */
+    public function adminTutors(bool $isFiltered = false, string $filterKey = 'f')
     {
-
         $this->set(compact('isFiltered', 'filterKey'));
     }
 }

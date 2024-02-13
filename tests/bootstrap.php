@@ -64,6 +64,5 @@ session_id('cli');
 // (new SchemaLoader())->loadSqlFiles('./tests/schema.sql', 'test');
 (new Migrator())->run();
 
-
 Configure::load('CakeDC/Users.users');
 Configure::load('users');

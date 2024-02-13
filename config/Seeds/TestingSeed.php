@@ -52,19 +52,76 @@ class TestingSeed extends AbstractSeed
     protected function createAdmins()
     {
         $users[] = $this->setupUser([
+            'email' => 'root@example.com',
+            'password' => '1234',
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'role' => UserRole::ROOT->value,
+            'active' => true,
+        ]);
+
+        $users[] = $this->setupUser([
             'email' => 'admin@example.com',
-            'password' => '1234',            
+            'password' => '1234',
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
             'role' => UserRole::ADMIN->value,
             'active' => true,
             'tenant_filters' => [
-                ['tenant_id' => 1],
-                ['tenant_id' => 2],
-                ['tenant_id' => 3],
-                ['tenant_id' => 4],
+                ['tenant_id' => 1], // San Juan
+                ['tenant_id' => 2], // Mellado
+                ['tenant_id' => 3], // Ortíz
             ],
         ]);
+
+        $users[] = $this->setupUser([
+            'email' => 'sanjuan@example.com',
+            'password' => '1234',
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'role' => UserRole::ADMIN->value,
+            'active' => true,
+            'tenant_filters' => [
+                ['tenant_id' => 1], // San Juan
+            ],
+        ]);
+
+        $users[] = $this->setupUser([
+            'email' => 'mellado@example.com',
+            'password' => '1234',
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'role' => UserRole::ADMIN->value,
+            'active' => true,
+            'tenant_filters' => [
+                ['tenant_id' => 2], // Mellado
+            ],
+        ]);
+
+        $users[] = $this->setupUser([
+            'email' => 'ortiz@example.com',
+            'password' => '1234',
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'role' => UserRole::ADMIN->value,
+            'active' => true,
+            'tenant_filters' => [
+                ['tenant_id' => 3], // Ortíz
+            ],
+        ]);
+
+        $users[] = $this->setupUser([
+            'email' => 'calabozo@example.com',
+            'password' => '1234',
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'role' => UserRole::ADMIN->value,
+            'active' => true,
+            'tenant_filters' => [
+                ['tenant_id' => 4], // Calabozo
+            ],
+        ]);
+
 
         return $this->AppUsers->saveManyOrFail($users);
     }
@@ -142,6 +199,5 @@ class TestingSeed extends AbstractSeed
         }
 
         return $this->Tutors->saveManyOrFail($tutors);
-
     }
 }

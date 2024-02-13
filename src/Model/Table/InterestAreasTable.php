@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -12,7 +11,6 @@ use Cake\Validation\Validator;
  * InterestAreas Model
  *
  * @property \App\Model\Table\ProgramsTable&\Cake\ORM\Association\BelongsTo $Programs
- *
  * @method \App\Model\Entity\InterestArea newEmptyEntity()
  * @method \App\Model\Entity\InterestArea newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\InterestArea[] newEntities(array $data, array $options = [])

@@ -3,14 +3,16 @@ declare(strict_types=1);
 
 namespace App\Model\Field;
 
-use App\Enum\Trait\BasicEnumTrait;
-use App\Enum\Trait\ListTrait;
+use CakeLteTools\Enum\ListInterface;
+use CakeLteTools\Enum\Trait\BasicEnumTrait;
+use CakeLteTools\Enum\Trait\ListTrait;
 
-enum DocumentType: string
+enum DocumentType: string implements ListInterface
 {
     use ListTrait;
     use BasicEnumTrait;
 
     case ADSCRIPTION_PROJECT = 'adscription_project';
     case ADSCRIPTION_TRACKING = 'adscription_tracking';
+    case ACTIVITIES = 'activities';
 }

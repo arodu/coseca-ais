@@ -83,6 +83,7 @@ return static function (RouteBuilder $routes) {
         $builder->connect('/tracking/add/*', ['controller' => 'Tracking', 'action' => 'add', 'plugin' => false], ['_name' => 'tracking:add']);
         $builder->connect('/tracking/delete/*', ['controller' => 'Tracking', 'action' => 'delete', 'plugin' => false], ['_name' => 'tracking:delete']);
         $builder->connect('/tracking/validate/*', ['controller' => 'Tracking', 'action' => 'validate', 'plugin' => false], ['_name' => 'tracking:validate']);
+        $builder->connect('/tracking/close/*', ['controller' => 'Adscriptions', 'action' => 'close', 'plugin' => false], ['_name' => 'tracking:close']);
 
         $builder->fallbacks(DashedRoute::class);
     });
@@ -91,7 +92,7 @@ return static function (RouteBuilder $routes) {
     $routes->prefix('Admin', ['_namePrefix' => 'admin:'], function (RouteBuilder $builder) {
 
 
-        $builder->connect('/', ['controller' => 'Students', 'action' => 'index', 'plugin' => false], ['_name' => 'home']);
+        $builder->connect('/', ['controller' => 'Reports', 'action' => 'dashboard', 'plugin' => false], ['_name' => 'home']);
         $builder->connect('/students', ['controller' => 'Students', 'action' => 'index', 'plugin' => false], ['_name' => 'student:index']);
         $builder->connect('/student/view/*', ['controller' => 'Students', 'action' => 'view', 'plugin' => false], ['_name' => 'student:view']);
         

@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace App\Enum;
 
-use App\Enum\Trait\BasicEnumTrait;
+use CakeLteTools\Enum\BadgeInterface;
+use CakeLteTools\Enum\Color;
+use CakeLteTools\Enum\Trait\BasicEnumTrait;
 
 enum Active implements BadgeInterface
 {
@@ -17,22 +19,33 @@ enum Active implements BadgeInterface
      */
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             static::TRUE => __('Activo'),
             static::FALSE => __('Inactivo'),
         };
     }
 
+    /**
+     * @return \CakeLteTools\Enum\Color
+     */
     public function color(): Color
     {
-        return match($this) {
+        return match ($this) {
             static::TRUE => Color::PRIMARY,
             static::FALSE => Color::SECONDARY,
         };
     }
 
-    public static function get(bool $active): self
+    /**
+     * @param bool|null $active Active
+     * @return self|null
+     */
+    public static function get(?bool $active = null): ?self
     {
+        if (is_null($active)) {
+            return null;
+        }
+
         return $active ? self::TRUE : self::FALSE;
     }
 }

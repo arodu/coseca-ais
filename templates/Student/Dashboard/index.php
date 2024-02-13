@@ -24,7 +24,7 @@ $this->Breadcrumbs->add([
         <?php foreach ($listStages as $itemStage) : ?>
             <?php
             $studentStage = $studentStages[$itemStage->value] ?? null;
-            $studentStageStatus = $studentStage?->status_obj ?? StageStatus::LOCKED;
+            $studentStageStatus = $studentStage?->getStatus() ?? StageStatus::LOCKED;
             ?>
             <div class="stage-list-item <?= $studentStageStatus->color()->card() ?>">
                 <div class="card-header">
@@ -32,9 +32,14 @@ $this->Breadcrumbs->add([
                         <a class="d-flex w-100" data-toggle="collapse" href="<?= '#collapse-' . $itemStage->value ?>">
                             <?= $studentStageStatus->icon()->withExtraCssClass('fa-fw mr-1')->render() ?>
                             <?= $itemStage->label() ?>
-                            <?php if ($studentStage) : ?>
-                                <i class="icon-caret fas fa-caret-up ml-auto fa-fw"></i>
-                            <?php endif; ?>
+                            <div class="ml-auto">
+                                <?php if ($studentStage?->getStatus() && $studentStage?->getStatus() != StageStatus::SUCCESS) : ?>
+                                    <span class="badge badge-light"><?= $studentStage?->getStatus()->label() ?></span>
+                                <?php endif ?>
+                                <?php if ($studentStage) : ?>
+                                    <i class="icon-caret fas fa-caret-up fa-fw"></i>
+                                <?php endif; ?>
+                            </div>
                         </a>
                     </h4>
                 </div>

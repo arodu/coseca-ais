@@ -37,14 +37,52 @@ class Program extends Entity
         'tenants' => true,
     ];
 
-    public function _getAreaLabel()
+    /**
+     * @return \App\Model\Field\ProgramArea|null
+     */
+    public function getProgramArea(): ?ProgramArea
     {
-        return ProgramArea::from($this->area)->label();
+        return ProgramArea::tryFrom($this->area);
     }
 
-    public function _getRegimeLabel()
+    protected $_virtual = [
+        'area_label',
+        'regime_label',
+    ];
+
+    /**
+     * @return string|null
+     */
+    protected function _getAreaLabel(): ?string
     {
-        return ProgramRegime::from($this->regime)->label();
+        return $this->getProgramArea()?->label() ?? null;
     }
 
+    /**
+     * @return string|null
+     */
+    protected function _getRegimeLabel(): ?string
+    {
+        return ProgramRegime::tryFrom($this->regime)?->label() ?? null;
+    }
+
+    /**
+     * area_print_label
+     *
+     * @return string|null
+     */
+    protected function _getAreaPrintLabel(): ?string
+    {
+        return $this->getProgramArea()?->printLabel() ?? null;
+    }
+
+    /**
+     * area_print_logo
+     *
+     * @return string|null
+     */
+    protected function _getAreaPrintLogo(): ?string
+    {
+        return $this->getProgramArea()?->printLogo() ?? null;
+    }
 }

@@ -4,10 +4,8 @@
  * @var \App\View\AppView $this
  */
 
-use App\Enum\ActionColor;
-use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\StageField;
-use App\Utility\FaIcon;
+use CakeLteTools\Utility\FaIcon;
 
 $user = $this->request->getAttribute('identity');
 $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
@@ -18,8 +16,16 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
         <h3 class="card-title"><?= __('Seguimiento: {0}', $student->lapse->name ?? $this->App->nan()) ?></h3>
     </div>
     <div class="card-body">
-        <?= $this->cell('TrackingView::info', ['student_id' => $student->id]) ?>
+        <?= $this->cell('TrackingView::info', ['student_id' => $student->id, 'actions' => true]) ?>
     </div>
+
+    <?php if ($user->can('displayActions', $trackingStage)) : ?>
+        <div class="card-body d-flex">
+            <div class="ml-auto">
+                <?= $this->cell('TrackingView::actions', ['student_id' => $student->id, 'trackingStage' => $trackingStage]) ?>
+            </div>
+        </div>
+    <?php endif ?>
 </div>
 
 <?php foreach ($adscriptions as $adscription) : ?>
@@ -27,6 +33,10 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
     $canAddTracking = $user->can('addTracking', $adscription);
     $canDeleteTracking = $user->can('deleteTracking', $adscription);
     $canValidateAdscription = $user->can('validate', $adscription);
+
+    $canCloseAdscription = $user->can('close', $adscription);
+    $canPrintFormat007 = $user->can('printFormat007', $adscription);
+
     $count = 0;
     $sumHours = 0;
     ?>
@@ -34,32 +44,23 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
         <div class="card-header">
             <h3 class="card-title">
                 <?= h($adscription->institution_project->label_name) ?>
-                <?= $this->App->badge($adscription->status_obj) ?>
+                <?= $this->App->badge($adscription->getStatus()) ?>
             </h3>
             <div class="card-tools">
-                <?php
-                if ($canValidateAdscription && !empty($urlList['validate'])) :
-                    echo $this->Button->openModal([
-                        'label' => __('Validar horas del proyecto'),
-                        'data-target' => '#validateAdscription' . $adscription->id,
-                        'class' => 'btn-sm',
-                        'actionColor' => ActionColor::VALIDATE,
-                        'icon' => FaIcon::get('validate', 'fa-fw'),
-                    ]);
-                endif;
-                ?>
-                <?php if ($canAddTracking) : ?>
-                    <?= $this->Button->openModal([
-                        'label' => __('Agregar Actividad'),
-                        'data-target' => '#addTracking' . $adscription->id,
-                        'class' => 'btn-sm',
-                        'icon' => FaIcon::get('tasks', 'fa-fw'),
-                    ]) ?>
-                <?php endif ?>
+                <div class="btn-group">
+                    <?php if ($canAddTracking) : ?>
+                        <?= $this->Button->openModal([
+                            'label' => __('Agregar Actividad'),
+                            'data-target' => '#addTracking' . $adscription->id,
+                            'class' => 'btn-sm',
+                            'icon' => FaIcon::get('tasks', 'fa-fw'),
+                        ]) ?>
+                    <?php endif ?>
+                </div>
             </div>
         </div>
         <div class="card-body table-responsive p-0">
-            <table class="table table-hover text-nowrap">
+            <table class="table table-hover">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -220,4 +221,50 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
         </div>
     <?php endif ?>
 
+    <?php if ($canCloseAdscription) : ?>
+        <div class="modal fade" id="<?= 'closeAdscription' . $adscription->id ?>" tabindex="-1" role="dialog" aria-labelledby="closeAdscriptionModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <?= __('¿Está seguro de que desea cerrar este proyecto? Una vez cerrado, no podrá seguir agregando actividades') ?>
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <?php $urlClose = array_merge($urlList['close'], [$adscription->id]) ?>
+                    <?= $this->Form->create(null, ['url' => $urlClose]) ?>
+                    <?= $this->Form->hidden('student_adscription_id', ['value' => $adscription->id]) ?>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col">
+                                <?= $this->App->control('project', [
+                                    'label' => __('Proyecto'),
+                                    'value' => h($adscription->institution_project->label_name),
+                                ]) ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <?= $this->Form->control('confirm', [
+                                    'type' => 'checkbox',
+                                    'label' => __('Confirmo que deseo cerrar este proyecto'),
+                                    'required' => true,
+                                ])  ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <?= $this->Button->save([
+                            'label' => __('Si'),
+                            'icon' => null,
+                        ]) ?>
+                        <?= $this->Button->closeModal() ?>
+                    </div>
+                    <?= $this->Form->end() ?>
+                </div>
+            </div>
+        </div>
+    <?php endif ?>
 <?php endforeach ?>

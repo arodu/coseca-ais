@@ -6,7 +6,7 @@
 
 use App\Enum\ActionColor;
 use App\Model\Field\AdscriptionStatus;
-use App\Model\Field\StageStatus;
+use CakeLteTools\Utility\FaIcon;
 
 $this->student_id = $student->id;
 $this->active = 'adscriptions';
@@ -37,11 +37,12 @@ $this->Breadcrumbs->add([
                 <div class="card-header d-flex">
                     <h3 class="card-title">
                         <?= h($studentAdscription->institution_project->label_name) ?>
-                        <?= $this->App->badge($studentAdscription->status_obj) ?>
+                        <?= $this->App->badge($studentAdscription->getStatus()) ?>
+                        <?= $this->App->badge($studentAdscription->getPrincipal()) ?>
                     </h3>
                     <div class="ml-auto">
                         <?php
-                        if ($studentAdscription->status_obj->is(AdscriptionStatus::PENDING)) {
+                        if ($studentAdscription->getStatus()?->is(AdscriptionStatus::PENDING)) {
                             echo $this->ModalForm->link(
                                 __('Activar Proyecto'),
                                 ['controller' => 'Adscriptions', 'action' => 'changeStatus', AdscriptionStatus::OPEN->value, $studentAdscription->id, 'prefix' => 'Admin/Stage'],
@@ -52,7 +53,7 @@ $this->Breadcrumbs->add([
                                     'title' => __('Activar Proyecto'),
                                 ]
                             );
-                        } elseif ($studentAdscription->status_obj->is(AdscriptionStatus::OPEN)) {
+                        } elseif ($studentAdscription->getStatus()?->is(AdscriptionStatus::OPEN)) {
                             echo $this->ModalForm->link(
                                 __('Cerrar Proyecto'),
                                 ['controller' => 'Adscriptions', 'action' => 'changeStatus', AdscriptionStatus::CLOSED->value, $studentAdscription->id, 'prefix' => 'Admin/Stage'],
@@ -98,18 +99,24 @@ $this->Breadcrumbs->add([
                 </div>
                 <div class="card-footer d-flex">
                     <div>
-                        <?= $this->Html->link(
-                            __('Editar'),
-                            ['controller' => 'Adscriptions', 'action' => 'edit', $studentAdscription->id, 'prefix' => 'Admin/Stage'],
-                            ['class' => ActionColor::EDIT->btn()]
-                        ) ?>
+                        <?= $this->Button->edit([
+                            'label' => __('Editar'),
+                            'url' => ['controller' => 'Adscriptions', 'action' => 'edit', $studentAdscription->id, 'prefix' => 'Admin/Stage'],
+                        ]) ?>
+                        <?= $this->Button->confirm([
+                            'displayCondition' => !$studentAdscription->principal,
+                            'label' => __('Establecer como principal'),
+                            'url' => ['controller' => 'Adscriptions', 'action' => 'setPrincipal', $studentAdscription->id, 'prefix' => 'Admin/Stage'],
+                            'actionColor' => ActionColor::ACTIVATE,
+                            'icon' => FaIcon::get('success'),
+                        ]) ?>
                     </div>
                     <div class="ml-auto">
-                        <?= $this->Html->link(
+                        <?php /* $this->Html->link(
                             __('Planilla de adscripción'),
                             ['controller' => 'StudentDocuments', 'action' => 'download', $studentAdscription->student_document->token],
                             ['class' => ActionColor::REPORT->btn(), 'target' => '_blank']
-                        ) ?>
+                        ) */ ?>
                     </div>
                 </div>
             </div>

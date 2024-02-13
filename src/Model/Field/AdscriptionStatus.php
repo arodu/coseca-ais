@@ -3,12 +3,13 @@ declare(strict_types=1);
 
 namespace App\Model\Field;
 
-use App\Enum\BadgeInterface;
-use App\Enum\Color;
-use App\Enum\Trait\BasicEnumTrait;
-use App\Enum\Trait\ListTrait;
+use CakeLteTools\Enum\BadgeInterface;
+use CakeLteTools\Enum\Color;
+use CakeLteTools\Enum\ListInterface;
+use CakeLteTools\Enum\Trait\BasicEnumTrait;
+use CakeLteTools\Enum\Trait\ListTrait;
 
-enum AdscriptionStatus: string implements BadgeInterface
+enum AdscriptionStatus: string implements BadgeInterface, ListInterface
 {
     use ListTrait;
     use BasicEnumTrait;
@@ -24,7 +25,7 @@ enum AdscriptionStatus: string implements BadgeInterface
      */
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             static::PENDING => __('Pendiente'),
             static::OPEN => __('Abierto'),
             static::CLOSED => __('Cerrado'),
@@ -34,9 +35,12 @@ enum AdscriptionStatus: string implements BadgeInterface
         };
     }
 
+    /**
+     * @return \CakeLteTools\Enum\Color
+     */
     public function color(): Color
     {
-        return match($this) {
+        return match ($this) {
             static::PENDING => Color::WARNING,
             static::OPEN => Color::SUCCESS,
             static::CLOSED => Color::DANGER,
@@ -46,6 +50,9 @@ enum AdscriptionStatus: string implements BadgeInterface
         };
     }
 
+    /**
+     * @return array
+     */
     public static function getEditableListLabel(): array
     {
         return static::toListLabel([
@@ -56,11 +63,36 @@ enum AdscriptionStatus: string implements BadgeInterface
         ]);
     }
 
+    /**
+     * @return array
+     */
     public static function getTrackablesValues(): array
     {
         return static::values([
             static::PENDING,
             static::OPEN,
+            static::CLOSED,
+            static::VALIDATED,
+        ]);
+    }
+
+    /**
+     * @return array
+     */
+    public static function getOpenedValues(): array
+    {
+        return static::values([
+            static::PENDING,
+            static::OPEN,
+        ]);
+    }
+
+    /**
+     * @return array
+     */
+    public static function getPrintValues(): array
+    {
+        return static::values([
             static::CLOSED,
             static::VALIDATED,
         ]);

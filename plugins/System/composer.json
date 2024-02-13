@@ -1,0 +1,24 @@
+{
+    "name": "your-name-here/system",
+    "description": "System plugin for CakePHP",
+    "type": "cakephp-plugin",
+    "license": "MIT",
+    "require": {
+        "php": ">=7.2",
+        "cakephp/cakephp": "4.4.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.5 || ^9.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "System\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "System\\Test\\": "tests/",
+            "Cake\\Test\\": "vendor/cakephp/cakephp/tests/"
+        }
+    }
+}

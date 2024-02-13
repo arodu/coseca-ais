@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace App\Enum;
 
-use App\Enum\Trait\BasicEnumTrait;
 use Cake\I18n\FrozenDate;
+use CakeLteTools\Enum\BadgeInterface;
+use CakeLteTools\Enum\Color;
+use CakeLteTools\Enum\Trait\BasicEnumTrait;
 
 enum StatusDate implements BadgeInterface
 {
@@ -19,7 +21,7 @@ enum StatusDate implements BadgeInterface
      */
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             static::PENDING => __('Pendiente'),
             static::IN_PROGRESS => __('En Progreso'),
             static::TIMED_OUT => __('Caducado'),
@@ -27,11 +29,11 @@ enum StatusDate implements BadgeInterface
     }
 
     /**
-     * @return Color
+     * @return \CakeLteTools\Enum\Color
      */
     public function color(): Color
     {
-        return match($this) {
+        return match ($this) {
             static::PENDING => Color::INFO,
             static::IN_PROGRESS => Color::WARNING,
             static::TIMED_OUT => Color::DANGER,
@@ -39,9 +41,9 @@ enum StatusDate implements BadgeInterface
     }
 
     /**
-     * @param FrozenDate|null $start_date
-     * @param FrozenDate|null $end_date
-     * @return StatusDate|null
+     * @param \Cake\I18n\FrozenDate|null $start_date The start date.
+     * @param \Cake\I18n\FrozenDate|null $end_date The end date.
+     * @return \App\Enum\StatusDate|null
      */
     public static function get(?FrozenDate $start_date, ?FrozenDate $end_date = null): ?StatusDate
     {
@@ -49,7 +51,7 @@ enum StatusDate implements BadgeInterface
             $end_date = $start_date;
         }
 
-        return match(true) {
+        return match (true) {
             empty($start_date) => null,
             $start_date->isFuture() => static::PENDING,
             $end_date->isPast() => static::TIMED_OUT,

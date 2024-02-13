@@ -1,13 +1,13 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Field;
 
-use App\Enum\Trait\BasicEnumTrait;
-use App\Enum\Trait\ListTrait;
+use CakeLteTools\Enum\ListInterface;
+use CakeLteTools\Enum\Trait\BasicEnumTrait;
+use CakeLteTools\Enum\Trait\ListTrait;
 
-enum UserRole: string
+enum UserRole: string implements ListInterface
 {
     use ListTrait;
     use BasicEnumTrait;
@@ -15,7 +15,12 @@ enum UserRole: string
     case STUDENT = 'student';
     case ADMIN = 'admin';
     case ASSISTANT = 'assistant';
-    case SUPERUSER = 'superuser';
+    case ROOT = 'root';
+
+    public const GROUP_STUDENT = 'student';
+    public const GROUP_ADMIN = 'admin';
+    public const GROUP_STAFF = 'staff';
+    public const GROUP_ROOT = 'root';
 
     /**
      * @return string
@@ -25,58 +30,110 @@ enum UserRole: string
         return match ($this) {
             static::STUDENT => __('Estudiante'),
             static::ASSISTANT => __('Asistente'),
-            static::SUPERUSER => __('superuser'),
-            static::ADMIN => __('admin'),
+            static::ADMIN => __('Admin'),
+            static::ROOT => __('Root'),
             default => __('NaN'),
         };
     }
 
-    public static function getStudentRoles(): array
+    /**
+     * @param string $group_name Group name
+     * @return array
+     */
+    public static function group(string $group_name): array
     {
-        return [
-            static::STUDENT,
+        $groups = [
+            static::GROUP_STUDENT => [
+                static::STUDENT,
+            ],
+            static::GROUP_STAFF => [
+                static::ASSISTANT,
+                static::ADMIN,
+                static::ROOT,
+            ],
+            static::GROUP_ADMIN => [
+                static::ADMIN,
+                static::ROOT,
+            ],
+            static::GROUP_ROOT => [
+                static::ROOT,
+            ],
         ];
+
+        return $groups[$group_name] ?? [];
     }
 
-    public static function getStudentGroup(): array
+    /**
+     * @param string $group_name Group name
+     * @return bool
+     */
+    public function isGroup(string $group_name): bool
     {
-        return static::values(static::getStudentRoles());
+        return in_array($this, static::group($group_name), true);
     }
 
-    public static function getAdminRoles(): array
-    {
-        return [
-            static::ASSISTANT,
-            static::ADMIN,
-            static::SUPERUSER,
-        ];
-    }
-
-    public static function getAdminGroup(): array
-    {
-        return static::values(static::getAdminRoles());
-    }
-
-    public static function getSuperAdminRoles(): array
-    {
-        return [
-            static::ADMIN,
-            static::SUPERUSER,
-        ];
-    }
-
-    public static function getSuperAdminGroup(): array
-    {
-        return static::values(static::getSuperAdminRoles());
-    }
-
-    public function isStudentGroup(): bool
-    {
-        return in_array($this, static::getStudentRoles(), true);
-    }
-
+    /**
+     * @return bool
+     */
     public function isAdminGroup(): bool
     {
-        return in_array($this, static::getAdminRoles(), true);
+        return $this->isGroup(static::GROUP_ADMIN);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isStudentGroup(): bool
+    {
+        return $this->isGroup(static::GROUP_STUDENT);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isStaffGroup(): bool
+    {
+        return $this->isGroup(static::GROUP_STAFF);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRootGroup(): bool
+    {
+        return $this->isGroup(static::GROUP_ROOT);
+    }
+
+    /**
+     * @param string $group_name
+     * @return array
+     */
+    public static function getGroup(string $group_name): array
+    {
+        return static::values(static::group($group_name));
+    }
+
+    /**
+     * @return array
+     */
+    public static function getAdminGroup(): array
+    {
+        return static::getGroup(static::GROUP_ADMIN);
+    }
+
+    /**
+     * @return array
+     */
+    public static function getStudentGroup(): array
+    {
+        return static::getGroup(static::GROUP_STUDENT);
+    }
+
+    /**
+     * @return array
+     */
+    public static function getStaffGroup(): array
+    {
+        return static::getGroup(static::GROUP_STAFF);
     }
 }

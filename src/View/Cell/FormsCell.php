@@ -5,7 +5,6 @@ namespace App\View\Cell;
 
 use App\Model\Entity\Student;
 use Cake\View\Cell;
-use Cake\View\View;
 
 /**
  * Forms cell
@@ -30,8 +29,7 @@ class FormsCell extends Cell
     }
 
     /**
-     * Default display method.
-     *
+     * @param \App\Model\Entity\Student $student
      * @return void
      */
     public function register(Student $student)

@@ -1,15 +1,16 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\View\Helper;
 
-use App\Enum\BadgeInterface;
-use App\Enum\Color;
 use App\Model\Entity\Lapse;
-use App\Utility\FaIcon;
+use App\Model\Entity\Tenant;
+use App\Utility\Calc;
 use Cake\Utility\Inflector;
 use Cake\View\Helper;
+use CakeLteTools\Enum\BadgeInterface;
+use CakeLteTools\Enum\Color;
+use CakeLteTools\Utility\FaIcon;
 
 /**
  * App helper
@@ -25,6 +26,10 @@ class AppHelper extends Helper
 
     public $helpers = ['Html', 'Form'];
 
+    /**
+     * @param array $options
+     * @return string
+     */
     public function nan(array $options = []): string
     {
         $text = $options['text'] ?? 'N/A';
@@ -56,38 +61,36 @@ class AppHelper extends Helper
     /**
      * @param float $completed
      * @param float $total
-     * @param integer $decimals
-     * @return float
+     * @return string
      */
-    public function progressBarCalc(float $completed, float $total, int $decimals = 0): float
+    public function progressBar(float $completed, ?float $total = null): string
     {
-        if ($completed >= $total) {
-            return 100;
-        }
-        $result = ($completed * 100) / $total;
+        $percent = Calc::percentHoursCompleted($completed, $total);
 
-        return round($result, $decimals);
+        $progressBar = $this->Html->tag('div', '', [
+            'class' => 'progress-bar ' . $this->progressBarColor($percent),
+            'role' => 'progressbar',
+            'aria-valuenow' => $percent,
+            'aria-valuemin' => 0,
+            'aria-valuemax' => 100,
+            'style' => 'width:' . $percent . '%',
+        ]);
+
+        $contain = $this->Html->tag('div', $progressBar, [
+            'class' => 'progress progress-sm',
+            'title' => __('{0} horas', $completed),
+        ]);
+
+        $text = $this->Html->tag('small', __('{0}% Completado', $percent));
+
+        return $contain . $text;
     }
 
     /**
-     * @param float $completed
-     * @param float $total
+     * @param string|null $tooltip
      * @return string
      */
-    public function progressBar(float $completed, float $total): string
-    {
-        $percent = $this->progressBarCalc($completed, $total, 0);
-
-        $output = '<div class="progress progress-sm" title="' . __('{0} horas', $completed) . '">'
-            . '<div class="progress-bar ' . $this->progressBarColor($percent) . '" role="progressbar" aria-valuenow="' . $percent . '" aria-valuemin="0" aria-valuemax="100" style="width:' . $percent . '%">'
-            . '</div>'
-            . '</div>'
-            . '<small>' . __('{0}% Completado', $percent) . '</small>';
-
-        return $output;
-    }
-
-    public function error(string $tooltip = null): string
+    public function error(?string $tooltip = null): string
     {
         $options['class'] = [
             Color::DANGER->badge(),
@@ -105,6 +108,10 @@ class AppHelper extends Helper
         return $this->Html->tag('span', $icon . __('Error'), $options);
     }
 
+    /**
+     * @param \App\Model\Entity\Lapse|null $lapse
+     * @return string|null
+     */
     public function lapseLabel(?Lapse $lapse): ?string
     {
         if (empty($lapse)) {
@@ -118,6 +125,11 @@ class AppHelper extends Helper
         return $lapse->name . ' ' . $this->badge($lapse->getActive());
     }
 
+    /**
+     * @param \CakeLteTools\Enum\BadgeInterface $enum
+     * @param array $options
+     * @return string
+     */
     public function badge(BadgeInterface $enum, array $options = []): string
     {
         $options = [
@@ -130,11 +142,19 @@ class AppHelper extends Helper
         return $this->Html->tag($tag, $enum->label(), $options);
     }
 
-    public function alertMessage()
+    /**
+     * @return string
+     */
+    public function alertMessage(): string
     {
         return __('Comuniquese con la coordinación de servicio comunitario para mas información');
     }
 
+    /**
+     * @param string $fieldName
+     * @param array $options
+     * @return string
+     */
     public function control(string $fieldName, array $options = []): string
     {
         $options = array_merge([
@@ -150,5 +170,55 @@ class AppHelper extends Helper
         unset($options['text']);
 
         return $this->Form->control($fieldName, $options);
+    }
+
+    /**
+     * @param int $month
+     * @return string
+     */
+    public function month(int $month): string
+    {
+        return match ($month) {
+            1 => __('Enero'),
+            2 => __('Febrero'),
+            3 => __('Marzo'),
+            4 => __('Abril'),
+            5 => __('Mayo'),
+            6 => __('Junio'),
+            7 => __('Julio'),
+            8 => __('Agosto'),
+            9 => __('Septiembre'),
+            10 => __('Octubre'),
+            11 => __('Noviembre'),
+            12 => __('Diciembre'),
+            default => __('NaN'),
+        };
+    }
+
+    /**
+     * @param bool $bool
+     * @return string
+     */
+    public function yn(bool $bool): string
+    {
+        return $bool ? __('Si') : __('No');
+    }
+
+    /**
+     * @param \App\Model\Entity\Tenant $tenant
+     * @return string
+     */
+    public function tenant(Tenant $tenant): string
+    {
+        if (empty($tenant->program)) {
+            throw new \Exception('Tenant program is empty');
+        }
+
+        return __(
+            '{0} / {1} / {2}',
+            $tenant->program->area_label,
+            $this->Html->link($tenant->program->name, ['controller' => 'Tenants', 'action' => 'viewProgram', $tenant->program_id]),
+            $this->Html->link($tenant->name, ['controller' => 'Tenants', 'action' => 'view', $tenant->id]),
+        );
     }
 }

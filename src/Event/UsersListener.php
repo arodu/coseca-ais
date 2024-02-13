@@ -1,13 +1,11 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Event;
 
-use App\Model\Field\UserRole;
+use App\Utility\FilterTenantUtility;
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
-use Cake\Log\Log;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use CakeDC\Users\Plugin as UsersPlugin;
 
@@ -27,29 +25,37 @@ class UsersListener implements EventListenerInterface
     }
 
     /**
-     * @param \Cake\Event\Event $event
+     * @param \Cake\Event\Event $event The event object.
+     * @return void|\Cake\Event\Event
      */
     public function afterLogin(Event $event)
     {
+        /** @var \App\Model\Entity\AppUser $user */
         $user = $event->getData('user');
 
-        if (in_array($user->role, UserRole::getAdminGroup())) {
+        $filterTenantUtility = new FilterTenantUtility();
+        $tenant_ids = $filterTenantUtility->getTenantIdsFromDatabase($user);
+        FilterTenantUtility::write($tenant_ids);
+
+        if ($user->getRole()->isAdminGroup()) {
             return $event->setResult(['_name' => 'admin:home']);
         }
 
-        if (in_array($user->role, UserRole::getStudentGroup())) {
+        if ($user->getRole()->isStudentGroup()) {
             return $event->setResult(['_name' => 'student:home']);
         }
     }
 
     /**
      * @param \Cake\Event\Event $event
+     * @return void
      */
     public function afterRegister(Event $event)
     {
+        /** @var \App\Model\Entity\AppUser $user */
         $user = $event->getData('user');
 
-        if (in_array($user->role, UserRole::getStudentGroup())) {
+        if ($user->getRole()->isStudentGroup()) {
             $this->fetchTable('Students')->newRegularStudent($user);
         }
     }

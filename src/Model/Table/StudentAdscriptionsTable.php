@@ -1,11 +1,9 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
 
 use App\Model\Field\AdscriptionStatus;
-use App\Model\Field\DocumentType;
 use ArrayObject;
 use Cake\Cache\Cache;
 use Cake\Datasource\EntityInterface;
@@ -13,7 +11,6 @@ use Cake\Event\EventInterface;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
-use Cake\Utility\Text;
 use Cake\Validation\Validator;
 use InvalidArgumentException;
 
@@ -24,7 +21,6 @@ use InvalidArgumentException;
  * @property \App\Model\Table\InstitutionProjectsTable&\Cake\ORM\Association\BelongsTo $InstitutionProjects
  * @property \App\Model\Table\LapsesTable&\Cake\ORM\Association\BelongsTo $Lapses
  * @property \App\Model\Table\TutorsTable&\Cake\ORM\Association\BelongsTo $Tutors
- *
  * @method \App\Model\Entity\StudentAdscription newEmptyEntity()
  * @method \App\Model\Entity\StudentAdscription newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\StudentAdscription[] newEntities(array $data, array $options = [])
@@ -38,7 +34,6 @@ use InvalidArgumentException;
  * @method \App\Model\Entity\StudentAdscription[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
  * @method \App\Model\Entity\StudentAdscription[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
  * @method \App\Model\Entity\StudentAdscription[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
- *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class StudentAdscriptionsTable extends Table
@@ -131,6 +126,12 @@ class StudentAdscriptionsTable extends Table
         return $rules;
     }
 
+    /**
+     * @param \Cake\Event\EventInterface $event
+     * @param \Cake\Datasource\EntityInterface $entity
+     * @param \ArrayObject $options
+     * @return void
+     */
     public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
     {
         if ($entity->isNew()) {
@@ -138,26 +139,33 @@ class StudentAdscriptionsTable extends Table
         }
     }
 
+    /**
+     * @param \Cake\Event\EventInterface $event
+     * @param \Cake\Datasource\EntityInterface $entity
+     * @param \ArrayObject $options
+     * @return void
+     */
     public function afterSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
     {
-        if ($entity->isNew()) {
-            $this->StudentDocuments->saveOrFail($this->StudentDocuments->newEntity([
-                'student_id' => $entity->student_id,
-                'token' => Text::uuid(),
-                'type' => DocumentType::ADSCRIPTION_PROJECT->value,
-                'model' => 'StudentAdscriptions',
-                'foreign_key' => $entity->id,
-            ]));
-        }
-
         $this->updateStudentTotalHours($entity);
     }
 
+    /**
+     * @param \Cake\Event\EventInterface $event
+     * @param \Cake\Datasource\EntityInterface $entity
+     * @param \ArrayObject $options
+     * @return void
+     */
     public function afterDelete(EventInterface $event, EntityInterface $entity, ArrayObject $options)
     {
         $this->updateStudentTotalHours($entity);
     }
 
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
     public function findListOpen(Query $query, array $options): Query
     {
         if (empty($options['student_id'])) {
@@ -179,6 +187,11 @@ class StudentAdscriptionsTable extends Table
             ]);
     }
 
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
     public function findActiveProjects(Query $query, array $options): Query
     {
         if (empty($options['student_id'])) {
@@ -193,6 +206,10 @@ class StudentAdscriptionsTable extends Table
             ]);
     }
 
+    /**
+     * @param \Cake\Datasource\EntityInterface $entity
+     * @return void
+     */
     protected function updateStudentTotalHours(EntityInterface $entity)
     {
         $student = $this->get($entity->id, [
@@ -204,6 +221,28 @@ class StudentAdscriptionsTable extends Table
         Cache::delete('student_tracking_info_' . $student->id);
     }
 
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
+    public function findWithStudents(Query $query, array $options): Query
+    {
+        return $query
+            ->contain([
+                'Students' => [
+                    'AppUsers',
+                    'StudentData',
+                    'Lapses',
+                ],
+            ]);
+    }
+
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
     public function findWithInstitution(Query $query, array $options): Query
     {
         return $query
@@ -212,6 +251,11 @@ class StudentAdscriptionsTable extends Table
             ]);
     }
 
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
     public function findWithTracking(Query $query, array $options): Query
     {
         if (empty($options['sort'])) {
@@ -226,21 +270,52 @@ class StudentAdscriptionsTable extends Table
             ]);
     }
 
-    public function createValidationToken($adscription_id)
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
+    public function findWithTutor(Query $query, array $options): Query
     {
-        // @todo still in working
+        return $query
+            ->contain([
+                'Tutors',
+            ]);
+    }
+
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
+    public function findPrincipal(Query $query, array $options): Query
+    {
+        return $query
+            ->where([
+                $this->aliasField('principal') => true,
+            ]);
+    }
+
+    /**
+     * @param int $adscription_id
+     * @return string
+     */
+    public function createValidationToken(int $adscription_id): string
+    {
         $adscription = $this->find()
             ->where([$this->aliasField('id') => $adscription_id])
-            ->select(['student_id', 'institution_project_id', 'tutor_id'])
+            ->select(['id', 'student_id', 'institution_project_id', 'tutor_id'])
             ->contain('Students', function (Query $query) {
-                return $query->select(['dni']);
+                return $query
+                    ->contain(['AppUsers'])
+                    ->select(['AppUsers.dni']);
             })
             ->contain('StudentTracking', function (Query $query) {
-                return $query->select(['date', 'description', 'hours']);
+                return $query->select(['student_adscription_id', 'date', 'hours']);
             })
             ->toArray();
 
-        $token = md5(serialize($adscription));
+        $token = substr(md5(serialize($adscription)), 0, 8);
 
         return $token;
     }

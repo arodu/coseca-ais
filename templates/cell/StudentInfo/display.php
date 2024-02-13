@@ -2,7 +2,7 @@
 
 use Cake\Core\Configure;
 
-$lastStageColor = $student->last_stage->status_obj->color();
+$lastStageColor = $student->last_stage->getStatus()?->color();
 
 ?>
 <div class="card card-primary card-outline">
@@ -24,7 +24,7 @@ $lastStageColor = $student->last_stage->status_obj->color();
             <dd class="text-right mb-2"><?= h($student->lapse?->name) ?? $this->App->nan() ?></dd>
 
             <dt><?= __('Tipo') ?></dt>
-            <dd class="text-right"><?= h($student->type_obj->label()) ?? '&nbsp;' ?></dd>
+            <dd class="text-right"><?= h($student->getType()?->label()) ?? '&nbsp;' ?></dd>
 
             <dt><?= __('Última Sesión') ?></dt>
             <dd class="text-right"><?= h($student->app_user->last_login) ?? $this->App->nan() ?></dd>
@@ -51,7 +51,7 @@ $lastStageColor = $student->last_stage->status_obj->color();
             </dd>
 
             <dt><?= __('Horas') ?></dt>
-            <dd class=" text-right"><?= $this->App->progressBar($student->total_hours ?? 0, Configure::read('coseca.hours-min')) ?></dd>
+            <dd class=" text-right"><?= $this->App->progressBar($student->total_hours ?? 0) ?></dd>
         </dl>
     </div>
 </div>

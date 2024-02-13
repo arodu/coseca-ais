@@ -1,17 +1,14 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Admin\Stage;
 
 use App\Controller\Admin\AppAdminController;
-use App\Controller\Traits\RedirectLogicTrait;
-use App\Model\Field\AdscriptionStatus;
+use App\Controller\Traits\Stage\AdscriptionsProcessTrait;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
-use App\Utility\Stages;
-use Cake\Http\Exception\ForbiddenException;
 use Cake\Log\Log;
+use CakeLteTools\Controller\Traits\RedirectLogicTrait;
 
 /**
  * StudentAdscriptionsController Controller
@@ -21,8 +18,12 @@ use Cake\Log\Log;
  */
 class AdscriptionsController extends AppAdminController
 {
+    use AdscriptionsProcessTrait;
     use RedirectLogicTrait;
 
+    /**
+     * @return void
+     */
     public function initialize(): void
     {
         parent::initialize();
@@ -33,6 +34,7 @@ class AdscriptionsController extends AppAdminController
     /**
      * Add method
      *
+     * @param int|string|null $student_id Student id.
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
     public function add($student_id = null)
@@ -44,6 +46,19 @@ class AdscriptionsController extends AppAdminController
                 $this->StudentStages->getConnection()->begin();
 
                 $student_adscription = $this->StudentAdscriptions->patchEntity($student_adscription, $this->request->getData());
+
+                $adscriptions = $this->StudentAdscriptions->find()->where(['student_id' => $student_id])->toArray();
+                if (empty($adscriptions)) {
+                    $student_adscription->principal = true;
+                }
+
+                if ($student_adscription->principal) {
+                    $this->StudentAdscriptions->updateAll(
+                        ['principal' => false],
+                        ['student_id' => $student_id]
+                    );
+                }
+
                 $this->StudentAdscriptions->saveOrFail($student_adscription);
 
                 $adscriptionStage = $this->StudentStages
@@ -67,23 +82,11 @@ class AdscriptionsController extends AppAdminController
         }
 
         $institution_projects = $this->StudentAdscriptions->InstitutionProjects
-            ->find('list', [
-                'groupField' => 'institution.name',
-                'limit' => 200
-            ])
-            ->contain(['Institutions'])
-            ->where([
-                'Institutions.tenant_id' => $student->tenant_id,
-            ]);
-
+            ->find('listForSelect', ['tenant_id' => $student->tenant_id]);
         $tutors = $this->StudentAdscriptions->Tutors
             ->find('list', ['limit' => 200])
-            ->where([
-                'Tutors.tenant_id' => $student->tenant_id,
-            ]);
-        
+            ->where(['Tutors.tenant_id' => $student->tenant_id]);
         $back = $this->getRedirectUrl();
-
         $this->set(compact('student', 'student_adscription', 'institution_projects', 'tutors', 'back'));
     }
 
@@ -100,7 +103,7 @@ class AdscriptionsController extends AppAdminController
             'contain' => [
                 'InstitutionProjects' => ['Institutions'],
                 'Tutors',
-                'Students'
+                'Students',
             ],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -118,30 +121,52 @@ class AdscriptionsController extends AppAdminController
             ->where([
                 'Tutors.tenant_id' => $adscription->student->tenant_id,
             ]);
-
-        $this->set(compact('adscription', 'tutors'));
+        $student = $adscription->student;
+        $institution_projects = $this->StudentAdscriptions->InstitutionProjects
+            ->find('listForSelect', ['tenant_id' => $student->tenant_id]);
+        $this->set(compact('adscription', 'tutors', 'student', 'institution_projects'));
     }
 
+    /**
+     * Delete method
+     *
+     * @param string $status StudentAdscription id.
+     * @param int|string $id StudentAdscription id.
+     * @return \Cake\Http\Response|null|void Redirects to index.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
     public function changeStatus($status, $id)
     {
         $this->request->allowMethod(['post', 'put']);
-        $adscription = $this->StudentAdscriptions->get($id);
 
-        if ($status == AdscriptionStatus::VALIDATED->value && !$this->Authorization->can($adscription, 'validate')) {
-            throw new ForbiddenException('No tiene permisos para validar la adscripción');
-        }
-
-        $adscription->status = $status;
-        if ($this->StudentAdscriptions->save($adscription)) {
-            $this->Flash->success(__('The student_adscription has been saved.'));
-        } else {
-            $this->Flash->error(__('The student_adscription could not be saved. Please, try again.'));
-        }
-
-        if ($status == AdscriptionStatus::OPEN->value) {
-            Stages::closeStudentStage($adscription->student_id, StageField::ADSCRIPTION, StageStatus::SUCCESS);
-        }
+        $adscription = $this->processChangeStatus($status, $id);
 
         return $this->redirect(['controller' => 'Students', 'action' => 'adscriptions', $adscription->student_id, 'prefix' => 'Admin']);
+    }
+
+    /**
+     * Set principal method
+     *
+     * @param string|null $id StudentAdscription id.
+     * @return \Cake\Http\Response|null|void Redirects to index.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function setPrincipal($id)
+    {
+        $this->request->allowMethod(['post', 'put']);
+
+        $adscription = $this->StudentAdscriptions->get($id);
+
+        $this->StudentAdscriptions->getConnection()->transactional(function () use ($adscription) {
+            $this->StudentAdscriptions->updateAll(
+                ['principal' => false],
+                ['student_id' => $adscription->student_id]
+            );
+
+            $adscription->principal = true;
+            $this->StudentAdscriptions->saveOrFail($adscription);
+        });
+
+        return $this->redirect(['_name' => 'admin:student:adscriptions', $adscription->student_id]);
     }
 }

@@ -38,21 +38,17 @@ $this->Breadcrumbs->add([
 </div>
 <div class="card-footer d-flex">
     <div>
-        <?= $this->AppForm->buttonSave([
+        <?= $this->Button->save([
             'confirm' => __('Esta seguro que desea cambiar el estado? Esto podria traer resultados inesperados.')
         ]) ?>
-        <?= $this->Form->postLink(
-            __('Forzar cierre'),
-            ['controller' => 'StudentStages', 'action' => 'forcedClose', $studentStage->id],
-            [
-                'block' => true,
-                'class' => ActionColor::SPECIAL->btn(),
-                'confirm' => __('Esta seguro que desea cerrar esta etapa? Esto podria traer resultados inesperados.')
-            ]
-        ) ?>
+        <?= $this->Button->confirm([
+            'label' => __('Forzar cierre'),
+            'url' => ['controller' => 'StudentStages', 'action' => 'forcedClose', $studentStage->id],
+            'confirm' => __('Esta seguro que desea cerrar esta etapa? Esto podria traer resultados inesperados.'),
+            'actionColor' => ActionColor::SPECIAL,
+        ]) ?>
     </div>
     <div class="ml-auto">
-        
         <?= $this->Html->link(__('Cancelar'), ['controller' => 'Students', 'action' => 'view', $studentStage->student_id], ['class' => ActionColor::CANCEL->btn()]) ?>
     </div>
 </div>
