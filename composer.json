@@ -6,11 +6,11 @@
     "license": "MIT",
     "require": {
         "php": ">=8.1",
-        "arodu/cakelte": "dev-2.next",
-        "arodu/cakelte-tools": "dev-develop",
-        "arodu/cakephp-modal-form": "dev-main",
-        "arodu/cakephp-query-filter": "dev-develop",
-        "cakedc/users": "^11.1",
+        "arodu/cakelte": "dev-2.next-cake5",
+        "arodu/cakelte-tools": "dev-2.next-cake5",
+        "arodu/cakephp-modal-form": "dev-2.next-cake5",
+        "arodu/cakephp-query-filter": "dev-2.next-cake5",
+        "cakedc/users": "^12.0",
         "cakephp/cakephp": "^5.0",
         "cakephp/migrations": "^4.0",
         "cakephp/plugin-installer": "^2.0",
@@ -19,18 +19,18 @@
         "google/recaptcha": "@stable",
         "league/oauth2-facebook": "@stable",
         "league/oauth2-google": "@stable",
-        "mobiledetect/mobiledetectlib": "^3.74",
-        "muffin/footprint": "^3.0"
+        "mobiledetect/mobiledetectlib": "^4.8.03",
+        "muffin/footprint": "^4.0"
     },
     "require-dev": {
-        "cakephp/bake": "^2.6",
-        "cakephp/cakephp-codesniffer": "^4.4",
-        "cakephp/debug_kit": "^4.5",
+        "cakephp/bake": "^3.0.0",
+        "cakephp/cakephp-codesniffer": "^5.0",
+        "cakephp/debug_kit": "^5.0.0",
         "fakerphp/faker": "^1.20",
         "josegonzalez/dotenv": "^4.0",
         "phpstan/phpstan": "^1.10",
-        "phpunit/phpunit": "~8.5.0 || ^9.3",
-        "vierge-noire/cakephp-fixture-factories": "^2.5"
+        "phpunit/phpunit": "^10.1.0",
+        "vierge-noire/cakephp-fixture-factories": "^3.0"
     },
     "suggest": {
         "markstory/asset_compress": "An asset compression plugin which provides file concatenation and a flexible filter system for preprocessing and minification.",
