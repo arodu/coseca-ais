@@ -22,8 +22,7 @@ class AppUsersController extends AppAdminController
      */
     public function index()
     {
-        $this->paginate = [
-        ];
+        $this->paginate = [];
 
         $query = $this->AppUsers->find()
             ->where([

@@ -42,12 +42,11 @@ class TenantsController extends AppAdminController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['CurrentLapse'],
-        ];
+        $this->paginate = [];
 
         $query = $this->Tenants
-            ->find('withPrograms');
+            ->find('withPrograms')
+            ->contain(['CurrentLapse']);
 
         $tenants = $this->paginate($query);
 
