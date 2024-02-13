@@ -69,6 +69,7 @@ class StudentsController extends AppAdminController
         $formFilters = $this->cell('Filters::adminStudents', [
             'isFiltered' => $isFiltered,
             'filterKey' => $filterKey,
+            'limit' => $this->getRequest()->getQuery('limit'),
         ]);
 
         $this->set(compact('students', 'formFilters'));
@@ -120,7 +121,7 @@ class StudentsController extends AppAdminController
             ->where(['Students.id' => $id])
             ->first();
 
-        $stageList = $this->Students->StudentStages->find('stageList', ['student' => $student]);
+        $stageList = $this->Students->StudentStages->find('stageList', options: ['student' => $student]);
 
         $this->set(compact('student', 'stageList'));
     }
@@ -213,7 +214,7 @@ class StudentsController extends AppAdminController
             }
             $this->Flash->error(__('The student could not be saved. Please, try again.'));
         }
-        $appUsers = $this->Students->AppUsers->find('list', ['limit' => 200])->all();
+        $appUsers = $this->Students->AppUsers->find('list', options: ['limit' => 200])->all();
         $this->set(compact('student', 'appUsers'));
     }
 
@@ -236,7 +237,7 @@ class StudentsController extends AppAdminController
             }
             $this->Flash->error(__('The student could not be saved. Please, try again.'));
         }
-        $appUsers = $this->Students->AppUsers->find('list', ['limit' => 200])->all();
+        $appUsers = $this->Students->AppUsers->find('list', options: ['limit' => 200])->all();
         $this->set(compact('student', 'appUsers'));
     }
 

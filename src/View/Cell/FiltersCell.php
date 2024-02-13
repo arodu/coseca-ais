@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\View\Cell;
@@ -34,16 +35,18 @@ class FiltersCell extends Cell
      * @param string $filterKey
      * @return void
      */
-    public function adminStudents(bool $isFiltered = false, string $filterKey = 'f'): void
+    public function adminStudents(bool $isFiltered = false, string $filterKey = 'f', ?int $limit = 20): void
     {
         $tenants = $this->Students->Tenants->find('listLabel');
-        $lapses = $this->Students->Lapses->find('list', [
-            'keyField' => 'name',
-            'valueField' => 'name',
-        ]);
+        $lapses = $this->Students->Lapses->find(
+            'list',
+            options: [
+                'keyField' => 'name',
+                'valueField' => 'name',
+            ]
+        );
 
-        $this->set(compact('tenants', 'lapses'));
-        $this->set(compact('isFiltered', 'filterKey'));
+        $this->set(compact('isFiltered', 'filterKey', 'limit', 'tenants', 'lapses'));
     }
 
     /**
