@@ -5,6 +5,7 @@ namespace App\Model\Table;
 
 use App\Model\Table\Traits\BasicTableTrait;
 use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use QueryFilter\QueryFilterPlugin;
@@ -99,21 +100,20 @@ class TenantsTable extends Table
     }
 
     /**
-     * @param \Cake\ORM\Query $query
-     * @param array $options
-     * @return \Cake\ORM\Query
+     * @param \Cake\ORM\Query\SelectQuery $query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findWithPrograms(Query $query, array $options): Query
+    public function findWithPrograms(SelectQuery $query): SelectQuery
     {
         return $query->contain(['Programs']);
     }
 
     /**
-     * @param \Cake\ORM\Query $query
+     * @param \Cake\ORM\Query\SelectQuery $query
      * @param array $options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findListLabel(Query $query, array $options): Query
+    public function findListLabel(SelectQuery $query, array $options): SelectQuery
     {
         $options = array_merge([
             'keyField' => 'id',

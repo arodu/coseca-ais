@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Model\Table;
 
 use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -97,11 +98,11 @@ class InstitutionProjectsTable extends Table
     }
 
     /**
-     * @param \Cake\ORM\Query $query
+     * @param \Cake\ORM\Query\SelectQuery $query
      * @param array $options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findListForSelect(Query $query, array $options = []): Query
+    public function findListForSelect(SelectQuery $query, array $options = []): SelectQuery
     {
         if (empty($options['tenant_id'])) {
             throw new \InvalidArgumentException('tenant_id is required');

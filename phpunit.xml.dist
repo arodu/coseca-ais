@@ -11,10 +11,6 @@
     </testsuite>
     <!-- Add plugin test suites here. -->
   </testsuites>
-  <!-- Load extension for fixtures -->
-  <extensions>
-    <extension class="Cake\TestSuite\Fixture\PHPUnitExtension"/>
-  </extensions>
   <!-- Ignore vendor tests in code coverage reports -->
   <source>
     <include>

@@ -16,6 +16,7 @@ use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\Log\Log;
 use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Utility\Hash;
@@ -186,7 +187,7 @@ class StudentsTable extends Table
             'finder' => 'lastStageFilter',
         ]);
         $this->addFilterField('lapse', [
-            'finder' => function (Query $query, array $options = []) {
+            'finder' => function (SelectQuery $query, array $options = []) {
                 $lapses_ids = $this->Lapses
                     ->find('list', ['valueField' => 'id'])
                     ->where([$this->Lapses->aliasField('name') => $options['value']]);
@@ -200,11 +201,11 @@ class StudentsTable extends Table
     }
 
     /**
-     * @param \Cake\ORM\Query $query
+     * @param \Cake\ORM\Query\SelectQuery\SelectQuery $query
      * @param array $options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findLastStageFilter(Query $query, array $options = []): Query
+    public function findLastStageFilter(SelectQuery $query, array $options = []): SelectQuery
     {
         if (empty($options['tableField'])) {
             throw new InvalidArgumentException('param tableField is necessary on options');
@@ -218,11 +219,11 @@ class StudentsTable extends Table
     }
 
     /**
-     * @param \Cake\ORM\Query $query
+     * @param \Cake\ORM\Query\SelectQuery $query
      * @param array $options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findWithTenants(Query $query, array $options = []): Query
+    public function findWithTenants(SelectQuery $query, array $options = []): SelectQuery
     {
         return $query->contain([
             'Tenants' => [
@@ -234,14 +235,14 @@ class StudentsTable extends Table
     }
 
     /**
-     * @param \Cake\ORM\Query $query
+     * @param \Cake\ORM\Query\SelectQuery $query
      * @param array $options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findWithStudentAdscriptions(Query $query, array $options = []): Query
+    public function findWithStudentAdscriptions(SelectQuery $query, array $options = []): SelectQuery
     {
         return $query->contain([
-            'StudentAdscriptions' => function (Query $query) use ($options) {
+            'StudentAdscriptions' => function (SelectQuery $query) use ($options) {
                 if (isset($options['status']) && is_array($options['status'])) {
                     $query->where(['StudentAdscriptions.status IN' => $options['status']]);
                 }
@@ -256,11 +257,11 @@ class StudentsTable extends Table
     }
 
     /**
-     * @param \Cake\ORM\Query $query
+     * @param \Cake\ORM\Query\SelectQuery $query
      * @param array $options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findWithStudentCourses(Query $query, array $options = []): Query
+    public function findWithStudentCourses(SelectQuery $query): SelectQuery
     {
         return $query->contain([
             'StudentCourses',
@@ -268,11 +269,11 @@ class StudentsTable extends Table
     }
 
     /**
-     * @param \Cake\ORM\Query $query
+     * @param \Cake\ORM\Query\SelectQuery $query
      * @param array $options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findWithAppUsers(Query $query, array $options = []): Query
+    public function findWithAppUsers(SelectQuery $query): SelectQuery
     {
         return $query->contain([
             'AppUsers',
@@ -280,11 +281,11 @@ class StudentsTable extends Table
     }
 
     /**
-     * @param \Cake\ORM\Query $query
+     * @param \Cake\ORM\Query\SelectQuery $query
      * @param array $options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findWithStudentData(Query $query, array $options = []): Query
+    public function findWithStudentData(SelectQuery $query): SelectQuery
     {
         return $query->contain([
             'StudentData' => [
@@ -294,11 +295,11 @@ class StudentsTable extends Table
     }
 
     /**
-     * @param \Cake\ORM\Query $query
+     * @param \Cake\ORM\Query\SelectQuery $query
      * @param array $options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findWithLapses(Query $query, array $options = []): Query
+    public function findWithLapses(SelectQuery $query): SelectQuery
     {
         return $query->contain([
             'Lapses' => [
@@ -308,11 +309,11 @@ class StudentsTable extends Table
     }
 
     /**
-     * @param \Cake\ORM\Query $query
+     * @param \Cake\ORM\Query\SelectQuery $query
      * @param array $options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findLoadProgress(Query $query, array $options = []): Query
+    public function findLoadProgress(SelectQuery $query, array $options = []): SelectQuery
     {
         if (empty($options['studentStages'])) {
             return $query;
@@ -448,7 +449,7 @@ class StudentsTable extends Table
      * @param array $adscriptionsIds
      * @return array
      */
-    public function getStudentTrackingInfoByAdscription(array|Query $adscriptionsIds = []): array
+    public function getStudentTrackingInfoByAdscription(array|SelectQuery $adscriptionsIds = []): array
     {
         $trackingCount = $this->StudentAdscriptions->StudentTracking->find()
             ->where(['StudentTracking.student_adscription_id IN' => $adscriptionsIds])

@@ -8,6 +8,7 @@ use ArrayObject;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
@@ -100,11 +101,11 @@ class LapsesTable extends Table
     }
 
     /**
-     * @param \Cake\ORM\Query $query query
+     * @param \Cake\ORM\Query\SelectQuery $query query
      * @param array $options options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findCurrentLapse(Query $query, array $options): Query
+    public function findCurrentLapse(SelectQuery $query, array $options): SelectQuery
     {
         if (empty($options['tenant_id'])) {
             throw new \InvalidArgumentException('Missing tenant_id');

@@ -5,7 +5,7 @@ namespace App\Controller\Admin;
 
 use App\Model\Field\UserRole;
 use Cake\Event\EventInterface;
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 
 class AppUsersController extends AppAdminController
 {
@@ -43,7 +43,7 @@ class AppUsersController extends AppAdminController
         $user = $this->AppUsers->get($id, [
             'contain' => [
                 'TenantFilters' => [
-                    'Tenants' => function (Query $q) {
+                    'Tenants' => function (SelectQuery $q) {
                         return $q->applyOptions(['skipFilterTenant' => true]);
                     },
                 ],

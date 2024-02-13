@@ -8,6 +8,7 @@ use ArrayObject;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\Validation\Validator;
 use CakeDC\Users\Model\Table\UsersTable;
@@ -90,11 +91,11 @@ class AppUsersTable extends UsersTable
     }
 
     /**
-     * @param \Cake\ORM\Query $query
+     * @param \Cake\ORM\Query\SelectQuery $query
      * @param array $options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findAuth(Query $query, array $options = []): Query
+    public function findAuth(SelectQuery $query): SelectQuery
     {
         return $query
             ->find('active')

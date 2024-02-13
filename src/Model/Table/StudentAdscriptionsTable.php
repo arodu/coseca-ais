@@ -9,6 +9,7 @@ use Cake\Cache\Cache;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -162,11 +163,11 @@ class StudentAdscriptionsTable extends Table
     }
 
     /**
-     * @param \Cake\ORM\Query $query
+     * @param \Cake\ORM\Query\SelectQuery $query
      * @param array $options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findListOpen(Query $query, array $options): Query
+    public function findListOpen(SelectQuery $query, array $options): SelectQuery
     {
         if (empty($options['student_id'])) {
             throw new InvalidArgumentException('Missing student_id');
@@ -187,11 +188,11 @@ class StudentAdscriptionsTable extends Table
     }
 
     /**
-     * @param \Cake\ORM\Query $query
+     * @param \Cake\ORM\Query\SelectQuery $query
      * @param array $options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findActiveProjects(Query $query, array $options): Query
+    public function findActiveProjects(SelectQuery $query, array $options): SelectQuery
     {
         if (empty($options['student_id'])) {
             throw new InvalidArgumentException('Missing student_id');
@@ -219,11 +220,11 @@ class StudentAdscriptionsTable extends Table
     }
 
     /**
-     * @param \Cake\ORM\Query $query
+     * @param \Cake\ORM\Query\SelectQuery $query
      * @param array $options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findWithStudents(Query $query, array $options): Query
+    public function findWithStudents(SelectQuery $query): SelectQuery
     {
         return $query
             ->contain([
@@ -236,11 +237,11 @@ class StudentAdscriptionsTable extends Table
     }
 
     /**
-     * @param \Cake\ORM\Query $query
+     * @param \Cake\ORM\Query\SelectQuery $query
      * @param array $options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findWithInstitution(Query $query, array $options): Query
+    public function findWithInstitution(SelectQuery $query): SelectQuery
     {
         return $query
             ->contain([
@@ -249,11 +250,11 @@ class StudentAdscriptionsTable extends Table
     }
 
     /**
-     * @param \Cake\ORM\Query $query
+     * @param \Cake\ORM\Query\SelectQuery $query
      * @param array $options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findWithTracking(Query $query, array $options): Query
+    public function findWithTracking(SelectQuery $query, array $options): SelectQuery
     {
         if (empty($options['sort'])) {
             $options['sort'] = 'ASC';
@@ -268,11 +269,11 @@ class StudentAdscriptionsTable extends Table
     }
 
     /**
-     * @param \Cake\ORM\Query $query
+     * @param \Cake\ORM\Query\SelectQuery $query
      * @param array $options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findWithTutor(Query $query, array $options): Query
+    public function findWithTutor(SelectQuery $query): SelectQuery
     {
         return $query
             ->contain([
@@ -281,11 +282,11 @@ class StudentAdscriptionsTable extends Table
     }
 
     /**
-     * @param \Cake\ORM\Query $query
+     * @param \Cake\ORM\Query\SelectQuery $query
      * @param array $options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findPrincipal(Query $query, array $options): Query
+    public function findPrincipal(SelectQuery $query): SelectQuery
     {
         return $query
             ->where([
@@ -302,12 +303,12 @@ class StudentAdscriptionsTable extends Table
         $adscription = $this->find()
             ->where([$this->aliasField('id') => $adscription_id])
             ->select(['id', 'student_id', 'institution_project_id', 'tutor_id'])
-            ->contain('Students', function (Query $query) {
+            ->contain('Students', function (SelectQuery $query) {
                 return $query
                     ->contain(['AppUsers'])
                     ->select(['AppUsers.dni']);
             })
-            ->contain('StudentTracking', function (Query $query) {
+            ->contain('StudentTracking', function (SelectQuery $query) {
                 return $query->select(['student_adscription_id', 'date', 'hours']);
             })
             ->toArray();

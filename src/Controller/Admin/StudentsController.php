@@ -9,6 +9,7 @@ use App\Model\Field\StageStatus;
 use App\Model\Field\StudentType;
 use Cake\Event\EventInterface;
 use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\View\CellTrait;
 use CakeLteTools\Controller\Traits\BulkActionsTrait;
 use CakeLteTools\Controller\Traits\ExportDataTrait;
@@ -73,10 +74,10 @@ class StudentsController extends AppAdminController
     }
 
     /**
-     * @param \Cake\ORM\Query $query
+     * @param \Cake\ORM\Query\SelectQuery $query
      * @return \Cake\Http\Response|null|void
      */
-    protected function queryToCsv(Query $query)
+    protected function queryToCsv(SelectQuery $query)
     {
         $query = $query->contain([
             'StudentData' => ['InterestAreas'],

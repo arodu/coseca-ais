@@ -111,11 +111,11 @@ class StudentStagesTable extends Table
     }
 
     /**
-     * @param \Cake\ORM\Query $query
+     * @param \Cake\ORM\Query\SelectQuery $query
      * @param array $options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findByStudentStage(Query $query, array $options = []): Query
+    public function findByStudentStage(SelectQuery $query, array $options = []): SelectQuery
     {
         if (empty($options['stage'])) {
             throw new InvalidArgumentException('param stage is necessary');
@@ -136,11 +136,11 @@ class StudentStagesTable extends Table
     }
 
     /**
-     * @param \Cake\ORM\Query $query
+     * @param \Cake\ORM\Query\SelectQuery $query
      * @param array $options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findStageList(Query $query, array $options = []): Query
+    public function findStageList(SelectQuery $query, array $options = []): SelectQuery
     {
         if (empty($options['student'])) {
             throw new InvalidArgumentException(
