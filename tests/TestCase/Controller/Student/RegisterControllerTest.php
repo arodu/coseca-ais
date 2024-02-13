@@ -74,20 +74,20 @@ class RegisterControllerTest extends StudentTestCase
             'stage' => StageField::REGISTER->value,
         ]);
 
-        $start_date = FrozenDate::now()->subDays(4);
-        $end_date = FrozenDate::now()->subDays(2);
+        $start_date = \Cake\I18n\Date::now()->subDays(4);
+        $end_date = \Cake\I18n\Date::now()->subDays(2);
         $this->updateRecord($lapseDate, compact('start_date', 'end_date'));
         $this->get('/student/register');
         $this->assertResponseCode(403);
 
-        $start_date = FrozenDate::now()->addDays(2);
-        $end_date = FrozenDate::now()->addDays(4);
+        $start_date = \Cake\I18n\Date::now()->addDays(2);
+        $end_date = \Cake\I18n\Date::now()->addDays(4);
         $this->updateRecord($lapseDate, compact('start_date', 'end_date'));
         $this->get('/student/register');
         $this->assertResponseCode(403);
 
-        $start_date = FrozenDate::now()->subDays(2);
-        $end_date = FrozenDate::now()->addDays(2);
+        $start_date = \Cake\I18n\Date::now()->subDays(2);
+        $end_date = \Cake\I18n\Date::now()->addDays(2);
         $this->updateRecord($lapseDate, compact('start_date', 'end_date'));
         $this->get('/student/register');
         $this->assertResponseCode(200);
@@ -110,8 +110,8 @@ class RegisterControllerTest extends StudentTestCase
             'stage' => StageField::REGISTER->value,
         ]);
 
-        $start_date = FrozenDate::now()->subDays(2);
-        $end_date = FrozenDate::now()->addDays(2);
+        $start_date = \Cake\I18n\Date::now()->subDays(2);
+        $end_date = \Cake\I18n\Date::now()->addDays(2);
         $this->updateRecord($lapseDate, compact('start_date', 'end_date'));
         $this->get('/student/register');
         $this->assertResponseCode(200);
@@ -155,11 +155,9 @@ class RegisterControllerTest extends StudentTestCase
         ]);
         $this->assertRedirect(['_name' => 'student:home']);
 
-        $studentResult = $this->fetchTable('Students')->get($student->id, [
-            'contain' => [
-                'AppUsers',
-                'StudentData',
-            ],
+        $studentResult = $this->fetchTable('Students')->get($student->id, contain: [
+            'AppUsers',
+            'StudentData',
         ]);
 
         $this->assertEquals('test_first_name', $studentResult->first_name);
@@ -218,8 +216,8 @@ class RegisterControllerTest extends StudentTestCase
             'stage' => StageField::REGISTER->value,
         ]);
 
-        $start_date = FrozenDate::now()->subDays(2);
-        $end_date = FrozenDate::now()->addDays(2);
+        $start_date = \Cake\I18n\Date::now()->subDays(2);
+        $end_date = \Cake\I18n\Date::now()->addDays(2);
         $this->updateRecord($lapseDate, compact('start_date', 'end_date'));
         $this->get('/student/register');
         $this->assertResponseCode(200);

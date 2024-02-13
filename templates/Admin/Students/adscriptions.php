@@ -120,7 +120,7 @@ $this->Breadcrumbs->add([
                     </div>
                 </div>
             </div>
-        <?php endforeach; ?>
+<?php endforeach; ?>
     <?php endif; ?>
 </div>
 <div class="card-footer d-flex">

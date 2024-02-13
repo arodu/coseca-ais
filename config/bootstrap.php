@@ -41,7 +41,7 @@ use Cake\Datasource\ConnectionManager;
 use Cake\Error\ErrorTrap;
 use Cake\Error\ExceptionTrap;
 use Cake\Http\ServerRequest;
-use Cake\I18n\FrozenDate;
+use Cake\I18n\Date;
 use Cake\Log\Log;
 use Cake\Mailer\Mailer;
 use Cake\Mailer\TransportFactory;
@@ -222,7 +222,7 @@ ServerRequest::addDetector('tablet', function ($request) {
 // There is no time-specific type in Cake
 TypeFactory::map('time', StringType::class);
 
-FrozenDate::setToStringFormat('dd/MM/yy');
+Date::setToStringFormat('dd/MM/yy');
 
 /*
  * Custom Inflector rules, can be set to correctly pluralize or singularize

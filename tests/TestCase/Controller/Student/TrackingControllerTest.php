@@ -83,7 +83,7 @@ class TrackingControllerTest extends StudentTestCase
 
         $this->post('/student/tracking/add', [
             'student_adscription_id' => $adscription->id,
-            'date' => FrozenDate::now(),
+            'date' => \Cake\I18n\Date::now(),
             'hours' => 1,
             'description' => 'Test 1',
         ]);
@@ -96,7 +96,7 @@ class TrackingControllerTest extends StudentTestCase
 
         $this->post('/student/tracking/add', [
             'student_adscription_id' => $adscription->id,
-            'date' => FrozenDate::now(),
+            'date' => \Cake\I18n\Date::now(),
             'hours' => 6,
             'description' => 'Test 2',
         ]);

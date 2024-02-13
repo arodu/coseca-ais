@@ -7,7 +7,7 @@
 <dl class="row">
     <dt class="col-sm-3 text-right"><?= __('Cédula') ?></dt>
     <dd class="col-sm-7"><?= $student->dni ?> </dd>
-    
+
     <dt class="col-sm-3 text-right"><?= __('Nombres') ?></dt>
     <dd class="col-sm-7"><?= $student->first_name ?> </dd>
 

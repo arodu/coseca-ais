@@ -46,8 +46,8 @@ class AppUserFactory extends CakephpBaseFactory
                 'last_name' => $faker->lastName,
                 'active' => true,
                 'role' => UserRole::STUDENT->value,
-                'created' => FrozenDate::now(),
-                'modified' => FrozenDate::now(),
+                'created' => \Cake\I18n\Date::now(),
+                'modified' => \Cake\I18n\Date::now(),
             ];
         });
     }
