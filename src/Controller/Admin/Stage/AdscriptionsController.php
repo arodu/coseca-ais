@@ -82,25 +82,13 @@ class AdscriptionsController extends AppAdminController
         }
 
         $institution_projects = $this->StudentAdscriptions->InstitutionProjects
-            ->find('list', [
-                'groupField' => 'institution.name',
-                'limit' => 200
-            ])
-            ->contain(['Institutions'])
-            ->where([
-                'Institutions.tenant_id' => $student->tenant_id,
-                'Institutions.active' => true,
-                'InstitutionProjects.active' => true,
-            ]);
-
+            ->find('listForSelect', ['tenant_id' => $student->tenant_id]);
         $tutors = $this->StudentAdscriptions->Tutors
             ->find('list', ['limit' => 200])
             ->where([
                 'Tutors.tenant_id' => $student->tenant_id,
             ]);
-        
         $back = $this->getRedirectUrl();
-
         $this->set(compact('student', 'student_adscription', 'institution_projects', 'tutors', 'back'));
     }
 
@@ -136,7 +124,9 @@ class AdscriptionsController extends AppAdminController
                 'Tutors.tenant_id' => $adscription->student->tenant_id,
             ]);
         $student = $adscription->student;
-        $this->set(compact('adscription', 'tutors', 'student'));
+        $institution_projects = $this->StudentAdscriptions->InstitutionProjects
+            ->find('listForSelect', ['tenant_id' => $student->tenant_id]);
+        $this->set(compact('adscription', 'tutors', 'student', 'institution_projects'));
     }
 
     public function changeStatus($status, $id)

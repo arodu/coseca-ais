@@ -96,4 +96,29 @@ class InstitutionProjectsTable extends Table
 
         return $rules;
     }
+
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
+    public function findListForSelect(Query $query, array $options = []): Query
+    {
+        if (empty($options['tenant_id'])) {
+            throw new \InvalidArgumentException('tenant_id is required');
+        }
+
+        return $query
+            ->find('list', [
+                'keyField' => 'id',
+                'valueField' => 'name',
+                'groupField' => 'institution.name',
+            ])
+            ->contain('Institutions')
+            ->where([
+                $this->Institutions->aliasField('tenant_id') => $options['tenant_id'],
+                $this->Institutions->aliasField('active') => true,
+                $this->aliasField('active') => true,
+            ]);
+    }
 }
