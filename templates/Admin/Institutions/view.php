@@ -56,7 +56,13 @@ $this->Breadcrumbs->add([
         </table>
     </div>
     <div class="card-footer d-flex">
-        <div></div>
+        <div>
+            <?= $this->Form->postLink(
+                __('Delete'),
+                ['action' => 'delete', $institution->id],
+                ['confirm' => __('Are you sure you want to delete # {0}?', $institution->id), 'class' => 'btn btn-danger']
+            ) ?>
+        </div>
         <div class="ml-auto">
             <?= $this->Html->link(__('Edit'), ['action' => 'edit', $institution->id], ['class' => 'btn btn-secondary']) ?>
             <?= $this->Html->link(__('Cancel'), ['action' => 'index'], ['class' => 'btn btn-default']) ?>

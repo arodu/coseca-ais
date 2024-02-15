@@ -45,5 +45,11 @@ class Institution extends Entity
         'municipality' => true,
         'parish_id' => true,
         'parish' => true,
+        'created' => true,
+        'created_by' => true,
+        'modified' => true,
+        'modified_by' => true,
+        'deleted' => true,
+        'deleted_by' => true,
     ];
 }
