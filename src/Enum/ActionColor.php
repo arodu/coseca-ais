@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Enum;
@@ -25,7 +24,7 @@ enum ActionColor
     case DEFAULT;
 
     /**
-     * @return Color
+     * @return \CakeLteTools\Enum\Color
      */
     public function color(): Color
     {
@@ -50,9 +49,9 @@ enum ActionColor
     }
 
     /**
-     * @param string|null $extra
-     * @param bool $outline
-     * @return string
+     * @param string|null $extra Additional attributes for the button element.
+     * @param bool $outline Determines whether the button should have an outline style.
+     * @return string The generated button HTML element.
      */
     public function btn(?string $extra = null, bool $outline = false): string
     {

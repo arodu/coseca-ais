@@ -1,11 +1,17 @@
 <?php
+/**
+ * @var \App\View\AppView $this
+ */
+
+
 $this->assign('contentFooter', $this->element('Documents/format007Footer'));
+$this->program = $student->tenant->program;
+
 $numItems = count($adscriptions);
 $i = 0;
 ?>
 <?php foreach ($adscriptions as $adscription) : ?>
     <?php
-    $student = $adscription->student;
     $project = $adscription->institution_project;
     $tutor = $adscription->tutor;
     $institution = $project->institution;

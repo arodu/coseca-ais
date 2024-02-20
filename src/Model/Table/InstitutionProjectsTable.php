@@ -13,7 +13,6 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\InstitutionsTable&\Cake\ORM\Association\BelongsTo $Institutions
  * @property \App\Model\Table\StudentAdscriptionsTable&\Cake\ORM\Association\HasMany $StudentAdscriptions
- *
  * @method \App\Model\Entity\InstitutionProject newEmptyEntity()
  * @method \App\Model\Entity\InstitutionProject newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\InstitutionProject[] newEntities(array $data, array $options = [])
@@ -95,5 +94,30 @@ class InstitutionProjectsTable extends Table
         $rules->add($rules->existsIn('institution_id', 'Institutions'), ['errorField' => 'institution_id']);
 
         return $rules;
+    }
+
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
+    public function findListForSelect(Query $query, array $options = []): Query
+    {
+        if (empty($options['tenant_id'])) {
+            throw new \InvalidArgumentException('tenant_id is required');
+        }
+
+        return $query
+            ->find('list', [
+                'keyField' => 'id',
+                'valueField' => 'name',
+                'groupField' => 'institution.name',
+            ])
+            ->contain('Institutions')
+            ->where([
+                $this->Institutions->aliasField('tenant_id') => $options['tenant_id'],
+                $this->Institutions->aliasField('active') => true,
+                $this->aliasField('active') => true,
+            ]);
     }
 }

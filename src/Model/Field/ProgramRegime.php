@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Field;
@@ -32,6 +31,9 @@ enum ProgramRegime: string implements ListInterface
         };
     }
 
+    /**
+     * @return string
+     */
     public function formLabel(): string
     {
         return match ($this) {
@@ -43,6 +45,9 @@ enum ProgramRegime: string implements ListInterface
         };
     }
 
+    /**
+     * @return int
+     */
     public function maxLevel(): int
     {
         return match ($this) {

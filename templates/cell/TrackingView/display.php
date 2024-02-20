@@ -4,7 +4,6 @@
  * @var \App\View\AppView $this
  */
 
-use App\Enum\ActionColor;
 use App\Model\Field\StageField;
 use CakeLteTools\Utility\FaIcon;
 
@@ -17,8 +16,16 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
         <h3 class="card-title"><?= __('Seguimiento: {0}', $student->lapse->name ?? $this->App->nan()) ?></h3>
     </div>
     <div class="card-body">
-        <?= $this->cell('TrackingView::info', ['student_id' => $student->id]) ?>
+        <?= $this->cell('TrackingView::info', ['student_id' => $student->id, 'actions' => true]) ?>
     </div>
+
+    <?php if ($user->can('displayActions', $trackingStage)) : ?>
+        <div class="card-body d-flex">
+            <div class="ml-auto">
+                <?= $this->cell('TrackingView::actions', ['student_id' => $student->id, 'trackingStage' => $trackingStage]) ?>
+            </div>
+        </div>
+    <?php endif ?>
 </div>
 
 <?php foreach ($adscriptions as $adscription) : ?>
@@ -49,49 +56,6 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
                             'icon' => FaIcon::get('tasks', 'fa-fw'),
                         ]) ?>
                     <?php endif ?>
-
-                    <?php   
-                    /*
-                    <button type="button" class="btn btn-info btn-flat btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown">
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right" role="menu">
-                        <?php
-                        if ($canValidateAdscription && !empty($urlList['validate'])) : ?>
-                            <?= $this->Button->openModal([
-                                'label' => __('Validar horas del proyecto'),
-                                'data-target' => '#validateAdscription' . $adscription->id,
-                                'class' => 'dropdown-item',
-                                //'actionColor' => ActionColor::VALIDATE,
-                                'icon' => FaIcon::get('validate', 'fa-fw'),
-                            ]) ?>
-                        <?php endif ?>
-
-                        <?php if ($canCloseAdscription) : ?>
-                            <?= $this->Button->openModal([
-                                'label' => __('Cerrar Proyecto'),
-                                'data-target' => '#closeAdscription' . $adscription->id,
-                                'class' => 'dropdown-item',
-                                //'actionColor' => ActionColor::VALIDATE,
-                                //'icon' => FaIcon::get('close', 'fa-fw'),
-                            ]) ?>
-                        <?php endif ?>
-
-                        <?php if ($canPrintFormat007) : ?>
-                            <?= $this->Button->report([
-                                'url' => [
-                                    'controller' => 'Documents',
-                                    'action' => 'format007',
-                                    $adscription->id,
-                                    'format007.pdf',
-                                ],
-                                'label' => __('Planilla 007'),
-                                'class' => 'dropdown-item',
-                                'target' => '_blank',
-                            ]) ?>
-                        <?php endif ?>
-                    </div>
-                    */ ?>
                 </div>
             </div>
         </div>
@@ -257,7 +221,6 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
         </div>
     <?php endif ?>
 
-
     <?php if ($canCloseAdscription) : ?>
         <div class="modal fade" id="<?= 'closeAdscription' . $adscription->id ?>" tabindex="-1" role="dialog" aria-labelledby="closeAdscriptionModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -295,7 +258,7 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
                     <div class="modal-footer">
                         <?= $this->Button->save([
                             'label' => __('Si'),
-                            'icon' => false,
+                            'icon' => null,
                         ]) ?>
                         <?= $this->Button->closeModal() ?>
                     </div>

@@ -1,10 +1,10 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
 
 use App\Enum\Active;
+use App\Model\Field\StageField;
 use App\Model\Field\StudentType;
 use App\Utility\Stages;
 use Cake\Http\Exception\NotFoundException;
@@ -113,7 +113,7 @@ class Student extends Entity
     }
 
     /**
-     * @return StudentType|null
+     * @return \App\Model\Field\StudentType|null
      */
     public function getType(): ?StudentType
     {
@@ -129,7 +129,7 @@ class Student extends Entity
     }
 
     /**
-     * @return Lapse
+     * @return \App\Model\Entity\Lapse
      */
     public function getCurrentLapse(): Lapse
     {
@@ -145,7 +145,7 @@ class Student extends Entity
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function hasPrincipalAdscription(): bool
     {
@@ -171,10 +171,29 @@ class Student extends Entity
     }
 
     /**
-     * @return Active|null
+     * @return \App\Enum\Active|null
      */
     public function getActive(): ?Active
     {
         return Active::get($this->active ?? false);
+    }
+
+    /**
+     * @param \App\Model\Field\StageField $stageField
+     * @return \App\Model\Entity\StudentStage|null
+     */
+    public function getStudentStage(StageField $stageField): ?StudentStage
+    {
+        if (empty($this->student_stages)) {
+            return null;
+        }
+
+        foreach ($this->student_stages as $studentStage) {
+            if ($studentStage->getStage() === $stageField) {
+                return $studentStage;
+            }
+        }
+
+        return null;
     }
 }

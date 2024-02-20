@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Admin;
@@ -16,6 +15,9 @@ use Cake\Event\EventInterface;
  */
 class TenantsController extends AppAdminController
 {
+    /**
+     * @return void
+     */
     public function initialize(): void
     {
         parent::initialize();
@@ -23,9 +25,13 @@ class TenantsController extends AppAdminController
         $this->Programs = $this->fetchTable('Programs');
     }
 
-
+    /**
+     * @param \Cake\Event\EventInterface $event
+     * @return void
+     */
     public function beforeRender(EventInterface $event)
     {
+        parent::beforeRender($event);
         $this->MenuLte->activeItem('tenants');
     }
 
@@ -36,12 +42,11 @@ class TenantsController extends AppAdminController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['CurrentLapse'],
-        ];
+        $this->paginate = [];
 
         $query = $this->Tenants
-            ->find('withPrograms');
+            ->find('withPrograms')
+            ->contain(['CurrentLapse']);
 
         $tenants = $this->paginate($query);
 
@@ -75,32 +80,30 @@ class TenantsController extends AppAdminController
 
         $lapseSelected = $this->getLapseSelected($tenant, $this->getRequest()->getQuery('lapse_id', null));
 
-        // @todo Something
-        //$lapse_id = $this->getRequest()->getQuery('lapse_id');
-        //if (empty($lapse_id) || $lapse_id == $tenant->current_lapse->id) {
-        //    $lapseSelected = $tenant->current_lapse;
-        //} else {
-        //    $lapseSelected = $this->Tenants->Lapses->find()
-        //        ->where(['id' => $lapse_id])
-        //        ->contain(['LapseDates'])
-        //        ->first();
-        //}
-
         $this->set(compact('tenant', 'lapses', 'lapseSelected'));
     }
 
+    /**
+     * @param string $program_id
+     * @return \Cake\Http\Response|null|void
+     */
     public function viewProgram($program_id = null)
     {
         $program = $this->Programs->get($program_id, [
             'contain' => [
                 'Tenants',
                 'InterestAreas',
-            ]
+            ],
         ]);
 
         $this->set(compact('program'));
     }
 
+    /**
+     * @param \App\Model\Entity\Tenant $tenant
+     * @param int|string $lapse_id
+     * @return \App\Model\Entity\Lapse|null
+     */
     private function getLapseSelected(Tenant $tenant, $lapse_id): ?Lapse
     {
         if (empty($lapse_id) && !empty($tenant->current_lapse)) {
@@ -109,7 +112,7 @@ class TenantsController extends AppAdminController
 
         if (!empty($lapse_id)) {
             return $this->Tenants->Lapses->get($lapse_id, [
-                'contain' => ['LapseDates']
+                'contain' => ['LapseDates'],
             ]);
         }
 
@@ -119,7 +122,6 @@ class TenantsController extends AppAdminController
             ->order(['id' => 'DESC'])
             ->first();
     }
-
 
     /**
      * Add method
@@ -147,6 +149,9 @@ class TenantsController extends AppAdminController
         $this->set(compact('tenant', 'programs'));
     }
 
+    /**
+     * @return \Cake\Http\Response|null|void
+     */
     public function addProgram()
     {
         $program = $this->Programs->newEmptyEntity();
@@ -164,6 +169,10 @@ class TenantsController extends AppAdminController
         $this->set(compact('program'));
     }
 
+    /**
+     * @param int|string $program_id
+     * @return \Cake\Http\Response|null|void
+     */
     public function addInterestArea($program_id = null)
     {
         $interestArea = $this->Programs->InterestAreas->newEmptyEntity();
@@ -207,6 +216,10 @@ class TenantsController extends AppAdminController
         $this->set(compact('tenant'));
     }
 
+    /**
+     * @param int|string $program_id
+     * @return \Cake\Http\Response|null|void
+     */
     public function editProgram($program_id = null)
     {
         $program = $this->Programs->get($program_id);
@@ -222,6 +235,10 @@ class TenantsController extends AppAdminController
         $this->set(compact('program'));
     }
 
+    /**
+     * @param int|string $interestArea_id
+     * @return \Cake\Http\Response|null|void
+     */
     public function editInterestArea($interestArea_id = null)
     {
         $interestArea = $this->Programs->InterestAreas->get($interestArea_id);

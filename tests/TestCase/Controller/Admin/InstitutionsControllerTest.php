@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller\Admin;
@@ -8,7 +7,6 @@ use App\Test\Factory\InstitutionFactory;
 use App\Test\Factory\InstitutionProjectFactory;
 use App\Test\Factory\InterestAreaFactory;
 use App\Test\Factory\ProgramFactory;
-
 use App\Test\TestCase\Controller\Admin\AdminTestCase;
 use Cake\TestSuite\IntegrationTestTrait;
 

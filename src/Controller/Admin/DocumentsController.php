@@ -1,10 +1,8 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use App\Controller\AppController;
 use App\Controller\Traits\DocumentsTrait;
 
 /**
@@ -17,6 +15,9 @@ class DocumentsController extends AppAdminController
 {
     use DocumentsTrait;
 
+    /**
+     * @return void
+     */
     public function initialize(): void
     {
         parent::initialize();

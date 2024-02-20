@@ -26,6 +26,4 @@ class ReportWidgetsCell extends Cell
     public function initialize(): void
     {
     }
-
-    
 }

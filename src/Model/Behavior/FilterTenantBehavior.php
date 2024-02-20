@@ -1,15 +1,14 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Behavior;
 
+use App\Utility\FilterTenantUtility;
 use ArrayObject;
 use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
 use Cake\ORM\Query;
 use Cake\Utility\Hash;
-use App\Utility\FilterTenantUtility;
 
 /**
  * FilterTenant behavior
@@ -34,9 +33,9 @@ class FilterTenantBehavior extends Behavior
     }
 
     /**
-     * @param Query $query
+     * @param \Cake\ORM\Query $query
      * @param array $options
-     * @return Query
+     * @return \Cake\ORM\Query
      */
     public function findTenant(Query $query, array $options): Query
     {

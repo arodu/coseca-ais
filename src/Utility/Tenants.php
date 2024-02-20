@@ -3,11 +3,15 @@ declare(strict_types=1);
 
 namespace App\Utility;
 
+use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
 
 class Tenants
 {
-    public static function getTenantList()
+    /**
+     * @return \Cake\ORM\Query
+     */
+    public static function getTenantList(): Query
     {
         return TableRegistry::getTableLocator()
             ->get('Tenants')

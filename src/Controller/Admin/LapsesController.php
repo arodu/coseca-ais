@@ -14,6 +14,10 @@ use Cake\Log\Log;
  */
 class LapsesController extends AppAdminController
 {
+    /**
+     * @param \Cake\Event\EventInterface $event
+     * @return void
+     */
     public function beforeRender(EventInterface $event)
     {
         $this->MenuLte->activeItem('lapses');
@@ -22,6 +26,7 @@ class LapsesController extends AppAdminController
     /**
      * Add method
      *
+     * @param string|null $tenant_id Tenant id.
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
     public function add($tenant_id)
@@ -64,6 +69,10 @@ class LapsesController extends AppAdminController
         $this->set(compact('lapse'));
     }
 
+    /**
+     * @param int|string $lapse_dates_id
+     * @return \Cake\Http\Response|null|void
+     */
     public function editDates($lapse_dates_id = null)
     {
         $lapse_date = $this->Lapses->LapseDates->get($lapse_dates_id, [
@@ -84,6 +93,7 @@ class LapsesController extends AppAdminController
 
     /**
      * Change active method
+     *
      * @param string|null $id Lapse id.
      * @param int $active Active value
      * @return \Cake\Http\Response|null|void Redirects to index.
@@ -99,9 +109,9 @@ class LapsesController extends AppAdminController
 
             $this->Lapses->updateAll(['active' => 0], ['tenant_id' => $lapse->tenant_id]);
 
-            $lapse->active = (int) $active;
+            $lapse->active = (int)$active;
             $this->Lapses->saveOrFail($lapse);
-            
+
             $this->Flash->success(__('The lapse has been updated.'));
             $this->Lapses->getConnection()->commit();
         } catch (\Exception $e) {

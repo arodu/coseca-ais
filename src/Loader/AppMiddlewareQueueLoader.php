@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Loader;
@@ -13,6 +12,11 @@ use Muffin\Footprint\Middleware\FootprintMiddleware;
 
 class AppMiddlewareQueueLoader extends MiddlewareQueueLoader
 {
+    /**
+     * @param \Cake\Http\MiddlewareQueue $middlewareQueue
+     * @param \Authentication\AuthenticationServiceProviderInterface $authenticationServiceProvider
+     * @return void
+     */
     protected function loadAuthenticationMiddleware(
         MiddlewareQueue $middlewareQueue,
         AuthenticationServiceProviderInterface $authenticationServiceProvider

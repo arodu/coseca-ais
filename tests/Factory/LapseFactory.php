@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Test\Factory;
 
-use Cake\I18n\FrozenDate;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use CakephpFixtureFactories\Factory\BaseFactory as CakephpBaseFactory;
 use Faker\Generator;

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Traits\Stage;
@@ -13,7 +12,11 @@ use Cake\Log\Log;
 
 trait TrackingProcessTrait
 {
-    protected function processAdd(array $data = [])
+    /**
+     * @param array $data
+     * @return array
+     */
+    protected function processAdd(array $data = []): array
     {
         $tackingTable = $this->fetchTable('StudentTracking');
 
@@ -40,7 +43,11 @@ trait TrackingProcessTrait
         ];
     }
 
-    protected function processDelete(int $tracking_id)
+    /**
+     * @param int $tracking_id
+     * @return array
+     */
+    protected function processDelete(int $tracking_id): array
     {
         $tackingTable = $this->fetchTable('StudentTracking');
 
@@ -68,7 +75,12 @@ trait TrackingProcessTrait
         ];
     }
 
-    protected function processCloseStage(int $student_id = null)
+    /**
+     * @param int|null $student_id
+     * @return void
+     * @throws \Cake\Http\Exception\NotFoundException
+     */
+    protected function processCloseStage(?int $student_id = null)
     {
         $this->request->allowMethod(['post', 'put']);
         $trackingStage = $this->Students->StudentStages
@@ -98,7 +110,7 @@ trait TrackingProcessTrait
                     ['status' => AdscriptionStatus::CLOSED->value],
                     [
                         'student_id' => $student_id,
-                        'status IN' => AdscriptionStatus::getOpenedValues()
+                        'status IN' => AdscriptionStatus::getOpenedValues(),
                     ]
                 );
 
@@ -111,6 +123,11 @@ trait TrackingProcessTrait
         }
     }
 
+    /**
+     * @param int|string|null $student_id
+     * @return void
+     * @throws \Cake\Http\Exception\NotFoundException
+     */
     protected function processValidateStage($student_id = null)
     {
         $this->request->allowMethod(['post', 'put']);

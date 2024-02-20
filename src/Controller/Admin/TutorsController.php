@@ -13,7 +13,10 @@ use Cake\Event\EventInterface;
  */
 class TutorsController extends AppAdminController
 {
-
+    /**
+     * @param \Cake\Event\EventInterface $event
+     * @return void
+     */
     public function beforeRender(EventInterface $event)
     {
         $this->MenuLte->activeItem('tutors');
@@ -26,11 +29,9 @@ class TutorsController extends AppAdminController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['Tenants'],
-        ];
+        $this->paginate = [];
 
-        $query = $this->Tutors->find();
+        $query = $this->Tutors->find()->contain(['Tenants']);
 
         // filterLogic
         $formData = $this->getRequest()->getQuery();
@@ -120,6 +121,7 @@ class TutorsController extends AppAdminController
         $modalForm = $this->getRequest()->getAttribute('modalForm');
         if (empty($modalForm) || !$modalForm->isValid()) {
             $this->Flash->error(__('Checked invalid!'));
+
             return $this->redirect(['action' => 'index']);
         }
 

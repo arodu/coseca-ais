@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller\Admin;
@@ -10,9 +9,7 @@ use App\Model\Field\StageStatus;
 use App\Model\Field\StudentType;
 use App\Model\Field\UserRole;
 use App\Test\Factory\CreateDataTrait;
-use App\Test\Factory\InstitutionFactory;
 use App\Test\Factory\StudentFactory;
-use App\Test\Factory\TutorFactory;
 use Cake\I18n\FrozenDate;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;

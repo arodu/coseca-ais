@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Field;
@@ -18,10 +17,10 @@ enum UserRole: string implements ListInterface
     case ASSISTANT = 'assistant';
     case ROOT = 'root';
 
-    const GROUP_STUDENT = 'student';
-    const GROUP_ADMIN = 'admin';
-    const GROUP_STAFF = 'staff';
-    const GROUP_ROOT = 'root';
+    public const GROUP_STUDENT = 'student';
+    public const GROUP_ADMIN = 'admin';
+    public const GROUP_STAFF = 'staff';
+    public const GROUP_ROOT = 'root';
 
     /**
      * @return string
@@ -65,8 +64,8 @@ enum UserRole: string implements ListInterface
     }
 
     /**
-     * @param string $name Group name
-     * @return boolean
+     * @param string $group_name Group name
+     * @return bool
      */
     public function isGroup(string $group_name): bool
     {
@@ -74,7 +73,7 @@ enum UserRole: string implements ListInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isAdminGroup(): bool
     {
@@ -82,7 +81,7 @@ enum UserRole: string implements ListInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isStudentGroup(): bool
     {
@@ -90,7 +89,7 @@ enum UserRole: string implements ListInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isStaffGroup(): bool
     {
@@ -98,7 +97,7 @@ enum UserRole: string implements ListInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isRootGroup(): bool
     {

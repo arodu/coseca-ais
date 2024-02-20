@@ -1,17 +1,12 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller\Student;
 
-use App\Model\Entity\Student;
-use App\Model\Entity\StudentStage;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use Cake\I18n\FrozenDate;
 use Cake\TestSuite\IntegrationTestTrait;
-
-use function PHPUnit\Framework\assertEquals;
 
 /**
  * App\Controller\Student\RegisterController Test Case
@@ -159,12 +154,12 @@ class RegisterControllerTest extends StudentTestCase
             ],
         ]);
         $this->assertRedirect(['_name' => 'student:home']);
-        
+
         $studentResult = $this->fetchTable('Students')->get($student->id, [
             'contain' => [
                 'AppUsers',
                 'StudentData',
-            ]
+            ],
         ]);
 
         $this->assertEquals('test_first_name', $studentResult->first_name);
@@ -200,13 +195,11 @@ class RegisterControllerTest extends StudentTestCase
         ]);
         $this->assertRedirect(['_name' => 'student:home']);
     }
-    
 
     public function testEditSubmitDataEmptyValues(): void
     {
         $this->markTestIncomplete();
     }
-
 
     protected function setRegisterStageOk(): array
     {

@@ -5,6 +5,7 @@
 /** @var \App\View\AppView $this */
 
 use App\Model\Field\StageStatus;
+use App\Utility\FilePrint;
 
 $status = $studentStage->getStatus();
 $color = $status->color();
@@ -34,7 +35,7 @@ if ($studentStage->statusIs([StageStatus::WAITING, StageStatus::SUCCESS])) {
             'controller' => 'Documents',
             'action' => 'format009',
             $studentStage->student_id,
-            'format009.pdf',
+            FilePrint::format009($student),
         ],
         'class' => 'btn-sm ml-2',
     ]);

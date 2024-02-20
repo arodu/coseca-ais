@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Utility;
@@ -9,6 +8,9 @@ use App\Model\Field\StageStatus;
 
 class ReportsUtility
 {
+    /**
+     * @return array
+     */
     public static function getStatusList(): array
     {
         return [
@@ -19,6 +21,9 @@ class ReportsUtility
         ];
     }
 
+    /**
+     * @return array
+     */
     public static function getStageList(): array
     {
         return [

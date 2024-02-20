@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Command;
@@ -8,7 +7,6 @@ use Cake\Command\Command;
 use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
-use Cake\I18n\FrozenDate;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Faker\Factory;
 
@@ -33,15 +31,16 @@ class TrackingTestCommand extends Command
         $parser->addOption('adscription_id', [
             'short' => 'a',
             'help' => 'The id of the adscription to be processed',
-            'required' => true
+            'required' => true,
         ]);
 
         $parser->addOption('records', [
             'short' => 'r',
             'help' => 'Cantidad de actividades a generar',
-            'default' => 30
+            'default' => 30,
 
         ]);
+
         return $parser;
     }
 
@@ -56,7 +55,7 @@ class TrackingTestCommand extends Command
     {
         $faker = Factory::create();
         $adscriptionId = $args->getOption('adscription_id');
-        $records = (int) $args->getOption('records') ?? 30;
+        $records = (int)$args->getOption('records') ?? 30;
 
         $trackingTable = $this->fetchTable('StudentTracking');
 
