@@ -73,7 +73,7 @@ $this->Breadcrumbs->add([
                         <td><?= $this->App->badge($student->getActive())?></td>
                         <td>
                             <?= h($studentStage->stage_label) ?>
-                            <?= $this->App->badge($studentStage->getStatus())?>
+                            <?= $this->App->badge($studentStage->enumStatus())?>
                         </td>
                         <td class="project_progress">
                             <?= $this->App->progressBar($student->total_hours ?? 0) ?>

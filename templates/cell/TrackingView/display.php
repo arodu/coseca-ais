@@ -44,7 +44,7 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
         <div class="card-header">
             <h3 class="card-title">
                 <?= h($adscription->institution_project->label_name) ?>
-                <?= $this->App->badge($adscription->getStatus()) ?>
+                <?= $this->App->badge($adscription->enum('status')) ?>
             </h3>
             <div class="card-tools">
                 <div class="btn-group">
