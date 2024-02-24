@@ -22,7 +22,7 @@ class FilterTenantUtility
     {
         $output = [];
         $tenantsTable = $this->fetchTable('Tenants');
-        if ($user->getRole()->isGroup(UserRole::GROUP_ROOT)) {
+        if ($user->enumRole()->isGroup(UserRole::GROUP_ROOT)) {
             $output = $tenantsTable
                 ->find('list', [
                     'keyField' => 'id',
