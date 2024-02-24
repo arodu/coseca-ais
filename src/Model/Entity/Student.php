@@ -193,7 +193,7 @@ class Student extends Entity
         }
 
         foreach ($this->student_stages as $studentStage) {
-            if ($studentStage->getStage() === $stageField) {
+            if ($studentStage->enum('stage') === $stageField) {
                 return $studentStage;
             }
         }

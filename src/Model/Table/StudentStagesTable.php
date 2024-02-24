@@ -307,7 +307,7 @@ class StudentStagesTable extends Table
      */
     public function createNextOrFail(StudentStage $entity, bool $forced = false): StudentStage
     {
-        if (!($forced || in_array($entity->getStatus(), [StageStatus::SUCCESS]))) {
+        if (!($forced || in_array($entity->enum('status'), [StageStatus::SUCCESS]))) {
             throw new InvalidArgumentException('The stage has to be closed to create the next one');
         }
 
@@ -315,7 +315,7 @@ class StudentStagesTable extends Table
             $this->loadInto($entity, ['Students']);
         }
 
-        $nextStageField = Stages::getNextStageField($entity->getStage(), $entity->student->getType());
+        $nextStageField = Stages::getNextStageField($entity->enum('stage'), $entity->student->enum('type'));
         if (!$nextStageField) {
             throw new InvalidArgumentException('The stage has no next stage');
         }

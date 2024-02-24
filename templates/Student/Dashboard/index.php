@@ -24,7 +24,7 @@ $this->Breadcrumbs->add([
         <?php foreach ($listStages as $itemStage) : ?>
             <?php
             $studentStage = $studentStages[$itemStage->value] ?? null;
-            $studentStageStatus = $studentStage?() ?? StageStatus::LOCKED;
+            $studentStageStatus = $studentStage?->enum('status') ?? StageStatus::LOCKED;
             ?>
             <div class="stage-list-item <?= $studentStageStatus->color()->card() ?>">
                 <div class="card-header">

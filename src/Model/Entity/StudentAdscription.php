@@ -66,9 +66,13 @@ class StudentAdscription extends Entity
     /**
      * @return string
      */
-    protected function _getLabelStatus(): string
+    protected function _getLabelStatus(): ?string
     {
-        return $this->enum('status')?->label() ?? '';
+        if (empty($this->status)) {
+            return null;
+        }
+
+        return $this->enum('status')?->label();
     }
 
     /**
