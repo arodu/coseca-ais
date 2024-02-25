@@ -30,7 +30,7 @@ $this->Breadcrumbs->add([
                 'class' => 'form-control-sm',
                 'templates' => ['inputContainer' => '{{content}}']
             ]); ?>
-            <?php //echo $this->Html->link(__('New Student'), ['action' => 'add'], ['class' => 'btn btn-primary btn-sm ml-2']) 
+            <?php //echo $this->Html->link(__('New Student'), ['action' => 'add'], ['class' => 'btn btn-primary btn-sm ml-2'])
             ?>
         </div>
     </div>
@@ -70,10 +70,10 @@ $this->Breadcrumbs->add([
                             ) ?>
                         </td>
                         <td><?= h($student->lapse?->name) ?? $this->App->nan() ?></td>
-                        <td><?= $this->App->badge($student->getActive())?></td>
+                        <td><?= $this->App->badge($student->getActive()) ?></td>
                         <td>
                             <?= h($studentStage->stage_label) ?>
-                            <?= $this->App->badge($studentStage->enumStatus())?>
+                            <?= $this->App->badge($studentStage->enum('status')) ?>
                         </td>
                         <td class="project_progress">
                             <?= $this->App->progressBar($student->total_hours ?? 0) ?>

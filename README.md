@@ -1,53 +1,38 @@
-# CakePHP Application Skeleton
+# COSECA AIS
 
-![Build Status](https://github.com/cakephp/app/actions/workflows/ci.yml/badge.svg?branch=master)
-[![Total Downloads](https://img.shields.io/packagist/dt/cakephp/app.svg?style=flat-square)](https://packagist.org/packages/cakephp/app)
-[![PHPStan](https://img.shields.io/badge/PHPStan-level%207-brightgreen.svg?style=flat-square)](https://github.com/phpstan/phpstan)
+<h4>Sistema para la Gestión y Control del seguiento del Servicio Comunitario en el Área de Ingeniería de Sistemas UNERG. </h4>
 
-A skeleton for creating applications with [CakePHP](https://cakephp.org) 4.x.
 
-The framework source code can be found here: [cakephp/cakephp](https://github.com/cakephp/cakephp).
+## Instalación
 
-## Installation
+1. Lo primero sera instalar **DDEV** como plataforma para el entorno de desarrollo. DDEV se basa en Docker y si aun no lo tienes instalado consulta: [DDEV DOCS](https://ddev.readthedocs.io/en/stable/users/install/ddev-installation/) para instalarlo en el sistema operativo que estes usando.
 
-1. Download [Composer](https://getcomposer.org/doc/00-intro.md) or update `composer self-update`.
-2. Run `php composer.phar create-project --prefer-dist cakephp/app [app_name]`.
+2. El proyecto **COSECA AIS** tiene configurado los contenedores para la ejecucion del proyecto, asi que luego de instalar DDEV basta con correr el siguiente comando para levantar el servidor de desarrollo en tu computador.
 
-If Composer is installed globally, run
+    ```bash
+    ddev start
+    ```
 
-```bash
-composer create-project --prefer-dist cakephp/app
-```
+3. Con esto ya tendremos corriendo el servidor de desarrollo de la aplicación, sin embargo debemos configurar algunas cosas antes de continuar.
 
-In case you want to use a custom app dir name (e.g. `/myapp/`):
+   3.1 Configurar los **assets** de nuestra aplicación correctamente, para ello ejecutamos:
+    <br>
+    ```bash
+    bin/cake cakelte install
+    ```
+    <br>
 
-```bash
-composer create-project --prefer-dist cakephp/app myapp
-```
+    3.2 Configurar **Migraciones y BasicSeeds**
 
-You can now either use your machine's webserver to view the default home page, or start
-up the built-in webserver with:
+    ```bash
+    ddev exec bin/cake migrations migrate
+    composer reset-factory-faker
+    ```
+    <br>
+4. Podrás acceder a la url generada despues de ejecutar **ddev start** para iniciar sesion
 
-```bash
-bin/cake server -p 8765
-```
+<br>
 
-Then visit `http://localhost:8765` to see the welcome page.
+Con esto seria suficiente para ejecutar **COSECA AIS** en tu computador.
 
-## Update
-
-Since this skeleton is a starting point for your application and various files
-would have been modified as per your needs, there isn't a way to provide
-automated upgrades, so you have to do any updates manually.
-
-## Configuration
-
-Read and edit the environment specific `config/app_local.php` and setup the 
-`'Datasources'` and any other configuration relevant for your application.
-Other environment agnostic settings can be changed in `config/app.php`.
-
-## Layout
-
-The app skeleton uses [Milligram](https://milligram.io/) (v1.3) minimalist CSS
-framework by default. You can, however, replace it with any other library or
-custom styles.
+**Y buen código!** :coffee:

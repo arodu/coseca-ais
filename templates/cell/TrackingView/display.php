@@ -18,8 +18,7 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
     <div class="card-body">
         <?= $this->cell('TrackingView::info', ['student_id' => $student->id, 'actions' => true]) ?>
     </div>
-
-    <?php if ($user->can('displayActions', $trackingStage)) : ?>
+    <?php if ($trackingStage && $user->can('displayActions', $trackingStage)) : ?>
         <div class="card-body d-flex">
             <div class="ml-auto">
                 <?= $this->cell('TrackingView::actions', ['student_id' => $student->id, 'trackingStage' => $trackingStage]) ?>
