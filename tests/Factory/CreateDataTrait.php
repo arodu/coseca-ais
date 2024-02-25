@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace App\Test\Factory;
 
+use App\Model\Field\UserRole;
 use Cake\Datasource\EntityInterface;
+use Cake\I18n\FrozenDate;
 use Cake\ORM\Locator\LocatorAwareTrait;
 
 trait CreateDataTrait
@@ -109,5 +111,35 @@ trait CreateDataTrait
         $table = $this->fetchTable($entity->getSource());
 
         return $table->deleteOrFail($entity);
+    }
+
+    protected function getRecordExists(string $repository, $id): bool
+    {
+        return $this->fetchTable($repository)->exists(['id' => $id]);
+    }
+
+    protected function createUserWithAdminRole()
+    {
+        return $this->createUser(['role' => UserRole::ADMIN->value])->persist();
+    }
+
+    protected function createUserWithUserRole()
+    {
+        return AppUserFactory::make(['role' => UserRole::STUDENT->value])
+            ->with('Students', ['tenant_id' => $this->tenant_id])
+            ->persist();
+    }
+
+    // Enviar datos a una url tipo post
+    protected function sendDataForm(string $url, $id, array $data = [])
+    {
+        return $this->post((string)$url. $id, $data);
+    }
+
+    public function getLapsesDatesStatus($lapses_date)
+    {
+        $lapseDateModifed = $this->getRecord('LapseDates', $lapses_date->id);
+        /** @var \App\Model\Entity\LapseDates  $lapseDateModifed */
+        return $lapseDateModifed->getStatus();
     }
 }
