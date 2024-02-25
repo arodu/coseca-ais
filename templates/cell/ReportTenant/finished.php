@@ -21,7 +21,7 @@
                 <td>
                     <?= h($studentStage->student->principal_adscription->institution_project->label_name) ?>
                 </td>
-                <td><?= $this->App->badge($studentStage->getStatus()) ?></td>
+                <td><?= $this->App->badge($studentStage->enum('status')) ?></td>
                 <td><?= h($studentStage->student->principal_adscription->tutor->name) ?></td>
             </tr>
         <?php endforeach; ?>

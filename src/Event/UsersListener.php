@@ -37,11 +37,11 @@ class UsersListener implements EventListenerInterface
         $tenant_ids = $filterTenantUtility->getTenantIdsFromDatabase($user);
         FilterTenantUtility::write($tenant_ids);
 
-        if ($user->getRole()->isAdminGroup()) {
+        if ($user->enumRole()->isAdminGroup()) {
             return $event->setResult(['_name' => 'admin:home']);
         }
 
-        if ($user->getRole()->isStudentGroup()) {
+        if ($user->enumRole()->isStudentGroup()) {
             return $event->setResult(['_name' => 'student:home']);
         }
     }
@@ -55,7 +55,7 @@ class UsersListener implements EventListenerInterface
         /** @var \App\Model\Entity\AppUser $user */
         $user = $event->getData('user');
 
-        if ($user->getRole()->isStudentGroup()) {
+        if ($user->enumRole()->isStudentGroup()) {
             $this->fetchTable('Students')->newRegularStudent($user);
         }
     }

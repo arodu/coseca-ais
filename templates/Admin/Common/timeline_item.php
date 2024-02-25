@@ -8,7 +8,7 @@ use CakeLteTools\Utility\FaIcon;
 /** @var \App\View\AppView $this */
 
 $studentStage = $this->get('studentStage');
-$status = $studentStage->getStatus();
+$status = $studentStage->enum('status');
 $color = $status->color();
 $icon = $status->icon($color->bg());
 $content = trim($this->fetch('content'));

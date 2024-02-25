@@ -7,7 +7,7 @@
 use App\Enum\ActionColor;
 use CakeLteTools\Utility\FaIcon;
 
-$status = $studentStage->getStatus();
+$status = $studentStage->enum('status');
 $color = $status->color();
 $icon = $status->icon();
 
@@ -55,7 +55,7 @@ $this->end();
                         <td><?= $student_adscriptions->institution_project->institution->name ?></td>
                         <td><?= $student_adscriptions->institution_project->name ?></td>
                         <td><?= $student_adscriptions->tutor->name ?></td>
-                        <td><?= $this->App->badge($student_adscriptions->getStatus()) ?></td>
+                        <td><?= $this->App->badge($student_adscriptions->enum('status')) ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
