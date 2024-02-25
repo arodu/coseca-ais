@@ -1,10 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\View\Helper;
 
 use App\Enum\ActionColor;
+use Cake\Utility\Hash;
 use Cake\View\Helper;
+use Cake\View\StringTemplateTrait;
 use CakeLteTools\Utility\FaIcon;
 
 /**
@@ -12,8 +15,20 @@ use CakeLteTools\Utility\FaIcon;
  */
 class ButtonHelper extends Helper
 {
+    use StringTemplateTrait;
+
     public const ICON_POSITION_LEFT = 'left';
     public const ICON_POSITION_RIGHT = 'right';
+
+    public const RENDER_BUTTON = 'button';
+    public const RENDER_LINK = 'link';
+    public const RENDER_POST_LINK = 'postLink';
+
+    public const ITEM_SAVE = 'save';
+    public const ITEM_VALIDATE = 'validate';
+    public const ITEM_OPEN_MODAL = 'openModal';
+    public const ITEM_CLOSE_MODAL = 'closeModal';
+    public const ITEM_CANCEL = 'cancel';
 
     /**
      * Default configuration.
@@ -36,6 +51,17 @@ class ButtonHelper extends Helper
             'statistics' => 'chart-bar',
         ],
         'icon_class' => 'fa-fw',
+        'itemDefaultConfig' => [
+            'type' => 'submit',
+            'name' => 'action',
+            'value' => 'save',
+            'icon' => 'save',
+            'actionColor' => ActionColor::SUBMIT,
+            'render' => self::RENDER_LINK,
+            'icon_position' => self::ICON_POSITION_LEFT, // left, right
+        ],
+
+        /** @deprecated */
         'icon_position' => self::ICON_POSITION_LEFT, // left, right
     ];
 
@@ -43,6 +69,66 @@ class ButtonHelper extends Helper
      * @var array
      */
     public $helpers = ['Form', 'Html'];
+
+
+    /**
+     * Retrieves the configuration array for a specific item.
+     *
+     * @param string $itemName The name of the item.
+     * @return array The configuration array for the item.
+     */
+    public function itemConfig(string $itemName): array
+    {
+        $item = match ($itemName) {
+            self::ITEM_SAVE => [
+                'type' => 'submit',
+                'name' => 'action',
+                'value' => 'save',
+                'icon' => 'save',
+                'actionColor' => ActionColor::SUBMIT,
+                'render' => self::RENDER_BUTTON,
+                'label' => __('Guardar'),
+            ],
+            self::ITEM_VALIDATE => [
+                'type' => 'submit',
+                'name' => 'action',
+                'value' => 'validate',
+                'icon' => 'validate',
+                'actionColor' => ActionColor::VALIDATE,
+                'render' => self::RENDER_BUTTON,
+                'confirm' => __('Seguro que desea validar este registro?'),
+                'label' => __('Guardar y Validar'),
+            ],
+            self::ITEM_OPEN_MODAL => [
+                'type' => 'button',
+                'data-toggle' => 'modal',
+                'data-target' => '#modal',
+                'icon' => 'default',
+                'actionColor' => ActionColor::ADD,
+                'render' => self::RENDER_BUTTON,
+            ],
+            self::ITEM_CLOSE_MODAL => [
+                'type' => 'button',
+                'data-dismiss' => 'modal',
+                'icon' => 'default',
+                'label' => __('Cancelar'),
+                'actionColor' => ActionColor::CANCEL,
+                'render' => self::RENDER_BUTTON,
+            ],
+            self::ITEM_CANCEL => [
+                'icon' => null,
+                'label' => __('Cancelar'),
+                'escape' => false,
+                'actionColor' => ActionColor::CANCEL,
+                'override' => false,
+                'outline' => false,
+                'render' => self::RENDER_LINK,
+            ],
+            default => [],
+        };
+
+        return Hash::merge($this->getConfig('itemDefaultConfig'), $item);
+    }
 
     /**
      * @param array<string, mixed> $options
@@ -120,6 +206,21 @@ class ButtonHelper extends Helper
         }
 
         return $this->Html->link($title, $url, $options);
+    }
+
+    public function icon(array $options = []): string
+    {
+        //$icon = $options['icon'] ?? null;
+        //if (!$icon) {
+        //    throw new \InvalidArgumentException('icon is required');
+        //}
+        //
+        //$actionColor = $options['actionColor'] ?? ActionColor::DEFAULT;
+        //$options['class'] = $this->prepareClass($options['class'] ?? '', $actionColor, $options['outline'] ?? false);
+        //
+        //return FaIcon::get($icon, $this->getConfig('icon_class'), $options);
+
+        return '';
     }
 
     /**
@@ -255,40 +356,57 @@ class ButtonHelper extends Helper
     }
 
     /**
-     * @param array<string, mixed> $options
+     * @param string $name
+     * @param array $options
      * @return string
+     */
+    public function get(string $name, array $options = []): string
+    {
+        $itemConfig = $this->itemConfig($name);
+        if ($itemConfig) {
+            $options = array_merge($itemConfig, $options);
+        }
+
+        if (isset($options['icon']) && !($options['icon'] instanceof FaIcon)) {
+            $options['icon'] = FaIcon::get($options['icon'], $this->getConfig('icon_class'));
+        }
+
+        return $this->render($name, $options);
+    }
+
+    public function render(string $name, array $options = []): string
+    {
+        $options = array_merge($this->itemConfig($name), $options);
+        $render = $options['render'] ?? self::RENDER_LINK;
+        unset($options['render']);
+
+        return $this->{$render}($options);
+    }
+
+    /* *************************************************************************************** */
+
+    /**
+     * @param array $options
+     * @return string
+     * @deprecated
      */
     public function save(array $options = []): string
     {
-        $options = array_merge([
-            'type' => 'submit',
-            'name' => 'action',
-            'value' => 'save',
-            'icon' => FaIcon::get($this->getConfig('icon.save'), $this->getConfig('icon_class')),
-            'label' => __('Guardar'),
-            'actionColor' => ActionColor::SUBMIT,
-        ], $options);
+        trigger_error('Method ' . __METHOD__ . ' is deprecated, use `$this->Button->get(self::ITEM_SAVE, $options)` instead', E_USER_DEPRECATED);
 
-        return $this->button($options);
+        return $this->get(self::ITEM_SAVE, $options);
     }
 
     /**
      * @param array<string, mixed> $options
      * @return string
+     * @deprecated
      */
     public function validate(array $options = []): string
     {
-        $options = array_merge([
-            'type' => 'submit',
-            'name' => 'action',
-            'value' => 'validate',
-            'icon' => FaIcon::get($this->getConfig('icon.validate'), $this->getConfig('icon_class')),
-            'label' => __('Guardar y Validar'),
-            'actionColor' => ActionColor::VALIDATE,
-            'confirm' => __('Seguro que desea validar este registro?'),
-        ], $options);
+        trigger_error('Method ' . __METHOD__ . ' is deprecated, use `$this->Button->get(self::ITEM_VALIDATE, $options)` instead', E_USER_DEPRECATED);
 
-        return $this->button($options);
+        return $this->get(self::ITEM_VALIDATE, $options);
     }
 
     /**
@@ -297,33 +415,21 @@ class ButtonHelper extends Helper
      */
     public function closeModal(array $options = []): string
     {
-        $options = array_merge([
-            'type' => 'button',
-            'data-dismiss' => 'modal',
-            'icon' => null,
-            'label' => __('Cancelar'),
-            'actionColor' => ActionColor::CANCEL,
-        ], $options);
+        trigger_error('Method ' . __METHOD__ . ' is deprecated, use `$this->Button->get(self::ITEM_CLOSE_MODAL, $options)` instead', E_USER_DEPRECATED);
 
-        return $this->button($options);
+        return $this->get(self::ITEM_CLOSE_MODAL, $options);
     }
 
     /**
      * @param array $options
      * @return string
+     * @deprecated
      */
     public function openModal(array $options = []): string
     {
-        $options = array_merge([
-            'type' => 'button',
-            'data-toggle' => 'modal',
-            'data-target' => '#modal',
-            'icon' => $this->getDefaultIcon(__FUNCTION__),
-            'label' => __('Cancelar'),
-            'actionColor' => ActionColor::ADD,
-        ], $options);
+        trigger_error('Method ' . __METHOD__ . ' is deprecated, use `$this->Button->get(self::ITEM_OPEN_MODAL, $options)` instead', E_USER_DEPRECATED);
 
-        return $this->button($options);
+        return $this->get(self::ITEM_OPEN_MODAL, $options);
     }
 
     /**
@@ -551,18 +657,9 @@ class ButtonHelper extends Helper
      */
     public function cancel(array $options = []): string
     {
-        $this->requireUrl($options);
+        trigger_error('Method ' . __METHOD__ . ' is deprecated, use `$this->Button->get(self::ITEM_CANCEL, $options)` instead', E_USER_DEPRECATED);
 
-        $options = array_merge([
-            'icon' => null,
-            'label' => __('Cancelar'),
-            'escape' => false,
-            'actionColor' => ActionColor::CANCEL,
-            'override' => false,
-            'outline' => false,
-        ], $options);
-
-        return $this->link($options);
+        return $this->get(self::ITEM_CANCEL, $options);
     }
 
     /**
