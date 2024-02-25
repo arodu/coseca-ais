@@ -142,7 +142,7 @@ class InstitutionsControllerTest extends AdminTestCase
         ])->persist();
 
         // Verificacion de acciones
-        $this->post('/admin/institutions/add-project', [
+        $this->post('/admin/institutions/add-project/' . $institution->id, [
             'name' => 'Agregar a proyecto de prueba',
             'institution_id' => $institution->id,
             'interest_area_id' => $interes_area->id,
