@@ -29,6 +29,7 @@ class ButtonHelper extends Helper
     public const ITEM_OPEN_MODAL = 'openModal';
     public const ITEM_CLOSE_MODAL = 'closeModal';
     public const ITEM_CANCEL = 'cancel';
+    public const ITEM_BACK = 'back';
 
     /**
      * Default configuration.
@@ -52,12 +53,10 @@ class ButtonHelper extends Helper
         ],
         'icon_class' => 'fa-fw',
         'itemDefaultConfig' => [
-            'type' => 'submit',
-            'name' => 'action',
-            'value' => 'save',
-            'icon' => 'save',
+            'type' => 'button',
+            'icon' => 'default',
             'actionColor' => ActionColor::SUBMIT,
-            'render' => self::RENDER_LINK,
+            'render' => self::RENDER_BUTTON,
             'icon_position' => self::ICON_POSITION_LEFT, // left, right
         ],
 
@@ -111,7 +110,7 @@ class ButtonHelper extends Helper
                 'type' => 'button',
                 'data-dismiss' => 'modal',
                 'icon' => 'default',
-                'label' => __('Cancelar'),
+                'label' => __('Cerrar'),
                 'actionColor' => ActionColor::CANCEL,
                 'render' => self::RENDER_BUTTON,
             ],
@@ -124,6 +123,16 @@ class ButtonHelper extends Helper
                 'outline' => false,
                 'render' => self::RENDER_LINK,
             ],
+            self::ITEM_BACK => [
+                'icon' => 'back',
+                'label' => __('Volver'),
+                'escape' => false,
+                'actionColor' => ActionColor::CANCEL,
+                'override' => false,
+                'outline' => false,
+                'render' => self::RENDER_LINK,
+            ],
+
             default => [],
         };
 
@@ -136,14 +145,10 @@ class ButtonHelper extends Helper
      */
     public function link(array $options = []): string
     {
-        $this->requireUrl($options);
+        $this->requireParams($options, ['url', 'actionColor']);
 
         if (empty($options['label']) && empty($options['icon'])) {
             $options['icon'] = FaIcon::get($this->getConfig('icon.link'), $this->getConfig('icon_class'));
-        }
-
-        if (empty($options['actionColor'])) {
-            throw new \InvalidArgumentException('actionColor is required');
         }
 
         if (isset($options['displayCondition'])) {
@@ -208,27 +213,14 @@ class ButtonHelper extends Helper
         return $this->Html->link($title, $url, $options);
     }
 
-    public function icon(array $options = []): string
-    {
-        //$icon = $options['icon'] ?? null;
-        //if (!$icon) {
-        //    throw new \InvalidArgumentException('icon is required');
-        //}
-        //
-        //$actionColor = $options['actionColor'] ?? ActionColor::DEFAULT;
-        //$options['class'] = $this->prepareClass($options['class'] ?? '', $actionColor, $options['outline'] ?? false);
-        //
-        //return FaIcon::get($icon, $this->getConfig('icon_class'), $options);
-
-        return '';
-    }
-
     /**
      * @param array $options
      * @return string
      */
     public function postLink(array $options): string
     {
+        $this->requireParams($options, ['url', 'actionColor']);
+
         if (isset($options['displayCondition'])) {
             $displayCondition = $options['displayCondition'];
             unset($options['displayCondition']);
@@ -242,14 +234,8 @@ class ButtonHelper extends Helper
             }
         }
 
-        $this->requireUrl($options);
-
         if (empty($options['label']) && empty($options['icon'])) {
             $options['icon'] = FaIcon::get($this->getConfig('icon.link'), $this->getConfig('icon_class'));
-        }
-
-        if (empty($options['actionColor'])) {
-            throw new \InvalidArgumentException('actionColor is required');
         }
 
         $url = $options['url'];
@@ -297,9 +283,7 @@ class ButtonHelper extends Helper
      */
     public function button(array $options = []): string
     {
-        if (empty($options['actionColor'])) {
-            throw new \InvalidArgumentException('actionColor is required');
-        }
+        $this->requireParams($options, ['actionColor']);
 
         if (empty($options['label']) && empty($options['icon'])) {
             throw new \InvalidArgumentException('label is required');
@@ -371,19 +355,36 @@ class ButtonHelper extends Helper
             $options['icon'] = FaIcon::get($options['icon'], $this->getConfig('icon_class'));
         }
 
-        return $this->render($name, $options);
-    }
-
-    public function render(string $name, array $options = []): string
-    {
-        $options = array_merge($this->itemConfig($name), $options);
         $render = $options['render'] ?? self::RENDER_LINK;
         unset($options['render']);
 
         return $this->{$render}($options);
     }
 
+    protected function requireParams(array $options, array $required): void
+    {
+        foreach ($required as $param) {
+            if (empty($options[$param])) {
+                throw new \InvalidArgumentException($param . ' param is required');
+            }
+        }
+    }
+
     /* *************************************************************************************** */
+
+    /**
+     * @param array $options
+     * @return void
+     * @throws \InvalidArgumentException
+     * @deprecated
+     */
+    protected function requireUrl(array $options): void
+    {
+        if (empty($options['url'])) {
+            throw new \InvalidArgumentException('url param is required');
+        }
+    }
+
 
     /**
      * @param array $options
@@ -668,10 +669,9 @@ class ButtonHelper extends Helper
      */
     public function back(array $options = []): string
     {
-        return $this->cancel([
-            'icon' => FaIcon::get($this->getConfig('icon.back'), $this->getConfig('icon_class')),
-            'label' => __('Volver'),
-        ]);
+        trigger_error('Method ' . __METHOD__ . ' is deprecated, use `$this->Button->get(self::ITEM_BACK, $options)` instead', E_USER_DEPRECATED);
+
+        return $this->get(self::ITEM_BACK, $options);
     }
 
     /**
@@ -719,18 +719,6 @@ class ButtonHelper extends Helper
             return FaIcon::get($name, $this->getConfig('icon_class'));
         } catch (\Throwable $th) {
             return FaIcon::get('default', $this->getConfig('icon_class'));
-        }
-    }
-
-    /**
-     * @param array $options
-     * @return void
-     * @throws \InvalidArgumentException
-     */
-    protected function requireUrl(array $options): void
-    {
-        if (empty($options['url'])) {
-            throw new \InvalidArgumentException('url param is required');
         }
     }
 }
