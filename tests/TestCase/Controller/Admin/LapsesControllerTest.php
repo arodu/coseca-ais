@@ -50,7 +50,7 @@ class LapsesControllerTest extends AdminTestCase
         $this->assertResponseCode(200);
         $this->assertResponseContains($tenant->name); // Verificacion que exista el nombre del Tenant en la vista
 
-        $this->post('/admin/lapses/add/' . $program->id, [
+        $this->post('/admin/lapses/add/' . $tenant->id, [
             'name' => 'Test',
         ]); // Envio del formulario con la actualizacion de la informacion
 
