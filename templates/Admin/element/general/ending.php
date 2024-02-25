@@ -7,7 +7,7 @@
 use App\Model\Field\StageStatus;
 use App\Utility\FilePrint;
 
-$status = $studentStage->getStatus();
+$status = $studentStage->enum('status');
 $color = $status->color();
 $icon = $status->icon();
 
