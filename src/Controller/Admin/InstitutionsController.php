@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Controller\Traits\TrashIndexTrait;
 use Cake\Event\EventInterface;
 
 /**
@@ -13,12 +14,20 @@ use Cake\Event\EventInterface;
  */
 class InstitutionsController extends AppAdminController
 {
+    
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->loadComponent('Trash');
+    }
+
     /**
      * @param \Cake\Event\EventInterface $event
      * @return void
      */
     public function beforeRender(EventInterface $event)
     {
+        parent::beforeRender($event);
         $this->MenuLte->activeItem('institutions');
     }
 
@@ -43,6 +52,8 @@ class InstitutionsController extends AppAdminController
         $filtered = $this->Institutions->queryWasFiltered();
         $tenants = $this->Institutions->Tenants->find('listLabel');
         // /filterLogic
+
+        $query = $this->Trash->filterQuery($query);
 
         $institutions = $this->paginate($query);
 

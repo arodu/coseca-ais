@@ -1,9 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\View\Helper;
 
 use App\Enum\ActionColor;
+use Cake\Utility\Hash;
 use Cake\View\Helper;
 use CakeLteTools\Utility\FaIcon;
 
@@ -576,6 +578,76 @@ class ButtonHelper extends Helper
             'label' => __('Volver'),
         ]);
     }
+
+    public function dropdown(array $options = []): string
+    {
+
+        $options = Hash::merge([
+            'class' => ['btn-sm', 'btn-flat'],
+            'group' => [
+                'class' => ['ml-2'],
+            ],
+            'menu' => [
+                'class' => ['dropdown-menu-right'],
+            ],
+            'items' => [],
+        ], $options);
+
+        /*
+        <div class="btn-group">
+            <button type="button" class="btn btn-warning btn-sm btn-flat dropdown-toggle dropdown-icon" data-toggle="dropdown">
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu" role="menu">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Separated link</a>
+            </div>
+        </div>
+        */
+
+        debug($options);
+        exit();
+
+
+        $button = $this->Html->tag('button', '', [
+            'type' => 'button',
+            'class' => 'btn btn-warning btn-sm btn-flat dropdown-toggle dropdown-icon',
+            'data-toggle' => 'dropdown',
+        ]);
+
+        $items = [];
+        foreach ($options['items'] as $item) {
+            $items[] = $this->dropdownItem($item);
+        }
+
+        $menu = $this->Html->tag('div', implode('', $items), [
+            'class' => 'dropdown-menu',
+            'role' => 'menu',
+        ]);
+
+        $group = $this->Html->tag('div', $button . $menu, ['class' => 'btn-group']);
+
+        return $group;
+    }
+
+    protected function dropdownItem($item): string
+    {
+        if (isset($item['type']) && $item['type'] === 'divider') {
+            return $this->Html->tag('div', '', ['class' => 'dropdown-divider']);
+        }
+
+        if (isset($item['type']) && $item['type'] === 'header') {
+            return $this->Html->tag('h6', $item['label'], ['class' => 'dropdown-header']);
+        }
+
+        return $this->Html->link($item['label'], $item['url'], [
+            'class' => 'dropdown-item',
+        ]);
+    }
+
 
     /**
      * @param array|string $class

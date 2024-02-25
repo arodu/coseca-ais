@@ -24,11 +24,9 @@ enum RecordStatus: string implements ListInterface, BadgeInterface
     public function label(): string
     {
         return match ($this) {
-            static::ACTIVE => __('Ativo'),
-            static::INACTIVE => __('Inativo'),
+            static::ACTIVE => __('Activo'),
+            static::INACTIVE => __('Inactivo'),
             static::DELETED => __('Eliminado'),
-
-            default => __('NaN'),
         };
     }
 
@@ -51,11 +49,7 @@ enum RecordStatus: string implements ListInterface, BadgeInterface
             'deletedField' => 'deleted',
         ], $options);
 
-        if (!$entity->has($options['activeField']) || !$entity->has($options['deletedField'])) {
-            throw new \InvalidArgumentException('The entity must have the active and deleted fields');
-        }
-
-        if ($entity->get($options['deletedField']) !== null) {
+        if (!is_null($entity->get($options['deletedField']))) {
             return static::DELETED;
         }
 
