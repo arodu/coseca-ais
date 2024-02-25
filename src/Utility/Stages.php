@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Utility;
@@ -15,9 +14,9 @@ use Cake\Utility\Hash;
 class Stages
 {
     /**
-     * @param StageField $currentStage
-     * @param StudentType $studentType
-     * @return StageField|null
+     * @param \App\Model\Field\StageField $currentStage
+     * @param \App\Model\Field\StudentType $studentType
+     * @return \App\Model\Field\StageField|null
      */
     public static function getNextStageField(StageField $currentStage, StudentType $studentType): ?StageField
     {
@@ -34,7 +33,7 @@ class Stages
     }
 
     /**
-     * @param StudentType $studentType
+     * @param \App\Model\Field\StudentType $studentType
      * @return array
      */
     public static function getStageFieldList(StudentType $studentType): array
@@ -44,9 +43,9 @@ class Stages
 
     /**
      * @param int $student_id
-     * @param StageField $stageField
-     * @param StageStatus $stageStatus
-     * @return StudentStage|bool
+     * @param \App\Model\Field\StageField $stageField
+     * @param \App\Model\Field\StageStatus $stageStatus
+     * @return \App\Model\Entity\StudentStage|bool
      */
     public static function closeStudentStage(int $student_id, StageField $stageField, StageStatus $stageStatus): StudentStage|bool
     {
@@ -56,7 +55,7 @@ class Stages
             'stage' => $stageField,
             'student_id' => $student_id,
         ])->first();
-        
+
         return $studentStagesTable->close($studentStage, $stageStatus);
     }
 }

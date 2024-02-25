@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Traits\Stage;
@@ -12,7 +11,11 @@ use Cake\Http\Exception\ForbiddenException;
 
 trait AdscriptionsProcessTrait
 {
-
+    /**
+     * @param string $status
+     * @param int|string $id
+     * @return \App\Model\Entity\StudentAdscription
+     */
     protected function processChangeStatus($status, $id)
     {
         $this->Adscriptions = $this->fetchTable('StudentAdscriptions');

@@ -1,10 +1,11 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\View\Cell;
 
+use App\Model\Entity\StudentStage;
 use App\Model\Field\AdscriptionStatus;
+use App\Model\Field\StageField;
 use Cake\View\Cell;
 
 /**
@@ -28,20 +29,33 @@ class TrackingViewCell extends Cell
     public function initialize(): void
     {
         $this->Students = $this->fetchTable('Students');
-        $this->viewBuilder()->addHelper('Button');
-        $this->viewBuilder()->addHelper('ModalForm');
+        $this->viewBuilder()->addHelpers([
+            'Button',
+            'ModalForm',
+        ]);
     }
 
     /**
-     * Default display method.
-     *
+     * @param int|string $student_id
+     * @param array $urlList
      * @return void
      */
-    public function display($student_id, array $urlList = [])
+    public function display(int|string $student_id, array $urlList = [])
     {
         $student = $this->Students
             ->find('withLapses')
             ->where(['Students.id' => $student_id])
+            ->first();
+
+        $trackingStage = $this->Students->StudentStages
+            ->find()
+            ->contain([
+                'Students' => ['AppUsers'],
+            ])
+            ->where([
+                'StudentStages.student_id' => $student_id,
+                'StudentStages.stage' => StageField::TRACKING->value,
+            ])
             ->first();
 
         $adscriptions = $this->Students->StudentAdscriptions
@@ -51,12 +65,40 @@ class TrackingViewCell extends Cell
                 'StudentAdscriptions.student_id' => $student_id,
                 'StudentAdscriptions.status IN' => AdscriptionStatus::getTrackablesValues(),
             ]);
-        $this->set(compact('student', 'adscriptions', 'urlList'));
+
+        $this->set(compact('student', 'adscriptions', 'urlList', 'trackingStage'));
     }
 
-    public function info($student_id)
+    /**
+     * @param int|string $student_id
+     * @return void
+     */
+    public function info(int|string $student_id)
     {
         $trackingInfo = $this->Students->getStudentTrackingInfo($student_id) ?? [];
         $this->set(compact('trackingInfo'));
+    }
+
+    /**
+     * @param int|string $student_id
+     * @param \App\Model\Entity\StudentStage|null $trackingStage
+     * @return void
+     */
+    public function actions(int|string $student_id, ?StudentStage $trackingStage = null)
+    {
+        if (empty($trackingStage)) {
+            $trackingStage = $this->Students->StudentStages
+                ->find()
+                ->contain([
+                    'Students' => ['AppUsers'],
+                ])
+                ->where([
+                    'StudentStages.student_id' => $student_id,
+                    'StudentStages.stage' => StageField::TRACKING->value,
+                ])
+                ->first();
+        }
+
+        $this->set(compact('trackingStage'));
     }
 }

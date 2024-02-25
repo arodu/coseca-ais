@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Field;
@@ -22,7 +21,6 @@ enum ProgramArea: string implements ListInterface
     case AIA = 'aia';
     case VET = 'vet';
     case EDU = 'edu';
-
 
     /**
      * @return string
@@ -49,16 +47,39 @@ enum ProgramArea: string implements ListInterface
     public function printLabel(): string
     {
         return match ($this) {
-            static::ACES => __('ACES'),
             static::AIS => __('Área de Ingeniería de Sistemas'),
-            static::AIAT => __('AIAT'),
-            static::ACPJ => __('ACPJ'),
-            static::SALUD => __('SALUD'),
-            static::ODO => __('ODO'),
-            static::AIA => __('AIA'),
-            static::VET => __('VET'),
-            static::EDU => __('EDU'),
-            default => __('NaN'),
+
+            //static::ACES => __('ACES'),
+            //static::AIAT => __('AIAT'),
+            //static::ACPJ => __('ACPJ'),
+            //static::SALUD => __('SALUD'),
+            //static::ODO => __('ODO'),
+            //static::AIA => __('AIA'),
+            //static::VET => __('VET'),
+            //static::EDU => __('EDU'),
+
+            default => throw new \UnexpectedValueException('Invalid value'),
+        };
+    }
+
+    /**
+     * @return string
+     */
+    public function printLogo(): string
+    {
+        return match ($this) {
+            static::AIS => 'ais-logo2.png',
+
+            //static::ACES => 'aces.png',
+            //static::AIAT => 'aiat.png',
+            //static::ACPJ => 'acpj.png',
+            //static::SALUD => 'salud.png',
+            //static::ODO => 'odo.png',
+            //static::AIA => 'aia.png',
+            //static::VET => 'vet.png',
+            //static::EDU => 'edu.png',
+
+            default => throw new \UnexpectedValueException('Invalid value'),
         };
     }
 }

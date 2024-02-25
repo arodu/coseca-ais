@@ -1,1 +1,1 @@
-<?= $this->cell('TrackingView::info', ['student_id' => $student->id]) ?>
+<?= $this->element('stages/tracking/base', ['student' => $student, 'studentStage' => $studentStage]) ?>

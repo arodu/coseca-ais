@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -14,7 +13,6 @@ use QueryFilter\QueryFilterPlugin;
  *
  * @property \App\Model\Table\TenantsTable&\Cake\ORM\Association\BelongsTo $Tenants
  * @property \App\Model\Table\InstitutionProjectsTable&\Cake\ORM\Association\HasMany $InstitutionProjects
- *
  * @method \App\Model\Entity\Institution newEmptyEntity()
  * @method \App\Model\Entity\Institution newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Institution[] newEntities(array $data, array $options = [])
@@ -46,6 +44,7 @@ class InstitutionsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('QueryFilter.QueryFilter');
+        $this->addBehavior('FilterTenant');
 
         $this->belongsTo('Tenants', [
             'foreignKey' => 'tenant_id',
@@ -119,7 +118,11 @@ class InstitutionsTable extends Table
         return $validator;
     }
 
-    public function loadQueryFilters() {
+    /**
+     * @return void
+     */
+    public function loadQueryFilters()
+    {
         $this->addFilterField('tenant_id', [
             'tableField' => $this->aliasField('tenant_id'),
             'finder' => QueryFilterPlugin::FINDER_SELECT,

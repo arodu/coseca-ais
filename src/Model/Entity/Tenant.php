@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -45,13 +44,27 @@ class Tenant extends Entity
         'abbr_label',
     ];
 
-    public function _getLabel()
+    /**
+     * @return string
+     */
+    protected function _getLabel(): string
     {
+        if (!$this->program) {
+            return $this->name;
+        }
+
         return $this->program->name . ', ' . $this->name;
     }
 
-    public function _getAbbrLabel()
+    /**
+     * @return string
+     */
+    protected function _getAbbrLabel(): string
     {
+        if (!$this->program) {
+            return $this->abbr;
+        }
+
         return $this->program->abbr . '-' . $this->abbr;
     }
 }

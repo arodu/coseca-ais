@@ -5,6 +5,7 @@
 /** @var \App\View\AppView $this */
 
 use App\Enum\ActionColor;
+use App\Utility\FilePrint;
 
 $studentStage->student = $student;
 $status = $studentStage->getStatus();
@@ -29,10 +30,10 @@ echo $this->Button->report([
         'action' => 'format007',
         $studentStage->student_id,
         'prefix' => 'Admin',
-        'format007.pdf',
+        FilePrint::format007($student),
     ],
     'class' => 'btn-sm mr-2',
-    'activeCondition' => function () use ($studentStage) {
+    'displayCondition' => function () use ($studentStage) {
         return $this->getIdentity()->can('print', $studentStage);
     },
 ]);
@@ -45,8 +46,9 @@ echo $this->Button->confirm([
         $studentStage->student_id,
         'prefix' => 'Admin/Stage',
     ],
-    'confirm' => __('¿Está seguro de cerrar la etapa de seguimiento?'),
+    'confirm' => __("¿Está seguro de cerrar la etapa de seguimiento?\nUna vez cerrada, no podrá seguir agregando actividades"),
     'class' => 'btn-sm mr-2',
+    'actionColor' => ActionColor::SUBMIT,
     'displayCondition' => function () use ($studentStage) {
         return $this->getIdentity()->can('close', $studentStage);
     },

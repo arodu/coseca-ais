@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Admin;
@@ -14,6 +13,10 @@ use Cake\Event\EventInterface;
  */
 class InstitutionsController extends AppAdminController
 {
+    /**
+     * @param \Cake\Event\EventInterface $event
+     * @return void
+     */
     public function beforeRender(EventInterface $event)
     {
         $this->MenuLte->activeItem('institutions');
@@ -27,10 +30,10 @@ class InstitutionsController extends AppAdminController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Tenants'],
+            'order' => ['Institutions.name' => 'ASC'],
         ];
 
-        $query = $this->Institutions->find();
+        $query = $this->Institutions->find()->contain(['Tenants']);
 
         // filterLogic
         $formData = $this->getRequest()->getQuery();
@@ -38,7 +41,7 @@ class InstitutionsController extends AppAdminController
             $query = $this->Institutions->queryFilter($query, $formData);
         }
         $filtered = $this->Institutions->queryWasFiltered();
-        $tenants = $this->Institutions->Tenants->find('list');
+        $tenants = $this->Institutions->Tenants->find('listLabel');
         // /filterLogic
 
         $institutions = $this->paginate($query);
@@ -85,10 +88,14 @@ class InstitutionsController extends AppAdminController
             }
             $this->Flash->error(__('The institution could not be saved. Please, try again.'));
         }
-        $tenants = $this->Institutions->Tenants->find('list', ['limit' => 200])->all();
+        $tenants = $this->Institutions->Tenants->find('listLabel', ['limit' => 200])->all();
         $this->set(compact('institution', 'tenants'));
     }
 
+    /**
+     * @param int|string $id
+     * @return \Cake\Http\Response|null|void
+     */
     public function addProject($id = null)
     {
         $institution = $this->Institutions->get($id, [
@@ -133,10 +140,14 @@ class InstitutionsController extends AppAdminController
             }
             $this->Flash->error(__('The institution could not be saved. Please, try again.'));
         }
-        $tenants = $this->Institutions->Tenants->find('list', ['limit' => 200])->all();
+        $tenants = $this->Institutions->Tenants->find('listLabel', ['limit' => 200])->all();
         $this->set(compact('institution', 'tenants'));
     }
 
+    /**
+     * @param int|string $project_id
+     * @return \Cake\Http\Response|null|void
+     */
     public function editProject($project_id = null)
     {
         $institutionProject = $this->Institutions->InstitutionProjects->get($project_id);

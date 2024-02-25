@@ -13,7 +13,10 @@ use Cake\Event\EventInterface;
  */
 class TutorsController extends AppAdminController
 {
-
+    /**
+     * @param \Cake\Event\EventInterface $event
+     * @return void
+     */
     public function beforeRender(EventInterface $event)
     {
         $this->MenuLte->activeItem('tutors');
@@ -26,11 +29,9 @@ class TutorsController extends AppAdminController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['Tenants'],
-        ];
+        $this->paginate = [];
 
-        $query = $this->Tutors->find();
+        $query = $this->Tutors->find()->contain(['Tenants']);
 
         // filterLogic
         $formData = $this->getRequest()->getQuery();
@@ -38,7 +39,7 @@ class TutorsController extends AppAdminController
             $query = $this->Tutors->queryFilter($query, $formData);
         }
         $filtered = $this->Tutors->queryWasFiltered();
-        $tenants = $this->Tutors->Tenants->find('list');
+        $tenants = $this->Tutors->Tenants->find('listLabel');
         // /filterLogic
 
         $tutors = $this->paginate($query);
@@ -79,7 +80,7 @@ class TutorsController extends AppAdminController
             }
             $this->Flash->error(__('The tutor could not be saved. Please, try again.'));
         }
-        $tenants = $this->Tutors->Tenants->find('list', ['limit' => 200])->all();
+        $tenants = $this->Tutors->Tenants->find('listLabel', ['limit' => 200])->all();
         $this->set(compact('tutor', 'tenants'));
     }
 
@@ -104,7 +105,7 @@ class TutorsController extends AppAdminController
             }
             $this->Flash->error(__('The tutor could not be saved. Please, try again.'));
         }
-        $tenants = $this->Tutors->Tenants->find('list', ['limit' => 200])->all();
+        $tenants = $this->Tutors->Tenants->find('listLabel', ['limit' => 200])->all();
         $this->set(compact('tutor', 'tenants'));
     }
 
@@ -120,6 +121,7 @@ class TutorsController extends AppAdminController
         $modalForm = $this->getRequest()->getAttribute('modalForm');
         if (empty($modalForm) || !$modalForm->isValid()) {
             $this->Flash->error(__('Checked invalid!'));
+
             return $this->redirect(['action' => 'index']);
         }
 

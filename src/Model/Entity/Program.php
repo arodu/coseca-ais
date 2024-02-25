@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -38,24 +37,52 @@ class Program extends Entity
         'tenants' => true,
     ];
 
+    /**
+     * @return \App\Model\Field\ProgramArea|null
+     */
+    public function getProgramArea(): ?ProgramArea
+    {
+        return ProgramArea::tryFrom($this->area);
+    }
+
     protected $_virtual = [
         'area_label',
         'regime_label',
-        'area_print_label',
     ];
 
-    public function _getAreaLabel(): ?string
+    /**
+     * @return string|null
+     */
+    protected function _getAreaLabel(): ?string
     {
-        return ProgramArea::tryFrom($this->area)?->label() ?? null;
+        return $this->getProgramArea()?->label() ?? null;
     }
 
-    public function _getRegimeLabel(): ?string
+    /**
+     * @return string|null
+     */
+    protected function _getRegimeLabel(): ?string
     {
         return ProgramRegime::tryFrom($this->regime)?->label() ?? null;
     }
 
-    public function getAreaPrintLabel(): ?string
+    /**
+     * area_print_label
+     *
+     * @return string|null
+     */
+    protected function _getAreaPrintLabel(): ?string
     {
-        return ProgramArea::tryFrom($this->area)?->printLabel() ?? null;
+        return $this->getProgramArea()?->printLabel() ?? null;
+    }
+
+    /**
+     * area_print_logo
+     *
+     * @return string|null
+     */
+    protected function _getAreaPrintLogo(): ?string
+    {
+        return $this->getProgramArea()?->printLogo() ?? null;
     }
 }

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -54,7 +53,7 @@ class StudentStage extends Entity
     ];
 
     /**
-     * @return StageField|null
+     * @return \App\Model\Field\StageField|null
      */
     public function getStage(): ?StageField
     {
@@ -62,23 +61,33 @@ class StudentStage extends Entity
     }
 
     /**
-     * @return StageStatus|null
+     * @return \App\Model\Field\StageStatus|null
      */
     public function getStatus(): ?StageStatus
     {
         return StageStatus::tryFrom($this->status);
     }
 
+    /**
+     * @param mixed $item
+     * @return bool
+     */
     public function statusIs(mixed $item): bool
     {
         return $this->getStatus()?->is($item) ?? false;
     }
 
+    /**
+     * @return string
+     */
     protected function _getStageLabel(): string
     {
         return $this->getStage()?->label() ?? '';
     }
 
+    /**
+     * @return string
+     */
     protected function _getStatusLabel(): string
     {
         return $this->getStatus()?->label() ?? '';
