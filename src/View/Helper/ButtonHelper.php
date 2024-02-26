@@ -322,11 +322,9 @@ class ButtonHelper extends Helper
      */
     public function __call(string $method, array $params): string
     {
-        $itemConfig = $this->itemConfig($method);
-        if ($itemConfig) {
-            $options = array_merge($itemConfig, $params[0] ?? []);
-
-            return $this->get($method, $options);
+        $item = Button::tryFrom($method);
+        if (!is_null($item)) {
+            return $this->get($item, $params[0] ?? []);
         }
 
         throw new \BadMethodCallException('Method ' . $method . ' does not exist');
