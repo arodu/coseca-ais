@@ -54,7 +54,7 @@ class InstitutionsControllerTest extends AdminTestCase
      * Prueba de funcionalidad para cargar formulario de registro de una Institucion
      *
      * @return void
-     * @uses \App\Controller\Admin\InstitutionsController::addForm()
+     * @uses \App\Controller\Admin\InstitutionsController::add()
      */
     public function testAddForm(): void
     {
@@ -70,7 +70,7 @@ class InstitutionsControllerTest extends AdminTestCase
      * Prueba de funcionalidad para agregar una nueva Institucion
      *
      * @return void
-     * @uses \App\Controller\Admin\InstitutionsController::addPost()
+     * @uses \App\Controller\Admin\InstitutionsController::add()
      */
     public function testAddPost(): void
     {
