@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\View\Helper;
 
 use App\Enum\ActionColor;
+use App\Enum\Button;
 use Cake\Utility\Hash;
 use Cake\View\Helper;
 use Cake\View\StringTemplateTrait;
@@ -16,20 +17,6 @@ use CakeLteTools\Utility\FaIcon;
 class ButtonHelper extends Helper
 {
     use StringTemplateTrait;
-
-    public const ICON_POSITION_LEFT = 'left';
-    public const ICON_POSITION_RIGHT = 'right';
-
-    public const RENDER_BUTTON = 'button';
-    public const RENDER_LINK = 'link';
-    public const RENDER_POST_LINK = 'postLink';
-
-    public const ITEM_SAVE = 'save';
-    public const ITEM_VALIDATE = 'validate';
-    public const ITEM_OPEN_MODAL = 'openModal';
-    public const ITEM_CLOSE_MODAL = 'closeModal';
-    public const ITEM_CANCEL = 'cancel';
-    public const ITEM_BACK = 'back';
 
     /**
      * Default configuration.
@@ -56,12 +43,12 @@ class ButtonHelper extends Helper
             'type' => 'button',
             'icon' => 'default',
             'actionColor' => ActionColor::SUBMIT,
-            'render' => self::RENDER_BUTTON,
-            'icon_position' => self::ICON_POSITION_LEFT, // left, right
+            'render' => Button::RENDER_BUTTON,
+            'icon_position' => Button::ICON_POSITION_LEFT, // left, right
         ],
 
         /** @deprecated */
-        'icon_position' => self::ICON_POSITION_LEFT, // left, right
+        'icon_position' => Button::ICON_POSITION_LEFT, // left, right
     ];
 
     /**
@@ -78,63 +65,7 @@ class ButtonHelper extends Helper
      */
     public function itemConfig(string $itemName): array
     {
-        $item = match ($itemName) {
-            self::ITEM_SAVE => [
-                'type' => 'submit',
-                'name' => 'action',
-                'value' => 'save',
-                'icon' => 'save',
-                'actionColor' => ActionColor::SUBMIT,
-                'render' => self::RENDER_BUTTON,
-                'label' => __('Guardar'),
-            ],
-            self::ITEM_VALIDATE => [
-                'type' => 'submit',
-                'name' => 'action',
-                'value' => 'validate',
-                'icon' => 'validate',
-                'actionColor' => ActionColor::VALIDATE,
-                'render' => self::RENDER_BUTTON,
-                'confirm' => __('Seguro que desea validar este registro?'),
-                'label' => __('Guardar y Validar'),
-            ],
-            self::ITEM_OPEN_MODAL => [
-                'type' => 'button',
-                'data-toggle' => 'modal',
-                'data-target' => '#modal',
-                'icon' => 'default',
-                'actionColor' => ActionColor::ADD,
-                'render' => self::RENDER_BUTTON,
-            ],
-            self::ITEM_CLOSE_MODAL => [
-                'type' => 'button',
-                'data-dismiss' => 'modal',
-                'icon' => 'default',
-                'label' => __('Cerrar'),
-                'actionColor' => ActionColor::CANCEL,
-                'render' => self::RENDER_BUTTON,
-            ],
-            self::ITEM_CANCEL => [
-                'icon' => null,
-                'label' => __('Cancelar'),
-                'escape' => false,
-                'actionColor' => ActionColor::CANCEL,
-                'override' => false,
-                'outline' => false,
-                'render' => self::RENDER_LINK,
-            ],
-            self::ITEM_BACK => [
-                'icon' => 'back',
-                'label' => __('Volver'),
-                'escape' => false,
-                'actionColor' => ActionColor::CANCEL,
-                'override' => false,
-                'outline' => false,
-                'render' => self::RENDER_LINK,
-            ],
-
-            default => [],
-        };
+        $item = Button::tryFrom($itemName)?->options() ?? [];
 
         return Hash::merge($this->getConfig('itemDefaultConfig'), $item);
     }
@@ -145,7 +76,7 @@ class ButtonHelper extends Helper
      */
     public function link(array $options = []): string
     {
-        $this->requireParams($options, ['url', 'actionColor']);
+        $this->requiredParams($options, ['url', 'actionColor']);
 
         if (empty($options['label']) && empty($options['icon'])) {
             $options['icon'] = FaIcon::get($this->getConfig('icon.link'), $this->getConfig('icon_class'));
@@ -176,7 +107,7 @@ class ButtonHelper extends Helper
         $icon = $options['icon'] ?: null;
         unset($options['icon']);
 
-        $icon_position = $options['icon_position'] ?? $this->getConfig('icon_position') ?? self::ICON_POSITION_LEFT;
+        $icon_position = $options['icon_position'] ?? $this->getConfig('icon_position') ?? Button::ICON_POSITION_LEFT;
         unset($options['icon_position']);
 
         $outline = (bool)$options['outline'] ?? false;
@@ -219,7 +150,7 @@ class ButtonHelper extends Helper
      */
     public function postLink(array $options): string
     {
-        $this->requireParams($options, ['url', 'actionColor']);
+        $this->requiredParams($options, ['url', 'actionColor']);
 
         if (isset($options['displayCondition'])) {
             $displayCondition = $options['displayCondition'];
@@ -283,10 +214,10 @@ class ButtonHelper extends Helper
      */
     public function button(array $options = []): string
     {
-        $this->requireParams($options, ['actionColor']);
+        $this->requiredParams($options, ['actionColor']);
 
         if (empty($options['label']) && empty($options['icon'])) {
-            throw new \InvalidArgumentException('label is required');
+            throw new \InvalidArgumentException('label or icon param is required');
         }
 
         if (isset($options['displayCondition'])) {
@@ -355,19 +286,43 @@ class ButtonHelper extends Helper
             $options['icon'] = FaIcon::get($options['icon'], $this->getConfig('icon_class'));
         }
 
-        $render = $options['render'] ?? self::RENDER_LINK;
+        $render = $options['render'] ?? Button::RENDER_LINK;
         unset($options['render']);
 
         return $this->{$render}($options);
     }
 
-    protected function requireParams(array $options, array $required): void
+    /**
+     * @param array $options
+     * @param array $required
+     * @return void
+     * @throws \InvalidArgumentException
+     */
+    protected function requiredParams(array $options, array $required): void
     {
         foreach ($required as $param) {
             if (empty($options[$param])) {
                 throw new \InvalidArgumentException($param . ' param is required');
             }
         }
+    }
+
+    /**
+     * @param string $method
+     * @param array $params
+     * @return string
+     * @throws \BadMethodCallException
+     */
+    public function __call(string $method, array $params): string
+    {
+        $itemConfig = $this->itemConfig($method);
+        if ($itemConfig) {
+            $options = array_merge($itemConfig, $params[0] ?? []);
+
+            return $this->get($method, $options);
+        }
+
+        throw new \BadMethodCallException('Method ' . $method . ' does not exist');
     }
 
     /* *************************************************************************************** */
@@ -383,54 +338,6 @@ class ButtonHelper extends Helper
         if (empty($options['url'])) {
             throw new \InvalidArgumentException('url param is required');
         }
-    }
-
-
-    /**
-     * @param array $options
-     * @return string
-     * @deprecated
-     */
-    public function save(array $options = []): string
-    {
-        trigger_error('Method ' . __METHOD__ . ' is deprecated, use `$this->Button->get(self::ITEM_SAVE, $options)` instead', E_USER_DEPRECATED);
-
-        return $this->get(self::ITEM_SAVE, $options);
-    }
-
-    /**
-     * @param array<string, mixed> $options
-     * @return string
-     * @deprecated
-     */
-    public function validate(array $options = []): string
-    {
-        trigger_error('Method ' . __METHOD__ . ' is deprecated, use `$this->Button->get(self::ITEM_VALIDATE, $options)` instead', E_USER_DEPRECATED);
-
-        return $this->get(self::ITEM_VALIDATE, $options);
-    }
-
-    /**
-     * @param array $options
-     * @return string
-     */
-    public function closeModal(array $options = []): string
-    {
-        trigger_error('Method ' . __METHOD__ . ' is deprecated, use `$this->Button->get(self::ITEM_CLOSE_MODAL, $options)` instead', E_USER_DEPRECATED);
-
-        return $this->get(self::ITEM_CLOSE_MODAL, $options);
-    }
-
-    /**
-     * @param array $options
-     * @return string
-     * @deprecated
-     */
-    public function openModal(array $options = []): string
-    {
-        trigger_error('Method ' . __METHOD__ . ' is deprecated, use `$this->Button->get(self::ITEM_OPEN_MODAL, $options)` instead', E_USER_DEPRECATED);
-
-        return $this->get(self::ITEM_OPEN_MODAL, $options);
     }
 
     /**
@@ -653,28 +560,6 @@ class ButtonHelper extends Helper
     }
 
     /**
-     * @param array<string, mixed> $options
-     * @return string
-     */
-    public function cancel(array $options = []): string
-    {
-        trigger_error('Method ' . __METHOD__ . ' is deprecated, use `$this->Button->get(self::ITEM_CANCEL, $options)` instead', E_USER_DEPRECATED);
-
-        return $this->get(self::ITEM_CANCEL, $options);
-    }
-
-    /**
-     * @param array<string, mixed> $options
-     * @return string
-     */
-    public function back(array $options = []): string
-    {
-        trigger_error('Method ' . __METHOD__ . ' is deprecated, use `$this->Button->get(self::ITEM_BACK, $options)` instead', E_USER_DEPRECATED);
-
-        return $this->get(self::ITEM_BACK, $options);
-    }
-
-    /**
      * @param array|string $class
      * @param \App\Enum\ActionColor $actionColor
      * @param bool $outline
@@ -698,7 +583,7 @@ class ButtonHelper extends Helper
     protected function createTitle(?string $label = null, ?FaIcon $icon = null, ?string $position = null): ?string
     {
         $position = $position ?? $this->getConfig('icon_position');
-        if ($position === self::ICON_POSITION_RIGHT) {
+        if ($position === Button::ICON_POSITION_RIGHT) {
             $title = trim($label . ' ' . $icon);
         } else {
             $title = trim($icon . ' ' . $label);
