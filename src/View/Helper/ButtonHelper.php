@@ -66,7 +66,13 @@ class ButtonHelper extends Helper
             $item = Button::tryFrom($item);
         }
 
-        return Hash::merge($this->getConfig('itemDefaultConfig'), $item?->options() ?? []);
+        $options = Hash::merge($this->getConfig('itemDefaultConfig'), $item?->options() ?? []);
+
+        if (isset($options['icon']) && !($options['icon'] instanceof FaIcon)) {
+            $options['icon'] = FaIcon::get($options['icon'], $this->getConfig('icon_class'));
+        }
+
+        return $options;
     }
 
     /**
@@ -273,6 +279,7 @@ class ButtonHelper extends Helper
      * @param string|\App\Enum\Button $item
      * @param array $options
      * @return string
+     * @throws \InvalidArgumentException
      */
     public function get(string|Button $item, array $options = []): string
     {
@@ -281,14 +288,15 @@ class ButtonHelper extends Helper
             $options = array_merge($itemConfig, $options);
         }
 
-        if (isset($options['icon']) && !($options['icon'] instanceof FaIcon)) {
-            $options['icon'] = FaIcon::get($options['icon'], $this->getConfig('icon_class'));
-        }
-
-        $render = $options['render'] ?? Button::RENDER_LINK;
+        $render = $options['render'];
         unset($options['render']);
 
-        return $this->{$render}($options);
+        return match($render) {
+            Button::RENDER_LINK => $this->link($options),
+            Button::RENDER_BUTTON => $this->button($options),
+            Button::RENDER_POST_LINK => $this->postLink($options),
+            default => throw new \InvalidArgumentException('Invalid render method'),
+        };
     }
 
     /**
@@ -345,6 +353,7 @@ class ButtonHelper extends Helper
      */
     public function export(array $options = []): string
     {
+        // @todo move to \App\Enum\Button
         $options = array_merge([
             'type' => 'submit',
             'name' => 'export',
@@ -363,6 +372,7 @@ class ButtonHelper extends Helper
      */
     public function search(array $options = []): string
     {
+        // @todo move to \App\Enum\Button
         $options = array_merge([
             'type' => 'submit',
             'name' => 'action',
@@ -381,6 +391,7 @@ class ButtonHelper extends Helper
      */
     public function view(array $options = []): string
     {
+        // @todo move to \App\Enum\Button
         $this->requireUrl($options);
 
         $options = array_merge([
@@ -401,6 +412,7 @@ class ButtonHelper extends Helper
      */
     public function report(array $options = []): string
     {
+        // @todo move to \App\Enum\Button
         $this->requireUrl($options);
 
         $options = array_merge([
@@ -422,6 +434,7 @@ class ButtonHelper extends Helper
      */
     public function fileReport(array $options = []): string
     {
+        // @todo move to \App\Enum\Button
         $this->requireUrl($options);
 
         $options = array_merge([
@@ -443,6 +456,7 @@ class ButtonHelper extends Helper
      */
     public function statistics(array $options = []): string
     {
+        // @todo move to \App\Enum\Button
         $this->requireUrl($options);
 
         $options = array_merge([
@@ -463,6 +477,7 @@ class ButtonHelper extends Helper
      */
     public function add(array $options = []): string
     {
+        // @todo move to \App\Enum\Button
         $options = array_merge([
             'icon' => FaIcon::get($this->getConfig('icon.add'), $this->getConfig('icon_class')),
             'label' => __('Agregar'),
@@ -481,6 +496,7 @@ class ButtonHelper extends Helper
      */
     public function edit(array $options = []): string
     {
+        // @todo move to \App\Enum\Button
         $this->requireUrl($options);
 
         $options = array_merge([
@@ -501,6 +517,7 @@ class ButtonHelper extends Helper
      */
     public function delete(array $options = []): string
     {
+        // @todo move to \App\Enum\Button
         $this->requireUrl($options);
 
         $options = array_merge([
@@ -522,6 +539,7 @@ class ButtonHelper extends Helper
      */
     public function remove(array $options = []): string
     {
+        // @todo move to \App\Enum\Button
         $this->requireUrl($options);
 
         $options = array_merge([
@@ -543,6 +561,7 @@ class ButtonHelper extends Helper
      */
     public function confirm(array $options = []): string
     {
+        // @todo move to \App\Enum\Button
         $this->requireUrl($options);
 
         $options = array_merge([
