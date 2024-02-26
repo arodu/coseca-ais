@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\View\Helper;
@@ -43,7 +42,7 @@ class ButtonHelper extends Helper
     public $helpers = ['Form', 'Html'];
 
     /**
-     * @param string|\App\Enum\Button $itemName
+     * @param \App\Enum\Button $item
      * @return array
      */
     public function itemConfig(string|Button $item): array
@@ -277,7 +276,7 @@ class ButtonHelper extends Helper
         $render = $options['render'];
         unset($options['render']);
 
-        return match($render) {
+        return match ($render) {
             Button::RENDER_LINK => $this->link($options),
             Button::RENDER_BUTTON => $this->button($options),
             Button::RENDER_POST_LINK => $this->postLink($options),
@@ -315,8 +314,6 @@ class ButtonHelper extends Helper
 
         throw new \BadMethodCallException('Method ' . $method . ' does not exist');
     }
-
-    /* *************************************************************************************** */
 
     /**
      * @param array|string $class

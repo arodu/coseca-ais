@@ -7,7 +7,6 @@ use BackedEnum;
 
 trait EnumFieldTrait
 {
-    
     /**
      * Retrieves the enum value for the specified field.
      *
@@ -16,7 +15,7 @@ trait EnumFieldTrait
      * @throws \InvalidArgumentException If the field does not exist, is not an enumField, or the enum class does not exist.
      */
     public function enum(string $fieldName): mixed
-    {  
+    {
         if (!$this->has($fieldName)) {
             throw new \InvalidArgumentException('Field ' . $fieldName . ' does not exist');
         }
