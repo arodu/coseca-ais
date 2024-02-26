@@ -15,6 +15,17 @@ enum Button: string
     case CLOSE_MODAL = 'closeModal';
     case CANCEL = 'cancel';
     case BACK = 'back';
+    case EXPORT = 'export';
+    case SEARCH = 'search';
+    case VIEW = 'view';
+    case REPORT = 'report';
+    case FILE_REPORT = 'fileReport';
+    case STATISTICS = 'statistics';
+    case ADD = 'add';
+    case EDIT = 'edit';
+    case DELETE = 'delete';
+    case REMOVE = 'remove';
+    case CONFIRM = 'confirm';
 
     public const RENDER_BUTTON = 'button';
     public const RENDER_LINK = 'link';
@@ -81,6 +92,110 @@ enum Button: string
                 'override' => false,
                 'outline' => false,
                 'render' => self::RENDER_LINK,
+            ],
+            self::EXPORT => [
+                'type' => 'submit',
+                'name' => 'export',
+                'value' => 'csv',
+                'icon' => 'file-csv',
+                'label' => __('Exportar'),
+                'actionColor' => ActionColor::REPORT,
+                'render' => self::RENDER_BUTTON,
+            ],
+            self::SEARCH => [
+                'type' => 'submit',
+                'name' => 'action',
+                'value' => 'search',
+                'icon' => 'search',
+                'label' => __('Buscar'),
+                'actionColor' => ActionColor::SEARCH,
+                'render' => self::RENDER_BUTTON,
+            ],
+            self::VIEW => [
+                'icon' => 'view',
+                'label' => false,
+                'escape' => false,
+                'actionColor' => ActionColor::VIEW,
+                'override' => false,
+                'outline' => true,
+                'render' => self::RENDER_LINK,
+            ],
+            self::REPORT => [
+                'icon' => 'report',
+                'label' => false,
+                'escape' => false,
+                'actionColor' => ActionColor::REPORT,
+                'override' => false,
+                'outline' => false,
+                'target' => '_blank',
+                'render' => self::RENDER_LINK,
+            ],
+            self::FILE_REPORT => [
+                'icon' => 'report',
+                'label' => false,
+                'escape' => false,
+                'actionColor' => ActionColor::REPORT,
+                'override' => false,
+                'outline' => false,
+                'target' => '_blank',
+                'render' => self::RENDER_LINK,
+            ],
+            self::STATISTICS => [
+                'icon' => 'chart-bar',
+                'label' => __('Reportes'),
+                'escape' => false,
+                'actionColor' => ActionColor::REPORT,
+                'override' => false,
+                'outline' => false,
+                'render' => self::RENDER_LINK,
+            ],
+            self::ADD => [
+                'icon' => 'add',
+                'label' => __('Agregar'),
+                'escape' => false,
+                'actionColor' => ActionColor::ADD,
+                'override' => false,
+                'outline' => false,
+                'render' => self::RENDER_LINK,
+            ],
+            self::EDIT => [
+                'icon' => 'edit',
+                'label' => false,
+                'escape' => false,
+                'actionColor' => ActionColor::EDIT,
+                'override' => false,
+                'outline' => false,
+                'render' => self::RENDER_LINK,
+            ],
+            self::DELETE => [
+                'icon' => 'delete',
+                'label' => __('Eliminar'),
+                'escape' => false,
+                'actionColor' => ActionColor::DELETE,
+                'override' => false,
+                'outline' => false,
+                'confirm' => __('Seguro que desea eliminar este registro?'),
+                'render' => self::RENDER_POST_LINK,
+            ],
+            self::REMOVE => [
+                'icon' => 'remove',
+                'label' => __('Eliminar'),
+                'escape' => false,
+                'actionColor' => ActionColor::DELETE,
+                'override' => false,
+                'outline' => false,
+                'confirm' => __('Seguro que desea eliminar este registro?'),
+                'render' => self::RENDER_POST_LINK,
+            ],
+            self::CONFIRM => [
+                'icon' => 'edit',
+                'label' => false,
+                'escape' => false,
+                'actionColor' => ActionColor::EDIT,
+                'override' => false,
+                'outline' => false,
+                'confirm' => __('Seguro que desea realizar esta acción?'),
+                'render' => self::RENDER_POST_LINK,
             ],
             default => [],
         };
