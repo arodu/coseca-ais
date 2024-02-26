@@ -31,7 +31,7 @@ return [
      *   You should treat it as extremely sensitive data.
      */
     'Security' => [
-        'salt' => env('SECURITY_SALT', '6a08f8b777b68f8a1c3dad9315f54'),
+        'salt' => env('SECURITY_SALT'),
     ],
 
     /*
@@ -65,8 +65,8 @@ return [
             'className' => env('EMAIL_CLASSNAME', 'Smtp'),
             'host' => env('EMAIL_HOST', 'sandbox.smtp.mailtrap.io'),
             'port' => env('EMAIL_PORT', 2525),
-            'username' => env('EMAIL_USERNAME', '94dbdc172188f0'),
-            'password' => env('EMAIL_PASSWORD', 'e88c7888cbd0f8'),
+            'username' => env('EMAIL_USERNAME', 'xxxxxxxxxxx'),
+            'password' => env('EMAIL_PASSWORD', 'xxxxxxxxxxx'),
             'client' => null,
             //'url' => env('EMAIL_TRANSPORT_DEFAULT_URL', null),
         ],
