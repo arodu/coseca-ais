@@ -12,6 +12,9 @@ use CakeLteTools\Utility\FaIcon;
 
 /**
  * Button helper
+ *
+ * @property \Cake\View\Helper\HtmlHelper $Html
+ * @property \Cake\View\Helper\FormHelper $Form
  */
 class ButtonHelper extends Helper
 {
@@ -100,7 +103,7 @@ class ButtonHelper extends Helper
         $icon_position = $options['icon_position'] ?? $this->getConfig('icon_position') ?? Button::ICON_POSITION_LEFT;
         unset($options['icon_position']);
 
-        $outline = (bool)$options['outline'] ?? false;
+        $outline = (bool)($options['outline'] ?? false);
         unset($options['outline']);
 
         $title = $this->createTitle($label, $icon, $icon_position);
@@ -195,7 +198,7 @@ class ButtonHelper extends Helper
             }
         }
 
-        return $this->Form->postLink($title, $url, $options);
+        return $this->Form->postLink($title ?? '', $url, $options);
     }
 
     /**
@@ -257,7 +260,7 @@ class ButtonHelper extends Helper
             }
         }
 
-        return $this->Form->button($title, $options);
+        return $this->Form->button($title ?? '', $options);
     }
 
     /**
