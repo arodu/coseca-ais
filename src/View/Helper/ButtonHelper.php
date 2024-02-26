@@ -56,18 +56,17 @@ class ButtonHelper extends Helper
      */
     public $helpers = ['Form', 'Html'];
 
-
     /**
-     * Retrieves the configuration array for a specific item.
-     *
-     * @param string $itemName The name of the item.
-     * @return array The configuration array for the item.
+     * @param string|\App\Enum\Button $itemName
+     * @return array
      */
-    public function itemConfig(string $itemName): array
+    public function itemConfig(string|Button $item): array
     {
-        $item = Button::tryFrom($itemName)?->options() ?? [];
+        if (is_string($item)) {
+            $item = Button::tryFrom($item);
+        }
 
-        return Hash::merge($this->getConfig('itemDefaultConfig'), $item);
+        return Hash::merge($this->getConfig('itemDefaultConfig'), $item?->options() ?? []);
     }
 
     /**
@@ -271,13 +270,13 @@ class ButtonHelper extends Helper
     }
 
     /**
-     * @param string $name
+     * @param string|\App\Enum\Button $item
      * @param array $options
      * @return string
      */
-    public function get(string $name, array $options = []): string
+    public function get(string|Button $item, array $options = []): string
     {
-        $itemConfig = $this->itemConfig($name);
+        $itemConfig = $this->itemConfig($item);
         if ($itemConfig) {
             $options = array_merge($itemConfig, $options);
         }
