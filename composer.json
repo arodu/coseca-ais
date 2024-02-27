@@ -24,7 +24,7 @@
     },
     "require-dev": {
         "cakephp/bake": "^3.0.0",
-        "cakephp/cakephp-codesniffer": "^5.0",
+        "cakephp/cakephp-codesniffer": "^5.1",
         "cakephp/debug_kit": "^5.0.0",
         "fakerphp/faker": "^1.20",
         "josegonzalez/dotenv": "^4.0",
@@ -64,7 +64,7 @@
             "@test",
             "@cs-check"
         ],
-        "cs-check": "phpcs --colors -p  src/ tests/",
+        "cs-check": "phpcs --colors -p -s --extensions=php src/ tests/",
         "cs-fix": "phpcbf --colors -p src/ tests/",
         "stan": "phpstan analyse",
         "test": "phpunit --colors=always",
