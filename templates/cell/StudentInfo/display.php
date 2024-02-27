@@ -2,7 +2,7 @@
 
 use Cake\Core\Configure;
 
-$lastStageColor = $student->last_stage->getStatus()?->color();
+$lastStageColor = $student->last_stage->enum('status')?->color();
 
 ?>
 <div class="card card-primary card-outline">
@@ -24,7 +24,7 @@ $lastStageColor = $student->last_stage->getStatus()?->color();
             <dd class="text-right mb-2"><?= h($student->lapse?->name) ?? $this->App->nan() ?></dd>
 
             <dt><?= __('Tipo') ?></dt>
-            <dd class="text-right"><?= h($student->getType()?->label()) ?? '&nbsp;' ?></dd>
+            <dd class="text-right"><?= h($student->enum('type')?->label()) ?? '&nbsp;' ?></dd>
 
             <dt><?= __('Última Sesión') ?></dt>
             <dd class="text-right"><?= h($student->app_user->last_login) ?? $this->App->nan() ?></dd>

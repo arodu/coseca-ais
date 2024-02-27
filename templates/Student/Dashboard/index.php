@@ -24,7 +24,7 @@ $this->Breadcrumbs->add([
         <?php foreach ($listStages as $itemStage) : ?>
             <?php
             $studentStage = $studentStages[$itemStage->value] ?? null;
-            $studentStageStatus = $studentStage?->getStatus() ?? StageStatus::LOCKED;
+            $studentStageStatus = $studentStage?->enum('status') ?? StageStatus::LOCKED;
             ?>
             <div class="stage-list-item <?= $studentStageStatus->color()->card() ?>">
                 <div class="card-header">
@@ -33,8 +33,8 @@ $this->Breadcrumbs->add([
                             <?= $studentStageStatus->icon()->withExtraCssClass('fa-fw mr-1')->render() ?>
                             <?= $itemStage->label() ?>
                             <div class="ml-auto">
-                                <?php if ($studentStage?->getStatus() && $studentStage?->getStatus() != StageStatus::SUCCESS) : ?>
-                                    <span class="badge badge-light"><?= $studentStage?->getStatus()->label() ?></span>
+                                <?php if ($studentStage?->enum('status') && $studentStage?->enum('status') != StageStatus::SUCCESS) : ?>
+                                    <span class="badge badge-light"><?= $studentStage?->enum('status')->label() ?></span>
                                 <?php endif ?>
                                 <?php if ($studentStage) : ?>
                                     <i class="icon-caret fas fa-caret-up fa-fw"></i>

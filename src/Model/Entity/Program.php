@@ -20,6 +20,16 @@ use Cake\ORM\Entity;
  */
 class Program extends Entity
 {
+    use Traits\EnumFieldTrait;
+
+    /**
+     * @var array
+     */
+    protected $enumFields = [
+        'area' => ProgramArea::class,
+        'regime' => ProgramRegime::class,
+    ];
+
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
@@ -37,15 +47,7 @@ class Program extends Entity
         'tenants' => true,
     ];
 
-    /**
-     * @return \App\Model\Field\ProgramArea|null
-     */
-    public function getProgramArea(): ?ProgramArea
-    {
-        return ProgramArea::tryFrom($this->area);
-    }
-
-    protected array $_virtual = [
+    protected $_virtual = [
         'area_label',
         'regime_label',
     ];
@@ -55,7 +57,7 @@ class Program extends Entity
      */
     protected function _getAreaLabel(): ?string
     {
-        return $this->getProgramArea()?->label() ?? null;
+        return $this->enum('area')?->label() ?? null;
     }
 
     /**
@@ -63,7 +65,7 @@ class Program extends Entity
      */
     protected function _getRegimeLabel(): ?string
     {
-        return ProgramRegime::tryFrom($this->regime)?->label() ?? null;
+        return $this->enum('regime')?->label() ?? null;
     }
 
     /**
@@ -73,7 +75,7 @@ class Program extends Entity
      */
     protected function _getAreaPrintLabel(): ?string
     {
-        return $this->getProgramArea()?->printLabel() ?? null;
+        return $this->enum('area')?->printLabel() ?? null;
     }
 
     /**
@@ -83,6 +85,6 @@ class Program extends Entity
      */
     protected function _getAreaPrintLogo(): ?string
     {
-        return $this->getProgramArea()?->printLogo() ?? null;
+        return $this->enum('area')?->printLogo() ?? null;
     }
 }

@@ -326,13 +326,13 @@ class StudentsTable extends Table
         $stageRegister = $studentStages[StageField::REGISTER->value] ?? null;
 
         // stage: registy, status: in-progress
-        if (!empty($stageRegister) && $stageRegister->getStatus()->is([StageStatus::IN_PROGRESS])) {
+        if (!empty($stageRegister) && $stageRegister->enum('status')->is([StageStatus::IN_PROGRESS])) {
             $query = $query
                 ->find('withTenants');
         }
 
         // stage: registy, status: success
-        if (!empty($stageRegister) && $stageRegister->getStatus()->is([StageStatus::SUCCESS])) {
+        if (!empty($stageRegister) && $stageRegister->enum('status')->is([StageStatus::SUCCESS])) {
             $query = $query
                 ->contain(['Tenants' => ['Programs']])
                 ->find('withStudentData')

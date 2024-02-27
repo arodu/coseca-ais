@@ -78,9 +78,9 @@ class Lapse extends Entity
     }
 
     /**
-     * @return \App\Enum\Active|null
+     * @return \App\Enum\Active
      */
-    public function getActive(): ?Active
+    public function getActive(): Active
     {
         return Active::get($this->active ?? false);
     }

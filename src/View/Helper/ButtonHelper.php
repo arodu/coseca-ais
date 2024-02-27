@@ -4,41 +4,41 @@ declare(strict_types=1);
 namespace App\View\Helper;
 
 use App\Enum\ActionColor;
+use App\Enum\Button;
+use Cake\Utility\Hash;
 use Cake\View\Helper;
+use Cake\View\StringTemplateTrait;
 use CakeLteTools\Utility\FaIcon;
 use InvalidArgumentException;
 use Throwable;
 
 /**
  * Button helper
+ *
+ * @property \Cake\View\Helper\HtmlHelper $Html
+ * @property \Cake\View\Helper\FormHelper $Form
  */
 class ButtonHelper extends Helper
 {
-    public const ICON_POSITION_LEFT = 'left';
-    public const ICON_POSITION_RIGHT = 'right';
+    use StringTemplateTrait;
 
     /**
      * Default configuration.
      *
      * @var array<string, mixed>
      */
-    protected array $_defaultConfig = [
-        'icon' => [
-            'link' => 'default',
-            'save' => 'save',
-            'validate' => 'validate',
-            'export' => 'file-csv',
-            'search' => 'search',
-            'view' => 'view',
-            'add' => 'add',
-            'edit' => 'edit',
-            'delete' => 'delete',
-            'back' => 'back',
-            'report' => 'report',
-            'statistics' => 'chart-bar',
-        ],
+    protected $_defaultConfig = [
         'icon_class' => 'fa-fw',
-        'icon_position' => self::ICON_POSITION_LEFT, // left, right
+        'itemDefaultConfig' => [
+            'type' => 'button',
+            'icon' => 'default',
+            'actionColor' => ActionColor::SUBMIT,
+            'render' => Button::RENDER_BUTTON,
+            'icon_position' => Button::ICON_POSITION_LEFT, // left, right
+        ],
+
+        /** @deprecated */
+        'icon_position' => Button::ICON_POSITION_LEFT, // left, right
     ];
 
     /**
@@ -47,19 +47,34 @@ class ButtonHelper extends Helper
     public array $helpers = ['Form', 'Html'];
 
     /**
+     * @param \App\Enum\Button $item
+     * @return array
+     */
+    public function itemConfig(string|Button $item): array
+    {
+        if (is_string($item)) {
+            $item = Button::tryFrom($item);
+        }
+
+        $options = Hash::merge($this->getConfig('itemDefaultConfig'), $item?->options() ?? []);
+
+        if (isset($options['icon']) && !($options['icon'] instanceof FaIcon)) {
+            $options['icon'] = FaIcon::get($options['icon'], $this->getConfig('icon_class'));
+        }
+
+        return $options;
+    }
+
+    /**
      * @param array<string, mixed> $options
      * @return string
      */
     public function link(array $options = []): string
     {
-        $this->requireUrl($options);
+        $this->requiredParams($options, ['url', 'actionColor']);
 
         if (empty($options['label']) && empty($options['icon'])) {
             $options['icon'] = FaIcon::get($this->getConfig('icon.link'), $this->getConfig('icon_class'));
-        }
-
-        if (empty($options['actionColor'])) {
-            throw new InvalidArgumentException('actionColor is required');
         }
 
         if (isset($options['displayCondition'])) {
@@ -87,10 +102,10 @@ class ButtonHelper extends Helper
         $icon = $options['icon'] ?: null;
         unset($options['icon']);
 
-        $icon_position = $options['icon_position'] ?? $this->getConfig('icon_position') ?? self::ICON_POSITION_LEFT;
+        $icon_position = $options['icon_position'] ?? $this->getConfig('icon_position') ?? Button::ICON_POSITION_LEFT;
         unset($options['icon_position']);
 
-        $outline = (bool)$options['outline'] ?? false;
+        $outline = (bool)($options['outline'] ?? false);
         unset($options['outline']);
 
         $title = $this->createTitle($label, $icon, $icon_position);
@@ -130,6 +145,8 @@ class ButtonHelper extends Helper
      */
     public function postLink(array $options): string
     {
+        $this->requiredParams($options, ['url', 'actionColor']);
+
         if (isset($options['displayCondition'])) {
             $displayCondition = $options['displayCondition'];
             unset($options['displayCondition']);
@@ -143,14 +160,8 @@ class ButtonHelper extends Helper
             }
         }
 
-        $this->requireUrl($options);
-
         if (empty($options['label']) && empty($options['icon'])) {
             $options['icon'] = FaIcon::get($this->getConfig('icon.link'), $this->getConfig('icon_class'));
-        }
-
-        if (empty($options['actionColor'])) {
-            throw new InvalidArgumentException('actionColor is required');
         }
 
         $url = $options['url'];
@@ -189,7 +200,7 @@ class ButtonHelper extends Helper
             }
         }
 
-        return $this->Form->postLink($title, $url, $options);
+        return $this->Form->postLink($title ?? '', $url, $options);
     }
 
     /**
@@ -198,12 +209,10 @@ class ButtonHelper extends Helper
      */
     public function button(array $options = []): string
     {
-        if (empty($options['actionColor'])) {
-            throw new InvalidArgumentException('actionColor is required');
-        }
+        $this->requiredParams($options, ['actionColor']);
 
         if (empty($options['label']) && empty($options['icon'])) {
-            throw new InvalidArgumentException('label is required');
+            throw new \InvalidArgumentException('label or icon param is required');
         }
 
         if (isset($options['displayCondition'])) {
@@ -253,330 +262,62 @@ class ButtonHelper extends Helper
             }
         }
 
-        return $this->Form->button($title, $options);
+        return $this->Form->button($title ?? '', $options);
     }
 
     /**
-     * @param array<string, mixed> $options
+     * @param string|\App\Enum\Button $item
+     * @param array $options
      * @return string
+     * @throws \InvalidArgumentException
      */
-    public function save(array $options = []): string
+    public function get(string|Button $item, array $options = []): string
     {
-        $options = array_merge([
-            'type' => 'submit',
-            'name' => 'action',
-            'value' => 'save',
-            'icon' => FaIcon::get($this->getConfig('icon.save'), $this->getConfig('icon_class')),
-            'label' => __('Guardar'),
-            'actionColor' => ActionColor::SUBMIT,
-        ], $options);
+        $itemConfig = $this->itemConfig($item);
+        if ($itemConfig) {
+            $options = array_merge($itemConfig, $options);
+        }
 
-        return $this->button($options);
-    }
+        $render = $options['render'];
+        unset($options['render']);
 
-    /**
-     * @param array<string, mixed> $options
-     * @return string
-     */
-    public function validate(array $options = []): string
-    {
-        $options = array_merge([
-            'type' => 'submit',
-            'name' => 'action',
-            'value' => 'validate',
-            'icon' => FaIcon::get($this->getConfig('icon.validate'), $this->getConfig('icon_class')),
-            'label' => __('Guardar y Validar'),
-            'actionColor' => ActionColor::VALIDATE,
-            'confirm' => __('Seguro que desea validar este registro?'),
-        ], $options);
-
-        return $this->button($options);
+        return match ($render) {
+            Button::RENDER_LINK => $this->link($options),
+            Button::RENDER_BUTTON => $this->button($options),
+            Button::RENDER_POST_LINK => $this->postLink($options),
+            default => throw new \InvalidArgumentException('Invalid render method'),
+        };
     }
 
     /**
      * @param array $options
-     * @return string
+     * @param array $required
+     * @return void
+     * @throws \InvalidArgumentException
      */
-    public function closeModal(array $options = []): string
+    protected function requiredParams(array $options, array $required): void
     {
-        $options = array_merge([
-            'type' => 'button',
-            'data-dismiss' => 'modal',
-            'icon' => null,
-            'label' => __('Cancelar'),
-            'actionColor' => ActionColor::CANCEL,
-        ], $options);
-
-        return $this->button($options);
+        foreach ($required as $param) {
+            if (empty($options[$param])) {
+                throw new \InvalidArgumentException($param . ' param is required');
+            }
+        }
     }
 
     /**
-     * @param array $options
+     * @param string $method
+     * @param array $params
      * @return string
+     * @throws \BadMethodCallException
      */
-    public function openModal(array $options = []): string
+    public function __call(string $method, array $params): string
     {
-        $options = array_merge([
-            'type' => 'button',
-            'data-toggle' => 'modal',
-            'data-target' => '#modal',
-            'icon' => $this->getDefaultIcon(__FUNCTION__),
-            'label' => __('Cancelar'),
-            'actionColor' => ActionColor::ADD,
-        ], $options);
+        $item = Button::tryFrom($method);
+        if (!is_null($item)) {
+            return $this->get($item, $params[0] ?? []);
+        }
 
-        return $this->button($options);
-    }
-
-    /**
-     * @param array<string, mixed> $options
-     * @return string
-     */
-    public function export(array $options = []): string
-    {
-        $options = array_merge([
-            'type' => 'submit',
-            'name' => 'export',
-            'value' => 'csv',
-            'icon' => FaIcon::get($this->getConfig('icon.export'), $this->getConfig('icon_class')),
-            'label' => __('Exportar'),
-            'actionColor' => ActionColor::REPORT,
-        ], $options);
-
-        return $this->button($options);
-    }
-
-    /**
-     * @param array<string, mixed> $options
-     * @return string
-     */
-    public function search(array $options = []): string
-    {
-        $options = array_merge([
-            'type' => 'submit',
-            'name' => 'action',
-            'value' => 'search',
-            'icon' => FaIcon::get($this->getConfig('icon.search'), $this->getConfig('icon_class')),
-            'label' => __('Buscar'),
-            'actionColor' => ActionColor::SEARCH,
-        ], $options);
-
-        return $this->button($options);
-    }
-
-    /**
-     * @param array<string, mixed> $options
-     * @return string
-     */
-    public function view(array $options = []): string
-    {
-        $this->requireUrl($options);
-
-        $options = array_merge([
-            'icon' => FaIcon::get($this->getConfig('icon.view'), $this->getConfig('icon_class')),
-            'label' => false,
-            'escape' => false,
-            'actionColor' => ActionColor::VIEW,
-            'override' => false,
-            'outline' => true,
-        ], $options);
-
-        return $this->link($options);
-    }
-
-    /**
-     * @param array $options
-     * @return string
-     */
-    public function report(array $options = []): string
-    {
-        $this->requireUrl($options);
-
-        $options = array_merge([
-            'icon' => FaIcon::get($this->getConfig('icon.report'), $this->getConfig('icon_class')),
-            'label' => false,
-            'escape' => false,
-            'actionColor' => ActionColor::REPORT,
-            'override' => false,
-            'outline' => false,
-            'target' => '_blank',
-        ], $options);
-
-        return $this->link($options);
-    }
-
-    /**
-     * @param array $options
-     * @return string
-     */
-    public function fileReport(array $options = []): string
-    {
-        $this->requireUrl($options);
-
-        $options = array_merge([
-            'icon' => FaIcon::get($this->getConfig('icon.report'), $this->getConfig('icon_class')),
-            'label' => false,
-            'escape' => false,
-            'actionColor' => ActionColor::REPORT,
-            'override' => false,
-            'outline' => false,
-            'target' => '_blank',
-        ], $options);
-
-        return $this->link($options);
-    }
-
-    /**
-     * @param array $options
-     * @return string
-     */
-    public function statistics(array $options = []): string
-    {
-        $this->requireUrl($options);
-
-        $options = array_merge([
-            'icon' => FaIcon::get($this->getConfig('icon.statistics'), $this->getConfig('icon_class')),
-            'label' => __('Reportes'),
-            'escape' => false,
-            'actionColor' => ActionColor::REPORT,
-            'override' => false,
-            'outline' => false,
-        ], $options);
-
-        return $this->link($options);
-    }
-
-    /**
-     * @param array<string, mixed> $options
-     * @return string
-     */
-    public function add(array $options = []): string
-    {
-        $options = array_merge([
-            'icon' => FaIcon::get($this->getConfig('icon.add'), $this->getConfig('icon_class')),
-            'label' => __('Agregar'),
-            'escape' => false,
-            'actionColor' => ActionColor::ADD,
-            'override' => false,
-            'outline' => false,
-        ], $options);
-
-        return $this->link($options);
-    }
-
-    /**
-     * @param array<string, mixed> $options
-     * @return string
-     */
-    public function edit(array $options = []): string
-    {
-        $this->requireUrl($options);
-
-        $options = array_merge([
-            'icon' => FaIcon::get($this->getConfig('icon.edit'), $this->getConfig('icon_class')),
-            'label' => false,
-            'escape' => false,
-            'actionColor' => ActionColor::EDIT,
-            'override' => false,
-            'outline' => false,
-        ], $options);
-
-        return $this->link($options);
-    }
-
-    /**
-     * @param array<string, mixed> $options
-     * @return string
-     */
-    public function delete(array $options = []): string
-    {
-        $this->requireUrl($options);
-
-        $options = array_merge([
-            'icon' => FaIcon::get($this->getConfig('icon.delete'), $this->getConfig('icon_class')),
-            'label' => __('Eliminar'),
-            'escape' => false,
-            'actionColor' => ActionColor::DELETE,
-            'override' => false,
-            'outline' => false,
-            'confirm' => __('Seguro que desea eliminar este registro?'),
-        ], $options);
-
-        return $this->postLink($options);
-    }
-
-    /**
-     * @param array<string, mixed> $options
-     * @return string
-     */
-    public function remove(array $options = []): string
-    {
-        $this->requireUrl($options);
-
-        $options = array_merge([
-            'icon' => $this->getDefaultIcon(__FUNCTION__),
-            'label' => __('Eliminar'),
-            'escape' => false,
-            'actionColor' => ActionColor::DELETE,
-            'override' => false,
-            'outline' => false,
-            'confirm' => __('Seguro que desea eliminar este registro?'),
-        ], $options);
-
-        return $this->postLink($options);
-    }
-
-    /**
-     * @param array<string, mixed> $options
-     * @return string
-     */
-    public function confirm(array $options = []): string
-    {
-        $this->requireUrl($options);
-
-        $options = array_merge([
-            'icon' => FaIcon::get($this->getConfig('icon.edit'), $this->getConfig('icon_class')),
-            'label' => false,
-            'escape' => false,
-            'actionColor' => ActionColor::EDIT,
-            'override' => false,
-            'outline' => false,
-            'confirm' => __('Seguro que desea realizar esta acción?'),
-        ], $options);
-
-        return $this->postLink($options);
-    }
-
-    /**
-     * @param array<string, mixed> $options
-     * @return string
-     */
-    public function cancel(array $options = []): string
-    {
-        $this->requireUrl($options);
-
-        $options = array_merge([
-            'icon' => null,
-            'label' => __('Cancelar'),
-            'escape' => false,
-            'actionColor' => ActionColor::CANCEL,
-            'override' => false,
-            'outline' => false,
-        ], $options);
-
-        return $this->link($options);
-    }
-
-    /**
-     * @param array<string, mixed> $options
-     * @return string
-     */
-    public function back(array $options = []): string
-    {
-        return $this->cancel([
-            'icon' => FaIcon::get($this->getConfig('icon.back'), $this->getConfig('icon_class')),
-            'label' => __('Volver'),
-        ]);
+        throw new \BadMethodCallException('Method ' . $method . ' does not exist');
     }
 
     /**
@@ -603,7 +344,7 @@ class ButtonHelper extends Helper
     protected function createTitle(?string $label = null, ?FaIcon $icon = null, ?string $position = null): ?string
     {
         $position = $position ?? $this->getConfig('icon_position');
-        if ($position === self::ICON_POSITION_RIGHT) {
+        if ($position === Button::ICON_POSITION_RIGHT) {
             $title = trim($label . ' ' . $icon);
         } else {
             $title = trim($icon . ' ' . $label);
@@ -624,18 +365,6 @@ class ButtonHelper extends Helper
             return FaIcon::get($name, $this->getConfig('icon_class'));
         } catch (Throwable $th) {
             return FaIcon::get('default', $this->getConfig('icon_class'));
-        }
-    }
-
-    /**
-     * @param array $options
-     * @return void
-     * @throws \InvalidArgumentException
-     */
-    protected function requireUrl(array $options): void
-    {
-        if (empty($options['url'])) {
-            throw new InvalidArgumentException('url param is required');
         }
     }
 }

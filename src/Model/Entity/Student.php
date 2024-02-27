@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Model\Entity;
 
 use App\Enum\Active;
+use App\Model\Entity\Traits\EnumFieldTrait;
 use App\Model\Field\StageField;
 use App\Model\Field\StudentType;
 use App\Utility\Stages;
@@ -25,6 +26,17 @@ use Cake\ORM\Entity;
  */
 class Student extends Entity
 {
+    use EnumFieldTrait;
+
+    /**
+     * Fields that are enum fields.
+     *
+     * @var array<string, string>
+     */
+    protected $enumFields = [
+        'type' => StudentType::class,
+    ];
+
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
@@ -109,15 +121,7 @@ class Student extends Entity
      */
     protected function _getTypeLabel(): ?string
     {
-        return $this->getType()?->label() ?? null;
-    }
-
-    /**
-     * @return \App\Model\Field\StudentType|null
-     */
-    public function getType(): ?StudentType
-    {
-        return StudentType::tryFrom($this->type);
+        return $this->enum('type')?->label() ?? null;
     }
 
     /**
@@ -125,7 +129,7 @@ class Student extends Entity
      */
     public function getStageFieldList(): array
     {
-        return Stages::getStageFieldList($this->getType());
+        return Stages::getStageFieldList($this->enum('type'));
     }
 
     /**
@@ -189,7 +193,7 @@ class Student extends Entity
         }
 
         foreach ($this->student_stages as $studentStage) {
-            if ($studentStage->getStage() === $stageField) {
+            if ($studentStage->enum('stage') === $stageField) {
                 return $studentStage;
             }
         }

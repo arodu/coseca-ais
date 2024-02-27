@@ -46,7 +46,7 @@ class InstitutionProject extends Entity
     protected function _getLabelName(): string
     {
         if (empty($this->institution)) {
-            return null;
+            return '';
         }
 
         return __('{0}: {1}', $this->institution->name, $this->name);

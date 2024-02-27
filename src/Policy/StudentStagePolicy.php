@@ -209,7 +209,7 @@ class StudentStagePolicy
      */
     protected function stageIs(StudentStage $studentStage, StageField $stageField, StageStatus|array|null $stageStatus = null): bool
     {
-        $isStageField = $studentStage->getStage()?->is($stageField) ?? false;
+        $isStageField = $studentStage->enum('stage')?->is($stageField) ?? false;
 
         if (empty($stageStatus)) {
             return $isStageField;
@@ -225,6 +225,6 @@ class StudentStagePolicy
      */
     protected function stageStatusIs(StudentStage $studentStage, StageStatus|array $stageStatus): bool
     {
-        return $studentStage->getStatus()?->is($stageStatus) ?? false;
+        return $studentStage->enum('status')?->is($stageStatus) ?? false;
     }
 }

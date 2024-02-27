@@ -18,8 +18,7 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
     <div class="card-body">
         <?= $this->cell('TrackingView::info', ['student_id' => $student->id]) ?>
     </div>
-
-    <?php if ($user->can('displayActions', $trackingStage)) : ?>
+    <?php if ($trackingStage && $user->can('displayActions', $trackingStage)) : ?>
         <div class="card-body d-flex">
             <div class="ml-auto">
                 <?= $this->cell('TrackingView::actions', ['student_id' => $student->id, 'trackingStage' => $trackingStage]) ?>
@@ -44,12 +43,12 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
         <div class="card-header">
             <h3 class="card-title">
                 <?= h($adscription->institution_project->label_name) ?>
-                <?= $this->App->badge($adscription->getStatus()) ?>
+                <?= $this->App->badge($adscription->enum('status')) ?>
             </h3>
             <div class="card-tools">
                 <div class="btn-group">
                     <?php if ($canAddTracking) : ?>
-                        <?= $this->Button->openModal([
+                        <?= $this->Button->get('openModal', [
                             'label' => __('Agregar Actividad'),
                             'data-target' => '#addTracking' . $adscription->id,
                             'class' => 'btn-sm',
@@ -173,8 +172,8 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <?= $this->Button->save() ?>
-                        <?= $this->Button->closeModal() ?>
+                        <?= $this->Button->get('save') ?>
+                        <?= $this->Button->get('closeModal') ?>
                     </div>
                     <?= $this->Form->end() ?>
                 </div>
@@ -209,11 +208,11 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
                         ])  ?>
                     </div>
                     <div class="modal-footer">
-                        <?= $this->Button->validate([
+                        <?= $this->Button->get('validate', [
                             'label' => __('Validar'),
                             'confirm' => false,
                         ]) ?>
-                        <?= $this->Button->closeModal() ?>
+                        <?= $this->Button->get('closeModal') ?>
                     </div>
                     <?= $this->Form->end() ?>
                 </div>
@@ -256,11 +255,11 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <?= $this->Button->save([
+                        <?= $this->Button->get('save', [
                             'label' => __('Si'),
                             'icon' => null,
                         ]) ?>
-                        <?= $this->Button->closeModal() ?>
+                        <?= $this->Button->get('closeModal') ?>
                     </div>
                     <?= $this->Form->end() ?>
                 </div>
