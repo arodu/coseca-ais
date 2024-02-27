@@ -10,8 +10,8 @@ use Cake\Utility\Inflector;
 use Cake\View\Helper;
 use CakeLteTools\Enum\BadgeInterface;
 use CakeLteTools\Enum\Color;
-use CakeLteTools\Utility\Css;
 use CakeLteTools\Utility\FaIcon;
+use CakeLteTools\Utility\Html;
 
 /**
  * App helper
@@ -137,9 +137,10 @@ class AppHelper extends Helper
     public function badge(BadgeInterface $enum, array $options = []): string
     {
         $options = array_merge([
-            'class' => Css::classToString([$enum->color()->badge(), $options['class'] ?? null]),
+            'tag' => 'span',
         ], $options);
 
+        $options['class'] = Html::classToString([$enum->color()->badge(), $options['class'] ?? null]);
         $tag = $options['tag'] ?? 'span';
         unset($options['tag']);
 
