@@ -68,12 +68,12 @@ class TenantsController extends AppAdminController
         ]);
 
         $lapses = $this->Tenants->Lapses
-            ->find('list', [
+            ->find('list', options: [
                 'keyField' => 'id',
                 'valueField' => 'name',
                 'groupField' => 'label_active',
             ])
-            ->order(['active' => 'DESC'])
+            ->orderBy(['active' => 'DESC'])
             ->where(['tenant_id' => $id]);
 
         $lapseSelected = $this->getLapseSelected($tenant, $this->getRequest()->getQuery('lapse_id', null));
@@ -87,12 +87,12 @@ class TenantsController extends AppAdminController
      */
     public function viewProgram(?string $program_id = null): void
     {
-        $program = $this->Programs->get($program_id, [
-            'contain' => [
+        $program = $this->Programs->get($program_id, 
+            contain: [
                 'Tenants',
                 'InterestAreas',
             ],
-        ]);
+        );
 
         $this->set(compact('program'));
     }

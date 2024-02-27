@@ -74,9 +74,9 @@ class LapsesController extends AppAdminController
      */
     public function editDates(int|string|null $lapse_dates_id = null)
     {
-        $lapse_date = $this->Lapses->LapseDates->get($lapse_dates_id, [
-            'contain' => ['Lapses' => ['Tenants']],
-        ]);
+        $lapse_date = $this->Lapses->LapseDates->get($lapse_dates_id,
+            contain: ['Lapses' => ['Tenants']],
+        );
         if ($this->request->is(['patch', 'post', 'put'])) {
             $lapse_date = $this->Lapses->LapseDates->patchEntity($lapse_date, $this->request->getData());
             if ($this->Lapses->LapseDates->save($lapse_date)) {

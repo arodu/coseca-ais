@@ -86,7 +86,7 @@ class InstitutionsController extends AppAdminController
             }
             $this->Flash->error(__('The institution could not be saved. Please, try again.'));
         }
-        $tenants = $this->Institutions->Tenants->find('listLabel', ['limit' => 200])->all();
+        $tenants = $this->Institutions->Tenants->find('listLabel', options: ['limit' => 200])->all();
         $this->set(compact('institution', 'tenants'));
     }
 
@@ -108,7 +108,7 @@ class InstitutionsController extends AppAdminController
             }
             $this->Flash->error(__('The project could not be saved. Please, try again.'));
         }
-        $interestAreas = $this->Institutions->InstitutionProjects->InterestAreas->find('list', ['limit' => 200])
+        $interestAreas = $this->Institutions->InstitutionProjects->InterestAreas->find('list', options: ['limit' => 200])
             ->where(['InterestAreas.program_id' => $institution->tenant->program_id])
             ->all();
 
@@ -155,7 +155,7 @@ class InstitutionsController extends AppAdminController
             }
             $this->Flash->error(__('The project could not be saved. Please, try again.'));
         }
-        $interestAreas = $this->Institutions->InstitutionProjects->InterestAreas->find('list', ['limit' => 200])
+        $interestAreas = $this->Institutions->InstitutionProjects->InterestAreas->find('list', options: ['limit' => 200])
             ->where(['InterestAreas.program_id' => $institution->tenant->program_id])
             ->all();
 

@@ -83,7 +83,7 @@ class AdscriptionsController extends AppAdminController
         }
 
         $institution_projects = $this->StudentAdscriptions->InstitutionProjects
-            ->find('listForSelect', ['tenant_id' => $student->tenant_id]);
+            ->find('listForSelect', options: ['tenant_id' => $student->tenant_id]);
         $tutors = $this->StudentAdscriptions->Tutors
             ->find('list', ['limit' => 200])
             ->where(['Tutors.tenant_id' => $student->tenant_id]);
