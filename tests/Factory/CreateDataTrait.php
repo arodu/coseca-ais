@@ -5,7 +5,6 @@ namespace App\Test\Factory;
 
 use App\Model\Field\UserRole;
 use Cake\Datasource\EntityInterface;
-use Cake\I18n\FrozenDate;
 use Cake\ORM\Locator\LocatorAwareTrait;
 
 trait CreateDataTrait
@@ -131,9 +130,10 @@ trait CreateDataTrait
     }
 
     // Enviar datos a una url tipo post
+
     protected function sendDataForm(string $url, $id, array $data = [])
     {
-        return $this->post((string)$url. $id, $data);
+        return $this->post((string)$url . $id, $data);
     }
 
     public function getLapsesDatesStatus($lapses_date)

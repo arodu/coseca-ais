@@ -1,25 +1,13 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller\Admin;
 
-use App\Controller\Admin\StudentsController;
-use App\Model\Entity\Student;
-use App\Model\Field\StageField;
-use App\Model\Field\StageStatus;
-use App\Model\Field\StudentType;
-use App\Model\Field\UserRole;
-use App\Test\Factory\AppUserFactory;
 use App\Test\Factory\InstitutionFactory;
 use App\Test\Factory\LapseFactory;
-use App\Test\Factory\ProgramFactory;
-use App\Test\Factory\StudentFactory;
 use App\Test\Factory\TenantFactory;
 use App\Test\Factory\TutorFactory;
 use Cake\TestSuite\IntegrationTestTrait;
-use Cake\TestSuite\TestCase;
-use SebastianBergmann\Type\FalseType;
 
 /**
  * App\Controller\Admin\StudentsController Test Case
@@ -52,8 +40,8 @@ class StudentsControllerTest extends AdminTestCase
         $user = $this->createUserWithUserRole();
         $this->assertResponseCode(200);
         // Verificacion de resultados
-        $this->assertResponseContains((string) $user->students[0]->dni); //Verificacion que exista el DNI del estudiante en la vista
-        $this->assertResponseContains((string) $user->students[0]->email); //Verificacion que exista el email del estudiante en la vista
+        $this->assertResponseContains((string)$user->students[0]->dni); //Verificacion que exista el DNI del estudiante en la vista
+        $this->assertResponseContains((string)$user->students[0]->email); //Verificacion que exista el email del estudiante en la vista
     }
 
     /**
@@ -71,9 +59,9 @@ class StudentsControllerTest extends AdminTestCase
 
         // Verificacion de resultados
         $this->get('/admin/students/view/' . $student->id); //Cargar la vista con el ID del estudiante creado
-        $this->assertResponseContains((string) $student->dni); //Verificacion que exista el DNI del estudiante en la vista
-        $this->assertResponseContains((string) $student->email); //Verificacion que exista el email del estudiante en la vista
-        $this->assertResponseContains((string) $program->name);  //Verificacion que exista el nombre del programa en la vista
+        $this->assertResponseContains((string)$student->dni); //Verificacion que exista el DNI del estudiante en la vista
+        $this->assertResponseContains((string)$student->email); //Verificacion que exista el email del estudiante en la vista
+        $this->assertResponseContains((string)$program->name); //Verificacion que exista el nombre del programa en la vista
         $this->assertResponseCode(200);
     }
 
@@ -91,9 +79,9 @@ class StudentsControllerTest extends AdminTestCase
         $student = $this->getUserStudentCreated($program); //Creacion de un estudiante asociado a un programa
 
         $this->get('/admin/students/info/' . $student->id); //Cargar la vista con el ID del estudiante creado
-        $this->assertResponseContains((string) $student->dni); //Verificacion que exista el DNI del estudiante en la vista
-        $this->assertResponseContains((string) $student->email); //Verificacion que exista el email del estudiante en la vista
-        $this->assertResponseContains((string) $program->name);  //Verificacion que exista el nombre del programa en la vista
+        $this->assertResponseContains((string)$student->dni); //Verificacion que exista el DNI del estudiante en la vista
+        $this->assertResponseContains((string)$student->email); //Verificacion que exista el email del estudiante en la vista
+        $this->assertResponseContains((string)$program->name); //Verificacion que exista el nombre del programa en la vista
         $this->assertResponseCode(200);
     }
 
@@ -120,14 +108,14 @@ class StudentsControllerTest extends AdminTestCase
         $this->post('/admin/stage/adscriptions/add/' . $student->id, [
             'institution_project_id' => $institution->id,
             'tutor_id' => $tutor->id,
-            'principal' => False
+            'principal' => false,
         ]); // Envio de formulario actualizando los datos, sin dejar esta adscricion como principal.
         $this->assertResponseCode(200);
 
         $this->post('/admin/stage/adscriptions/add/' . $student->id, [
             'institution_project_id' => $institution->id,
             'tutor_id' => $tutor->id,
-            'principal' => True
+            'principal' => true,
         ]);// Envio de formulario actualizando los datos, dejando esta adscricion como principal.
         $this->assertResponseCode(200);
     }
@@ -147,7 +135,7 @@ class StudentsControllerTest extends AdminTestCase
 
         // Verificacion de resultados.
         $this->get('/admin/students/settings/' . $student->id); //Cargar la vista con el ID del estudiante creado
-        $this->assertResponseContains((string) $student->tenant->name); //Verificacion que exista el nombre del estudiante en la vista
+        $this->assertResponseContains((string)$student->tenant->name); //Verificacion que exista el nombre del estudiante en la vista
         $this->assertResponseCode(200);
     }
 
@@ -167,7 +155,7 @@ class StudentsControllerTest extends AdminTestCase
 
         // Verificacion de resultados.
         $this->get('/admin/students/tracking/' . $student->id); //Verificacion de la vista con el ID correspondiente
-        $this->assertResponseContains((string) $lapse->name); //Verificacion del nombre del lapso en la vista
+        $this->assertResponseContains((string)$lapse->name); //Verificacion del nombre del lapso en la vista
         $this->assertResponseCode(200);
     }
 
@@ -259,14 +247,14 @@ class StudentsControllerTest extends AdminTestCase
 
         $this->post('/admin/students/view/' . $student->id, [
             'tenant_id' => $tenant->id,
-            'active' => False
+            'active' => false,
         ]); //Envio de formulario desactivando al Estudiante
         $this->assertResponseCode(200);
 
         $this->post('/admin/students/view/' . $student->id, [
             'tenant_id' => $tenant->id,
-            'active' => True
-        ]);  //Envio de formulario activando al Estudiante
+            'active' => true,
+        ]); //Envio de formulario activando al Estudiante
         $this->assertResponseCode(200);
     }
 
@@ -288,7 +276,7 @@ class StudentsControllerTest extends AdminTestCase
 
         $this->post('/admin/students/view/' . $student->id, [
             'tenant_id' => $tenant->id,
-            'active' => False
+            'active' => false,
         ]); //Envio de formulario para Desactivar Estudiante
         $this->assertResponseCode(200);
     }
@@ -307,7 +295,7 @@ class StudentsControllerTest extends AdminTestCase
         $student = $this->getUserStudentCreated($program); // Creacion de Estudiante asociado a un programa
 
         $this->post('/admin/students/view/' . $student->id, [
-            'active' => True
+            'active' => true,
         ]);//Envio de formulario para Desactivar Estudiante
         $this->assertResponseCode(200);
     }

@@ -48,7 +48,7 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
             <div class="card-tools">
                 <div class="btn-group">
                     <?php if ($canAddTracking) : ?>
-                        <?= $this->Button->openModal([
+                        <?= $this->Button->get('openModal', [
                             'label' => __('Agregar Actividad'),
                             'data-target' => '#addTracking' . $adscription->id,
                             'class' => 'btn-sm',
@@ -172,8 +172,8 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <?= $this->Button->save() ?>
-                        <?= $this->Button->closeModal() ?>
+                        <?= $this->Button->get('save') ?>
+                        <?= $this->Button->get('closeModal') ?>
                     </div>
                     <?= $this->Form->end() ?>
                 </div>
@@ -208,11 +208,11 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
                         ])  ?>
                     </div>
                     <div class="modal-footer">
-                        <?= $this->Button->validate([
+                        <?= $this->Button->get('validate', [
                             'label' => __('Validar'),
                             'confirm' => false,
                         ]) ?>
-                        <?= $this->Button->closeModal() ?>
+                        <?= $this->Button->get('closeModal') ?>
                     </div>
                     <?= $this->Form->end() ?>
                 </div>
@@ -255,11 +255,11 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <?= $this->Button->save([
+                        <?= $this->Button->get('save', [
                             'label' => __('Si'),
                             'icon' => null,
                         ]) ?>
-                        <?= $this->Button->closeModal() ?>
+                        <?= $this->Button->get('closeModal') ?>
                     </div>
                     <?= $this->Form->end() ?>
                 </div>

@@ -6,3 +6,5 @@ parameters:
         - src/
     excludePaths:
         - src/Console/Installer.php
+includes:
+    - vendor/cakedc/cakephp-phpstan/extension.neon

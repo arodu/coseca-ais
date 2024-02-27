@@ -11,6 +11,10 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $name
  * @property string $abbr
+ * @property int $regime
+ * @property bool $active
+ * @property int $current_lapse
+ * @property int $program_id
  *
  * @property \App\Model\Entity\Lapse[] $lapses
  * @property \App\Model\Entity\Student[] $students

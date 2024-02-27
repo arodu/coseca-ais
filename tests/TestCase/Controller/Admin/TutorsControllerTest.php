@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller\Admin;
@@ -38,13 +37,13 @@ class TutorsControllerTest extends AdminTestCase
             'name' => 'Tutor de prueba',
             'dni' => 12345678,
             'phone' => 00001234567,
-            'email' => 'email@test.com'
+            'email' => 'email@test.com',
         ])->persist(); //Creamos un nuevo tutor de prueba
 
         // Verificacion de resultados
         $this->get('/admin/tutors'); //Cargar nuevamente la vista de todos los Tutores
         $this->assertResponseContains($tutor->name); //Verificamos que en la vista exista el nombre del tutor creado.
-        $this->assertResponseContains($tutor->dni);  //Verificamos que en la vista exista la cedula del tutor creado.
+        $this->assertResponseContains($tutor->dni); //Verificamos que en la vista exista la cedula del tutor creado.
         $this->assertResponseContains($tutor->phone); //Verificamos que en la vista exista el telefono del tutor creado.
         $this->assertResponseContains($tutor->email); //Verificamos que en la vista exista el email del tutor creado.
     }
@@ -62,7 +61,7 @@ class TutorsControllerTest extends AdminTestCase
 
         // Cremos un Tutor de prueba
         $tutor = TutorFactory::make([
-            'tenant_id' => $this->tenant_id
+            'tenant_id' => $this->tenant_id,
         ])->persist();
 
         // Verificacion de acciones
@@ -93,7 +92,7 @@ class TutorsControllerTest extends AdminTestCase
 
         // Creamos un nuevo Tutor de prueba
         $tutor = TutorFactory::make([
-            'tenant_id' => $this->tenant_id
+            'tenant_id' => $this->tenant_id,
         ])->persist();
 
         // Verificacion de acciones
@@ -120,7 +119,7 @@ class TutorsControllerTest extends AdminTestCase
 
         // Creamos un nuevo Tutor de prueba asociado a un Tenant
         $tutor = TutorFactory::make([
-            'tenant_id' => $this->tenant_id
+            'tenant_id' => $this->tenant_id,
         ])->persist();
 
         // Verificacion de acciones
@@ -152,7 +151,7 @@ class TutorsControllerTest extends AdminTestCase
 
         // Creamos un nuevo tutor asociado a un Tenant
         $tutor = TutorFactory::make([
-            'tenant_id' => $this->tenant_id
+            'tenant_id' => $this->tenant_id,
         ])->persist();
 
         // Enviamos el formulario a la ruta correspondiente con el ID que deseamos eliminar
