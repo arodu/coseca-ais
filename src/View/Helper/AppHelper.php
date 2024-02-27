@@ -10,10 +10,14 @@ use Cake\Utility\Inflector;
 use Cake\View\Helper;
 use CakeLteTools\Enum\BadgeInterface;
 use CakeLteTools\Enum\Color;
+use CakeLteTools\Utility\Css;
 use CakeLteTools\Utility\FaIcon;
 
 /**
  * App helper
+ *
+ * @property \Cake\View\Helper\HtmlHelper $Html
+ * @property \Cake\View\Helper\FormHelper $Form
  */
 class AppHelper extends Helper
 {
@@ -43,10 +47,10 @@ class AppHelper extends Helper
 
     /**
      * @param float $percent
-     * @param string|null $prefix
+     * @param string $prefix
      * @return string
      */
-    public function progressBarColor(float $percent, ?string $prefix = 'bg'): string
+    public function progressBarColor(float $percent, string $prefix = 'bg'): string
     {
         $color = match (true) {
             ($percent < 20) => Color::DANGER,
@@ -132,9 +136,9 @@ class AppHelper extends Helper
      */
     public function badge(BadgeInterface $enum, array $options = []): string
     {
-        $options = [
-            'class' => $enum->color()->badge() . ' ' . ($options['class'] ?? ''),
-        ];
+        $options = array_merge([
+            'class' => Css::classToString([$enum->color()->badge(), $options['class'] ?? null]),
+        ], $options);
 
         $tag = $options['tag'] ?? 'span';
         unset($options['tag']);

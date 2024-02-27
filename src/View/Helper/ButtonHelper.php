@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\View\Helper;
@@ -13,6 +12,9 @@ use CakeLteTools\Utility\FaIcon;
 
 /**
  * Button helper
+ *
+ * @property \Cake\View\Helper\HtmlHelper $Html
+ * @property \Cake\View\Helper\FormHelper $Form
  */
 class ButtonHelper extends Helper
 {
@@ -43,7 +45,7 @@ class ButtonHelper extends Helper
     public $helpers = ['Form', 'Html'];
 
     /**
-     * @param string|\App\Enum\Button $itemName
+     * @param \App\Enum\Button $item
      * @return array
      */
     public function itemConfig(string|Button $item): array
@@ -101,7 +103,7 @@ class ButtonHelper extends Helper
         $icon_position = $options['icon_position'] ?? $this->getConfig('icon_position') ?? Button::ICON_POSITION_LEFT;
         unset($options['icon_position']);
 
-        $outline = (bool)$options['outline'] ?? false;
+        $outline = (bool)($options['outline'] ?? false);
         unset($options['outline']);
 
         $title = $this->createTitle($label, $icon, $icon_position);
@@ -196,7 +198,7 @@ class ButtonHelper extends Helper
             }
         }
 
-        return $this->Form->postLink($title, $url, $options);
+        return $this->Form->postLink($title ?? '', $url, $options);
     }
 
     /**
@@ -258,7 +260,7 @@ class ButtonHelper extends Helper
             }
         }
 
-        return $this->Form->button($title, $options);
+        return $this->Form->button($title ?? '', $options);
     }
 
     /**
@@ -277,7 +279,7 @@ class ButtonHelper extends Helper
         $render = $options['render'];
         unset($options['render']);
 
-        return match($render) {
+        return match ($render) {
             Button::RENDER_LINK => $this->link($options),
             Button::RENDER_BUTTON => $this->button($options),
             Button::RENDER_POST_LINK => $this->postLink($options),
@@ -315,8 +317,6 @@ class ButtonHelper extends Helper
 
         throw new \BadMethodCallException('Method ' . $method . ' does not exist');
     }
-
-    /* *************************************************************************************** */
 
     /**
      * @param array|string $class

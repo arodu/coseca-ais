@@ -21,6 +21,7 @@ jobs:
     env:
       DATABASE_URL: "mysql://root:root@127.0.0.1/cakephp?encoding=utf8"
       DATABASE_TEST_URL: "mysql://root:root@127.0.0.1/cakephp?encoding=utf8"
+      SECURITY_SALT: "6a08f8b777b68f8a1c3dad9315f54"
 
     steps:
       - name: Setup MySQL latest
@@ -45,8 +46,8 @@ jobs:
         run: |
           vendor/bin/phpunit
 
-      #- name: Run PHP CodeSniffer
-      #  run: composer cs-check
+      - name: Run PHP CodeSniffer
+        run: composer cs-check
 
       #- name: Run phpstan
       #  run: vendor/bin/phpstan

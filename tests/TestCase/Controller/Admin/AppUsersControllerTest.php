@@ -1,17 +1,11 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller\Admin;
 
-use App\Controller\Admin\AppUsersController;
 use App\Model\Field\UserRole;
-use App\Test\Factory\AppUserFactory;
-use Cake\TestSuite\IntegrationTestTrait;
-use Cake\TestSuite\TestCase;
-use App\Test\Factory\CreateDataTrait;
 use Cake\I18n\FrozenDate;
-use Faker\Generator;
+use Cake\TestSuite\IntegrationTestTrait;
 
 /**
  * App\Controller\Admin\AppUsersController Test Case
@@ -124,7 +118,7 @@ class AppUsersControllerTest extends AdminTestCase
 
         $user = $this->createUserWithAdminRole(); // Crea un usuario con Rol Administrador
 
-        $this->get('/admin/app-users/edit/' . $user->id);  // Carga la vista correspondiente con el ID del registro creado
+        $this->get('/admin/app-users/edit/' . $user->id); // Carga la vista correspondiente con el ID del registro creado
         $this->assertResponseCode(200);
 
         // Envio de datos de prueba para actualizar el registro

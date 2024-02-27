@@ -7,7 +7,6 @@ use App\Test\Factory\InstitutionFactory;
 use App\Test\Factory\InstitutionProjectFactory;
 use App\Test\Factory\InterestAreaFactory;
 use App\Test\Factory\ProgramFactory;
-use App\Test\TestCase\Controller\Admin\AdminTestCase;
 use Cake\TestSuite\IntegrationTestTrait;
 
 /**
@@ -88,7 +87,7 @@ class InstitutionsControllerTest extends AdminTestCase
 
         // Verificacion de resultados
         $this->assertResponseContains('Institución de prueba'); //Verificacion de que existe el nuevo nombre de la Institucion
-        $this->assertResponseContains('Persona de prueba');  //Verificacion de que existe el nombre de la persona
+        $this->assertResponseContains('Persona de prueba'); //Verificacion de que existe el nombre de la persona
         $this->assertResponseContains('04141234567'); //Verificar que existe el numero de la Institucion
         $this->assertResponseContains('asd@asd.com'); //Verificar que exista el email de la Institucion
     }
@@ -133,12 +132,12 @@ class InstitutionsControllerTest extends AdminTestCase
         $program = ProgramFactory::make()->persist(); // Creacion de un Programa
         // Creacion de un Area de interes asociado al programa
         $interes_area = InterestAreaFactory::make([
-            'program_id' => $program->id
+            'program_id' => $program->id,
         ])->persist();
 
         // Creacion de una Institucion asociada a un Programa/Sede
         $institution = InstitutionFactory::make([
-            'tenant_id' => $this->tenant_id
+            'tenant_id' => $this->tenant_id,
         ])->persist();
 
         // Verificacion de acciones
@@ -199,18 +198,18 @@ class InstitutionsControllerTest extends AdminTestCase
 
         // Creacion de un Area de interes realcionado a un Programa
         $interes_area = InterestAreaFactory::make([
-            'program_id' => $program->id
+            'program_id' => $program->id,
         ])->persist();
 
         // Creacion de una Institucion asociada a un Programa/Sede
         $institution = InstitutionFactory::make([
-            'tenant_id' => $this->tenant_id
+            'tenant_id' => $this->tenant_id,
         ])->persist();
 
         // Creacion de un registro pivote para relacionar la Institucion con el Area de interes
         $institution_project = InstitutionProjectFactory::make([
             'institution_id' => $institution->id,
-            'interest_area_id' => $interes_area->id
+            'interest_area_id' => $interes_area->id,
         ])->persist();
 
         // Verificacion de que la vista carga la vista con la informacion correspondiente
@@ -240,7 +239,7 @@ class InstitutionsControllerTest extends AdminTestCase
 
         // Creacion de una Institucion asociada a un Programa/Sede
         $institution = InstitutionFactory::make([
-            'tenant_id' => $this->tenant_id
+            'tenant_id' => $this->tenant_id,
         ])->persist();
 
         // Envio de formulario con el ID del registro a eliminar

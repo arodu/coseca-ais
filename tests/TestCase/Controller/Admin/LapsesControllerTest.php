@@ -1,21 +1,13 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller\Admin;
 
-use App\Controller\Admin\LapsesController;
 use App\Enum\StatusDate;
-use App\Model\Entity\LapseDate;
 use App\Model\Field\StageField;
 use App\Test\Factory\LapseFactory;
-use App\Test\Factory\ProgramFactory;
 use App\Test\Factory\TenantFactory;
-use App\View\Helper\AppHelper;
 use Cake\TestSuite\IntegrationTestTrait;
-use Cake\TestSuite\TestCase;
-use App\Test\Factory\CreateDataTrait;
-use Cake\I18n\FrozenDate;
 
 /**
  * App\Controller\Admin\LapsesController Test Case
@@ -64,7 +56,6 @@ class LapsesControllerTest extends AdminTestCase
      *
      * @return void
      * @uses \App\Controller\Admin\LapsesController::edit()
-     *
      */
     public function testEdit(): void
     {
@@ -83,7 +74,7 @@ class LapsesControllerTest extends AdminTestCase
 
         // Creacion de un Lapso
         $lapse = LapseFactory::make([
-            'tenant_id' => $tenant->id
+            'tenant_id' => $tenant->id,
         ])->persist();
 
         $this->get('/admin/lapses/edit/' . $lapse->id); // Verificar que cargue la vista con el ID correspondiente
@@ -117,12 +108,12 @@ class LapsesControllerTest extends AdminTestCase
 
         // Creacion de un Tenant
         $tenant = TenantFactory::make([
-            'program_id' => $program->id
+            'program_id' => $program->id,
         ])->persist();
 
         // Creacion de un Lapso
         $lapse = LapseFactory::make([
-            'tenant_id' => $tenant->id
+            'tenant_id' => $tenant->id,
         ])->getEntity()->toArray();
 
         // Verificacion de resultados
@@ -149,7 +140,7 @@ class LapsesControllerTest extends AdminTestCase
 
         // Creacion de un Lapso
         $lapse = LapseFactory::make([
-            'tenant_id' => $this->tenant_id
+            'tenant_id' => $this->tenant_id,
         ])->getEntity()->toArray();
 
         $lapse = $this->addRecord('Lapses', $lapse); //Buscamos el lapso en la table
@@ -163,7 +154,7 @@ class LapsesControllerTest extends AdminTestCase
 
         // Escenario fecha unica pasada
         $this->post('/admin/lapses/edit-dates/' . $lapses_date->id, [
-            'is_single_date' => True,
+            'is_single_date' => true,
             'start_date' => $this->today->subDays(15),
         ]); //Enviamos el formulario caducado y con fecha unica
 
@@ -176,8 +167,8 @@ class LapsesControllerTest extends AdminTestCase
 
         // Escenario fecha unica actual
         $this->post('/admin/lapses/edit-dates/' . $lapses_date->id, [
-            'is_single_date' => True,
-            'start_date' => $this->today
+            'is_single_date' => true,
+            'start_date' => $this->today,
         ]); //Enviamos el formulario con fecha actual y con fecha unica
 
         $lapseDateStatus = $this->getLapsesDatesStatus($lapses_date); //Obtenemos el status del LapseDate
@@ -189,8 +180,8 @@ class LapsesControllerTest extends AdminTestCase
 
         // Escenario fecha unica Pendiente
         $this->post('/admin/lapses/edit-dates/' . $lapses_date->id, [
-            'is_single_date' => True,
-            'start_date' => $this->today->addDays(15)
+            'is_single_date' => true,
+            'start_date' => $this->today->addDays(15),
         ]); //Enviamos el formulario pendiente y con fecha unica
 
         $lapseDateStatus = $this->getLapsesDatesStatus($lapses_date); //Obtenemos el status del LapseDate
@@ -202,9 +193,9 @@ class LapsesControllerTest extends AdminTestCase
 
         // Escenario Caducado de fecha inicio con fecha fin sin fecha unica
         $this->post('/admin/lapses/edit-dates/' . $lapses_date->id, [
-            'is_single_date' => False,
+            'is_single_date' => false,
             'start_date' => $this->today->subDays(20),
-            'end_date' => $this->today->subDays(5)
+            'end_date' => $this->today->subDays(5),
         ]); //Enviamos el formulario con ambas fechas Caducadas y sin fecha unica
 
         $lapseDateStatus = $this->getLapsesDatesStatus($lapses_date); //Obtenemos el status del LapseDate
@@ -217,9 +208,9 @@ class LapsesControllerTest extends AdminTestCase
 
         // Escenario En Progreso de fecha inicio con fecha fin sin fecha unica
         $this->post('/admin/lapses/edit-dates/' . $lapses_date->id, [
-            'is_single_date' => False,
+            'is_single_date' => false,
             'start_date' => $this->today->subDays(5),
-            'end_date' => $this->today->addDays(25)
+            'end_date' => $this->today->addDays(25),
         ]);//Enviamos el formulario con fechas En progreso y sin fecha unica
 
         $lapseDateStatus = $this->getLapsesDatesStatus($lapses_date); //Obtenemos el status del LapseDate
@@ -232,9 +223,9 @@ class LapsesControllerTest extends AdminTestCase
 
         // Escenario Pendiente de fecha inicio con fecha fin sin fecha unica
         $this->post('/admin/lapses/edit-dates/' . $lapses_date->id, [
-            'is_single_date' => False,
+            'is_single_date' => false,
             'start_date' => $this->today->addDays(5),
-            'end_date' => $this->today->addDays(20)
+            'end_date' => $this->today->addDays(20),
         ]); //Enviamos el formulario con fechas Pendientes y sin fecha unica
 
         $lapseDateStatus = $this->getLapsesDatesStatus($lapses_date); //Obtenemos el status del LapseDate
