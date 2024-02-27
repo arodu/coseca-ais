@@ -40,15 +40,13 @@ class AppUsersController extends AppAdminController
      */
     public function view(int|string|null $id = null): void
     {
-        $user = $this->AppUsers->get($id, [
-            'contain' => [
-                'TenantFilters' => [
-                    'Tenants' => function (SelectQuery $q) {
-                        return $q->applyOptions(['skipFilterTenant' => true]);
-                    },
-                ],
-                'SocialAccounts',
+        $user = $this->AppUsers->get($id, contain: [
+            'TenantFilters' => [
+                'Tenants' => function (SelectQuery $q) {
+                    return $q->applyOptions(['skipFilterTenant' => true]);
+                },
             ],
+            'SocialAccounts',
         ]);
 
         $this->set(compact('user'));
@@ -78,9 +76,7 @@ class AppUsersController extends AppAdminController
      */
     public function edit(int|string|null $id = null)
     {
-        $user = $this->AppUsers->get($id, [
-            'contain' => [],
-        ]);
+        $user = $this->AppUsers->get($id);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->AppUsers->patchEntity($user, $this->request->getData());
             if ($this->AppUsers->save($user)) {

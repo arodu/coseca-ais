@@ -87,7 +87,8 @@ class TenantsController extends AppAdminController
      */
     public function viewProgram(?string $program_id = null): void
     {
-        $program = $this->Programs->get($program_id, 
+        $program = $this->Programs->get(
+            $program_id,
             contain: [
                 'Tenants',
                 'InterestAreas',
