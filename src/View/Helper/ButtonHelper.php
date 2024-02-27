@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\View\Helper;
@@ -349,8 +348,7 @@ class ButtonHelper extends Helper
         */
 
         debug($options);
-        exit();
-
+        exit;
 
         $button = $this->Html->tag('button', '', [
             'type' => 'button',
@@ -387,7 +385,6 @@ class ButtonHelper extends Helper
             'class' => 'dropdown-item',
         ]);
     }
-
 
     /**
      * @param array|string $class

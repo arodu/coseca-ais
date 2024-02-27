@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use App\Controller\Traits\TrashIndexTrait;
 use Cake\Event\EventInterface;
 
 /**
@@ -14,7 +13,9 @@ use Cake\Event\EventInterface;
  */
 class InstitutionsController extends AppAdminController
 {
-    
+    /**
+     * @return void
+     */
     public function initialize(): void
     {
         parent::initialize();

@@ -11,7 +11,7 @@ trait RecordStatusTrait
      * Returns the record status for the entity.
      *
      * @param array $options Additional options for retrieving the record status.
-     * @return RecordStatus The record status object.
+     * @return \App\Enum\RecordStatus The record status object.
      */
     public function recordStatus(array $options = []): RecordStatus
     {

@@ -1,11 +1,9 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Component;
 
 use Cake\Controller\Component;
-use Cake\Controller\ComponentRegistry;
 use Cake\Event\EventInterface;
 use Cake\ORM\Query;
 
@@ -46,10 +44,10 @@ class TrashComponent extends Component
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     protected function trashed(): bool
     {
-        return (bool) $this->getController()->getRequest()->getQuery('trash') ?? false;
+        return (bool)$this->getController()->getRequest()->getQuery('trash') ?? false;
     }
 }
