@@ -14,11 +14,21 @@ use Cake\Event\EventInterface;
 class InstitutionsController extends AppAdminController
 {
     /**
+     * @return void
+     */
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->loadComponent('Trash');
+    }
+
+    /**
      * @param \Cake\Event\EventInterface $event
      * @return void
      */
     public function beforeRender(EventInterface $event)
     {
+        parent::beforeRender($event);
         $this->MenuLte->activeItem('institutions');
     }
 
@@ -43,6 +53,8 @@ class InstitutionsController extends AppAdminController
         $filtered = $this->Institutions->queryWasFiltered();
         $tenants = $this->Institutions->Tenants->find('listLabel');
         // /filterLogic
+
+        $query = $this->Trash->filterQuery($query);
 
         $institutions = $this->paginate($query);
 

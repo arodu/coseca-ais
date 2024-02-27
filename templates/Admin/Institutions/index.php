@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Institution[]|\Cake\Collection\CollectionInterface $institutions
@@ -58,7 +59,7 @@ $this->Breadcrumbs->add([
         <h2 class="card-title">
             <!-- -->
         </h2>
-        <div class="d-flex ml-auto">
+        <div class="d-flex ml-auto gap-3">
             <?= $this->Paginator->limitControl([], null, [
                 'label' => false,
                 'class' => 'form-control-sm',
@@ -68,6 +69,20 @@ $this->Breadcrumbs->add([
                 'url' => ['action' => 'add', 'prefix' => 'Admin'],
                 //'label' => __('Agregar Institución'),
                 'class' => 'btn-sm ml-2',
+            ]) ?>
+
+            <?= $this->Button->dropdown([
+                'class' => 'btn-sm btn-flat',
+                'group' => [
+                    'class' => 'ml-2',
+                ],
+                'menu' => [
+                    'class' => 'dropdown-menu-right',
+                ],
+                'items' => [
+                    ['label' => __('Eliminados'), 'url' => ['action' => 'index', '?' => ['trash' => 1]]],
+                    ['label' => __('Todos'), 'url' => ['action' => 'index']],
+                ],
             ]) ?>
         </div>
     </div>
@@ -89,7 +104,7 @@ $this->Breadcrumbs->add([
                 <?php foreach ($institutions as $institution) : ?>
                     <tr>
                         <td><?= $this->Html->link(h($institution->name), ['action' => 'view', $institution->id, 'prefix' => 'Admin'], ['class' => '', 'escape' => false]) ?></td>
-                        <td><?= ($institution->active) ? __('Yes') : __('No') ?></td>
+                        <td><?= $this->App->badge($institution->recordStatus()) ?></td>
                         <td><?= h($institution->contact_person) ?></td>
                         <td><?= h($institution->contact_phone) ?></td>
                         <td><?= h($institution->contact_email) ?></td>

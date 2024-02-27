@@ -44,6 +44,9 @@ class TutorsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('QueryFilter.QueryFilter');
+        $this->addBehavior('Timestamp');
+        $this->addBehavior('Muffin/Trash.Trash');
+        $this->addBehavior('Muffin/Footprint.Footprint');
 
         $this->belongsTo('Tenants', [
             'foreignKey' => 'tenant_id',

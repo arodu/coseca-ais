@@ -45,6 +45,9 @@ class InstitutionsTable extends Table
 
         $this->addBehavior('QueryFilter.QueryFilter');
         $this->addBehavior('FilterTenant');
+        $this->addBehavior('Muffin/Trash.Trash');
+        $this->addBehavior('Timestamp');
+        $this->addBehavior('Muffin/Footprint.Footprint');
 
         $this->belongsTo('Tenants', [
             'foreignKey' => 'tenant_id',

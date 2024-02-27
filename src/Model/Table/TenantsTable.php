@@ -51,6 +51,7 @@ class TenantsTable extends Table
         $this->addBehavior('FilterTenant', [
             'field' => 'id',
         ]);
+        //$this->addBehavior('Muffin/Trash.Trash');
 
         $this->hasMany('Lapses', [
             'foreignKey' => 'tenant_id',

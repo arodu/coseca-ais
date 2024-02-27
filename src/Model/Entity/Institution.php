@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
+use App\Model\Entity\Traits\RecordStatusTrait;
 use Cake\ORM\Entity;
 
 /**
@@ -21,6 +22,8 @@ use Cake\ORM\Entity;
  */
 class Institution extends Entity
 {
+    use RecordStatusTrait;
+
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
@@ -45,5 +48,11 @@ class Institution extends Entity
         'municipality' => true,
         'parish_id' => true,
         'parish' => true,
+        'created' => true,
+        'created_by' => true,
+        'modified' => true,
+        'modified_by' => true,
+        'deleted' => true,
+        'deleted_by' => true,
     ];
 }
