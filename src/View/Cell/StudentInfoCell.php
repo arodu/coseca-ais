@@ -85,7 +85,8 @@ class StudentInfoCell extends Cell
     protected function getStudent(int|string $student_id): ?Student
     {
         return CacheRequest::remember('student_info_' . $student_id, function () use ($student_id) {
-            return $this->Students->get($student_id,
+            return $this->Students->get(
+                $student_id,
                 contain: [
                     'AppUsers',
                     'Tenants',

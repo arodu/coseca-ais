@@ -37,7 +37,7 @@ class CoursesController extends AppAdminController
      * @param string|int|null $id
      * @return \Cake\Http\Response|null|void
      */
-    public function edit(int|string|null $student_id = null, int|string|null $id = null)
+    public function edit(int|string|null $student_id = null, int|string|null $id = null): Response|null
     {
         $student = $this->Students->get($student_id);
 
@@ -103,7 +103,7 @@ class CoursesController extends AppAdminController
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete(?string $id = null)
+    public function delete(?string $id = null): Response|null
     {
         $this->request->allowMethod(['post', 'delete']);
         $studentCourse = $this->Students->StudentCourses->get($id);

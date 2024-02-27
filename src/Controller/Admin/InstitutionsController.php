@@ -28,7 +28,7 @@ class InstitutionsController extends AppAdminController
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function index()
+    public function index(): Response|null
     {
         $this->paginate = [
             'order' => ['Institutions.name' => 'ASC'],
@@ -57,7 +57,7 @@ class InstitutionsController extends AppAdminController
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view(?string $id = null)
+    public function view(?string $id = null): Response|null
     {
         $institution = $this->Institutions->get($id, contain: [
             'Tenants',
@@ -75,7 +75,7 @@ class InstitutionsController extends AppAdminController
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function add(): Response|null
     {
         $institution = $this->Institutions->newEmptyEntity();
         if ($this->request->is('post')) {
@@ -95,7 +95,7 @@ class InstitutionsController extends AppAdminController
      * @param string|int $id
      * @return \Cake\Http\Response|null|void
      */
-    public function addProject(int|string|null $id = null)
+    public function addProject(int|string|null $id = null): Response|null
     {
         $institution = $this->Institutions->get($id, contain: ['Tenants']);
         $institutionProject = $this->Institutions->InstitutionProjects->newEmptyEntity();
@@ -123,7 +123,7 @@ class InstitutionsController extends AppAdminController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit(?string $id = null)
+    public function edit(?string $id = null): Response|null
     {
         $institution = $this->Institutions->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -143,7 +143,7 @@ class InstitutionsController extends AppAdminController
      * @param string|int $project_id
      * @return \Cake\Http\Response|null|void
      */
-    public function editProject(int|string|null $project_id = null)
+    public function editProject(int|string|null $project_id = null): Response|null
     {
         $institutionProject = $this->Institutions->InstitutionProjects->get($project_id);
         $institution = $this->Institutions->get($institutionProject->institution_id, contain: ['Tenants']);
@@ -170,7 +170,7 @@ class InstitutionsController extends AppAdminController
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete(?string $id = null)
+    public function delete(?string $id = null): Response|null
     {
         $this->request->allowMethod(['post', 'delete']);
         $institution = $this->Institutions->get($id);

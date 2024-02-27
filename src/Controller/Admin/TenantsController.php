@@ -41,7 +41,7 @@ class TenantsController extends AppAdminController
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function index()
+    public function index(): Response|null
     {
         $this->paginate = [];
 
@@ -61,7 +61,7 @@ class TenantsController extends AppAdminController
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view(?string $id = null)
+    public function view(?string $id = null): Response|null
     {
         $tenant = $this->Tenants->get($id, contain: [
             'Programs',
@@ -86,7 +86,7 @@ class TenantsController extends AppAdminController
      * @param string $program_id
      * @return \Cake\Http\Response|null|void
      */
-    public function viewProgram(?string $program_id = null)
+    public function viewProgram(?string $program_id = null): Response|null
     {
         $program = $this->Programs->get($program_id, [
             'contain' => [
@@ -127,7 +127,7 @@ class TenantsController extends AppAdminController
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function add(): Response|null
     {
         $tenant = $this->Tenants->newEmptyEntity();
         if ($this->request->is('post')) {
@@ -151,7 +151,7 @@ class TenantsController extends AppAdminController
     /**
      * @return \Cake\Http\Response|null|void
      */
-    public function addProgram()
+    public function addProgram(): Response|null
     {
         $program = $this->Programs->newEmptyEntity();
         if ($this->request->is('post')) {
@@ -172,7 +172,7 @@ class TenantsController extends AppAdminController
      * @param string|int $program_id
      * @return \Cake\Http\Response|null|void
      */
-    public function addInterestArea(int|string|null $program_id = null)
+    public function addInterestArea(int|string|null $program_id = null): Response|null
     {
         $interestArea = $this->Programs->InterestAreas->newEmptyEntity();
         $program = $this->Programs->get($program_id);
@@ -197,7 +197,7 @@ class TenantsController extends AppAdminController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit(?string $id = null)
+    public function edit(?string $id = null): Response|null
     {
         $tenant = $this->Tenants->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -217,7 +217,7 @@ class TenantsController extends AppAdminController
      * @param string|int $program_id
      * @return \Cake\Http\Response|null|void
      */
-    public function editProgram(int|string|null $program_id = null)
+    public function editProgram(int|string|null $program_id = null): Response|null
     {
         $program = $this->Programs->get($program_id);
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -236,7 +236,7 @@ class TenantsController extends AppAdminController
      * @param string|int $interestArea_id
      * @return \Cake\Http\Response|null|void
      */
-    public function editInterestArea(int|string|null $interestArea_id = null)
+    public function editInterestArea(int|string|null $interestArea_id = null): Response|null
     {
         $interestArea = $this->Programs->InterestAreas->get($interestArea_id);
         $program = $this->Programs->get($interestArea->program_id);
@@ -259,7 +259,7 @@ class TenantsController extends AppAdminController
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete(?string $id = null)
+    public function delete(?string $id = null): Response|null
     {
         $this->request->allowMethod(['post', 'delete']);
         $tenant = $this->Tenants->get($id);

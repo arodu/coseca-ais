@@ -5,6 +5,7 @@ namespace App\View\Helper;
 
 use App\Enum\ActionColor;
 use App\Enum\Button;
+use BadMethodCallException;
 use Cake\Utility\Hash;
 use Cake\View\Helper;
 use Cake\View\StringTemplateTrait;
@@ -27,7 +28,7 @@ class ButtonHelper extends Helper
      *
      * @var array<string, mixed>
      */
-    protected $_defaultConfig = [
+    protected array $_defaultConfig = [
         'icon_class' => 'fa-fw',
         'itemDefaultConfig' => [
             'type' => 'button',
@@ -212,7 +213,7 @@ class ButtonHelper extends Helper
         $this->requiredParams($options, ['actionColor']);
 
         if (empty($options['label']) && empty($options['icon'])) {
-            throw new \InvalidArgumentException('label or icon param is required');
+            throw new InvalidArgumentException('label or icon param is required');
         }
 
         if (isset($options['displayCondition'])) {
@@ -266,7 +267,7 @@ class ButtonHelper extends Helper
     }
 
     /**
-     * @param string|\App\Enum\Button $item
+     * @param \App\Enum\Button|string $item
      * @param array $options
      * @return string
      * @throws \InvalidArgumentException
@@ -285,7 +286,7 @@ class ButtonHelper extends Helper
             Button::RENDER_LINK => $this->link($options),
             Button::RENDER_BUTTON => $this->button($options),
             Button::RENDER_POST_LINK => $this->postLink($options),
-            default => throw new \InvalidArgumentException('Invalid render method'),
+            default => throw new InvalidArgumentException('Invalid render method'),
         };
     }
 
@@ -299,7 +300,7 @@ class ButtonHelper extends Helper
     {
         foreach ($required as $param) {
             if (empty($options[$param])) {
-                throw new \InvalidArgumentException($param . ' param is required');
+                throw new InvalidArgumentException($param . ' param is required');
             }
         }
     }
@@ -317,7 +318,7 @@ class ButtonHelper extends Helper
             return $this->get($item, $params[0] ?? []);
         }
 
-        throw new \BadMethodCallException('Method ' . $method . ' does not exist');
+        throw new BadMethodCallException('Method ' . $method . ' does not exist');
     }
 
     /**

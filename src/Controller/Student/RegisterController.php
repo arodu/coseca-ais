@@ -29,7 +29,7 @@ class RegisterController extends AppStudentController
     /**
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function edit()
+    public function edit(): Response|null
     {
         $currentStudent = $this->getCurrentStudent();
 

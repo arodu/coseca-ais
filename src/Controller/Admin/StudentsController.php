@@ -42,7 +42,7 @@ class StudentsController extends AppAdminController
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function index()
+    public function index(): Response|null
     {
         $this->paginate = [
             'sortableFields' => [
@@ -79,7 +79,7 @@ class StudentsController extends AppAdminController
      * @param \Cake\ORM\Query\SelectQuery $query
      * @return \Cake\Http\Response|null|void
      */
-    protected function queryToCsv(SelectQuery $query)
+    protected function queryToCsv(SelectQuery $query): Response|null
     {
         $query = $query->contain([
             'StudentData' => ['InterestAreas'],
@@ -112,7 +112,7 @@ class StudentsController extends AppAdminController
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view(?string $id = null)
+    public function view(?string $id = null): Response|null
     {
         $student = $this->Students
             ->find('withStudentAdscriptions')
@@ -130,7 +130,7 @@ class StudentsController extends AppAdminController
      * @param string|int $id
      * @return \Cake\Http\Response|null|void
      */
-    public function info(int|string|null $id = null)
+    public function info(int|string|null $id = null): Response|null
     {
         $student = $this->Students->get($id, contain: ['AppUsers', 'StudentData' => ['InterestAreas']]);
 
@@ -141,7 +141,7 @@ class StudentsController extends AppAdminController
      * @param string|int $id
      * @return \Cake\Http\Response|null|void
      */
-    public function adscriptions(int|string|null $id = null)
+    public function adscriptions(int|string|null $id = null): Response|null
     {
         $student = $this->Students->find('withStudentAdscriptions')
             ->where(['Students.id' => $id])
@@ -154,7 +154,7 @@ class StudentsController extends AppAdminController
      * @param string|int $id
      * @return \Cake\Http\Response|null|void
      */
-    public function settings(int|string|null $id = null)
+    public function settings(int|string|null $id = null): Response|null
     {
         $student = $this->Students->get($id, contain: ['AppUsers']);
 
@@ -165,7 +165,7 @@ class StudentsController extends AppAdminController
      * @param string|int $id
      * @return \Cake\Http\Response|null|void
      */
-    public function tracking(int|string|null $id = null)
+    public function tracking(int|string|null $id = null): Response|null
     {
         $student = $this->Students->get($id);
         $trackingView = $this->cell('TrackingView', [
@@ -192,7 +192,7 @@ class StudentsController extends AppAdminController
      * @param string|int $id
      * @return \Cake\Http\Response|null|void
      */
-    public function prints(int|string|null $id = null)
+    public function prints(int|string|null $id = null): Response|null
     {
         $this->set('student_id', $id);
     }
@@ -202,7 +202,7 @@ class StudentsController extends AppAdminController
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function add(): Response|null
     {
         $student = $this->Students->newEmptyEntity();
         if ($this->request->is('post')) {
@@ -225,7 +225,7 @@ class StudentsController extends AppAdminController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit(?string $id = null)
+    public function edit(?string $id = null): Response|null
     {
         $student = $this->Students->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -248,7 +248,7 @@ class StudentsController extends AppAdminController
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete(?string $id = null)
+    public function delete(?string $id = null): Response|null
     {
         $this->request->allowMethod(['post', 'delete']);
         $student = $this->Students->get($id);
@@ -265,7 +265,7 @@ class StudentsController extends AppAdminController
      * @param array $ids
      * @return \Cake\Http\Response|null|void Redirects to index.
      */
-    protected function closeStageCourse(array $ids = [])
+    protected function closeStageCourse(array $ids = []): Response|null
     {
         if (empty($ids)) {
             $this->Flash->warning(__('No se han seleccionado estudiantes'));
@@ -284,7 +284,7 @@ class StudentsController extends AppAdminController
      * @param string|int $id
      * @return \Cake\Http\Response|null|void
      */
-    public function changeEmail(int|string|null $id = null)
+    public function changeEmail(int|string|null $id = null): Response|null
     {
         $student = $this->Students->get($id, contain: ['AppUsers']);
 
@@ -304,7 +304,7 @@ class StudentsController extends AppAdminController
      * @param string|int $id
      * @return \Cake\Http\Response|null|void
      */
-    public function newProgram(string $id)
+    public function newProgram(string $id): Response|null
     {
         $this->request->allowMethod(['post', 'put']);
 
@@ -338,7 +338,7 @@ class StudentsController extends AppAdminController
      * @param string|int $id
      * @return \Cake\Http\Response|null|void
      */
-    public function deactivate(string $id)
+    public function deactivate(string $id): Response|null
     {
         $this->request->allowMethod(['post', 'put']);
         $student = $this->Students->get($id);
@@ -356,7 +356,7 @@ class StudentsController extends AppAdminController
      * @param string|int $id
      * @return \Cake\Http\Response|null|void
      */
-    public function reactivate(string $id)
+    public function reactivate(string $id): Response|null
     {
         $this->request->allowMethod(['post', 'put']);
         $student = $this->Students->get($id);

@@ -23,7 +23,7 @@ class StudentStagesController extends AppAdminController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit(?string $id = null)
+    public function edit(?string $id = null): Response|null
     {
         $studentStage = $this->StudentStages->get($id, contain: ['Students']);
         $student = $studentStage->student;
@@ -47,7 +47,7 @@ class StudentStagesController extends AppAdminController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function forcedClose(?string $id = null)
+    public function forcedClose(?string $id = null): Response|null
     {
         $this->request->allowMethod(['patch', 'post', 'put']);
         $studentStage = $this->StudentStages->get($id);

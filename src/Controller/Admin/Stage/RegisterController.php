@@ -34,7 +34,7 @@ class RegisterController extends AppAdminController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($student_id = null)
+    public function edit($student_id = null): Response|null
     {
         [
             'success' => $success,

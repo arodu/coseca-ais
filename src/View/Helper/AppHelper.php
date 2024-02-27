@@ -11,8 +11,8 @@ use Cake\View\Helper;
 use CakeLteTools\Enum\BadgeInterface;
 use CakeLteTools\Enum\Color;
 use CakeLteTools\Utility\FaIcon;
-use Exception;
 use CakeLteTools\Utility\Html;
+use Exception;
 
 /**
  * App helper
