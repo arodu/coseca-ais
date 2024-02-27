@@ -49,9 +49,9 @@ class TrackingTestCommand extends Command
      *
      * @param \Cake\Console\Arguments $args The command arguments.
      * @param \Cake\Console\ConsoleIo $io The console io
-     * @return int|null|void The exit code or null for success
+     * @return void The exit code or null for success
      */
-    public function execute(Arguments $args, ConsoleIo $io): null|int|null
+    public function execute(Arguments $args, ConsoleIo $io): void
     {
         $faker = Factory::create();
         $adscriptionId = $args->getOption('adscription_id');
