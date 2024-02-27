@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Controller\Student;
 
 use App\Controller\Traits\Stage\TrackingProcessTrait;
-use Cake\Http\Response;
 use Cake\View\CellTrait;
 
 /**
@@ -31,9 +30,9 @@ class TrackingController extends AppStudentController
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return void Renders view
      */
-    public function index(): Response|null
+    public function index(): void
     {
         $student_id = $this->getCurrentStudent()->id;
         $trackingView = $this->cell('TrackingView', [
@@ -48,9 +47,9 @@ class TrackingController extends AppStudentController
     }
 
     /**
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return void Renders view
      */
-    public function add(): Response|null
+    public function add()
     {
         $this->request->allowMethod(['post']);
         [
@@ -64,9 +63,9 @@ class TrackingController extends AppStudentController
 
     /**
      * @param int $tracking_id
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return void Renders view
      */
-    public function delete(int $tracking_id): Response|null
+    public function delete(int $tracking_id)
     {
         $this->request->allowMethod(['post', 'delete']);
         $this->processDelete((int)$tracking_id);
@@ -75,9 +74,9 @@ class TrackingController extends AppStudentController
     }
 
     /**
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return void Renders view
      */
-    public function closeStage(): Response|null
+    public function closeStage()
     {
         $student_id = $this->getCurrentStudent()->id;
         $this->processCloseStage((int)$student_id);

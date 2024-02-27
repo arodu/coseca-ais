@@ -7,7 +7,6 @@ use App\Controller\Admin\AppAdminController;
 use App\Controller\Traits\Stage\AdscriptionsProcessTrait;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
-use Cake\Http\Response;
 use Cake\Log\Log;
 use CakeLteTools\Controller\Traits\RedirectLogicTrait;
 use Exception;
@@ -37,9 +36,9 @@ class AdscriptionsController extends AppAdminController
      * Add method
      *
      * @param string|int|null $student_id Student id.
-     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
+     * @return void Redirects on successful add, renders view otherwise.
      */
-    public function add(int|string|null $student_id = null): Response|null
+    public function add(int|string|null $student_id = null)
     {
         $student = $this->StudentAdscriptions->Students->get($student_id);
         $student_adscription = $this->StudentAdscriptions->newEmptyEntity();
@@ -96,10 +95,10 @@ class AdscriptionsController extends AppAdminController
      * Edit method
      *
      * @param string|null $id StudentAdscription id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
+     * @return void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit(?string $id = null): Response|null
+    public function edit(?string $id = null)
     {
         $adscription = $this->StudentAdscriptions->get($id, contain: [
             'InstitutionProjects' => ['Institutions'],
@@ -132,10 +131,10 @@ class AdscriptionsController extends AppAdminController
      *
      * @param string $status StudentAdscription id.
      * @param string|int $id StudentAdscription id.
-     * @return \Cake\Http\Response|null|void Redirects to index.
+     * @return void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function changeStatus(string $status, int|string $id): Response|null
+    public function changeStatus(string $status, int|string $id)
     {
         $this->request->allowMethod(['post', 'put']);
 
@@ -148,10 +147,10 @@ class AdscriptionsController extends AppAdminController
      * Set principal method
      *
      * @param string|null $id StudentAdscription id.
-     * @return \Cake\Http\Response|null|void Redirects to index.
+     * @return void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function setPrincipal(?string $id): Response|null
+    public function setPrincipal(?string $id)
     {
         $this->request->allowMethod(['post', 'put']);
 

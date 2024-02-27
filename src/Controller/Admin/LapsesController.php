@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use Cake\Event\EventInterface;
-use Cake\Http\Response;
 use Cake\Log\Log;
 use Exception;
 
@@ -29,9 +28,9 @@ class LapsesController extends AppAdminController
      * Add method
      *
      * @param string|null $tenant_id Tenant id.
-     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
+     * @return void Redirects on successful add, renders view otherwise.
      */
-    public function add(?string $tenant_id): Response|null
+    public function add(?string $tenant_id)
     {
         $lapse = $this->Lapses->newEmptyEntity();
         if ($this->request->is('post')) {
@@ -51,10 +50,10 @@ class LapsesController extends AppAdminController
      * Edit method
      *
      * @param string|null $id Lapse id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
+     * @return void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit(?string $id = null): Response|null
+    public function edit(?string $id = null)
     {
         $lapse = $this->Lapses->get($id, contain: ['Tenants']);
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -71,9 +70,9 @@ class LapsesController extends AppAdminController
 
     /**
      * @param string|int $lapse_dates_id
-     * @return \Cake\Http\Response|null|void
+     * @return void
      */
-    public function editDates(int|string|null $lapse_dates_id = null): Response|null
+    public function editDates(int|string|null $lapse_dates_id = null)
     {
         $lapse_date = $this->Lapses->LapseDates->get($lapse_dates_id, [
             'contain' => ['Lapses' => ['Tenants']],
@@ -96,10 +95,10 @@ class LapsesController extends AppAdminController
      *
      * @param string|null $id Lapse id.
      * @param int $active Active value
-     * @return \Cake\Http\Response|null|void Redirects to index.
+     * @return void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function changeActive(?string $id = null, int $active = 0): Response|null
+    public function changeActive(?string $id = null, int $active = 0)
     {
         $this->request->allowMethod(['post', 'put']);
 

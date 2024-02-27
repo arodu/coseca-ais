@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Model\Field\StageStatus;
-use Cake\Http\Response;
 use Cake\ORM\Exception\PersistenceFailedException;
 use Throwable;
 
@@ -20,10 +19,10 @@ class StudentStagesController extends AppAdminController
      * Edit method
      *
      * @param string|null $id StudentStage id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
+     * @return void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit(?string $id = null): Response|null
+    public function edit(?string $id = null)
     {
         $studentStage = $this->StudentStages->get($id, contain: ['Students']);
         $student = $studentStage->student;
@@ -44,10 +43,10 @@ class StudentStagesController extends AppAdminController
      * forcedClose method
      *
      * @param string|null $id StudentStage id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
+     * @return void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function forcedClose(?string $id = null): Response|null
+    public function forcedClose(?string $id = null)
     {
         $this->request->allowMethod(['patch', 'post', 'put']);
         $studentStage = $this->StudentStages->get($id);

@@ -5,7 +5,6 @@ namespace App\Controller\Admin;
 
 use App\Model\Field\UserRole;
 use Cake\Event\EventInterface;
-use Cake\Http\Response;
 use Cake\ORM\Query\SelectQuery;
 
 class AppUsersController extends AppAdminController
@@ -19,9 +18,9 @@ class AppUsersController extends AppAdminController
     }
 
     /**
-     * @return \Cake\Http\Response|null|void
+     * @return void
      */
-    public function index(): Response|null
+    public function index(): void
     {
         $this->paginate = [];
 
@@ -37,9 +36,9 @@ class AppUsersController extends AppAdminController
 
     /**
      * @param string|int|null $id
-     * @return \Cake\Http\Response|null|void
+     * @return void
      */
-    public function view(int|string|null $id = null): Response|null
+    public function view(int|string|null $id = null): void
     {
         $user = $this->AppUsers->get($id, [
             'contain' => [
@@ -56,9 +55,9 @@ class AppUsersController extends AppAdminController
     }
 
     /**
-     * @return \Cake\Http\Response|null|void
+     * @return void
      */
-    public function add(): Response|null
+    public function add()
     {
         $user = $this->AppUsers->newEmptyEntity();
         if ($this->request->is('post')) {
@@ -75,9 +74,9 @@ class AppUsersController extends AppAdminController
 
     /**
      * @param string|int|null $id
-     * @return \Cake\Http\Response|null|void
+     * @return void
      */
-    public function edit(int|string|null $id = null): Response|null
+    public function edit(int|string|null $id = null)
     {
         $user = $this->AppUsers->get($id, [
             'contain' => [],
@@ -96,9 +95,9 @@ class AppUsersController extends AppAdminController
 
     /**
      * @param string|int|null $id
-     * @return \Cake\Http\Response|null|void
+     * @return void
      */
-    public function delete(int|string|null $id = null): Response|null
+    public function delete(int|string|null $id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
         $user = $this->AppUsers->get($id);

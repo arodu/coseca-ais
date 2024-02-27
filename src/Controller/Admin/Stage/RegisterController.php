@@ -6,7 +6,6 @@ namespace App\Controller\Admin\Stage;
 use App\Controller\Admin\AppAdminController;
 use App\Controller\Traits\ActionValidateTrait;
 use App\Controller\Traits\Stage\RegisterProcessTrait;
-use Cake\Http\Response;
 
 /**
  * Register Controller
@@ -31,10 +30,10 @@ class RegisterController extends AppAdminController
      * Edit method
      *
      * @param null $student_id Register Stage id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
+     * @return void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($student_id = null): Response|null
+    public function edit($student_id = null)
     {
         [
             'success' => $success,

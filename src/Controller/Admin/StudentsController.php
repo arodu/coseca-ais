@@ -8,7 +8,6 @@ use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use App\Model\Field\StudentType;
 use Cake\Event\EventInterface;
-use Cake\Http\Response;
 use Cake\ORM\Query\SelectQuery;
 use Cake\View\CellTrait;
 use CakeLteTools\Controller\Traits\BulkActionsTrait;
@@ -40,9 +39,9 @@ class StudentsController extends AppAdminController
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return void Renders view
      */
-    public function index(): Response|null
+    public function index()
     {
         $this->paginate = [
             'sortableFields' => [
@@ -77,9 +76,9 @@ class StudentsController extends AppAdminController
 
     /**
      * @param \Cake\ORM\Query\SelectQuery $query
-     * @return \Cake\Http\Response|null|void
+     * @return void
      */
-    protected function queryToCsv(SelectQuery $query): Response|null
+    protected function queryToCsv(SelectQuery $query)
     {
         $query = $query->contain([
             'StudentData' => ['InterestAreas'],
@@ -109,10 +108,10 @@ class StudentsController extends AppAdminController
      * View method
      *
      * @param string|null $id Student id.
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view(?string $id = null): Response|null
+    public function view(?string $id = null): void
     {
         $student = $this->Students
             ->find('withStudentAdscriptions')
@@ -128,9 +127,9 @@ class StudentsController extends AppAdminController
 
     /**
      * @param string|int $id
-     * @return \Cake\Http\Response|null|void
+     * @return void
      */
-    public function info(int|string|null $id = null): Response|null
+    public function info(int|string|null $id = null): void
     {
         $student = $this->Students->get($id, contain: ['AppUsers', 'StudentData' => ['InterestAreas']]);
 
@@ -139,9 +138,9 @@ class StudentsController extends AppAdminController
 
     /**
      * @param string|int $id
-     * @return \Cake\Http\Response|null|void
+     * @return void
      */
-    public function adscriptions(int|string|null $id = null): Response|null
+    public function adscriptions(int|string|null $id = null): void
     {
         $student = $this->Students->find('withStudentAdscriptions')
             ->where(['Students.id' => $id])
@@ -152,9 +151,9 @@ class StudentsController extends AppAdminController
 
     /**
      * @param string|int $id
-     * @return \Cake\Http\Response|null|void
+     * @return void
      */
-    public function settings(int|string|null $id = null): Response|null
+    public function settings(int|string|null $id = null): void
     {
         $student = $this->Students->get($id, contain: ['AppUsers']);
 
@@ -163,9 +162,9 @@ class StudentsController extends AppAdminController
 
     /**
      * @param string|int $id
-     * @return \Cake\Http\Response|null|void
+     * @return void
      */
-    public function tracking(int|string|null $id = null): Response|null
+    public function tracking(int|string|null $id = null): void
     {
         $student = $this->Students->get($id);
         $trackingView = $this->cell('TrackingView', [
@@ -190,9 +189,9 @@ class StudentsController extends AppAdminController
 
     /**
      * @param string|int $id
-     * @return \Cake\Http\Response|null|void
+     * @return void
      */
-    public function prints(int|string|null $id = null): Response|null
+    public function prints(int|string|null $id = null): void
     {
         $this->set('student_id', $id);
     }
@@ -200,9 +199,9 @@ class StudentsController extends AppAdminController
     /**
      * Add method
      *
-     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
+     * @return void Redirects on successful add, renders view otherwise.
      */
-    public function add(): Response|null
+    public function add()
     {
         $student = $this->Students->newEmptyEntity();
         if ($this->request->is('post')) {
@@ -222,10 +221,10 @@ class StudentsController extends AppAdminController
      * Edit method
      *
      * @param string|null $id Student id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
+     * @return void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit(?string $id = null): Response|null
+    public function edit(?string $id = null)
     {
         $student = $this->Students->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -245,10 +244,10 @@ class StudentsController extends AppAdminController
      * Delete method
      *
      * @param string|null $id Student id.
-     * @return \Cake\Http\Response|null|void Redirects to index.
+     * @return void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete(?string $id = null): Response|null
+    public function delete(?string $id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
         $student = $this->Students->get($id);
@@ -263,9 +262,9 @@ class StudentsController extends AppAdminController
 
     /**
      * @param array $ids
-     * @return \Cake\Http\Response|null|void Redirects to index.
+     * @return void Redirects to index.
      */
-    protected function closeStageCourse(array $ids = []): Response|null
+    protected function closeStageCourse(array $ids = [])
     {
         if (empty($ids)) {
             $this->Flash->warning(__('No se han seleccionado estudiantes'));
@@ -282,9 +281,9 @@ class StudentsController extends AppAdminController
 
     /**
      * @param string|int $id
-     * @return \Cake\Http\Response|null|void
+     * @return void
      */
-    public function changeEmail(int|string|null $id = null): Response|null
+    public function changeEmail(int|string|null $id = null)
     {
         $student = $this->Students->get($id, contain: ['AppUsers']);
 
@@ -302,9 +301,9 @@ class StudentsController extends AppAdminController
 
     /**
      * @param string|int $id
-     * @return \Cake\Http\Response|null|void
+     * @return void
      */
-    public function newProgram(string $id): Response|null
+    public function newProgram(string $id)
     {
         $this->request->allowMethod(['post', 'put']);
 
@@ -336,9 +335,9 @@ class StudentsController extends AppAdminController
 
     /**
      * @param string|int $id
-     * @return \Cake\Http\Response|null|void
+     * @return void
      */
-    public function deactivate(string $id): Response|null
+    public function deactivate(string $id)
     {
         $this->request->allowMethod(['post', 'put']);
         $student = $this->Students->get($id);
@@ -354,9 +353,9 @@ class StudentsController extends AppAdminController
 
     /**
      * @param string|int $id
-     * @return \Cake\Http\Response|null|void
+     * @return void
      */
-    public function reactivate(string $id): Response|null
+    public function reactivate(string $id)
     {
         $this->request->allowMethod(['post', 'put']);
         $student = $this->Students->get($id);

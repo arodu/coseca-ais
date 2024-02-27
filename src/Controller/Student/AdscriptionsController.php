@@ -5,7 +5,6 @@ namespace App\Controller\Student;
 
 use App\Controller\Traits\Stage\AdscriptionsProcessTrait;
 use App\Model\Field\AdscriptionStatus;
-use Cake\Http\Response;
 
 /**
  * StudentTracking Controller
@@ -19,9 +18,9 @@ class AdscriptionsController extends AppStudentController
     use AdscriptionsProcessTrait;
 
     /**
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return void Renders view
      */
-    public function close(): Response|null
+    public function close()
     {
         $this->request->allowMethod(['post', 'put']);
 

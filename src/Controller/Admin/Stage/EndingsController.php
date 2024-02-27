@@ -7,7 +7,6 @@ use App\Controller\AppController;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use Cake\Http\Exception\NotFoundException;
-use Cake\Http\Response;
 
 class EndingsController extends AppController
 {
@@ -23,9 +22,9 @@ class EndingsController extends AppController
 
     /**
      * @param string|int|null $student_id
-     * @return \Cake\Http\Response|null|void
+     * @return void
      */
-    public function closeStage(int|string|null $student_id = null): Response|null
+    public function closeStage(int|string|null $student_id = null)
     {
         $this->request->allowMethod(['post', 'put']);
         $endingStage = $this->StudentStages

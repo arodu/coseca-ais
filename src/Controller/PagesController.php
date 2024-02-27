@@ -18,7 +18,6 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Model\Field\UserRole;
-use Cake\Http\Response;
 use Cake\Log\Log;
 use Throwable;
 
@@ -43,9 +42,9 @@ class PagesController extends AppController
     }
 
     /**
-     * @return \Cake\Http\Response|null|void
+     * @return void
      */
-    public function home(): Response|null
+    public function home()
     {
         try {
             $identity = $this->Authentication->getIdentity();

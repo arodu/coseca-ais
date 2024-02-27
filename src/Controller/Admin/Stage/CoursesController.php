@@ -8,7 +8,6 @@ use App\Controller\Traits\ActionValidateTrait;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use Cake\Http\Exception\ForbiddenException;
-use Cake\Http\Response;
 use Cake\I18n\Date;
 use Cake\Log\Log;
 use Exception;
@@ -35,9 +34,9 @@ class CoursesController extends AppAdminController
     /**
      * @param string|int|null $student_id
      * @param string|int|null $id
-     * @return \Cake\Http\Response|null|void
+     * @return void
      */
-    public function edit(int|string|null $student_id = null, int|string|null $id = null): Response|null
+    public function edit(int|string|null $student_id = null, int|string|null $id = null)
     {
         $student = $this->Students->get($student_id);
 
@@ -100,10 +99,10 @@ class CoursesController extends AppAdminController
      * Delete method
      *
      * @param string|null $id Student Course id.
-     * @return \Cake\Http\Response|null|void Redirects to index.
+     * @return void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete(?string $id = null): Response|null
+    public function delete(?string $id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
         $studentCourse = $this->Students->StudentCourses->get($id);
