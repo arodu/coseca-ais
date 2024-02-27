@@ -139,7 +139,7 @@ class TenantsController extends AppAdminController
             }
             $this->Flash->error(__('The tenant could not be saved. Please, try again.'));
         }
-        $programs = $this->Tenants->Programs->find('list', [
+        $programs = $this->Tenants->Programs->find('list', options: [
             'groupField' => 'area_label',
             'limit' => 200,
         ]);

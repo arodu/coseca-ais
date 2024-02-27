@@ -85,7 +85,7 @@ class AdscriptionsController extends AppAdminController
         $institution_projects = $this->StudentAdscriptions->InstitutionProjects
             ->find('listForSelect', options: ['tenant_id' => $student->tenant_id]);
         $tutors = $this->StudentAdscriptions->Tutors
-            ->find('list', ['limit' => 200])
+            ->find('list', options: ['limit' => 200])
             ->where(['Tutors.tenant_id' => $student->tenant_id]);
         $back = $this->getRedirectUrl();
         $this->set(compact('student', 'student_adscription', 'institution_projects', 'tutors', 'back'));
