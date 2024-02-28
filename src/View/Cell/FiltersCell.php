@@ -75,4 +75,11 @@ class FiltersCell extends Cell
     {
         $this->set(compact('isFiltered', 'filterKey'));
     }
+
+    /**
+     * @return void
+     */
+    public function adminReports()
+    {
+    }
 }

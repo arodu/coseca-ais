@@ -57,3 +57,4 @@ webroot/adminlte
 webroot/coverage
 
 files/*
+.phpunit.cache
