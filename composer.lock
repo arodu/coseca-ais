@@ -55,12 +55,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/arodu/cakelte.git",
-                "reference": "35c0f3e0461b79b9d3d0efa09bfb179cf5acaba8"
+                "reference": "e8e1c924596147693489296bd2a5341ca89bc919"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/arodu/cakelte/zipball/35c0f3e0461b79b9d3d0efa09bfb179cf5acaba8",
-                "reference": "35c0f3e0461b79b9d3d0efa09bfb179cf5acaba8",
+                "url": "https://api.github.com/repos/arodu/cakelte/zipball/e8e1c924596147693489296bd2a5341ca89bc919",
+                "reference": "e8e1c924596147693489296bd2a5341ca89bc919",
                 "shasum": ""
             },
             "require": {
@@ -92,7 +92,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-02-13T16:10:57+00:00"
+            "time": "2024-02-28T12:50:57+00:00"
         },
         {
             "name": "arodu/cakelte-tools",
