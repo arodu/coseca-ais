@@ -27,7 +27,6 @@ class ReportsController extends AppAdminController
      */
     public function index()
     {
-
     }
 
     /**
@@ -87,8 +86,4 @@ class ReportsController extends AppAdminController
 
         $this->set(compact('tenant', 'lapseSelected', 'lapses', 'currentTab'));
     }
-
-
-
-
 }
