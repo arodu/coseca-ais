@@ -42,12 +42,11 @@ class TenantsController extends AppAdminController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['CurrentLapse'],
-        ];
+        $this->paginate = [];
 
         $query = $this->Tenants
-            ->find('withPrograms');
+            ->find('withPrograms')
+            ->contain(['CurrentLapse']);
 
         $tenants = $this->paginate($query);
 
@@ -263,16 +262,17 @@ class TenantsController extends AppAdminController
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $tenant = $this->Tenants->get($id);
-        if ($this->Tenants->delete($tenant)) {
-            $this->Flash->success(__('The tenant has been deleted.'));
-        } else {
-            $this->Flash->error(__('The tenant could not be deleted. Please, try again.'));
-        }
+    // No se deberia eliminar un Tenant
+    // public function delete($id = null)
+    // {
+    //     $this->request->allowMethod(['post', 'delete']);
+    //     $tenant = $this->Tenants->get($id);
+    //     if ($this->Tenants->delete($tenant)) {
+    //         $this->Flash->success(__('The tenant has been deleted.'));
+    //     } else {
+    //         $this->Flash->error(__('The tenant could not be deleted. Please, try again.'));
+    //     }
 
-        return $this->redirect(['action' => 'index']);
-    }
+    //     return $this->redirect(['action' => 'index']);
+    // }
 }

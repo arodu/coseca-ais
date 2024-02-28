@@ -9,6 +9,8 @@ use Cake\View\Helper;
 
 /**
  * Student helper
+ *
+ * @property \Authentication\View\Helper\IdentityHelper $Identity
  */
 class StudentHelper extends Helper
 {

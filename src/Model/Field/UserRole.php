@@ -15,12 +15,14 @@ enum UserRole: string implements ListInterface
     case STUDENT = 'student';
     case ADMIN = 'admin';
     case ASSISTANT = 'assistant';
+    case TUTOR = 'tutor';
     case ROOT = 'root';
 
-    public const GROUP_STUDENT = 'student';
-    public const GROUP_ADMIN = 'admin';
-    public const GROUP_STAFF = 'staff';
-    public const GROUP_ROOT = 'root';
+    public const GROUP_STUDENT = 'group_student';
+    public const GROUP_ADMIN = 'group_admin';
+    public const GROUP_STAFF = 'group_staff';
+    public const GROUP_TUTOR = 'group_tutor';
+    public const GROUP_ROOT = 'group_root';
 
     /**
      * @return string
@@ -30,6 +32,7 @@ enum UserRole: string implements ListInterface
         return match ($this) {
             static::STUDENT => __('Estudiante'),
             static::ASSISTANT => __('Asistente'),
+            static::TUTOR => __('Tutor Académico'),
             static::ADMIN => __('Admin'),
             static::ROOT => __('Root'),
             default => __('NaN'),
@@ -57,6 +60,9 @@ enum UserRole: string implements ListInterface
             ],
             static::GROUP_ROOT => [
                 static::ROOT,
+            ],
+            static::GROUP_TUTOR => [
+                static::TUTOR,
             ],
         ];
 

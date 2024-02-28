@@ -52,12 +52,12 @@ class AppView extends View
     public function initialize(): void
     {
         $this->initializeCakeLte();
-        $this->loadHelper('Authentication.Identity');
-        $this->loadHelper('ModalForm.ModalForm');
-        $this->loadHelper('CakeLteTools.DependentSelector');
-        $this->loadHelper('CakeLteTools.BulkAction');
-        $this->loadHelper('Button');
-        $this->loadHelper('Pdf');
+        $this->addHelper('Authentication.Identity');
+        $this->addHelper('ModalForm.ModalForm');
+        $this->addHelper('CakeLteTools.DependentSelector');
+        $this->addHelper('CakeLteTools.BulkAction');
+        $this->addHelper('Button');
+        $this->addHelper('Pdf');
     }
 
     /**
