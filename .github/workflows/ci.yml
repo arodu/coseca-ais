@@ -49,5 +49,7 @@ jobs:
       - name: Run PHP CodeSniffer
         run: composer cs-check
 
-      #- name: Run phpstan
-      #  run: vendor/bin/phpstan
+      - name: Run phpstan
+        if: success() || failure()
+        run: composer stan
+        continue-on-error: true

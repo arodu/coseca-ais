@@ -6,7 +6,7 @@
     "license": "MIT",
     "require": {
         "php": ">=8.1",
-        "arodu/cakelte": "dev-2.next-cake5",
+        "arodu/cakelte": "^2.0",
         "arodu/cakelte-tools": "dev-2.next-cake5",
         "arodu/cakephp-modal-form": "dev-2.next-cake5",
         "arodu/cakephp-query-filter": "dev-2.next-cake5",
