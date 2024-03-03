@@ -47,6 +47,7 @@ jobs:
           vendor/bin/phpunit
 
       - name: Run PHP CodeSniffer
+        if: success() || failure()
         run: composer cs-check
 
       - name: Run phpstan
