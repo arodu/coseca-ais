@@ -135,8 +135,12 @@ class AppHelper extends Helper
      * @param array $options
      * @return string
      */
-    public function badge(BadgeInterface $enum, array $options = []): string
+    public function badge(?BadgeInterface $enum, array $options = []): string
     {
+        if (empty($enum)) {
+            return $this->nan($options);
+        }
+
         $options = array_merge([
             'tag' => 'span',
         ], $options);
