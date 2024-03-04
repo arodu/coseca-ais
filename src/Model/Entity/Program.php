@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -21,6 +20,16 @@ use Cake\ORM\Entity;
  */
 class Program extends Entity
 {
+    use Traits\EnumFieldTrait;
+
+    /**
+     * @var array
+     */
+    protected $enumFields = [
+        'area' => ProgramArea::class,
+        'regime' => ProgramRegime::class,
+    ];
+
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
@@ -41,21 +50,41 @@ class Program extends Entity
     protected $_virtual = [
         'area_label',
         'regime_label',
-        'area_print_label',
     ];
 
-    public function _getAreaLabel(): ?string
+    /**
+     * @return string|null
+     */
+    protected function _getAreaLabel(): ?string
     {
-        return ProgramArea::tryFrom($this->area)?->label() ?? null;
+        return $this->enum('area')?->label() ?? null;
     }
 
-    public function _getRegimeLabel(): ?string
+    /**
+     * @return string|null
+     */
+    protected function _getRegimeLabel(): ?string
     {
-        return ProgramRegime::tryFrom($this->regime)?->label() ?? null;
+        return $this->enum('regime')?->label() ?? null;
     }
 
-    public function getAreaPrintLabel(): ?string
+    /**
+     * area_print_label
+     *
+     * @return string|null
+     */
+    protected function _getAreaPrintLabel(): ?string
     {
-        return ProgramArea::tryFrom($this->area)?->printLabel() ?? null;
+        return $this->enum('area')?->printLabel() ?? null;
+    }
+
+    /**
+     * area_print_logo
+     *
+     * @return string|null
+     */
+    protected function _getAreaPrintLogo(): ?string
+    {
+        return $this->enum('area')?->printLogo() ?? null;
     }
 }

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Field;
@@ -16,12 +15,14 @@ enum UserRole: string implements ListInterface
     case STUDENT = 'student';
     case ADMIN = 'admin';
     case ASSISTANT = 'assistant';
+    case TUTOR = 'tutor';
     case ROOT = 'root';
 
-    const GROUP_STUDENT = 'student';
-    const GROUP_ADMIN = 'admin';
-    const GROUP_STAFF = 'staff';
-    const GROUP_ROOT = 'root';
+    public const GROUP_STUDENT = 'group_student';
+    public const GROUP_ADMIN = 'group_admin';
+    public const GROUP_STAFF = 'group_staff';
+    public const GROUP_TUTOR = 'group_tutor';
+    public const GROUP_ROOT = 'group_root';
 
     /**
      * @return string
@@ -31,6 +32,7 @@ enum UserRole: string implements ListInterface
         return match ($this) {
             static::STUDENT => __('Estudiante'),
             static::ASSISTANT => __('Asistente'),
+            static::TUTOR => __('Tutor Académico'),
             static::ADMIN => __('Admin'),
             static::ROOT => __('Root'),
             default => __('NaN'),
@@ -59,14 +61,17 @@ enum UserRole: string implements ListInterface
             static::GROUP_ROOT => [
                 static::ROOT,
             ],
+            static::GROUP_TUTOR => [
+                static::TUTOR,
+            ],
         ];
 
         return $groups[$group_name] ?? [];
     }
 
     /**
-     * @param string $name Group name
-     * @return boolean
+     * @param string $group_name Group name
+     * @return bool
      */
     public function isGroup(string $group_name): bool
     {
@@ -74,7 +79,7 @@ enum UserRole: string implements ListInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isAdminGroup(): bool
     {
@@ -82,7 +87,7 @@ enum UserRole: string implements ListInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isStudentGroup(): bool
     {
@@ -90,7 +95,7 @@ enum UserRole: string implements ListInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isStaffGroup(): bool
     {
@@ -98,7 +103,7 @@ enum UserRole: string implements ListInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isRootGroup(): bool
     {

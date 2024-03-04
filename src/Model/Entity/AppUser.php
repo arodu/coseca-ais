@@ -1,11 +1,10 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
 
+use App\Model\Entity\Traits\EnumFieldTrait;
 use App\Model\Field\UserRole;
-use Cake\ORM\Entity;
 use CakeDC\Users\Model\Entity\User;
 
 /**
@@ -37,16 +36,20 @@ use CakeDC\Users\Model\Entity\User;
  */
 class AppUser extends User
 {
-    /**
-     * @return UserRole|null
-     */
-    public function getRole(): ?UserRole
-    {
-        return UserRole::tryFrom($this->role);
-    }
+    use EnumFieldTrait;
 
+    protected $enumFields = [
+        'role' => UserRole::class,
+    ];
+
+    /**
+     * @var array
+     */
     protected $_virtual = ['full_name'];
 
+    /**
+     * @return string
+     */
     protected function _getFullName(): string
     {
         return $this->first_name . ' ' . $this->last_name;

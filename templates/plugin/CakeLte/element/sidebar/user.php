@@ -10,6 +10,6 @@ $user = $this->Identity->get();
     </div>
     <div class="info">
         <div class="d-block"><?= h($user->full_name) ?></div>
-        <div class="d-block"><?= $this->Html->tag('span', $user->getRole()->value, ['class' => 'badge badge-light']) ?></div>
+        <div class="d-block"><?= $this->Html->tag('span', $user->enumRole()->value, ['class' => 'badge badge-light']) ?></div>
     </div>
 </div>

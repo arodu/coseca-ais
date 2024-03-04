@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -8,7 +7,6 @@ use App\Model\Field\StageField;
 use ArrayObject;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -17,7 +15,6 @@ use Cake\Validation\Validator;
  * LapseDates Model
  *
  * @property \App\Model\Table\LapsesTable&\Cake\ORM\Association\BelongsTo $Lapses
- *
  * @method \App\Model\Entity\LapseDate newEmptyEntity()
  * @method \App\Model\Entity\LapseDate newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\LapseDate[] newEntities(array $data, array $options = [])
@@ -95,6 +92,12 @@ class LapseDatesTable extends Table
         return $rules;
     }
 
+    /**
+     * @param \Cake\Event\EventInterface $event
+     * @param \Cake\Datasource\EntityInterface $entity
+     * @param \ArrayObject $options
+     * @return void
+     */
     public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
     {
         if ($entity->is_single_date) {
@@ -103,7 +106,7 @@ class LapseDatesTable extends Table
     }
 
     /**
-     * @param integer $lapse_id
+     * @param int $lapse_id
      * @return iterable
      */
     public function saveDefaultDates(int $lapse_id): iterable

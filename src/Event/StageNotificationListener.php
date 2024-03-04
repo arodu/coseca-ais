@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Event;
@@ -20,22 +19,38 @@ class StageNotificationListener implements EventListenerInterface
         ];
     }
 
+    /**
+     * @param \Cake\Event\Event $event The event object.
+     * @return void
+     */
     public function emailManage(Event $event)
     {
     }
 
+    /**
+     * @return void
+     */
     public function emailOnRegister()
     {
     }
 
+    /**
+     * @return void
+     */
     public function emailOnAdscriptionProject()
     {
     }
 
+    /**
+     * @return void
+     */
     public function emailOnAdscriptionValidation()
     {
     }
 
+    /**
+     * @return void
+     */
     public function emailOnFinishSuccess()
     {
     }

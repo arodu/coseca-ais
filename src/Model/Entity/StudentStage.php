@@ -1,9 +1,9 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
 
+use App\Model\Entity\Traits\EnumFieldTrait;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use Cake\ORM\Entity;
@@ -27,6 +27,18 @@ use Cake\ORM\Entity;
  */
 class StudentStage extends Entity
 {
+    use EnumFieldTrait;
+
+    /**
+     * Fields that are enum fields.
+     *
+     * @var array<string, string>
+     */
+    protected $enumFields = [
+        'stage' => StageField::class,
+        'status' => StageStatus::class,
+    ];
+
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
@@ -54,33 +66,27 @@ class StudentStage extends Entity
     ];
 
     /**
-     * @return StageField|null
+     * @param mixed $item
+     * @return bool
      */
-    public function getStage(): ?StageField
+    public function statusIs(mixed $item): bool
     {
-        return StageField::tryFrom($this->stage);
+        return $this->enum('status')?->is($item) ?? false;
     }
 
     /**
-     * @return StageStatus|null
+     * @return string
      */
-    public function getStatus(): ?StageStatus
-    {
-        return StageStatus::tryFrom($this->status);
-    }
-
-    public function statusIs(mixed $item): bool
-    {
-        return $this->getStatus()?->is($item) ?? false;
-    }
-
     protected function _getStageLabel(): string
     {
-        return $this->getStage()?->label() ?? '';
+        return $this->enum('stage')?->label() ?? '';
     }
 
+    /**
+     * @return string
+     */
     protected function _getStatusLabel(): string
     {
-        return $this->getStatus()?->label() ?? '';
+        return $this->enum('status')?->label() ?? '';
     }
 }

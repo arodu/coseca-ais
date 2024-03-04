@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
+use App\Model\Entity\Traits\EnumFieldTrait;
 use App\Model\Field\AdscriptionPrincipal;
 use App\Model\Field\AdscriptionStatus;
 use Cake\ORM\Entity;
@@ -25,6 +26,17 @@ use Cake\ORM\Entity;
  */
 class StudentAdscription extends Entity
 {
+    use EnumFieldTrait;
+
+    /**
+     * Fields that are enum fields.
+     *
+     * @var array<string, string>
+     */
+    protected $enumFields = [
+        'status' => AdscriptionStatus::class,
+    ];
+
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
@@ -46,26 +58,25 @@ class StudentAdscription extends Entity
         'status' => true,
         'principal' => true,
     ];
-    
+
     protected $_virtual = [
         'label_status',
     ];
 
     /**
-     * @return AdscriptionStatus|null
+     * @return string
      */
-    public function getStatus(): ?AdscriptionStatus
+    protected function _getLabelStatus(): ?string
     {
-        return AdscriptionStatus::tryFrom($this->status ?? '');
-    }
+        if (empty($this->status)) {
+            return null;
+        }
 
-    protected function _getLabelStatus(): string
-    {
-        return $this->getStatus()?->label() ?? '';
+        return $this->enum('status')?->label();
     }
 
     /**
-     * @return AdscriptionPrincipal|null
+     * @return \App\Model\Field\AdscriptionPrincipal|null
      */
     public function getPrincipal(): ?AdscriptionPrincipal
     {

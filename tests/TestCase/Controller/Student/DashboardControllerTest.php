@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller\Student;
@@ -315,7 +314,7 @@ class DashboardControllerTest extends StudentTestCase
         $this->get('/student');
         $this->assertResponseOk();
         $this->assertResponseContains($project_label_name);
-        $this->assertResponseContains('<span class="badge badge-warning ">Pendiente</span>');
+        $this->assertResponseContains('<span class="badge badge-warning">Pendiente</span>');
         $this->assertResponseContains('<dd class="col-sm-8">' . $this->institution->name . '</dd>');
         $this->assertResponseContains('<dd class="col-sm-8">' . $this->institution->contact_person . '</dd>');
         $this->assertResponseContains('<dd class="col-sm-8">' . $this->institution->contact_phone . '</dd>');
@@ -329,21 +328,21 @@ class DashboardControllerTest extends StudentTestCase
         $this->get('/student');
         $this->assertResponseOk();
         $this->assertResponseContains($project_label_name);
-        $this->assertResponseContains('<span class="badge badge-success ">Abierto</span>');
+        $this->assertResponseContains('<span class="badge badge-success">Abierto</span>');
         $this->assertResponseNotContains('Planilla de adscripción');
 
         $this->updateRecord($adscription, ['status' => AdscriptionStatus::CLOSED->value]);
         $this->get('/student');
         $this->assertResponseOk();
         $this->assertResponseContains($project_label_name);
-        $this->assertResponseContains('<span class="badge badge-danger ">Cerrado</span>');
+        $this->assertResponseContains('<span class="badge badge-danger">Cerrado</span>');
         $this->assertResponseNotContains('Planilla de adscripción');
 
         $this->updateRecord($adscription, ['status' => AdscriptionStatus::VALIDATED->value]);
         $this->get('/student');
         $this->assertResponseOk();
         $this->assertResponseContains($project_label_name);
-        $this->assertResponseContains('<span class="badge badge-primary ">Validado</span>');
+        $this->assertResponseContains('<span class="badge badge-primary">Validado</span>');
         $this->assertResponseNotContains('Planilla de adscripción');
 
         $this->updateRecord($adscription, ['status' => AdscriptionStatus::CANCELLED->value]);

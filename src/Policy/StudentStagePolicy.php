@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Policy;
@@ -17,7 +16,12 @@ class StudentStagePolicy
     use BasicChecksTrait;
     use LocatorAwareTrait;
 
-    public function canRegisterEdit(IdentityInterface $user, StudentStage $studentStage)
+    /**
+     * @param \Authentication\IdentityInterface $user
+     * @param \App\Model\Entity\StudentStage $studentStage
+     * @return bool
+     */
+    public function canRegisterEdit(IdentityInterface $user, StudentStage $studentStage): bool
     {
         if (!$this->stageIs($studentStage, StageField::REGISTER)) {
             return false;
@@ -34,7 +38,12 @@ class StudentStagePolicy
         return false;
     }
 
-    public function canRegisterValidate(IdentityInterface $user, StudentStage $studentStage)
+    /**
+     * @param \Authentication\IdentityInterface $user
+     * @param \App\Model\Entity\StudentStage $studentStage
+     * @return bool
+     */
+    public function canRegisterValidate(IdentityInterface $user, StudentStage $studentStage): bool
     {
         if (!$this->stageIs($studentStage, StageField::REGISTER)) {
             return false;
@@ -47,7 +56,12 @@ class StudentStagePolicy
         return false;
     }
 
-    public function canCourseEdit(IdentityInterface $user, StudentStage $studentStage)
+    /**
+     * @param \Authentication\IdentityInterface $user
+     * @param \App\Model\Entity\StudentStage $studentStage
+     * @return bool
+     */
+    public function canCourseEdit(IdentityInterface $user, StudentStage $studentStage): bool
     {
         if (!$this->stageIs($studentStage, StageField::COURSE)) {
             return false;
@@ -60,7 +74,12 @@ class StudentStagePolicy
         return false;
     }
 
-    public function canCourseValidate(IdentityInterface $user, StudentStage $studentStage)
+    /**
+     * @param \Authentication\IdentityInterface $user
+     * @param \App\Model\Entity\StudentStage $studentStage
+     * @return bool
+     */
+    public function canCourseValidate(IdentityInterface $user, StudentStage $studentStage): bool
     {
         if (!$this->stageIs($studentStage, StageField::COURSE)) {
             return false;
@@ -73,6 +92,11 @@ class StudentStagePolicy
         return false;
     }
 
+    /**
+     * @param \Authentication\IdentityInterface $user
+     * @param \App\Model\Entity\StudentStage $studentStage
+     * @return \Authorization\Policy\Result
+     */
     public function canClose(IdentityInterface $user, StudentStage $studentStage): Result
     {
         if ($this->userIsStudent($user) && !$this->studentIsOwner($user, $studentStage->student_id)) {
@@ -99,6 +123,11 @@ class StudentStagePolicy
         return new Result(false, __('stage {0} does not allow closing', $studentStage->stage_label));
     }
 
+    /**
+     * @param \Authentication\IdentityInterface $user
+     * @param \App\Model\Entity\StudentStage $studentStage
+     * @return \Authorization\Policy\Result
+     */
     public function canValidate(IdentityInterface $user, StudentStage $studentStage): Result
     {
         if (!$this->userIsAdmin($user)) {
@@ -117,9 +146,9 @@ class StudentStagePolicy
     }
 
     /**
-     * @param IdentityInterface $user
-     * @param StudentStage $studentStage
-     * @return Result
+     * @param \Authentication\IdentityInterface $user
+     * @param \App\Model\Entity\StudentStage $studentStage
+     * @return \Authorization\Policy\Result
      */
     public function canPrint(IdentityInterface $user, StudentStage $studentStage): Result
     {
@@ -155,9 +184,9 @@ class StudentStagePolicy
     }
 
     /**
-     * @param IdentityInterface $user
-     * @param StudentStage $studentStage
-     * @return Result
+     * @param \Authentication\IdentityInterface $user
+     * @param \App\Model\Entity\StudentStage $studentStage
+     * @return \Authorization\Policy\Result
      */
     public function canDisplayActions(IdentityInterface $user, StudentStage $studentStage): bool
     {
@@ -173,14 +202,14 @@ class StudentStagePolicy
     }
 
     /**
-     * @param StudentStage $studentStage
-     * @param StageField $stageField
-     * @param StageStatus|array|null $stageStatus
-     * @return boolean
+     * @param \App\Model\Entity\StudentStage $studentStage
+     * @param \App\Model\Field\StageField $stageField
+     * @param \App\Model\Field\StageStatus|array|null $stageStatus
+     * @return bool
      */
-    protected function stageIs(StudentStage $studentStage, StageField $stageField, StageStatus|array $stageStatus = null): bool
+    protected function stageIs(StudentStage $studentStage, StageField $stageField, StageStatus|array|null $stageStatus = null): bool
     {
-        $isStageField = $studentStage->getStage()?->is($stageField) ?? false;
+        $isStageField = $studentStage->enum('stage')?->is($stageField) ?? false;
 
         if (empty($stageStatus)) {
             return $isStageField;
@@ -190,12 +219,12 @@ class StudentStagePolicy
     }
 
     /**
-     * @param StudentStage $studentStage
-     * @param StageStatus $stageStatus
-     * @return boolean
+     * @param \App\Model\Entity\StudentStage $studentStage
+     * @param \App\Model\Field\StageStatus $stageStatus
+     * @return bool
      */
     protected function stageStatusIs(StudentStage $studentStage, StageStatus|array $stageStatus): bool
     {
-        return $studentStage->getStatus()?->is($stageStatus) ?? false;
+        return $studentStage->enum('status')?->is($stageStatus) ?? false;
     }
 }

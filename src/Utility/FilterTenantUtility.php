@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Utility;
@@ -11,19 +10,19 @@ use Cake\Routing\Router;
 
 class FilterTenantUtility
 {
-    const TENANT_FILTER_KEY = 'FilterTenant.tenant_ids';
-
     use LocatorAwareTrait;
 
+    public const TENANT_FILTER_KEY = 'FilterTenant.tenant_ids';
+
     /**
-     * @param AppUser $user
+     * @param \App\Model\Entity\AppUser $user
      * @return array
      */
     public function getTenantIdsFromDatabase(AppUser $user): array
     {
         $output = [];
         $tenantsTable = $this->fetchTable('Tenants');
-        if ($user->getRole()->isGroup(UserRole::GROUP_ROOT)) {
+        if ($user->enumRole()->isGroup(UserRole::GROUP_ROOT)) {
             $output = $tenantsTable
                 ->find('list', [
                     'keyField' => 'id',

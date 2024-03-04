@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -12,6 +11,10 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $name
  * @property string $abbr
+ * @property int $regime
+ * @property bool $active
+ * @property int $current_lapse
+ * @property int $program_id
  *
  * @property \App\Model\Entity\Lapse[] $lapses
  * @property \App\Model\Entity\Student[] $students
@@ -45,7 +48,10 @@ class Tenant extends Entity
         'abbr_label',
     ];
 
-    public function _getLabel()
+    /**
+     * @return string
+     */
+    protected function _getLabel(): string
     {
         if (!$this->program) {
             return $this->name;
@@ -54,7 +60,10 @@ class Tenant extends Entity
         return $this->program->name . ', ' . $this->name;
     }
 
-    public function _getAbbrLabel()
+    /**
+     * @return string
+     */
+    protected function _getAbbrLabel(): string
     {
         if (!$this->program) {
             return $this->abbr;

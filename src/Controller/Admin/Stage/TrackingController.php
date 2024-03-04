@@ -1,16 +1,10 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Admin\Stage;
 
 use App\Controller\Admin\AppAdminController;
 use App\Controller\Traits\Stage\TrackingProcessTrait;
-use App\Model\Field\StageField;
-use App\Model\Field\StageStatus;
-use App\Utility\Calc;
-use Cake\Http\Exception\ForbiddenException;
-use Cake\Http\Exception\NotFoundException;
 
 /**
  * StudentTracking Controller
@@ -22,6 +16,9 @@ class TrackingController extends AppAdminController
 {
     use TrackingProcessTrait;
 
+    /**
+     * @return void
+     */
     public function initialize(): void
     {
         parent::initialize();
@@ -47,7 +44,7 @@ class TrackingController extends AppAdminController
     /**
      * Delete method
      *
-     * @param string|null $id Student Tracking id.
+     * @param null $tracking_id Student Tracking id.
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
@@ -57,21 +54,29 @@ class TrackingController extends AppAdminController
 
         [
             'adscription' => $adscription,
-        ] = $this->processDelete((int) $tracking_id);
+        ] = $this->processDelete((int)$tracking_id);
 
         return $this->redirect(['_name' => 'admin:student:tracking', $adscription->student_id]);
     }
 
+    /**
+     * @param int|string|null $student_id
+     * @return \Cake\Http\Response|null|void
+     */
     public function closeStage($student_id = null)
     {
-        $this->processCloseStage((int) $student_id);
+        $this->processCloseStage((int)$student_id);
 
         return $this->redirect(['_name' => 'admin:student:view', $student_id]);
     }
 
+    /**
+     * @param int|string|null $student_id
+     * @return \Cake\Http\Response|null|void
+     */
     public function validateStage($student_id = null)
     {
-        $this->processValidateStage((int) $student_id);
+        $this->processValidateStage((int)$student_id);
 
         return $this->redirect(['_name' => 'admin:student:view', $student_id]);
     }

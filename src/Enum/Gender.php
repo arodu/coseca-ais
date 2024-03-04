@@ -18,7 +18,7 @@ enum Gender: string implements ListInterface
      */
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             static::FEMALE => __('Femenino'),
             static::MALE => __('Masculino'),
 

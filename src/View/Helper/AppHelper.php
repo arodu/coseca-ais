@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\View\Helper;
@@ -12,9 +11,13 @@ use Cake\View\Helper;
 use CakeLteTools\Enum\BadgeInterface;
 use CakeLteTools\Enum\Color;
 use CakeLteTools\Utility\FaIcon;
+use CakeLteTools\Utility\Html;
 
 /**
  * App helper
+ *
+ * @property \Cake\View\Helper\HtmlHelper $Html
+ * @property \Cake\View\Helper\FormHelper $Form
  */
 class AppHelper extends Helper
 {
@@ -27,6 +30,10 @@ class AppHelper extends Helper
 
     public $helpers = ['Html', 'Form'];
 
+    /**
+     * @param array $options
+     * @return string
+     */
     public function nan(array $options = []): string
     {
         $text = $options['text'] ?? 'N/A';
@@ -40,10 +47,10 @@ class AppHelper extends Helper
 
     /**
      * @param float $percent
-     * @param string|null $prefix
+     * @param string $prefix
      * @return string
      */
-    public function progressBarColor(float $percent, ?string $prefix = 'bg'): string
+    public function progressBarColor(float $percent, string $prefix = 'bg'): string
     {
         $color = match (true) {
             ($percent < 20) => Color::DANGER,
@@ -60,7 +67,7 @@ class AppHelper extends Helper
      * @param float $total
      * @return string
      */
-    public function progressBar(float $completed, float $total = null): string
+    public function progressBar(float $completed, ?float $total = null): string
     {
         $percent = Calc::percentHoursCompleted($completed, $total);
 
@@ -83,7 +90,11 @@ class AppHelper extends Helper
         return $contain . $text;
     }
 
-    public function error(string $tooltip = null): string
+    /**
+     * @param string|null $tooltip
+     * @return string
+     */
+    public function error(?string $tooltip = null): string
     {
         $options['class'] = [
             Color::DANGER->badge(),
@@ -101,6 +112,10 @@ class AppHelper extends Helper
         return $this->Html->tag('span', $icon . __('Error'), $options);
     }
 
+    /**
+     * @param \App\Model\Entity\Lapse|null $lapse
+     * @return string|null
+     */
     public function lapseLabel(?Lapse $lapse): ?string
     {
         if (empty($lapse)) {
@@ -114,23 +129,37 @@ class AppHelper extends Helper
         return $lapse->name . ' ' . $this->badge($lapse->getActive());
     }
 
+    /**
+     * @param \CakeLteTools\Enum\BadgeInterface $enum
+     * @param array $options
+     * @return string
+     */
     public function badge(BadgeInterface $enum, array $options = []): string
     {
-        $options = [
-            'class' => $enum->color()->badge() . ' ' . ($options['class'] ?? ''),
-        ];
+        $options = array_merge([
+            'tag' => 'span',
+        ], $options);
 
+        $options['class'] = Html::classToString([$enum->color()->badge(), $options['class'] ?? null]);
         $tag = $options['tag'] ?? 'span';
         unset($options['tag']);
 
         return $this->Html->tag($tag, $enum->label(), $options);
     }
 
-    public function alertMessage()
+    /**
+     * @return string
+     */
+    public function alertMessage(): string
     {
         return __('Comuniquese con la coordinación de servicio comunitario para mas información');
     }
 
+    /**
+     * @param string $fieldName
+     * @param array $options
+     * @return string
+     */
     public function control(string $fieldName, array $options = []): string
     {
         $options = array_merge([
@@ -149,7 +178,7 @@ class AppHelper extends Helper
     }
 
     /**
-     * @param integer $month
+     * @param int $month
      * @return string
      */
     public function month(int $month): string
@@ -171,11 +200,19 @@ class AppHelper extends Helper
         };
     }
 
+    /**
+     * @param bool $bool
+     * @return string
+     */
     public function yn(bool $bool): string
     {
         return $bool ? __('Si') : __('No');
     }
 
+    /**
+     * @param \App\Model\Entity\Tenant $tenant
+     * @return string
+     */
     public function tenant(Tenant $tenant): string
     {
         if (empty($tenant->program)) {

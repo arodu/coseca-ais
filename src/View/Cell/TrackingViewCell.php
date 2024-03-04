@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\View\Cell;
@@ -37,11 +36,11 @@ class TrackingViewCell extends Cell
     }
 
     /**
-     * Default display method.
-     *
+     * @param int|string $student_id
+     * @param array $urlList
      * @return void
      */
-    public function display($student_id, array $urlList = [])
+    public function display(int|string $student_id, array $urlList = [])
     {
         $student = $this->Students
             ->find('withLapses')
@@ -50,7 +49,9 @@ class TrackingViewCell extends Cell
 
         $trackingStage = $this->Students->StudentStages
             ->find()
-            ->contain(['Students'])
+            ->contain([
+                'Students' => ['AppUsers'],
+            ])
             ->where([
                 'StudentStages.student_id' => $student_id,
                 'StudentStages.stage' => StageField::TRACKING->value,
@@ -68,18 +69,29 @@ class TrackingViewCell extends Cell
         $this->set(compact('student', 'adscriptions', 'urlList', 'trackingStage'));
     }
 
-    public function info($student_id)
+    /**
+     * @param int|string $student_id
+     * @return void
+     */
+    public function info(int|string $student_id)
     {
         $trackingInfo = $this->Students->getStudentTrackingInfo($student_id) ?? [];
         $this->set(compact('trackingInfo'));
     }
 
-    public function actions($student_id, StudentStage $trackingStage = null)
+    /**
+     * @param int|string $student_id
+     * @param \App\Model\Entity\StudentStage|null $trackingStage
+     * @return void
+     */
+    public function actions(int|string $student_id, ?StudentStage $trackingStage = null)
     {
         if (empty($trackingStage)) {
             $trackingStage = $this->Students->StudentStages
                 ->find()
-                ->contain(['Students'])
+                ->contain([
+                    'Students' => ['AppUsers'],
+                ])
                 ->where([
                     'StudentStages.student_id' => $student_id,
                     'StudentStages.stage' => StageField::TRACKING->value,

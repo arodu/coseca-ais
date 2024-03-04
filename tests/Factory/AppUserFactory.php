@@ -3,12 +3,8 @@ declare(strict_types=1);
 
 namespace App\Test\Factory;
 
-use App\Model\Entity\Student;
-use App\Model\Field\StageField;
-use App\Model\Field\StudentType;
 use App\Model\Field\UserRole;
 use Cake\I18n\FrozenDate;
-use Cake\Utility\Hash;
 use CakephpFixtureFactories\Factory\BaseFactory as CakephpBaseFactory;
 use Faker\Generator;
 
