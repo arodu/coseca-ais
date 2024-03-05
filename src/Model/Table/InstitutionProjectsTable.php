@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
 use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -109,10 +108,12 @@ class InstitutionProjectsTable extends Table
         }
 
         return $query
-            ->find('list',
-            keyField: 'id',
-            valueField: 'name',
-            groupField: 'institution.name')
+            ->find(
+                'list',
+                keyField: 'id',
+                valueField: 'name',
+                groupField: 'institution.name'
+            )
             ->contain('Institutions')
             ->where([
                 $this->Institutions->aliasField('tenant_id') => $options['tenant_id'],

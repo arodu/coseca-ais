@@ -5,7 +5,6 @@ namespace App\Test\TestCase\Controller\Student;
 
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
-use Cake\I18n\FrozenDate;
 use Cake\TestSuite\IntegrationTestTrait;
 
 /**

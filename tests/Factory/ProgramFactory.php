@@ -38,7 +38,7 @@ class ProgramFactory extends CakephpBaseFactory
     {
         $this->setDefaultData(function (Generator $faker) {
             return ['name' => 'Informática', 'area' => ProgramArea::AIS->value, 'regime' => ProgramRegime::BIANNUAL->value, 'abbr' => 'INF'];
-            
+
             //$program = $faker->randomElement([
             //    ['name' => 'Medicina', 'area' => ProgramArea::SALUD->value, 'regime' => ProgramRegime::ANNUALIZED_6->value, 'abbr' => 'MED'],
             //    ['name' => 'Contaduría', 'area' => ProgramArea::ACES->value, 'regime' => ProgramRegime::ANNUALIZED_5->value, 'abbr' => 'CON'],

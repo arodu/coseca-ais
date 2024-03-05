@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Enum;
 
-use Cake\I18n\FrozenDate;
 use CakeLteTools\Enum\BadgeInterface;
 use CakeLteTools\Enum\Color;
 use CakeLteTools\Enum\Trait\BasicEnumTrait;

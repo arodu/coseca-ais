@@ -8,7 +8,6 @@ use ArrayObject;
 use Cake\Cache\Cache;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
-use Cake\ORM\Query;
 use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -174,10 +173,12 @@ class StudentAdscriptionsTable extends Table
         }
 
         return $query
-            ->find('list',
-            keyField: 'id',
-            valueField: 'institution_project.name',
-            groupField: 'institution_project.institution.name')
+            ->find(
+                'list',
+                keyField: 'id',
+                valueField: 'institution_project.name',
+                groupField: 'institution_project.institution.name'
+            )
             ->contain([
                 'InstitutionProjects' => ['Institutions'],
             ])

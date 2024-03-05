@@ -10,7 +10,6 @@ use App\Model\Field\StageStatus;
 use App\Model\Table\Traits\BasicTableTrait;
 use App\Utility\Stages;
 use Cake\Log\Log;
-use Cake\ORM\Query;
 use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -172,10 +171,10 @@ class StudentStagesTable extends Table
 
     /**
      * @param \Cake\ORM\Query $query
-     * @param array $options
+     * @param array $student_ids
      * @return \Cake\ORM\Query
      */
-    public function findReport(SelectQuery $query, SelectQuery $student_ids = null): SelectQuery
+    public function findReport(SelectQuery $query, ?SelectQuery $student_ids = null): SelectQuery
     {
         if (empty($student_ids)) {
             throw new InvalidArgumentException(__('param student_ids is necessary'));

@@ -7,7 +7,6 @@ use App\Model\Table\Traits\BasicTableTrait;
 use ArrayObject;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
-use Cake\ORM\Query;
 use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\Validation\Validator;
@@ -92,7 +91,6 @@ class AppUsersTable extends UsersTable
 
     /**
      * @param \Cake\ORM\Query\SelectQuery $query
-     * @param array $options
      * @return \Cake\ORM\Query\SelectQuery
      */
     public function findAuth(SelectQuery $query): SelectQuery

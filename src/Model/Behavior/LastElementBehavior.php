@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Model\Behavior;
 
 use Cake\ORM\Behavior;
-use Cake\ORM\Query;
 use Cake\ORM\Query\SelectQuery;
 use InvalidArgumentException;
 /*
