@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0e2146a4fee28a3934282949a077d6e2",
+    "content-hash": "25233679d38b087971b3914d852df318",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -211,16 +211,16 @@
         },
         {
             "name": "cakedc/auth",
-            "version": "8.0.3",
+            "version": "10.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/CakeDC/auth.git",
-                "reference": "e3ce6043cb70d9942c49f8da4e7e74b2b2a0f670"
+                "reference": "0f8efc80b04935628773890e593304a32e67f1f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CakeDC/auth/zipball/e3ce6043cb70d9942c49f8da4e7e74b2b2a0f670",
-                "reference": "e3ce6043cb70d9942c49f8da4e7e74b2b2a0f670",
+                "url": "https://api.github.com/repos/CakeDC/auth/zipball/0f8efc80b04935628773890e593304a32e67f1f6",
+                "reference": "0f8efc80b04935628773890e593304a32e67f1f6",
                 "shasum": ""
             },
             "require": {
@@ -275,27 +275,27 @@
                 "issues": "https://github.com/CakeDC/auth/issues",
                 "source": "https://github.com/CakeDC/auth"
             },
-            "time": "2023-10-27T12:52:15+00:00"
+            "time": "2024-02-09T17:04:28+00:00"
         },
         {
             "name": "cakedc/users",
-            "version": "12.0.0",
+            "version": "14.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/CakeDC/users.git",
-                "reference": "3692c585104b0095902ec8a9785c1f74c93354ea"
+                "reference": "fbb406a466c6ca5b48a668f2980a36b5694da56b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CakeDC/users/zipball/3692c585104b0095902ec8a9785c1f74c93354ea",
-                "reference": "3692c585104b0095902ec8a9785c1f74c93354ea",
+                "url": "https://api.github.com/repos/CakeDC/users/zipball/fbb406a466c6ca5b48a668f2980a36b5694da56b",
+                "reference": "fbb406a466c6ca5b48a668f2980a36b5694da56b",
                 "shasum": ""
             },
             "require": {
-                "cakedc/auth": "^8.0.0",
-                "cakephp/authentication": "^3.0.0",
-                "cakephp/authorization": "^3.0.0",
-                "cakephp/cakephp": "^5.0.0",
+                "cakedc/auth": "^10.0",
+                "cakephp/authentication": "^3.0",
+                "cakephp/authorization": "^3.0",
+                "cakephp/cakephp": "^5.0",
                 "php": ">=8.1"
             },
             "require-dev": {
@@ -358,7 +358,7 @@
                 "issues": "https://github.com/CakeDC/users/issues",
                 "source": "https://github.com/CakeDC/users"
             },
-            "time": "2023-11-06T20:40:57+00:00"
+            "time": "2024-02-09T18:02:17+00:00"
         },
         {
             "name": "cakephp/authentication",
