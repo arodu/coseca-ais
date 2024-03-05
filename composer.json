@@ -19,7 +19,7 @@
         "google/recaptcha": "@stable",
         "league/oauth2-facebook": "@stable",
         "league/oauth2-google": "@stable",
-        "mobiledetect/mobiledetectlib": "^4.8.03",
+        "mobiledetect/mobiledetectlib": "^4.8",
         "muffin/footprint": "^4.0"
     },
     "require-dev": {
