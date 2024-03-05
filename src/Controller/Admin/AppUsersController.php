@@ -53,7 +53,7 @@ class AppUsersController extends AppAdminController
     }
 
     /**
-     * @return void
+     * @return \Cake\Http\Response|null
      */
     public function add()
     {
@@ -72,7 +72,7 @@ class AppUsersController extends AppAdminController
 
     /**
      * @param string|int|null $id
-     * @return void
+     * @return \Cake\Http\Response|null
      */
     public function edit(int|string|null $id = null)
     {
@@ -91,7 +91,7 @@ class AppUsersController extends AppAdminController
 
     /**
      * @param string|int|null $id
-     * @return void
+     * @return \Cake\Http\Response|null
      */
     public function delete(int|string|null $id = null)
     {

@@ -62,9 +62,7 @@ class TutorsController extends AppAdminController
     }
 
     /**
-     * Add method
-     *
-     * @return void Redirects on successful add, renders view otherwise.
+     * @return \Cake\Http\Response|null
      */
     public function add()
     {
@@ -86,7 +84,7 @@ class TutorsController extends AppAdminController
      * Edit method
      *
      * @param string|null $id Tutor id.
-     * @return void Redirects on successful edit, renders view otherwise.
+     * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function edit(?string $id = null)
@@ -109,7 +107,7 @@ class TutorsController extends AppAdminController
      * Delete method
      *
      * @param string|null $id Tutor id.
-     * @return void Redirects to index.
+     * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete(?string $id = null)

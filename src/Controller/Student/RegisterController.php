@@ -15,6 +15,22 @@ class RegisterController extends AppStudentController
     use RegisterProcessTrait;
 
     /**
+     * @var \App\Model\Table\AppUsersTable
+     */
+    protected $AppUsers;
+
+    /**
+     * @var \App\Model\Table\StudentsTable
+     */
+
+    protected $Students;
+
+    /**
+     * @var \App\Model\Table\StudentStagesTable
+     */
+    protected $StudentStages;
+
+    /**
      * @return void
      */
     public function initialize(): void
@@ -26,7 +42,7 @@ class RegisterController extends AppStudentController
     }
 
     /**
-     * @return void Renders view
+     * @return \Cake\Http\Response|null
      */
     public function edit()
     {

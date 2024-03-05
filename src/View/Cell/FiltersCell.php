@@ -19,6 +19,11 @@ class FiltersCell extends Cell
     protected array $_validCellOptions = [];
 
     /**
+     * @var \App\Model\Table\StudentsTable
+     */
+    protected \App\Model\Table\StudentsTable $Students;
+
+    /**
      * Initialization logic run at the end of object construction.
      *
      * @return void
@@ -32,6 +37,7 @@ class FiltersCell extends Cell
     /**
      * @param bool $isFiltered
      * @param string $filterKey
+     * @param int|null $limit
      * @return void
      */
     public function adminStudents(bool $isFiltered = false, string $filterKey = 'f', ?int $limit = 20): void

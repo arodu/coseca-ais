@@ -23,6 +23,17 @@ class AdscriptionsController extends AppAdminController
     use RedirectLogicTrait;
 
     /**
+     * @var \App\Model\Table\StudentStagesTable
+     */
+    protected $StudentStages;
+
+    /**
+     * @var \App\Model\Table\StudentAdscriptionsTable
+     */
+
+    protected $StudentAdscriptions;
+
+    /**
      * @return void
      */
     public function initialize(): void
@@ -33,10 +44,8 @@ class AdscriptionsController extends AppAdminController
     }
 
     /**
-     * Add method
-     *
      * @param string|int|null $student_id Student id.
-     * @return void Redirects on successful add, renders view otherwise.
+     * @return \Cake\Http\Response|null
      */
     public function add(int|string|null $student_id = null)
     {
@@ -95,7 +104,7 @@ class AdscriptionsController extends AppAdminController
      * Edit method
      *
      * @param string|null $id StudentAdscription id.
-     * @return void Redirects on successful edit, renders view otherwise.
+     * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function edit(?string $id = null)
@@ -131,7 +140,7 @@ class AdscriptionsController extends AppAdminController
      *
      * @param string $status StudentAdscription id.
      * @param string|int $id StudentAdscription id.
-     * @return void Redirects to index.
+     * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function changeStatus(string $status, int|string $id)
@@ -147,7 +156,7 @@ class AdscriptionsController extends AppAdminController
      * Set principal method
      *
      * @param string|null $id StudentAdscription id.
-     * @return void Redirects to index.
+     * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function setPrincipal(?string $id)

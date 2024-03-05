@@ -23,6 +23,11 @@ class CoursesController extends AppAdminController
     use ActionValidateTrait;
 
     /**
+     * @var \App\Model\Table\StudentsTable
+     */
+    protected $Students;
+
+    /**
      * @return void
      */
     public function initialize(): void
@@ -34,7 +39,7 @@ class CoursesController extends AppAdminController
     /**
      * @param string|int|null $student_id
      * @param string|int|null $id
-     * @return void
+     * @return \Cake\Http\Response|null
      */
     public function edit(int|string|null $student_id = null, int|string|null $id = null)
     {
@@ -96,10 +101,8 @@ class CoursesController extends AppAdminController
     }
 
     /**
-     * Delete method
-     *
      * @param string|null $id Student Course id.
-     * @return void Redirects to index.
+     * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete(?string $id = null)

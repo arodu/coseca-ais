@@ -72,7 +72,7 @@ class InstitutionsController extends AppAdminController
     /**
      * Add method
      *
-     * @return void Redirects on successful add, renders view otherwise.
+     * @return \Cake\Http\Response|null
      */
     public function add()
     {
@@ -92,7 +92,7 @@ class InstitutionsController extends AppAdminController
 
     /**
      * @param string|int $id
-     * @return void
+     * @return \Cake\Http\Response|null
      */
     public function addProject(int|string|null $id = null)
     {
@@ -119,7 +119,7 @@ class InstitutionsController extends AppAdminController
      * Edit method
      *
      * @param string|null $id Institution id.
-     * @return void Redirects on successful edit, renders view otherwise.
+     * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function edit(?string $id = null)
@@ -140,7 +140,7 @@ class InstitutionsController extends AppAdminController
 
     /**
      * @param string|int $project_id
-     * @return void
+     * @return \Cake\Http\Response|null
      */
     public function editProject(int|string|null $project_id = null)
     {
@@ -166,7 +166,7 @@ class InstitutionsController extends AppAdminController
      * Delete method
      *
      * @param string|null $id Institution id.
-     * @return void Redirects to index.
+     * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete(?string $id = null)

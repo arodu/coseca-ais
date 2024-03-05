@@ -257,7 +257,6 @@ class StudentsTable extends Table
 
     /**
      * @param \Cake\ORM\Query\SelectQuery $query
-     * @param array $options
      * @return \Cake\ORM\Query\SelectQuery
      */
     public function findWithStudentCourses(SelectQuery $query): SelectQuery
@@ -269,7 +268,6 @@ class StudentsTable extends Table
 
     /**
      * @param \Cake\ORM\Query\SelectQuery $query
-     * @param array $options
      * @return \Cake\ORM\Query\SelectQuery
      */
     public function findWithAppUsers(SelectQuery $query): SelectQuery
@@ -281,7 +279,6 @@ class StudentsTable extends Table
 
     /**
      * @param \Cake\ORM\Query\SelectQuery $query
-     * @param array $options
      * @return \Cake\ORM\Query\SelectQuery
      */
     public function findWithStudentData(SelectQuery $query): SelectQuery
@@ -295,7 +292,6 @@ class StudentsTable extends Table
 
     /**
      * @param \Cake\ORM\Query\SelectQuery $query
-     * @param array $options
      * @return \Cake\ORM\Query\SelectQuery
      */
     public function findWithLapses(SelectQuery $query): SelectQuery

@@ -28,11 +28,9 @@ class TrackingController extends AppStudentController
     }
 
     /**
-     * Index method
-     *
-     * @return void Renders view
+     * @return void
      */
-    public function index(): void
+    public function index()
     {
         $student_id = $this->getCurrentStudent()->id;
         $trackingView = $this->cell('TrackingView', [
@@ -47,7 +45,7 @@ class TrackingController extends AppStudentController
     }
 
     /**
-     * @return void Renders view
+     * @return \Cake\Http\Response|null
      */
     public function add()
     {
@@ -63,7 +61,7 @@ class TrackingController extends AppStudentController
 
     /**
      * @param int $tracking_id
-     * @return void Renders view
+     * @return \Cake\Http\Response|null
      */
     public function delete(int $tracking_id)
     {
@@ -74,7 +72,7 @@ class TrackingController extends AppStudentController
     }
 
     /**
-     * @return void Renders view
+     * @return \Cake\Http\Response|null
      */
     public function closeStage()
     {

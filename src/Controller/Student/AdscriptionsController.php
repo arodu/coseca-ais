@@ -18,7 +18,7 @@ class AdscriptionsController extends AppStudentController
     use AdscriptionsProcessTrait;
 
     /**
-     * @return void Renders view
+     * @return \Cake\Http\Response|null
      */
     public function close()
     {

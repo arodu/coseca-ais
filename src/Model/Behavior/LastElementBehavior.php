@@ -43,7 +43,6 @@ class LastElementBehavior extends Behavior
 
     /**
      * @param \Cake\ORM\Query $query
-     * @param $options
      * @return \Cake\ORM\Query
      */
     public function findLastElement(SelectQuery $query): SelectQuery
@@ -67,7 +66,6 @@ class LastElementBehavior extends Behavior
 
     /**
      * @param \Cake\ORM\Query $query
-     * @param array $options
      * @return \Cake\ORM\Query
      */
     public function findSubQueryLastElement(SelectQuery $query): SelectQuery

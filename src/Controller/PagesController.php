@@ -42,7 +42,7 @@ class PagesController extends AppController
     }
 
     /**
-     * @return void
+     * @return \Cake\Http\Response|null
      */
     public function home()
     {

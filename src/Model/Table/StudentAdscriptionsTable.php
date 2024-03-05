@@ -222,7 +222,6 @@ class StudentAdscriptionsTable extends Table
 
     /**
      * @param \Cake\ORM\Query\SelectQuery $query
-     * @param array $options
      * @return \Cake\ORM\Query\SelectQuery
      */
     public function findWithStudents(SelectQuery $query): SelectQuery
@@ -239,7 +238,6 @@ class StudentAdscriptionsTable extends Table
 
     /**
      * @param \Cake\ORM\Query\SelectQuery $query
-     * @param array $options
      * @return \Cake\ORM\Query\SelectQuery
      */
     public function findWithInstitution(SelectQuery $query): SelectQuery
@@ -271,7 +269,6 @@ class StudentAdscriptionsTable extends Table
 
     /**
      * @param \Cake\ORM\Query\SelectQuery $query
-     * @param array $options
      * @return \Cake\ORM\Query\SelectQuery
      */
     public function findWithTutor(SelectQuery $query): SelectQuery
@@ -284,7 +281,6 @@ class StudentAdscriptionsTable extends Table
 
     /**
      * @param \Cake\ORM\Query\SelectQuery $query
-     * @param array $options
      * @return \Cake\ORM\Query\SelectQuery
      */
     public function findPrincipal(SelectQuery $query): SelectQuery

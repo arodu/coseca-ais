@@ -16,10 +16,8 @@ use Throwable;
 class StudentStagesController extends AppAdminController
 {
     /**
-     * Edit method
-     *
      * @param string|null $id StudentStage id.
-     * @return void Redirects on successful edit, renders view otherwise.
+     * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function edit(?string $id = null)
@@ -40,10 +38,8 @@ class StudentStagesController extends AppAdminController
     }
 
     /**
-     * forcedClose method
-     *
      * @param string|null $id StudentStage id.
-     * @return void Redirects on successful edit, renders view otherwise.
+     * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function forcedClose(?string $id = null)

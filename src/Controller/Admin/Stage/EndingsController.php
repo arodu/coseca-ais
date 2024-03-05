@@ -11,6 +11,17 @@ use Cake\Http\Exception\NotFoundException;
 class EndingsController extends AppController
 {
     /**
+     * @var \App\Model\Table\StudentStagesTable
+     */
+    protected $StudentStages;
+
+    /**
+     * @var \App\Model\Table\StudentsTable
+     */
+
+    protected $Students;
+
+    /**
      * @return void
      */
     public function initialize(): void
@@ -22,7 +33,7 @@ class EndingsController extends AppController
 
     /**
      * @param string|int|null $student_id
-     * @return void
+     * @return \Cake\Http\Response|null
      */
     public function closeStage(int|string|null $student_id = null)
     {

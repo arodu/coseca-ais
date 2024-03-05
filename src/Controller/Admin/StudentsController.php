@@ -39,7 +39,7 @@ class StudentsController extends AppAdminController
     /**
      * Index method
      *
-     * @return void Renders view
+     * @return \Cake\Http\Response|null
      */
     public function index()
     {
@@ -76,7 +76,7 @@ class StudentsController extends AppAdminController
 
     /**
      * @param \Cake\ORM\Query\SelectQuery $query
-     * @return void
+     * @return \Cake\Http\Response|null
      */
     protected function queryToCsv(SelectQuery $query)
     {
@@ -199,7 +199,7 @@ class StudentsController extends AppAdminController
     /**
      * Add method
      *
-     * @return void Redirects on successful add, renders view otherwise.
+     * @return \Cake\Http\Response|null
      */
     public function add()
     {
@@ -221,7 +221,7 @@ class StudentsController extends AppAdminController
      * Edit method
      *
      * @param string|null $id Student id.
-     * @return void Redirects on successful edit, renders view otherwise.
+     * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function edit(?string $id = null)
@@ -244,7 +244,7 @@ class StudentsController extends AppAdminController
      * Delete method
      *
      * @param string|null $id Student id.
-     * @return void Redirects to index.
+     * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete(?string $id = null)
@@ -262,7 +262,7 @@ class StudentsController extends AppAdminController
 
     /**
      * @param array $ids
-     * @return void Redirects to index.
+     * @return \Cake\Http\Response|null
      */
     protected function closeStageCourse(array $ids = [])
     {
@@ -281,7 +281,7 @@ class StudentsController extends AppAdminController
 
     /**
      * @param string|int $id
-     * @return void
+     * @return \Cake\Http\Response|null
      */
     public function changeEmail(int|string|null $id = null)
     {
@@ -301,7 +301,7 @@ class StudentsController extends AppAdminController
 
     /**
      * @param string|int $id
-     * @return void
+     * @return \Cake\Http\Response|null
      */
     public function newProgram(string $id)
     {
@@ -335,7 +335,7 @@ class StudentsController extends AppAdminController
 
     /**
      * @param string|int $id
-     * @return void
+     * @return \Cake\Http\Response|null
      */
     public function deactivate(string $id)
     {
@@ -353,7 +353,7 @@ class StudentsController extends AppAdminController
 
     /**
      * @param string|int $id
-     * @return void
+     * @return \Cake\Http\Response|null
      */
     public function reactivate(string $id)
     {

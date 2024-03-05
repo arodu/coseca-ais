@@ -25,10 +25,8 @@ class LapsesController extends AppAdminController
     }
 
     /**
-     * Add method
-     *
      * @param string|null $tenant_id Tenant id.
-     * @return void Redirects on successful add, renders view otherwise.
+     * @return \Cake\Http\Response|null
      */
     public function add(?string $tenant_id)
     {
@@ -47,10 +45,8 @@ class LapsesController extends AppAdminController
     }
 
     /**
-     * Edit method
-     *
      * @param string|null $id Lapse id.
-     * @return void Redirects on successful edit, renders view otherwise.
+     * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function edit(?string $id = null)
@@ -70,7 +66,7 @@ class LapsesController extends AppAdminController
 
     /**
      * @param string|int $lapse_dates_id
-     * @return void
+     * @return \Cake\Http\Response|null
      */
     public function editDates(int|string|null $lapse_dates_id = null)
     {
@@ -96,7 +92,7 @@ class LapsesController extends AppAdminController
      *
      * @param string|null $id Lapse id.
      * @param int $active Active value
-     * @return void Redirects to index.
+     * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function changeActive(?string $id = null, int $active = 0)

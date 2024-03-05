@@ -35,6 +35,7 @@ class FilterTenantBehavior extends Behavior
 
     /**
      * @param \Cake\ORM\Query\SelectQuery $query
+     * @param array $options
      * @return \Cake\ORM\Query\SelectQuery
      */
     public function findTenant(SelectQuery $query, array $options = []): SelectQuery

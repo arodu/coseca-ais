@@ -16,6 +16,11 @@ use Cake\Event\EventInterface;
 class TenantsController extends AppAdminController
 {
     /**
+     * @var \App\Model\Table\ProgramsTable
+     */
+    protected $Programs;
+
+    /**
      * @return void
      */
     public function initialize(): void
@@ -121,9 +126,7 @@ class TenantsController extends AppAdminController
     }
 
     /**
-     * Add method
-     *
-     * @return void Redirects on successful add, renders view otherwise.
+     * @return \Cake\Http\Response|null
      */
     public function add()
     {
@@ -147,7 +150,7 @@ class TenantsController extends AppAdminController
     }
 
     /**
-     * @return void
+     * @return \Cake\Http\Response|null
      */
     public function addProgram()
     {
@@ -168,7 +171,7 @@ class TenantsController extends AppAdminController
 
     /**
      * @param string|int $program_id
-     * @return void
+     * @return \Cake\Http\Response|null
      */
     public function addInterestArea(int|string|null $program_id = null)
     {
@@ -189,10 +192,8 @@ class TenantsController extends AppAdminController
     }
 
     /**
-     * Edit method
-     *
      * @param string|null $id Tenant id.
-     * @return void Redirects on successful edit, renders view otherwise.
+     * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function edit(?string $id = null)
@@ -213,7 +214,7 @@ class TenantsController extends AppAdminController
 
     /**
      * @param string|int $program_id
-     * @return void
+     * @return \Cake\Http\Response|null
      */
     public function editProgram(int|string|null $program_id = null)
     {
@@ -232,7 +233,7 @@ class TenantsController extends AppAdminController
 
     /**
      * @param string|int $interestArea_id
-     * @return void
+     * @return \Cake\Http\Response|null
      */
     public function editInterestArea(int|string|null $interestArea_id = null)
     {
@@ -254,7 +255,7 @@ class TenantsController extends AppAdminController
      * Delete method
      *
      * @param string|null $id Tenant id.
-     * @return void Redirects to index.
+     * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete(?string $id = null)
