@@ -37,18 +37,19 @@ class ProgramFactory extends CakephpBaseFactory
     protected function setDefaultTemplate(): void
     {
         $this->setDefaultData(function (Generator $faker) {
-            $program = $faker->randomElement([
-                ['name' => 'Informática', 'area' => ProgramArea::AIS->value, 'regime' => ProgramRegime::BIANNUAL->value, 'abbr' => 'INF'],
-                ['name' => 'Medicina', 'area' => ProgramArea::SALUD->value, 'regime' => ProgramRegime::ANNUALIZED_6->value, 'abbr' => 'MED'],
-                ['name' => 'Contaduría', 'area' => ProgramArea::ACES->value, 'regime' => ProgramRegime::ANNUALIZED_5->value, 'abbr' => 'CON'],
-            ]);
+            return ['name' => 'Informática', 'area' => ProgramArea::AIS->value, 'regime' => ProgramRegime::BIANNUAL->value, 'abbr' => 'INF'];
+            
+            //$program = $faker->randomElement([
+            //    ['name' => 'Medicina', 'area' => ProgramArea::SALUD->value, 'regime' => ProgramRegime::ANNUALIZED_6->value, 'abbr' => 'MED'],
+            //    ['name' => 'Contaduría', 'area' => ProgramArea::ACES->value, 'regime' => ProgramRegime::ANNUALIZED_5->value, 'abbr' => 'CON'],
+            //]);
 
-            return [
-                'name' => $program['name'],
-                'area' => $program['area'],
-                'regime' => $program['regime'],
-                'abbr' => $program['abbr'],
-            ];
+            //return [
+            //    'name' => $program['name'],
+            //    'area' => $program['area'],
+            //    'regime' => $program['regime'],
+            //    'abbr' => $program['abbr'],
+            //];
         });
     }
 }

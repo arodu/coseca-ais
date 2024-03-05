@@ -51,16 +51,16 @@
         },
         {
             "name": "arodu/cakelte",
-            "version": "v2.0.0",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/arodu/cakelte.git",
-                "reference": "f757c4d6284c78bff263a3abaad99ecfd474bdf1"
+                "reference": "0077bdd47e848122d665f55fa391cad067e8b454"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/arodu/cakelte/zipball/f757c4d6284c78bff263a3abaad99ecfd474bdf1",
-                "reference": "f757c4d6284c78bff263a3abaad99ecfd474bdf1",
+                "url": "https://api.github.com/repos/arodu/cakelte/zipball/0077bdd47e848122d665f55fa391cad067e8b454",
+                "reference": "0077bdd47e848122d665f55fa391cad067e8b454",
                 "shasum": ""
             },
             "require": {
@@ -84,18 +84,12 @@
             "license": [
                 "MIT"
             ],
-            "description": "CakeLTE: AdminLTE plugin for CakePHP 4.x",
+            "description": "CakeLTE: AdminLTE plugin for CakePHP",
             "support": {
                 "issues": "https://github.com/arodu/cakelte/issues",
-                "source": "https://github.com/arodu/cakelte/tree/v2.0.0"
+                "source": "https://github.com/arodu/cakelte/tree/v2.0.1"
             },
-            "funding": [
-                {
-                    "url": "https://github.com/CakeDC",
-                    "type": "github"
-                }
-            ],
-            "time": "2024-03-03T16:17:41+00:00"
+            "time": "2024-03-05T11:41:23+00:00"
         },
         {
             "name": "arodu/cakelte-tools",
