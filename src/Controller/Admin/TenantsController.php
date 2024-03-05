@@ -100,25 +100,23 @@ class TenantsController extends AppAdminController
 
     /**
      * @param \App\Model\Entity\Tenant $tenant
-     * @param string|int $lapse_id
+     * @param string|int|null $lapse_id
      * @return \App\Model\Entity\Lapse|null
      */
-    private function getLapseSelected(Tenant $tenant, int|string $lapse_id): ?Lapse
+    protected function getLapseSelected(Tenant $tenant, int|string|null $lapse_id): ?Lapse
     {
         if (empty($lapse_id) && !empty($tenant->current_lapse)) {
             return $tenant->current_lapse;
         }
 
         if (!empty($lapse_id)) {
-            return $this->Tenants->Lapses->get($lapse_id, [
-                'contain' => ['LapseDates'],
-            ]);
+            return $this->Tenants->Lapses->get($lapse_id, contain: ['LapseDates']);
         }
 
         return $this->Tenants->Lapses->find()
             ->where(['tenant_id' => $tenant->id])
             ->contain(['LapseDates'])
-            ->order(['id' => 'DESC'])
+            ->orderBy(['id' => 'DESC'])
             ->first();
     }
 

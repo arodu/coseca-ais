@@ -120,7 +120,9 @@ class TenantsTable extends Table
             'groupField' => 'program.area_label',
         ], $options);
 
-        return parent::findList($query, $options)->contain(['Programs']);
+        return parent::findList($query)
+            ->applyOptions($options)
+            ->contain(['Programs']);
     }
 
     /**
