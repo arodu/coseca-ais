@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Institution[]|\Cake\Collection\CollectionInterface $institutions
@@ -37,7 +38,11 @@ $this->Breadcrumbs->add([
                     <?= $this->Form->control('contact_person', ['label' => __('Persona de Contacto')]) ?>
                 </div>
                 <div class="col-sm-4">
-                    <?= $this->Form->control('tenant_id', ['label' => __('Programa'), 'empty' => __('--Todos--')]) ?>
+                    <?= $this->Form->control('tenant_id', [
+                        'label' => __('Programa'),
+                        'empty' => __('--Todos--'),
+                        'class' => 'form-control',
+                    ]) ?>
                 </div>
             </div>
         </div>

@@ -22,7 +22,7 @@ $this->Breadcrumbs->add([
       echo $this->Form->control('dni');
       echo $this->Form->control('phone');
       echo $this->Form->control('email');
-      echo $this->Form->control('tenant_id', ['options' => $tenants]);
+      echo $this->Form->control('tenant_id', ['options' => $tenants, 'class' => 'form-control']);
     ?>
   </div>
 
