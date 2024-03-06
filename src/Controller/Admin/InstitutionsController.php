@@ -17,7 +17,7 @@ class InstitutionsController extends AppAdminController
      * @param \Cake\Event\EventInterface $event
      * @return void
      */
-    public function beforeRender(EventInterface $event)
+    public function beforeRender(EventInterface $event): void
     {
         $this->MenuLte->activeItem('institutions');
     }
@@ -25,9 +25,9 @@ class InstitutionsController extends AppAdminController
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return void Renders view
      */
-    public function index()
+    public function index(): void
     {
         $this->paginate = [
             'order' => ['Institutions.name' => 'ASC'],
@@ -53,19 +53,17 @@ class InstitutionsController extends AppAdminController
      * View method
      *
      * @param string|null $id Institution id.
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view(?string $id = null): void
     {
-        $institution = $this->Institutions->get($id, [
-            'contain' => [
-                'Tenants',
-                'InstitutionProjects' => ['InterestAreas'],
-                'States',
-                'Municipalities',
-                'Parishes',
-            ],
+        $institution = $this->Institutions->get($id, contain: [
+            'Tenants',
+            'InstitutionProjects' => ['InterestAreas'],
+            'States',
+            'Municipalities',
+            'Parishes',
         ]);
 
         $this->set(compact('institution'));
@@ -74,7 +72,7 @@ class InstitutionsController extends AppAdminController
     /**
      * Add method
      *
-     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
+     * @return \Cake\Http\Response|null
      */
     public function add()
     {
@@ -88,19 +86,17 @@ class InstitutionsController extends AppAdminController
             }
             $this->Flash->error(__('The institution could not be saved. Please, try again.'));
         }
-        $tenants = $this->Institutions->Tenants->find('listLabel', ['limit' => 200])->all();
+        $tenants = $this->Institutions->Tenants->find('listLabel', options: ['limit' => 200])->all();
         $this->set(compact('institution', 'tenants'));
     }
 
     /**
-     * @param int|string $id
-     * @return \Cake\Http\Response|null|void
+     * @param string|int $id
+     * @return \Cake\Http\Response|null
      */
-    public function addProject($id = null)
+    public function addProject(int|string|null $id = null)
     {
-        $institution = $this->Institutions->get($id, [
-            'contain' => ['Tenants'],
-        ]);
+        $institution = $this->Institutions->get($id, contain: ['Tenants']);
         $institutionProject = $this->Institutions->InstitutionProjects->newEmptyEntity();
         if ($this->request->is('post')) {
             $institutionProject = $this->Institutions->InstitutionProjects->patchEntity($institutionProject, $this->request->getData());
@@ -112,7 +108,7 @@ class InstitutionsController extends AppAdminController
             }
             $this->Flash->error(__('The project could not be saved. Please, try again.'));
         }
-        $interestAreas = $this->Institutions->InstitutionProjects->InterestAreas->find('list', ['limit' => 200])
+        $interestAreas = $this->Institutions->InstitutionProjects->InterestAreas->find('list', options: ['limit' => 200])
             ->where(['InterestAreas.program_id' => $institution->tenant->program_id])
             ->all();
 
@@ -123,14 +119,12 @@ class InstitutionsController extends AppAdminController
      * Edit method
      *
      * @param string|null $id Institution id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
+     * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
+    public function edit(?string $id = null)
     {
-        $institution = $this->Institutions->get($id, [
-            'contain' => [],
-        ]);
+        $institution = $this->Institutions->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $institution = $this->Institutions->patchEntity($institution, $this->request->getData());
             if ($this->Institutions->save($institution)) {
@@ -140,20 +134,18 @@ class InstitutionsController extends AppAdminController
             }
             $this->Flash->error(__('The institution could not be saved. Please, try again.'));
         }
-        $tenants = $this->Institutions->Tenants->find('listLabel', ['limit' => 200])->all();
+        $tenants = $this->Institutions->Tenants->find('listLabel', options: ['limit' => 200])->all();
         $this->set(compact('institution', 'tenants'));
     }
 
     /**
-     * @param int|string $project_id
-     * @return \Cake\Http\Response|null|void
+     * @param string|int $project_id
+     * @return \Cake\Http\Response|null
      */
-    public function editProject($project_id = null)
+    public function editProject(int|string|null $project_id = null)
     {
         $institutionProject = $this->Institutions->InstitutionProjects->get($project_id);
-        $institution = $this->Institutions->get($institutionProject->institution_id, [
-            'contain' => ['Tenants'],
-        ]);
+        $institution = $this->Institutions->get($institutionProject->institution_id, contain: ['Tenants']);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $institutionProject = $this->Institutions->InstitutionProjects->patchEntity($institutionProject, $this->request->getData());
             if ($this->Institutions->InstitutionProjects->save($institutionProject)) {
@@ -163,7 +155,7 @@ class InstitutionsController extends AppAdminController
             }
             $this->Flash->error(__('The project could not be saved. Please, try again.'));
         }
-        $interestAreas = $this->Institutions->InstitutionProjects->InterestAreas->find('list', ['limit' => 200])
+        $interestAreas = $this->Institutions->InstitutionProjects->InterestAreas->find('list', options: ['limit' => 200])
             ->where(['InterestAreas.program_id' => $institution->tenant->program_id])
             ->all();
 
@@ -174,10 +166,10 @@ class InstitutionsController extends AppAdminController
      * Delete method
      *
      * @param string|null $id Institution id.
-     * @return \Cake\Http\Response|null|void Redirects to index.
+     * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    public function delete(?string $id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
         $institution = $this->Institutions->get($id);

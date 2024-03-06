@@ -8,10 +8,11 @@ use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use App\Model\Field\StudentType;
 use Cake\Event\EventInterface;
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\View\CellTrait;
 use CakeLteTools\Controller\Traits\BulkActionsTrait;
 use CakeLteTools\Controller\Traits\ExportDataTrait;
+use Exception;
 
 /**
  * Students Controller
@@ -29,7 +30,7 @@ class StudentsController extends AppAdminController
      * @param \Cake\Event\EventInterface $event
      * @return void
      */
-    public function beforeRender(EventInterface $event)
+    public function beforeRender(EventInterface $event): void
     {
         parent::beforeRender($event);
         $this->MenuLte->activeItem('students');
@@ -38,7 +39,7 @@ class StudentsController extends AppAdminController
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return \Cake\Http\Response|null
      */
     public function index()
     {
@@ -67,16 +68,17 @@ class StudentsController extends AppAdminController
         $formFilters = $this->cell('Filters::adminStudents', [
             'isFiltered' => $isFiltered,
             'filterKey' => $filterKey,
+            'limit' => $this->getRequest()->getQuery('limit'),
         ]);
 
         $this->set(compact('students', 'formFilters'));
     }
 
     /**
-     * @param \Cake\ORM\Query $query
-     * @return \Cake\Http\Response|null|void
+     * @param \Cake\ORM\Query\SelectQuery $query
+     * @return \Cake\Http\Response|null
      */
-    protected function queryToCsv(Query $query)
+    protected function queryToCsv(SelectQuery $query)
     {
         $query = $query->contain([
             'StudentData' => ['InterestAreas'],
@@ -106,10 +108,10 @@ class StudentsController extends AppAdminController
      * View method
      *
      * @param string|null $id Student id.
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view(?string $id = null): void
     {
         $student = $this->Students
             ->find('withStudentAdscriptions')
@@ -118,29 +120,27 @@ class StudentsController extends AppAdminController
             ->where(['Students.id' => $id])
             ->first();
 
-        $stageList = $this->Students->StudentStages->find('stageList', ['student' => $student]);
+        $stageList = $this->Students->StudentStages->find('stageList', options: ['student' => $student]);
 
         $this->set(compact('student', 'stageList'));
     }
 
     /**
-     * @param int|string $id
-     * @return \Cake\Http\Response|null|void
+     * @param string|int $id
+     * @return void
      */
-    public function info($id = null)
+    public function info(int|string|null $id = null): void
     {
-        $student = $this->Students->get($id, [
-            'contain' => ['AppUsers', 'StudentData' => ['InterestAreas']],
-        ]);
+        $student = $this->Students->get($id, contain: ['AppUsers', 'StudentData' => ['InterestAreas']]);
 
         $this->set(compact('student'));
     }
 
     /**
-     * @param int|string $id
-     * @return \Cake\Http\Response|null|void
+     * @param string|int $id
+     * @return void
      */
-    public function adscriptions($id = null)
+    public function adscriptions(int|string|null $id = null): void
     {
         $student = $this->Students->find('withStudentAdscriptions')
             ->where(['Students.id' => $id])
@@ -150,23 +150,21 @@ class StudentsController extends AppAdminController
     }
 
     /**
-     * @param int|string $id
-     * @return \Cake\Http\Response|null|void
+     * @param string|int $id
+     * @return void
      */
-    public function settings($id = null)
+    public function settings(int|string|null $id = null): void
     {
-        $student = $this->Students->get($id, [
-            'contain' => ['AppUsers'],
-        ]);
+        $student = $this->Students->get($id, contain: ['AppUsers']);
 
         $this->set(compact('student'));
     }
 
     /**
-     * @param int|string $id
-     * @return \Cake\Http\Response|null|void
+     * @param string|int $id
+     * @return void
      */
-    public function tracking($id = null)
+    public function tracking(int|string|null $id = null): void
     {
         $student = $this->Students->get($id);
         $trackingView = $this->cell('TrackingView', [
@@ -190,10 +188,10 @@ class StudentsController extends AppAdminController
     }
 
     /**
-     * @param int|string $id
-     * @return \Cake\Http\Response|null|void
+     * @param string|int $id
+     * @return void
      */
-    public function prints($id = null)
+    public function prints(int|string|null $id = null): void
     {
         $this->set('student_id', $id);
     }
@@ -201,7 +199,7 @@ class StudentsController extends AppAdminController
     /**
      * Add method
      *
-     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
+     * @return \Cake\Http\Response|null
      */
     public function add()
     {
@@ -215,7 +213,7 @@ class StudentsController extends AppAdminController
             }
             $this->Flash->error(__('The student could not be saved. Please, try again.'));
         }
-        $appUsers = $this->Students->AppUsers->find('list', ['limit' => 200])->all();
+        $appUsers = $this->Students->AppUsers->find('list', options: ['limit' => 200])->all();
         $this->set(compact('student', 'appUsers'));
     }
 
@@ -223,14 +221,12 @@ class StudentsController extends AppAdminController
      * Edit method
      *
      * @param string|null $id Student id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
+     * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
+    public function edit(?string $id = null)
     {
-        $student = $this->Students->get($id, [
-            'contain' => [],
-        ]);
+        $student = $this->Students->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $student = $this->Students->patchEntity($student, $this->request->getData());
             if ($this->Students->save($student)) {
@@ -240,7 +236,7 @@ class StudentsController extends AppAdminController
             }
             $this->Flash->error(__('The student could not be saved. Please, try again.'));
         }
-        $appUsers = $this->Students->AppUsers->find('list', ['limit' => 200])->all();
+        $appUsers = $this->Students->AppUsers->find('list', options: ['limit' => 200])->all();
         $this->set(compact('student', 'appUsers'));
     }
 
@@ -248,10 +244,10 @@ class StudentsController extends AppAdminController
      * Delete method
      *
      * @param string|null $id Student id.
-     * @return \Cake\Http\Response|null|void Redirects to index.
+     * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    public function delete(?string $id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
         $student = $this->Students->get($id);
@@ -266,7 +262,7 @@ class StudentsController extends AppAdminController
 
     /**
      * @param array $ids
-     * @return \Cake\Http\Response|null|void Redirects to index.
+     * @return \Cake\Http\Response|null
      */
     protected function closeStageCourse(array $ids = [])
     {
@@ -284,14 +280,12 @@ class StudentsController extends AppAdminController
     }
 
     /**
-     * @param int|string $id
-     * @return \Cake\Http\Response|null|void
+     * @param string|int $id
+     * @return \Cake\Http\Response|null
      */
-    public function changeEmail($id = null)
+    public function changeEmail(int|string|null $id = null)
     {
-        $student = $this->Students->get($id, [
-            'contain' => ['AppUsers'],
-        ]);
+        $student = $this->Students->get($id, contain: ['AppUsers']);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $student = $this->Students->patchEntity($student, $this->request->getData());
@@ -306,8 +300,8 @@ class StudentsController extends AppAdminController
     }
 
     /**
-     * @param int|string $id
-     * @return \Cake\Http\Response|null|void
+     * @param string|int $id
+     * @return \Cake\Http\Response|null
      */
     public function newProgram(string $id)
     {
@@ -315,9 +309,7 @@ class StudentsController extends AppAdminController
 
         try {
             $this->Students->getConnection()->begin();
-            $student = $this->Students->get($id, [
-                'contain' => ['AppUsers'],
-            ]);
+            $student = $this->Students->get($id, contain: ['AppUsers']);
             $student->active = false;
             $this->Students->saveOrFail($student);
 
@@ -332,7 +324,7 @@ class StudentsController extends AppAdminController
             $this->Flash->success(__('A new student record has been created, and the previous one has been deactivated.'));
 
             return $this->redirect(['action' => 'view', $newStudent->id]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->Flash->error(__('The student could not be saved. Please, try again.'));
 
             $this->Students->getConnection()->rollback();
@@ -342,8 +334,8 @@ class StudentsController extends AppAdminController
     }
 
     /**
-     * @param int|string $id
-     * @return \Cake\Http\Response|null|void
+     * @param string|int $id
+     * @return \Cake\Http\Response|null
      */
     public function deactivate(string $id)
     {
@@ -360,8 +352,8 @@ class StudentsController extends AppAdminController
     }
 
     /**
-     * @param int|string $id
-     * @return \Cake\Http\Response|null|void
+     * @param string|int $id
+     * @return \Cake\Http\Response|null
      */
     public function reactivate(string $id)
     {

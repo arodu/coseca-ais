@@ -23,7 +23,7 @@ class Parish extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'municipality_id' => true,
         'name' => true,
     ];

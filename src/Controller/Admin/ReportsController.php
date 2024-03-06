@@ -23,7 +23,7 @@ class ReportsController extends AppAdminController
     /**
      * @return void
      */
-    public function dashboard()
+    public function dashboard(): void
     {
         $this->MenuLte->activeItem('home');
     }
@@ -32,7 +32,7 @@ class ReportsController extends AppAdminController
      * @param string $tenant_id
      * @return void
      */
-    public function tenant(string $tenant_id)
+    public function tenant(string $tenant_id): void
     {
         $currentTab = $this->getRequest()->getQuery('tab', 'general');
         $lapse_id = $this->getRequest()->getQuery('lapse_id', null);

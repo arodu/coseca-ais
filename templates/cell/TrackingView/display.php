@@ -16,7 +16,7 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
         <h3 class="card-title"><?= __('Seguimiento: {0}', $student->lapse->name ?? $this->App->nan()) ?></h3>
     </div>
     <div class="card-body">
-        <?= $this->cell('TrackingView::info', ['student_id' => $student->id, 'actions' => true]) ?>
+        <?= $this->cell('TrackingView::info', ['student_id' => $student->id]) ?>
     </div>
     <?php if ($trackingStage && $user->can('displayActions', $trackingStage)) : ?>
         <div class="card-body d-flex">
@@ -137,7 +137,7 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
                             <div class="col">
                                 <?= $this->App->control('project', [
                                     'label' => __('Proyecto'),
-                                    'value' => h($adscription->institution_project->label_name),
+                                    'value' => h($adscription?->institution_project?->label_name),
                                 ]) ?>
                             </div>
                         </div>

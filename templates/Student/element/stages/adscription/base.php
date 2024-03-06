@@ -72,5 +72,5 @@ use App\Model\Field\AdscriptionStatus;
                 </div>
             </div>
         </div>
-    <?php endforeach; ?>
+<?php endforeach; ?>
 <?php endif; ?>

@@ -16,6 +16,11 @@ use Cake\Event\EventInterface;
 class TenantsController extends AppAdminController
 {
     /**
+     * @var \App\Model\Table\ProgramsTable
+     */
+    protected $Programs;
+
+    /**
      * @return void
      */
     public function initialize(): void
@@ -29,7 +34,7 @@ class TenantsController extends AppAdminController
      * @param \Cake\Event\EventInterface $event
      * @return void
      */
-    public function beforeRender(EventInterface $event)
+    public function beforeRender(EventInterface $event): void
     {
         parent::beforeRender($event);
         $this->MenuLte->activeItem('tenants');
@@ -38,9 +43,9 @@ class TenantsController extends AppAdminController
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return void Renders view
      */
-    public function index()
+    public function index(): void
     {
         $this->paginate = [];
 
@@ -57,25 +62,23 @@ class TenantsController extends AppAdminController
      * View method
      *
      * @param string|null $id Tenant id.
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view(?string $id = null): void
     {
-        $tenant = $this->Tenants->get($id, [
-            'contain' => [
-                'Programs',
-                'CurrentLapse' => ['LapseDates'],
-            ],
+        $tenant = $this->Tenants->get($id, contain: [
+            'Programs',
+            'CurrentLapse' => ['LapseDates'],
         ]);
 
         $lapses = $this->Tenants->Lapses
-            ->find('list', [
+            ->find('list', options: [
                 'keyField' => 'id',
                 'valueField' => 'name',
                 'groupField' => 'label_active',
             ])
-            ->order(['active' => 'DESC'])
+            ->orderBy(['active' => 'DESC'])
             ->where(['tenant_id' => $id]);
 
         $lapseSelected = $this->getLapseSelected($tenant, $this->getRequest()->getQuery('lapse_id', null));
@@ -85,48 +88,45 @@ class TenantsController extends AppAdminController
 
     /**
      * @param string $program_id
-     * @return \Cake\Http\Response|null|void
+     * @return void
      */
-    public function viewProgram($program_id = null)
+    public function viewProgram(?string $program_id = null): void
     {
-        $program = $this->Programs->get($program_id, [
-            'contain' => [
+        $program = $this->Programs->get(
+            $program_id,
+            contain: [
                 'Tenants',
                 'InterestAreas',
             ],
-        ]);
+        );
 
         $this->set(compact('program'));
     }
 
     /**
      * @param \App\Model\Entity\Tenant $tenant
-     * @param int|string $lapse_id
+     * @param string|int|null $lapse_id
      * @return \App\Model\Entity\Lapse|null
      */
-    private function getLapseSelected(Tenant $tenant, $lapse_id): ?Lapse
+    protected function getLapseSelected(Tenant $tenant, int|string|null $lapse_id): ?Lapse
     {
         if (empty($lapse_id) && !empty($tenant->current_lapse)) {
             return $tenant->current_lapse;
         }
 
         if (!empty($lapse_id)) {
-            return $this->Tenants->Lapses->get($lapse_id, [
-                'contain' => ['LapseDates'],
-            ]);
+            return $this->Tenants->Lapses->get($lapse_id, contain: ['LapseDates']);
         }
 
         return $this->Tenants->Lapses->find()
             ->where(['tenant_id' => $tenant->id])
             ->contain(['LapseDates'])
-            ->order(['id' => 'DESC'])
+            ->orderBy(['id' => 'DESC'])
             ->first();
     }
 
     /**
-     * Add method
-     *
-     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
+     * @return \Cake\Http\Response|null
      */
     public function add()
     {
@@ -141,7 +141,7 @@ class TenantsController extends AppAdminController
             }
             $this->Flash->error(__('The tenant could not be saved. Please, try again.'));
         }
-        $programs = $this->Tenants->Programs->find('list', [
+        $programs = $this->Tenants->Programs->find('list', options: [
             'groupField' => 'area_label',
             'limit' => 200,
         ]);
@@ -150,7 +150,7 @@ class TenantsController extends AppAdminController
     }
 
     /**
-     * @return \Cake\Http\Response|null|void
+     * @return \Cake\Http\Response|null
      */
     public function addProgram()
     {
@@ -170,10 +170,10 @@ class TenantsController extends AppAdminController
     }
 
     /**
-     * @param int|string $program_id
-     * @return \Cake\Http\Response|null|void
+     * @param string|int $program_id
+     * @return \Cake\Http\Response|null
      */
-    public function addInterestArea($program_id = null)
+    public function addInterestArea(int|string|null $program_id = null)
     {
         $interestArea = $this->Programs->InterestAreas->newEmptyEntity();
         $program = $this->Programs->get($program_id);
@@ -192,17 +192,13 @@ class TenantsController extends AppAdminController
     }
 
     /**
-     * Edit method
-     *
      * @param string|null $id Tenant id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
+     * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
+    public function edit(?string $id = null)
     {
-        $tenant = $this->Tenants->get($id, [
-            'contain' => [],
-        ]);
+        $tenant = $this->Tenants->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $tenant = $this->Tenants->patchEntity($tenant, $this->request->getData());
             if ($this->Tenants->save($tenant)) {
@@ -217,10 +213,10 @@ class TenantsController extends AppAdminController
     }
 
     /**
-     * @param int|string $program_id
-     * @return \Cake\Http\Response|null|void
+     * @param string|int $program_id
+     * @return \Cake\Http\Response|null
      */
-    public function editProgram($program_id = null)
+    public function editProgram(int|string|null $program_id = null)
     {
         $program = $this->Programs->get($program_id);
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -236,10 +232,10 @@ class TenantsController extends AppAdminController
     }
 
     /**
-     * @param int|string $interestArea_id
-     * @return \Cake\Http\Response|null|void
+     * @param string|int $interestArea_id
+     * @return \Cake\Http\Response|null
      */
-    public function editInterestArea($interestArea_id = null)
+    public function editInterestArea(int|string|null $interestArea_id = null)
     {
         $interestArea = $this->Programs->InterestAreas->get($interestArea_id);
         $program = $this->Programs->get($interestArea->program_id);
@@ -259,20 +255,19 @@ class TenantsController extends AppAdminController
      * Delete method
      *
      * @param string|null $id Tenant id.
-     * @return \Cake\Http\Response|null|void Redirects to index.
+     * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    // No se deberia eliminar un Tenant
-    // public function delete($id = null)
-    // {
-    //     $this->request->allowMethod(['post', 'delete']);
-    //     $tenant = $this->Tenants->get($id);
-    //     if ($this->Tenants->delete($tenant)) {
-    //         $this->Flash->success(__('The tenant has been deleted.'));
-    //     } else {
-    //         $this->Flash->error(__('The tenant could not be deleted. Please, try again.'));
-    //     }
+    public function delete(?string $id = null)
+    {
+        $this->request->allowMethod(['post', 'delete']);
+        $tenant = $this->Tenants->get($id);
+        if ($this->Tenants->delete($tenant)) {
+            $this->Flash->success(__('The tenant has been deleted.'));
+        } else {
+            $this->Flash->error(__('The tenant could not be deleted. Please, try again.'));
+        }
 
-    //     return $this->redirect(['action' => 'index']);
-    // }
+         return $this->redirect(['action' => 'index']);
+    }
 }

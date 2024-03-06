@@ -15,7 +15,7 @@ class PdfHelper extends Helper
      *
      * @var array<string, mixed>
      */
-    protected $_defaultConfig = [
+    protected array $_defaultConfig = [
         'headerHeight' => 0,
         'footerHeight' => 0,
 

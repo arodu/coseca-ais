@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Test\Factory;
 
 use App\Model\Field\UserRole;
-use Cake\I18n\FrozenDate;
 use CakephpFixtureFactories\Factory\BaseFactory as CakephpBaseFactory;
 use Faker\Generator;
 
@@ -46,8 +45,8 @@ class AppUserFactory extends CakephpBaseFactory
                 'last_name' => $faker->lastName,
                 'active' => true,
                 'role' => UserRole::STUDENT->value,
-                'created' => FrozenDate::now(),
-                'modified' => FrozenDate::now(),
+                'created' => \Cake\I18n\Date::now(),
+                'modified' => \Cake\I18n\Date::now(),
             ];
         });
     }

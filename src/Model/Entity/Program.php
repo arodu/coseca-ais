@@ -25,7 +25,7 @@ class Program extends Entity
     /**
      * @var array
      */
-    protected $enumFields = [
+    protected array $enumFields = [
         'area' => ProgramArea::class,
         'regime' => ProgramRegime::class,
     ];
@@ -39,7 +39,7 @@ class Program extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'name' => true,
         'area' => true,
         'regime' => true,
@@ -47,7 +47,7 @@ class Program extends Entity
         'tenants' => true,
     ];
 
-    protected $_virtual = [
+    protected array $_virtual = [
         'area_label',
         'regime_label',
     ];

@@ -7,7 +7,6 @@ use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use App\Model\Field\StudentType;
-use Cake\I18n\FrozenDate;
 use Cake\Utility\Hash;
 
 /**
@@ -68,8 +67,8 @@ class DashboardControllerTest extends StudentTestCase
         ]);
 
         // with lapse dates in pass
-        $start_date = FrozenDate::now()->subDays(4);
-        $end_date = FrozenDate::now()->subDays(3);
+        $start_date = \Cake\I18n\Date::now()->subDays(4);
+        $end_date = \Cake\I18n\Date::now()->subDays(3);
         $this->updateRecord($lapseDate, compact('start_date', 'end_date'));
         $this->get('/student');
         $this->assertResponseOk();
@@ -77,8 +76,8 @@ class DashboardControllerTest extends StudentTestCase
         $this->assertResponseContains($this->alertMessage);
 
         // with lapse dates in future
-        $start_date = FrozenDate::now()->addDays(3);
-        $end_date = FrozenDate::now()->addDays(4);
+        $start_date = \Cake\I18n\Date::now()->addDays(3);
+        $end_date = \Cake\I18n\Date::now()->addDays(4);
         $this->updateRecord($lapseDate, compact('start_date', 'end_date'));
         $this->get('/student');
         $this->assertResponseOk();
@@ -86,8 +85,8 @@ class DashboardControllerTest extends StudentTestCase
         $this->assertResponseContains($this->alertMessage);
 
         // with lapse dates in progress
-        $start_date = FrozenDate::now()->subDays(1);
-        $end_date = FrozenDate::now()->addDays(1);
+        $start_date = \Cake\I18n\Date::now()->subDays(1);
+        $end_date = \Cake\I18n\Date::now()->addDays(1);
         $this->updateRecord($lapseDate, compact('start_date', 'end_date'));
         $this->get('/student');
         $this->assertResponseOk();
@@ -182,7 +181,7 @@ class DashboardControllerTest extends StudentTestCase
         $this->assertResponseContains($this->alertMessage);
 
         // with lapse dates in pass
-        $start_date = FrozenDate::now()->subDays(4);
+        $start_date = \Cake\I18n\Date::now()->subDays(4);
         $this->updateRecord($lapseDate, compact('start_date'));
         $this->get('/student');
         $this->assertResponseOk();
@@ -190,7 +189,7 @@ class DashboardControllerTest extends StudentTestCase
         $this->assertResponseContains($this->alertMessage);
 
         // with lapse dates in future
-        $start_date = FrozenDate::now()->addDays(4);
+        $start_date = \Cake\I18n\Date::now()->addDays(4);
         $this->updateRecord($lapseDate, compact('start_date'));
         $this->get('/student');
         $this->assertResponseOk();
@@ -198,7 +197,7 @@ class DashboardControllerTest extends StudentTestCase
         $this->assertResponseContains($this->alertMessage);
 
         // with lapse dates in progress
-        $start_date = FrozenDate::now();
+        $start_date = \Cake\I18n\Date::now();
         $this->updateRecord($lapseDate, compact('start_date'));
         $this->get('/student');
         $this->assertResponseOk();
@@ -221,7 +220,7 @@ class DashboardControllerTest extends StudentTestCase
         $this->assertResponseContains('Sin información a mostrar');
         $this->assertResponseContains($this->alertMessage);
 
-        $courseDate = FrozenDate::now();
+        $courseDate = \Cake\I18n\Date::now();
         $this->addRecord('StudentCourses', [
             'student_id' => $student->id,
             'date' => $courseDate,
@@ -389,7 +388,7 @@ class DashboardControllerTest extends StudentTestCase
         $this->assertResponseContains('Registro de actividades');
         $this->assertResponseNotContains('Planilla de actividades');
 
-        $first_date = FrozenDate::now()->subDays(4);
+        $first_date = \Cake\I18n\Date::now()->subDays(4);
         $record[0] = $this->addRecord('StudentTracking', [
             'student_adscription_id' => $adscription->id,
             'date' => $first_date,
@@ -405,7 +404,7 @@ class DashboardControllerTest extends StudentTestCase
         $this->assertResponseContains('Registro de actividades');
         $this->assertResponseNotContains('Planilla de actividades');
 
-        $last_date = FrozenDate::now()->subDays(3);
+        $last_date = \Cake\I18n\Date::now()->subDays(3);
         $record[1] = $this->addRecord('StudentTracking', [
             'student_adscription_id' => $adscription->id,
             'date' => $last_date,
@@ -421,7 +420,7 @@ class DashboardControllerTest extends StudentTestCase
         $this->assertResponseContains('Registro de actividades');
         $this->assertResponseNotContains('Planilla de actividades');
 
-        $last_date = FrozenDate::now()->subDays(1);
+        $last_date = \Cake\I18n\Date::now()->subDays(1);
         $record[2] = $this->addRecord('StudentTracking', [
             'student_adscription_id' => $adscription->id,
             'date' => $last_date,
@@ -458,7 +457,7 @@ class DashboardControllerTest extends StudentTestCase
         $this->assertResponseContains('Registro de actividades');
         $this->assertResponseNotContains('Planilla de actividades');
 
-        $last_date = FrozenDate::now();
+        $last_date = \Cake\I18n\Date::now();
         $record[3] = $this->addRecord('StudentTracking', [
             'student_adscription_id' => $adscription->id,
             'date' => $last_date,

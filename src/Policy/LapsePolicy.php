@@ -17,7 +17,7 @@ class LapsePolicy
      * @param \App\Model\Entity\Lapse $lapse
      * @return bool
      */
-    public function canRegisterEdit(IdentityInterface $user, Lapse $lapse)
+    public function canRegisterEdit(IdentityInterface $user, Lapse $lapse): bool
     {
         if ($this->userIsAdmin($user)) {
             return true;

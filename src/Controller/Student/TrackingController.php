@@ -28,9 +28,7 @@ class TrackingController extends AppStudentController
     }
 
     /**
-     * Index method
-     *
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return void
      */
     public function index()
     {
@@ -47,7 +45,7 @@ class TrackingController extends AppStudentController
     }
 
     /**
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return \Cake\Http\Response|null
      */
     public function add()
     {
@@ -63,9 +61,9 @@ class TrackingController extends AppStudentController
 
     /**
      * @param int $tracking_id
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return \Cake\Http\Response|null
      */
-    public function delete($tracking_id)
+    public function delete(int $tracking_id)
     {
         $this->request->allowMethod(['post', 'delete']);
         $this->processDelete((int)$tracking_id);
@@ -74,7 +72,7 @@ class TrackingController extends AppStudentController
     }
 
     /**
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return \Cake\Http\Response|null
      */
     public function closeStage()
     {

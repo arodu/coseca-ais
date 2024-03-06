@@ -17,7 +17,7 @@ class TutorsController extends AppAdminController
      * @param \Cake\Event\EventInterface $event
      * @return void
      */
-    public function beforeRender(EventInterface $event)
+    public function beforeRender(EventInterface $event): void
     {
         $this->MenuLte->activeItem('tutors');
     }
@@ -25,9 +25,9 @@ class TutorsController extends AppAdminController
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return void Renders view
      */
-    public function index()
+    public function index(): void
     {
         $this->paginate = [];
 
@@ -51,22 +51,18 @@ class TutorsController extends AppAdminController
      * View method
      *
      * @param string|null $id Tutor id.
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view(?string $id = null): void
     {
-        $tutor = $this->Tutors->get($id, [
-            'contain' => ['Tenants', 'StudentAdscriptions'],
-        ]);
+        $tutor = $this->Tutors->get($id, contain: ['Tenants', 'StudentAdscriptions']);
 
         $this->set(compact('tutor'));
     }
 
     /**
-     * Add method
-     *
-     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
+     * @return \Cake\Http\Response|null
      */
     public function add()
     {
@@ -80,7 +76,7 @@ class TutorsController extends AppAdminController
             }
             $this->Flash->error(__('The tutor could not be saved. Please, try again.'));
         }
-        $tenants = $this->Tutors->Tenants->find('listLabel', ['limit' => 200])->all();
+        $tenants = $this->Tutors->Tenants->find('listLabel', options: ['limit' => 200])->all();
         $this->set(compact('tutor', 'tenants'));
     }
 
@@ -88,14 +84,12 @@ class TutorsController extends AppAdminController
      * Edit method
      *
      * @param string|null $id Tutor id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
+     * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
+    public function edit(?string $id = null)
     {
-        $tutor = $this->Tutors->get($id, [
-            'contain' => [],
-        ]);
+        $tutor = $this->Tutors->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $tutor = $this->Tutors->patchEntity($tutor, $this->request->getData());
             if ($this->Tutors->save($tutor)) {
@@ -105,7 +99,7 @@ class TutorsController extends AppAdminController
             }
             $this->Flash->error(__('The tutor could not be saved. Please, try again.'));
         }
-        $tenants = $this->Tutors->Tenants->find('listLabel', ['limit' => 200])->all();
+        $tenants = $this->Tutors->Tenants->find('listLabel')->all();
         $this->set(compact('tutor', 'tenants'));
     }
 
@@ -113,10 +107,10 @@ class TutorsController extends AppAdminController
      * Delete method
      *
      * @param string|null $id Tutor id.
-     * @return \Cake\Http\Response|null|void Redirects to index.
+     * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    public function delete(?string $id = null)
     {
         $modalForm = $this->getRequest()->getAttribute('modalForm');
         if (empty($modalForm) || !$modalForm->isValid()) {

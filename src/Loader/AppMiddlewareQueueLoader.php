@@ -20,7 +20,7 @@ class AppMiddlewareQueueLoader extends MiddlewareQueueLoader
     protected function loadAuthenticationMiddleware(
         MiddlewareQueue $middlewareQueue,
         AuthenticationServiceProviderInterface $authenticationServiceProvider
-    ) {
+    ): void {
         $authentication = new AuthenticationMiddleware($authenticationServiceProvider);
         $middlewareQueue->add($authentication);
         $middlewareQueue->add(FootprintMiddleware::class);

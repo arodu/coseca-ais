@@ -23,7 +23,7 @@ class Municipality extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'state_id' => true,
         'name' => true,
     ];

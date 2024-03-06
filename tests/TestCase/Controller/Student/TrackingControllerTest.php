@@ -6,7 +6,6 @@ namespace App\Test\TestCase\Controller\Student;
 use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
-use Cake\I18n\FrozenDate;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\Utility\Hash;
 
@@ -83,7 +82,7 @@ class TrackingControllerTest extends StudentTestCase
 
         $this->post('/student/tracking/add', [
             'student_adscription_id' => $adscription->id,
-            'date' => FrozenDate::now(),
+            'date' => \Cake\I18n\Date::now(),
             'hours' => 1,
             'description' => 'Test 1',
         ]);
@@ -96,7 +95,7 @@ class TrackingControllerTest extends StudentTestCase
 
         $this->post('/student/tracking/add', [
             'student_adscription_id' => $adscription->id,
-            'date' => FrozenDate::now(),
+            'date' => \Cake\I18n\Date::now(),
             'hours' => 6,
             'description' => 'Test 2',
         ]);

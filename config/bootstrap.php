@@ -41,13 +41,18 @@ use Cake\Datasource\ConnectionManager;
 use Cake\Error\ErrorTrap;
 use Cake\Error\ExceptionTrap;
 use Cake\Http\ServerRequest;
-use Cake\I18n\FrozenDate;
+use Cake\I18n\Date;
 use Cake\Log\Log;
 use Cake\Mailer\Mailer;
 use Cake\Mailer\TransportFactory;
 use Cake\Routing\Router;
 use Cake\Utility\Security;
 use CakeLteTools\Utility\FaIcon;
+
+/**
+ * Load global functions.
+ */
+require CAKE . 'functions.php';
 
 /*
  * See https://github.com/josegonzalez/php-dotenv for API details.
@@ -217,7 +222,7 @@ ServerRequest::addDetector('tablet', function ($request) {
 // There is no time-specific type in Cake
 TypeFactory::map('time', StringType::class);
 
-FrozenDate::setToStringFormat('dd/MM/yy');
+Date::setToStringFormat('dd/MM/yy');
 
 /*
  * Custom Inflector rules, can be set to correctly pluralize or singularize
@@ -252,11 +257,4 @@ Configure::write('CakePdf', [
     'header' => [
         'right' => '123123123',
     ],
-]);
-
-FaIcon::setIcon([
-    //'user' => ['fas', 'user-circle'],
-    //'close' => ['fas', 'window-close'],
-    //'check' => ['fas', 'check-circle'],
-    //'chart-bar' => ['fas', 'chart-bar'],
 ]);

@@ -16,7 +16,12 @@ class FiltersCell extends Cell
      *
      * @var array<string, mixed>
      */
-    protected $_validCellOptions = [];
+    protected array $_validCellOptions = [];
+
+    /**
+     * @var \App\Model\Table\StudentsTable
+     */
+    protected \App\Model\Table\StudentsTable $Students;
 
     /**
      * Initialization logic run at the end of object construction.
@@ -32,18 +37,21 @@ class FiltersCell extends Cell
     /**
      * @param bool $isFiltered
      * @param string $filterKey
+     * @param int|null $limit
      * @return void
      */
-    public function adminStudents(bool $isFiltered = false, string $filterKey = 'f')
+    public function adminStudents(bool $isFiltered = false, string $filterKey = 'f', ?int $limit = 20): void
     {
         $tenants = $this->Students->Tenants->find('listLabel');
-        $lapses = $this->Students->Lapses->find('list', [
-            'keyField' => 'name',
-            'valueField' => 'name',
-        ]);
+        $lapses = $this->Students->Lapses->find(
+            'list',
+            options: [
+                'keyField' => 'name',
+                'valueField' => 'name',
+            ]
+        );
 
-        $this->set(compact('tenants', 'lapses'));
-        $this->set(compact('isFiltered', 'filterKey'));
+        $this->set(compact('isFiltered', 'filterKey', 'limit', 'tenants', 'lapses'));
     }
 
     /**
@@ -51,7 +59,7 @@ class FiltersCell extends Cell
      * @param string $filterKey
      * @return void
      */
-    public function adminPrograms(bool $isFiltered = false, string $filterKey = 'f')
+    public function adminPrograms(bool $isFiltered = false, string $filterKey = 'f'): void
     {
         $this->set(compact('isFiltered', 'filterKey'));
     }
@@ -61,7 +69,7 @@ class FiltersCell extends Cell
      * @param string $filterKey
      * @return void
      */
-    public function adminInstitutions(bool $isFiltered = false, string $filterKey = 'f')
+    public function adminInstitutions(bool $isFiltered = false, string $filterKey = 'f'): void
     {
         $this->set(compact('isFiltered', 'filterKey'));
     }
@@ -71,7 +79,7 @@ class FiltersCell extends Cell
      * @param string $filterKey
      * @return void
      */
-    public function adminTutors(bool $isFiltered = false, string $filterKey = 'f')
+    public function adminTutors(bool $isFiltered = false, string $filterKey = 'f'): void
     {
         $this->set(compact('isFiltered', 'filterKey'));
     }

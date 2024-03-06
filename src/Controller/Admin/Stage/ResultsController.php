@@ -11,6 +11,11 @@ use Cake\Http\Exception\ForbiddenException;
 class ResultsController extends AppController
 {
     /**
+     * @var \App\Model\Table\StudentStagesTable
+     */
+    protected $StudentStages;
+
+    /**
      * @return void
      */
     public function initialize(): void
@@ -20,10 +25,10 @@ class ResultsController extends AppController
     }
 
     /**
-     * @param int|string|null $student_id
-     * @return \Cake\Http\Response|null|void
+     * @param string|int|null $student_id
+     * @return \Cake\Http\Response|null
      */
-    public function closeStage($student_id = null)
+    public function closeStage(int|string|null $student_id = null)
     {
         $this->request->allowMethod(['post', 'put']);
         $resultsStage = $this->StudentStages

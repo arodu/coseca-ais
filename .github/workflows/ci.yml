@@ -26,7 +26,7 @@ jobs:
     steps:
       - name: Setup MySQL latest
         if: matrix.db-type == 'mysql'
-        run: docker run --rm --name=mysqld -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=cakephp -p 3306:3306 -d mysql --default-authentication-plugin=mysql_native_password --disable-log-bin
+        run: docker run --rm --name=mysqld -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=cakephp -p 3306:3306 -d mysql:8.0 --default-authentication-plugin=mysql_native_password --disable-log-bin
 
       - uses: actions/checkout@v4
 
@@ -47,7 +47,10 @@ jobs:
           vendor/bin/phpunit
 
       - name: Run PHP CodeSniffer
+        if: success() || failure()
         run: composer cs-check
 
-      #- name: Run phpstan
-      #  run: vendor/bin/phpstan
+      - name: Run phpstan
+        if: success() || failure()
+        run: composer stan
+        continue-on-error: true

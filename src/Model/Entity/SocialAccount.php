@@ -18,11 +18,11 @@ use Cake\ORM\Entity;
  * @property string $link
  * @property string $token
  * @property string|null $token_secret
- * @property \Cake\I18n\FrozenTime|null $token_expires
+ * @property \Cake\I18n\DateTime|null $token_expires
  * @property bool $active
  * @property string $data
- * @property \Cake\I18n\FrozenTime $created
- * @property \Cake\I18n\FrozenTime $modified
+ * @property \Cake\I18n\DateTime $created
+ * @property \Cake\I18n\DateTime $modified
  *
  * @property \App\Model\Entity\User $user
  */
@@ -37,7 +37,7 @@ class SocialAccount extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'user_id' => true,
         'provider' => true,
         'username' => true,
@@ -60,7 +60,7 @@ class SocialAccount extends Entity
      *
      * @var array<string>
      */
-    protected $_hidden = [
+    protected array $_hidden = [
         'token',
     ];
 }

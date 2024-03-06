@@ -13,8 +13,8 @@ use Cake\ORM\Entity;
  * @property int $lapse_id
  * @property string $title
  * @property string $code
- * @property \Cake\I18n\FrozenDate $start_date
- * @property \Cake\I18n\FrozenDate $end_date
+ * @property \Cake\I18n\Date $start_date
+ * @property \Cake\I18n\Date $end_date
  *
  * @property \App\Model\Entity\Lapse $lapse
  */
@@ -29,7 +29,7 @@ class LapseDate extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'lapse_id' => true,
         'title' => true,
         'stage' => true,
@@ -55,7 +55,7 @@ class LapseDate extends Entity
         return null;
     }
 
-    protected $_virtual = [
+    protected array $_virtual = [
         'status',
     ];
 

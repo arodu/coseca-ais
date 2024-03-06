@@ -57,27 +57,8 @@ class Application extends BaseApplication
             );
         }
 
-        /*
-         * Only try to load DebugKit in development mode
-         * Debug Kit should not be installed on a production system
-         */
-        if (Configure::read('debug')) {
-            $this->addPlugin('DebugKit');
-        }
-
-        // Load more plugins here
-        $this->addPlugin('Muffin/Footprint');
-        $this->addPlugin(\CakeLte\Plugin::class);
-        $this->addPlugin(\CakeLteTools\CakeLteToolsPlugin::class);
-        $this->addPlugin(\CakeDC\Users\Plugin::class);
         Configure::write('Users.config', ['users']);
-        $this->addPlugin(\QueryFilter\QueryFilterPlugin::class);
-        $this->addPlugin(\ModalForm\ModalFormPlugin::class);
-
         $this->getEventManager()->on(new UsersListener());
-        //$this->getEventManager()->on(new StageNotificationListener());
-        $this->addPlugin('CakePdf');
-        $this->addPlugin('System');
     }
 
     /**

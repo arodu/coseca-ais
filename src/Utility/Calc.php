@@ -8,8 +8,8 @@ use Cake\Core\Configure;
 class Calc
 {
     /**
-     * @param int|float $completed
-     * @param int|float|null $total
+     * @param float|int $completed
+     * @param float|int|null $total
      * @param int $decimals
      * @return float
      */

@@ -17,6 +17,11 @@ class TrackingController extends AppAdminController
     use TrackingProcessTrait;
 
     /**
+     * @var \App\Model\Table\StudentsTable
+     */
+    protected $Students;
+
+    /**
      * @return void
      */
     public function initialize(): void
@@ -26,9 +31,7 @@ class TrackingController extends AppAdminController
     }
 
     /**
-     * Add method
-     *
-     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
+     * @return \Cake\Http\Response|null
      */
     public function add()
     {
@@ -45,7 +48,7 @@ class TrackingController extends AppAdminController
      * Delete method
      *
      * @param null $tracking_id Student Tracking id.
-     * @return \Cake\Http\Response|null|void Redirects to index.
+     * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete($tracking_id)
@@ -60,10 +63,10 @@ class TrackingController extends AppAdminController
     }
 
     /**
-     * @param int|string|null $student_id
-     * @return \Cake\Http\Response|null|void
+     * @param string|int|null $student_id
+     * @return \Cake\Http\Response|null
      */
-    public function closeStage($student_id = null)
+    public function closeStage(int|string|null $student_id = null)
     {
         $this->processCloseStage((int)$student_id);
 
@@ -71,10 +74,10 @@ class TrackingController extends AppAdminController
     }
 
     /**
-     * @param int|string|null $student_id
-     * @return \Cake\Http\Response|null|void
+     * @param string|int|null $student_id
+     * @return \Cake\Http\Response|null
      */
-    public function validateStage($student_id = null)
+    public function validateStage(int|string|null $student_id = null)
     {
         $this->processValidateStage((int)$student_id);
 

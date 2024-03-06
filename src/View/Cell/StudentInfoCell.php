@@ -21,7 +21,7 @@ class StudentInfoCell extends Cell
      *
      * @var array<string, mixed>
      */
-    protected $_validCellOptions = [];
+    protected array $_validCellOptions = [];
 
     /**
      * Initialization logic run at the end of object construction.
@@ -34,21 +34,21 @@ class StudentInfoCell extends Cell
     }
 
     /**
-     * @param int|string $student_id
+     * @param string|int $student_id
      * @return void
      */
-    public function display(int|string $student_id)
+    public function display(int|string $student_id): void
     {
         $student = $this->getStudent($student_id);
         $this->set(compact('student'));
     }
 
     /**
-     * @param int|string $student_id
+     * @param string|int $student_id
      * @param string|null $activeItem
      * @return void
      */
-    public function menu(int|string $student_id, ?string $activeItem = null)
+    public function menu(int|string $student_id, ?string $activeItem = null): void
     {
         $student = $this->getStudent($student_id);
 
@@ -79,20 +79,21 @@ class StudentInfoCell extends Cell
     }
 
     /**
-     * @param int|string $student_id
+     * @param string|int $student_id
      * @return \App\Model\Entity\Student|null
      */
     protected function getStudent(int|string $student_id): ?Student
     {
         return CacheRequest::remember('student_info_' . $student_id, function () use ($student_id) {
-            return $this->Students->get($student_id, [
-                'contain' => [
+            return $this->Students->get(
+                $student_id,
+                contain: [
                     'AppUsers',
                     'Tenants',
                     'Lapses',
                     'LastStage',
                 ],
-            ]);
+            );
         });
     }
 }

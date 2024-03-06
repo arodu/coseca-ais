@@ -16,7 +16,7 @@ class ReportWidgetsCell extends Cell
      *
      * @var array<string, mixed>
      */
-    protected $_validCellOptions = [];
+    protected array $_validCellOptions = [];
 
     /**
      * Initialization logic run at the end of object construction.

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Table\Traits;
 
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 
 trait BasicTableTrait
 {
@@ -11,7 +11,7 @@ trait BasicTableTrait
      * @param \Cake\ORM\Query $query query
      * @return \Cake\ORM\Query
      */
-    public function findActive(Query $query): Query
+    public function findActive(SelectQuery $query): SelectQuery
     {
         return $query->where([
             $this->aliasField('active') => true,
@@ -23,7 +23,7 @@ trait BasicTableTrait
      * @param array $options
      * @return \Cake\ORM\Query
      */
-    public function findObjectList(Query $query, array $options = []): Query
+    public function findObjectList(SelectQuery $query, array $options = []): SelectQuery
     {
         $options += [
             'keyField' => $this->getPrimaryKey(),

@@ -12,6 +12,7 @@ use CakeLteTools\Enum\BadgeInterface;
 use CakeLteTools\Enum\Color;
 use CakeLteTools\Utility\FaIcon;
 use CakeLteTools\Utility\Html;
+use Exception;
 
 /**
  * App helper
@@ -26,9 +27,9 @@ class AppHelper extends Helper
      *
      * @var array<string, mixed>
      */
-    protected $_defaultConfig = [];
+    protected array $_defaultConfig = [];
 
-    public $helpers = ['Html', 'Form'];
+    public array $helpers = ['Html', 'Form'];
 
     /**
      * @param array $options
@@ -134,8 +135,12 @@ class AppHelper extends Helper
      * @param array $options
      * @return string
      */
-    public function badge(BadgeInterface $enum, array $options = []): string
+    public function badge(?BadgeInterface $enum, array $options = []): string
     {
+        if (empty($enum)) {
+            return $this->nan($options);
+        }
+
         $options = array_merge([
             'tag' => 'span',
         ], $options);
@@ -216,7 +221,7 @@ class AppHelper extends Helper
     public function tenant(Tenant $tenant): string
     {
         if (empty($tenant->program)) {
-            throw new \Exception('Tenant program is empty');
+            throw new Exception('Tenant program is empty');
         }
 
         return __(

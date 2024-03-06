@@ -128,9 +128,10 @@ class StudentTrackingTable extends Table
      */
     protected function updateStudentTotalHours(EntityInterface $entity)
     {
-        $student = $this->Adscriptions->get($entity->student_adscription_id, [
-            'contain' => ['Students'],
-        ])->student;
+        $student = $this->Adscriptions->get(
+            $entity->student_adscription_id,
+            contain: ['Students']
+        )->student;
 
         $this->Adscriptions->Students->updateTotalHours($student);
 

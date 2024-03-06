@@ -3,12 +3,14 @@ declare(strict_types=1);
 
 namespace App\Utility;
 
+use Exception;
+
 class CacheRequest
 {
     /**
      * @var array
      */
-    protected static $data = [];
+    protected static array $data = [];
 
     /**
      * @param string|null $key
@@ -76,7 +78,7 @@ class CacheRequest
     public static function readOrFail(string $key): mixed
     {
         if (!self::has($key)) {
-            throw new \Exception("Key {$key} not found");
+            throw new Exception("Key {$key} not found");
         }
 
         return self::read($key);
@@ -91,7 +93,7 @@ class CacheRequest
     public static function writeOrFail(string $key, mixed $value): void
     {
         if (self::has($key)) {
-            throw new \Exception("Key {$key} already exists");
+            throw new Exception("Key {$key} already exists");
         }
 
         self::write($key, $value);
@@ -105,7 +107,7 @@ class CacheRequest
     public static function deleteOrFail(string $key): void
     {
         if (!self::has($key)) {
-            throw new \Exception("Key {$key} not found");
+            throw new Exception("Key {$key} not found");
         }
 
         self::delete($key);

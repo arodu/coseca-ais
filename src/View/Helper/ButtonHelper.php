@@ -5,10 +5,13 @@ namespace App\View\Helper;
 
 use App\Enum\ActionColor;
 use App\Enum\Button;
+use BadMethodCallException;
 use Cake\Utility\Hash;
 use Cake\View\Helper;
 use Cake\View\StringTemplateTrait;
 use CakeLteTools\Utility\FaIcon;
+use InvalidArgumentException;
+use Throwable;
 
 /**
  * Button helper
@@ -25,7 +28,7 @@ class ButtonHelper extends Helper
      *
      * @var array<string, mixed>
      */
-    protected $_defaultConfig = [
+    protected array $_defaultConfig = [
         'icon_class' => 'fa-fw',
         'itemDefaultConfig' => [
             'type' => 'button',
@@ -42,7 +45,7 @@ class ButtonHelper extends Helper
     /**
      * @var array
      */
-    public $helpers = ['Form', 'Html'];
+    public array $helpers = ['Form', 'Html'];
 
     /**
      * @param \App\Enum\Button $item
@@ -116,7 +119,7 @@ class ButtonHelper extends Helper
         } elseif ($options['icon-link'] ?? false) {
             $options['class'] = trim($actionColor->text() . ' ' . ($options['class'] ?? ''));
             $options['title'] = $options['title'] ?? $label ?? null;
-            $title = $icon;
+            $title = $icon->render();
         } else {
             $options['class'] = $this->prepareClass($options['class'] ?? '', $actionColor, $outline);
         }
@@ -210,7 +213,7 @@ class ButtonHelper extends Helper
         $this->requiredParams($options, ['actionColor']);
 
         if (empty($options['label']) && empty($options['icon'])) {
-            throw new \InvalidArgumentException('label or icon param is required');
+            throw new InvalidArgumentException('label or icon param is required');
         }
 
         if (isset($options['displayCondition'])) {
@@ -264,7 +267,7 @@ class ButtonHelper extends Helper
     }
 
     /**
-     * @param string|\App\Enum\Button $item
+     * @param \App\Enum\Button|string $item
      * @param array $options
      * @return string
      * @throws \InvalidArgumentException
@@ -283,7 +286,7 @@ class ButtonHelper extends Helper
             Button::RENDER_LINK => $this->link($options),
             Button::RENDER_BUTTON => $this->button($options),
             Button::RENDER_POST_LINK => $this->postLink($options),
-            default => throw new \InvalidArgumentException('Invalid render method'),
+            default => throw new InvalidArgumentException('Invalid render method'),
         };
     }
 
@@ -297,7 +300,7 @@ class ButtonHelper extends Helper
     {
         foreach ($required as $param) {
             if (empty($options[$param])) {
-                throw new \InvalidArgumentException($param . ' param is required');
+                throw new InvalidArgumentException($param . ' param is required');
             }
         }
     }
@@ -315,7 +318,7 @@ class ButtonHelper extends Helper
             return $this->get($item, $params[0] ?? []);
         }
 
-        throw new \BadMethodCallException('Method ' . $method . ' does not exist');
+        throw new BadMethodCallException('Method ' . $method . ' does not exist');
     }
 
     /**
@@ -361,7 +364,7 @@ class ButtonHelper extends Helper
             $name = $this->getConfig('icon.' . $name, $name);
 
             return FaIcon::get($name, $this->getConfig('icon_class'));
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             return FaIcon::get('default', $this->getConfig('icon_class'));
         }
     }

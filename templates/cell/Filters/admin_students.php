@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  */
@@ -19,7 +20,7 @@ use CakeLteTools\Utility\FaIcon;
         </h2>
     </div>
     <?= $this->Form->create(null, ['type' => 'GET', 'valueSources' => ['query', 'context']]) ?>
-    <?= $this->Form->hidden('limit', ['value' => $this->Paginator->param('perPage') ?? 20]) ?>
+    <?= $this->Form->hidden('limit', ['value' => $limit ?? 20]) ?>
     <div class="collapse <?= (($isFiltered ?? false) ? 'show' : null) ?>" id="collapse-filters">
         <div class="card-body">
             <div class="row">
@@ -30,18 +31,37 @@ use CakeLteTools\Utility\FaIcon;
                     <?= $this->Form->control($filterKey . '.dni', ['label' => __('Cedula')]) ?>
                 </div>
                 <div class="col-sm-4">
-                    <?= $this->Form->control($filterKey . '.lapse', ['label' => __('Lapso Académico'), 'empty' => __('--Todos--'), 'options' => $lapses]) ?>
+                    <?= $this->Form->control($filterKey . '.lapse', [
+                        'label' => __('Lapso Académico'),
+                        'empty' => __('--Todos--'),
+                        'options' => $lapses,
+                        'class' => 'form-control',
+                    ]) ?>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-4">
-                    <?= $this->Form->control($filterKey . '.tenant_id', ['label' => __('Programa'), 'empty' => __('--Todos--')]) ?>
+                    <?= $this->Form->control($filterKey . '.tenant_id', [
+                        'label' => __('Programa'),
+                        'empty' => __('--Todos--'),
+                        'class' => 'form-control',
+                    ]) ?>
                 </div>
                 <div class="col-sm-4">
-                    <?= $this->Form->control($filterKey . '.stage', ['label' => __('Etapa'), 'empty' => __('--Todos--'), 'options' => StageField::toListLabel()]) ?>
+                    <?= $this->Form->control($filterKey . '.stage', [
+                        'label' => __('Etapa'),
+                        'empty' => __('--Todos--'),
+                        'options' => StageField::toListLabel(),
+                        'class' => 'form-control',
+                    ]) ?>
                 </div>
                 <div class="col-sm-4">
-                    <?= $this->Form->control($filterKey . '.status', ['label' => __('Estado'), 'empty' => __('--Todos--'), 'options' => StageStatus::toListLabel()]) ?>
+                    <?= $this->Form->control($filterKey . '.status', [
+                        'label' => __('Estado'),
+                        'empty' => __('--Todos--'),
+                        'options' => StageStatus::toListLabel(),
+                        'class' => 'form-control',
+                    ]) ?>
                 </div>
             </div>
         </div>

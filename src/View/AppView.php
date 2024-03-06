@@ -38,7 +38,7 @@ class AppView extends View
 {
     use CakeLteTrait;
 
-    public $layout = 'CakeLte.top-nav';
+    public string $layout = 'CakeLte.top-nav';
 
     /**
      * Initialization hook method.
@@ -61,7 +61,7 @@ class AppView extends View
     }
 
     /**
-     * @param string|callable $info
+     * @param callable|string $info
      * @param array $options
      * @return string|null
      */

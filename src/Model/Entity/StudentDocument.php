@@ -14,8 +14,8 @@ use Cake\ORM\Entity;
  * @property string $token
  * @property string $model
  * @property int $foreign_key
- * @property \Cake\I18n\FrozenTime $created
- * @property \Cake\I18n\FrozenTime $modified
+ * @property \Cake\I18n\DateTime $created
+ * @property \Cake\I18n\DateTime $modified
  *
  * @property \App\Model\Entity\Student $student
  * @property \App\Model\Entity\StudentAdscription[] $student_adscriptions
@@ -31,7 +31,7 @@ class StudentDocument extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'student_id' => true,
         'type' => true,
         'token' => true,
@@ -48,7 +48,7 @@ class StudentDocument extends Entity
      *
      * @var array<string>
      */
-    protected $_hidden = [
+    protected array $_hidden = [
         'token',
     ];
 }

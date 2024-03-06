@@ -29,25 +29,26 @@ class DashboardController extends AppStudentController
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return void Renders view
      */
-    public function index()
+    public function index(): void
     {
         $student_id = $this->getCurrentStudent()->id;
         $studentStages = $this->StudentStages
-            ->find('objectList', ['keyField' => 'stage'])
+            ->find('objectList', options: ['keyField' => 'stage'])
             ->where(['student_id' => $student_id])
             ->toArray();
 
-        $student = $this->Students->find('loadProgress', ['studentStages' => $studentStages])
+        $student = $this->Students->find('loadProgress', options: ['studentStages' => $studentStages])
             ->where(['Students.id' => $student_id])
-
-            // @todo remove
             ->find('withAppUsers')
             ->find('withTenants')
-            ->find('withStudentAdscriptions', [
-                'status' => AdscriptionStatus::getTrackablesValues(),
-            ])
+            ->find(
+                'withStudentAdscriptions',
+                options: [
+                    'status' => AdscriptionStatus::getTrackablesValues(),
+                ]
+            )
             ->find('withStudentCourses')
             ->find('withStudentData')
             // /remove

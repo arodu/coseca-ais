@@ -5,7 +5,7 @@ namespace App\Controller\Admin;
 
 use App\Model\Field\UserRole;
 use Cake\Event\EventInterface;
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 
 class AppUsersController extends AppAdminController
 {
@@ -18,9 +18,9 @@ class AppUsersController extends AppAdminController
     }
 
     /**
-     * @return \Cake\Http\Response|null|void
+     * @return void
      */
-    public function index()
+    public function index(): void
     {
         $this->paginate = [];
 
@@ -35,27 +35,25 @@ class AppUsersController extends AppAdminController
     }
 
     /**
-     * @param int|string|null $id
-     * @return \Cake\Http\Response|null|void
+     * @param string|int|null $id
+     * @return void
      */
-    public function view($id = null)
+    public function view(int|string|null $id = null): void
     {
-        $user = $this->AppUsers->get($id, [
-            'contain' => [
-                'TenantFilters' => [
-                    'Tenants' => function (Query $q) {
-                        return $q->applyOptions(['skipFilterTenant' => true]);
-                    },
-                ],
-                'SocialAccounts',
+        $user = $this->AppUsers->get($id, contain: [
+            'TenantFilters' => [
+                'Tenants' => function (SelectQuery $q) {
+                    return $q->applyOptions(['skipFilterTenant' => true]);
+                },
             ],
+            'SocialAccounts',
         ]);
 
         $this->set(compact('user'));
     }
 
     /**
-     * @return \Cake\Http\Response|null|void
+     * @return \Cake\Http\Response|null
      */
     public function add()
     {
@@ -73,14 +71,12 @@ class AppUsersController extends AppAdminController
     }
 
     /**
-     * @param int|string|null $id
-     * @return \Cake\Http\Response|null|void
+     * @param string|int|null $id
+     * @return \Cake\Http\Response|null
      */
-    public function edit($id = null)
+    public function edit(int|string|null $id = null)
     {
-        $user = $this->AppUsers->get($id, [
-            'contain' => [],
-        ]);
+        $user = $this->AppUsers->get($id);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->AppUsers->patchEntity($user, $this->request->getData());
             if ($this->AppUsers->save($user)) {
@@ -94,10 +90,10 @@ class AppUsersController extends AppAdminController
     }
 
     /**
-     * @param int|string|null $id
-     * @return \Cake\Http\Response|null|void
+     * @param string|int|null $id
+     * @return \Cake\Http\Response|null
      */
-    public function delete($id = null)
+    public function delete(int|string|null $id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
         $user = $this->AppUsers->get($id);

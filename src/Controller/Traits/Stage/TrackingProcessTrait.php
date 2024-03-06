@@ -9,6 +9,7 @@ use App\Model\Field\StageStatus;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\Log\Log;
+use Exception;
 
 trait TrackingProcessTrait
 {
@@ -80,7 +81,7 @@ trait TrackingProcessTrait
      * @return void
      * @throws \Cake\Http\Exception\NotFoundException
      */
-    protected function processCloseStage(?int $student_id = null)
+    protected function processCloseStage(?int $student_id = null): void
     {
         $this->request->allowMethod(['post', 'put']);
         $trackingStage = $this->Students->StudentStages
@@ -117,18 +118,18 @@ trait TrackingProcessTrait
             $this->Students->StudentStages->updateStatus($trackingStage, StageStatus::REVIEW);
 
             $this->Students->getConnection()->commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error($e->getMessage());
             $this->Students->getConnection()->rollback();
         }
     }
 
     /**
-     * @param int|string|null $student_id
+     * @param string|int|null $student_id
      * @return void
      * @throws \Cake\Http\Exception\NotFoundException
      */
-    protected function processValidateStage($student_id = null)
+    protected function processValidateStage(int|string|null $student_id = null): void
     {
         $this->request->allowMethod(['post', 'put']);
         $trackingStage = $this->Students->StudentStages
@@ -161,7 +162,7 @@ trait TrackingProcessTrait
             }
 
             $this->Students->getConnection()->commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error($e->getMessage());
             $this->Students->getConnection()->rollback();
         }

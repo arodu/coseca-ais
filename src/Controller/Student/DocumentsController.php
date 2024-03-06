@@ -28,17 +28,17 @@ class DocumentsController extends AppStudentController
     }
 
     /**
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return void Renders view
      */
-    public function format007()
+    public function format007(): void
     {
         $this->traitFormat007((string)$this->getCurrentStudent()->id);
     }
 
     /**
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return void Renders view
      */
-    public function format009()
+    public function format009(): void
     {
         $this->traitFormat009((string)$this->getCurrentStudent()->id);
     }

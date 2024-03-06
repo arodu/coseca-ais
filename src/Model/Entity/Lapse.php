@@ -14,7 +14,7 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $name
  * @property bool $active
- * @property \Cake\I18n\FrozenDate $date
+ * @property \Cake\I18n\Date $date
  *
  * @property \App\Model\Entity\StudentStage[] $student_stages
  */
@@ -29,7 +29,7 @@ class Lapse extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'name' => true,
         'active' => true,
         'tenant_id' => true,
@@ -52,7 +52,7 @@ class Lapse extends Entity
     /**
      * @var array
      */
-    protected $_virtual = [
+    protected array $_virtual = [
         'label_active',
         'label',
     ];

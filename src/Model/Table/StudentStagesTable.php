@@ -10,7 +10,7 @@ use App\Model\Field\StageStatus;
 use App\Model\Table\Traits\BasicTableTrait;
 use App\Utility\Stages;
 use Cake\Log\Log;
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -110,11 +110,11 @@ class StudentStagesTable extends Table
     }
 
     /**
-     * @param \Cake\ORM\Query $query
+     * @param \Cake\ORM\Query\SelectQuery $query
      * @param array $options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findByStudentStage(Query $query, array $options = []): Query
+    public function findByStudentStage(SelectQuery $query, array $options = []): SelectQuery
     {
         if (empty($options['stage'])) {
             throw new InvalidArgumentException('param stage is necessary');
@@ -135,11 +135,11 @@ class StudentStagesTable extends Table
     }
 
     /**
-     * @param \Cake\ORM\Query $query
+     * @param \Cake\ORM\Query\SelectQuery $query
      * @param array $options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findStageList(Query $query, array $options = []): Query
+    public function findStageList(SelectQuery $query, array $options = []): SelectQuery
     {
         if (empty($options['student'])) {
             throw new InvalidArgumentException(
@@ -152,7 +152,7 @@ class StudentStagesTable extends Table
         $listStages = $student->getStageFieldList();
         $keyField = $options['keyField'] ?? 'stage';
 
-        $query->find('objectList', ['keyField' => $keyField])
+        $query->find('objectList', keyField: $keyField)
             ->where(['student_id' => $student->id]);
 
         return $query
@@ -171,12 +171,12 @@ class StudentStagesTable extends Table
 
     /**
      * @param \Cake\ORM\Query $query
-     * @param array $options
+     * @param array $student_ids
      * @return \Cake\ORM\Query
      */
-    public function findReport(Query $query, array $options = []): Query
+    public function findReport(SelectQuery $query, ?SelectQuery $student_ids = null): SelectQuery
     {
-        if (empty($options['student_ids'])) {
+        if (empty($student_ids)) {
             throw new InvalidArgumentException(__('param student_ids is necessary'));
         }
 
@@ -186,7 +186,7 @@ class StudentStagesTable extends Table
                 'status' => 'StudentStages.status',
                 'count' => 'COUNT(StudentStages.id)',
             ])
-            ->where(['StudentStages.student_id IN' => $options['student_ids']])
+            ->where(['StudentStages.student_id IN' => $student_ids])
             ->group(['StudentStages.stage', 'StudentStages.status'])
             ->formatResults(function ($results) {
                 return $results->combine('status', 'count', 'stage');

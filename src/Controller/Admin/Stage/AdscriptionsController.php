@@ -9,6 +9,7 @@ use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use Cake\Log\Log;
 use CakeLteTools\Controller\Traits\RedirectLogicTrait;
+use Exception;
 
 /**
  * StudentAdscriptionsController Controller
@@ -22,6 +23,17 @@ class AdscriptionsController extends AppAdminController
     use RedirectLogicTrait;
 
     /**
+     * @var \App\Model\Table\StudentStagesTable
+     */
+    protected $StudentStages;
+
+    /**
+     * @var \App\Model\Table\StudentAdscriptionsTable
+     */
+
+    protected $StudentAdscriptions;
+
+    /**
      * @return void
      */
     public function initialize(): void
@@ -32,12 +44,10 @@ class AdscriptionsController extends AppAdminController
     }
 
     /**
-     * Add method
-     *
-     * @param int|string|null $student_id Student id.
-     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
+     * @param string|int|null $student_id Student id.
+     * @return \Cake\Http\Response|null
      */
-    public function add($student_id = null)
+    public function add(int|string|null $student_id = null)
     {
         $student = $this->StudentAdscriptions->Students->get($student_id);
         $student_adscription = $this->StudentAdscriptions->newEmptyEntity();
@@ -74,7 +84,7 @@ class AdscriptionsController extends AppAdminController
                 $this->Flash->success(__('The student_adscription has been saved.'));
 
                 return $this->redirect(['_name' => 'admin:student:view', $student_id]);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->StudentStages->getConnection()->rollback();
                 Log::error($e->getMessage());
                 $this->Flash->error(__('The student_adscription could not be saved. Please, try again.'));
@@ -82,9 +92,9 @@ class AdscriptionsController extends AppAdminController
         }
 
         $institution_projects = $this->StudentAdscriptions->InstitutionProjects
-            ->find('listForSelect', ['tenant_id' => $student->tenant_id]);
+            ->find('listForSelect', options: ['tenant_id' => $student->tenant_id]);
         $tutors = $this->StudentAdscriptions->Tutors
-            ->find('list', ['limit' => 200])
+            ->find('list', options: ['limit' => 200])
             ->where(['Tutors.tenant_id' => $student->tenant_id]);
         $back = $this->getRedirectUrl();
         $this->set(compact('student', 'student_adscription', 'institution_projects', 'tutors', 'back'));
@@ -94,17 +104,15 @@ class AdscriptionsController extends AppAdminController
      * Edit method
      *
      * @param string|null $id StudentAdscription id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
+     * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
+    public function edit(?string $id = null)
     {
-        $adscription = $this->StudentAdscriptions->get($id, [
-            'contain' => [
-                'InstitutionProjects' => ['Institutions'],
-                'Tutors',
-                'Students',
-            ],
+        $adscription = $this->StudentAdscriptions->get($id, contain: [
+            'InstitutionProjects' => ['Institutions'],
+            'Tutors',
+            'Students',
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $adscription = $this->StudentAdscriptions->patchEntity($adscription, $this->request->getData());
@@ -131,11 +139,11 @@ class AdscriptionsController extends AppAdminController
      * Delete method
      *
      * @param string $status StudentAdscription id.
-     * @param int|string $id StudentAdscription id.
-     * @return \Cake\Http\Response|null|void Redirects to index.
+     * @param string|int $id StudentAdscription id.
+     * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function changeStatus($status, $id)
+    public function changeStatus(string $status, int|string $id)
     {
         $this->request->allowMethod(['post', 'put']);
 
@@ -148,16 +156,16 @@ class AdscriptionsController extends AppAdminController
      * Set principal method
      *
      * @param string|null $id StudentAdscription id.
-     * @return \Cake\Http\Response|null|void Redirects to index.
+     * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function setPrincipal($id)
+    public function setPrincipal(?string $id)
     {
         $this->request->allowMethod(['post', 'put']);
 
         $adscription = $this->StudentAdscriptions->get($id);
 
-        $this->StudentAdscriptions->getConnection()->transactional(function () use ($adscription) {
+        $this->StudentAdscriptions->getConnection()->transactional(function () use ($adscription): void {
             $this->StudentAdscriptions->updateAll(
                 ['principal' => false],
                 ['student_id' => $adscription->student_id]
