@@ -78,7 +78,7 @@ class Application extends BaseApplication
         //$this->getEventManager()->on(new StageNotificationListener());
         $this->addPlugin('CakePdf');
         $this->addPlugin('System');
-        $this->addPlugin('AdminTools');
+        $this->addPlugin('AdminTools', ['bootstrap' => true]);
     }
 
     /**
