@@ -231,6 +231,7 @@ FrozenDate::setToStringFormat('dd/MM/yy');
 Configure::write('coseca.hours-min', env('COSECA_HOURS_MIN', 120));
 Configure::write('coseca.uc-min', env('COSECA_UC_MIN', 90));
 Configure::write('coseca.uc-max', env('COSECA_UC_MAX', 192));
+Configure::write('emailBackupList', explode(',', env('EMAIL_BACKUP_LIST', '')));
 
 Configure::load('stages');
 
