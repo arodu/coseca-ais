@@ -139,12 +139,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/arodu/cakephp-admin-tools.git",
-                "reference": "a49d84b0ed303aeadf2f590e0a5d62537038ef86"
+                "reference": "86519dc246bd3aec7f2c42f140ab46d16922aaf5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/arodu/cakephp-admin-tools/zipball/a49d84b0ed303aeadf2f590e0a5d62537038ef86",
-                "reference": "a49d84b0ed303aeadf2f590e0a5d62537038ef86",
+                "url": "https://api.github.com/repos/arodu/cakephp-admin-tools/zipball/86519dc246bd3aec7f2c42f140ab46d16922aaf5",
+                "reference": "86519dc246bd3aec7f2c42f140ab46d16922aaf5",
                 "shasum": ""
             },
             "require": {
@@ -170,7 +170,7 @@
                 "issues": "https://github.com/arodu/cakephp-admin-tools/issues",
                 "source": "https://github.com/arodu/cakephp-admin-tools/tree/main"
             },
-            "time": "2024-03-07T14:53:41+00:00"
+            "time": "2024-03-07T15:00:12+00:00"
         },
         {
             "name": "arodu/cakephp-modal-form",
