@@ -59,6 +59,7 @@
         "post-install-cmd": [
             "App\\Console\\Installer::postInstall",
             "bin/cake cache clear_all",
+            "bin/cake backup_db -f coseca-ais",
             "bin/cake migrations migrate"
         ],
         "post-create-project-cmd": "App\\Console\\Installer::postInstall",
