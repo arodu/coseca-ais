@@ -450,10 +450,4 @@ return [
     'Session' => [
         'defaults' => 'php',
     ],
-
-    'AdminTools' => [
-        'backup' => [
-            'name' => env('AT_BACKUP_NAME', 'coseca-ais'),
-        ],
-    ],
 ];
