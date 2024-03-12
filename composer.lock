@@ -139,12 +139,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/arodu/cakephp-admin-tools.git",
-                "reference": "b545c5ae8f7f9a172cf9827b5f0a0a6578d90155"
+                "reference": "f40a1bbbb2b172d1978eccce12b1a6930374188f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/arodu/cakephp-admin-tools/zipball/b545c5ae8f7f9a172cf9827b5f0a0a6578d90155",
-                "reference": "b545c5ae8f7f9a172cf9827b5f0a0a6578d90155",
+                "url": "https://api.github.com/repos/arodu/cakephp-admin-tools/zipball/f40a1bbbb2b172d1978eccce12b1a6930374188f",
+                "reference": "f40a1bbbb2b172d1978eccce12b1a6930374188f",
                 "shasum": ""
             },
             "require": {
@@ -154,6 +154,7 @@
             "require-dev": {
                 "phpunit/phpunit": "^8.5 || ^9.3"
             },
+            "default-branch": true,
             "type": "cakephp-plugin",
             "autoload": {
                 "psr-4": {
@@ -169,7 +170,7 @@
                 "issues": "https://github.com/arodu/cakephp-admin-tools/issues",
                 "source": "https://github.com/arodu/cakephp-admin-tools/tree/1.next-cake4"
             },
-            "time": "2024-03-11T22:35:20+00:00"
+            "time": "2024-03-12T13:00:02+00:00"
         },
         {
             "name": "arodu/cakephp-modal-form",
@@ -319,16 +320,16 @@
         },
         {
             "name": "cakedc/users",
-            "version": "13.0.0",
+            "version": "13.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/CakeDC/users.git",
-                "reference": "b134f171b58274792ca10795bfd62a478a8d9f6b"
+                "reference": "3ae04261339acad6b9704a24c75a273fb4a5e471"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CakeDC/users/zipball/b134f171b58274792ca10795bfd62a478a8d9f6b",
-                "reference": "b134f171b58274792ca10795bfd62a478a8d9f6b",
+                "url": "https://api.github.com/repos/CakeDC/users/zipball/3ae04261339acad6b9704a24c75a273fb4a5e471",
+                "reference": "3ae04261339acad6b9704a24c75a273fb4a5e471",
                 "shasum": ""
             },
             "require": {
@@ -400,7 +401,7 @@
                 "issues": "https://github.com/CakeDC/users/issues",
                 "source": "https://github.com/CakeDC/users"
             },
-            "time": "2024-02-09T17:40:36+00:00"
+            "time": "2024-03-11T22:05:19+00:00"
         },
         {
             "name": "cakephp/authentication",
