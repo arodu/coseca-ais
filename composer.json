@@ -44,7 +44,8 @@
         "psr-4": {
             "App\\": "src/",
             "ModalForm\\": "plugins/ModalForm/src/",
-            "System\\": "plugins/System/src/"
+            "System\\": "plugins/System/src/",
+            "Manager\\": "plugins/Manager/src/"
         }
     },
     "autoload-dev": {
@@ -52,7 +53,8 @@
             "App\\Test\\": "tests/",
             "Cake\\Test\\": "vendor/cakephp/cakephp/tests/",
             "ModalForm\\Test\\": "plugins/ModalForm/tests/",
-            "System\\Test\\": "plugins/System/tests/"
+            "System\\Test\\": "plugins/System/tests/",
+            "Manager\\Test\\": "plugins/Manager/tests/"
         }
     },
     "scripts": {

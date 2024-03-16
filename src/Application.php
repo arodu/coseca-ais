@@ -79,6 +79,7 @@ class Application extends BaseApplication
         $this->addPlugin('CakePdf');
         $this->addPlugin('System');
         $this->addPlugin('AdminTools');
+        $this->addPlugin('Manager');
     }
 
     /**

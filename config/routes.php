@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Routes configuration.
  *
@@ -78,7 +79,7 @@ return static function (RouteBuilder $routes) {
         $builder->connect('/', ['controller' => 'Dashboard', 'action' => 'index', 'plugin' => false], ['_name' => 'home']);
 
         $builder->connect('/register', ['controller' => 'Register', 'action' => 'edit', 'plugin' => false], ['_name' => 'register']);
-        
+
         $builder->connect('/tracking', ['controller' => 'Tracking', 'action' => 'index', 'plugin' => false], ['_name' => 'tracking']);
         $builder->connect('/tracking/add/*', ['controller' => 'Tracking', 'action' => 'add', 'plugin' => false], ['_name' => 'tracking:add']);
         $builder->connect('/tracking/delete/*', ['controller' => 'Tracking', 'action' => 'delete', 'plugin' => false], ['_name' => 'tracking:delete']);
@@ -90,12 +91,10 @@ return static function (RouteBuilder $routes) {
 
 
     $routes->prefix('Admin', ['_namePrefix' => 'admin:'], function (RouteBuilder $builder) {
-
-
         $builder->connect('/', ['controller' => 'Reports', 'action' => 'dashboard', 'plugin' => false], ['_name' => 'home']);
         $builder->connect('/students', ['controller' => 'Students', 'action' => 'index', 'plugin' => false], ['_name' => 'student:index']);
         $builder->connect('/student/view/*', ['controller' => 'Students', 'action' => 'view', 'plugin' => false], ['_name' => 'student:view']);
-        
+
         $builder->connect('/student/adscriptions/*', ['controller' => 'Students', 'action' => 'adscriptions', 'plugin' => false], ['_name' => 'student:adscriptions']);
         $builder->connect('/student/prints/*', ['controller' => 'Students', 'action' => 'prints', 'plugin' => false], ['_name' => 'student:prints']);
 
@@ -111,6 +110,14 @@ return static function (RouteBuilder $routes) {
 
             $builder->fallbacks(DashedRoute::class);
         });
+
+        $builder->fallbacks(DashedRoute::class);
+    });
+
+    $routes->plugin('Manager', ['path' => '/manager', '_namePrefix' => 'manager:'], function (RouteBuilder $builder) {
+        // Add custom routes here
+
+        $builder->connect('/', ['controller' => 'Areas', 'action' => 'index'], ['_name' => 'home']);
 
         $builder->fallbacks(DashedRoute::class);
     });
@@ -131,4 +138,3 @@ return static function (RouteBuilder $routes) {
      * ```
      */
 };
-

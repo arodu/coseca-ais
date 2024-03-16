@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Event;
 
+use App\Model\Field\UserRole;
 use App\Utility\FilterTenantUtility;
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
@@ -43,6 +44,10 @@ class UsersListener implements EventListenerInterface
 
         if ($user->enumRole()->isStudentGroup()) {
             return $event->setResult(['_name' => 'student:home']);
+        }
+
+        if ($user->enumRole()->isGroup(UserRole::GROUP_MANAGER)) {
+            return $event->setResult(['_name' => 'manager:home']);
         }
     }
 
