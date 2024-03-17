@@ -18,38 +18,38 @@ trait CommonMigrationsTrait
 
         if (in_array('created', $options)) {
             $table = $table->addColumn('created', 'datetime', [
-                'default' => null,
+                'default' => 'CURRENT_TIMESTAMP',
                 'null' => false,
             ]);
         }
         if (in_array('created_by', $options)) {
             $table = $table->addColumn('created_by', 'uuid', [
                 'default' => null,
-                'null' => false,
+                'null' => true,
             ]);
         }
         if (in_array('modified', $options)) {
             $table = $table->addColumn('modified', 'datetime', [
-                'default' => null,
+                'default' => 'CURRENT_TIMESTAMP',
                 'null' => false,
             ]);
         }
         if (in_array('modified_by', $options)) {
             $table = $table->addColumn('modified_by', 'uuid', [
                 'default' => null,
-                'null' => false,
+                'null' => true,
             ]);
         }
         if (in_array('deleted', $options)) {
             $table = $table->addColumn('deleted', 'datetime', [
                 'default' => null,
-                'null' => false,
+                'null' => true,
             ]);
         }
         if (in_array('deleted_by', $options)) {
             $table = $table->addColumn('deleted_by', 'uuid', [
                 'default' => null,
-                'null' => false,
+                'null' => true,
             ]);
         }
 

@@ -44,6 +44,10 @@ class AreasTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+
+        $this->hasMany('Programs', [
+            'foreignKey' => 'area_id',
+        ]);
     }
 
     /**
@@ -69,28 +73,7 @@ class AreasTable extends Table
         $validator
             ->scalar('logo')
             ->maxLength('logo', 255)
-            ->requirePresence('logo', 'create')
             ->notEmptyString('logo');
-
-        $validator
-            ->uuid('created_by')
-            ->requirePresence('created_by', 'create')
-            ->notEmptyString('created_by');
-
-        $validator
-            ->uuid('modified_by')
-            ->requirePresence('modified_by', 'create')
-            ->notEmptyString('modified_by');
-
-        $validator
-            ->dateTime('deleted')
-            ->requirePresence('deleted', 'create')
-            ->notEmptyDateTime('deleted');
-
-        $validator
-            ->uuid('deleted_by')
-            ->requirePresence('deleted_by', 'create')
-            ->notEmptyString('deleted_by');
 
         return $validator;
     }

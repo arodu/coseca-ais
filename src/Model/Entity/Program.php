@@ -26,7 +26,6 @@ class Program extends Entity
      * @var array
      */
     protected $enumFields = [
-        'area' => ProgramArea::class,
         'regime' => ProgramRegime::class,
     ];
 
@@ -55,36 +54,8 @@ class Program extends Entity
     /**
      * @return string|null
      */
-    protected function _getAreaLabel(): ?string
-    {
-        return $this->enum('area')?->label() ?? null;
-    }
-
-    /**
-     * @return string|null
-     */
     protected function _getRegimeLabel(): ?string
     {
         return $this->enum('regime')?->label() ?? null;
-    }
-
-    /**
-     * area_print_label
-     *
-     * @return string|null
-     */
-    protected function _getAreaPrintLabel(): ?string
-    {
-        return $this->enum('area')?->printLabel() ?? null;
-    }
-
-    /**
-     * area_print_logo
-     *
-     * @return string|null
-     */
-    protected function _getAreaPrintLogo(): ?string
-    {
-        return $this->enum('area')?->printLogo() ?? null;
     }
 }

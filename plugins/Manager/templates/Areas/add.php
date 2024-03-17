@@ -23,7 +23,7 @@ $this->Breadcrumbs->add([
       echo $this->Form->control('logo');
       echo $this->Form->control('created_by');
       echo $this->Form->control('modified_by');
-      echo $this->Form->control('deleted');
+      echo $this->Form->control('deleted', ['empty' => true]);
       echo $this->Form->control('deleted_by');
     ?>
   </div>

@@ -31,9 +31,18 @@ class CreateAreas extends AbstractMigration
         $table->addColumn('logo', 'string', [
             'default' => null,
             'limit' => 255,
-            'null' => false,
+            'null' => true,
         ]);
         $table = $this->setAuditFields($table);
         $table->create();
+
+        $table = $this->table('programs');
+        $table->addColumn('area_id', 'integer', [
+            'default' => null,
+            'limit' => 11,
+            'null' => true,
+        ]);
+        $table = $this->setAuditFields($table);
+        $table->update();
     }
 }
