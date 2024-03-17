@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Manager\Controller;
@@ -45,7 +46,11 @@ class AreasController extends AppController
     {
         $area = $this->Areas->get($id, [
             'contain' => [
-                'Programs',
+                'Programs' => [
+                    'Tenants' => [
+                        'Locations',
+                    ],
+                ],
             ],
         ]);
 

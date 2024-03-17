@@ -67,9 +67,11 @@ class TenantsTable extends Table
             'strategy' => 'select',
             'finder' => 'lastElement',
         ]);
-
         $this->belongsTo('Programs', [
             'foreignKey' => 'program_id',
+        ]);
+        $this->belongsTo('Locations', [
+            'foreignKey' => 'location_id',
         ]);
 
         $this->loadQueryFilters();
