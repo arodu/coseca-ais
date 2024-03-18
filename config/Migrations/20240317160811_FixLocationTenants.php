@@ -23,24 +23,27 @@ class FixLocationTenants extends AbstractMigration
         $tenantsTable = $this->fetchTable('Tenants');
         $locationsTable = $this->fetchTable('Locations');
 
-        $tenants = $tenantsTable
-            ->find()
-            ->select(['abbr', 'name'])
-            ->distinct();
+        if ($tenantsTable->hasField('abbr') && $tenantsTable->hasField('name')) {
 
-        foreach ($tenants as $tenant) {
-            $location = $locationsTable->newEntity([
-                'name' => $tenant->name,
-                'abbr' => $tenant->abbr
-            ]);
-            $location = $locationsTable->saveOrFail($location);
-            $tenantsTable->updateAll(['location_id' => $location->id], ['abbr' => $tenant->abbr]);
+            $tenants = $tenantsTable
+                ->find()
+                ->select(['abbr', 'name'])
+                ->distinct();
+
+            foreach ($tenants as $tenant) {
+                $location = $locationsTable->newEntity([
+                    'name' => $tenant->name,
+                    'abbr' => $tenant->abbr
+                ]);
+                $location = $locationsTable->saveOrFail($location);
+                $tenantsTable->updateAll(['location_id' => $location->id], ['abbr' => $tenant->abbr]);
+            }
+
+            $table = $this->table('tenants');
+            $table->removeColumn('name');
+            $table->removeColumn('abbr');
+            $table->update();
         }
-
-        $table = $this->table('tenants');
-        $table->removeColumn('name');
-        $table->removeColumn('abbr');
-        $table->update();
     }
 
     public function down(): void
@@ -60,7 +63,7 @@ class FixLocationTenants extends AbstractMigration
 
         $tenantsTable = $this->fetchTable('Tenants');
         $locationsTable = $this->fetchTable('Locations');
-        
+
         $locations = $locationsTable->find()->select(['id', 'name', 'abbr']);
         foreach ($locations as $location) {
             $tenantsTable->updateAll(['name' => $location->name, 'abbr' => $location->abbr], ['location_id' => $location->id]);

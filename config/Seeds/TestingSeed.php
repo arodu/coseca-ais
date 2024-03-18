@@ -37,6 +37,8 @@ class TestingSeed extends AbstractSeed
      */
     public function run(): void
     {
+        $this->runCall('InitialDataSeed');
+
         $this->AppUsers = $this->fetchTable('AppUsers');
         $this->Institutions = $this->fetchTable('Institutions');
         $this->Tutors = $this->fetchTable('Tutors');

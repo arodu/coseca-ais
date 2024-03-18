@@ -62,11 +62,11 @@ class ProgramsTable extends Table
             ->requirePresence('name', 'create')
             ->notEmptyString('name');
 
-        $validator
-            ->scalar('area')
-            ->maxLength('area', 255)
-            ->requirePresence('area', 'create')
-            ->notEmptyString('area');
+        //$validator
+        //    ->scalar('area')
+        //    ->maxLength('area', 255)
+        //    ->requirePresence('area', 'create')
+        //    ->notEmptyString('area');
 
         $validator
             ->scalar('regime')

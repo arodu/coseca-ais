@@ -37,6 +37,8 @@ class BasicSeed extends AbstractSeed
      */
     public function run(): void
     {
+        $this->runCall('InitialDataSeed');
+
         $this->AppUsers = $this->fetchTable('AppUsers');
 
         //$this->faker = Factory::create('es_VE');
