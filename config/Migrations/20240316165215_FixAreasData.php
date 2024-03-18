@@ -22,15 +22,18 @@ class FixAreasData extends AbstractMigration
         $areasTable = $this->fetchTable('Areas');
         $programsTable = $this->fetchTable('Programs');
 
-        foreach ($this->areas as $key => $areaData) {
-            if ($programsTable->hasField('areas') && $programsTable->exists(['area' => $key])) {
-                $area = $areasTable->newEntity($areaData);
-                $area->created = FrozenTime::now();
-                $area->modified = FrozenTime::now();
-                $area = $areasTable->saveOrFail($area);
+        $areaKeys = $programsTable
+            ->find('list', ['valueField' => 'area'])
+            ->distinct()
+            ->toArray();
 
-                $programsTable->updateAll(['area_id' => $area->id], ['area' => $key]);
-            }
+        foreach ($areaKeys as $key) {
+            $area = $areasTable->newEntity($this->getAreaData($key));
+            $area->created = FrozenTime::now();
+            $area->modified = FrozenTime::now();
+            $area = $areasTable->saveOrFail($area);
+
+            $programsTable->updateAll(['area_id' => $area->id], ['area' => $key]);
         }
 
         $table = $this->table('programs');
@@ -53,12 +56,20 @@ class FixAreasData extends AbstractMigration
             $table->update();
         }
 
-        foreach ($this->areas as $key => $areaData) {
-            $area = $areasTable->find()->where(['abbr' => $areaData['abbr']])->first();
-            if (!empty($area) && $programsTable->exists(['area_id' => $area->id])) {
-                $programsTable->updateAll(['area' => $key], ['area_id' => $area->id]);
-                $areasTable->deleteOrFail($area);
-            }
+        $areas = $areasTable->find()->toArray();
+        foreach ($areas as $area) {
+            $programsTable->updateAll(['area' => strtolower($area->abbr)], ['area_id' => $area->id]);
+            $areasTable->deleteOrFail($area);
         }
     }
+
+    protected function getAreaData(string $key): array
+    {
+        return $this->areas[$key] ?? [
+            'name' => $key,
+            'abbr' => strtoupper($key),
+            'logo' => null,
+        ];
+    }
+
 }
