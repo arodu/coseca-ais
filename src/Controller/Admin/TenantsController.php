@@ -45,7 +45,7 @@ class TenantsController extends AppAdminController
         $this->paginate = [];
 
         $query = $this->Tenants
-            ->find('withPrograms')
+            ->find('complete')
             ->contain(['CurrentLapse']);
 
         $tenants = $this->paginate($query);
@@ -62,12 +62,11 @@ class TenantsController extends AppAdminController
      */
     public function view($id = null)
     {
-        $tenant = $this->Tenants->get($id, [
-            'contain' => [
-                'Programs',
-                'CurrentLapse' => ['LapseDates'],
-            ],
-        ]);
+        $tenant = $this->Tenants
+            ->find('complete')
+            ->where(['Tenants.id' => $id])
+            ->contain(['CurrentLapse' => ['LapseDates']])
+            ->firstOrFail();
 
         $lapses = $this->Tenants->Lapses
             ->find('list', [
@@ -91,7 +90,10 @@ class TenantsController extends AppAdminController
     {
         $program = $this->Programs->get($program_id, [
             'contain' => [
-                'Tenants',
+                'Tenants' => [
+                    'Locations',
+                ],
+                'Areas',
                 'InterestAreas',
             ],
         ]);

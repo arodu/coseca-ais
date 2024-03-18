@@ -40,6 +40,10 @@ class ProgramsTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
+        $this->belongsTo('Areas', [
+            'foreignKey' => 'area_id',
+            'joinType' => 'INNER',
+        ]);
         $this->hasMany('Tenants', [
             'foreignKey' => 'program_id',
         ]);

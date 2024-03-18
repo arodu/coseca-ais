@@ -105,9 +105,12 @@ class TenantsTable extends Table
      * @param array $options
      * @return \Cake\ORM\Query
      */
-    public function findWithPrograms(Query $query, array $options): Query
+    public function findComplete(Query $query, array $options): Query
     {
-        return $query->contain(['Programs']);
+        return $query->contain([
+            'Locations',
+            'Programs' => ['Areas'],
+        ]);
     }
 
     /**
@@ -123,7 +126,8 @@ class TenantsTable extends Table
             'groupField' => 'program.area_label',
         ], $options);
 
-        return parent::findList($query, $options)->contain(['Programs']);
+        return parent::findList($query, $options)
+            ->find('complete');
     }
 
     /**

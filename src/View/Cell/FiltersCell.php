@@ -18,6 +18,8 @@ class FiltersCell extends Cell
      */
     protected $_validCellOptions = [];
 
+    protected $Students;
+
     /**
      * Initialization logic run at the end of object construction.
      *

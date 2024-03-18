@@ -1,6 +1,7 @@
 <?php
 
 use App\Model\Field\UserRole;
+use CakeDC\Users\Model\Entity\User;
 
 $menu = [];
 $menu['home'] = [
@@ -8,7 +9,7 @@ $menu['home'] = [
     'uri' => '/',
 ];
 
-if (in_array($this->Identity->get('role'), UserRole::getStaffGroup())) {
+if (in_array($this->Identity->get('role'), UserRole::getGroup(UserRole::GROUP_STAFF))) {
     $menu['students'] = [
         'label' => __('Estudiantes'),
         'uri' => ['_name' => 'admin:student:index'],
@@ -30,7 +31,7 @@ if (in_array($this->Identity->get('role'), UserRole::getStaffGroup())) {
     ];
 }
 
-if (in_array($this->Identity->get('role'), UserRole::getAdminGroup())) {
+if (in_array($this->Identity->get('role'), UserRole::getGroup(UserRole::GROUP_ADMIN))) {
     $menu['users'] = [
         'label' => __('Usuarios'),
         'uri' => ['controller' => 'AppUsers', 'action' => 'index', 'prefix' => 'Admin'],

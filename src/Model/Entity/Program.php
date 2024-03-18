@@ -12,7 +12,7 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $name
- * @property string $area
+ * @property \App\Model\Entity\Area $area
  * @property string $regime
  * @property string $abbr
  *
@@ -57,5 +57,13 @@ class Program extends Entity
     protected function _getRegimeLabel(): ?string
     {
         return $this->enum('regime')?->label() ?? null;
+    }
+
+    /**
+     * @return string|null
+     */
+    protected function _getAreaLabel(): ?string
+    {
+        return $this->area->abbr;
     }
 }
