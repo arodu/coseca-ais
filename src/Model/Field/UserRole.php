@@ -134,36 +134,4 @@ enum UserRole: string implements ListInterface
     {
         return static::values(static::group($group_name));
     }
-
-    /**
-     * @return array
-     * @deprecated use getGroup(UserRole::GROUP_ADMIN) instead
-     */
-    public static function getAdminGroup(): array
-    {
-        trigger_error('Deprecated method ' . __METHOD__, E_USER_DEPRECATED);
-        return static::getGroup(static::GROUP_ADMIN);
-    }
-
-    /**
-     * @return array
-     * @deprecated use getGroup(UserRole::GROUP_STUDENT) instead
-     */
-    public static function getStudentGroup(): array
-    {
-        trigger_error('Deprecated method ' . __METHOD__, E_USER_DEPRECATED);
-        return static::getGroup(static::GROUP_STUDENT);
-    }
-
-    /**
-     * @return array
-     * @deprecated use getGroup(UserRole::GROUP_STAFF) instead
-     */
-    public static function getStaffGroup(): array
-    {
-        trigger_error('Deprecated method ' . __METHOD__, E_USER_DEPRECATED);
-        return static::getGroup(static::GROUP_STAFF);
-    }
-
-
 }

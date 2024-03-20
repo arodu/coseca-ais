@@ -25,34 +25,16 @@ trait CreateDataTrait
             ->with('Locations')
             ->with('Lapses', $lapses);
 
-
-        debug(TenantFactory::make()
-            //->with('Locations')
-            ->with('Programs')
-            ->persist()
-            //->getEntity()
-        );
-        exit();
-
         $option_interest_areas = $options['interest_areas'] ?? [];
         unset($options['interest_areas']);
         $interest_areas = InterestAreaFactory::make($option_interest_areas, $option_interest_areas['times'] ?? 6);
 
         $program = ProgramFactory::make($options ?? [], $times)
-        ->with('Areas')
-        ->with('InterestAreas', $interest_areas)
-        ->with('Tenants', $tenants);
-        //->persist()
+            ->with('Areas')
+            ->with('InterestAreas', $interest_areas)
+            ->with('Tenants', $tenants);
 
-        debug($program->getEntity());
-        debug($program->persist());
-        exit();
-
-
-        return ProgramFactory::make($options ?? [], $times)
-            ->withAreas()
-            ->with('Tenants', $tenants)
-            ->with('InterestAreas', $interest_areas);
+        return $program;
     }
 
     protected function createInstitution(array $options = [], bool $persist = true)

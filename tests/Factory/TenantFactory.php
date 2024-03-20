@@ -35,7 +35,9 @@ class TenantFactory extends CakephpBaseFactory
     protected function setDefaultTemplate(): void
     {
         $this->setDefaultData(function (Generator $faker) {
-            return [];
+            return [
+                'active' => true,
+            ];
         });
     }
 }

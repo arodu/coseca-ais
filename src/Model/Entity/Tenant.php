@@ -47,7 +47,12 @@ class Tenant extends Entity
      */
     protected function _getLabel(): string
     {
-        return $this->program->name . ', ' . $this->location->name;
+        $output = [
+            $this?->program?->name,
+            $this?->location?->name,
+        ];
+
+        return implode(', ', array_filter($output));
     }
 
     /**
@@ -55,6 +60,11 @@ class Tenant extends Entity
      */
     protected function _getAbbrLabel(): string
     {
-        return $this->program->abbr . '-' . $this->location->abbr;
+        $output = [
+            $this?->program?->abbr,
+            $this?->location?->abbr,
+        ];
+
+        return implode('-', array_filter($output));
     }
 }
