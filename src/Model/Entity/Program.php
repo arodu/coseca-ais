@@ -64,6 +64,6 @@ class Program extends Entity
      */
     protected function _getAreaLabel(): ?string
     {
-        return $this->area->abbr;
+        return $this?->area?->abbr ?? null;
     }
 }

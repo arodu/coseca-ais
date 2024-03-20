@@ -8,8 +8,6 @@ use Cake\I18n\FrozenTime;
 
 class FixAreasData extends AbstractMigration
 {
-    use LocatorAwareTrait;
-
     /**
      * @var array
      */
@@ -19,21 +17,21 @@ class FixAreasData extends AbstractMigration
 
     public function up(): void
     {
-        $areasTable = $this->fetchTable('Areas');
-        $programsTable = $this->fetchTable('Programs');
+        $areaKeys = $this->fetchAll('SELECT DISTINCT area FROM programs');
 
-        $areaKeys = $programsTable
-            ->find('list', ['valueField' => 'area'])
-            ->distinct()
-            ->toArray();
+        foreach ($areaKeys ?? [] as $item) {
+            $key = $item['area'];
+            $data = array_merge([
+                'name' => $key,
+                'abbr' => strtoupper($key),
+                'logo' => null,
+                'created' => FrozenTime::now()->format('Y-m-d H:i:s'),
+                'modified' => FrozenTime::now()->format('Y-m-d H:i:s'),
+            ], $this->areas[$key] ?? []);
+            $this->table('areas')->insert($data)->saveData();
+            $area = $this->fetchRow('SELECT * FROM areas WHERE abbr = "' . $data['abbr'] . '"');
 
-        foreach ($areaKeys as $key) {
-            $area = $areasTable->newEntity($this->getAreaData($key));
-            $area->created = FrozenTime::now();
-            $area->modified = FrozenTime::now();
-            $area = $areasTable->saveOrFail($area);
-
-            $programsTable->updateAll(['area_id' => $area->id], ['area' => $key]);
+            $this->execute('UPDATE programs SET area_id = ? WHERE area = ?', [$area['id'], $key]);
         }
 
         $table = $this->table('programs');
@@ -43,33 +41,17 @@ class FixAreasData extends AbstractMigration
 
     public function down(): void
     {
-        $areasTable = $this->fetchTable('Areas');
-        $programsTable = $this->fetchTable('Programs');
-
         $table = $this->table('programs');
-        if (!$table->hasColumn('area')) {
-            $table->addColumn('area', 'string', [
-                'default' => null,
-                'limit' => 255,
-                'null' => false,
-            ]);
-            $table->update();
-        }
+        $table->addColumn('area', 'string', [
+            'default' => null,
+            'limit' => 255,
+            'null' => false,
+        ]);
+        $table->update();
 
-        $areas = $areasTable->find()->toArray();
-        foreach ($areas as $area) {
-            $programsTable->updateAll(['area' => strtolower($area->abbr)], ['area_id' => $area->id]);
-            $areasTable->deleteOrFail($area);
+        $areas = $this->fetchAll('SELECT * FROM areas');
+        foreach ($areas ?? [] as $area) {
+            $this->execute('UPDATE programs SET area = ? WHERE area_id = ?', [strtolower($area['abbr']), $area['id']]);
         }
     }
-
-    protected function getAreaData(string $key): array
-    {
-        return $this->areas[$key] ?? [
-            'name' => $key,
-            'abbr' => strtoupper($key),
-            'logo' => null,
-        ];
-    }
-
 }

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Test\Factory;
 
-use App\Model\Field\ProgramArea;
+use App\Model\Entity\Area;
 use App\Model\Field\ProgramRegime;
 use CakephpFixtureFactories\Factory\BaseFactory as CakephpBaseFactory;
 use Faker\Generator;
@@ -41,13 +41,26 @@ class ProgramFactory extends CakephpBaseFactory
                 ['name' => 'Informática', 'regime' => ProgramRegime::BIANNUAL->value, 'abbr' => 'INF'],
                 ['name' => 'Medicina', 'regime' => ProgramRegime::ANNUALIZED_6->value, 'abbr' => 'MED'],
                 ['name' => 'Contaduría', 'regime' => ProgramRegime::ANNUALIZED_5->value, 'abbr' => 'CON'],
+                ['name' => 'Agronomia-animal', 'regime' => ProgramRegime::BIANNUAL->value, 'abbr' => 'ANI'],
+                ['name' => 'Agronomia-vegetal', 'regime' => ProgramRegime::BIANNUAL->value, 'abbr' => 'VEG'],
             ]);
 
-            return [
-                'name' => $program['name'],
-                'regime' => $program['regime'],
-                'abbr' => $program['abbr'],
-            ];
+            return $program;
         });
+    }
+
+    public function withAreas(array $options = [], int $times = 1): self
+    {
+        return $this->with('Areas', AreaFactory::make($options ?? [], $times));
+    }
+
+    public function createComplete(array $options = [], int $times = 1): self
+    {
+        $option_areas = $options['areas'] ?? [];
+        unset($options['areas']);
+        $areas = AreaFactory::make($option_areas, $option_areas['times'] ?? 6);
+
+        return $this->make($options ?? [], $times)
+            ->withAreas($areas);
     }
 }

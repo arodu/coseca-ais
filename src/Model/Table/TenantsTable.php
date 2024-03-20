@@ -85,18 +85,6 @@ class TenantsTable extends Table
      */
     public function validationDefault(Validator $validator): Validator
     {
-        $validator
-            ->scalar('name')
-            ->maxLength('name', 255)
-            ->requirePresence('name', 'create')
-            ->notEmptyString('name');
-
-        $validator
-            ->scalar('abbr')
-            ->maxLength('abbr', 100)
-            ->requirePresence('abbr', 'create')
-            ->notEmptyString('abbr');
-
         return $validator;
     }
 

@@ -33,15 +33,13 @@ class Tenant extends Entity
      * @var array<string, bool>
      */
     protected $_accessible = [
-        'name' => true,
-        'abbr' => true,
         'lapses' => true,
         'students' => true,
         'tenant_filters' => true,
-        'regime' => true,
-        'active' => true,
         'current_lapse' => true,
-        'program_id' => true,
+        'active' => true,
+        'program' => true,
+        'location' => true,
     ];
 
     /**

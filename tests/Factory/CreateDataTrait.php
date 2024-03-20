@@ -1,8 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Test\Factory;
 
+use App\Model\Entity\Lapse;
 use App\Model\Field\UserRole;
 use Cake\Datasource\EntityInterface;
 use Cake\ORM\Locator\LocatorAwareTrait;
@@ -20,13 +22,35 @@ trait CreateDataTrait
         $option_tenants = $options['tenants'] ?? [];
         unset($options['tenants']);
         $tenants = TenantFactory::make($option_tenants, $option_tenants['times'] ?? 1)
+            ->with('Locations')
             ->with('Lapses', $lapses);
+
+
+        debug(TenantFactory::make()
+            //->with('Locations')
+            ->with('Programs')
+            ->persist()
+            //->getEntity()
+        );
+        exit();
 
         $option_interest_areas = $options['interest_areas'] ?? [];
         unset($options['interest_areas']);
         $interest_areas = InterestAreaFactory::make($option_interest_areas, $option_interest_areas['times'] ?? 6);
 
+        $program = ProgramFactory::make($options ?? [], $times)
+        ->with('Areas')
+        ->with('InterestAreas', $interest_areas)
+        ->with('Tenants', $tenants);
+        //->persist()
+
+        debug($program->getEntity());
+        debug($program->persist());
+        exit();
+
+
         return ProgramFactory::make($options ?? [], $times)
+            ->withAreas()
             ->with('Tenants', $tenants)
             ->with('InterestAreas', $interest_areas);
     }

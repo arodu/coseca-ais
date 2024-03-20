@@ -16,34 +16,29 @@ class FixLocationTenants extends AbstractMigration
             'default' => null,
             'limit' => 11,
             'null' => true,
+            'after' => 'program_id',
         ]);
         $table->addForeignKey('location_id', 'locations', 'id', ['delete' => 'SET_NULL', 'update' => 'NO_ACTION']);
         $table->update();
 
-        $tenantsTable = $this->fetchTable('Tenants');
-        $locationsTable = $this->fetchTable('Locations');
+        $tenants = $this->fetchAll('SELECT DISTINCT abbr, name FROM tenants');
 
-        if ($tenantsTable->hasField('abbr') && $tenantsTable->hasField('name')) {
-
-            $tenants = $tenantsTable
-                ->find()
-                ->select(['abbr', 'name'])
-                ->distinct();
-
-            foreach ($tenants as $tenant) {
-                $location = $locationsTable->newEntity([
-                    'name' => $tenant->name,
-                    'abbr' => $tenant->abbr
-                ]);
-                $location = $locationsTable->saveOrFail($location);
-                $tenantsTable->updateAll(['location_id' => $location->id], ['abbr' => $tenant->abbr]);
-            }
-
-            $table = $this->table('tenants');
-            $table->removeColumn('name');
-            $table->removeColumn('abbr');
-            $table->update();
+        foreach ($tenants ?? [] as $tenant) {
+            $data = [
+                'name' => $tenant['name'],
+                'abbr' => $tenant['abbr'],
+                'created' => date('Y-m-d H:i:s'),
+                'modified' => date('Y-m-d H:i:s'),
+            ];
+            $this->table('locations')->insert($data)->saveData();
+            $location = $this->fetchRow('SELECT * FROM locations WHERE abbr = "' . $data['abbr'] . '"');
+            $this->execute('UPDATE tenants SET location_id = ? WHERE abbr = ?', [$location['id'], $tenant['abbr']]);
         }
+
+        $table = $this->table('tenants');
+        $table->removeColumn('name');
+        $table->removeColumn('abbr');
+        $table->update();
     }
 
     public function down(): void
@@ -60,13 +55,10 @@ class FixLocationTenants extends AbstractMigration
             'null' => false,
         ]);
         $table->update();
+        $locations = $this->fetchAll('SELECT id, name, abbr FROM locations');
 
-        $tenantsTable = $this->fetchTable('Tenants');
-        $locationsTable = $this->fetchTable('Locations');
-
-        $locations = $locationsTable->find()->select(['id', 'name', 'abbr']);
-        foreach ($locations as $location) {
-            $tenantsTable->updateAll(['name' => $location->name, 'abbr' => $location->abbr], ['location_id' => $location->id]);
+        foreach ($locations ?? [] as $location) {
+            $this->execute('UPDATE tenants SET name = ?, abbr = ? WHERE location_id = ?', [$location['name'], $location['abbr'], $location['id']]);
         }
 
         $table = $this->table('tenants');
