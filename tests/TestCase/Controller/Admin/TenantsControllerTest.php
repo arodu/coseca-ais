@@ -1,10 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller\Admin;
 
 use App\Test\Factory\InterestAreaFactory;
 use App\Test\Factory\LapseFactory;
+use App\Test\Factory\LocationFactory;
 use App\Test\Factory\ProgramFactory;
 use App\Test\Factory\TenantFactory;
 use Cake\TestSuite\IntegrationTestTrait;
@@ -35,22 +37,19 @@ class TenantsControllerTest extends AdminTestCase
         $this->get('/admin/tenants'); // Carga la vista de los Programas/Sedes
         $this->assertResponseCode(200);
 
-        // Ejecucion de acciones
-        $program = ProgramFactory::make()->persist(); //Creacion de un Programa
         //Creacion de un Tenant asociado a un Programa
-        $tenant = TenantFactory::make([
-            'program_id' => $program->id,
-            'name' => 'San Juan',
-            'abbr' => 'SJM',
-            'active' => true,
-        ])->persist();
+        $tenant = TenantFactory::make()
+            ->with('Programs', ProgramFactory::make())
+            ->with('Locations', LocationFactory::make())
+            ->with('TenantFilters', TenantFactory::make(['user_id' => $this->user->id]))
+            ->with('Lapses', LapseFactory::make())
+            ->persist();
 
-        // Verificacion de resultados
         $this->get('/admin/tenants'); //Carga la vista de todos los registros
-        $this->assertResponseCode(200);
 
-        $this->assertResponseContains($tenant->name); //Verificamos que exista el nombre del Tenant en la vista
-        $this->assertResponseContains($tenant->abbr); //Verificamos que exista la abreviacion del Tenant en la vista
+        $this->assertResponseCode(200);
+        $this->assertResponseContains($tenant->location->name); //Verificamos que exista el nombre del Tenant en la vista
+        $this->assertResponseContains($tenant->location->abbr); //Verificamos que exista la abreviacion del Tenant en la vista
         $this->assertEquals(true, $tenant->active); //Verificamos que el Tenant este activo
     }
 

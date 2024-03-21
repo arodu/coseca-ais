@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller\Admin;
@@ -9,7 +10,11 @@ use App\Model\Field\StageStatus;
 use App\Model\Field\StudentType;
 use App\Model\Field\UserRole;
 use App\Test\Factory\CreateDataTrait;
+use App\Test\Factory\LapseFactory;
+use App\Test\Factory\LocationFactory;
+use App\Test\Factory\ProgramFactory;
 use App\Test\Factory\StudentFactory;
+use App\Test\Factory\TenantFactory;
 use Cake\I18n\FrozenDate;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
@@ -37,25 +42,23 @@ abstract class AdminTestCase extends TestCase
         $this->enableCsrfToken();
         $this->enableSecurityToken();
 
-        $this->program = $this->createProgram()->persist();
         $this->user = $this->createUser(['role' => UserRole::ADMIN->value])->persist();
-        $this->tenant_id = Hash::get($this->program, 'tenants.0.id');
-        $this->lapse_id = Hash::get($this->program, 'tenants.0.lapses.0.id');
+
+        $tenant = TenantFactory::make()
+            ->with(
+                'Programs',
+                ProgramFactory::make()->with('Areas')
+            )
+            ->with('Locations', LocationFactory::make())
+            ->with('TenantFilters', TenantFactory::make(['user_id' => $this->user->id]))
+            ->with('Lapses', LapseFactory::make())
+            ->persist();
+
+        $this->tenant_id = $tenant->id;
+        $this->program = $tenant->program;
+        $this->lapse_id = $tenant->lapses[0]->id;
         $this->setDefaultLapseDates($this->lapse_id);
         $this->today = FrozenDate::now();
-
-        //$this->lapse_id = Hash::get($this->program, 'tenants.0.lapses.0.id');
-        //$this->setDefaultLapseDates($this->lapse_id);
-
-        //$this->tutors = TutorFactory::make([
-        //    'tenant_id' => $this->tenant_id,
-        //], 5)->persist();
-
-        //$this->institution = InstitutionFactory::make([
-        //    'tenant_id' => $this->tenant_id,
-        //])
-        //    ->with('InstitutionProjects', [], 5)
-        //    ->persist();
     }
 
     protected function tearDown(): void

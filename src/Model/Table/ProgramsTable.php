@@ -42,7 +42,7 @@ class ProgramsTable extends Table
 
         $this->belongsTo('Areas', [
             'foreignKey' => 'area_id',
-            'joinType' => 'INNER',
+            'joinType' => 'LEFT',
         ]);
         $this->hasMany('Tenants', [
             'foreignKey' => 'program_id',
