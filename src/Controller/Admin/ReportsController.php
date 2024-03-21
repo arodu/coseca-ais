@@ -10,6 +10,12 @@ use Cake\Http\Exception\NotFoundException;
  */
 class ReportsController extends AppAdminController
 {
+
+    /**
+     * @var \App\Model\Table\TenantsTable
+     */
+    private $Tenants;
+
     /**
      * @inheritDoc
      */
@@ -17,7 +23,6 @@ class ReportsController extends AppAdminController
     {
         parent::initialize();
         $this->Tenants = $this->fetchTable('Tenants');
-        $this->Students = $this->fetchTable('Students');
     }
 
     /**

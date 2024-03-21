@@ -221,9 +221,9 @@ class AppHelper extends Helper
 
         return __(
             '{0} / {1} / {2}',
-            $tenant->program->area_label,
+            $tenant->program->area->abbr,
             $this->Html->link($tenant->program->name, ['controller' => 'Tenants', 'action' => 'viewProgram', $tenant->program_id]),
-            $this->Html->link($tenant->name, ['controller' => 'Tenants', 'action' => 'view', $tenant->id]),
+            $this->Html->link($tenant->location->name, ['controller' => 'Tenants', 'action' => 'view', $tenant->id]),
         );
     }
 }

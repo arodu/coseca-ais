@@ -27,6 +27,8 @@ class InitialDataSeed extends AbstractSeed
         $this->programs();
         $this->locations();
         $this->tenants();
+        $this->lapses();
+        $this->interestAreas();
     }
 
     public function venezuela()
@@ -147,25 +149,25 @@ class InitialDataSeed extends AbstractSeed
         $data = [
             [
                 'id' => 1,
-                'name' => '2023-1',
+                'name' => '2024-1',
                 'tenant_id' => 1,
                 'active' => true,
             ],
             [
                 'id' => 2,
-                'name' => '2023-1',
+                'name' => '2024-1',
                 'tenant_id' => 2,
                 'active' => true,
             ],
             [
                 'id' => 3,
-                'name' => '2023-1',
+                'name' => '2024-1',
                 'tenant_id' => 3,
                 'active' => true,
             ],
             [
                 'id' => 4,
-                'name' => '2023-1',
+                'name' => '2024-1',
                 'tenant_id' => 4,
                 'active' => true,
             ],

@@ -50,7 +50,7 @@ $this->Breadcrumbs->add([
                     <tr>
                         <td><?= h($tenant->program->area_label) ?></td>
                         <td><?= $this->Html->link($tenant->program->name, ['action' => 'viewProgram', $tenant->program_id], ['class' => '', 'escape' => false]) ?></td>
-                        <td><?= $this->Html->link($tenant->name, ['action' => 'view', $tenant->id], ['class' => '', 'escape' => false]) ?></td>
+                        <td><?= $this->Html->link($tenant->location->name, ['action' => 'view', $tenant->id], ['class' => '', 'escape' => false]) ?></td>
                         <td><?= h($tenant->abbr_label) ?></td>
                         <td><?= h($tenant->program->regime_label) ?></td>
                         <td><?= $this->App->lapseLabel($tenant->current_lapse) ?? $this->App->error(__('Programa debe tener al menos un lapso activo')) ?></td>
