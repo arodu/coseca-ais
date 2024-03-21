@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Admin;
@@ -143,10 +144,12 @@ class TenantsController extends AppAdminController
             }
             $this->Flash->error(__('The tenant could not be saved. Please, try again.'));
         }
-        $programs = $this->Tenants->Programs->find('list', [
-            'groupField' => 'area_label',
-            'limit' => 200,
-        ]);
+        $programs = $this->Tenants->Programs
+            ->find('list', [
+                'groupField' => 'area_label',
+                'limit' => 200,
+            ])
+            ->contain(['Areas']);
 
         $this->set(compact('tenant', 'programs'));
     }
