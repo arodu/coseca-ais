@@ -31,5 +31,6 @@ class StudentCourse extends Entity
         'date' => true,
         'comment' => true,
         'student' => true,
+        'exonerated' => true,
     ];
 }

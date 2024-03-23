@@ -43,15 +43,15 @@ $this->Breadcrumbs->add([
 <div class="card-body">
     <?php
     echo $this->Form->hidden('student_id', ['value' => $student->id]);
-    echo $this->Form->control('date', ['value' => $studentCourse->date ?? $selectedDate]);
-    echo $this->Form->control('comment');
+    echo $this->Form->control('date', ['label' => __('Fecha del taller'), 'value' => $studentCourse->date ?? $selectedDate]);
+    echo $this->Form->control('exonerated', ['label' => __('Exonerado'), 'help' => __('Si el estudiante fue exonerado del taller, y agregue el comentario correspondiente.')]);
+    echo $this->Form->control('comment', ['label' => __('Comentario')]);
     ?>
 </div>
 
 <div class="card-footer d-flex">
     <div class="ml-auto">
         <?= $this->Button->save() ?>
-        <?= $this->Button->validate() ?>
         <?= $this->Button->cancel(['url' => ['_name' => 'admin:student:view', $student->id]]) ?>
     </div>
 </div>
@@ -67,3 +67,23 @@ echo  $this->ModalForm->modal('deleteCourse', [
     ]
 ]);
 ?>
+
+<script>
+<?= $this->Html->scriptStart(['block' => true]) ?>
+    $(function() {
+        $('#exonerated').on('change', function() {
+            checkExonerated();
+        });
+
+        function checkExonerated() {
+            let isChecked = $('#exonerated').is(':checked');
+            let $comment = $('#comment');
+            $comment.prop('required', isChecked);
+            $comment.prop('placeholder', isChecked ? '<?= __('Comentario requerido, agregue el motivo de la exoneración') ?>' : '');
+            $comment.closest('.form-group').toggleClass('required', isChecked);
+        }
+
+        checkExonerated();
+    });
+<?= $this->Html->scriptEnd() ?>
+</script>

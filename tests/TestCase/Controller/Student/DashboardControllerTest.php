@@ -19,8 +19,8 @@ class DashboardControllerTest extends StudentTestCase
 {
     public function testStudentTypeRegular(): void
     {
-        $this->setAuthSession();
         $student = $this->createRegularStudent();
+        $this->setAuthSession($student);
 
         $this->get('/student');
         $this->assertResponseOk();
@@ -46,8 +46,8 @@ class DashboardControllerTest extends StudentTestCase
 
     public function testRegisterCardStatusInProgress(): void
     {
-        $this->setAuthSession();
         $student = $this->createRegularStudent(['lapse_id' => null]);
+        $this->setAuthSession($student);
         $lapse_id = $this->lapse_id;
 
         $this->addRecord('StudentStages', [
@@ -96,8 +96,8 @@ class DashboardControllerTest extends StudentTestCase
 
     public function testRegisterCardStatusReview(): void
     {
-        $this->setAuthSession();
         $student = $this->createRegularStudent();
+        $this->setAuthSession($student);
         $this->addRecord('StudentStages', [
             'student_id' => $student->id,
             'stage' => StageField::REGISTER->value,
@@ -112,8 +112,8 @@ class DashboardControllerTest extends StudentTestCase
 
     public function testRegisterCardStatusSuccess(): void
     {
-        $this->setAuthSession();
         $student = $this->createRegularStudent();
+        $this->setAuthSession($student);
         $this->addRecord('StudentStages', [
             'student_id' => $student->id,
             'stage' => StageField::REGISTER->value,
@@ -132,8 +132,8 @@ class DashboardControllerTest extends StudentTestCase
 
     public function testRegisterCardOtherStatuses(): void
     {
-        $this->setAuthSession();
         $student = $this->createRegularStudent();
+        $this->setAuthSession($student);
 
         $stageRegistry = $this->addRecord('StudentStages', [
             'student_id' => $student->id,
@@ -161,9 +161,9 @@ class DashboardControllerTest extends StudentTestCase
 
     public function testCourseCardStatusWaiting(): void
     {
-        $this->setAuthSession();
-        $lapse_id = $this->lapse_id;
         $student = $this->createRegularStudent();
+        $this->setAuthSession($student);
+        $lapse_id = $this->lapse_id;
         $this->addRecord('StudentStages', [
             'student_id' => $student->id,
             'stage' => StageField::COURSE->value,
@@ -206,10 +206,46 @@ class DashboardControllerTest extends StudentTestCase
         $this->assertResponseContains($this->alertMessage);
     }
 
+    public function testCourseCardStatusReview(): void
+    {
+        $student = $this->createRegularStudent();
+        $this->setAuthSession($student);
+        $this->addRecord('StudentStages', [
+            'student_id' => $student->id,
+            'stage' => StageField::COURSE->value,
+            'status' => StageStatus::REVIEW->value,
+        ]);
+
+        $this->get('/student');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Sin información a mostrar');
+        $this->assertResponseContains($this->alertMessage);
+
+        $courseDate = FrozenDate::now();
+        $course = $this->addRecord('StudentCourses', [
+            'student_id' => $student->id,
+            'date' => $courseDate,
+            'exonerated' => false,
+            'comment' => 'Comentario de prueba',
+        ]);
+        $this->get('/student');
+        $this->assertResponseOk();
+        $this->assertResponseContains('<strong>Realizado: </strong>' . $courseDate);
+        $this->assertResponseContains('Comentario de prueba');
+        $this->assertResponseContains('Descargar planilla 002');
+
+        $this->updateRecord($course, ['exonerated' => true]);
+        $this->get('/student');
+        $this->assertResponseOk();
+        $this->assertResponseContains('<strong>Exonerado: </strong>' . $courseDate);
+        $this->assertResponseContains('Comentario de prueba');
+        $this->assertResponseNotContains('Descargar planilla 002');
+    }
+
     public function testCourseCardStatusSuccess(): void
     {
-        $this->setAuthSession();
         $student = $this->createRegularStudent();
+        $this->setAuthSession($student);
         $this->addRecord('StudentStages', [
             'student_id' => $student->id,
             'stage' => StageField::COURSE->value,
@@ -222,22 +258,30 @@ class DashboardControllerTest extends StudentTestCase
         $this->assertResponseContains($this->alertMessage);
 
         $courseDate = FrozenDate::now();
-        $this->addRecord('StudentCourses', [
+        $course = $this->addRecord('StudentCourses', [
             'student_id' => $student->id,
             'date' => $courseDate,
+            'exonerated' => false,
             'comment' => 'Comentario de prueba',
         ]);
-
         $this->get('/student');
         $this->assertResponseOk();
-        $this->assertResponseContains('<strong>Fecha del Taller: </strong>' . $courseDate);
+        $this->assertResponseContains('<strong>Realizado: </strong>' . $courseDate);
         $this->assertResponseContains('Comentario de prueba');
+        $this->assertResponseNotContains('Descargar planilla 002');
+
+        $this->updateRecord($course, ['exonerated' => true]);
+        $this->get('/student');
+        $this->assertResponseOk();
+        $this->assertResponseContains('<strong>Exonerado: </strong>' . $courseDate);
+        $this->assertResponseContains('Comentario de prueba');
+        $this->assertResponseNotContains('Descargar planilla 002');
     }
 
     public function testCourseCardOtherStatuses(): void
     {
-        $this->setAuthSession();
         $student = $this->createRegularStudent();
+        $this->setAuthSession($student);
         $stage = $this->addRecord('StudentStages', [
             'student_id' => $student->id,
             'stage' => StageField::COURSE->value,
@@ -270,8 +314,8 @@ class DashboardControllerTest extends StudentTestCase
 
     public function testAdscriptionCardStatusWaiting(): void
     {
-        $this->setAuthSession();
         $student = $this->createRegularStudent();
+        $this->setAuthSession($student);
         $this->addRecord('StudentStages', [
             'student_id' => $student->id,
             'stage' => StageField::ADSCRIPTION->value,
@@ -287,8 +331,8 @@ class DashboardControllerTest extends StudentTestCase
 
     public function testAdscriptionCardStatusInProgress(): void
     {
-        $this->setAuthSession();
         $student = $this->createRegularStudent();
+        $this->setAuthSession($student);
         $this->addRecord('StudentStages', [
             'student_id' => $student->id,
             'stage' => StageField::ADSCRIPTION->value,
