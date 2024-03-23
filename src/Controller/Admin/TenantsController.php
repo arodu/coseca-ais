@@ -149,6 +149,7 @@ class TenantsController extends AppAdminController
         $locationSelected = $this->Tenants->find()
             ->where(['program_id' => $program->id])
             ->select(['location_id'])
+            ->all()
             ->extract('location_id')
             ->toArray();
         $locations = $this->Tenants->Locations->find('list');

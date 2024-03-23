@@ -99,31 +99,17 @@ class TenantsControllerTest extends AdminTestCase
         // Configuracion incial
         $this->setAuthSession(); // Establece una sesión de autenticación para simular un usuario autenticado.
 
-        $program = ProgramFactory::make()->persist(); //Creacion de un Programa
-        // Creacion de un Area de Interes
-        $interes_area = InterestAreaFactory::make([
-            'program_id' => $program->id,
-        ])->persist();
-
-        // Creacion de un Tenant asociado a un Programa
-        $tenant = TenantFactory::make([
-            'program_id' => $program->id,
-        ])->persist();
-
         // Verificacion de acciones
-        $this->get('/admin/tenants/view-program/' . $program->id); //Verificamos que cargue la vista con el ID del programa correspondiente
+        $this->get('/admin/tenants/view-program/' . $this->tenant->program->id); //Verificamos que cargue la vista con el ID del programa correspondiente
         $this->assertResponseCode(200);
 
         // Verificacion de resultados
-        $this->assertResponseContains($tenant->name); // Verificamos que la vista contenga el nombre del Tenant
-        $this->assertResponseContains($tenant->abbr); // Verificamos que la vista contenga la abreviacion del Tenant
+        $this->assertResponseContains($this->tenant->location->name); // Verificamos que la vista contenga el nombre del Tenant
+        $this->assertResponseContains($this->tenant->location->abbr); // Verificamos que la vista contenga la abreviacion del Tenant
 
-        $this->assertResponseContains($program->name); // Verificamos que la vista contenga el nombre del Programa
-        $this->assertEquals(true, $program->regime); // Verificamos Regime del Programa sea True
-        $this->assertEquals(true, $program->abbr); // Verificamos Abbr del Programa sea True
+        $this->assertResponseContains($this->tenant->program->name); // Verificamos que la vista contenga el nombre del Programa
 
-        $this->assertResponseContains($interes_area->name); // Verificamos que la vista contenga el nombre del Area de interes
-        $this->assertEquals(true, $interes_area->active); // Verificamos que el Area de interes este activa
+        $this->assertResponseContains($this->tenant->program->interest_areas[0]->name); // Verificamos que la vista contenga el nombre del Area de interes
     }
 
     /**
@@ -137,17 +123,18 @@ class TenantsControllerTest extends AdminTestCase
         // COnfiguracion inicial
         $this->setAuthSession(); // Establece una sesión de autenticación para simular un usuario autenticado.
 
+        $program = $this->tenant->program; // Obtenemos el Programa asociado al Tenant
+
         // Verificamos que cargue la vista para agregar un nuevo registro
-        $this->get('/admin/tenants/add');
+        $this->get('/admin/tenants/add/' . $program->id);
         $this->assertResponseCode(200);
 
         // Verificacion de acciones
         $program = ProgramFactory::make()->persist(); //Creamos un Programa nuevo
 
         // Creamos una nueva Sede asociada al Programa creado previamente
-        $this->post('/admin/tenants/add', [
+        $this->post('/admin/tenants/add/' . $program->id, [
             'name' => 'Nueva sede test',
-            'program_id' => $program->id,
         ]);
 
         // Verificacion de resultados

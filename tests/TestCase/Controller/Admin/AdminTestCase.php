@@ -41,22 +41,11 @@ abstract class AdminTestCase extends TestCase
         $this->enableSecurityToken();
 
         $this->user = $this->createUser(['role' => UserRole::ADMIN->value])->persist();
+        $this->tenant = $this->getCompleteTenant()->persist();
 
-        $tenant = TenantFactory::make()
-            ->with(
-                'Programs',
-                ProgramFactory::make()->with('Areas')
-            )
-            ->with('Locations', LocationFactory::make())
-            ->with('TenantFilters', TenantFactory::make(['user_id' => $this->user->id]))
-            ->with('Lapses', LapseFactory::make())
-            ->persist();
-
-        $this->tenant = $tenant;
-
-        $this->tenant_id = $tenant->id;
-        $this->program = $tenant->program;
-        $this->lapse_id = $tenant->lapses[0]->id;
+        $this->tenant_id = $this->tenant->id;
+        $this->program = $this->tenant->program;
+        $this->lapse_id = $this->tenant->lapses[0]->id;
         $this->setDefaultLapseDates($this->lapse_id);
         $this->today = FrozenDate::now();
     }
@@ -71,6 +60,21 @@ abstract class AdminTestCase extends TestCase
         unset($this->today);
 
         parent::tearDown();
+    }
+
+    protected function getCompleteTenant($user = null)
+    {
+        $user = $user ?? $this->user;
+
+        $program = ProgramFactory::make()
+            ->with('Areas')
+            ->with('InterestAreas');
+
+        return TenantFactory::make()
+            ->with('Programs', $program)
+            ->with('Locations', LocationFactory::make())
+            ->with('TenantFilters', TenantFactory::make(['user_id' => $user->id]))
+            ->with('Lapses', LapseFactory::make());
     }
 
     protected function setAuthSession($user = null)
