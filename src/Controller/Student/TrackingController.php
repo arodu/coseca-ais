@@ -51,12 +51,12 @@ class TrackingController extends AppStudentController
      */
     public function add()
     {
-        $this->request->allowMethod(['post']);
+        $this->getRequest()->allowMethod(['post']);
         [
             'success' => $success,
             'adscription' => $adscription,
             'tracking' => $tracking,
-        ] = $this->processAdd($this->request->getData());
+        ] = $this->processAdd($this->getRequest()->getData());
 
         return $this->redirect(['_name' => 'student:tracking']);
     }
@@ -67,7 +67,7 @@ class TrackingController extends AppStudentController
      */
     public function delete($tracking_id)
     {
-        $this->request->allowMethod(['post', 'delete']);
+        $this->getRequest()->allowMethod(['post', 'delete']);
         $this->processDelete((int)$tracking_id);
 
         return $this->redirect(['_name' => 'student:tracking']);

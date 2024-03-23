@@ -18,7 +18,6 @@ use App\Test\Factory\TenantFactory;
 use Cake\I18n\FrozenDate;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
-use Cake\Utility\Hash;
 
 abstract class AdminTestCase extends TestCase
 {
@@ -58,6 +57,8 @@ abstract class AdminTestCase extends TestCase
         unset($this->user);
         unset($this->lapse_id);
         unset($this->today);
+
+        $this->session(['Auth' => null]);
 
         parent::tearDown();
     }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -108,14 +109,13 @@ class TenantsTable extends Table
      */
     public function findListLabel(Query $query, array $options): Query
     {
-        $options = array_merge([
-            'keyField' => 'id',
-            'valueField' => 'label',
-            'groupField' => 'program.area_label',
-        ], $options);
-
-        return parent::findList($query, $options)
-            ->find('complete');
+        return $query
+            ->find('complete')
+            ->find('list', array_merge([
+                'keyField' => 'id',
+                'valueField' => 'label',
+                'groupField' => 'program.area_label',
+            ], $options));
     }
 
     /**

@@ -1,10 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller\Admin;
 
+use App\Model\Field\UserRole;
 use App\Test\Factory\TutorFactory;
 use Cake\TestSuite\IntegrationTestTrait;
+use CakephpTestSuiteLight\Fixture\TruncateDirtyTables;
 
 /**
  * Pruebas para el controlador `TutorsController`
@@ -14,6 +17,7 @@ use Cake\TestSuite\IntegrationTestTrait;
 class TutorsControllerTest extends AdminTestCase
 {
     use IntegrationTestTrait;
+    use TruncateDirtyTables;
 
     /**
      * Prueba de funcionalidad de cargar la vista de los Tutores registrados
@@ -31,9 +35,8 @@ class TutorsControllerTest extends AdminTestCase
         $this->get('/admin/tutors'); //Cargar la vista index de Tutores
         $this->assertResponseCode(200);
 
-        // Verificacion de acciones
         $tutor = TutorFactory::make([
-            'tenant_id' => $this->tenant_id,
+            'tenant_id' => $this->tenant->id,
             'name' => 'Tutor de prueba',
             'dni' => 12345678,
             'phone' => 00001234567,
