@@ -6,6 +6,7 @@ namespace App\Test\TestCase\Controller\Admin;
 
 use App\Test\Factory\InterestAreaFactory;
 use App\Test\Factory\LapseFactory;
+use App\Test\Factory\LocationFactory;
 use App\Test\Factory\ProgramFactory;
 use App\Test\Factory\TenantFactory;
 use Cake\TestSuite\IntegrationTestTrait;
@@ -124,11 +125,16 @@ class TenantsControllerTest extends AdminTestCase
 
         // Verificacion de acciones
         $program = ProgramFactory::make()->persist(); //Creamos un Programa nuevo
+        $location = LocationFactory::make()->persist(); //Creamos una nueva Ubicacion
 
         // Creamos una nueva Sede asociada al Programa creado previamente
         $this->post('/admin/tenants/add/' . $program->id, [
-            'name' => 'Nueva sede test',
+            'location_id' => $location->id,
             'active' => true,
+            'current_lapse' => [
+                'name' => '2021',
+                'active' => true,
+            ]
         ]);
 
         // Verificacion de resultados

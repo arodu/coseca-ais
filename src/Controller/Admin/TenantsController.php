@@ -6,6 +6,7 @@ namespace App\Controller\Admin;
 
 use App\Model\Entity\Lapse;
 use App\Model\Entity\Tenant;
+use App\Utility\FilterTenantUtility;
 use Cake\Event\EventInterface;
 
 /**
@@ -129,32 +130,31 @@ class TenantsController extends AppAdminController
      * @param string $program_id
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add(string $program_id)
+    public function add()
     {
         $tenant = $this->Tenants->newEmptyEntity();
-        $program = $this->Tenants->Programs->get($program_id, [
-            'contain' => ['Areas'],
-        ]);
-        if ($this->request->is('post')) {
-            $tenant = $this->Tenants->patchEntity($tenant, $this->request->getData());
-            $tenant->program_id = $program->id;
-            if ($this->Tenants->save($tenant)) {
-                $this->Flash->success(__('The tenant has been saved.'));
+        if ($this->getRequest()->is('post')) {
+            $success = $this->Tenants->getConnection()->transactional(function () use ($tenant) {
+                $tenant = $this->Tenants->patchEntity($tenant, $this->getRequest()->getData());
+                $tenant = $this->Tenants->saveOrFail($tenant);
+                $user = $this->Authentication->getIdentity()->getOriginalData();
+                FilterTenantUtility::add($user, $tenant->id);
 
+                return true;
+            });
+
+            if ($success) {
+                $this->Flash->success(__('The tenant has been saved.'));
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The tenant could not be saved. Please, try again.'));
         }
 
-        $locationSelected = $this->Tenants->find()
-            ->where(['program_id' => $program->id])
-            ->select(['location_id'])
-            ->all()
-            ->extract('location_id')
-            ->toArray();
         $locations = $this->Tenants->Locations->find('list');
+        $programs = $this->Tenants->Programs->find('listGrouped');
+        $program_id = $this->getRequest()->getQuery('program_id', null);
 
-        $this->set(compact('tenant', 'program', 'locations', 'locationSelected'));
+        $this->set(compact('tenant', 'programs', 'locations', 'program_id'));
     }
 
     /**

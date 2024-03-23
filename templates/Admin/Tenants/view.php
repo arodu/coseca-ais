@@ -37,7 +37,7 @@ $this->Breadcrumbs->add([
             </tr>
             <tr>
                 <th><?= __('Sede') ?></th>
-                <td><?= h($tenant->name) ?></td>
+                <td><?= h($tenant->location->name) ?></td>
             </tr>
             <tr>
                 <th><?= __('ABVR') ?></th>
@@ -45,7 +45,7 @@ $this->Breadcrumbs->add([
             </tr>
             <tr>
                 <th><?= __('Lapso Actual') ?></th>
-                <td><?= $tenant?->current_lapse->name ?? $this->App->error(__('Programa debe tener al menos un lapso activo')) ?></td>
+                <td><?= $tenant->current_lapse->name ?? $this->App->error(__('Programa debe tener al menos un lapso activo')) ?></td>
             </tr>
             <tr>
                 <th><?= __('Activo') ?></th>

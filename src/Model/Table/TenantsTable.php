@@ -6,6 +6,7 @@ namespace App\Model\Table;
 
 use App\Model\Table\Traits\BasicTableTrait;
 use Cake\ORM\Query;
+use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use QueryFilter\QueryFilterPlugin;
@@ -87,6 +88,23 @@ class TenantsTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         return $validator;
+    }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules): RulesChecker
+    {
+        $rules->add($rules->isUnique(
+            ['location_id', 'program_id'],
+            __('This location is already assigned to this program'),
+        ));        
+
+        return $rules;
     }
 
     /**

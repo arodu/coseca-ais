@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
@@ -66,12 +67,6 @@ class ProgramsTable extends Table
             ->requirePresence('name', 'create')
             ->notEmptyString('name');
 
-        //$validator
-        //    ->scalar('area')
-        //    ->maxLength('area', 255)
-        //    ->requirePresence('area', 'create')
-        //    ->notEmptyString('area');
-
         $validator
             ->scalar('regime')
             ->maxLength('regime', 255)
@@ -85,5 +80,16 @@ class ProgramsTable extends Table
             ->notEmptyString('abbr');
 
         return $validator;
+    }
+
+    public function findListGrouped(Query $query): Query
+    {
+        return $query
+            ->find('list', [
+                'keyField' => 'id',
+                'valueField' => 'name',
+                'groupField' => 'area.abbr',
+            ])
+            ->contain(['Areas']);
     }
 }

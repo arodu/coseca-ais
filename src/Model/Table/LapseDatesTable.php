@@ -87,8 +87,6 @@ class LapseDatesTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn('lapse_id', 'Lapses'), ['errorField' => 'lapse_id']);
-
         return $rules;
     }
 
@@ -106,43 +104,38 @@ class LapseDatesTable extends Table
     }
 
     /**
-     * @param int $lapse_id
-     * @return iterable
+     * @return array
      */
-    public function saveDefaultDates(int $lapse_id): iterable
+    public function defaultDatesEntities($lapse_id = null): array
     {
         $defaultDates = [
             [
                 'stage' => StageField::REGISTER,
-                'title' => null,
                 'is_single_date' => false,
             ],
             [
                 'stage' => StageField::COURSE,
-                'title' => null,
                 'is_single_date' => true,
             ],
             [
                 'stage' => StageField::TRACKING,
-                'title' => null,
                 'is_single_date' => false,
             ],
             [
-                'stage' => StageField::ENDING,
                 'title' => __('Exporeria'),
+                'stage' => StageField::ENDING,
                 'is_single_date' => true,
             ],
         ];
 
-        $entities = $this->newEntities(array_map(function ($item) use ($lapse_id) {
+        $data = array_map(function ($item) {
             return [
-                'lapse_id' => $lapse_id,
                 'title' => $item['title'] ?? $item['stage']->label(),
                 'stage' => $item['stage']->value,
                 'is_single_date' => $item['is_single_date'] ?? false,
             ];
-        }, $defaultDates));
+        }, $defaultDates);
 
-        return $this->saveManyOrFail($entities);
+        return $this->newEntities($data);
     }
 }

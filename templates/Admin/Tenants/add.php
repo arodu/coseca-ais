@@ -17,21 +17,19 @@ $this->Breadcrumbs->add([
 <div class="card card-primary card-outline">
     <?= $this->Form->create($tenant, ['valueSources' => ['data', 'query', 'context']]) ?>
     <div class="card-body">
-        <?php
-        echo $this->Form->control('program', ['value' => $program->label, 'readonly' => true]);
-        echo $this->Form->control('location_id',
-        [
+        <?= $this->Form->control('program_id', [
+            'label' => __('Programa'),
+            'options' => $programs,
+            'empty' => true,
+            'required' => true,            
+        ]) ?>
+        <?= $this->Form->control('location_id', [
             'label' => __('Ubicación'),
             'options' => $locations,
             'empty' => true,
             'required' => true,
-            'disabled' => $locationSelected,
-        ]);
-        echo $this->Form->control('active', ['label' => __('Activo'), 'custom' => true, 'checked' => true]);
-
-        echo $this->Form->control('current_lapse.name', ['label' => __('Lapso Académico Actual')]);
-        echo $this->Form->hidden('current_lapse.active', ['value' => true]);
-        ?>
+        ]) ?>
+        <?= $this->Form->control('active', ['label' => __('Activo'), 'custom' => true, 'checked' => true]) ?>
     </div>
 
     <div class="card-footer d-flex">
@@ -39,7 +37,11 @@ $this->Breadcrumbs->add([
             <?= $this->Button->save() ?>
         </div>
         <div class="ml-auto">
-            <?= $this->Button->cancel(['url' => ['action' => 'viewProgram', $program->id]]) ?>
+            <?php if (!empty($program_id)) : ?>
+                <?= $this->Button->cancel(['url' => ['action' => 'viewProgram', $program_id]]) ?>
+            <?php else : ?>
+                <?= $this->Button->cancel(['url' => ['action' => 'index']]) ?>
+            <?php endif; ?>
         </div>
     </div>
     <?= $this->Form->end() ?>

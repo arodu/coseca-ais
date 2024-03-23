@@ -14,7 +14,7 @@ use Cake\ORM\Entity;
  * @property string $abbr
  * @property int $regime
  * @property bool $active
- * @property int $current_lapse
+ * @property Lapse $current_lapse
  * @property int $program_id
  *
  * @property \App\Model\Entity\Lapse[] $lapses
@@ -38,8 +38,8 @@ class Tenant extends Entity
         'tenant_filters' => true,
         'current_lapse' => true,
         'active' => true,
-        'program' => true,
-        'location' => true,
+        'program_id' => true,
+        'location_id' => true,
     ];
 
     /**

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -96,6 +97,10 @@ class AppUsersTable extends UsersTable
      */
     public function findAuth(Query $query, array $options = []): Query
     {
+        if (!empty($options['id'])) {
+            $query->where([$this->aliasField('id') => $options['id']]);
+        }
+
         return $query
             ->find('active')
             ->contain([

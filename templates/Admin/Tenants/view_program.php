@@ -55,7 +55,17 @@ $this->Breadcrumbs->add([
             <div class="card-header d-flex">
                 <h3 class="card-title"><?= __('Sedes') ?></h3>
                 <div class="ml-auto">
-                    <?= $this->Html->link(__('Nueva sede'), ['controller' => 'Tenants', 'action' => 'add', $program->id], ['class' => ActionColor::ADD->btn('btn-sm')]) ?>
+                    <?= $this->Html->link(
+                        __('Nueva sede'),
+                        [
+                            'controller' => 'Tenants',
+                            'action' => 'add',
+                            '?' => ['program_id' => $program->id],
+                        ],
+                        [
+                            'class' => ActionColor::ADD->btn('btn-sm'),
+                        ]
+                    ) ?>
                 </div>
             </div>
             <div class="card-body table-responsive p-0">
