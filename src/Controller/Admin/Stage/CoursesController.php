@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Admin\Stage;
@@ -101,5 +102,33 @@ class CoursesController extends AppAdminController
         }
 
         return $this->redirect(['_name' => 'admin:student:view', $studentCourse->student_id]);
+    }
+
+    /**
+     * @param int|string|null $student_id
+     * @return \Cake\Http\Response|null|void
+     */
+    public function closeStage($student_id = null)
+    {
+        $this->request->allowMethod(['post', 'put']);
+        $courseStage = $this->Students->StudentStages
+            ->find('byStudentStage', [
+                'student_id' => $student_id,
+                'stage' => StageField::COURSE,
+            ])
+            ->firstOrFail();
+
+        if (empty($courseStage) || !$this->Authorization->can($courseStage, 'close')) {
+            throw new ForbiddenException(__('You are not authorized to access that location'));
+        }
+
+        $this->Students->StudentStages->updateStatus($courseStage, StageStatus::SUCCESS);
+        $nextStage = $this->Students->StudentStages->createNext($courseStage);
+
+        if (($nextStage ?? false)) {
+            $this->Flash->success(__('The {0} stage has been created.', $nextStage->stage));
+        }
+
+        return $this->redirect(['_name' => 'admin:student:view', $student_id]);
     }
 }

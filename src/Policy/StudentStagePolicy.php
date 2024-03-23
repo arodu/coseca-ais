@@ -120,7 +120,7 @@ class StudentStagePolicy
             return new Result(true);
         }
 
-        if ($this->stageIs($studentStage, StageField::COURSE, StageStatus::REVIEW)) {
+        if ($this->stageIs($studentStage, StageField::COURSE, [StageStatus::REVIEW, StageStatus::IN_PROGRESS])) {
             return new Result(true);
         }
 
@@ -161,7 +161,7 @@ class StudentStagePolicy
                 return new Result(false, __('You are not the owner of this stage'));
             }
 
-            if ($this->stageIs($studentStage, StageField::COURSE, StageStatus::REVIEW)) {
+            if ($this->stageIs($studentStage, StageField::COURSE, [StageStatus::REVIEW, StageStatus::IN_PROGRESS])) {
                 if (empty($studentStage->course)) {
                     throw new \InvalidArgumentException('The student stage does not have a course, $studentStage->course is required');
                 }
@@ -186,7 +186,7 @@ class StudentStagePolicy
         }
 
         if ($this->userIsAdmin($user)) {
-            if ($this->stageIs($studentStage, StageField::COURSE, [StageStatus::REVIEW, StageStatus::SUCCESS])) {
+            if ($this->stageIs($studentStage, StageField::COURSE, [StageStatus::REVIEW, StageStatus::SUCCESS, StageStatus::IN_PROGRESS])) {
                 if (empty($studentStage->course)) {
                     throw new \InvalidArgumentException('The student stage does not have a course, $studentStage->course is required');
                 }
