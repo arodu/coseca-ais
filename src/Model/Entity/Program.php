@@ -47,6 +47,7 @@ class Program extends Entity
     ];
 
     protected $_virtual = [
+        'label',
         'area_label',
         'regime_label',
     ];
@@ -65,5 +66,14 @@ class Program extends Entity
     protected function _getAreaLabel(): ?string
     {
         return $this?->area?->abbr ?? null;
+    }
+
+    protected function _getLabel(): string
+    {
+        if (empty($this->area)) {
+            return $this->name;
+        }
+
+        return $this->area->abbr . ' - ' . $this->name;
     }
 }
