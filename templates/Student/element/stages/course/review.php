@@ -1,8 +1,12 @@
-<?php 
+<?php
+
 /**
  * @var \App\Model\Entity\Student $student
  * @var \App\Model\Entity\StudentStage $studentStage
  */
+
+use App\Utility\FilePrint;
+
 ?>
 <?php if (empty($student->student_course)) : ?>
     <p><?= __('Sin información a mostrar') ?></p>
@@ -20,4 +24,21 @@
             <li><?= h($student->student_course->comment) ?></li>
         <?php endif ?>
     </ul>
+
+    <?= $this->Button->fileReport([
+        'url' => [
+            'prefix' => 'Student',
+            'controller' => 'Documents',
+            'action' => 'format002',
+            FilePrint::format('planilla002', $student),
+        ],
+        'label' => __('Descargar planilla 002'),
+        'target' => '_blank',
+        'class' => 'btn-sm',
+        'displayCondition' => function () use ($studentStage, $student) {
+            $studentStage->course = $student->student_course;
+    
+            return $this->getIdentity()->can('print', $studentStage);
+        },
+    ]) ?>
 <?php endif; ?>

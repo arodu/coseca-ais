@@ -1,10 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Traits;
 
 use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\StageField;
+use Cake\Http\Exception\ForbiddenException;
 use Cake\ORM\Locator\LocatorAwareTrait;
 
 trait DocumentsTrait
@@ -16,8 +18,44 @@ trait DocumentsTrait
      */
     public function initialize(): void
     {
+        $this->Students = $this->fetchTable('Students');
         parent::initialize();
     }
+
+    /**
+     * @param int|string|null $student_id
+     * @return void
+     */
+    public function format002(?string $student_id = null)
+    {
+        $this->Students = $this->fetchTable('Students');
+
+
+        $student = $this->Students->find()
+            ->find('withAppUsers')
+            ->find('withTenants')
+            ->where(['Students.id' => $student_id])
+            ->contain([
+                'StudentCourses',
+            ])
+            ->firstOrFail();
+
+        $courseStage = $this->Students->StudentStages->find('byStudentStage', [
+            'student_id' => $student->id,
+            'stage' => StageField::COURSE,
+        ])->firstOrFail();
+
+        $courseStage->course = $student->student_course;
+        if (empty($courseStage) || !$this->Authorization->can($courseStage, 'print')) {
+            throw new ForbiddenException(__('You are not authorized to access that location'));
+        }
+
+        $this->viewBuilder()->setClassName('CakePdf.Pdf');
+
+        $this->set(compact('student'));
+        $this->render('/Documents/format002');
+    }
+
 
     /**
      * @param int|string|null $student_id

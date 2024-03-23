@@ -64,23 +64,12 @@ class CoursesController extends AppAdminController
 
                 $studentCourse = $this->Students->StudentCourses->patchEntity($studentCourse, $this->request->getData());
                 $this->Students->StudentCourses->saveOrFail($studentCourse);
-
-                if ($this->actionValidate()) {
-                    if (!$this->Authorization->can($courseStage, 'courseValidate')) {
-                        throw new ForbiddenException(__('You are not authorized to access that location'));
-                    }
-
-                    $this->Students->StudentStages->updateStatus($courseStage, StageStatus::SUCCESS);
-                    $nextStage = $this->Students->StudentStages->createNext($courseStage);
-                }
+                $this->Students->StudentStages->updateStatus($courseStage, StageStatus::REVIEW);
 
                 $this->Students->getConnection()->commit();
                 $success = true;
 
                 $this->Flash->success(__('The student course has been saved.'));
-                if (($nextStage ?? false)) {
-                    $this->Flash->success(__('The {0} stage has been created.', $nextStage->stage));
-                }
 
                 return $this->redirect(['_name' => 'admin:student:view', $student->id]);
             } catch (\Exception $e) {
