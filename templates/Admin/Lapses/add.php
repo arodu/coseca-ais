@@ -21,6 +21,8 @@ $this->Breadcrumbs->add([
         <?php
         echo $this->Form->hidden('tenant_id', ['value' => $tenant->id]);
         echo $this->Form->control('tenant', ['label' => __('Programa'), 'value' => $tenant->label, 'readonly' => true]);
+
+        // @todo crear prototipo de nombre de nuevo lapso académico
         echo $this->Form->control('name', ['label' => __('Nombre')]);
         echo $this->Form->control('active', ['label' => __('Activo'), 'custom' => true]);
         ?>

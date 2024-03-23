@@ -41,7 +41,10 @@ class LapsesController extends AppAdminController
             }
             $this->Flash->error(__('The lapse could not be saved. Please, try again.'));
         }
-        $tenant = $this->Lapses->Tenants->get($tenant_id);
+        $tenant = $this->Lapses->Tenants
+            ->find('complete')
+            ->where(['Tenants.id' => $tenant_id])
+            ->firstOrFail();
         $this->set(compact('lapse', 'tenant'));
     }
 

@@ -30,9 +30,7 @@ abstract class AdminTestCase extends TestCase
     protected $user;
     protected $lapse_id;
     protected $today;
-    //protected $tutors;
-    //protected $institution;
-    //protected $alertMessage = 'Comuniquese con la coordinación de servicio comunitario para mas información';
+    protected $tenant;
 
     protected function setUp(): void
     {
@@ -54,6 +52,8 @@ abstract class AdminTestCase extends TestCase
             ->with('Lapses', LapseFactory::make())
             ->persist();
 
+        $this->tenant = $tenant;
+
         $this->tenant_id = $tenant->id;
         $this->program = $tenant->program;
         $this->lapse_id = $tenant->lapses[0]->id;
@@ -63,12 +63,12 @@ abstract class AdminTestCase extends TestCase
 
     protected function tearDown(): void
     {
+        unset($this->tenant);
         unset($this->program);
-        unset($this->user);
-        //unset($this->lapse_id);
         unset($this->tenant_id);
-        //unset($this->tutors);
-        //unset($this->institution);
+        unset($this->user);
+        unset($this->lapse_id);
+        unset($this->today);
 
         parent::tearDown();
     }

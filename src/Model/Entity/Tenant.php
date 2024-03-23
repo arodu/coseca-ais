@@ -48,6 +48,7 @@ class Tenant extends Entity
     protected function _getLabel(): string
     {
         $output = [
+            $this?->program?->area?->abbr,
             $this?->program?->name,
             $this?->location?->name,
         ];
@@ -61,6 +62,7 @@ class Tenant extends Entity
     protected function _getAbbrLabel(): string
     {
         $output = [
+            $this?->program?->area?->abbr,
             $this?->program?->abbr,
             $this?->location?->abbr,
         ];
