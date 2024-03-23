@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Utility;
@@ -41,6 +40,7 @@ class FilePrint
     }
 
     /**
+     * @param string $format
      * @param \App\Model\Entity\Student $student
      * @return string
      */
@@ -52,5 +52,4 @@ class FilePrint
 
         return h($student->dni) . '_' . $format . '.pdf';
     }
-
 }

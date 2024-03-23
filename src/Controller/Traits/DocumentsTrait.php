@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Traits;
@@ -30,7 +29,6 @@ trait DocumentsTrait
     {
         $this->Students = $this->fetchTable('Students');
 
-
         $student = $this->Students->find()
             ->find('withAppUsers')
             ->find('withTenants')
@@ -55,7 +53,6 @@ trait DocumentsTrait
         $this->set(compact('student'));
         $this->render('/Documents/format002');
     }
-
 
     /**
      * @param int|string|null $student_id
