@@ -14,17 +14,17 @@ use App\Controller\Traits\DocumentsTrait;
 class DocumentsController extends AppStudentController
 {
     use DocumentsTrait {
+        format002 as protected traitFormat002;
         format007 as protected traitFormat007;
         format009 as protected traitFormat009;
     }
 
     /**
-     * @return void
+     * @return \Cake\Http\Response|null|void Renders view
      */
-    public function initialize(): void
+    public function format002()
     {
-        parent::initialize();
-        $this->Students = $this->fetchTable('Students');
+        $this->traitFormat002((string)$this->getCurrentStudent()->id);
     }
 
     /**
