@@ -128,6 +128,7 @@ class TenantsControllerTest extends AdminTestCase
         // Creamos una nueva Sede asociada al Programa creado previamente
         $this->post('/admin/tenants/add/' . $program->id, [
             'name' => 'Nueva sede test',
+            'active' => true,
         ]);
 
         // Verificacion de resultados
