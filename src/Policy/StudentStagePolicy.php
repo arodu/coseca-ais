@@ -163,7 +163,7 @@ class StudentStagePolicy
 
             if ($this->stageIs($studentStage, StageField::COURSE, [StageStatus::REVIEW, StageStatus::IN_PROGRESS])) {
                 if (empty($studentStage->course)) {
-                    throw new \InvalidArgumentException('The student stage does not have a course, $studentStage->course is required');
+                    return new Result(false, __('The student stage does not have a course'));
                 }
 
                 if ($studentStage->course->exonerated) {
@@ -188,7 +188,7 @@ class StudentStagePolicy
         if ($this->userIsAdmin($user)) {
             if ($this->stageIs($studentStage, StageField::COURSE, [StageStatus::REVIEW, StageStatus::SUCCESS, StageStatus::IN_PROGRESS])) {
                 if (empty($studentStage->course)) {
-                    throw new \InvalidArgumentException('The student stage does not have a course, $studentStage->course is required');
+                    return new Result(false, __('The student stage does not have a course'));
                 }
 
                 if ($studentStage->course->exonerated) {
