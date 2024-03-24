@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -17,6 +16,7 @@ declare(strict_types=1);
  */
 namespace App\Controller;
 
+use App\Model\Entity\AppUser;
 use App\Utility\FilterTenantUtility;
 use Cake\Controller\Controller;
 
@@ -53,7 +53,10 @@ class AppController extends Controller
         //$this->loadComponent('FormProtection');
     }
 
-    public function updateLoggedUser()
+    /**
+     * @return \App\Model\Entity\AppUser
+     */
+    public function updateLoggedUser(): ?AppUser
     {
         $user = $this->fetchTable('AppUsers')
             ->find('auth', ['id' => $this->Authentication->getIdentity()->getIdentifier()])

@@ -104,6 +104,7 @@ class LapseDatesTable extends Table
     }
 
     /**
+     * @param int|null $lapse_id
      * @return array
      */
     public function defaultDatesEntities($lapse_id = null): array

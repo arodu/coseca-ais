@@ -1,10 +1,8 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller\Admin;
 
-use App\Model\Field\UserRole;
 use App\Test\Factory\TutorFactory;
 use Cake\TestSuite\IntegrationTestTrait;
 use CakephpTestSuiteLight\Fixture\TruncateDirtyTables;

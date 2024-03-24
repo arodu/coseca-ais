@@ -82,6 +82,10 @@ class ProgramsTable extends Table
         return $validator;
     }
 
+    /**
+     * @param \Cake\ORM\Query $query
+     * @return \Cake\ORM\Query
+     */
     public function findListGrouped(Query $query): Query
     {
         return $query

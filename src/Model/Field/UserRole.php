@@ -93,6 +93,7 @@ enum UserRole: string implements ListInterface
     public function isAdminGroup(): bool
     {
         trigger_error('Deprecated method ' . __METHOD__, E_USER_DEPRECATED);
+
         return $this->isGroup(static::GROUP_ADMIN);
     }
 
@@ -103,6 +104,7 @@ enum UserRole: string implements ListInterface
     public function isStudentGroup(): bool
     {
         trigger_error('Deprecated method ' . __METHOD__, E_USER_DEPRECATED);
+
         return $this->isGroup(static::GROUP_STUDENT);
     }
 
@@ -113,6 +115,7 @@ enum UserRole: string implements ListInterface
     public function isStaffGroup(): bool
     {
         trigger_error('Deprecated method ' . __METHOD__, E_USER_DEPRECATED);
+
         return $this->isGroup(static::GROUP_STAFF);
     }
 
@@ -123,6 +126,7 @@ enum UserRole: string implements ListInterface
     public function isRootGroup(): bool
     {
         trigger_error('Deprecated method ' . __METHOD__, E_USER_DEPRECATED);
+
         return $this->isGroup(static::GROUP_ROOT);
     }
 

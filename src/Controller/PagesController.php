@@ -19,8 +19,6 @@ namespace App\Controller;
 
 use App\Model\Field\UserRole;
 use Cake\Log\Log;
-use CakeDC\Users\Model\Entity\User;
-use PhpParser\Builder\Use_;
 
 /**
  * Static content controller

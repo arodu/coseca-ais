@@ -1,14 +1,11 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller\Admin;
 
 use App\Test\Factory\InterestAreaFactory;
-use App\Test\Factory\LapseFactory;
 use App\Test\Factory\LocationFactory;
 use App\Test\Factory\ProgramFactory;
-use App\Test\Factory\TenantFactory;
 use Cake\TestSuite\IntegrationTestTrait;
 use CakephpTestSuiteLight\Fixture\TruncateDirtyTables;
 
@@ -66,7 +63,6 @@ class TenantsControllerTest extends AdminTestCase
         $this->assertResponseContains($this->tenant->program->abbr);
         $this->assertResponseContains($this->tenant->location->name);
         $this->assertResponseContains($this->tenant->lapses[0]->name);
-
     }
 
     /**
@@ -121,7 +117,7 @@ class TenantsControllerTest extends AdminTestCase
             'current_lapse' => [
                 'name' => '2021',
                 'active' => true,
-            ]
+            ],
         ]);
 
         $tenant = $this->getRecordByOptions('Tenants', [
@@ -204,7 +200,7 @@ class TenantsControllerTest extends AdminTestCase
         $tenant = $this->createCompleteTenant()->persist();
         $this->get('/admin/tenants/edit/' . $tenant->id);
         $this->assertResponseCode(302);
-        
+
         $this->setAuthSession();
         $this->get('/admin/tenants/edit/' . $tenant->id);
         $this->assertResponseCode(200);

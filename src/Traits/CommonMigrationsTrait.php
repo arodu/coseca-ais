@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Traits;
@@ -13,9 +12,10 @@ trait CommonMigrationsTrait
      * @param array $options
      * @return \Migrations\Table
      */
-    public function setAuditFields(Table $table, array $options = ['created', 'created_by', 'modified', 'modified_by', 'deleted', 'deleted_by']): Table
-    {
-
+    public function setAuditFields(
+        Table $table,
+        array $options = ['created', 'created_by', 'modified', 'modified_by', 'deleted', 'deleted_by']
+    ): Table {
         if (in_array('created', $options)) {
             $table = $table->addColumn('created', 'datetime', [
                 'default' => 'CURRENT_TIMESTAMP',

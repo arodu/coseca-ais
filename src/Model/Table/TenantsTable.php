@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -102,7 +101,7 @@ class TenantsTable extends Table
         $rules->add($rules->isUnique(
             ['location_id', 'program_id'],
             __('This location is already assigned to this program'),
-        ));        
+        ));
 
         return $rules;
     }

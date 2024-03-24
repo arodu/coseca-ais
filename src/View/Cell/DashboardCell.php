@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\View\Cell;
@@ -55,6 +54,7 @@ class DashboardCell extends Cell
                 'currentLapses' => [],
                 'studentsActives' => 0,
             ]);
+
             return;
         }
 
@@ -123,6 +123,7 @@ class DashboardCell extends Cell
         $lapses = $this->getCurrentLapses();
         if ($lapses->isEmpty()) {
             $this->set(['stages' => [], 'statuses' => [], 'reports' => []]);
+
             return;
         }
 
@@ -144,10 +145,6 @@ class DashboardCell extends Cell
             'stages' => ReportsUtility::getStageList(),
             'reports' => $reports,
         ]);
-    }
-
-    public function notFound()
-    {
     }
 
     /**

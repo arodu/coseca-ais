@@ -1,10 +1,8 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Test\Factory;
 
-use App\Model\Entity\Lapse;
 use App\Model\Field\UserRole;
 use Cake\Datasource\EntityInterface;
 use Cake\ORM\Locator\LocatorAwareTrait;

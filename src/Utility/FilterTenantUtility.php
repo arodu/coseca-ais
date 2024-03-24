@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Utility;
@@ -68,13 +67,14 @@ class FilterTenantUtility
 
     /**
      * @param \App\Model\Entity\AppUser $user
-     * @param integer $tenant_id
+     * @param int $tenant_id
      * @return void
      */
     public static function add(AppUser $user, int $tenant_id): void
     {
         if ($user->enum('role')->isGroup(UserRole::GROUP_ROOT)) {
             static::update($user);
+
             return;
         }
 

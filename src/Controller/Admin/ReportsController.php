@@ -10,7 +10,6 @@ use Cake\Http\Exception\NotFoundException;
  */
 class ReportsController extends AppAdminController
 {
-
     /**
      * @var \App\Model\Table\TenantsTable
      */

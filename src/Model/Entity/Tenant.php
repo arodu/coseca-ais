@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -14,7 +13,7 @@ use Cake\ORM\Entity;
  * @property string $abbr
  * @property int $regime
  * @property bool $active
- * @property Lapse $current_lapse
+ * @property \App\Model\Entity\Lapse $current_lapse
  * @property int $program_id
  *
  * @property \App\Model\Entity\Lapse[] $lapses
