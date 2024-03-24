@@ -55,13 +55,8 @@ class LapsesControllerTest extends AdminTestCase
     {
         // Configuracion inicial
         $this->setAuthSession(); // Establece una sesión de autenticación para simular un usuario autenticado.
-
-        $program = $this->createProgram()->persist(); //Creacion de un programa
-
         // Creacion de un Tenant
-        $tenant = TenantFactory::make([
-            'program_id' => $program->id,
-        ])->persist();
+        $tenant = $this->createCompleteTenant()->persist();
 
         $this->get('/admin/tenants/view/' . $tenant->id); // Verificar que cargue la vista con el ID correspondiente
         $this->assertResponseCode(200);

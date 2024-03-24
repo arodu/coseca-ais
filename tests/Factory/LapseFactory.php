@@ -39,7 +39,7 @@ class LapseFactory extends CakephpBaseFactory
     {
         $this->setDefaultData(function (Generator $faker) {
             return [
-                'name' => '2023-1',
+                'name' => $faker->name,
                 'active' => true,
             ];
         });
