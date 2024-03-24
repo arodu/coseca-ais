@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Test\TestCase\Controller\Admin;
 
 use App\Test\Factory\InstitutionFactory;
-use App\Test\Factory\LapseFactory;
 use App\Test\Factory\TenantFactory;
 use App\Test\Factory\TutorFactory;
 use Cake\TestSuite\IntegrationTestTrait;

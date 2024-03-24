@@ -132,7 +132,7 @@ class LapsesController extends AppAdminController
      * @param string|null $id Lapse id.
      * @return \Cake\Http\Response|null|void Redirects to index.
      */
-    public function addDates(string $id = null)
+    public function addDates(?string $id = null)
     {
         $lapse = $this->Lapses->get($id);
         $dates = $this->Lapses->LapseDates->defaultDatesEntities($lapse->id);
@@ -142,7 +142,7 @@ class LapsesController extends AppAdminController
         } else {
             $this->Flash->error(__('The lapse dates could not be saved. Please, try again.'));
         }
-        
+
         return $this->redirect(['controller' => 'Tenants', 'action' => 'view', $lapse->tenant_id, '?' => ['lapse_id' => $id]]);
     }
 }
