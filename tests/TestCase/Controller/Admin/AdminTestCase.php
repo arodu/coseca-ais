@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller\Admin;
@@ -77,6 +78,28 @@ abstract class AdminTestCase extends TestCase
             ->with('Lapses', LapseFactory::make());
     }
 
+    protected function createCompleteStudent($tenant = null)
+    {
+        $tenant = $tenant ?? $this->tenant;
+
+        return StudentFactory::make([
+            'lapse_id' => $tenant->lapses[0]->id,
+            'tenant_id' => $tenant->id,
+        ])
+            ->with('StudentData')
+            ->with('AppUsers')
+            ->with('StudentStages', [
+                [
+                    'stage' => StageField::REGISTER->value,
+                    'status' => StageStatus::IN_PROGRESS->value,
+                ],
+                [
+                    'stage' => StageField::COURSE->value,
+                    'status' => StageStatus::IN_PROGRESS->value,
+                ],
+            ]);
+    }
+
     protected function setAuthSession($user = null)
     {
         $user = $user ?? $this->user;
@@ -84,6 +107,9 @@ abstract class AdminTestCase extends TestCase
         $this->session(['Auth' => $user]);
     }
 
+    /**
+     * @deprecated
+     */
     protected function createRegularStudent(array $options = []): Student
     {
         $options = array_merge([
@@ -109,6 +135,9 @@ abstract class AdminTestCase extends TestCase
         $this->assertResponseCode(200);
     }
 
+    /**
+     * @deprecated
+     */
     protected function getUserStudentCreated($program)
     {
         $user = $this->createUser(['role' => UserRole::STUDENT->value]);

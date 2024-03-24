@@ -168,8 +168,9 @@ $this->Breadcrumbs->add([
                         </tr>
                         <?php if (empty($lapseSelected->lapse_dates)) { ?>
                             <tr>
-                                <td colspan="3" class="text-muted">
-                                    Lapse Dates record not found!
+                                <td colspan="4" class="text-muted">
+                                    <?= __('Lapse Dates record not found!') ?>
+                                    <?= $this->Html->link(__('Crear listado de Fechas'), ['controller' => 'Lapses', 'action' => 'addDates', $lapseSelected->id], ['class' => '']) ?>
                                 </td>
                             </tr>
                         <?php } else { ?>
