@@ -1,26 +1,28 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Manager\Controller;
 
-use App\Model\Table\AreasTable;
+use App\Model\Table\ProgramsTable;
 use Manager\Controller\AppController;
 
 /**
- * Areas Controller
+ * Programs Controller
  *
- * @method \Manager\Model\Entity\Area[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @method \Manager\Model\Entity\Program[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class AreasController extends AppController
+class ProgramsController extends AppController
 {
 
-    protected AreasTable $Areas;
+    protected ProgramsTable $Programs;
 
+    /**
+     * @return void
+     */
     public function initialize(): void
     {
         parent::initialize();
-        $this->Areas = $this->fetchTable('Areas');
+        $this->Programs = $this->fetchTable('Programs');
     }
 
     /**
@@ -30,31 +32,25 @@ class AreasController extends AppController
      */
     public function index()
     {
-        $areas = $this->paginate($this->Areas);
+        $programs = $this->paginate($this->Programs);
 
-        $this->set(compact('areas'));
+        $this->set(compact('programs'));
     }
 
     /**
      * View method
      *
-     * @param string|null $id Area id.
+     * @param string|null $id Program id.
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null)
     {
-        $area = $this->Areas->get($id, [
-            'contain' => [
-                'Programs' => [
-                    'Tenants' => [
-                        'Locations',
-                    ],
-                ],
-            ],
+        $program = $this->Programs->get($id, [
+            'contain' => [],
         ]);
 
-        $this->set(compact('area'));
+        $this->set(compact('program'));
     }
 
     /**
@@ -64,58 +60,58 @@ class AreasController extends AppController
      */
     public function add()
     {
-        $area = $this->Areas->newEmptyEntity();
+        $program = $this->Programs->newEmptyEntity();
         if ($this->request->is('post')) {
-            $area = $this->Areas->patchEntity($area, $this->request->getData());
-            if ($this->Areas->save($area)) {
-                $this->Flash->success(__('The area has been saved.'));
+            $program = $this->Programs->patchEntity($program, $this->request->getData());
+            if ($this->Programs->save($program)) {
+                $this->Flash->success(__('The program has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The area could not be saved. Please, try again.'));
+            $this->Flash->error(__('The program could not be saved. Please, try again.'));
         }
-        $this->set(compact('area'));
+        $this->set(compact('program'));
     }
 
     /**
      * Edit method
      *
-     * @param string|null $id Area id.
+     * @param string|null $id Program id.
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function edit($id = null)
     {
-        $area = $this->Areas->get($id, [
+        $program = $this->Programs->get($id, [
             'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $area = $this->Areas->patchEntity($area, $this->request->getData());
-            if ($this->Areas->save($area)) {
-                $this->Flash->success(__('The area has been saved.'));
+            $program = $this->Programs->patchEntity($program, $this->request->getData());
+            if ($this->Programs->save($program)) {
+                $this->Flash->success(__('The program has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The area could not be saved. Please, try again.'));
+            $this->Flash->error(__('The program could not be saved. Please, try again.'));
         }
-        $this->set(compact('area'));
+        $this->set(compact('program'));
     }
 
     /**
      * Delete method
      *
-     * @param string|null $id Area id.
+     * @param string|null $id Program id.
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $area = $this->Areas->get($id);
-        if ($this->Areas->delete($area)) {
-            $this->Flash->success(__('The area has been deleted.'));
+        $program = $this->Programs->get($id);
+        if ($this->Programs->delete($program)) {
+            $this->Flash->success(__('The program has been deleted.'));
         } else {
-            $this->Flash->error(__('The area could not be deleted. Please, try again.'));
+            $this->Flash->error(__('The program could not be deleted. Please, try again.'));
         }
 
         return $this->redirect(['action' => 'index']);

@@ -13,6 +13,17 @@ $menu['areas'] = [
     'uri' => ['controller' => 'Areas', 'action' => 'index'],
 ];
 
+$menu['programs'] = [
+    'label' => __('Programas'),
+    'uri' => ['controller' => 'Programs', 'action' => 'index'],
+];
+
+
+$menu['locations'] = [
+    'label' => __('Ubicaciones'),
+    'uri' => ['controller' => 'Locations', 'action' => 'index'],
+];
+
 $menu['users'] = [
     'label' => __('Usuarios'),
     'uri' => ['controller' => 'Users', 'action' => 'index'],

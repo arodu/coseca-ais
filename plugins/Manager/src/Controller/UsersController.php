@@ -1,26 +1,28 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Manager\Controller;
 
-use App\Model\Table\AreasTable;
+use App\Model\Table\AppUsersTable;
 use Manager\Controller\AppController;
 
 /**
- * Areas Controller
+ * Users Controller
  *
- * @method \Manager\Model\Entity\Area[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @method \Manager\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class AreasController extends AppController
+class UsersController extends AppController
 {
 
-    protected AreasTable $Areas;
+    protected AppUsersTable $Users;
 
+    /**
+     * @return void
+     */
     public function initialize(): void
     {
         parent::initialize();
-        $this->Areas = $this->fetchTable('Areas');
+        $this->Users = $this->fetchTable('Users');
     }
 
     /**
@@ -30,31 +32,25 @@ class AreasController extends AppController
      */
     public function index()
     {
-        $areas = $this->paginate($this->Areas);
+        $users = $this->paginate($this->Users);
 
-        $this->set(compact('areas'));
+        $this->set(compact('users'));
     }
 
     /**
      * View method
      *
-     * @param string|null $id Area id.
+     * @param string|null $id User id.
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null)
     {
-        $area = $this->Areas->get($id, [
-            'contain' => [
-                'Programs' => [
-                    'Tenants' => [
-                        'Locations',
-                    ],
-                ],
-            ],
+        $user = $this->Users->get($id, [
+            'contain' => [],
         ]);
 
-        $this->set(compact('area'));
+        $this->set(compact('user'));
     }
 
     /**
@@ -64,58 +60,58 @@ class AreasController extends AppController
      */
     public function add()
     {
-        $area = $this->Areas->newEmptyEntity();
+        $user = $this->Users->newEmptyEntity();
         if ($this->request->is('post')) {
-            $area = $this->Areas->patchEntity($area, $this->request->getData());
-            if ($this->Areas->save($area)) {
-                $this->Flash->success(__('The area has been saved.'));
+            $user = $this->Users->patchEntity($user, $this->request->getData());
+            if ($this->Users->save($user)) {
+                $this->Flash->success(__('The user has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The area could not be saved. Please, try again.'));
+            $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-        $this->set(compact('area'));
+        $this->set(compact('user'));
     }
 
     /**
      * Edit method
      *
-     * @param string|null $id Area id.
+     * @param string|null $id User id.
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function edit($id = null)
     {
-        $area = $this->Areas->get($id, [
+        $user = $this->Users->get($id, [
             'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $area = $this->Areas->patchEntity($area, $this->request->getData());
-            if ($this->Areas->save($area)) {
-                $this->Flash->success(__('The area has been saved.'));
+            $user = $this->Users->patchEntity($user, $this->request->getData());
+            if ($this->Users->save($user)) {
+                $this->Flash->success(__('The user has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The area could not be saved. Please, try again.'));
+            $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-        $this->set(compact('area'));
+        $this->set(compact('user'));
     }
 
     /**
      * Delete method
      *
-     * @param string|null $id Area id.
+     * @param string|null $id User id.
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $area = $this->Areas->get($id);
-        if ($this->Areas->delete($area)) {
-            $this->Flash->success(__('The area has been deleted.'));
+        $user = $this->Users->get($id);
+        if ($this->Users->delete($user)) {
+            $this->Flash->success(__('The user has been deleted.'));
         } else {
-            $this->Flash->error(__('The area could not be deleted. Please, try again.'));
+            $this->Flash->error(__('The user could not be deleted. Please, try again.'));
         }
 
         return $this->redirect(['action' => 'index']);

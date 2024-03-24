@@ -44,6 +44,7 @@ class ManagerPlugin extends BasePlugin
             ['path' => '/manager'],
             function (RouteBuilder $builder) {
                 // Add custom routes here
+                //$builder->connect('/', ['controller' => 'Areas', 'action' => 'index'], ['_name' => 'home']);
 
                 $builder->fallbacks();
             }

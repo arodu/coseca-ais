@@ -63,6 +63,15 @@ class TestingSeed extends AbstractSeed
         ]);
 
         $users[] = $this->setupUser([
+            'email' => 'manager@example.com',
+            'password' => '1234',
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'role' => UserRole::MANAGER->value,
+            'active' => true,
+        ]);
+
+        $users[] = $this->setupUser([
             'email' => 'admin@example.com',
             'password' => '1234',
             'first_name' => $this->faker->firstName(),
