@@ -30,6 +30,9 @@ $this->Breadcrumbs->add([
             'required' => true,
         ]) ?>
         <?= $this->Form->control('active', ['label' => __('Activo'), 'custom' => true, 'checked' => true]) ?>
+
+        <?= $this->Form->control('current_lapse.name', ['label' => __('Lapso Académico Actual')]) ?>
+        <?= $this->Form->hidden('current_lapse.active', ['value' => true]) ?>
     </div>
 
     <div class="card-footer d-flex">

@@ -40,7 +40,7 @@ abstract class AdminTestCase extends TestCase
         $this->enableSecurityToken();
 
         $this->user = $this->createUser(['role' => UserRole::ADMIN->value])->persist();
-        $this->tenant = $this->getCompleteTenant()->persist();
+        $this->tenant = $this->createCompleteTenant()->persist();
 
         $this->tenant_id = $this->tenant->id;
         $this->program = $this->tenant->program;
@@ -63,7 +63,7 @@ abstract class AdminTestCase extends TestCase
         parent::tearDown();
     }
 
-    protected function getCompleteTenant($user = null)
+    protected function createCompleteTenant($user = null)
     {
         $user = $user ?? $this->user;
 

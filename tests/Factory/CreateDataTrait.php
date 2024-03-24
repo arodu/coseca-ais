@@ -71,7 +71,9 @@ trait CreateDataTrait
 
     protected function setDefaultLapseDates(int $lapse_id)
     {
-        return $this->fetchTable('LapseDates')->saveDefaultDates($lapse_id);
+        $lapseDates = $this->fetchTable('LapseDates')->defaultDatesEntities($lapse_id);
+
+        return $this->fetchTable('LapseDates')->saveManyOrFail($lapseDates);
     }
 
     protected function getRecord(string $repository, int $id): EntityInterface

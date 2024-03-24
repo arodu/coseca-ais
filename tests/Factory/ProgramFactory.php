@@ -37,15 +37,11 @@ class ProgramFactory extends CakephpBaseFactory
     protected function setDefaultTemplate(): void
     {
         $this->setDefaultData(function (Generator $faker) {
-            $program = $faker->randomElement([
-                ['name' => 'Informática', 'regime' => ProgramRegime::BIANNUAL->value, 'abbr' => 'INF'],
-                ['name' => 'Medicina', 'regime' => ProgramRegime::ANNUALIZED_6->value, 'abbr' => 'MED'],
-                ['name' => 'Contaduría', 'regime' => ProgramRegime::ANNUALIZED_5->value, 'abbr' => 'CON'],
-                ['name' => 'Agronomia-animal', 'regime' => ProgramRegime::BIANNUAL->value, 'abbr' => 'ANI'],
-                ['name' => 'Agronomia-vegetal', 'regime' => ProgramRegime::BIANNUAL->value, 'abbr' => 'VEG'],
-            ]);
-
-            return $program;
+            return [
+                'name' => $faker->word,
+                'regime' => $faker->randomElement(ProgramRegime::values()),
+                'abbr' => $faker->word,
+            ];
         });
     }
 

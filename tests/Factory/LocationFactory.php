@@ -35,14 +35,10 @@ class LocationFactory extends CakephpBaseFactory
     protected function setDefaultTemplate(): void
     {
         $this->setDefaultData(function (Generator $faker) {
-            $location = $faker->randomElement([
-                ['name' => 'San Juan', 'abbr' => 'SJM'],
-                ['name' => 'Mellado', 'abbr' => 'MED'],
-                ['name' => 'Ortiz', 'abbr' => 'ORT'],
-                ['name' => 'Calabozo', 'abbr' => 'CAL'],
-            ]);
-
-            return $location;
+            return [
+                'name' => $faker->city(),
+                'abbr' => $faker->word,
+            ];
         });
     }
 }

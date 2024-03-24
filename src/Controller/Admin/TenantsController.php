@@ -133,26 +133,22 @@ class TenantsController extends AppAdminController
     public function add()
     {
         $tenant = $this->Tenants->newEmptyEntity();
+        $program_id = $this->getRequest()->getQuery('program_id', null);
+
         if ($this->getRequest()->is('post')) {
-            $success = $this->Tenants->getConnection()->transactional(function () use ($tenant) {
-                $tenant = $this->Tenants->patchEntity($tenant, $this->getRequest()->getData());
-                $tenant = $this->Tenants->saveOrFail($tenant);
+            $tenant = $this->Tenants->patchEntity($tenant, $this->request->getData());
+            if ($this->Tenants->save($tenant)) {
+                $this->Flash->success(__('The tenant has been saved.'));
                 $user = $this->Authentication->getIdentity()->getOriginalData();
                 FilterTenantUtility::add($user, $tenant->id);
 
-                return true;
-            });
-
-            if ($success) {
-                $this->Flash->success(__('The tenant has been saved.'));
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'view', $tenant->id]);
             }
             $this->Flash->error(__('The tenant could not be saved. Please, try again.'));
         }
 
         $locations = $this->Tenants->Locations->find('list');
         $programs = $this->Tenants->Programs->find('listGrouped');
-        $program_id = $this->getRequest()->getQuery('program_id', null);
 
         $this->set(compact('tenant', 'programs', 'locations', 'program_id'));
     }
@@ -211,7 +207,7 @@ class TenantsController extends AppAdminController
     public function edit($id = null)
     {
         $tenant = $this->Tenants->get($id, [
-            'contain' => [],
+            'contain' => ['Programs'],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $tenant = $this->Tenants->patchEntity($tenant, $this->request->getData());
@@ -223,7 +219,9 @@ class TenantsController extends AppAdminController
             $this->Flash->error(__('The tenant could not be saved. Please, try again.'));
         }
 
-        $this->set(compact('tenant'));
+        $locations = $this->Tenants->Locations->find('list');
+
+        $this->set(compact('tenant', 'locations'));
     }
 
     /**

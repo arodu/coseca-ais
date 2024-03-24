@@ -128,12 +128,18 @@ class LapseDatesTable extends Table
             ],
         ];
 
-        $data = array_map(function ($item) {
-            return [
+        $data = array_map(function ($item) use ($lapse_id) {
+            $output = [
                 'title' => $item['title'] ?? $item['stage']->label(),
                 'stage' => $item['stage']->value,
                 'is_single_date' => $item['is_single_date'] ?? false,
             ];
+
+            if ($lapse_id) {
+                $output['lapse_id'] = $lapse_id;
+            }
+
+            return $output;
         }, $defaultDates);
 
         return $this->newEntities($data);

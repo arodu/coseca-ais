@@ -84,8 +84,6 @@ class TenantFiltersTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn('user_id', 'AppUsers'), ['errorField' => 'user_id']);
-
         return $rules;
     }
 }
