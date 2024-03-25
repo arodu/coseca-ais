@@ -5,6 +5,7 @@ namespace App\Model\Table;
 
 use App\Model\Table\Traits\BasicTableTrait;
 use Cake\ORM\Query;
+use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use QueryFilter\QueryFilterPlugin;
@@ -67,9 +68,11 @@ class TenantsTable extends Table
             'strategy' => 'select',
             'finder' => 'lastElement',
         ]);
-
         $this->belongsTo('Programs', [
             'foreignKey' => 'program_id',
+        ]);
+        $this->belongsTo('Locations', [
+            'foreignKey' => 'location_id',
         ]);
 
         $this->loadQueryFilters();
@@ -83,19 +86,24 @@ class TenantsTable extends Table
      */
     public function validationDefault(Validator $validator): Validator
     {
-        $validator
-            ->scalar('name')
-            ->maxLength('name', 255)
-            ->requirePresence('name', 'create')
-            ->notEmptyString('name');
-
-        $validator
-            ->scalar('abbr')
-            ->maxLength('abbr', 100)
-            ->requirePresence('abbr', 'create')
-            ->notEmptyString('abbr');
-
         return $validator;
+    }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules): RulesChecker
+    {
+        $rules->add($rules->isUnique(
+            ['location_id', 'program_id'],
+            __('This location is already assigned to this program'),
+        ));
+
+        return $rules;
     }
 
     /**
@@ -103,9 +111,12 @@ class TenantsTable extends Table
      * @param array $options
      * @return \Cake\ORM\Query
      */
-    public function findWithPrograms(Query $query, array $options): Query
+    public function findComplete(Query $query, array $options): Query
     {
-        return $query->contain(['Programs']);
+        return $query->contain([
+            'Locations',
+            'Programs' => ['Areas'],
+        ]);
     }
 
     /**
@@ -115,13 +126,13 @@ class TenantsTable extends Table
      */
     public function findListLabel(Query $query, array $options): Query
     {
-        $options = array_merge([
-            'keyField' => 'id',
-            'valueField' => 'label',
-            'groupField' => 'program.area_label',
-        ], $options);
-
-        return parent::findList($query, $options)->contain(['Programs']);
+        return $query
+            ->find('complete')
+            ->find('list', array_merge([
+                'keyField' => 'id',
+                'valueField' => 'label',
+                'groupField' => 'program.area_label',
+            ], $options));
     }
 
     /**

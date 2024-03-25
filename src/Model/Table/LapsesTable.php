@@ -60,7 +60,7 @@ class LapsesTable extends Table
         ]);
         $this->belongsTo('Tenants', [
             'foreignKey' => 'tenant_id',
-            'finder' => 'withPrograms',
+            'finder' => 'complete',
         ]);
     }
 
@@ -95,7 +95,11 @@ class LapsesTable extends Table
     public function afterSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
     {
         if ($entity->isNew()) {
-            $this->LapseDates->saveDefaultDates($entity->id);
+            $defaultDatesEntities = $this->LapseDates->defaultDatesEntities();
+            foreach ($defaultDatesEntities as $defaultDatesEntity) {
+                $defaultDatesEntity->lapse_id = $entity->id;
+                $this->LapseDates->save($defaultDatesEntity);
+            }
         }
     }
 

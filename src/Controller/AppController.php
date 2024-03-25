@@ -16,6 +16,8 @@ declare(strict_types=1);
  */
 namespace App\Controller;
 
+use App\Model\Entity\AppUser;
+use App\Utility\FilterTenantUtility;
 use Cake\Controller\Controller;
 
 /**
@@ -49,5 +51,19 @@ class AppController extends Controller
          * see https://book.cakephp.org/4/en/controllers/components/form-protection.html
          */
         //$this->loadComponent('FormProtection');
+    }
+
+    /**
+     * @return \App\Model\Entity\AppUser
+     */
+    public function updateLoggedUser(): ?AppUser
+    {
+        $user = $this->fetchTable('AppUsers')
+            ->find('auth', ['id' => $this->Authentication->getIdentity()->getIdentifier()])
+            ->firstOrFail();
+        $this->Authentication->setIdentity($user);
+        FilterTenantUtility::clear();
+
+        return $user;
     }
 }

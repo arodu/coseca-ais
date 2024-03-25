@@ -14,7 +14,7 @@ trait BasicChecksTrait
      */
     protected function userIsAdmin(IdentityInterface $user): bool
     {
-        return in_array($user->role, UserRole::getAdminGroup());
+        return in_array($user->role, UserRole::getGroup(UserRole::GROUP_ADMIN));
     }
 
     /**
@@ -23,7 +23,7 @@ trait BasicChecksTrait
      */
     protected function userIsStudent(IdentityInterface $user): bool
     {
-        return in_array($user->role, UserRole::getStudentGroup());
+        return in_array($user->role, UserRole::getGroup(UserRole::GROUP_STUDENT));
     }
 
     /**

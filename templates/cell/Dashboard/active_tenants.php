@@ -10,7 +10,6 @@
                 <tr>
                     <th><?= __('Area / Programa / Sede') ?></th>
                     <th><?= __('Lapso actual') ?></th>
-                    <!-- <th><?= __('Estudiantes') ?></th> -->
                     <th class="actions"></th>
                 </tr>
             </thead>
@@ -19,7 +18,6 @@
                     <tr>
                         <td><?= $this->App->tenant($tenant) ?></td>
                         <td><?= $this->App->lapseLabel($tenant->current_lapse) ?? $this->App->error(__('Programa debe tener al menos un lapso activo')) ?></td>
-                        <!-- <td>N/A</td> -->
                         <td class="actions">
                             <?= $this->Button->statistics([
                                 'url' => ['controller' => 'Reports', 'action' => 'tenant', $tenant->id],

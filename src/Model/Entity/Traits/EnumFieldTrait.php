@@ -17,7 +17,7 @@ trait EnumFieldTrait
     public function enum(string $fieldName): mixed
     {
         if (!$this->has($fieldName)) {
-            throw new \InvalidArgumentException('Field ' . $fieldName . ' does not exist');
+            return null;
         }
 
         if (!array_key_exists($fieldName, $this->enumFields)) {

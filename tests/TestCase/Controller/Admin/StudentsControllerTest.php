@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Test\TestCase\Controller\Admin;
 
 use App\Test\Factory\InstitutionFactory;
-use App\Test\Factory\LapseFactory;
 use App\Test\Factory\TenantFactory;
 use App\Test\Factory\TutorFactory;
 use Cake\TestSuite\IntegrationTestTrait;
@@ -147,16 +146,13 @@ class StudentsControllerTest extends AdminTestCase
      */
     public function testTracking(): void
     {
-        // Configuracion inicial
-        $this->setAuthSession(); // Establece una sesión de autenticación para simular un usuario autenticado.
-        $program = $this->createProgram()->persist(); //Creacion de un programa.
-        $student = $this->getUserStudentCreated($program); //Creacion de un estudiante asociado a un programa.
-        $lapse = LapseFactory::make(['tenant_id' => $this->tenant_id])->persist(); //Creacion de un lapso
+        $this->setAuthSession();
+        $student = $this->createCompleteStudent()->persist();
 
         // Verificacion de resultados.
         $this->get('/admin/students/tracking/' . $student->id); //Verificacion de la vista con el ID correspondiente
-        $this->assertResponseContains((string)$lapse->name); //Verificacion del nombre del lapso en la vista
         $this->assertResponseCode(200);
+        $this->assertResponseContains('<h3 class="card-title">Seguimiento: ' . $this->tenant->lapses[0]->name . '</h3>'); //Verificacion del nombre del lapso en la vista
     }
 
     /**

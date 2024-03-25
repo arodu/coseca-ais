@@ -45,7 +45,7 @@ class TrackingControllerTest extends StudentTestCase
         $this->get('/student/tracking');
 
         $this->assertResponseOk();
-        $this->assertResponseContains('Seguimiento: 2023-1');
+        $this->assertResponseContains('Seguimiento: ' . $this->lapse->name);
         $this->assertResponseContains('tracking-count');
         $this->assertResponseContains('tracking-first-date');
         $this->assertResponseContains('tracking-last-date');

@@ -37,7 +37,7 @@ $this->Breadcrumbs->add([
                     <?= $this->Form->control('dni', ['label' => __('Cedula')]) ?>
                 </div>
                 <div class="col-sm-4">
-                    <?= $this->Form->control('tenant_id', ['label' => __('Programa'), 'empty' => __('--Todos--')]) ?>
+                    <?= $this->Form->control('tenant_id', ['options' => $tenants, 'label' => __('Programa'), 'empty' => __('--Todos--')]) ?>
                 </div>
             </div>
         </div>

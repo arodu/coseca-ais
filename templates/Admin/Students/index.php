@@ -5,7 +5,6 @@
  * @var \App\Model\Entity\Student[]|\Cake\Collection\CollectionInterface $students
  */
 
-use Cake\Core\Configure;
 use CakeLteTools\Utility\FaIcon;
 
 ?>

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Test\Factory;
 
-use App\Model\Field\ProgramArea;
 use App\Model\Field\ProgramRegime;
 use CakephpFixtureFactories\Factory\BaseFactory as CakephpBaseFactory;
 use Faker\Generator;
@@ -37,18 +36,26 @@ class ProgramFactory extends CakephpBaseFactory
     protected function setDefaultTemplate(): void
     {
         $this->setDefaultData(function (Generator $faker) {
-            $program = $faker->randomElement([
-                ['name' => 'Informática', 'area' => ProgramArea::AIS->value, 'regime' => ProgramRegime::BIANNUAL->value, 'abbr' => 'INF'],
-                ['name' => 'Medicina', 'area' => ProgramArea::SALUD->value, 'regime' => ProgramRegime::ANNUALIZED_6->value, 'abbr' => 'MED'],
-                ['name' => 'Contaduría', 'area' => ProgramArea::ACES->value, 'regime' => ProgramRegime::ANNUALIZED_5->value, 'abbr' => 'CON'],
-            ]);
-
             return [
-                'name' => $program['name'],
-                'area' => $program['area'],
-                'regime' => $program['regime'],
-                'abbr' => $program['abbr'],
+                'name' => $faker->word,
+                'regime' => $faker->randomElement(ProgramRegime::values()),
+                'abbr' => $faker->word,
             ];
         });
+    }
+
+    public function withAreas(array $options = [], int $times = 1): self
+    {
+        return $this->with('Areas', AreaFactory::make($options ?? [], $times));
+    }
+
+    public function createComplete(array $options = [], int $times = 1): self
+    {
+        $option_areas = $options['areas'] ?? [];
+        unset($options['areas']);
+        $areas = AreaFactory::make($option_areas, $option_areas['times'] ?? 6);
+
+        return $this->make($options ?? [], $times)
+            ->withAreas($areas);
     }
 }

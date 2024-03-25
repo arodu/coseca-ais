@@ -241,12 +241,12 @@ class InstitutionsControllerTest extends AdminTestCase
         $institution = InstitutionFactory::make([
             'tenant_id' => $this->tenant_id,
         ])->persist();
+        $this->assertTrue($this->getRecordExists('Institutions', $institution->id));
 
         // Envio de formulario con el ID del registro a eliminar
-        $this->delete('/admin/intitutions/delete/' . $institution->id);
+        $this->delete('/admin/institutions/delete/' . $institution->id);
 
         // Verificacion de que el registro se elimino correctamente
-        $res = $this->getRecordExists('Institutions', $institution->id);
-        $this->assertTrue($res);
+        $this->assertFalse($this->getRecordExists('Institutions', $institution->id));
     }
 }

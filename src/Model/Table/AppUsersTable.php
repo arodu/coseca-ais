@@ -96,6 +96,10 @@ class AppUsersTable extends UsersTable
      */
     public function findAuth(Query $query, array $options = []): Query
     {
+        if (!empty($options['id'])) {
+            $query->where([$this->aliasField('id') => $options['id']]);
+        }
+
         return $query
             ->find('active')
             ->contain([

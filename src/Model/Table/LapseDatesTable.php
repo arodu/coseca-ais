@@ -87,8 +87,6 @@ class LapseDatesTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn('lapse_id', 'Lapses'), ['errorField' => 'lapse_id']);
-
         return $rules;
     }
 
@@ -106,43 +104,45 @@ class LapseDatesTable extends Table
     }
 
     /**
-     * @param int $lapse_id
-     * @return iterable
+     * @param int|null $lapse_id
+     * @return array
      */
-    public function saveDefaultDates(int $lapse_id): iterable
+    public function defaultDatesEntities($lapse_id = null): array
     {
         $defaultDates = [
             [
                 'stage' => StageField::REGISTER,
-                'title' => null,
                 'is_single_date' => false,
             ],
             [
                 'stage' => StageField::COURSE,
-                'title' => null,
                 'is_single_date' => true,
             ],
             [
                 'stage' => StageField::TRACKING,
-                'title' => null,
                 'is_single_date' => false,
             ],
             [
-                'stage' => StageField::ENDING,
                 'title' => __('Exporeria'),
+                'stage' => StageField::ENDING,
                 'is_single_date' => true,
             ],
         ];
 
-        $entities = $this->newEntities(array_map(function ($item) use ($lapse_id) {
-            return [
-                'lapse_id' => $lapse_id,
+        $data = array_map(function ($item) use ($lapse_id) {
+            $output = [
                 'title' => $item['title'] ?? $item['stage']->label(),
                 'stage' => $item['stage']->value,
                 'is_single_date' => $item['is_single_date'] ?? false,
             ];
-        }, $defaultDates));
 
-        return $this->saveManyOrFail($entities);
+            if ($lapse_id) {
+                $output['lapse_id'] = $lapse_id;
+            }
+
+            return $output;
+        }, $defaultDates);
+
+        return $this->newEntities($data);
     }
 }

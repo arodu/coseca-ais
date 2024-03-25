@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Event;
 
+use App\Model\Field\UserRole;
 use App\Utility\FilterTenantUtility;
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
@@ -33,9 +34,7 @@ class UsersListener implements EventListenerInterface
         /** @var \App\Model\Entity\AppUser $user */
         $user = $event->getData('user');
 
-        $filterTenantUtility = new FilterTenantUtility();
-        $tenant_ids = $filterTenantUtility->getTenantIdsFromDatabase($user);
-        FilterTenantUtility::write($tenant_ids);
+        FilterTenantUtility::update($user);
 
         if ($user->enumRole()->isAdminGroup()) {
             return $event->setResult(['_name' => 'admin:home']);
@@ -43,6 +42,10 @@ class UsersListener implements EventListenerInterface
 
         if ($user->enumRole()->isStudentGroup()) {
             return $event->setResult(['_name' => 'student:home']);
+        }
+
+        if ($user->enumRole()->isGroup(UserRole::GROUP_MANAGER)) {
+            return $event->setResult(['_name' => 'manager:home']);
         }
     }
 
