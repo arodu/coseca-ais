@@ -86,7 +86,18 @@ class AreasController extends AppController
     {
         $area = $this->Areas->newEmptyEntity();
         if ($this->request->is('post')) {
+            debug($this->request->getData());
+
             $area = $this->Areas->patchEntity($area, $this->request->getData());
+
+            //$image = $this->request->getData('logo');
+            //$image = file_get_contents(['tmp_name']);
+            //$area->logo = base64_encode($image);
+
+            debug($area);
+            exit();
+
+
             if ($this->Areas->save($area)) {
                 $this->Flash->success(__('The area has been saved.'));
 

@@ -15,16 +15,12 @@ $this->Breadcrumbs->add([
 ?>
 
 <div class="card card-primary card-outline">
-  <?= $this->Form->create($area) ?>
+  <?= $this->Form->create($area, ['type' => 'file']) ?>
   <div class="card-body">
     <?php
       echo $this->Form->control('name');
       echo $this->Form->control('abbr');
-      echo $this->Form->control('logo');
-      echo $this->Form->control('created_by');
-      echo $this->Form->control('modified_by');
-      echo $this->Form->control('deleted', ['empty' => true]);
-      echo $this->Form->control('deleted_by');
+      echo $this->Form->control('logo', ['type' => 'file', 'class' => 'form-control-file', 'accept' => 'image/*']);
     ?>
   </div>
 
