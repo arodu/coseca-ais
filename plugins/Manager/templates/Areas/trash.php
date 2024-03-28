@@ -14,7 +14,7 @@ $this->Breadcrumbs->add([
 ]);
 ?>
 
-<div class="card card-primary card-outline">
+<div class="card card-danger card-outline">
     <div class="card-header d-flex flex-column flex-md-row">
         <h2 class="card-title">
             <i class="fas fa-trash text-danger"></i>
