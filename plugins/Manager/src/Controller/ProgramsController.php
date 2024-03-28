@@ -91,7 +91,8 @@ class ProgramsController extends AppController
             }
             $this->Flash->error(__('The program could not be saved. Please, try again.'));
         }
-        $this->set(compact('program'));
+        $areas = $this->Programs->Areas->find('list', ['limit' => 200]);
+        $this->set(compact('program', 'areas'));
     }
 
     /**
@@ -115,7 +116,8 @@ class ProgramsController extends AppController
             }
             $this->Flash->error(__('The program could not be saved. Please, try again.'));
         }
-        $this->set(compact('program'));
+        $areas = $this->Programs->Areas->find('list', ['limit' => 200]);
+        $this->set(compact('program', 'areas'));
     }
 
     /**

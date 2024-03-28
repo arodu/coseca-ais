@@ -3,6 +3,7 @@
 /**
  * @var \App\View\AppView $this
  * @var \Cake\Datasource\EntityInterface[]|\Cake\Collection\CollectionInterface $programs
+ * @var \App\Model\Entity\Program $program
  */
 ?>
 <?php
@@ -32,7 +33,6 @@ $this->Breadcrumbs->add([
         <table class="table table-hover text-nowrap">
             <thead>
                 <tr>
-                    <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('name') ?></th>
                     <th><?= $this->Paginator->sort('regime') ?></th>
                     <th><?= $this->Paginator->sort('abbr') ?></th>
@@ -45,11 +45,10 @@ $this->Breadcrumbs->add([
             <tbody>
                 <?php foreach ($programs as $program) : ?>
                     <tr>
-                        <td><?= $this->Number->format($program->id) ?></td>
                         <td><?= h($program->name) ?></td>
-                        <td><?= h($program->regime) ?></td>
+                        <td><?= $program->enum('regime')->label() ?></td>
                         <td><?= h($program->abbr) ?></td>
-                        <td><?= h($program->area->abbr) ?></td>
+                        <td><?= $this->Html->link(h($program->area->abbr), ['controller' => 'Areas', 'action' => 'view', $program->area->id]) ?></td>
                         <td><?= h($program->created) ?></td>
                         <td><?= h($program->modified) ?></td>
                         <td class="actions">

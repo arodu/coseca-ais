@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  * @var \Cake\Datasource\EntityInterface[]|\Cake\Collection\CollectionInterface $locations
@@ -31,37 +32,21 @@ $this->Breadcrumbs->add([
         <table class="table table-hover text-nowrap">
             <thead>
                 <tr>
-                    <th><?= $this->Paginator->sort('id') ?></th>
-                    <th><?= $this->Paginator->sort('name') ?></th>
                     <th><?= $this->Paginator->sort('abbr') ?></th>
+                    <th><?= $this->Paginator->sort('name') ?></th>
                     <th><?= $this->Paginator->sort('type') ?></th>
                     <th><?= $this->Paginator->sort('created') ?></th>
-                    <th><?= $this->Paginator->sort('created_by') ?></th>
                     <th><?= $this->Paginator->sort('modified') ?></th>
-                    <th><?= $this->Paginator->sort('modified_by') ?></th>
-                    <th><?= $this->Paginator->sort('deleted') ?></th>
-                    <th><?= $this->Paginator->sort('deleted_by') ?></th>
-                    <th class="actions"><?= __('Actions') ?></th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($locations as $location) : ?>
                     <tr>
-                        <td><?= $this->Number->format($location->id) ?></td>
-                        <td><?= h($location->name) ?></td>
                         <td><?= h($location->abbr) ?></td>
+                        <td><?= $this->Html->link(h($location->name), ['action' => 'view', $location->id], ['class' => '', 'escape' => false]) ?></td>
                         <td><?= h($location->type) ?></td>
                         <td><?= h($location->created) ?></td>
-                        <td><?= h($location->created_by) ?></td>
                         <td><?= h($location->modified) ?></td>
-                        <td><?= h($location->modified_by) ?></td>
-                        <td><?= h($location->deleted) ?></td>
-                        <td><?= h($location->deleted_by) ?></td>
-                        <td class="actions">
-                            <?= $this->Html->link(__('View'), ['action' => 'view', $location->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
-                            <?= $this->Html->link(__('Edit'), ['action' => 'edit', $location->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
-                            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $location->id], ['class' => 'btn btn-xs btn-outline-danger', 'escape' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $location->id)]) ?>
-                        </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

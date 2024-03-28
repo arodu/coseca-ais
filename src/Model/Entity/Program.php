@@ -14,8 +14,8 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\Area $area
  * @property string $regime
  * @property string $abbr
- *
  * @property \App\Model\Entity\Tenant[] $tenants
+ * @method mixed enum(string $field)
  */
 class Program extends Entity
 {
