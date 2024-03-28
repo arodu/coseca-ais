@@ -70,7 +70,7 @@ class Program extends Entity
     /**
      * @return string
      */
-    protected function _getLabel(): string
+    protected function _getLabel(): ?string
     {
         if (empty($this->area)) {
             return $this->name;

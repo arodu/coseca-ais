@@ -7,6 +7,7 @@ namespace Manager\Controller;
 use App\Model\Table\ProgramsTable;
 use Cake\Event\EventInterface;
 use Manager\Controller\AppController;
+use System\Controller\Traits\TrashTrait;
 
 /**
  * Programs Controller
@@ -15,6 +16,7 @@ use Manager\Controller\AppController;
  */
 class ProgramsController extends AppController
 {
+    use TrashTrait;
 
     protected ProgramsTable $Programs;
 
@@ -25,6 +27,10 @@ class ProgramsController extends AppController
     {
         parent::initialize();
         $this->Programs = $this->fetchTable('Programs');
+        $this->loadComponent('System.Trash', [
+            'model' => $this->Programs,
+            'items' => 'programs',
+        ]);
     }
 
     /**

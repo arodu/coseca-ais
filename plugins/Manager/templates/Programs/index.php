@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  * @var \Cake\Datasource\EntityInterface[]|\Cake\Collection\CollectionInterface $programs
@@ -65,6 +66,16 @@ $this->Breadcrumbs->add([
 
     <div class="card-footer d-flex flex-column flex-md-row">
         <div class="text-muted">
+            <?= $this->Html->link(
+                '<i class="fas fa-trash"></i> ',
+                ['action' => 'trash'],
+                [
+                    'class' => 'btn btn-sm btn-outline-danger',
+                    'escape' => false,
+                    'title' => __('Ver elementos eliminados'),
+                ]
+            ) ?>
+
             <?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?>
         </div>
         <ul class="pagination pagination-sm mb-0 ml-auto">
