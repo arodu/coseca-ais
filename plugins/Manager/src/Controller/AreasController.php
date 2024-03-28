@@ -6,6 +6,7 @@ namespace Manager\Controller;
 
 use App\Model\Table\AreasTable;
 use Cake\Event\EventInterface;
+use Cake\Utility\Text;
 use Manager\Controller\AppController;
 use System\Controller\Traits\TrashTrait;
 
@@ -86,24 +87,37 @@ class AreasController extends AppController
     {
         $area = $this->Areas->newEmptyEntity();
         if ($this->request->is('post')) {
-            debug($this->request->getData());
+            try {
+                $this->Areas->getConnection()->begin();
+                $logo = $this->request->getData('logo');
 
-            $area = $this->Areas->patchEntity($area, $this->request->getData());
+                if ($logo->getError() !== UPLOAD_ERR_OK) {
+                    $area->setError('logo', 'The logo could not be uploaded.');
+                    throw new \Exception('The logo could not be uploaded.');
+                }
 
-            //$image = $this->request->getData('logo');
-            //$image = file_get_contents(['tmp_name']);
-            //$area->logo = base64_encode($image);
+                // @todo move to a config file
+                if ($logo->getSize() > 1024 * 1024) {
+                    $area->setError('logo', 'The logo is too large.');
+                    throw new \Exception('The logo is too large.');
+                }
 
-            debug($area);
-            exit();
+                $area = $this->Areas->patchEntity($area, $this->request->getData());
+                $info = pathinfo($logo->getClientFilename());
+                $filename = Text::slug($area->abbr) . '.' . $info['extension'];
+                // @todo move patch to a config file
+                $logo->moveTo(ROOT . DS . 'files' . DS . 'areas' . DS . $filename);
+                $area->logo = DS . 'uploads' . DS . 'areas' . DS . $filename;
 
-
-            if ($this->Areas->save($area)) {
+                $this->Areas->saveOrFail($area);
                 $this->Flash->success(__('The area has been saved.'));
+                $this->Areas->getConnection()->commit();
 
                 return $this->redirect(['action' => 'index']);
+            } catch (\Exception $e) {
+                $this->Areas->getConnection()->rollback();
+                $this->Flash->error(__('The area could not be saved. Please, try again.'));
             }
-            $this->Flash->error(__('The area could not be saved. Please, try again.'));
         }
         $this->set(compact('area'));
     }
@@ -121,13 +135,38 @@ class AreasController extends AppController
             'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $area = $this->Areas->patchEntity($area, $this->request->getData());
-            if ($this->Areas->save($area)) {
-                $this->Flash->success(__('The area has been saved.'));
+            try {
+                $this->Areas->getConnection()->begin();
+                $logo = $this->request->getData('logo');
 
-                return $this->redirect(['action' => 'index']);
+                if ($logo->getError() !== UPLOAD_ERR_OK) {
+                    $area->setError('logo', 'The logo could not be uploaded.');
+                    throw new \Exception('The logo could not be uploaded.');
+                }
+
+                // @todo move to a config file
+                if ($logo->getSize() > 1024 * 1024) {
+                    $area->setError('logo', 'The logo is too large.');
+                    throw new \Exception('The logo is too large.');
+                }
+
+                $area = $this->Areas->patchEntity($area, $this->request->getData());
+                $info = pathinfo($logo->getClientFilename());
+                $filename = Text::slug($area->abbr) . '.' . $info['extension'];
+
+                // @todo move patch to a config file
+                $logo->moveTo(ROOT . DS . 'files' . DS . 'areas' . DS . $filename);
+                $area->logo = DS . 'uploads' . DS . 'areas' . DS . $filename;
+
+                $this->Areas->saveOrFail($area);
+                $this->Flash->success(__('The area has been saved.'));
+                $this->Areas->getConnection()->commit();
+
+                return $this->redirect(['action' => 'view', $area->id]);
+            } catch (\Exception $e) {
+                $this->Areas->getConnection()->rollback();
+                $this->Flash->error(__('The area could not be saved. Please, try again.'));
             }
-            $this->Flash->error(__('The area could not be saved. Please, try again.'));
         }
         $this->set(compact('area'));
     }

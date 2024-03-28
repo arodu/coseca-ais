@@ -43,7 +43,13 @@ $this->Breadcrumbs->add([
             <tbody>
                 <?php foreach ($areas as $area) : ?>
                     <tr>
-                        <td><?= h($area->logo) ?></td>
+                        <td>
+                            <?= $this->Html->image($area->logo, [
+                                'class' => 'img-fluid',
+                                'alt' => $area->name,
+                                'style' => 'max-width:30px;max-height:30px;'
+                            ]) ?>
+                        </td>
                         <td><?= h($area->name) ?></td>
                         <td><?= h($area->abbr) ?></td>
                         <td><?= h($area->created) ?></td>

@@ -122,19 +122,26 @@ return static function (RouteBuilder $routes) {
         $builder->fallbacks(DashedRoute::class);
     });
 
-    /*
-     * If you need a different set of middleware or none at all,
-     * open new scope and define routes there.
-     *
-     * ```
-     * $routes->scope('/api', function (RouteBuilder $builder) {
-     *     // No $builder->applyMiddleware() here.
-     *
-     *     // Parse specified extensions from URLs
-     *     // $builder->setExtensions(['json', 'xml']);
-     *
-     *     // Connect API actions here.
-     * });
-     * ```
-     */
+    $routes->scope('/uploads', function ($routes) {
+        $routes->registerMiddleware('glide', new \ADmad\Glide\Middleware\GlideMiddleware([
+            'path' => null,
+
+            'server' => [
+                'source' => ROOT . DS . 'files',
+                'cache' => ROOT . DS . 'tmp' . DS . 'cache' . DS . 'glide',
+                'base_url' => '/uploads/',
+                'response' => null,
+            ],
+            'security' => [
+                'secureUrls' => false,
+                'signKey' => null,
+            ],
+            'cacheTime' => '+1 days',
+            'allowedParams' => null
+        ]));
+
+        $routes->applyMiddleware('glide');
+
+        $routes->connect('/*');
+    });
 };

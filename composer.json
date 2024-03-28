@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": ">=8.1",
+        "admad/cakephp-glide": "^5.1",
         "arodu/cakelte": "dev-2.next",
         "arodu/cakelte-tools": "dev-develop",
         "arodu/cakephp-admin-tools": "dev-1.next-cake4",
