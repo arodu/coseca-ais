@@ -1,9 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Manager\Controller;
 
 use App\Model\Table\LocationsTable;
+use Cake\Event\EventInterface;
 use Manager\Controller\AppController;
 
 /**
@@ -24,6 +26,15 @@ class LocationsController extends AppController
         $this->Locations = $this->fetchTable('Locations');
     }
 
+    /**
+     * @param \Cake\Event\EventInterface $event
+     * @return void
+     */
+    public function beforeRender(EventInterface $event)
+    {
+        parent::beforeRender($event);
+        $this->MenuLte->activeItem('locations');
+    }
 
     /**
      * Index method

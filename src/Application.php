@@ -67,6 +67,7 @@ class Application extends BaseApplication
 
         // Load more plugins here
         $this->addPlugin('Muffin/Footprint');
+        $this->addPlugin('Muffin/Trash');
         $this->addPlugin(\CakeLte\Plugin::class);
         $this->addPlugin(\CakeLteTools\CakeLteToolsPlugin::class);
         $this->addPlugin(\CakeDC\Users\Plugin::class);

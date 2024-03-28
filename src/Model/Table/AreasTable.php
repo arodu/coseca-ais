@@ -40,6 +40,7 @@ class AreasTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
+        $this->addBehavior('Muffin/Trash.Trash');
         $this->addBehavior('Timestamp');
 
         $this->hasMany('Programs', [

@@ -1,9 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Manager\Controller;
 
 use App\Model\Table\ProgramsTable;
+use Cake\Event\EventInterface;
 use Manager\Controller\AppController;
 
 /**
@@ -26,13 +28,26 @@ class ProgramsController extends AppController
     }
 
     /**
+     * @param \Cake\Event\EventInterface $event
+     * @return void
+     */
+    public function beforeRender(EventInterface $event)
+    {
+        parent::beforeRender($event);
+        $this->MenuLte->activeItem('programs');
+    }
+
+    /**
      * Index method
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
     public function index()
     {
-        $programs = $this->paginate($this->Programs);
+        $query = $this->Programs->find()
+            ->contain(['Areas']);
+
+        $programs = $this->paginate($query);
 
         $this->set(compact('programs'));
     }

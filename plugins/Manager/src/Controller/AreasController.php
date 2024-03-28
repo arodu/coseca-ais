@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Manager\Controller;
 
 use App\Model\Table\AreasTable;
+use Cake\Event\EventInterface;
 use Manager\Controller\AppController;
+use System\Controller\Traits\TrashTrait;
 
 /**
  * Areas Controller
@@ -14,13 +16,31 @@ use Manager\Controller\AppController;
  */
 class AreasController extends AppController
 {
+    use TrashTrait;
 
     protected AreasTable $Areas;
 
+    /**
+     * @return void
+     */
     public function initialize(): void
     {
         parent::initialize();
         $this->Areas = $this->fetchTable('Areas');
+        $this->loadComponent('System.Trash', [
+            'model' => $this->Areas,
+            'items' => 'areas',
+        ]);
+    }
+
+    /**
+     * @param \Cake\Event\EventInterface $event
+     * @return void
+     */
+    public function beforeRender(EventInterface $event)
+    {
+        parent::beforeRender($event);
+        $this->MenuLte->activeItem('areas');
     }
 
     /**

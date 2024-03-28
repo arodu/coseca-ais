@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  * @var \Cake\Datasource\EntityInterface[]|\Cake\Collection\CollectionInterface $areas
@@ -31,32 +32,22 @@ $this->Breadcrumbs->add([
         <table class="table table-hover text-nowrap">
             <thead>
                 <tr>
-                    <th><?= $this->Paginator->sort('id') ?></th>
+                    <th><?= $this->Paginator->sort('logo') ?></th>
                     <th><?= $this->Paginator->sort('name') ?></th>
                     <th><?= $this->Paginator->sort('abbr') ?></th>
-                    <th><?= $this->Paginator->sort('logo') ?></th>
                     <th><?= $this->Paginator->sort('created') ?></th>
-                    <th><?= $this->Paginator->sort('created_by') ?></th>
                     <th><?= $this->Paginator->sort('modified') ?></th>
-                    <th><?= $this->Paginator->sort('modified_by') ?></th>
-                    <th><?= $this->Paginator->sort('deleted') ?></th>
-                    <th><?= $this->Paginator->sort('deleted_by') ?></th>
                     <th class="actions"><?= __('Actions') ?></th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($areas as $area) : ?>
                     <tr>
-                        <td><?= $this->Number->format($area->id) ?></td>
+                        <td><?= h($area->logo) ?></td>
                         <td><?= h($area->name) ?></td>
                         <td><?= h($area->abbr) ?></td>
-                        <td><?= h($area->logo) ?></td>
                         <td><?= h($area->created) ?></td>
-                        <td><?= h($area->created_by) ?></td>
                         <td><?= h($area->modified) ?></td>
-                        <td><?= h($area->modified_by) ?></td>
-                        <td><?= h($area->deleted) ?></td>
-                        <td><?= h($area->deleted_by) ?></td>
                         <td class="actions">
                             <?= $this->Html->link(__('View'), ['action' => 'view', $area->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
                             <?= $this->Html->link(__('Edit'), ['action' => 'edit', $area->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
@@ -71,6 +62,16 @@ $this->Breadcrumbs->add([
 
     <div class="card-footer d-flex flex-column flex-md-row">
         <div class="text-muted">
+            <?= $this->Html->link(
+                '<i class="fas fa-trash"></i> ',
+                ['action' => 'trash'],
+                [
+                    'class' => 'btn btn-sm btn-outline-danger',
+                    'escape' => false,
+                    'title' => __('Ver elementos eliminados'),
+                ]
+            ) ?>
+
             <?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?>
         </div>
         <ul class="pagination pagination-sm mb-0 ml-auto">

@@ -1,21 +1,24 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
- * @var \Cake\Datasource\EntityInterface[]|\Cake\Collection\CollectionInterface $programs
+ * @var \Cake\Datasource\EntityInterface[]|\Cake\Collection\CollectionInterface $areas
  */
 ?>
 <?php
-$this->assign('title', __('Programs'));
+$this->assign('title', __('Areas'));
 $this->Breadcrumbs->add([
     ['title' => __('Home'), 'url' => '/'],
-    ['title' => __('List Programs')],
+    ['title' => __('List Areas'), 'url' => ['action' => 'index']],
+    ['title' => __('Trash')],
 ]);
 ?>
 
 <div class="card card-primary card-outline">
     <div class="card-header d-flex flex-column flex-md-row">
         <h2 class="card-title">
-            <!-- -->
+            <i class="fas fa-trash text-danger"></i>
+            <?= __('Elementos eliminados') ?>
         </h2>
         <div class="d-flex ml-auto">
             <?= $this->Paginator->limitControl([], null, [
@@ -23,7 +26,23 @@ $this->Breadcrumbs->add([
                 'class' => 'form-control-sm',
                 'templates' => ['inputContainer' => '{{content}}']
             ]); ?>
-            <?= $this->Html->link(__('New Program'), ['action' => 'add'], ['class' => 'btn btn-primary btn-sm ml-2']) ?>
+            <?= $this->Form->postLink(
+                __('Vaciar Papelera'),
+                ['action' => 'emptyTrash'],
+                [
+                    'class' => 'btn btn-danger btn-sm ml-2',
+                    'escape' => false,
+                    'confirm' => __("¿Seguro que desea vaciar la papelera?\nEsta acción no se puede revertir")
+                ]
+            ) ?>
+            <?= $this->Html->link(
+                '<i class="fas fa-chevron-left fa-fw"></i>' . __('Volver'),
+                ['action' => 'index'],
+                [
+                    'class' => 'btn btn-primary btn-sm ml-2',
+                    'escape' => false
+                ]
+            ) ?>
         </div>
     </div>
     <!-- /.card-header -->
@@ -31,30 +50,23 @@ $this->Breadcrumbs->add([
         <table class="table table-hover text-nowrap">
             <thead>
                 <tr>
-                    <th><?= $this->Paginator->sort('id') ?></th>
+                    <th><?= $this->Paginator->sort('logo') ?></th>
                     <th><?= $this->Paginator->sort('name') ?></th>
-                    <th><?= $this->Paginator->sort('regime') ?></th>
                     <th><?= $this->Paginator->sort('abbr') ?></th>
-                    <th><?= $this->Paginator->sort('area_id') ?></th>
-                    <th><?= $this->Paginator->sort('created') ?></th>
-                    <th><?= $this->Paginator->sort('modified') ?></th>
+                    <th><?= $this->Paginator->sort('deleted') ?></th>
                     <th class="actions"><?= __('Actions') ?></th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($programs as $program) : ?>
+                <?php foreach ($areas as $area) : ?>
                     <tr>
-                        <td><?= $this->Number->format($program->id) ?></td>
-                        <td><?= h($program->name) ?></td>
-                        <td><?= h($program->regime) ?></td>
-                        <td><?= h($program->abbr) ?></td>
-                        <td><?= h($program->area->abbr) ?></td>
-                        <td><?= h($program->created) ?></td>
-                        <td><?= h($program->modified) ?></td>
+                        <td><?= h($area->logo) ?></td>
+                        <td><?= h($area->name) ?></td>
+                        <td><?= h($area->abbr) ?></td>
+                        <td><?= h($area->deleted) ?></td>
                         <td class="actions">
-                            <?= $this->Html->link(__('View'), ['action' => 'view', $program->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
-                            <?= $this->Html->link(__('Edit'), ['action' => 'edit', $program->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
-                            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $program->id], ['class' => 'btn btn-xs btn-outline-danger', 'escape' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $program->id)]) ?>
+                            <?= $this->Form->postLink(__('Restaurar'), ['action' => 'restore', $area->id], ['class' => 'btn btn-xs btn-outline-info', 'escape' => false, 'confirm' => __('¿Seguro que desea restaurar este elemento?')]) ?>
+                            <?= $this->Form->postLink(__('Eliminar'), ['action' => 'hardDelete', $area->id], ['class' => 'btn btn-xs btn-outline-danger', 'escape' => false, 'confirm' => __("¿Seguro que desea eliminar permanentemente este elemento?\nEsta acción no se puede revertir")]) ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

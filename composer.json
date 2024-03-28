@@ -21,7 +21,8 @@
         "league/oauth2-facebook": "@stable",
         "league/oauth2-google": "@stable",
         "mobiledetect/mobiledetectlib": "^4.8",
-        "muffin/footprint": "^3.0"
+        "muffin/footprint": "^3.0",
+        "muffin/trash": "^3.1"
     },
     "require-dev": {
         "cakedc/cakephp-phpstan": "^2.0",

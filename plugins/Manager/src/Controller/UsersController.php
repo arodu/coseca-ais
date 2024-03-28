@@ -1,9 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Manager\Controller;
 
 use App\Model\Table\AppUsersTable;
+use Cake\Event\EventInterface;
 use Manager\Controller\AppController;
 
 /**
@@ -23,6 +25,16 @@ class UsersController extends AppController
     {
         parent::initialize();
         $this->Users = $this->fetchTable('Users');
+    }
+
+    /**
+     * @param \Cake\Event\EventInterface $event
+     * @return void
+     */
+    public function beforeRender(EventInterface $event)
+    {
+        parent::beforeRender($event);
+        $this->MenuLte->activeItem('users');
     }
 
     /**

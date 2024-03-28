@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace Manager\Controller;
 
 use App\Controller\AppController as BaseController;
+use System\Controller\Traits\RedirectTrait;
 
 class AppController extends BaseController
 {
+    use RedirectTrait;
+
     /**
      * @return void
      */
@@ -18,15 +21,6 @@ class AppController extends BaseController
         $this->loadComponent('Authorization.Authorization');
         $this->loadComponent('CakeLte.MenuLte');
         $this->viewBuilder()->setLayout('CakeLte.default');
-    }
-
-    /**
-     * @param \Cake\Event\EventInterface $event
-     * @return void
-     */
-    public function beforeRender(\Cake\Event\EventInterface $event)
-    {
-        parent::beforeRender($event);
         $this->viewBuilder()->setTheme('Manager');
     }
 }

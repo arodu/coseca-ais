@@ -41,6 +41,9 @@ class ProgramsTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
+        $this->addBehavior('Muffin/Trash.Trash');
+        $this->addBehavior('Timestamp');
+
         $this->belongsTo('Areas', [
             'foreignKey' => 'area_id',
             'joinType' => 'LEFT',
