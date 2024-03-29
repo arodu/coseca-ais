@@ -19,6 +19,8 @@ namespace App\Controller;
 use App\Model\Entity\AppUser;
 use App\Utility\FilterTenantUtility;
 use Cake\Controller\Controller;
+use Cake\Event\EventInterface;
+use System\Controller\Traits\RedirectTrait;
 
 /**
  * Application Controller
@@ -30,6 +32,8 @@ use Cake\Controller\Controller;
  */
 class AppController extends Controller
 {
+    use RedirectTrait;
+
     /**
      * Initialization hook method.
      *
@@ -51,6 +55,16 @@ class AppController extends Controller
          * see https://book.cakephp.org/4/en/controllers/components/form-protection.html
          */
         //$this->loadComponent('FormProtection');
+    }
+
+    /**
+     * @param \Cake\Event\EventInterface $event An Event instance
+     * @return void
+     */
+    public function beforeRender(EventInterface $event)
+    {
+        parent::beforeRender($event);
+        $this->set('redirect', $this->getRedirectUrl() ?? null);
     }
 
     /**

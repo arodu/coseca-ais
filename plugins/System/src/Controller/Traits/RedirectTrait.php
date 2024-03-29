@@ -18,8 +18,14 @@ trait RedirectTrait
      */
     public function redirect($url, int $status = 302): ?Response
     {
-        $redirectUrl = $this->getRequest()->getQuery('redirect') ?? $this->getRequest()->getData('redirect') ?? $url;
+        return parent::redirect($this->getRedirectUrl() ?? $url, $status);
+    }
 
-        return parent::redirect($redirectUrl, $status);
+    /**
+     * @return string|null
+     */
+    protected function getRedirectUrl(): ?string
+    {
+        return $this->getRequest()->getQuery('redirect') ?? $this->getRequest()->getData('redirect') ?? null;
     }
 }

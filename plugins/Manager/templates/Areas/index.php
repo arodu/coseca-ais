@@ -33,11 +33,10 @@ $this->Breadcrumbs->add([
             <thead>
                 <tr>
                     <th><?= $this->Paginator->sort('logo') ?></th>
-                    <th><?= $this->Paginator->sort('name') ?></th>
                     <th><?= $this->Paginator->sort('abbr') ?></th>
+                    <th><?= $this->Paginator->sort('name') ?></th>
                     <th><?= $this->Paginator->sort('created') ?></th>
                     <th><?= $this->Paginator->sort('modified') ?></th>
-                    <th class="actions"><?= __('Actions') ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -50,15 +49,10 @@ $this->Breadcrumbs->add([
                                 'style' => 'max-width:30px;max-height:30px;'
                             ]) ?>
                         </td>
-                        <td><?= h($area->name) ?></td>
                         <td><?= h($area->abbr) ?></td>
+                        <td><?= $this->Html->link(h($area->name), ['action' => 'view', $area->id], ['escape' => false]) ?></td>
                         <td><?= h($area->created) ?></td>
                         <td><?= h($area->modified) ?></td>
-                        <td class="actions">
-                            <?= $this->Html->link(__('View'), ['action' => 'view', $area->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
-                            <?= $this->Html->link(__('Edit'), ['action' => 'edit', $area->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
-                            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $area->id], ['class' => 'btn btn-xs btn-outline-danger', 'escape' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $area->id)]) ?>
-                        </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
