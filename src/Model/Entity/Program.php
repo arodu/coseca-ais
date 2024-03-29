@@ -43,6 +43,7 @@ class Program extends Entity
         'regime' => true,
         'abbr' => true,
         'tenants' => true,
+        'area_id' => true,
     ];
 
     protected $_virtual = [

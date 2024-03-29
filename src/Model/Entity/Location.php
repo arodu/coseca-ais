@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
+use App\Model\Field\LocationType;
 use Cake\ORM\Entity;
 
 /**
@@ -23,6 +24,15 @@ use Cake\ORM\Entity;
  */
 class Location extends Entity
 {
+    use Traits\EnumFieldTrait;
+
+    /**
+     * @var array
+     */
+    protected $enumFields = [
+        'type' => LocationType::class,
+    ];
+
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
@@ -44,4 +54,12 @@ class Location extends Entity
         'deleted_by' => true,
         'tenants' => true,
     ];
+
+    protected $_virtual = ['type_label'];
+
+    public function _getTypeLabel(): string
+    {
+        return $this->enum('type')?->label() ?? '';
+    }
+
 }

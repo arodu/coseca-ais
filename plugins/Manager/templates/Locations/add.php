@@ -4,6 +4,9 @@
  * @var \App\View\AppView $this
  * @var \Cake\Datasource\EntityInterface $location
  */
+
+use App\Model\Field\LocationType;
+
 ?>
 <?php
 $this->assign('title', __('Add Location'));
@@ -20,11 +23,7 @@ $this->Breadcrumbs->add([
     <?php
       echo $this->Form->control('name');
       echo $this->Form->control('abbr');
-      echo $this->Form->control('type');
-      echo $this->Form->control('created_by');
-      echo $this->Form->control('modified_by');
-      echo $this->Form->control('deleted', ['empty' => true]);
-      echo $this->Form->control('deleted_by');
+      echo $this->Form->control('type', ['options' => LocationType::toListLabel()]);
     ?>
   </div>
 

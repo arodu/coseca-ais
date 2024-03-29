@@ -1,15 +1,14 @@
 <?php
-
 /**
  * @var \App\View\AppView $this
- * @var \Cake\Datasource\EntityInterface[]|\Cake\Collection\CollectionInterface $locations
+ * @var \Cake\Datasource\EntityInterface[]|\Cake\Collection\CollectionInterface $tenants
  */
 ?>
 <?php
-$this->assign('title', __('Locations'));
+$this->assign('title', __('Tenants'));
 $this->Breadcrumbs->add([
     ['title' => __('Home'), 'url' => '/'],
-    ['title' => __('List Locations')],
+    ['title' => __('List Tenants')],
 ]);
 ?>
 
@@ -24,7 +23,7 @@ $this->Breadcrumbs->add([
                 'class' => 'form-control-sm',
                 'templates' => ['inputContainer' => '{{content}}']
             ]); ?>
-            <?= $this->Html->link(__('New Location'), ['action' => 'add'], ['class' => 'btn btn-primary btn-sm ml-2']) ?>
+            <?= $this->Html->link(__('New Tenant'), ['action' => 'add'], ['class' => 'btn btn-primary btn-sm ml-2']) ?>
         </div>
     </div>
     <!-- /.card-header -->
@@ -32,21 +31,25 @@ $this->Breadcrumbs->add([
         <table class="table table-hover text-nowrap">
             <thead>
                 <tr>
-                    <th><?= $this->Paginator->sort('abbr') ?></th>
-                    <th><?= $this->Paginator->sort('name') ?></th>
-                    <th><?= $this->Paginator->sort('type') ?></th>
-                    <th><?= $this->Paginator->sort('created') ?></th>
-                    <th><?= $this->Paginator->sort('modified') ?></th>
+                    <th><?= $this->Paginator->sort('id') ?></th>
+                    <th><?= $this->Paginator->sort('program_id') ?></th>
+                    <th><?= $this->Paginator->sort('location_id') ?></th>
+                    <th><?= $this->Paginator->sort('active') ?></th>
+                    <th class="actions"><?= __('Actions') ?></th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($locations as $location) : ?>
+                <?php foreach ($tenants as $tenant) : ?>
                     <tr>
-                        <td><?= h($location->abbr) ?></td>
-                        <td><?= $this->Html->link(h($location->name), ['action' => 'view', $location->id], ['class' => '', 'escape' => false]) ?></td>
-                        <td><?= $location->type_label ?></td>
-                        <td><?= h($location->created) ?></td>
-                        <td><?= h($location->modified) ?></td>
+                        <td><?= $this->Number->format($tenant->id) ?></td>
+                        <td><?= $this->Number->format($tenant->program_id) ?></td>
+                        <td><?= $this->Number->format($tenant->location_id) ?></td>
+                        <td><?= ($tenant->active) ? __('Yes') : __('No') ?></td>
+                        <td class="actions">
+                            <?= $this->Html->link(__('View'), ['action' => 'view', $tenant->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
+                            <?= $this->Html->link(__('Edit'), ['action' => 'edit', $tenant->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
+                            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $tenant->id], ['class' => 'btn btn-xs btn-outline-danger', 'escape' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $tenant->id)]) ?>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

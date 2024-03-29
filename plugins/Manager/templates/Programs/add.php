@@ -4,6 +4,9 @@
  * @var \App\View\AppView $this
  * @var \Cake\Datasource\EntityInterface $program
  */
+
+use App\Model\Field\ProgramRegime;
+
 ?>
 <?php
 $this->assign('title', __('Add Program'));
@@ -20,7 +23,7 @@ $this->Breadcrumbs->add([
         <?php
         echo $this->Form->control('area_id', ['options' => $areas, 'empty' => true, 'required' => true]);
         echo $this->Form->control('name');
-        echo $this->Form->control('regime');
+        echo $this->Form->control('regime', ['options' => ProgramRegime::toListLabel(), 'empty' => true, 'required' => true]);
         echo $this->Form->control('abbr');
         ?>
     </div>
