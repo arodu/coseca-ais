@@ -8,7 +8,7 @@
 
 <?php
 $this->assign('title', h($area->name));
-$this->assign('backUrl', $this->Url->build(['action' => 'index']));
+$this->assign('backUrl', $redirect ?? $this->Url->build(['action' => 'index']));
 $this->Breadcrumbs->add([
     ['title' => __('Home'), 'url' => '/'],
     ['title' => __('List Areas'), 'url' => ['action' => 'index']],
@@ -69,7 +69,7 @@ $this->Breadcrumbs->add([
                 [
                     'controller' => 'Programs',
                     'action' => 'add',
-                    '?' => ['area_id' => $area->id, 'redirect' => $this->getRequest()->getRequestTarget()]
+                    '?' => ['area_id' => $area->id, 'redirect' => $this->getRedirectUrl()]
                 ],
                 ['class' => 'btn btn-xs btn-primary']
             ) ?>
@@ -78,12 +78,12 @@ $this->Breadcrumbs->add([
     <div class="card-body table-responsive p-0">
         <table class="table table-hover text-nowrap">
             <tr>
-                <th><?= __('Nombre') ?></th>
                 <th><?= __('Abbr') ?></th>
+                <th><?= __('Nombre') ?></th>
                 <th><?= __('Regimen') ?></th>
                 <th><?= __('Creado') ?></th>
                 <th><?= __('Modificado') ?></th>
-                <th class="actions"><?= __('Actions') ?></th>
+                <th class="actions"></th>
             </tr>
             <?php if (empty($area->programs)) { ?>
                 <tr>
@@ -94,8 +94,18 @@ $this->Breadcrumbs->add([
             <?php } else { ?>
                 <?php foreach ($area->programs as $program) : ?>
                     <tr>
-                        <td><?= h($program->name) ?></td>
                         <td><?= h($program->abbr) ?></td>
+                        <td>
+                            <?= $this->Html->link(
+                                h($program->name),
+                                [
+                                    'controller' => 'Programs',
+                                    'action' => 'view',
+                                    $program->id,
+                                    '?' => ['redirect' => $this->getRedirectUrl()]
+                                ]
+                            ) ?>
+                        </td>
                         <td><?= h($program->regime_label) ?></td>
                         <td><?= h($program->created) ?></td>
                         <td><?= h($program->modified) ?></td>
@@ -106,7 +116,7 @@ $this->Breadcrumbs->add([
                                     'controller' => 'Programs',
                                     'action' => 'edit',
                                     $program->id,
-                                    '?' => ['redirect' => $this->getRequest()->getRequestTarget()]
+                                    '?' => ['redirect' => $this->getRedirectUrl()]
                                 ],
                                 [
                                     'class' => 'btn btn-xs btn-outline-primary'

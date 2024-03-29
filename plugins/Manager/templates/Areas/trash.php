@@ -58,18 +58,26 @@ $this->Breadcrumbs->add([
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($areas as $area) : ?>
+                <?php if ($areas->isEmpty()) : ?>
                     <tr>
-                        <td><?= h($area->logo) ?></td>
-                        <td><?= h($area->name) ?></td>
-                        <td><?= h($area->abbr) ?></td>
-                        <td><?= h($area->deleted) ?></td>
-                        <td class="actions">
-                            <?= $this->Form->postLink(__('Restaurar'), ['action' => 'restore', $area->id], ['class' => 'btn btn-xs btn-outline-info', 'escape' => false, 'confirm' => __('¿Seguro que desea restaurar este elemento?')]) ?>
-                            <?= $this->Form->postLink(__('Eliminar'), ['action' => 'hardDelete', $area->id], ['class' => 'btn btn-xs btn-outline-danger', 'escape' => false, 'confirm' => __("¿Seguro que desea eliminar permanentemente este elemento?\nEsta acción no se puede revertir")]) ?>
+                        <td colspan="5" class="text-muted">
+                            <?= __('No hay elementos eliminados') ?>
                         </td>
                     </tr>
-                <?php endforeach; ?>
+                <?php else : ?>
+                    <?php foreach ($areas as $area) : ?>
+                        <tr>
+                            <td><?= h($area->logo) ?></td>
+                            <td><?= h($area->name) ?></td>
+                            <td><?= h($area->abbr) ?></td>
+                            <td><?= h($area->deleted) ?></td>
+                            <td class="actions">
+                                <?= $this->Form->postLink(__('Restaurar'), ['action' => 'restore', $area->id], ['class' => 'btn btn-xs btn-outline-info', 'escape' => false, 'confirm' => __('¿Seguro que desea restaurar este elemento?')]) ?>
+                                <?= $this->Form->postLink(__('Eliminar'), ['action' => 'hardDelete', $area->id], ['class' => 'btn btn-xs btn-outline-danger', 'escape' => false, 'confirm' => __("¿Seguro que desea eliminar permanentemente este elemento?\nEsta acción no se puede revertir")]) ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </tbody>
         </table>
     </div>

@@ -50,7 +50,12 @@ $this->Breadcrumbs->add([
                             ]) ?>
                         </td>
                         <td><?= h($area->abbr) ?></td>
-                        <td><?= $this->Html->link(h($area->name), ['action' => 'view', $area->id], ['escape' => false]) ?></td>
+                        <td>
+                            <?= $this->Html->link(
+                                h($area->name),
+                                ['action' => 'view', $area->id, '?' => ['redirect' => $this->getRequest()->getRequestTarget()]],
+                            ) ?>
+                        </td>
                         <td><?= h($area->created) ?></td>
                         <td><?= h($area->modified) ?></td>
                     </tr>

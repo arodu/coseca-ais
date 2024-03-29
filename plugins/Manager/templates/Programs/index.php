@@ -33,29 +33,31 @@ $this->Breadcrumbs->add([
         <table class="table table-hover text-nowrap">
             <thead>
                 <tr>
+                    <th><?= $this->Paginator->sort('abbr') ?></th>
                     <th><?= $this->Paginator->sort('name') ?></th>
                     <th><?= $this->Paginator->sort('regime') ?></th>
-                    <th><?= $this->Paginator->sort('abbr') ?></th>
                     <th><?= $this->Paginator->sort('area_id') ?></th>
                     <th><?= $this->Paginator->sort('created') ?></th>
                     <th><?= $this->Paginator->sort('modified') ?></th>
-                    <th class="actions"><?= __('Actions') ?></th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($programs as $program) : ?>
                     <tr>
-                        <td><?= h($program->name) ?></td>
-                        <td><?= $program->enum('regime')->label() ?></td>
                         <td><?= h($program->abbr) ?></td>
-                        <td><?= $this->Html->link(h($program->area->abbr), ['controller' => 'Areas', 'action' => 'view', $program->area->id]) ?></td>
+                        <td><?= $this->Html->link(h($program->name), ['action' => 'view', $program->id]) ?></td>
+                        <td><?= $program->enum('regime')->label() ?></td>
+                        <td><?= $this->Html->link(
+                                h($program->area->abbr),
+                                [
+                                    'controller' => 'Areas',
+                                    'action' => 'view',
+                                    $program->area->id,
+                                    '?' => ['redirect' => $this->getRedirectUrl()]
+                                ]
+                            ) ?></td>
                         <td><?= h($program->created) ?></td>
                         <td><?= h($program->modified) ?></td>
-                        <td class="actions">
-                            <?= $this->Html->link(__('View'), ['action' => 'view', $program->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
-                            <?= $this->Html->link(__('Edit'), ['action' => 'edit', $program->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
-                            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $program->id], ['class' => 'btn btn-xs btn-outline-danger', 'escape' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $program->id)]) ?>
-                        </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
