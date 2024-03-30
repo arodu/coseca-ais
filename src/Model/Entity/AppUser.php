@@ -54,4 +54,9 @@ class AppUser extends User
     {
         return $this->first_name . ' ' . $this->last_name;
     }
+
+    protected function _getLabelName(): string
+    {
+        return $this->full_name . ($this->email ? " ({$this->email})" : '');
+    }
 }

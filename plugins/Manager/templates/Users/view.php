@@ -91,12 +91,93 @@ $this->Breadcrumbs->add([
 <?php endif; ?>
 
 <?php if ($user->enum('role')->isGroup(UserRole::GROUP_STAFF)) : ?>
-    <div class="card card-primary card-outline">
-        <div class="card-header">
-            <h3 class="card-title">Staff</h3>
+    <div class="related related-programs view card">
+        <div class="card-header d-flex">
+            <h3 class="card-title"><?= __('Programas/Sedes asociados',) ?></h3>
+            <div class="ml-auto">
+                <?= $this->Html->link(
+                    __('Agregar Sede'),
+                    [
+                        'controller' => 'Tenants',
+                        'action' => 'addUser',
+                        '?' => ['user_id' => $user->id, 'redirect' => $this->getRedirectUrl()]
+                    ],
+                    ['class' => 'btn btn-primary btn-sm']
+                ) ?>
+            </div>
         </div>
-        <div class="card-body">
-            <p>Staff</p>
+        <div class="card-body table-responsive p-0">
+            <table class="table table-hover text-nowrap">
+                <tr>
+                    <th><?= __('Area') ?></th>
+                    <th><?= __('Programa') ?></th>
+                    <th><?= __('Ubicación') ?></th>
+                    <th><?= __('Sede activa') ?></th>
+                    <th class="actions"></th>
+                </tr>
+                <?php if (empty($user->tenant_filters)) { ?>
+                    <tr>
+                        <td colspan="5" class="text-muted">
+                            <?= __('Programas/Sedes no encontrados!') ?>
+                        </td>
+                    </tr>
+                <?php } else { ?>
+                    <?php foreach ($user->tenant_filters as $tenantFilter) : ?>
+                        <?php $tenant = $tenantFilter->tenant; ?>
+                        <tr>
+                            <td>
+                                <?= $this->Html->link(
+                                    h($tenant->program->area->name),
+                                    [
+                                        'controller' => 'Areas',
+                                        'action' => 'view',
+                                        $tenant->program->area->id,
+                                        '?' => ['redirect' => $this->getRedirectUrl()]
+                                    ]
+                                ) ?>
+                            </td>
+                            <td>
+                                <?= $this->Html->link(
+                                    h($tenant->program->name),
+                                    [
+                                        'controller' => 'Programs',
+                                        'action' => 'view',
+                                        $tenant->program->id,
+                                        '?' => ['redirect' => $this->getRedirectUrl()]
+                                    ]
+                                ) ?>
+                            </td>
+                            <td>
+                                <?= $this->Html->link(
+                                    h($tenant->location->name),
+                                    [
+                                        'controller' => 'Locations',
+                                        'action' => 'view',
+                                        $tenant->location->id,
+                                        '?' => ['redirect' => $this->getRedirectUrl()]
+                                    ]
+                                ) ?>
+                            </td>
+                            <td><?= $tenant->active ? __('Yes') : __('No') ?></td>
+                            <td class="actions">
+                                <?= $this->Form->postLink(
+                                    __('Quitar sede'),
+                                    [
+                                        'controller' => 'Tenants',
+                                        'action' => 'deleteUser',
+                                        $tenantFilter->id,
+                                        '?' => ['redirect' => $this->getRedirectUrl()]
+                                    ],
+                                    [
+                                        'class' => 'btn btn-xs btn-outline-danger',
+                                        'confirm' => __('Are you sure you want to delete?'),
+                                    ]
+                                ) ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php } ?>
+            </table>
         </div>
     </div>
 <?php endif; ?>

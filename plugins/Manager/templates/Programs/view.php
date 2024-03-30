@@ -118,6 +118,18 @@ $this->Breadcrumbs->add([
                         <td><?= $tenant->active ? __('Yes') : __('No') ?></td>
                         <td class="actions">
                             <?= $this->Html->link(
+                                __('Usuarios'),
+                                [
+                                    'controller' => 'Tenants',
+                                    'action' => 'viewUsers',
+                                    $tenant->id,
+                                    '?' => ['redirect' => $this->getRedirectUrl()]
+                                ],
+                                [
+                                    'class' => 'btn btn-xs btn-outline-info'
+                                ]
+                            ) ?>
+                            <?= $this->Html->link(
                                 __('Editar'),
                                 [
                                     'controller' => 'Tenants',

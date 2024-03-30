@@ -106,4 +106,13 @@ class AppUsersTable extends UsersTable
                 'CurrentStudent' => ['Tenants'],
             ]);
     }
+
+    public function findListLabel(Query $query, array $options): Query
+    {
+        return $query
+            ->find('list', array_merge([
+                'keyField' => 'id',
+                'valueField' => 'label_name',
+            ], $options));
+    }
 }

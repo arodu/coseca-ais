@@ -1,8 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Manager\Controller;
 
+use App\Model\Field\UserRole;
 use App\Model\Table\TenantsTable;
 use Manager\Controller\AppController;
 
@@ -22,34 +24,6 @@ class TenantsController extends AppController
     {
         parent::initialize();
         $this->Tenants = $this->fetchTable('Tenants');
-    }
-
-    /**
-     * Index method
-     *
-     * @return \Cake\Http\Response|null|void Renders view
-     */
-    public function index()
-    {
-        $tenants = $this->paginate($this->Tenants);
-
-        $this->set(compact('tenants'));
-    }
-
-    /**
-     * View method
-     *
-     * @param string|null $id Tenant id.
-     * @return \Cake\Http\Response|null|void Renders view
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function view($id = null)
-    {
-        $tenant = $this->Tenants->get($id, [
-            'contain' => [],
-        ]);
-
-        $this->set(compact('tenant'));
     }
 
     /**
@@ -118,5 +92,69 @@ class TenantsController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    /**
+     * View method
+     *
+     * @param string|null $id Tenant id.
+     * @return \Cake\Http\Response|null|void Renders view
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function viewUsers($id = null)
+    {
+        $tenant = $this->Tenants->get($id, [
+            'contain' => [
+                'Programs' => [
+                    'Areas',
+                ],
+                'Locations',
+                'TenantFilters' => [
+                    'AppUsers' => function ($q) {
+                        return $q->where([
+                            'AppUsers.active' => true,
+                            'AppUsers.role IN' => UserRole::getGroup(UserRole::GROUP_STAFF),
+                        ]);
+                    },
+                ],
+            ],
+        ]);
+
+        $this->set(compact('tenant'));
+    }
+
+    public function deleteUser($tenantFilterId)
+    {
+        $this->request->allowMethod(['post', 'delete']);
+        $tenantFilter = $this->Tenants->TenantFilters->get($tenantFilterId);
+        if ($this->Tenants->TenantFilters->delete($tenantFilter)) {
+            $this->Flash->success(__('The user has been removed.'));
+        } else {
+            $this->Flash->error(__('The user could not be removed. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'viewUsers', $tenantFilter->tenant_id]);
+    }
+
+    public function addUser()
+    {
+        $tenantFilter = $this->Tenants->TenantFilters->newEmptyEntity();
+        if ($this->request->is('post')) {
+            $tenantFilter = $this->Tenants->TenantFilters->patchEntity($tenantFilter, $this->request->getData());
+            if ($this->Tenants->TenantFilters->save($tenantFilter)) {
+                $this->Flash->success(__('The user has been added.'));
+
+                return $this->redirect(['action' => 'viewUsers']);
+            }
+            $this->Flash->error(__('The user could not be added. Please, try again.'));
+        }
+        $appUsers = $this->Tenants->TenantFilters->AppUsers
+            ->find('listLabel', ['limit' => 200])
+            ->where([
+                'AppUsers.active' => true,
+                'AppUsers.role IN' => UserRole::getGroup(UserRole::GROUP_STAFF),
+            ]);
+        $tenants = $this->Tenants->find('listLabel', ['limit' => 200]);
+        $this->set(compact('tenants', 'tenantFilter', 'appUsers'));
     }
 }
