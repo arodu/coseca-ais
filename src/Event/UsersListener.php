@@ -36,15 +36,15 @@ class UsersListener implements EventListenerInterface
 
         FilterTenantUtility::update($user);
 
-        if ($user->enumRole()->isAdminGroup()) {
+        if ($user->enum('role')->isGroup(UserRole::GROUP_ADMIN)) {
             return $event->setResult(['_name' => 'admin:home']);
         }
 
-        if ($user->enumRole()->isStudentGroup()) {
+        if ($user->enum('role')->isGroup(UserRole::GROUP_STUDENT)) {
             return $event->setResult(['_name' => 'student:home']);
         }
 
-        if ($user->enumRole()->isGroup(UserRole::GROUP_MANAGER)) {
+        if ($user->enum('role')->isGroup(UserRole::GROUP_MANAGER)) {
             return $event->setResult(['_name' => 'manager:home']);
         }
     }
