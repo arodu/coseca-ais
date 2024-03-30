@@ -16,6 +16,9 @@ enum LocationType: string implements ListInterface
     case NUCLEUS = 'nucleus';
     case EXTENSION = 'extension';
 
+    /**
+     * @return string
+     */
     public function label(): string
     {
         return match ($this) {

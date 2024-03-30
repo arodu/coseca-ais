@@ -13,6 +13,9 @@ use Cake\Console\ConsoleOptionParser;
  */
 class CreateUserCommand extends Command
 {
+    /**
+     * @return void
+     */
     public function initialize(): void
     {
         parent::initialize();

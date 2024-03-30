@@ -107,6 +107,11 @@ class AppUsersTable extends UsersTable
             ]);
     }
 
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
     public function findListLabel(Query $query, array $options): Query
     {
         return $query

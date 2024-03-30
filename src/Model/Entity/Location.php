@@ -55,9 +55,17 @@ class Location extends Entity
         'tenants' => true,
     ];
 
+    /**
+     * Virtual fields
+     *
+     * @var array<string>
+     */
     protected $_virtual = ['type_label'];
 
-    public function _getTypeLabel(): string
+    /**
+     * @return string
+     */
+    protected function _getTypeLabel(): string
     {
         return $this->enum('type')?->label() ?? '';
     }

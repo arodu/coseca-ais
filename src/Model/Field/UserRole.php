@@ -96,7 +96,11 @@ enum UserRole: string implements ListInterface
         return static::values(static::group($group_name));
     }
 
-    public static function newUserList($currentRole): array
+    /**
+     * @param self $currentRole
+     * @return array
+     */
+    public static function newUserList(self $currentRole): array
     {
         $output = [
             self::ADMIN,
