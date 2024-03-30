@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Manager\Controller;
 
+use App\Model\Field\UserRole;
 use App\Model\Table\AppUsersTable;
 use Cake\Event\EventInterface;
 use Manager\Controller\AppController;
@@ -44,9 +45,18 @@ class UsersController extends AppController
      */
     public function index()
     {
-        $users = $this->paginate($this->Users);
+        $group = $this->getRequest()->getQuery('group') ?? 'staff';
 
-        $this->set(compact('users'));
+        $query = $this->Users->find();
+        $query = match ($group) {
+            'staff' => $query->where(['role IN' => UserRole::getGroup(UserRole::GROUP_STAFF)]),
+            'student' => $query->where(['role IN' => UserRole::getGroup(UserRole::GROUP_STUDENT)]),
+            default => $query,
+        };
+
+        $users = $this->paginate($query);
+
+        $this->set(compact('users', 'group'));
     }
 
     /**

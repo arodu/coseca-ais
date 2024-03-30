@@ -87,55 +87,25 @@ enum UserRole: string implements ListInterface
     }
 
     /**
-     * @return bool
-     * @deprecated use isGroup(UserRole::GROUP_ADMIN) instead
-     */
-    public function isAdminGroup(): bool
-    {
-        trigger_error('Deprecated method ' . __METHOD__, E_USER_DEPRECATED);
-
-        return $this->isGroup(static::GROUP_ADMIN);
-    }
-
-    /**
-     * @return bool
-     * @deprecated use isGroup(UserRole::GROUP_STUDENT) instead
-     */
-    public function isStudentGroup(): bool
-    {
-        trigger_error('Deprecated method ' . __METHOD__, E_USER_DEPRECATED);
-
-        return $this->isGroup(static::GROUP_STUDENT);
-    }
-
-    /**
-     * @return bool
-     * @deprecated use isGroup(UserRole::GROUP_STAFF) instead
-     */
-    public function isStaffGroup(): bool
-    {
-        trigger_error('Deprecated method ' . __METHOD__, E_USER_DEPRECATED);
-
-        return $this->isGroup(static::GROUP_STAFF);
-    }
-
-    /**
-     * @return bool
-     * @deprecated use isGroup(UserRole::GROUP_ROOT) instead
-     */
-    public function isRootGroup(): bool
-    {
-        trigger_error('Deprecated method ' . __METHOD__, E_USER_DEPRECATED);
-
-        return $this->isGroup(static::GROUP_ROOT);
-    }
-
-    /**
      * @param string $group_name
      * @return array
      */
     public static function getGroup(string $group_name): array
     {
         return static::values(static::group($group_name));
+    }
+
+    public static function newUserList($currentRole): array
+    {
+        $output = [
+            self::ADMIN,
+            self::ASSISTANT,
+        ];
+
+        if ($currentRole->isGroup(self::GROUP_ROOT)) {
+            $output[] = self::ROOT;
+        }
+
+        return self::toListLabel($output);
     }
 }

@@ -16,16 +16,28 @@ $this->Breadcrumbs->add([
 
 <div class="card card-primary card-outline">
     <div class="card-header d-flex flex-column flex-md-row">
-        <h2 class="card-title">
-            <!-- -->
-        </h2>
+        <div>
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                    <?= $this->Html->link(__('Staff'), ['action' => 'index', '?' => ['group' => 'staff']], ['class' => 'nav-link' . ($group === 'staff' ? ' active' : '')]) ?>
+                </li>
+                <li class="nav-item">
+                    <?= $this->Html->link(__('Students'), ['action' => 'index', '?' => ['group' => 'student']], ['class' => 'nav-link' . ($group === 'student' ? ' active' : '')]) ?>
+                </li>
+                <li class="nav-item">
+                    <?= $this->Html->link(__('All'), ['action' => 'index', '?' => ['group' => 'all']], ['class' => 'nav-link' . ($group === 'all' ? ' active' : '')]) ?>
+                </li>
+            </ul>
+        </div>
         <div class="d-flex ml-auto">
             <?= $this->Paginator->limitControl([], null, [
                 'label' => false,
                 'class' => 'form-control-sm',
                 'templates' => ['inputContainer' => '{{content}}']
             ]); ?>
-            <?= $this->Html->link(__('New User'), ['action' => 'add'], ['class' => 'btn btn-primary btn-sm ml-2']) ?>
+            <div>
+                <?= $this->Html->link(__('New User'), ['action' => 'add'], ['class' => 'btn btn-primary btn-sm ml-2']) ?>
+            </div>
         </div>
     </div>
     <!-- /.card-header -->
@@ -36,7 +48,6 @@ $this->Breadcrumbs->add([
                     <th><?= $this->Paginator->sort('dni') ?></th>
                     <th><?= $this->Paginator->sort('first_name') ?></th>
                     <th><?= $this->Paginator->sort('last_name') ?></th>
-                    <th><?= $this->Paginator->sort('username') ?></th>
                     <th><?= $this->Paginator->sort('email') ?></th>
                     <th><?= $this->Paginator->sort('active') ?></th>
                     <th><?= $this->Paginator->sort('role') ?></th>
@@ -46,18 +57,16 @@ $this->Breadcrumbs->add([
             </thead>
             <tbody>
                 <?php foreach ($users as $user) : ?>
-                    <?php
-                    $class = null;
-                    if ($user->id === $this->getIdentity()->getIdentifier()) {
-                        $class = 'table-secondary';
-                    } ?>
-
                     <tr class="<?= $class ?? null ?>">
                         <td><?= h($user->dni) ?></td>
                         <td><?= h($user->first_name) ?></td>
                         <td><?= h($user->last_name) ?></td>
-                        <td><?= h($user->username) ?></td>
-                        <td><?= h($user->email) ?></td>
+                        <td>
+                            <?= h($user->email) ?>
+                            <?php if ($user->id === $this->getIdentity()->getIdentifier()) : ?>
+                                <i class="fas fa-star text-warning"></i>
+                            <?php endif; ?>
+                        </td>
                         <td><?= ($user->active) ? __('Yes') : __('No') ?></td>
                         <td><?= h($user->role) ?></td>
                         <td><?= h($user->last_login) ?></td>

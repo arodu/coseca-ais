@@ -4,6 +4,9 @@
  * @var \App\View\AppView $this
  * @var \Cake\Datasource\EntityInterface $user
  */
+
+use App\Model\Field\UserRole;
+$currentUser = $this->Identity->get();
 ?>
 <?php
 $this->assign('title', __('Add User'));
@@ -19,24 +22,12 @@ $this->Breadcrumbs->add([
   <?= $this->Form->create($user) ?>
   <div class="card-body">
     <?php
-      echo $this->Form->control('username');
-      echo $this->Form->control('email');
-      echo $this->Form->control('password');
       echo $this->Form->control('dni');
       echo $this->Form->control('first_name');
       echo $this->Form->control('last_name');
-      echo $this->Form->control('token');
-      echo $this->Form->control('token_expires', ['empty' => true]);
-      echo $this->Form->control('api_token');
-      echo $this->Form->control('activation_date', ['empty' => true]);
-      echo $this->Form->control('secret');
-      echo $this->Form->control('secret_verified', ['custom' => true]);
-      echo $this->Form->control('tos_date', ['empty' => true]);
+      echo $this->Form->control('email');
       echo $this->Form->control('active', ['custom' => true]);
-      echo $this->Form->control('is_superuser', ['custom' => true]);
-      echo $this->Form->control('role');
-      echo $this->Form->control('additional_data');
-      echo $this->Form->control('last_login', ['empty' => true]);
+      echo $this->Form->control('role', ['options' => UserRole::newUserList($currentUser->enum('role')), 'empty' => true]);
     ?>
   </div>
 
