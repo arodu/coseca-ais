@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Command;
@@ -71,6 +70,7 @@ class CreateUserCommand extends Command
             return static::CODE_SUCCESS;
         } catch (\Throwable $th) {
             $io->error($th->getMessage());
+
             return static::CODE_ERROR;
         }
     }
