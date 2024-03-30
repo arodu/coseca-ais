@@ -68,7 +68,9 @@ class ProgramsController extends AppController
     public function view($id = null)
     {
         $program = $this->Programs->get($id, [
-            'contain' => [],
+            'contain' => [
+                'Areas',
+            ],
         ]);
 
         $this->set(compact('program'));

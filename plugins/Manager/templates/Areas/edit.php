@@ -7,6 +7,7 @@
 ?>
 <?php
 $this->assign('title', __('Edit Area'));
+$this->assign('backUrl', $redirect ?? $this->Url->build(['action' => 'view', $area->id]));
 $this->Breadcrumbs->add([
     ['title' => __('Home'), 'url' => '/'],
     ['title' => __('List Areas'), 'url' => ['action' => 'index']],

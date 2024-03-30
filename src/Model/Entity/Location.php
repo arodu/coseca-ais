@@ -61,5 +61,4 @@ class Location extends Entity
     {
         return $this->enum('type')?->label() ?? '';
     }
-
 }

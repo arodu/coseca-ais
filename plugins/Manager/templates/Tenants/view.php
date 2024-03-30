@@ -8,6 +8,7 @@
 
 <?php
 $this->assign('title', __('Tenant'));
+$this->assign('backUrl', $redirect ?? null);
 $this->Breadcrumbs->add([
     ['title' => __('Home'), 'url' => '/'],
     ['title' => __('List Tenants'), 'url' => ['action' => 'index']],

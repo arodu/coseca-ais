@@ -6,6 +6,7 @@
 ?>
 <?php
 $this->assign('title', __('Edit User'));
+$this->assign('backUrl', $redirect ?? $this->Url->build(['action' => 'view', $user->id]));
 $this->Breadcrumbs->add([
     ['title' => __('Home'), 'url' => '/'],
     ['title' => __('List Users'), 'url' => ['action' => 'index']],

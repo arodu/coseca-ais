@@ -7,6 +7,7 @@
 ?>
 <?php
 $this->assign('title', __('Edit Program'));
+$this->assign('backUrl', $redirect ?? $this->Url->build(['action' => 'view', $program->id]));
 $this->Breadcrumbs->add([
     ['title' => __('Home'), 'url' => '/'],
     ['title' => __('List Programs'), 'url' => ['action' => 'index']],

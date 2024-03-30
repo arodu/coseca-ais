@@ -9,6 +9,7 @@ use App\Model\Field\LocationType;
 ?>
 <?php
 $this->assign('title', __('Edit Location'));
+$this->assign('backUrl', $redirect ?? $this->Url->build(['action' => 'view', $location->id]));
 $this->Breadcrumbs->add([
     ['title' => __('Home'), 'url' => '/'],
     ['title' => __('List Locations'), 'url' => ['action' => 'index']],

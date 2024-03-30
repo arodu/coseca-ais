@@ -8,6 +8,7 @@
 
 <?php
 $this->assign('title', __('User'));
+$this->assign('backUrl', $redirect ?? $this->Url->build(['action' => 'index']));
 $this->Breadcrumbs->add([
     ['title' => __('Home'), 'url' => '/'],
     ['title' => __('List Users'), 'url' => ['action' => 'index']],

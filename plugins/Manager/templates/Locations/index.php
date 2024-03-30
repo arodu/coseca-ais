@@ -7,6 +7,7 @@
 ?>
 <?php
 $this->assign('title', __('Locations'));
+$this->assign('backUrl', $redirect ?? null);
 $this->Breadcrumbs->add([
     ['title' => __('Home'), 'url' => '/'],
     ['title' => __('List Locations')],
