@@ -20,18 +20,17 @@ $this->Breadcrumbs->add([
     <?= $this->Form->create($area, ['type' => 'file']) ?>
     <div class="card-body">
         <?php
-        echo $this->Form->control('name');
-        echo $this->Form->control('abbr');
+        echo $this->Form->control('logo', [
+            'type' => 'file',
+            'accept' => 'image/jpeg,image/png',
+            'container' => ['class' => 'custom-file'],
+            'required' => false,
+        ]);
         ?>
     </div>
 
     <div class="card-footer d-flex">
         <div class="">
-            <?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $area->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $area->id), 'class' => 'btn btn-danger']
-            ) ?>
         </div>
         <div class="ml-auto">
             <?= $this->Form->button(__('Save')) ?>

@@ -20,7 +20,20 @@ $this->Breadcrumbs->add([
     <div class="card-body table-responsive">
         <div class="row">
             <div class="col-md-3 text-center">
-                <?= $this->Html->image($area->logo, ['class' => 'img-fluid', 'alt' => $area->name]) ?>
+                <div>
+                    <?php if ($area->logo) : ?>
+                        <?= $this->Html->image($area->logo, ['class' => 'img-fluid', 'alt' => $area->name]) ?>
+                    <?php endif ?>
+                </div>
+                <?= $this->Html->link(
+                    __('Upload Logo'),
+                    [
+                        'action' => 'editLogo',
+                        $area->id,
+                        '?' => ['redirect' => $this->getRedirectUrl()]
+                    ],
+                    ['class' => 'btn btn-xs btn-outline-primary mt-2']
+                ) ?>
             </div>
             <div class="col-md-9">
                 <table class="table table-hover text-nowrap">

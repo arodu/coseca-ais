@@ -59,8 +59,6 @@ $this->Breadcrumbs->add([
     </div>
 </div>
 
-
-
 <div class="related related-programs view card">
     <div class="card-header d-flex">
         <h3 class="card-title"><?= __('Programas en {0}', $location->name) ?></h3>

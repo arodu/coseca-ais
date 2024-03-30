@@ -21,11 +21,6 @@ $this->Breadcrumbs->add([
         <?php
         echo $this->Form->control('name');
         echo $this->Form->control('abbr');
-        echo $this->Form->control('logo', [
-            'type' => 'file',
-            'accept' => 'image/jpeg,image/png',
-            'container' => ['class' => 'custom-file']
-        ]);
         ?>
     </div>
 

@@ -70,6 +70,9 @@ class ProgramsController extends AppController
         $program = $this->Programs->get($id, [
             'contain' => [
                 'Areas',
+                'Tenants' => [
+                    'Locations',
+                ],
             ],
         ]);
 

@@ -68,3 +68,71 @@ $this->Breadcrumbs->add([
         </div>
     </div>
 </div>
+
+<div class="related related-tenants view card">
+    <div class="card-header d-flex">
+        <h3 class="card-title"><?= __('Sedes de {0}', $program->name) ?></h3>
+        <div class="ml-auto">
+            <?= $this->Html->link(
+                __('New Tenant'),
+                [
+                    'controller' => 'Tenants',
+                    'action' => 'add',
+                    '?' => ['program_id' => $program->id, 'redirect' => $this->getRedirectUrl()]
+                ],
+                ['class' => 'btn btn-xs btn-primary']
+            ) ?>
+        </div>
+    </div>
+    <div class="card-body table-responsive p-0">
+        <table class="table table-hover text-nowrap">
+            <tr>
+                <th><?= __('Abbr') ?></th>
+                <th><?= __('Nombre') ?></th>
+                <th><?= __('Tipo') ?></th>
+                <th><?= __('Activo') ?></th>
+                <th class="actions"></th>
+            </tr>
+            <?php if (empty($program->tenants)) { ?>
+                <tr>
+                    <td colspan="5" class="text-muted">
+                        <?= __('Locations not found!') ?>
+                    </td>
+                </tr>
+            <?php } else { ?>
+                <?php foreach ($program->tenants as $tenant) : ?>
+                    <tr>
+                        <td><?= h($tenant->location->abbr) ?></td>
+                        <td>
+                            <?= $this->Html->link(
+                                h($tenant->location->name),
+                                [
+                                    'controller' => 'Locations',
+                                    'action' => 'view',
+                                    $tenant->location->id,
+                                    '?' => ['redirect' => $this->getRedirectUrl()]
+                                ]
+                            ) ?>
+                        </td>
+                        <td><?= h($tenant->location->type_label) ?></td>
+                        <td><?= $tenant->active ? __('Yes') : __('No') ?></td>
+                        <td class="actions">
+                            <?= $this->Html->link(
+                                __('Editar'),
+                                [
+                                    'controller' => 'Tenants',
+                                    'action' => 'edit',
+                                    $tenant->id,
+                                    '?' => ['redirect' => $this->getRedirectUrl()]
+                                ],
+                                [
+                                    'class' => 'btn btn-xs btn-outline-primary'
+                                ]
+                            ) ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php } ?>
+        </table>
+    </div>
+</div>
