@@ -227,6 +227,10 @@ class AppHelper extends Helper
         );
     }
 
+    /**
+     * @param int|string $user_id
+     * @return string
+     */
     public function currentUserIcon(int|string $user_id): string
     {
         if ($user_id === $this->Identity->getId()) {

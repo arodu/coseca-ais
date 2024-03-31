@@ -63,7 +63,11 @@ class Tenant extends Entity
         return $this->abbrLabel('-');
     }
 
-    public function abbrLabel(string $separator = ' | ', array $options = []): string
+    /**
+     * @param string $separator
+     * @return string
+     */
+    public function abbrLabel(string $separator = ' | '): string
     {
         $output = [
             $this?->program?->area?->abbr,

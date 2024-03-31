@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Test\TestCase\Controller\Admin;
 
 use App\Test\Factory\InterestAreaFactory;
-use App\Test\Factory\LocationFactory;
 use App\Test\Factory\ProgramFactory;
 use Cake\TestSuite\IntegrationTestTrait;
 use CakephpTestSuiteLight\Fixture\TruncateDirtyTables;

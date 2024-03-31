@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Utility;
@@ -10,6 +9,7 @@ use Cake\ORM\TableRegistry;
 class Tenants
 {
     /**
+     * @param array $options
      * @return \Cake\ORM\Query
      */
     public static function getTenantList(array $options = []): Query

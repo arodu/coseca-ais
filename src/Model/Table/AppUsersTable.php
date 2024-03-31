@@ -123,6 +123,11 @@ class AppUsersTable extends UsersTable
             ], $options));
     }
 
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
     public function findByTenants(Query $query, array $options = []): Query
     {
         if (empty($options['tenant_ids'])) {
@@ -130,12 +135,17 @@ class AppUsersTable extends UsersTable
         }
 
         return $query->where([
-                $this->aliasField('id') . ' IN' => $this->TenantFilters->find()
-                    ->select(['user_id'])
-                    ->where(['tenant_id IN' => $options['tenant_ids']]),
-            ]);
+            $this->aliasField('id') . ' IN' => $this->TenantFilters->find()
+                ->select(['user_id'])
+                ->where(['tenant_id IN' => $options['tenant_ids']]),
+        ]);
     }
 
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
     public function findOnlyStaff(Query $query, array $options = []): Query
     {
         return $query->where([

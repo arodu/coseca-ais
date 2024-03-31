@@ -1,12 +1,10 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
 use App\Model\Entity\Lapse;
 use App\Model\Entity\Tenant;
-use App\Utility\FilterTenantUtility;
 use Cake\Event\EventInterface;
 
 /**
@@ -178,27 +176,6 @@ class TenantsController extends AppAdminController
     }
 
     /**
-     * @param int|string $program_id
-     * @return \Cake\Http\Response|null|void
-     */
-    /*
-    public function editProgram($program_id = null)
-    {
-        $program = $this->Tenants->Programs->get($program_id);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $program = $this->Tenants->Programs->patchEntity($program, $this->request->getData());
-            if ($this->Tenants->Programs->save($program)) {
-                $this->Flash->success(__('The program has been saved.'));
-
-                return $this->redirect(['action' => 'viewProgram', $program_id]);
-            }
-            $this->Flash->error(__('The program could not be saved. Please, try again.'));
-        }
-        $this->set(compact('program'));
-    }
-    */
-
-    /**
      * @param int|string $interestArea_id
      * @return \Cake\Http\Response|null|void
      */
@@ -218,6 +195,9 @@ class TenantsController extends AppAdminController
         $this->set(compact('interestArea', 'program'));
     }
 
+    /**
+     * @return \Cake\Http\Response|null|void
+     */
     public function addUser()
     {
         $tenantFilter = $this->Tenants->TenantFilters->newEmptyEntity();
@@ -239,7 +219,11 @@ class TenantsController extends AppAdminController
         $this->set(compact('tenantFilter', 'tenants', 'appUsers'));
     }
 
-    public function editUser(string $tenantFilterId)
+    /**
+     * @param int|string $tenantFilterId
+     * @return \Cake\Http\Response|null|void
+     */
+    public function editUser(int|string $tenantFilterId)
     {
         $tenantFilter = $this->Tenants->TenantFilters->get($tenantFilterId);
         if ($this->getRequest()->is(['patch', 'post', 'put'])) {
@@ -260,7 +244,11 @@ class TenantsController extends AppAdminController
         $this->set(compact('tenantFilter', 'tenants', 'appUsers'));
     }
 
-    public function deleteUser(string $tenantFilterId)
+    /**
+     * @param int|string $tenantFilterId
+     * @return \Cake\Http\Response|null|void
+     */
+    public function deleteUser(int|string $tenantFilterId)
     {
         $this->getRequest()->allowMethod(['post', 'delete']);
         $tenantFilter = $this->Tenants->TenantFilters->get($tenantFilterId);
