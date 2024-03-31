@@ -26,8 +26,6 @@ $this->Breadcrumbs->add([
                 'class' => 'form-control-sm',
                 'templates' => ['inputContainer' => '{{content}}']
             ]); ?>
-            <?= $this->Html->link(__('Nuevo Programa'), ['action' => 'addProgram'], ['class' => ActionColor::ADD->btn('btn-sm ml-2')]) ?>
-            <?= $this->Html->link(__('Nueva Sede'), ['action' => 'add'], ['class' => ActionColor::ADD->btn('btn-sm ml-2')]) ?>
         </div>
     </div>
     <!-- /.card-header -->
@@ -51,7 +49,7 @@ $this->Breadcrumbs->add([
                         <td><?= h($tenant->program->area_label) ?></td>
                         <td><?= $this->Html->link($tenant->program->name, ['action' => 'viewProgram', $tenant->program_id], ['class' => '', 'escape' => false]) ?></td>
                         <td><?= $this->Html->link($tenant->location->name, ['action' => 'view', $tenant->id], ['class' => '', 'escape' => false]) ?></td>
-                        <td><?= h($tenant->abbr_label) ?></td>
+                        <td><?= h($tenant->abbrLabel()) ?></td>
                         <td><?= h($tenant->program->regime_label) ?></td>
                         <td><?= $this->App->lapseLabel($tenant->current_lapse) ?? $this->App->error(__('Programa debe tener al menos un lapso activo')) ?></td>
                         <td><?= $this->App->yn($tenant->active) ?></td>

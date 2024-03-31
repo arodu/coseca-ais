@@ -128,6 +128,7 @@ class TenantsController extends AppAdminController
     /**
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
+    /*
     public function add()
     {
         $tenant = $this->Tenants->newEmptyEntity();
@@ -150,26 +151,7 @@ class TenantsController extends AppAdminController
 
         $this->set(compact('tenant', 'programs', 'locations', 'program_id'));
     }
-
-    /**
-     * @return \Cake\Http\Response|null|void
-     */
-    public function addProgram()
-    {
-        $program = $this->Tenants->Programs->newEmptyEntity();
-        if ($this->request->is('post')) {
-            $program = $this->Tenants->Programs->patchEntity($program, $this->request->getData());
-
-            if ($this->Tenants->Programs->save($program)) {
-                $this->Flash->success(__('The program has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The program could not be saved. Please, try again.'));
-        }
-
-        $this->set(compact('program'));
-    }
+    */
 
     /**
      * @param int|string $program_id
@@ -196,36 +178,10 @@ class TenantsController extends AppAdminController
     }
 
     /**
-     * Edit method
-     *
-     * @param string|null $id Tenant id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function edit($id = null)
-    {
-        $tenant = $this->Tenants->get($id, [
-            'contain' => ['Programs'],
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $tenant = $this->Tenants->patchEntity($tenant, $this->request->getData());
-            if ($this->Tenants->save($tenant)) {
-                $this->Flash->success(__('The tenant has been saved.'));
-
-                return $this->redirect(['action' => 'view', $id]);
-            }
-            $this->Flash->error(__('The tenant could not be saved. Please, try again.'));
-        }
-
-        $locations = $this->Tenants->Locations->find('list');
-
-        $this->set(compact('tenant', 'locations'));
-    }
-
-    /**
      * @param int|string $program_id
      * @return \Cake\Http\Response|null|void
      */
+    /*
     public function editProgram($program_id = null)
     {
         $program = $this->Tenants->Programs->get($program_id);
@@ -240,6 +196,7 @@ class TenantsController extends AppAdminController
         }
         $this->set(compact('program'));
     }
+    */
 
     /**
      * @param int|string $interestArea_id
