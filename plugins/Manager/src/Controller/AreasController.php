@@ -28,6 +28,7 @@ class AreasController extends AppController
     {
         parent::initialize();
         $this->Areas = $this->fetchTable('Areas');
+        $this->Areas->Programs->Tenants->removeBehavior('FilterTenant');
         $this->loadComponent('System.Trash', [
             'model' => $this->Areas,
             'items' => 'areas',

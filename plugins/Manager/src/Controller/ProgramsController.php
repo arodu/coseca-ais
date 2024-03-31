@@ -27,6 +27,7 @@ class ProgramsController extends AppController
     {
         parent::initialize();
         $this->Programs = $this->fetchTable('Programs');
+        $this->Programs->Tenants->removeBehavior('FilterTenant');
         $this->loadComponent('System.Trash', [
             'model' => $this->Programs,
             'items' => 'programs',

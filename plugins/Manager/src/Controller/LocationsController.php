@@ -24,6 +24,7 @@ class LocationsController extends AppController
     {
         parent::initialize();
         $this->Locations = $this->fetchTable('Locations');
+        $this->Locations->Tenants->removeBehavior('FilterTenant');
     }
 
     /**

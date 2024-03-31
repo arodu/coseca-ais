@@ -26,6 +26,8 @@ class UsersController extends AppController
     {
         parent::initialize();
         $this->Users = $this->fetchTable('Users');
+        $this->Users->TenantFilters->removeBehavior('FilterTenant');
+        $this->Users->TenantFilters->Tenants->removeBehavior('FilterTenant');
     }
 
     /**
