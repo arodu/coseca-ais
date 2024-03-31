@@ -45,36 +45,30 @@ $this->Breadcrumbs->add([
         <table class="table table-hover text-nowrap">
             <thead>
                 <tr>
-                    <th><?= $this->Paginator->sort('dni') ?></th>
-                    <th><?= $this->Paginator->sort('first_name') ?></th>
-                    <th><?= $this->Paginator->sort('last_name') ?></th>
-                    <th><?= $this->Paginator->sort('email') ?></th>
-                    <th><?= $this->Paginator->sort('active') ?></th>
-                    <th><?= $this->Paginator->sort('role') ?></th>
-                    <th><?= $this->Paginator->sort('last_login') ?></th>
-                    <th class="actions"><?= __('Actions') ?></th>
+                    <th><?= $this->Paginator->sort('email', __('Email')) ?></th>
+                    <th><?= $this->Paginator->sort('dni', __('Cedula')) ?></th>
+                    <th><?= $this->Paginator->sort('first_name', __('Nombres')) ?></th>
+                    <th><?= $this->Paginator->sort('last_name', __('Apellidos')) ?></th>
+                    <th><?= $this->Paginator->sort('active', __('Activo')) ?></th>
+                    <th><?= $this->Paginator->sort('role', __('Rol')) ?></th>
+                    <th><?= $this->Paginator->sort('last_login', __('Última sesión')) ?></th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($users as $user) : ?>
-                    <tr class="<?= $class ?? null ?>">
+                    <tr>
+                        <td>
+                            <?= $this->Html->link(h($user->email), ['action' => 'view', $user->id]) ?>
+                            <?php if ($user->id === $this->getIdentity()->getIdentifier()) : ?>
+                                <i class="fas fa-star text-warning" title="<?= __('current user') ?>"></i>
+                            <?php endif; ?>
+                        </td>
                         <td><?= h($user->dni) ?></td>
                         <td><?= h($user->first_name) ?></td>
                         <td><?= h($user->last_name) ?></td>
-                        <td>
-                            <?= h($user->email) ?>
-                            <?php if ($user->id === $this->getIdentity()->getIdentifier()) : ?>
-                                <i class="fas fa-star text-warning"></i>
-                            <?php endif; ?>
-                        </td>
                         <td><?= ($user->active) ? __('Yes') : __('No') ?></td>
                         <td><?= h($user->role) ?></td>
                         <td><?= h($user->last_login) ?></td>
-                        <td class="actions">
-                            <?= $this->Html->link(__('View'), ['action' => 'view', $user->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
-                            <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
-                            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $user->id], ['class' => 'btn btn-xs btn-outline-danger', 'escape' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $user->id)]) ?>
-                        </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -82,7 +76,7 @@ $this->Breadcrumbs->add([
     </div>
     <!-- /.card-body -->
 
-    <div class="card-footer d-flex flex-column flex-md-row">
+    <div class="card-footer d-flex flex-column flex-md-row"> 
         <div class="text-muted">
             <?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?>
         </div>

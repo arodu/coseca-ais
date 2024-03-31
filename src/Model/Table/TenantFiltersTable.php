@@ -44,6 +44,7 @@ class TenantFiltersTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('FilterTenant');
 
         $this->belongsTo('AppUsers', [
             'foreignKey' => 'user_id',

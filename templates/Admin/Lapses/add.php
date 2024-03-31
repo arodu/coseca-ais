@@ -3,6 +3,7 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Lapse $lapse
+ * @var \App\Model\Entity\Tenant $tenant
  */
 ?>
 <?php

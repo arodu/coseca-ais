@@ -9,7 +9,7 @@ use Cake\Core\Configure;
   <?= $this->Html->link(__('Home'), '/', ['class' => 'nav-link']) ?>
 </li>
 
-<?php if ($this->Identity->get('role') === UserRole::ROOT->value) : ?>
+<?php if (in_array($this->Identity->get('role'), UserRole::getGroup(UserRole::GROUP_MANAGER))) : ?>
   <li class="nav-item d-none d-sm-inline-block">
     <?= $this->Html->link(__('Admin'), ['_name' => 'admin:home'], ['class' => 'nav-link']) ?>
   </li>

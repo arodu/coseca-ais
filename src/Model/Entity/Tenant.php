@@ -52,7 +52,7 @@ class Tenant extends Entity
             $this?->location?->name,
         ];
 
-        return implode(', ', array_filter($output));
+        return implode(' | ', array_filter($output));
     }
 
     /**
@@ -60,12 +60,17 @@ class Tenant extends Entity
      */
     protected function _getAbbrLabel(): string
     {
+        return $this->abbrLabel('-');
+    }
+
+    public function abbrLabel(string $separator = ' | ', array $options = []): string
+    {
         $output = [
             $this?->program?->area?->abbr,
             $this?->program?->abbr,
             $this?->location?->abbr,
         ];
 
-        return implode('-', array_filter($output));
+        return implode($separator, array_filter($output));
     }
 }

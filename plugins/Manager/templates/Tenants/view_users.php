@@ -3,11 +3,12 @@
 /**
  * @var \App\View\AppView $this
  * @var \Cake\Datasource\EntityInterface $tenant
+ * @var \App\Model\Entity\Tenant $tenant
  */
 ?>
 
 <?php
-$this->assign('title', __('Tenant'));
+$this->assign('title', $tenant->abbrLabel() . ': ' . __('Usuarios'));
 $this->assign('backUrl', $redirect ?? null);
 $this->Breadcrumbs->add([
     ['title' => __('Home'), 'url' => '/'],

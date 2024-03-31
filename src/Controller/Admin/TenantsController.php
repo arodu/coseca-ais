@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Admin;
@@ -258,6 +259,61 @@ class TenantsController extends AppAdminController
             $this->Flash->error(__('The interest area could not be saved. Please, try again.'));
         }
         $this->set(compact('interestArea', 'program'));
+    }
+
+    public function addUser()
+    {
+        $tenantFilter = $this->Tenants->TenantFilters->newEmptyEntity();
+        if ($this->getRequest()->is('post')) {
+            $tenantFilter = $this->Tenants->TenantFilters->patchEntity($tenantFilter, $this->getRequest()->getData());
+            if ($this->Tenants->TenantFilters->save($tenantFilter)) {
+                $this->Flash->success(__('The tenant filter has been saved.'));
+
+                return $this->redirect(['action' => 'view', $tenantFilter->tenant_id]);
+            }
+            $this->Flash->error(__('The tenant filter could not be saved. Please, try again.'));
+        }
+
+        $appUsers = $this->Tenants->TenantFilters->AppUsers
+            ->find('byTenants')
+            ->find('listLabel')
+            ->find('onlyStaff');
+        $tenants = $this->Tenants->find('listLabel');
+        $this->set(compact('tenantFilter', 'tenants', 'appUsers'));
+    }
+
+    public function editUser(string $tenantFilterId)
+    {
+        $tenantFilter = $this->Tenants->TenantFilters->get($tenantFilterId);
+        if ($this->getRequest()->is(['patch', 'post', 'put'])) {
+            $tenantFilter = $this->Tenants->TenantFilters->patchEntity($tenantFilter, $this->getRequest()->getData());
+            if ($this->Tenants->TenantFilters->save($tenantFilter)) {
+                $this->Flash->success(__('The tenant filter has been saved.'));
+
+                return $this->redirect(['action' => 'view', $tenantFilter->tenant_id]);
+            }
+            $this->Flash->error(__('The tenant filter could not be saved. Please, try again.'));
+        }
+
+        $appUsers = $this->Tenants->TenantFilters->AppUsers
+            ->find('byTenants')
+            ->find('listLabel')
+            ->find('onlyStaff');
+        $tenants = $this->Tenants->find('listLabel');
+        $this->set(compact('tenantFilter', 'tenants', 'appUsers'));
+    }
+
+    public function deleteUser(string $tenantFilterId)
+    {
+        $this->getRequest()->allowMethod(['post', 'delete']);
+        $tenantFilter = $this->Tenants->TenantFilters->get($tenantFilterId);
+        if ($this->Tenants->TenantFilters->delete($tenantFilter)) {
+            $this->Flash->success(__('The tenant filter has been deleted.'));
+        } else {
+            $this->Flash->error(__('The tenant filter could not be deleted. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'view', $tenantFilter->tenant_id]);
     }
 
     /**
