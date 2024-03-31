@@ -32,7 +32,7 @@ $this->Breadcrumbs->add([
     <div class="card-footer d-flex">
         <div class="ml-auto">
             <?= $this->Form->button(__('Save')) ?>
-            <?= $this->Html->link(__('Cancel'), ['action' => 'index'], ['class' => 'btn btn-default']) ?>
+            <?= $this->Html->link(__('Cancel'), $redirect ?? ['action' => 'index'], ['class' => 'btn btn-default']) ?>
 
         </div>
     </div>

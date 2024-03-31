@@ -10,7 +10,7 @@
         <h1 class="m-0">
             <?php if ($this->fetch('backUrl')) : ?>
                 <?= $this->Html->link(
-                    '<i class="fas fa-arrow-circle-left fa-fw"></i>',
+                    '<i class="fas fa-arrow-left fa-fw"></i>',
                     $this->fetch('backUrl'),
                     [
                         'escape' => false,

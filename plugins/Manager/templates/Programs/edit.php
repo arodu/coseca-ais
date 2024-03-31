@@ -37,7 +37,7 @@ $this->Breadcrumbs->add([
         </div>
         <div class="ml-auto">
             <?= $this->Form->button(__('Save')) ?>
-            <?= $this->Html->link(__('Cancel'), ['action' => 'view', $program->id], ['class' => 'btn btn-default']) ?>
+            <?= $this->Html->link(__('Cancel'), $redirect ?? ['action' => 'view', $program->id], ['class' => 'btn btn-default']) ?>
 
         </div>
     </div>
