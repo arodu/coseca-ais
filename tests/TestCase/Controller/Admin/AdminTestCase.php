@@ -102,8 +102,9 @@ abstract class AdminTestCase extends TestCase
     protected function setAuthSession($user = null)
     {
         $user = $user ?? $this->user;
-
         $this->session(['Auth' => $user]);
+
+        return $user;
     }
 
     /**
