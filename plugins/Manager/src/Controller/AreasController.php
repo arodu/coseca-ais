@@ -6,6 +6,7 @@ namespace Manager\Controller;
 
 use App\Model\Table\AreasTable;
 use Cake\Event\EventInterface;
+use Cake\Log\Log;
 use Cake\Utility\Text;
 use Manager\Controller\AppController;
 use System\Controller\Traits\TrashTrait;
@@ -28,7 +29,9 @@ class AreasController extends AppController
     {
         parent::initialize();
         $this->Areas = $this->fetchTable('Areas');
-        $this->Areas->Programs->Tenants->removeBehavior('FilterTenant');
+        if ($this->Areas->Programs->Tenants->behaviors()->has('FilterTenant')) {
+            $this->Areas->Programs->Tenants->removeBehavior('FilterTenant');
+        }
         $this->loadComponent('System.Trash', [
             'model' => $this->Areas,
             'items' => 'areas',
@@ -169,6 +172,7 @@ class AreasController extends AppController
                 return $this->redirect(['action' => 'view', $area->id]);
             } catch (\Exception $e) {
                 $this->Areas->getConnection()->rollback();
+                Log::error($e->getMessage());
                 $this->Flash->error(__('The area could not be saved. Please, try again.'));
             }
         }

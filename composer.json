@@ -75,9 +75,9 @@
         "cs-fix": "phpcbf --colors -p src/ tests/",
         "stan": "phpstan analyse",
         "test": "phpunit --colors=always",
+        "test-coverage": "XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-html webroot/coverage --colors=always",
         "reset-factory": "bin/cake migrations rollback -t 0; bin/cake migrations migrate",
-        "reset-factory-faker": "bin/cake migrations rollback -t 0; bin/cake migrations migrate; bin/cake migrations seed --seed TestingSeed",
-        "test-coverage": "XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-html webroot/coverage --colors=always"
+        "reset-factory-faker": "bin/cake migrations rollback -t 0; bin/cake migrations migrate; bin/cake migrations seed --seed TestingSeed"
     },
     "prefer-stable": true,
     "config": {
