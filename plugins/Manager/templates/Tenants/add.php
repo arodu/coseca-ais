@@ -21,7 +21,7 @@ $this->Breadcrumbs->add([
         <?php
         echo $this->Form->control('program_id', ['options' => $programs, 'empty' => true]);
         echo $this->Form->control('location_id', ['options' => $locations, 'empty' => true]);
-        echo $this->Form->control('active', ['custom' => true]);
+        echo $this->Form->control('active', ['custom' => true, 'checked' => true]);
         ?>
     </div>
 

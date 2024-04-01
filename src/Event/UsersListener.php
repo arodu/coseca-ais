@@ -58,7 +58,7 @@ class UsersListener implements EventListenerInterface
         /** @var \App\Model\Entity\AppUser $user */
         $user = $event->getData('user');
 
-        if ($user->enumRole()->isStudentGroup()) {
+        if ($user->enum('role')->isGroup(UserRole::GROUP_STUDENT)) {
             $this->fetchTable('Students')->newRegularStudent($user);
         }
     }

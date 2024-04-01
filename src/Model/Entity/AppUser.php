@@ -38,6 +38,13 @@ class AppUser extends User
 {
     use EnumFieldTrait;
 
+    protected $_accessible = [
+        '*' => true,
+        'role' => true,
+        'id' => false,
+        'is_superuser' => false,
+    ];
+
     protected $enumFields = [
         'role' => UserRole::class,
     ];
