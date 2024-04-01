@@ -21,6 +21,7 @@ $this->Breadcrumbs->add([
     <div class="card-body">
         <?php
         echo $this->Form->control('name');
+        echo $this->Form->control('print_label');
         echo $this->Form->control('abbr');
         ?>
     </div>

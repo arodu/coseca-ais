@@ -40,5 +40,6 @@ class Area extends Entity
         'modified_by' => true,
         'deleted' => true,
         'deleted_by' => true,
+        'print_label' => true,
     ];
 }

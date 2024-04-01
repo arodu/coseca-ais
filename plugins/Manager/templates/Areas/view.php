@@ -42,6 +42,10 @@ $this->Breadcrumbs->add([
                         <td><?= h($area->name) ?></td>
                     </tr>
                     <tr>
+                        <th><?= __('Label') ?></th>
+                        <td><?= h($area->print_label) ?></td>
+                    </tr>
+                    <tr>
                         <th><?= __('Abbr') ?></th>
                         <td><?= h($area->abbr) ?></td>
                     </tr>
