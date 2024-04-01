@@ -17,16 +17,6 @@ class LocationsControllerTest extends TestCase
     use IntegrationTestTrait;
 
     /**
-     * Fixtures
-     *
-     * @var array<string>
-     */
-    protected $fixtures = [
-        'plugin.Manager.Locations',
-        'plugin.Manager.Tenants',
-    ];
-
-    /**
      * Test index method
      *
      * @return void

@@ -17,18 +17,6 @@ class ProgramsControllerTest extends TestCase
     use IntegrationTestTrait;
 
     /**
-     * Fixtures
-     *
-     * @var array<string>
-     */
-    protected $fixtures = [
-        'plugin.Manager.Programs',
-        'plugin.Manager.Areas',
-        'plugin.Manager.Tenants',
-        'plugin.Manager.InterestAreas',
-    ];
-
-    /**
      * Test index method
      *
      * @return void

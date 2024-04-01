@@ -17,21 +17,6 @@ class TenantsControllerTest extends TestCase
     use IntegrationTestTrait;
 
     /**
-     * Fixtures
-     *
-     * @var array<string>
-     */
-    protected $fixtures = [
-        'plugin.Manager.Tenants',
-        'plugin.Manager.Lapses',
-        'plugin.Manager.Students',
-        'plugin.Manager.TenantFilters',
-        'plugin.Manager.CurrentLapse',
-        'plugin.Manager.Programs',
-        'plugin.Manager.Locations',
-    ];
-
-    /**
      * Test index method
      *
      * @return void

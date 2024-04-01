@@ -17,19 +17,6 @@ class UsersControllerTest extends TestCase
     use IntegrationTestTrait;
 
     /**
-     * Fixtures
-     *
-     * @var array<string>
-     */
-    protected $fixtures = [
-        'plugin.Manager.Users',
-        'plugin.Manager.SocialAccounts',
-        'plugin.Manager.Students',
-        'plugin.Manager.TenantFilters',
-        'plugin.Manager.CurrentStudent',
-    ];
-
-    /**
      * Test index method
      *
      * @return void
