@@ -38,6 +38,7 @@ class AreaFactory extends CakephpBaseFactory
             return [
                 'name' => $faker->company(),
                 'abbr' => $faker->randomLetter(),
+                'print_label' => $faker->company(),
             ];
         });
     }
