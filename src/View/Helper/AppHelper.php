@@ -28,7 +28,7 @@ class AppHelper extends Helper
      */
     protected $_defaultConfig = [];
 
-    public $helpers = ['Html', 'Form'];
+    public $helpers = ['Html', 'Form', 'Identity'];
 
     /**
      * @param array $options
@@ -221,9 +221,22 @@ class AppHelper extends Helper
 
         return __(
             '{0} / {1} / {2}',
-            $tenant->program->area_label,
+            $tenant->program->area->abbr,
             $this->Html->link($tenant->program->name, ['controller' => 'Tenants', 'action' => 'viewProgram', $tenant->program_id]),
-            $this->Html->link($tenant->name, ['controller' => 'Tenants', 'action' => 'view', $tenant->id]),
+            $this->Html->link($tenant->location->name, ['controller' => 'Tenants', 'action' => 'view', $tenant->id]),
         );
+    }
+
+    /**
+     * @param int|string $user_id
+     * @return string
+     */
+    public function currentUserIcon(int|string $user_id): string
+    {
+        if ($user_id === $this->Identity->getId()) {
+            return $this->Html->tag('i', '', ['class' => 'fas fa-star text-warning', 'title' => __('current user')]);
+        }
+
+        return '';
     }
 }

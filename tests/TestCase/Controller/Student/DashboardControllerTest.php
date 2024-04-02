@@ -126,7 +126,7 @@ class DashboardControllerTest extends StudentTestCase
         $this->assertResponseContains(Hash::get($this->user, 'first_name'));
         $this->assertResponseContains(Hash::get($this->user, 'last_name'));
         $this->assertResponseContains(Hash::get($this->user, 'email'));
-        $this->assertResponseContains($this->program->name . ', ' . $this->program->tenants[0]->name);
+        $this->assertResponseContains($this->program->name . ' | ' . $this->program->tenants[0]->location->name);
         $this->assertResponseContains(Hash::get($student, 'student_data.phone'));
     }
 

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Event;
 
+use App\Model\Field\UserRole;
 use App\Utility\FilterTenantUtility;
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
@@ -33,16 +34,18 @@ class UsersListener implements EventListenerInterface
         /** @var \App\Model\Entity\AppUser $user */
         $user = $event->getData('user');
 
-        $filterTenantUtility = new FilterTenantUtility();
-        $tenant_ids = $filterTenantUtility->getTenantIdsFromDatabase($user);
-        FilterTenantUtility::write($tenant_ids);
+        FilterTenantUtility::update($user);
 
-        if ($user->enumRole()->isAdminGroup()) {
+        if ($user->enum('role')->isGroup(UserRole::GROUP_ADMIN)) {
             return $event->setResult(['_name' => 'admin:home']);
         }
 
-        if ($user->enumRole()->isStudentGroup()) {
+        if ($user->enum('role')->isGroup(UserRole::GROUP_STUDENT)) {
             return $event->setResult(['_name' => 'student:home']);
+        }
+
+        if ($user->enum('role')->isGroup(UserRole::GROUP_MANAGER)) {
+            return $event->setResult(['_name' => 'manager:home']);
         }
     }
 
@@ -55,7 +58,7 @@ class UsersListener implements EventListenerInterface
         /** @var \App\Model\Entity\AppUser $user */
         $user = $event->getData('user');
 
-        if ($user->enumRole()->isStudentGroup()) {
+        if ($user->enum('role')->isGroup(UserRole::GROUP_STUDENT)) {
             $this->fetchTable('Students')->newRegularStudent($user);
         }
     }

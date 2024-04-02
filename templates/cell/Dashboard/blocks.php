@@ -3,7 +3,7 @@
         <span class="info-box-icon"><i class="far fa-bookmark"></i></span>
         <div class="info-box-content">
             <span class="info-box-text"><?= __('Lapsos Activos') ?></span>
-            <span class="info-box-number"><?= implode(', ', $currentLapses) ?></span>
+            <span class="info-box-number"><?= !empty($currentLapses) ? implode(', ', $currentLapses) : 'N/A' ?></span>
         </div>
         <!-- /.info-box-content -->
     </div>
@@ -46,10 +46,3 @@
     <!-- /.info-box -->
 </div>
 <!-- /.col -->
-
-<?php
-
-
-//debug();
-
-?>

@@ -20,15 +20,19 @@ trait CreateDataTrait
         $option_tenants = $options['tenants'] ?? [];
         unset($options['tenants']);
         $tenants = TenantFactory::make($option_tenants, $option_tenants['times'] ?? 1)
+            ->with('Locations')
             ->with('Lapses', $lapses);
 
         $option_interest_areas = $options['interest_areas'] ?? [];
         unset($options['interest_areas']);
         $interest_areas = InterestAreaFactory::make($option_interest_areas, $option_interest_areas['times'] ?? 6);
 
-        return ProgramFactory::make($options ?? [], $times)
-            ->with('Tenants', $tenants)
-            ->with('InterestAreas', $interest_areas);
+        $program = ProgramFactory::make($options ?? [], $times)
+            ->with('Areas')
+            ->with('InterestAreas', $interest_areas)
+            ->with('Tenants', $tenants);
+
+        return $program;
     }
 
     protected function createInstitution(array $options = [], bool $persist = true)
@@ -65,7 +69,9 @@ trait CreateDataTrait
 
     protected function setDefaultLapseDates(int $lapse_id)
     {
-        return $this->fetchTable('LapseDates')->saveDefaultDates($lapse_id);
+        $lapseDates = $this->fetchTable('LapseDates')->defaultDatesEntities($lapse_id);
+
+        return $this->fetchTable('LapseDates')->saveManyOrFail($lapseDates);
     }
 
     protected function getRecord(string $repository, int $id): EntityInterface

@@ -112,4 +112,12 @@ class AppView extends View
             ? $options['then']
             : $options['else'];
     }
+
+    /**
+     * @return string
+     */
+    public function getRedirectUrl(): string
+    {
+        return $this->getRequest()->getRequestTarget();
+    }
 }

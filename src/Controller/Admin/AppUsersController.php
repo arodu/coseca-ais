@@ -26,7 +26,8 @@ class AppUsersController extends AppAdminController
 
         $query = $this->AppUsers->find()
             ->where([
-                'AppUsers.role IN' => UserRole::getAdminGroup(),
+                'AppUsers.role IN' => UserRole::getGroup(UserRole::GROUP_STAFF),
+                'AppUsers.id IN' => $this->AppUsers->TenantFilters->find()->select(['user_id']),
             ]);
 
         $users = $this->paginate($query);

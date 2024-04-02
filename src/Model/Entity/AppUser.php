@@ -38,6 +38,13 @@ class AppUser extends User
 {
     use EnumFieldTrait;
 
+    protected $_accessible = [
+        '*' => true,
+        'role' => true,
+        'id' => false,
+        'is_superuser' => false,
+    ];
+
     protected $enumFields = [
         'role' => UserRole::class,
     ];
@@ -53,5 +60,13 @@ class AppUser extends User
     protected function _getFullName(): string
     {
         return $this->first_name . ' ' . $this->last_name;
+    }
+
+    /**
+     * @return string
+     */
+    protected function _getLabelName(): string
+    {
+        return $this->full_name . ($this->email ? " ({$this->email})" : '');
     }
 }

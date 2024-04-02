@@ -9,13 +9,51 @@ use Cake\ORM\TableRegistry;
 class Tenants
 {
     /**
+     * @param array $options
      * @return \Cake\ORM\Query
      */
-    public static function getTenantList(): Query
+    public static function getTenantList(array $options = []): Query
     {
-        return TableRegistry::getTableLocator()
+        $options = array_merge([
+            'location' => null,
+            'area' => null,
+            'program' => null,
+        ], $options);
+
+        $query = TableRegistry::getTableLocator()
             ->get('Tenants')
             ->find('active')
-            ->find('list');
+            ->find('listLabel');
+
+        if ($options['location']) {
+            $subQuery = TableRegistry::getTableLocator()->get('Locations')
+                ->find()
+                ->select(['id'])
+                ->where(['Locations.abbr' => $options['location']]);
+            $query->where(['Tenants.location_id IN' => $subQuery]);
+        }
+
+        if ($options['area']) {
+            $areaId = TableRegistry::getTableLocator()->get('Areas')
+                ->find()
+                ->select(['id'])
+                ->where(['Areas.abbr' => $options['area']])
+                ->first();
+            $subQuery = TableRegistry::getTableLocator()->get('Programs')
+                ->find()
+                ->select(['id'])
+                ->where(['Programs.area_id' => $areaId->id]);
+            $query->where(['Tenants.program_id IN' => $subQuery]);
+        }
+
+        if ($options['program']) {
+            $subQuery = TableRegistry::getTableLocator()->get('Programs')
+                ->find()
+                ->select(['id'])
+                ->where(['Programs.abbr' => $options['program']]);
+            $query->where(['Tenants.program_id IN' => $subQuery]);
+        }
+
+        return $query;
     }
 }

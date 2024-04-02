@@ -37,15 +37,15 @@ $this->Breadcrumbs->add([
             </tr>
             <tr>
                 <th><?= __('Sede') ?></th>
-                <td><?= h($tenant->name) ?></td>
+                <td><?= h($tenant->location->name) ?></td>
             </tr>
             <tr>
-                <th><?= __('ABVR') ?></th>
-                <td><?= h($tenant->abbr_label) ?></td>
+                <th><?= __('ABBR') ?></th>
+                <td><?= h($tenant->abbrLabel()) ?></td>
             </tr>
             <tr>
                 <th><?= __('Lapso Actual') ?></th>
-                <td><?= $tenant?->current_lapse->name ?? $this->App->error(__('Programa debe tener al menos un lapso activo')) ?></td>
+                <td><?= $tenant->current_lapse->name ?? $this->App->error(__('Programa debe tener al menos un lapso activo')) ?></td>
             </tr>
             <tr>
                 <th><?= __('Activo') ?></th>
@@ -55,7 +55,6 @@ $this->Breadcrumbs->add([
     </div>
     <div class="card-footer d-flex">
         <div>
-            <?= $this->Html->link(__('Editar'), ['action' => 'edit', $tenant->id], ['class' => ActionColor::EDIT->btn()]) ?>
         </div>
         <div class="ml-auto">
             <?= $this->Button->statistics([
@@ -168,8 +167,9 @@ $this->Breadcrumbs->add([
                         </tr>
                         <?php if (empty($lapseSelected->lapse_dates)) { ?>
                             <tr>
-                                <td colspan="3" class="text-muted">
-                                    Lapse Dates record not found!
+                                <td colspan="4" class="text-muted">
+                                    <?= __('Lapse Dates record not found!') ?>
+                                    <?= $this->Html->link(__('Crear listado de Fechas'), ['controller' => 'Lapses', 'action' => 'addDates', $lapseSelected->id], ['class' => '']) ?>
                                 </td>
                             </tr>
                         <?php } else { ?>

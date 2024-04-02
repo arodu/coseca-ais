@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Test\TestCase\Controller\Admin;
 
 use App\Model\Field\UserRole;
+use App\Test\Factory\AppUserFactory;
 use Cake\I18n\FrozenDate;
 use Cake\TestSuite\IntegrationTestTrait;
 
@@ -35,7 +36,9 @@ class AppUsersControllerTest extends AdminTestCase
         $this->assertResponseCode(200);
 
         // Ejecucion de acciones
-        $user = $this->createUserWithAdminRole(); //Crea un usuario
+        $user = AppUserFactory::make(['role' => UserRole::ADMIN->value])
+            ->with('TenantFilters', ['tenant_id' => $this->tenant_id])
+            ->persist();
         $this->get('/admin/app-users');
         $this->assertResponseCode(200);
 

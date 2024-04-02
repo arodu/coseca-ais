@@ -18,7 +18,7 @@ $this->Breadcrumbs->add([
   <?= $this->Form->create($interestArea) ?>
   <div class="card-body">
     <?php
-      echo $this->Form->control('program', ['value' => $program->name, 'readonly' => true]);
+      echo $this->Form->control('program', ['value' => $program->label, 'readonly' => true]);
       echo $this->Form->control('name');
       echo $this->Form->control('description');
       echo $this->Form->control('active', ['custom' => true, 'default' => true]);
