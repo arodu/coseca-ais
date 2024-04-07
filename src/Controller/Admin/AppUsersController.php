@@ -29,7 +29,7 @@ class AppUsersController extends AppAdminController
                 'TenantFilters' => [
                     'Tenants' => [
                         'finder' => 'complete',
-                    ]
+                    ],
                 ],
             ])
             ->where([
