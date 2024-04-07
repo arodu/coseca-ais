@@ -3,6 +3,9 @@
  * @var \App\View\AppView $this
  * @var \Cake\Datasource\EntityInterface[]|\Cake\Collection\CollectionInterface $users
  */
+
+use Cake\Utility\Hash;
+
 ?>
 <?php
 $this->assign('title', __('Users'));
@@ -23,7 +26,6 @@ $this->Breadcrumbs->add([
                 'class' => 'form-control-sm',
                 'templates' => ['inputContainer' => '{{content}}']
             ]); ?>
-            <?= $this->Html->link(__('New User'), ['action' => 'add'], ['class' => 'btn btn-primary btn-sm ml-2']) ?>
         </div>
     </div>
     <!-- /.card-header -->
@@ -38,6 +40,7 @@ $this->Breadcrumbs->add([
                     <th><?= $this->Paginator->sort('active', __('Activo')) ?></th>
                     <th><?= $this->Paginator->sort('role', __('Rol')) ?></th>
                     <th><?= $this->Paginator->sort('last_login', __('Última sesión')) ?></th>
+                    <th><?= __('Accesos') ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -53,6 +56,14 @@ $this->Breadcrumbs->add([
                         <td><?= ($user->active) ? __('Yes') : __('No') ?></td>
                         <td><?= h($user->role) ?></td>
                         <td><?= h($user->last_login) ?></td>
+                        <td>
+                            <?php
+                                $tenants = array_map(function ($filter) {
+                                    return $filter->tenant->label;
+                                }, $user->tenant_filters);
+                                echo implode('<br/>', $tenants);
+                            ?>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

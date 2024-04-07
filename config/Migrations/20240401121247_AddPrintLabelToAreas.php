@@ -18,7 +18,7 @@ class AddPrintLabelToAreas extends AbstractMigration
         $table->addColumn('print_label', 'string', [
             'default' => null,
             'limit' => 255,
-            'null' => false,
+            'null' => true,
             'after' => 'name',
         ]);
         $table->update();

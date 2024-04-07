@@ -85,6 +85,8 @@ class TenantFiltersTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
+        $rules->add($rules->isUnique(['user_id', 'tenant_id'], __('The user already has this tenant filter.')));
+
         return $rules;
     }
 }
