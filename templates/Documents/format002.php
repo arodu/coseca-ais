@@ -1,13 +1,12 @@
 <?php
 
 use Cake\I18n\FrozenDate;
+$this->program = $student->tenant->program;
+$date = $student->student_course->date;
+$today = FrozenDate::now();
 
 $this->assign('contentHeader', $this->element('Documents/format002Header'));
 $this->assign('contentFooter', $this->element('Documents/format002Footer'));
-$this->program = $student->tenant->program;
-
-$date = $student->student_course->date;
-$today = FrozenDate::now();
 ?>
 
 <h2>CONSTANCIA APROBACIÓN TALLER SERVICIO COMUNITARIO</h2>
@@ -15,7 +14,7 @@ $today = FrozenDate::now();
 <p>
     Quienes suscriben, hacen constar por medio de la presente que el(la) ciudadano(a)
     Bachiller: <strong><?= h($student->full_name) ?></strong>, titular de la <strong>Cédula de
-        Identidad N° <?= h($student->dni) ?></strong>, estudiante del <?= $student->tenant->program->area_print_label ?>, <strong>CURSÓ Y
+        Identidad N° <?= h($student->dni) ?></strong>, estudiante del <?= $student->tenant->program->area->print_label ?>, <strong>CURSÓ Y
         APROBÓ</strong> el taller: <strong>INTRODUCCIÓN AL SERVICIO COMUNITARIO</strong>, dictado en
     fecha: <?= $date->day ?> de <?= $this->App->month($date->month) ?> del año <?= $date->year ?>, con una duración de 08 horas académicas, de
     acuerdo a lo establecido en la <strong>Ley de Servicio Comunitario Del Estudiante de

@@ -107,7 +107,16 @@ return [
         ],
 
         [
-            'role' => UserRole::getAdminGroup(),
+            'role' => UserRole::getGroup(UserRole::GROUP_MANAGER),
+            'prefix' => '*',
+            'extension' => '*',
+            'plugin' => 'Manager',
+            'controller' => '*',
+            'action' => '*',
+        ],
+
+        [
+            'role' => UserRole::getGroup(UserRole::GROUP_ADMIN),
             'prefix' => ['Admin', 'Admin/Stage'],
             'extension' => '*',
             'plugin' => '*',
@@ -115,7 +124,7 @@ return [
             'action' => '*',
         ],
         [
-            'role' => UserRole::getStudentGroup(),
+            'role' => UserRole::getGroup(UserRole::GROUP_STUDENT),
             'prefix' => 'Student',
             'extension' => '*',
             'plugin' => '*',

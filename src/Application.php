@@ -67,6 +67,7 @@ class Application extends BaseApplication
 
         // Load more plugins here
         $this->addPlugin('Muffin/Footprint');
+        $this->addPlugin('Muffin/Trash');
         $this->addPlugin(\CakeLte\Plugin::class);
         $this->addPlugin(\CakeLteTools\CakeLteToolsPlugin::class);
         $this->addPlugin(\CakeDC\Users\Plugin::class);
@@ -76,9 +77,11 @@ class Application extends BaseApplication
 
         $this->getEventManager()->on(new UsersListener());
         //$this->getEventManager()->on(new StageNotificationListener());
+        $this->addPlugin('Manager');
         $this->addPlugin('CakePdf');
         $this->addPlugin('System');
         $this->addPlugin('AdminTools');
+        $this->addPlugin('ADmad/Glide');
     }
 
     /**

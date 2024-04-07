@@ -22,6 +22,7 @@ abstract class StudentTestCase extends TestCase
     protected $tenant_id;
     protected $user;
     protected $lapse_id;
+    protected $lapse;
     protected $tutors;
     protected $institution;
     protected $alertMessage = 'Comuniquese con la coordinación de servicio comunitario para mas información';
@@ -37,7 +38,8 @@ abstract class StudentTestCase extends TestCase
         $this->program = $this->createProgram()->persist();
         $this->user = $this->createUser(['role' => UserRole::STUDENT->value])->persist();
         $this->tenant_id = Hash::get($this->program, 'tenants.0.id');
-        $this->lapse_id = Hash::get($this->program, 'tenants.0.lapses.0.id');
+        $this->lapse = Hash::get($this->program, 'tenants.0.lapses.0');
+        $this->lapse_id = $this->lapse->id;
         $this->setDefaultLapseDates($this->lapse_id);
 
         $this->tutors = TutorFactory::make([

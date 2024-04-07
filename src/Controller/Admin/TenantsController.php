@@ -21,8 +21,6 @@ class TenantsController extends AppAdminController
     public function initialize(): void
     {
         parent::initialize();
-
-        $this->Programs = $this->fetchTable('Programs');
     }
 
     /**
@@ -45,7 +43,7 @@ class TenantsController extends AppAdminController
         $this->paginate = [];
 
         $query = $this->Tenants
-            ->find('withPrograms')
+            ->find('complete')
             ->contain(['CurrentLapse']);
 
         $tenants = $this->paginate($query);
@@ -62,12 +60,11 @@ class TenantsController extends AppAdminController
      */
     public function view($id = null)
     {
-        $tenant = $this->Tenants->get($id, [
-            'contain' => [
-                'Programs',
-                'CurrentLapse' => ['LapseDates'],
-            ],
-        ]);
+        $tenant = $this->Tenants
+            ->find('complete')
+            ->where(['Tenants.id' => $id])
+            ->contain(['CurrentLapse' => ['LapseDates']])
+            ->firstOrFail();
 
         $lapses = $this->Tenants->Lapses
             ->find('list', [
@@ -89,9 +86,12 @@ class TenantsController extends AppAdminController
      */
     public function viewProgram($program_id = null)
     {
-        $program = $this->Programs->get($program_id, [
+        $program = $this->Tenants->Programs->get($program_id, [
             'contain' => [
-                'Tenants',
+                'Tenants' => [
+                    'Locations',
+                ],
+                'Areas',
                 'InterestAreas',
             ],
         ]);
@@ -124,50 +124,32 @@ class TenantsController extends AppAdminController
     }
 
     /**
-     * Add method
-     *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
+    /*
     public function add()
     {
         $tenant = $this->Tenants->newEmptyEntity();
-        if ($this->request->is('post')) {
-            $tenant = $this->Tenants->patchEntity($tenant, $this->request->getData());
+        $program_id = $this->getRequest()->getQuery('program_id', null);
 
+        if ($this->getRequest()->is('post')) {
+            $tenant = $this->Tenants->patchEntity($tenant, $this->request->getData());
             if ($this->Tenants->save($tenant)) {
                 $this->Flash->success(__('The tenant has been saved.'));
+                $user = $this->Authentication->getIdentity()->getOriginalData();
+                FilterTenantUtility::add($user, $tenant->id);
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'view', $tenant->id]);
             }
             $this->Flash->error(__('The tenant could not be saved. Please, try again.'));
         }
-        $programs = $this->Tenants->Programs->find('list', [
-            'groupField' => 'area_label',
-            'limit' => 200,
-        ]);
 
-        $this->set(compact('tenant', 'programs'));
+        $locations = $this->Tenants->Locations->find('list');
+        $programs = $this->Tenants->Programs->find('listGrouped');
+
+        $this->set(compact('tenant', 'programs', 'locations', 'program_id'));
     }
-
-    /**
-     * @return \Cake\Http\Response|null|void
-     */
-    public function addProgram()
-    {
-        $program = $this->Programs->newEmptyEntity();
-        if ($this->request->is('post')) {
-            $program = $this->Programs->patchEntity($program, $this->request->getData());
-
-            if ($this->Programs->save($program)) {
-                $this->Flash->success(__('The program has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The program could not be saved. Please, try again.'));
-        }
-
-        $this->set(compact('program'));
-    }
+    */
 
     /**
      * @param int|string $program_id
@@ -175,12 +157,14 @@ class TenantsController extends AppAdminController
      */
     public function addInterestArea($program_id = null)
     {
-        $interestArea = $this->Programs->InterestAreas->newEmptyEntity();
-        $program = $this->Programs->get($program_id);
+        $interestArea = $this->Tenants->Programs->InterestAreas->newEmptyEntity();
+        $program = $this->Tenants->Programs->get($program_id, [
+            'contain' => ['Areas'],
+        ]);
         if ($this->request->is('post')) {
-            $interestArea = $this->Programs->InterestAreas->patchEntity($interestArea, $this->request->getData());
+            $interestArea = $this->Tenants->Programs->InterestAreas->patchEntity($interestArea, $this->request->getData());
             $interestArea->program_id = $program_id;
-            if ($this->Programs->InterestAreas->save($interestArea)) {
+            if ($this->Tenants->Programs->InterestAreas->save($interestArea)) {
                 $this->Flash->success(__('The interest area has been saved.'));
 
                 return $this->redirect(['action' => 'viewProgram', $program_id]);
@@ -189,50 +173,6 @@ class TenantsController extends AppAdminController
         }
 
         $this->set(compact('interestArea', 'program'));
-    }
-
-    /**
-     * Edit method
-     *
-     * @param string|null $id Tenant id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function edit($id = null)
-    {
-        $tenant = $this->Tenants->get($id, [
-            'contain' => [],
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $tenant = $this->Tenants->patchEntity($tenant, $this->request->getData());
-            if ($this->Tenants->save($tenant)) {
-                $this->Flash->success(__('The tenant has been saved.'));
-
-                return $this->redirect(['action' => 'view', $id]);
-            }
-            $this->Flash->error(__('The tenant could not be saved. Please, try again.'));
-        }
-
-        $this->set(compact('tenant'));
-    }
-
-    /**
-     * @param int|string $program_id
-     * @return \Cake\Http\Response|null|void
-     */
-    public function editProgram($program_id = null)
-    {
-        $program = $this->Programs->get($program_id);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $program = $this->Programs->patchEntity($program, $this->request->getData());
-            if ($this->Programs->save($program)) {
-                $this->Flash->success(__('The program has been saved.'));
-
-                return $this->redirect(['action' => 'viewProgram', $program_id]);
-            }
-            $this->Flash->error(__('The program could not be saved. Please, try again.'));
-        }
-        $this->set(compact('program'));
     }
 
     /**
@@ -241,11 +181,11 @@ class TenantsController extends AppAdminController
      */
     public function editInterestArea($interestArea_id = null)
     {
-        $interestArea = $this->Programs->InterestAreas->get($interestArea_id);
-        $program = $this->Programs->get($interestArea->program_id);
+        $interestArea = $this->Tenants->Programs->InterestAreas->get($interestArea_id);
+        $program = $this->Tenants->Programs->get($interestArea->program_id);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $interestArea = $this->Programs->InterestAreas->patchEntity($interestArea, $this->request->getData());
-            if ($this->Programs->InterestAreas->save($interestArea)) {
+            $interestArea = $this->Tenants->Programs->InterestAreas->patchEntity($interestArea, $this->request->getData());
+            if ($this->Tenants->Programs->InterestAreas->save($interestArea)) {
                 $this->Flash->success(__('The interest area has been saved.'));
 
                 return $this->redirect(['action' => 'viewProgram', $program->id]);
@@ -253,6 +193,72 @@ class TenantsController extends AppAdminController
             $this->Flash->error(__('The interest area could not be saved. Please, try again.'));
         }
         $this->set(compact('interestArea', 'program'));
+    }
+
+    /**
+     * @return \Cake\Http\Response|null|void
+     */
+    public function addUser()
+    {
+        $tenantFilter = $this->Tenants->TenantFilters->newEmptyEntity();
+        if ($this->getRequest()->is('post')) {
+            $tenantFilter = $this->Tenants->TenantFilters->patchEntity($tenantFilter, $this->getRequest()->getData());
+            if ($this->Tenants->TenantFilters->save($tenantFilter)) {
+                $this->Flash->success(__('The tenant filter has been saved.'));
+
+                return $this->redirect(['action' => 'view', $tenantFilter->tenant_id]);
+            }
+            $this->Flash->error(__('The tenant filter could not be saved. Please, try again.'));
+        }
+
+        $appUsers = $this->Tenants->TenantFilters->AppUsers
+            ->find('byTenants')
+            ->find('listLabel')
+            ->find('onlyStaff');
+        $tenants = $this->Tenants->find('listLabel');
+        $this->set(compact('tenantFilter', 'tenants', 'appUsers'));
+    }
+
+    /**
+     * @param int|string $tenantFilterId
+     * @return \Cake\Http\Response|null|void
+     */
+    public function editUser(int|string $tenantFilterId)
+    {
+        $tenantFilter = $this->Tenants->TenantFilters->get($tenantFilterId);
+        if ($this->getRequest()->is(['patch', 'post', 'put'])) {
+            $tenantFilter = $this->Tenants->TenantFilters->patchEntity($tenantFilter, $this->getRequest()->getData());
+            if ($this->Tenants->TenantFilters->save($tenantFilter)) {
+                $this->Flash->success(__('The tenant filter has been saved.'));
+
+                return $this->redirect(['action' => 'view', $tenantFilter->tenant_id]);
+            }
+            $this->Flash->error(__('The tenant filter could not be saved. Please, try again.'));
+        }
+
+        $appUsers = $this->Tenants->TenantFilters->AppUsers
+            ->find('byTenants')
+            ->find('listLabel')
+            ->find('onlyStaff');
+        $tenants = $this->Tenants->find('listLabel');
+        $this->set(compact('tenantFilter', 'tenants', 'appUsers'));
+    }
+
+    /**
+     * @param int|string $tenantFilterId
+     * @return \Cake\Http\Response|null|void
+     */
+    public function deleteUser(int|string $tenantFilterId)
+    {
+        $this->getRequest()->allowMethod(['post', 'delete']);
+        $tenantFilter = $this->Tenants->TenantFilters->get($tenantFilterId);
+        if ($this->Tenants->TenantFilters->delete($tenantFilter)) {
+            $this->Flash->success(__('The tenant filter has been deleted.'));
+        } else {
+            $this->Flash->error(__('The tenant filter could not be deleted. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'view', $tenantFilter->tenant_id]);
     }
 
     /**

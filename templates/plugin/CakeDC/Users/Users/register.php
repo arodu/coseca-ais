@@ -13,14 +13,13 @@ $this->layout = 'CakeLte.login';
 <div class="card">
     <div class="card-body register-card-body">
         <p class="login-box-msg"><?= __('Registrar un nuevo estudiante') ?></p>
-
         <?= $this->Form->create() ?>
         <?= $this->Form->control('dni', [
             'placeholder' => __('Cedula'),
             'label' => false,
             'append' => '<i class="fas fa-id-card"></i>',
             'required' => true,
-            'type'=>'text',
+            'type' => 'text',
             'title' => __('Introduzca una cedula de identidad valida'),
             'minlength' => '7',
             'maxlength' => '8',
@@ -30,7 +29,7 @@ $this->layout = 'CakeLte.login';
             'placeholder' => __('Nombres'),
             'label' => false,
             'append' => '<i class="fas fa-user"></i>',
-            'required' => true, 
+            'required' => true,
         ]) ?>
         <?= $this->Form->control('last_name', [
             'placeholder' => __('Apellidos'),
@@ -50,7 +49,7 @@ $this->layout = 'CakeLte.login';
             'label' => false,
             'append' => '<i class="fas fa-flag"></i>',
             'required' => true,
-            'options' => Tenants::getTenantList(),
+            'options' => Tenants::getTenantList($this->getRequest()->getQuery()),
             'empty' => __('Seleccione Programa...'),
         ]) ?>
         <?= $this->Form->control('password', [
@@ -60,7 +59,6 @@ $this->layout = 'CakeLte.login';
             'required' => true,
             'minlength' => '4',
         ]) ?>
-
         <?= $this->Form->control('password_confirm', [
             'type' => 'password',
             'placeholder' => __('Confirmar contraseña'),
@@ -99,24 +97,6 @@ $this->layout = 'CakeLte.login';
         </div>
 
         <?= $this->Form->end() ?>
-
-        <?php /* ?>
-        <div class="social-auth-links text-center mb-3">
-            <p>- OR -</p>
-            <?= $this->Html->link(
-                '<i class="fab fa-facebook-f mr-2"></i>' . __('Sign up using Facebook'),
-                '#',
-                ['class' => 'btn btn-block btn-primary', 'escape' => false]
-            ) ?>
-            <?= $this->Html->link(
-                '<i class="fab fa-google mr-2"></i>' . __('Sign up using Google'),
-                '#',
-                ['class' => 'btn btn-block btn-danger', 'escape' => false]
-            ) ?>
-        </div>
-        <!-- /.social-auth-links -->
-        <?php */ ?>
-
         <?= $this->Html->link(__('Ya estoy registrado'), ['action' => 'login']) ?>
     </div>
     <!-- /.register-card-body -->

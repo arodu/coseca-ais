@@ -9,11 +9,14 @@ use App\Model\Field\StageStatus;
 use App\Model\Field\StudentType;
 use App\Model\Field\UserRole;
 use App\Test\Factory\CreateDataTrait;
+use App\Test\Factory\LapseFactory;
+use App\Test\Factory\LocationFactory;
+use App\Test\Factory\ProgramFactory;
 use App\Test\Factory\StudentFactory;
+use App\Test\Factory\TenantFactory;
 use Cake\I18n\FrozenDate;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
-use Cake\Utility\Hash;
 
 abstract class AdminTestCase extends TestCase
 {
@@ -25,9 +28,7 @@ abstract class AdminTestCase extends TestCase
     protected $user;
     protected $lapse_id;
     protected $today;
-    //protected $tutors;
-    //protected $institution;
-    //protected $alertMessage = 'Comuniquese con la coordinación de servicio comunitario para mas información';
+    protected $tenant;
 
     protected function setUp(): void
     {
@@ -37,46 +38,78 @@ abstract class AdminTestCase extends TestCase
         $this->enableCsrfToken();
         $this->enableSecurityToken();
 
-        $this->program = $this->createProgram()->persist();
         $this->user = $this->createUser(['role' => UserRole::ADMIN->value])->persist();
-        $this->tenant_id = Hash::get($this->program, 'tenants.0.id');
-        $this->lapse_id = Hash::get($this->program, 'tenants.0.lapses.0.id');
+        $this->tenant = $this->createCompleteTenant()->persist();
+
+        $this->tenant_id = $this->tenant->id;
+        $this->program = $this->tenant->program;
+        $this->lapse_id = $this->tenant->lapses[0]->id;
         $this->setDefaultLapseDates($this->lapse_id);
         $this->today = FrozenDate::now();
-
-        //$this->lapse_id = Hash::get($this->program, 'tenants.0.lapses.0.id');
-        //$this->setDefaultLapseDates($this->lapse_id);
-
-        //$this->tutors = TutorFactory::make([
-        //    'tenant_id' => $this->tenant_id,
-        //], 5)->persist();
-
-        //$this->institution = InstitutionFactory::make([
-        //    'tenant_id' => $this->tenant_id,
-        //])
-        //    ->with('InstitutionProjects', [], 5)
-        //    ->persist();
     }
 
     protected function tearDown(): void
     {
+        unset($this->tenant);
         unset($this->program);
-        unset($this->user);
-        //unset($this->lapse_id);
         unset($this->tenant_id);
-        //unset($this->tutors);
-        //unset($this->institution);
+        unset($this->user);
+        unset($this->lapse_id);
+        unset($this->today);
+
+        $this->session(['Auth' => null]);
 
         parent::tearDown();
+    }
+
+    protected function createCompleteTenant($user = null)
+    {
+        $user = $user ?? $this->user;
+
+        $program = ProgramFactory::make()
+            ->with('Areas')
+            ->with('InterestAreas');
+
+        return TenantFactory::make()
+            ->with('Programs', $program)
+            ->with('Locations', LocationFactory::make())
+            ->with('TenantFilters', TenantFactory::make(['user_id' => $user->id]))
+            ->with('Lapses', LapseFactory::make());
+    }
+
+    protected function createCompleteStudent($tenant = null)
+    {
+        $tenant = $tenant ?? $this->tenant;
+
+        return StudentFactory::make([
+            'lapse_id' => $tenant->lapses[0]->id,
+            'tenant_id' => $tenant->id,
+        ])
+            ->with('StudentData')
+            ->with('AppUsers')
+            ->with('StudentStages', [
+                [
+                    'stage' => StageField::REGISTER->value,
+                    'status' => StageStatus::IN_PROGRESS->value,
+                ],
+                [
+                    'stage' => StageField::COURSE->value,
+                    'status' => StageStatus::IN_PROGRESS->value,
+                ],
+            ]);
     }
 
     protected function setAuthSession($user = null)
     {
         $user = $user ?? $this->user;
-
         $this->session(['Auth' => $user]);
+
+        return $user;
     }
 
+    /**
+     * @deprecated
+     */
     protected function createRegularStudent(array $options = []): Student
     {
         $options = array_merge([
@@ -102,6 +135,9 @@ abstract class AdminTestCase extends TestCase
         $this->assertResponseCode(200);
     }
 
+    /**
+     * @deprecated
+     */
     protected function getUserStudentCreated($program)
     {
         $user = $this->createUser(['role' => UserRole::STUDENT->value]);

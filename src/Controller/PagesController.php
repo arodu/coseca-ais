@@ -52,12 +52,16 @@ class PagesController extends AppController
                 return $this->redirect('/login');
             }
 
-            if (in_array($identity->role, UserRole::getAdminGroup())) {
+            if (in_array($identity->role, UserRole::getGroup(UserRole::GROUP_ADMIN))) {
                 return $this->redirect(['_name' => 'admin:home']);
             }
 
-            if (in_array($identity->role, UserRole::getStudentGroup())) {
+            if (in_array($identity->role, UserRole::getGroup(UserRole::GROUP_STUDENT))) {
                 return $this->redirect(['_name' => 'student:home']);
+            }
+
+            if (in_array($identity->role, UserRole::getGroup(UserRole::GROUP_MANAGER))) {
+                return $this->redirect(['_name' => 'manager:home']);
             }
         } catch (\Throwable $e) {
             Log::alert($e->getMessage());

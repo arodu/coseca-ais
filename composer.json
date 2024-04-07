@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": ">=8.1",
+        "admad/cakephp-glide": "^5.1",
         "arodu/cakelte": "dev-2.next",
         "arodu/cakelte-tools": "dev-develop",
         "arodu/cakephp-admin-tools": "dev-1.next-cake4",
@@ -21,7 +22,8 @@
         "league/oauth2-facebook": "@stable",
         "league/oauth2-google": "@stable",
         "mobiledetect/mobiledetectlib": "^4.8",
-        "muffin/footprint": "^3.0"
+        "muffin/footprint": "^3.0",
+        "muffin/trash": "^3.1"
     },
     "require-dev": {
         "cakedc/cakephp-phpstan": "^2.0",
@@ -31,7 +33,7 @@
         "fakerphp/faker": "^1.20",
         "josegonzalez/dotenv": "^4.0",
         "phpstan/phpstan": "^1.10",
-        "phpunit/phpunit": "~8.5.0 || ^9.3",
+        "phpunit/phpunit": "^9.6",
         "vierge-noire/cakephp-fixture-factories": "^2.5"
     },
     "suggest": {
@@ -44,7 +46,8 @@
         "psr-4": {
             "App\\": "src/",
             "ModalForm\\": "plugins/ModalForm/src/",
-            "System\\": "plugins/System/src/"
+            "System\\": "plugins/System/src/",
+            "Manager\\": "plugins/Manager/src/"
         }
     },
     "autoload-dev": {
@@ -52,7 +55,8 @@
             "App\\Test\\": "tests/",
             "Cake\\Test\\": "vendor/cakephp/cakephp/tests/",
             "ModalForm\\Test\\": "plugins/ModalForm/tests/",
-            "System\\Test\\": "plugins/System/tests/"
+            "System\\Test\\": "plugins/System/tests/",
+            "Manager\\Test\\": "plugins/Manager/tests/"
         }
     },
     "scripts": {
@@ -71,9 +75,9 @@
         "cs-fix": "phpcbf --colors -p src/ tests/",
         "stan": "phpstan analyse",
         "test": "phpunit --colors=always",
+        "test-coverage": "XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-html webroot/coverage --colors=always",
         "reset-factory": "bin/cake migrations rollback -t 0; bin/cake migrations migrate",
-        "reset-factory-faker": "bin/cake migrations rollback -t 0; bin/cake migrations migrate; bin/cake migrations seed --seed TestingSeed",
-        "test-coverage": "XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-html webroot/coverage --colors=always"
+        "reset-factory-faker": "bin/cake migrations rollback -t 0; bin/cake migrations migrate; bin/cake migrations seed --seed TestingSeed"
     },
     "prefer-stable": true,
     "config": {

@@ -1,35 +1,26 @@
 <?php
 declare(strict_types=1);
 
-namespace System\Test\TestCase\Controller;
+namespace Manager\Test\TestCase\Controller;
 
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
-use System\Controller\ListsController;
+use Manager\Controller\LocationsController;
 
 /**
- * System\Controller\ListsController Test Case
+ * Manager\Controller\LocationsController Test Case
  *
- * @uses \System\Controller\ListsController
+ * @uses \Manager\Controller\LocationsController
  */
-class ListsControllerTest extends TestCase
+class LocationsControllerTest extends TestCase
 {
     use IntegrationTestTrait;
-
-    /**
-     * Fixtures
-     *
-     * @var array<string>
-     */
-    protected $fixtures = [
-        'plugin.System.Lists',
-    ];
 
     /**
      * Test index method
      *
      * @return void
-     * @uses \System\Controller\ListsController::index()
+     * @uses \Manager\Controller\LocationsController::index()
      */
     public function testIndex(): void
     {
@@ -40,7 +31,7 @@ class ListsControllerTest extends TestCase
      * Test view method
      *
      * @return void
-     * @uses \System\Controller\ListsController::view()
+     * @uses \Manager\Controller\LocationsController::view()
      */
     public function testView(): void
     {
@@ -51,7 +42,7 @@ class ListsControllerTest extends TestCase
      * Test add method
      *
      * @return void
-     * @uses \System\Controller\ListsController::add()
+     * @uses \Manager\Controller\LocationsController::add()
      */
     public function testAdd(): void
     {
@@ -62,7 +53,7 @@ class ListsControllerTest extends TestCase
      * Test edit method
      *
      * @return void
-     * @uses \System\Controller\ListsController::edit()
+     * @uses \Manager\Controller\LocationsController::edit()
      */
     public function testEdit(): void
     {
@@ -73,7 +64,7 @@ class ListsControllerTest extends TestCase
      * Test delete method
      *
      * @return void
-     * @uses \System\Controller\ListsController::delete()
+     * @uses \Manager\Controller\LocationsController::delete()
      */
     public function testDelete(): void
     {

@@ -1,6 +1,6 @@
 <!-- Sidebar user panel (optional) -->
 <?= $this->element('CakeLte.sidebar/user') ?>
-<?= $this->element('CakeLte.sidebar/search') ?>
+<?php // $this->element('CakeLte.sidebar/search') ?>
 
 <!-- Sidebar Menu -->
 <nav class="mt-2">
@@ -8,7 +8,9 @@
         <?php echo $this->element('CakeLte.sidebar/menu') ?>
     </ul>
 
-    <div class="mt-5 text-center text-light">
-        <?= $this->element('current_commit') ?>
-    </div>
+    <?php if ($this->Identity->get('role') === 'root') : ?>
+        <div class="mt-5 text-center text-light">
+            <?= $this->element('current_commit') ?>
+        </div>
+    <?php endif; ?>
 </nav>

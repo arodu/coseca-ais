@@ -41,7 +41,6 @@ $this->Breadcrumbs->add([
     </div>
     <div class="card-footer d-flex">
         <div>
-            <?= $this->Html->link(__('Editar'), ['action' => 'editProgram', $program->id], ['class' => ActionColor::EDIT->btn()]) ?>
         </div>
         <div class="ml-auto">
             <?= $this->Button->cancel(['label' => __('Volver'), 'url' => ['action' => 'index']]) ?>
@@ -55,7 +54,6 @@ $this->Breadcrumbs->add([
             <div class="card-header d-flex">
                 <h3 class="card-title"><?= __('Sedes') ?></h3>
                 <div class="ml-auto">
-                    <?= $this->Html->link(__('Nueva sede'), ['controller' => 'Tenants', 'action' => 'add', '?' => ['program_id' => $program->id]], ['class' => ActionColor::ADD->btn('btn-sm')]) ?>
                 </div>
             </div>
             <div class="card-body table-responsive p-0">
@@ -66,24 +64,24 @@ $this->Breadcrumbs->add([
                         <th><?= __('Active') ?></th>
                         <th class="actions"><?= __('Actions') ?></th>
                     </tr>
-                    <?php if (empty($program->tenants)) { ?>
+                    <?php if (empty($program->tenants)) : ?>
                         <tr>
                             <td colspan="6" class="text-muted">
-                                Tenants record not found!
+                                <?= __('Tenants record not found!') ?>
                             </td>
                         </tr>
-                    <?php } else { ?>
-                        <?php foreach ($program->tenants as $tenants) : ?>
+                    <?php else : ?>
+                        <?php foreach ($program->tenants as $tenant) : ?>
                             <tr>
-                                <td><?= h($tenants->name) ?></td>
-                                <td><?= h($tenants->abbr) ?></td>
-                                <td><?= $this->App->yn($tenants->active) ?></td>
+                                <td><?= h($tenant->location->name) ?></td>
+                                <td><?= h($tenant->location->abbr) ?></td>
+                                <td><?= $this->App->yn($tenant->active) ?></td>
                                 <td class="actions">
-                                    <?= $this->Html->link(__('Ver'), ['controller' => 'Tenants', 'action' => 'view', $tenants->id], ['class' => ActionColor::VIEW->btn('btn-xs', true)]) ?>
+                                    <?= $this->Html->link(__('Ver'), ['controller' => 'Tenants', 'action' => 'view', $tenant->id], ['class' => ActionColor::VIEW->btn('btn-xs', true)]) ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
-                    <?php } ?>
+                    <?php endif ?>
                 </table>
             </div>
         </div>

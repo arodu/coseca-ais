@@ -34,6 +34,7 @@ class Lapse extends Entity
         'active' => true,
         'tenant_id' => true,
         'student_stages' => true,
+        'lapse_dates' => true,
     ];
 
     /**

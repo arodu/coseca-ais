@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use App\Model\Field\UserRole;
 use App\Model\Table\Traits\BasicTableTrait;
+use App\Utility\FilterTenantUtility;
 use ArrayObject;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
@@ -96,10 +98,58 @@ class AppUsersTable extends UsersTable
      */
     public function findAuth(Query $query, array $options = []): Query
     {
+        if (!empty($options['id'])) {
+            $query->where([$this->aliasField('id') => $options['id']]);
+        }
+
         return $query
             ->find('active')
             ->contain([
                 'CurrentStudent' => ['Tenants'],
             ]);
+    }
+
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
+    public function findListLabel(Query $query, array $options = []): Query
+    {
+        return $query
+            ->find('list', array_merge([
+                'keyField' => 'id',
+                'valueField' => 'label_name',
+            ], $options));
+    }
+
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
+    public function findByTenants(Query $query, array $options = []): Query
+    {
+        if (empty($options['tenant_ids'])) {
+            $options['tenant_ids'] = FilterTenantUtility::read();
+        }
+
+        return $query->where([
+            $this->aliasField('id') . ' IN' => $this->TenantFilters->find()
+                ->select(['user_id'])
+                ->where(['tenant_id IN' => $options['tenant_ids']]),
+        ]);
+    }
+
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
+    public function findOnlyStaff(Query $query, array $options = []): Query
+    {
+        return $query->where([
+            $this->aliasField('role') . ' IN' => UserRole::getGroup(UserRole::GROUP_STAFF),
+        ]);
     }
 }
