@@ -34,7 +34,7 @@
     <div class="wrapper">
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand-md <?= $this->CakeLte->getHeaderClass() ?>">
-            <div class="container">
+            <div class="container d-flex">
                 <a href="<?= $this->Url->build('/') ?>" class="navbar-brand">
                     <?= $this->Html->image($this->CakeLte->getConfig('app-logo'), ['alt' => $this->CakeLte->getConfig('app-name') . ' logo', 'class' => 'brand-image']) ?>
                     <span class="brand-text font-weight-light"><?= $this->CakeLte->getConfig('app-name') ?></span>
@@ -44,9 +44,10 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="collapse navbar-collapse order-3" id="navbarCollapse">
-                    <div class="navbar-text ml-2">
+                <div class="collapse navbar-collapse order-2 flex-grow-0 " id="navbarCollapse">
+                    <div class="navbar-text ml-2 d-flex flex-column align-items-end order-2" id="navbarCollapse">
                         <?= $this->Student->get()->tenant->label ?>
+                        <?= $this->Html->link(__('Cerrar Sesión'), '/logout', ['class' => 'none']) ?> 
                     </div>
 
                     <!-- SEARCH FORM -->
@@ -55,7 +56,7 @@
                 </div>
 
                 <!-- Right navbar links -->
-                <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+                <!--ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto"> -->
                     <!-- Messages Dropdown Menu -->
                     <?php //echo $this->element('CakeLte.header/messages') 
                     ?>
@@ -64,8 +65,8 @@
                     <?php //echo $this->element('CakeLte.header/notifications') 
                     ?>
 
-                    <!--
-                    <li class="nav-item">
+                    
+                    <!-- <li class="nav-item">
                         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
                             <i class="fas fa-expand-arrows-alt"></i>
                         </a>
@@ -74,19 +75,9 @@
                         <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
                             <i class="fas fa-th-large"></i>
                         </a>
-                    </li> -->
-                    <li class="nav-item dropdown">
-                        <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">
-                            <?= $this->Student->getUser()->email ?>
-                        </a>
-                        <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
-                            <li>
-                                <?= $this->Html->link(__('Cerrar Sesión'), '/logout', ['class' => 'dropdown-item']) ?>
-                            </li>
-                        </ul>
-                    </li>
-
-                </ul>
+                    </li> 
+                    
+                </ul>--> 
             </div>
         </nav>
         <!-- /.navbar -->
