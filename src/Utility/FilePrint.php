@@ -7,6 +7,16 @@ use App\Model\Entity\Student;
 
 class FilePrint
 {
+
+    /**
+     * @param \App\Model\Entity\Student $student
+     * @return string
+     */
+    public static function format002(Student $student): string
+    {
+        return static::format('planilla002', $student);
+    }
+
     /**
      * @param \App\Model\Entity\Student $student
      * @return string
@@ -36,6 +46,6 @@ class FilePrint
             throw new \InvalidArgumentException('El estudiante no tiene un DNI');
         }
 
-        return h($student->dni) . '_' . $format . '.pdf';
+        return h($student->dni) . '_' . h($format) . '.pdf';
     }
 }
