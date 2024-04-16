@@ -7,7 +7,6 @@ use App\Model\Entity\Student;
 
 class FilePrint
 {
-
     /**
      * @param \App\Model\Entity\Student $student
      * @return string
