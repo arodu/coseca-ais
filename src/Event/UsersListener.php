@@ -21,7 +21,6 @@ class UsersListener implements EventListenerInterface
     {
         return [
             UsersPlugin::EVENT_AFTER_LOGIN => 'afterLogin',
-            UsersPlugin::EVENT_AFTER_REGISTER => 'afterRegister',
         ];
     }
 
@@ -46,20 +45,6 @@ class UsersListener implements EventListenerInterface
 
         if ($user->enum('role')->isGroup(UserRole::GROUP_MANAGER)) {
             return $event->setResult(['_name' => 'manager:home']);
-        }
-    }
-
-    /**
-     * @param \Cake\Event\Event $event
-     * @return void
-     */
-    public function afterRegister(Event $event)
-    {
-        /** @var \App\Model\Entity\AppUser $user */
-        $user = $event->getData('user');
-
-        if ($user->enum('role')->isGroup(UserRole::GROUP_STUDENT)) {
-            $this->fetchTable('Students')->newRegularStudent($user);
         }
     }
 }
