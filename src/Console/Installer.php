@@ -43,6 +43,9 @@ class Installer
         'tmp/cache/views',
         'tmp/sessions',
         'tmp/tests',
+        'files',
+        'files/areas',
+        'files/students'
     ];
 
     /**
