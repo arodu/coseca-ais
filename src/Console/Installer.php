@@ -45,7 +45,7 @@ class Installer
         'tmp/tests',
         'files',
         'files/areas',
-        'files/students'
+        'files/students',
     ];
 
     /**
