@@ -40,7 +40,7 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
     $sumHours = 0;
     ?>
     <div class="card">
-        <div class="card-header d-grid gap-6">
+        <div class="card-header d-grid">
             <h3 class="card-title col-6">
                 <?= h($adscription->institution_project->label_name) ?>
                 <?= $this->App->badge($adscription->enum('status')) ?>
