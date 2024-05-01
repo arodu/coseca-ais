@@ -166,7 +166,6 @@ class AreasControllerTest extends AdminTestCase
         $this->post('/manager/areas/edit-logo/' . $area->id, [
             'logo' => $file
         ]);
-        \Cake\Log\Log::debug((string) $this->_response->getBody());
         $this->assertResponseCode(302);
 
         $area = AreaFactory::get($area->id);
