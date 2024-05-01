@@ -40,12 +40,12 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
     $sumHours = 0;
     ?>
     <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">
+        <div class="card-header d-grid gap-6">
+            <h3 class="card-title col-6">
                 <?= h($adscription->institution_project->label_name) ?>
                 <?= $this->App->badge($adscription->enum('status')) ?>
             </h3>
-            <div class="card-tools">
+            <div class="card-tools col-6 d-flex justify-content-end">
                 <div class="btn-group">
                     <?php if ($canAddTracking) : ?>
                         <?= $this->Button->get('openModal', [
