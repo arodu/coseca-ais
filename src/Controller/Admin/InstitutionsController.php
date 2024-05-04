@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use Cake\Event\EventInterface;
+use Cake\ORM\Query;
 
 /**
  * Institutions Controller
@@ -33,7 +34,15 @@ class InstitutionsController extends AppAdminController
             'order' => ['Institutions.name' => 'ASC'],
         ];
 
-        $query = $this->Institutions->find()->contain(['Tenants']);
+        $query = $this->Institutions->find()
+            ->contain([
+                'Tenants',
+                'InstitutionProjects' => function(Query $q) {
+                    return $q
+                        ->select(['institution_id', 'count' => $q->func()->count('id')])
+                        ->group(['institution_id']);
+                },
+            ]);
 
         // filterLogic
         $formData = $this->getRequest()->getQuery();

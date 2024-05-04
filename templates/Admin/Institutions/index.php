@@ -82,6 +82,7 @@ $this->Breadcrumbs->add([
                     <th><?= $this->Paginator->sort('contact_phone') ?></th>
                     <th><?= $this->Paginator->sort('contact_email') ?></th>
                     <th><?= $this->Paginator->sort('tenant_id', __('Programa')) ?></th>
+                    <th><?= __('Proyectos') ?></th>
                     <th class="actions"><?= __('Actions') ?></th>
                 </tr>
             </thead>
@@ -94,6 +95,7 @@ $this->Breadcrumbs->add([
                         <td><?= h($institution->contact_phone) ?></td>
                         <td><?= h($institution->contact_email) ?></td>
                         <td><?= h($institution->tenant->label) ?></td>
+                        <td><?= $institution->institution_projects[0]->count ?></td>
                         <td class="actions">
                             <?= $this->Button->view(['url' => ['action' => 'view', $institution->id, 'prefix' => 'Admin'], 'class' => 'btn-xs']) ?>
                         </td>
