@@ -81,7 +81,7 @@ $this->Breadcrumbs->add([
                         <td class="actions d-none d-sm-table-cell">
                             <div class="dropdown">
                                 <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="<?= 'ddActionStudent' . $student->id ?>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Acciones
+                                    <?= __("Acciones")?>
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="<?= 'ddActionStudent' . $student->id ?>">
                                     <?= $this->Html->link(__('Ver'), ['_name' => 'admin:student:view', $student->id], ['class' => 'dropdown-item']) ?>
