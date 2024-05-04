@@ -16,16 +16,6 @@ $this->Breadcrumbs->add([
 ]);
 ?>
 
-<style>
-    @media (max-width: 1270px) {
-        responsive-hide: {
-            width: 0;
-            visibility: hidden;
-            overflow: hidden;
-            white-space: nowrap;
-        }
-    }
-</style>
 
 <?= $formFilters->render() ?>
 
