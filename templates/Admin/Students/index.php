@@ -16,6 +16,17 @@ $this->Breadcrumbs->add([
 ]);
 ?>
 
+<style>
+    @media (max-width: 1270px) {
+        responsive-hide: {
+            width: 0;
+            visibility: hidden;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+    }
+</style>
+
 <?= $formFilters->render() ?>
 
 <div class="card card-primary card-outline">
@@ -34,23 +45,23 @@ $this->Breadcrumbs->add([
         </div>
     </div>
     <!-- /.card-header -->
-    <div class="card-body table-responsive p-0">
+    <div class="card-body table-responsive-sm p-0">
         <?= $this->Form->create(null, ['url' => ['action' => 'bulkActions']]) ?>
         <table class="table table-hover text-nowrap institution-projects">
             <thead>
                 <tr>
-                    <th class="narrow"><?= $this->BulkAction->checkboxAll('all') ?></th>
-                    <th class="narrow"><?= $this->Paginator->sort('Tenants.abbr', __('Programa')) ?></th>
+                    <th class='d-none d-sm-table-cell'><?= $this->BulkAction->checkboxAll('all') ?></th>
+                    <th><?= $this->Paginator->sort('Tenants.abbr', __('Programa')) ?></th>
                     <th colspan="3">
                         <span><?= $this->Paginator->sort('AppUsers.dni', __('Cedula')) ?></span>
                         <span class="ml-3"><?= $this->Paginator->sort('AppUsers.first_name', __('Nombres'), ['class' => 'ml-2']) ?></span>
                         <span class="ml-3"><?= $this->Paginator->sort('AppUsers.last_name', __('Apellidos')) ?></span>
                     </th>
-                    <th><?= __('Lapso') ?></th>
-                    <th><?= __('Estatus') ?></th>
-                    <th><?= __('Etapa') ?></th>
-                    <th style="width:20%;"><?= __('Horas') ?></th>
-                    <th class="actions"><?= __('Acciones') ?></th>
+                    <th class='d-none d-xl-table-cell'><?= __('Lapso') ?></th>
+                    <th class='d-none d-xl-table-cell'><?= __('Estatus') ?></th>
+                    <th class='d-none d-xl-table-cell'><?= __('Etapa') ?></th>
+                    <th style="width:20%;" class='d-none d-md-table-cell'><?= __('Horas') ?></th>
+                    <th class="actions d-none d-sm-table-cell"><?= __('Acciones') ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -59,7 +70,7 @@ $this->Breadcrumbs->add([
                     $studentStage = $student->last_stage;
                     ?>
                     <tr>
-                        <td><?= $this->BulkAction->checkbox('item', ['value' => $student->id]) ?></td>
+                        <td class='d-none d-sm-table-cell'><?= $this->BulkAction->checkbox('item', ['value' => $student->id]) ?></td>
                         <td><?= h($student->tenant->abbr_label) ?></td>
                         <td colspan=3>
                             <?= $this->Html->link(
@@ -68,16 +79,16 @@ $this->Breadcrumbs->add([
                                 ['escape' => false]
                             ) ?>
                         </td>
-                        <td><?= h($student->lapse?->name) ?? $this->App->nan() ?></td>
-                        <td><?= $this->App->badge($student->getActive()) ?></td>
-                        <td>
+                        <td class='d-none d-xl-table-cell'><?= h($student->lapse?->name) ?? $this->App->nan() ?></td>
+                        <td class='d-none d-xl-table-cell'><?= $this->App->badge($student->getActive()) ?></td>
+                        <td class='d-none d-xl-table-cell'>
                             <?= h($studentStage->stage_label) ?>
                             <?= $this->App->badge($studentStage->enum('status')) ?>
                         </td>
-                        <td class="project_progress">
+                        <td class="project_progress d-none d-md-table-cell">
                             <?= $this->App->progressBar($student->total_hours ?? 0) ?>
                         </td>
-                        <td class="actions">
+                        <td class="actions d-none d-sm-table-cell">
                             <div class="dropdown">
                                 <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="<?= 'ddActionStudent' . $student->id ?>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Acciones
