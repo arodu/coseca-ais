@@ -37,7 +37,7 @@ class InstitutionsController extends AppAdminController
         $query = $this->Institutions->find()
             ->contain([
                 'Tenants',
-                'InstitutionProjects' => function(Query $q) {
+                'InstitutionProjects' => function (Query $q) {
                     return $q
                         ->select(['institution_id', 'count' => $q->func()->count('id')])
                         ->group(['institution_id']);
