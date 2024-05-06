@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use App\Model\Entity\AppUser;
 use App\Model\Field\UserRole;
 use App\Model\Table\Traits\BasicTableTrait;
 use App\Utility\FilterTenantUtility;
@@ -88,6 +89,19 @@ class AppUsersTable extends UsersTable
     {
         if ($entity->isNew() && $entity->isDirty('email')) {
             $entity->username = $entity->email;
+        }
+    }
+
+    /**
+     * @param \Cake\Event\EventInterface $event
+     * @param \App\Model\Entity\AppUser $entity
+     * @param \ArrayObject $options
+     * @return void
+     */
+    public function afterSave(EventInterface $event, AppUser $entity, ArrayObject $options)
+    {
+        if ($entity->isNew() && $entity->enum('role')->isGroup(UserRole::GROUP_STUDENT)) {
+            $this->CurrentStudent->newRegularStudent($entity);
         }
     }
 

@@ -60,10 +60,13 @@ enum UserRole: string implements ListInterface
             ],
             static::GROUP_ADMIN => [
                 static::ADMIN,
+                static::MANAGER,
                 static::ROOT,
             ],
             static::GROUP_TUTOR => [
                 static::TUTOR,
+                static::ADMIN,
+                static::MANAGER,
                 static::ROOT,
             ],
             static::GROUP_MANAGER => [
@@ -106,6 +109,8 @@ enum UserRole: string implements ListInterface
             self::ADMIN,
             self::ASSISTANT,
             self::MANAGER,
+            //self::TUTOR,
+            self::STUDENT,
         ];
 
         if ($currentRole->isGroup(self::GROUP_ROOT)) {
