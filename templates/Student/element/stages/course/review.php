@@ -30,7 +30,7 @@ use App\Utility\FilePrint;
             'prefix' => 'Student',
             'controller' => 'Documents',
             'action' => 'format002',
-            FilePrint::format('planilla002', $student),
+            FilePrint::format002($student),
         ],
         'label' => __('Descargar planilla 002'),
         'target' => '_blank',

@@ -29,7 +29,7 @@ enum ActionColor
     public function color(): Color
     {
         return match ($this) {
-            static::VIEW => Color::DEFAULT,
+            static::VIEW => Color::PRIMARY,
             static::CANCEL => Color::SECONDARY,
             static::BACK => Color::SECONDARY,
             static::ADD => Color::INFO,
