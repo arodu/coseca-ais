@@ -169,4 +169,20 @@ class AdscriptionsController extends AppAdminController
 
         return $this->redirect(['_name' => 'admin:student:adscriptions', $adscription->student_id]);
     }
+
+    /**
+     * Cancel project
+     *
+     * @param string|null $id StudentAdscription id.
+     * @return \Cake\Http\Response|null|void Redirects to index.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function cancel($id)
+    {
+        $this->request->allowMethod(['post', 'put']);
+
+        $adscription = $this->processChangeStatus('cancelled', $id);
+
+        return $this->redirect(['controller' => 'Students', 'action' => 'adscriptions', $adscription->student_id, 'prefix' => 'Admin']);
+    }
 }
