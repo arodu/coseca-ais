@@ -178,6 +178,10 @@ class AdscriptionsController extends AppAdminController
      */
     public function cancel($id)
     {
-        $this->changeStatus('cancelled', $id);
+        $this->request->allowMethod(['post', 'put']);
+        
+        $adscription = $this->processChangeStatus('cancelled', $id);
+
+        return $this->redirect(['controller' => 'Students', 'action' => 'adscriptions', $adscription->student_id, 'prefix' => 'Admin']);
     }
 }
