@@ -5,6 +5,7 @@ namespace App\Controller\Admin\Stage;
 
 use App\Controller\Admin\AppAdminController;
 use App\Controller\Traits\Stage\AdscriptionsProcessTrait;
+use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
 use Cake\Log\Log;
@@ -180,8 +181,7 @@ class AdscriptionsController extends AppAdminController
     public function cancel($id)
     {
         $this->request->allowMethod(['post', 'put']);
-
-        $adscription = $this->processChangeStatus('cancelled', $id);
+        $adscription = $this->processChangeStatus(AdscriptionStatus::CANCELLED->value, $id);
 
         return $this->redirect(['controller' => 'Students', 'action' => 'adscriptions', $adscription->student_id, 'prefix' => 'Admin']);
     }
