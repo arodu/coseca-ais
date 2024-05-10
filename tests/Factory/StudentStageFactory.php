@@ -39,9 +39,6 @@ class StudentStageFactory extends CakephpBaseFactory
                 // set the model's default values
                 // For example:
                 // 'name' => $faker->lastName
-                'student_id' => NAN,
-                'stage' => null,
-                'status' => null,
             ];
         });
     }
