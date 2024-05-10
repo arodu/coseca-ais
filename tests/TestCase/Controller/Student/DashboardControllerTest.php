@@ -528,4 +528,15 @@ class DashboardControllerTest extends StudentTestCase
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
+
+    public function testEndingCardStatusWaiting(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    public function testEndingCardStatusSuccess(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
 }
