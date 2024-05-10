@@ -7,14 +7,14 @@ use CakephpFixtureFactories\Factory\BaseFactory as CakephpBaseFactory;
 use Faker\Generator;
 
 /**
- * StudentStageFactory
+ * StudentAdscriptionFactory
  *
- * @method \App\Model\Entity\StudentStage getEntity()
- * @method \App\Model\Entity\StudentStage[] getEntities()
- * @method \App\Model\Entity\StudentStage|\App\Model\Entity\StudentStage[] persist()
- * @method static \App\Model\Entity\StudentStage get(mixed $primaryKey, array $options = [])
+ * @method \App\Model\Entity\StudentAdscription getEntity()
+ * @method \App\Model\Entity\StudentAdscription[] getEntities()
+ * @method \App\Model\Entity\StudentAdscription|\App\Model\Entity\StudentAdscription[] persist()
+ * @method static \App\Model\Entity\StudentAdscription get(mixed $primaryKey, array $options = [])
  */
-class StudentStageFactory extends CakephpBaseFactory
+class StudentAdscriptionFactory extends CakephpBaseFactory
 {
     /**
      * Defines the Table Registry used to generate entities with
@@ -23,7 +23,7 @@ class StudentStageFactory extends CakephpBaseFactory
      */
     protected function getRootTableRegistryName(): string
     {
-        return 'StudentStages';
+        return 'StudentAdscriptions';
     }
 
     /**
@@ -38,10 +38,7 @@ class StudentStageFactory extends CakephpBaseFactory
             return [
                 // set the model's default values
                 // For example:
-                // 'name' => $faker->lastName
-                'student_id' => NAN,
-                'stage' => null,
-                'status' => null,
+                'principal'=>true,
             ];
         });
     }
