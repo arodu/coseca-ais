@@ -8,6 +8,7 @@ use App\Model\Entity\AppUser;
 use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
+use App\Model\Field\UserRole;
 use App\Test\Factory\AppUserFactory;
 use App\Test\Factory\AreaFactory;
 use App\Test\Factory\InstitutionFactory;
@@ -27,6 +28,11 @@ trait CommonTestTrait
     /**
      * @var string
      */
+    protected $alertNoInfo = 'Sin información a mostrar';
+
+    /**
+     * @var string
+     */
     protected $alertMessage = 'Comuniquese con la coordinación de servicio comunitario para mas información';
 
     /**
@@ -36,6 +42,14 @@ trait CommonTestTrait
      */
     protected function createUser(array $options = [], int $times = 1): BaseFactory
     {
+        if (empty($options['role'])) {
+            throw new \InvalidArgumentException('role is required');
+        }
+
+        if ($options['role'] instanceof UserRole) {
+            $options['role'] = $options['role']->value;
+        }
+
         return AppUserFactory::make($options, $times);
     }
 

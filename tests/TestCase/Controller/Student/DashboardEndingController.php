@@ -32,16 +32,14 @@ class DashboardEndingController extends TestCase
 
         $this->program = $this->createProgram()->persist();
         $this->tenant = Hash::get($this->program, 'tenants.0');
-
-        $this->user = $this->createUser(['role' => UserRole::STUDENT->value])->persist();
-        $this->student = $this->createStudent([
-            'tenant_id' => $this->tenant->id,
-            'user_id' => $this->user->id,
-        ])
-        ->persist();
-        $this->institution = $this->createInstitution([
-            'tenant_id' => $this->tenant->id,
-        ])->persist();
+        $this->user = $this->createUser(['role' => UserRole::STUDENT])->persist();
+        $this->student = $this
+            ->createStudent([
+                'tenant_id' => $this->tenant->id,
+                'user_id' => $this->user->id,
+            ])
+            ->persist();
+        $this->institution = $this->createInstitution(['tenant_id' => $this->tenant->id])->persist();
 
         $this->user = $this->setAuthSession($this->user);
     }
@@ -66,7 +64,12 @@ class DashboardEndingController extends TestCase
         $this->assertResponseContains('<i class="fas fa-lock fa-fw mr-1 ending"></i>');
     }
 
-    public function testStatusWithOutAdscription(): void
+    public function testStatusWaiting(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    public function testStatusWaitingWithOutAdscription(): void
     {
         $this->createStudentStage([
             'student_id' => $this->student->id,
@@ -82,11 +85,6 @@ class DashboardEndingController extends TestCase
         $this->assertResponseContains('<span class="badge badge-light">En espera</span>');
         $this->assertResponseContains(__('Ha ocurrido un problema en la consolidación de los documentos'));
         $this->assertResponseContains($this->alertMessage);
-    }
-
-    public function testStatusWaiting(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
     }
 
     public function testStatusInProgress(): void
