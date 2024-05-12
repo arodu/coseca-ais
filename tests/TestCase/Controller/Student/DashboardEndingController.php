@@ -62,7 +62,7 @@ class DashboardEndingController extends TestCase
         $this->get('/student');
 
         $this->assertResponseOk();
-        $this->assertResponseContains('Conclusión');
+        $this->assertResponseContains(__('Conclusión'));
         $this->assertResponseContains('<i class="fas fa-lock fa-fw mr-1 ending"></i>');
     }
 
@@ -77,10 +77,10 @@ class DashboardEndingController extends TestCase
         $this->get('/student');
 
         $this->assertResponseOk();
-        $this->assertResponseContains('Conclusión');
+        $this->assertResponseContains(__('Conclusión'));
         $this->assertResponseContains('<i class="fas fa-pause fa-fw mr-1 ending"></i>');
         $this->assertResponseContains('<span class="badge badge-light">En espera</span>');
-        $this->assertResponseContains('Ha ocurrido un problema en la consolidación de los documentos');
+        $this->assertResponseContains(__('Ha ocurrido un problema en la consolidación de los documentos'));
         $this->assertResponseContains($this->alertMessage);
     }
 
