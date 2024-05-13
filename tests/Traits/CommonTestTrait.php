@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Test\Traits;
@@ -37,7 +36,7 @@ trait CommonTestTrait
 
     /**
      * @param array $options
-     * @param integer $times
+     * @param int $times
      * @return \CakephpFixtureFactories\Factory\BaseFactory
      */
     protected function createUser(array $options = [], int $times = 1): BaseFactory
@@ -55,7 +54,7 @@ trait CommonTestTrait
 
     /**
      * Set the Auth session
-     * 
+     *
      * @param AppUser $user
      * @return AppUser
      */
@@ -69,11 +68,11 @@ trait CommonTestTrait
 
     /**
      * Create a program with tenants, interest areas and lapses
-     * 
+     *
      * example:
      *
      * @param array $options
-     * @param integer $times
+     * @param int $times
      * @return \CakephpFixtureFactories\Factory\BaseFactory
      */
     protected function createProgram(array $options = [], int $times = 1): BaseFactory
@@ -122,7 +121,7 @@ trait CommonTestTrait
 
     /**
      * @param array $options
-     * @param integer $times
+     * @param int $times
      * @return \CakephpFixtureFactories\Factory\BaseFactory
      */
     protected function createStudent(array $options = [], int $times = 1): BaseFactory
@@ -140,7 +139,7 @@ trait CommonTestTrait
 
     /**
      * @param array $options
-     * @param integer $times
+     * @param int $times
      * @return \CakephpFixtureFactories\Factory\BaseFactory
      */
     protected function createInstitution(array $options = [], int $times = 1): BaseFactory
@@ -163,7 +162,7 @@ trait CommonTestTrait
 
     /**
      * @param array $options
-     * @param integer $times
+     * @param int $times
      * @return \CakephpFixtureFactories\Factory\BaseFactory
      */
     protected function createTutor(array $options = [], int $times = 1): BaseFactory
@@ -173,7 +172,7 @@ trait CommonTestTrait
 
     /**
      * @param array $options
-     * @param integer $times
+     * @param int $times
      * @return \CakephpFixtureFactories\Factory\BaseFactory
      */
     protected function createAdscription(array $options = [], int $times = 1): BaseFactory
@@ -225,15 +224,15 @@ trait CommonTestTrait
     }
 
     /**
-     * @param boolean $log
+     * @param bool $log
      * @return void
      */
     protected function debugResponse($log = false)
     {
         if ($log) {
-            \Cake\Log\Log::debug((string) $this->_response->getBody());
+            \Cake\Log\Log::debug((string)$this->_response->getBody());
         } else {
-            debug((string) $this->_response->getBody());
+            debug((string)$this->_response->getBody());
         }
     }
 }
