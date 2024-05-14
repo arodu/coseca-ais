@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller\Student;
@@ -83,7 +82,7 @@ class DashboardEndingController extends TestCase
         $this->assertResponseContains('<span class="badge badge-light">En espera</span>');
         $this->assertResponseContains(__('Estimado Prestador de Servicio Comunitario, estamos complacidos de haberte acompañado'));
         $this->assertResponseContains(__('Descargar planilla 009'));
-        $this->assertResponseContains('<a href="/student/documents/format009/'. $this->student->dni .'_planilla009.pdf"');
+        $this->assertResponseContains('<a href="/student/documents/format009/' . $this->student->dni . '_planilla009.pdf"');
     }
 
     public function testStatusWaitingWithOutAdscription(): void

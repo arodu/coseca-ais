@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller\Student;
 
-use App\Controller\Student\DocumentsController;
 use App\Test\Traits\CommonTestTrait;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
@@ -17,7 +16,6 @@ class DocumentsControllerTest extends TestCase
 {
     use IntegrationTestTrait;
     use CommonTestTrait;
-
 
     /**
      * Test format002 method
