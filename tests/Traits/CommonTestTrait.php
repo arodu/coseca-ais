@@ -130,11 +130,14 @@ trait CommonTestTrait
             throw new \InvalidArgumentException('tenant_id is required');
         }
 
+        $student = StudentFactory::make($options, $times);
+
         if (empty($options['user_id'])) {
-            throw new \InvalidArgumentException('user_id is required');
+            $user = AppUserFactory::make(['role' => UserRole::STUDENT->value]);
+            $student->with('AppUsers', $user);
         }
 
-        return StudentFactory::make($options, $times);
+        return $student;
     }
 
     /**
@@ -186,7 +189,7 @@ trait CommonTestTrait
         }
 
         if (empty($options['tutor_id'])) {
-            throw new \InvalidArgumentException('institution_project_id is required');
+            throw new \InvalidArgumentException('tutor_id is required');
         }
 
         if (empty($options['status'])) {
