@@ -37,7 +37,7 @@ echo $this->Button->report([
         'action' => 'format002',
         $studentStage->student_id,
         'prefix' => 'Admin',
-        FilePrint::format('planilla002', $student),
+        FilePrint::format002($student),
     ],
     'class' => 'btn-sm mr-2',
     'displayCondition' => function () use ($studentStage, $student) {
