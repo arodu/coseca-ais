@@ -56,6 +56,9 @@ $this->Form->context(new EntityContext(['entity' => $student]));
 </div>
 
 <div class="row">
+
+    <?php if (__('{render}', StudentLevels::getYearOrSemestre($student->tenant->program)) === 'render') : ?>
+    
     <div class="col-12 col-sm-6">
         <?= $this->Form->control('student_data.current_semester', [
             'label' => __('{0} actual', StudentLevels::getFormLabel($student->tenant->program)),
@@ -64,16 +67,36 @@ $this->Form->context(new EntityContext(['entity' => $student]));
             'empty' => true,
         ]) ?>
     </div>
+    
     <div class="col-12 col-sm-6">
-        <?= $this->Form->control('student_data.uc', [
-            'label' => __('Número de unidades de crédito aprobadas'),
+       
+    <?= $this->Form->control('student_data.uc', [
+                'label' => __('{label}', StudentLevels::getYearOrSemestre($student->tenant->program)),
+                'required' => true,                
+                'type' => 'number',
+                'steps' => '1',
+                'min' => __('{min}', StudentLevels::getMinAndMax($student->tenant->program)),
+                'max' => __('{max}', StudentLevels::getMinAndMax($student->tenant->program)),
+                //'max' => Configure::read('coseca.uc-max'),
+            ]); 
+
+        ?>
+    </div>
+
+    <?php else :?>
+        
+    <div class="col-12">
+        
+        <?= $this->Form->control('student_data.current_semester', [
+            'label' => __('{0} Inscrito Actualmente', StudentLevels::getFormLabel($student->tenant->program)),
             'required' => true,
-            'type' => 'number',
-            'steps' => '1',
-            'min' => Configure::read('coseca.uc-min'),
-            //'max' => Configure::read('coseca.uc-max'),
+            'options' => StudentLevels::getList($student->tenant->program),
+            'empty' => true,
         ]) ?>
     </div>
+
+    <?php endif ?>
+
 </div>
 
 <div class="row">
