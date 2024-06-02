@@ -28,22 +28,23 @@ class StudentLevels
         return ProgramRegime::from($program->regime)->formLabel();
     }
 
-
+    /**
+     * @param \App\Model\Entity\Program $program
+     * @return array
+     */
     public static function getYearOrSemestre(Program $program): array
     {
-
-       return ProgramRegime::from($program->regime)->creditTypeLabel();
-        
+        return ProgramRegime::from($program->regime)->creditTypeLabel();
     }
 
+    /**
+     * @param \App\Model\Entity\Program $program
+     * @return array
+     */
     public static function getMinAndMax(Program $program): array
     {
-
-       return ProgramRegime::from($program->regime)->minAndMax();
-        
+        return ProgramRegime::from($program->regime)->minAndMax();
     }
-
-    
 
     /**
      * @param int $maxLevel
@@ -51,11 +52,12 @@ class StudentLevels
      */
     protected static function getArray(int $maxLevel): array
     {
-     
-        $min = floor($maxLevel / 2) +1;     
-        
-        if ($min <= 3) $min = $min + 1;
-    
+        $min = floor($maxLevel / 2) + 1;
+
+        if ($min <= 3) {
+            $min = $min + 1;
+        }
+
         $range = range($min, $maxLevel);
         $cardinals = array_map(fn ($level) => $level . '°', $range);
 

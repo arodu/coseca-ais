@@ -59,26 +59,29 @@ enum ProgramRegime: string implements ListInterface
         };
     }
 
+    /**
+     * @return array
+     */
     public function minAndMax(): array
     {
         return match ($this) {
-            static::BIANNUAL => ['min'=> '90', 'max' => 'NaN'],
-            static::QUARTERLY => ['min'=> '90', 'max' => 'NaN'],
-            static::ANNUALIZED_5 => ['min'=> '3', 'max' => '5'],
-            static::ANNUALIZED_6 =>['min'=> '3', 'max' => '6'],
+            static::BIANNUAL => ['min' => '90', 'max' => 'NaN'],
+            static::QUARTERLY => ['min' => '90', 'max' => 'NaN'],
+            static::ANNUALIZED_5 => ['min' => '3', 'max' => '5'],
+            static::ANNUALIZED_6 =>['min' => '3', 'max' => '6'],
             default => 0,
         };
     }
 
-    public function creditTypeLabel(): array{
-        
+    /**
+     * @return array
+     */
+    public function creditTypeLabel(): array
+    {
         return match ($this) {
-            static::BIANNUAL, static::QUARTERLY  => ['render'=> 'render', 'label' => 'Numero de Unidades de Credito Aprobadas'],
-            static::ANNUALIZED_5, static::ANNUALIZED_6  => [],
+            static::BIANNUAL, static::QUARTERLY => ['render' => 'render', 'label' => 'Numero de Unidades de Credito Aprobadas'],
+            static::ANNUALIZED_5, static::ANNUALIZED_6 => [],
             default => __('NaN'),
         };
-        
     }
-
-    
 }
