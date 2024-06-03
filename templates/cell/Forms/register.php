@@ -77,7 +77,6 @@ $this->Form->context(new EntityContext(['entity' => $student]));
                 'steps' => '1',
                 'min' => __('{min}', StudentLevels::getMinAndMax($student->tenant->program)),
                 'max' => __('{max}', StudentLevels::getMinAndMax($student->tenant->program)),
-                //'max' => Configure::read('coseca.uc-max'),
             ]); 
 
         ?>
