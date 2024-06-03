@@ -62,20 +62,6 @@ enum ProgramRegime: string implements ListInterface
     /**
      * @return array
      */
-    public function minAndMax(): array
-    {
-        return match ($this) {
-            static::BIANNUAL => ['min' => '90', 'max' => 'NaN'],
-            static::QUARTERLY => ['min' => '90', 'max' => 'NaN'],
-            static::ANNUALIZED_5 => ['min' => '3', 'max' => '5'],
-            static::ANNUALIZED_6 =>['min' => '3', 'max' => '6'],
-            default => 0,
-        };
-    }
-
-    /**
-     * @return array
-     */
     public function creditTypeLabel(): array
     {
         return match ($this) {
