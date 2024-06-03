@@ -43,7 +43,7 @@ class StudentLevels
      */
     public static function getMinAndMax(Program $program): array
     {
-        return ProgramRegime::from($program->regime)->minAndMax();
+        return $program->get('uc_num');
     }
 
     /**
