@@ -16,7 +16,7 @@ class AddUCToPrograms extends AbstractMigration
     {
         $table = $this->table('programs');
         $table->addColumn('uc', 'integer', [
-            'default' => null,
+            'default' => 0,
             'limit' => 11,
             'null' => false,
         ]);
