@@ -11,13 +11,18 @@ class FilePrint
      * @param \App\Model\Entity\Student $student
      * @return string
      */
+    public static function format002(Student $student): string
+    {
+        return static::format('planilla002', $student);
+    }
+
+    /**
+     * @param \App\Model\Entity\Student $student
+     * @return string
+     */
     public static function format007(Student $student): string
     {
-        if (empty($student->dni)) {
-            throw new \InvalidArgumentException('El estudiante no tiene un DNI');
-        }
-
-        return h($student->dni) . '_planilla007.pdf';
+        return static::format('planilla007', $student);
     }
 
     /**
@@ -26,10 +31,20 @@ class FilePrint
      */
     public static function format009(Student $student): string
     {
+        return static::format('planilla009', $student);
+    }
+
+    /**
+     * @param string $format
+     * @param \App\Model\Entity\Student $student
+     * @return string
+     */
+    public static function format(string $format, Student $student): string
+    {
         if (empty($student->dni)) {
             throw new \InvalidArgumentException('El estudiante no tiene un DNI');
         }
 
-        return h($student->dni) . '_planilla009.pdf';
+        return h($student->dni) . '_' . h($format) . '.pdf';
     }
 }

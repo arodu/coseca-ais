@@ -48,7 +48,7 @@ class TutorsTable extends Table
         $this->belongsTo('Tenants', [
             'foreignKey' => 'tenant_id',
             'joinType' => 'INNER',
-            'finder' => 'withPrograms',
+            'finder' => 'complete',
         ]);
         $this->hasMany('StudentAdscriptions', [
             'foreignKey' => 'tutor_id',

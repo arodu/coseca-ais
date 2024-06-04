@@ -37,7 +37,7 @@ $this->Breadcrumbs->add([
                     <?= $this->Form->control('dni', ['label' => __('Cedula')]) ?>
                 </div>
                 <div class="col-sm-4">
-                    <?= $this->Form->control('tenant_id', ['label' => __('Programa'), 'empty' => __('--Todos--')]) ?>
+                    <?= $this->Form->control('tenant_id', ['options' => $tenants, 'label' => __('Programa'), 'empty' => __('--Todos--')]) ?>
                 </div>
             </div>
         </div>
@@ -70,11 +70,11 @@ $this->Breadcrumbs->add([
         <table class="table table-hover text-nowrap">
             <thead>
                 <tr>
-                    <th><?= $this->Paginator->sort('id') ?></th>
+                    <th class='d-none d-sm-table-cell'><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('name') ?></th>
-                    <th><?= $this->Paginator->sort('dni') ?></th>
-                    <th><?= $this->Paginator->sort('phone') ?></th>
-                    <th><?= $this->Paginator->sort('email') ?></th>
+                    <th class='d-none d-sm-table-cell'><?= $this->Paginator->sort('dni') ?></th>
+                    <th class='d-none d-lg-table-cell'><?= $this->Paginator->sort('phone') ?></th>
+                    <th class='d-none d-xl-table-cell'><?= $this->Paginator->sort('email') ?></th>
                     <th><?= $this->Paginator->sort('tenant_id') ?></th>
                     <th class="actions"><?= __('Actions') ?></th>
                 </tr>
@@ -82,27 +82,34 @@ $this->Breadcrumbs->add([
             <tbody>
                 <?php foreach ($tutors as $tutor) : ?>
                     <tr>
-                        <td><?= $this->Number->format($tutor->id) ?></td>
+                        <td class='d-none d-sm-table-cell'><?= $this->Number->format($tutor->id) ?></td>
                         <td><?= h($tutor->name) ?></td>
-                        <td><?= h($tutor->dni) ?></td>
-                        <td><?= h($tutor->phone) ?></td>
-                        <td><?= h($tutor->email) ?></td>
+                        <td class='d-none d-sm-table-cell'><?= h($tutor->dni) ?></td>
+                        <td class='d-none d-lg-table-cell'><?= h($tutor->phone) ?></td>
+                        <td class='d-none d-xl-table-cell'><?= h($tutor->email) ?></td>
                         <td><?= $tutor->has('tenant') ? $this->Html->link($tutor->tenant->label, ['controller' => 'Tenants', 'action' => 'view', $tutor->tenant->id]) : '' ?></td>
                         <td class="actions">
-                            <?= $this->Html->link(__('View'), ['action' => 'view', $tutor->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
-                            <?= $this->Html->link(__('Edit'), ['action' => 'edit', $tutor->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
-                            <?= $this->ModalForm->link(
-                                __('Delete'),
-                                ['action' => 'delete', $tutor->id],
-                                [
-                                    'class' => 'btn btn-xs btn-outline-danger',
-                                    'escape' => false,
-                                    'target' => 'deleteTutorModal',
-                                    'confirm' => __('Are you sure you want to delete # {0}?', $tutor->id)
-                                ]
-                            ) ?>
-                            <?php // $this->Form->postLink(__('Delete'), ['action' => 'delete', $tutor->id], ['class' => 'btn btn-xs btn-outline-danger', 'escape' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $tutor->id)]) 
-                            ?>
+                            <div class="dropdown">
+                                <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="<?= 'ddActionTutors' . $tutor->id ?>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <?= __("Acciones")?>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="<?= 'ddActionTutors' . $tutor->id ?>">
+                                    <?= $this->Html->link(__('View'), ['action' => 'view', $tutor->id], ['class' => 'dropdown-item', 'escape' => false]) ?>
+                                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $tutor->id], ['class' => 'dropdown-item', 'escape' => false]) ?>
+                                    <?= $this->ModalForm->link(
+                                        __('Delete'),
+                                        ['action' => 'delete', $tutor->id],
+                                        [
+                                            'class' => 'dropdown-item',
+                                            'escape' => false,
+                                            'target' => 'deleteTutorModal',
+                                            'confirm' => __('Are you sure you want to delete # {0}?', $tutor->id)
+                                        ]
+                                    ) ?>
+                                    <?php // $this->Form->postLink(__('Delete'), ['action' => 'delete', $tutor->id], ['class' => 'btn btn-xs btn-outline-danger', 'escape' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $tutor->id)]) 
+                                    ?>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 <?php endforeach; ?>

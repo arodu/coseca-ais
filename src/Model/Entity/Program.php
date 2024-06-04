@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
-use App\Model\Field\ProgramArea;
 use App\Model\Field\ProgramRegime;
 use Cake\ORM\Entity;
 
@@ -12,11 +11,11 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $name
- * @property string $area
+ * @property \App\Model\Entity\Area $area
  * @property string $regime
  * @property string $abbr
- *
  * @property \App\Model\Entity\Tenant[] $tenants
+ * @method mixed enum(string $field)
  */
 class Program extends Entity
 {
@@ -26,7 +25,6 @@ class Program extends Entity
      * @var array
      */
     protected $enumFields = [
-        'area' => ProgramArea::class,
         'regime' => ProgramRegime::class,
     ];
 
@@ -45,20 +43,14 @@ class Program extends Entity
         'regime' => true,
         'abbr' => true,
         'tenants' => true,
+        'area_id' => true,
     ];
 
     protected $_virtual = [
+        'label',
         'area_label',
         'regime_label',
     ];
-
-    /**
-     * @return string|null
-     */
-    protected function _getAreaLabel(): ?string
-    {
-        return $this->enum('area')?->label() ?? null;
-    }
 
     /**
      * @return string|null
@@ -69,22 +61,22 @@ class Program extends Entity
     }
 
     /**
-     * area_print_label
-     *
      * @return string|null
      */
-    protected function _getAreaPrintLabel(): ?string
+    protected function _getAreaLabel(): ?string
     {
-        return $this->enum('area')?->printLabel() ?? null;
+        return $this?->area?->abbr ?? null;
     }
 
     /**
-     * area_print_logo
-     *
-     * @return string|null
+     * @return string
      */
-    protected function _getAreaPrintLogo(): ?string
+    protected function _getLabel(): ?string
     {
-        return $this->enum('area')?->printLogo() ?? null;
+        if (empty($this->area)) {
+            return $this->name;
+        }
+
+        return $this->area->abbr . ' - ' . $this->name;
     }
 }

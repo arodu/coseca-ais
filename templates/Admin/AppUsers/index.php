@@ -3,6 +3,9 @@
  * @var \App\View\AppView $this
  * @var \Cake\Datasource\EntityInterface[]|\Cake\Collection\CollectionInterface $users
  */
+
+use Cake\Utility\Hash;
+
 ?>
 <?php
 $this->assign('title', __('Users'));
@@ -23,7 +26,6 @@ $this->Breadcrumbs->add([
                 'class' => 'form-control-sm',
                 'templates' => ['inputContainer' => '{{content}}']
             ]); ?>
-            <?= $this->Html->link(__('New User'), ['action' => 'add'], ['class' => 'btn btn-primary btn-sm ml-2']) ?>
         </div>
     </div>
     <!-- /.card-header -->
@@ -31,30 +33,36 @@ $this->Breadcrumbs->add([
         <table class="table table-hover text-nowrap">
             <thead>
                 <tr>
-                    <th><?= $this->Paginator->sort('email') ?></th>
-                    <th><?= $this->Paginator->sort('dni') ?></th>
-                    <th><?= $this->Paginator->sort('first_name') ?></th>
-                    <th><?= $this->Paginator->sort('last_name') ?></th>
-                    <th><?= $this->Paginator->sort('active') ?></th>
-                    <th><?= $this->Paginator->sort('role') ?></th>
-                    <th><?= $this->Paginator->sort('last_login') ?></th>
-                    <th class="actions"><?= __('Actions') ?></th>
+                    <th><?= $this->Paginator->sort('email', __('Email')) ?></th>
+                    <th><?= $this->Paginator->sort('dni', __('Cedula')) ?></th>
+                    <th><?= $this->Paginator->sort('first_name', __('Nombres')) ?></th>
+                    <th><?= $this->Paginator->sort('last_name', __('Apellidos')) ?></th>
+                    <th><?= $this->Paginator->sort('active', __('Activo')) ?></th>
+                    <th><?= $this->Paginator->sort('role', __('Rol')) ?></th>
+                    <th><?= $this->Paginator->sort('last_login', __('Última sesión')) ?></th>
+                    <th><?= __('Accesos') ?></th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($users as $user) : ?>
                     <tr>
-                        <td><?= h($user->email) ?></td>
+                        <td>
+                            <?= $this->Html->link(h($user->email), ['action' => 'view', $user->id]) ?>
+                            <?= $this->App->currentUserIcon($user->id) ?>
+                        </td>
                         <td><?= h($user->dni) ?></td>
                         <td><?= h($user->first_name) ?></td>
                         <td><?= h($user->last_name) ?></td>
                         <td><?= ($user->active) ? __('Yes') : __('No') ?></td>
                         <td><?= h($user->role) ?></td>
                         <td><?= h($user->last_login) ?></td>
-                        <td class="actions">
-                            <?= $this->Html->link(__('View'), ['action' => 'view', $user->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
-                            <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id], ['class' => 'btn btn-xs btn-outline-primary', 'escape' => false]) ?>
-                            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $user->id], ['class' => 'btn btn-xs btn-outline-danger', 'escape' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $user->id)]) ?>
+                        <td>
+                            <?php
+                                $tenants = array_map(function ($filter) {
+                                    return $filter->tenant->label;
+                                }, $user->tenant_filters);
+                                echo implode('<br/>', $tenants);
+                            ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

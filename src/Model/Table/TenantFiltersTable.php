@@ -44,6 +44,7 @@ class TenantFiltersTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('FilterTenant');
 
         $this->belongsTo('AppUsers', [
             'foreignKey' => 'user_id',
@@ -52,7 +53,7 @@ class TenantFiltersTable extends Table
         $this->belongsTo('Tenants', [
             'foreignKey' => 'tenant_id',
             'joinType' => 'INNER',
-            'finder' => 'withPrograms',
+            'finder' => 'complete',
         ]);
     }
 
@@ -84,8 +85,7 @@ class TenantFiltersTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn('user_id', 'AppUsers'), ['errorField' => 'user_id']);
-        $rules->add($rules->existsIn('tenant_id', 'Tenants'), ['errorField' => 'tenant_id']);
+        $rules->add($rules->isUnique(['user_id', 'tenant_id'], __('The user already has this tenant filter.')));
 
         return $rules;
     }

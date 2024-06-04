@@ -30,24 +30,18 @@ class LapsesControllerTest extends AdminTestCase
     {
         // Configuracion inicial
         $this->setAuthSession(); // Establece una sesión de autenticación para simular un usuario autenticado.
-        $program = $this->createProgram()->persist(); //Creacion de un programa
-
-        // Creacion de un Tenant
-        $tenant = TenantFactory::make([
-            'program_id' => $program->id,
-        ])->persist();
 
         // Verificacion de acciones
-        $this->get('/admin/lapses/add/' . $tenant->id); // Verificar que cargue la vista con el ID correspondiente
+        $this->get('/admin/lapses/add/' . $this->tenant->id); // Verificar que cargue la vista con el ID correspondiente
         $this->assertResponseCode(200);
-        $this->assertResponseContains($tenant->name); // Verificacion que exista el nombre del Tenant en la vista
+        $this->assertResponseContains($this->tenant->location->name); // Verificacion que exista el nombre del Tenant en la vista
 
-        $this->post('/admin/lapses/add/' . $tenant->id, [
+        $this->post('/admin/lapses/add/' . $this->tenant->id, [
             'name' => 'Test',
         ]); // Envio del formulario con la actualizacion de la informacion
 
         $this->assertResponseContains('Test'); //Verificar que se ha actualizado la informacion correctamente
-        $this->get('/admin/tenants/view/' . $tenant->id); //Verificar que nuevamente cargue la vista con el ID correspondiente
+        $this->get('/admin/tenants/view/' . $this->tenant->id); //Verificar que nuevamente cargue la vista con el ID correspondiente
         $this->assertResponseCode(200);
     }
 
@@ -61,13 +55,8 @@ class LapsesControllerTest extends AdminTestCase
     {
         // Configuracion inicial
         $this->setAuthSession(); // Establece una sesión de autenticación para simular un usuario autenticado.
-
-        $program = $this->createProgram()->persist(); //Creacion de un programa
-
         // Creacion de un Tenant
-        $tenant = TenantFactory::make([
-            'program_id' => $program->id,
-        ])->persist();
+        $tenant = $this->createCompleteTenant()->persist();
 
         $this->get('/admin/tenants/view/' . $tenant->id); // Verificar que cargue la vista con el ID correspondiente
         $this->assertResponseCode(200);
@@ -211,11 +200,11 @@ class LapsesControllerTest extends AdminTestCase
             'is_single_date' => false,
             'start_date' => $this->today->subDays(5),
             'end_date' => $this->today->addDays(25),
-        ]);//Enviamos el formulario con fechas En progreso y sin fecha unica
+        ]); //Enviamos el formulario con fechas En progreso y sin fecha unica
 
         $lapseDateStatus = $this->getLapsesDatesStatus($lapses_date); //Obtenemos el status del LapseDate
 
-       // Si el Status es `En Progreso` y no tiene `Fecha unica` verificamos que exista `En Porgreso` en la vista
+        // Si el Status es `En Progreso` y no tiene `Fecha unica` verificamos que exista `En Porgreso` en la vista
         if ($this->assertEquals(StatusDate::IN_PROGRESS, $lapseDateStatus) && !$lapses_date->is_single_date) {
             $this->getResponseContainsForUrl('/admin/tenants/view/', $this->tenant_id, 'En Porgreso');
             $this->assertResponseCode(200);

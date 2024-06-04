@@ -13,7 +13,7 @@ use Cake\ORM\Entity;
  * @property string $abbr
  * @property int $regime
  * @property bool $active
- * @property int $current_lapse
+ * @property \App\Model\Entity\Lapse $current_lapse
  * @property int $program_id
  *
  * @property \App\Model\Entity\Lapse[] $lapses
@@ -32,20 +32,13 @@ class Tenant extends Entity
      * @var array<string, bool>
      */
     protected $_accessible = [
-        'name' => true,
-        'abbr' => true,
         'lapses' => true,
         'students' => true,
         'tenant_filters' => true,
-        'regime' => true,
-        'active' => true,
         'current_lapse' => true,
+        'active' => true,
         'program_id' => true,
-    ];
-
-    protected $_virtual = [
-        'label',
-        'abbr_label',
+        'location_id' => true,
     ];
 
     /**
@@ -53,11 +46,13 @@ class Tenant extends Entity
      */
     protected function _getLabel(): string
     {
-        if (!$this->program) {
-            return $this->name;
-        }
+        $output = [
+            $this?->program?->area?->abbr,
+            $this?->program?->name,
+            $this?->location?->name,
+        ];
 
-        return $this->program->name . ', ' . $this->name;
+        return implode(' | ', array_filter($output));
     }
 
     /**
@@ -65,10 +60,21 @@ class Tenant extends Entity
      */
     protected function _getAbbrLabel(): string
     {
-        if (!$this->program) {
-            return $this->abbr;
-        }
+        return $this->abbrLabel('-');
+    }
 
-        return $this->program->abbr . '-' . $this->abbr;
+    /**
+     * @param string $separator
+     * @return string
+     */
+    public function abbrLabel(string $separator = ' | '): string
+    {
+        $output = [
+            $this?->program?->area?->abbr,
+            $this?->program?->abbr,
+            $this?->location?->abbr,
+        ];
+
+        return implode($separator, array_filter($output));
     }
 }

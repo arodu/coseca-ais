@@ -120,6 +120,10 @@ class StudentStagePolicy
             return new Result(true);
         }
 
+        if ($this->stageIs($studentStage, StageField::COURSE, [StageStatus::REVIEW, StageStatus::IN_PROGRESS])) {
+            return new Result(true);
+        }
+
         return new Result(false, __('stage {0} does not allow closing', $studentStage->stage_label));
     }
 
@@ -157,6 +161,19 @@ class StudentStagePolicy
                 return new Result(false, __('You are not the owner of this stage'));
             }
 
+            if ($this->stageIs($studentStage, StageField::COURSE, [StageStatus::REVIEW, StageStatus::IN_PROGRESS])) {
+                if (empty($studentStage->course)) {
+                    return new Result(false, __('The student stage does not have a course'));
+                }
+
+                if ($studentStage->course->exonerated) {
+                    return new Result(false, __('The student is exonerated from the course'));
+                }
+
+                // print 002
+                return new Result(true);
+            }
+
             if ($this->stageIs($studentStage, StageField::TRACKING, StageStatus::REVIEW)) {
                 // print 007
                 return new Result(true);
@@ -169,6 +186,19 @@ class StudentStagePolicy
         }
 
         if ($this->userIsAdmin($user)) {
+            if ($this->stageIs($studentStage, StageField::COURSE, [StageStatus::REVIEW, StageStatus::SUCCESS, StageStatus::IN_PROGRESS])) {
+                if (empty($studentStage->course)) {
+                    return new Result(false, __('The student stage does not have a course'));
+                }
+
+                if ($studentStage->course->exonerated) {
+                    return new Result(false, __('The student is exonerated from the course'));
+                }
+
+                // print 002
+                return new Result(true);
+            }
+
             if ($this->stageIs($studentStage, StageField::TRACKING, [StageStatus::REVIEW, StageStatus::SUCCESS])) {
                 // print 007
                 return new Result(true);

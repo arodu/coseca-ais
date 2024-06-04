@@ -8,13 +8,13 @@ use Cake\View\Form\EntityContext;
 $this->Form->context(new EntityContext(['entity' => $student]));
 ?>
 <div class="row">
-    <div class="col">
+    <div class="col-12 col-sm-6">
         <?= $this->Form->control('app_user.first_name', [
             'label' => __('Nombres'),
             'required' => true,
         ]) ?>
     </div>
-    <div class="col">
+    <div class="col-12 col-sm-6">
         <?= $this->Form->control('app_user.last_name', [
             'label' => __('Apellidos'),
             'required' => true,
@@ -23,14 +23,14 @@ $this->Form->context(new EntityContext(['entity' => $student]));
 </div>
 
 <div class="row">
-    <div class="col">
+    <div class="col-12 col-sm-6">
         <?= $this->Form->control('app_user.dni', [
             'label' => __('Cédula'),
             'required' => true,
             'type' => 'number',
         ]); ?>
     </div>
-    <div class="col">
+    <div class="col-12 col-sm-6">
         <?= $this->Form->control('student_data.gender', [
             'label' => __('Género'),
             'required' => true,
@@ -41,13 +41,13 @@ $this->Form->context(new EntityContext(['entity' => $student]));
 </div>
 
 <div class="row">
-    <div class="col">
+    <div class="col-12 col-sm-6">
         <?= $this->Form->control('student_data.phone', [
             'label' => __('Teléfono'),
             'required' => true,
         ]) ?>
     </div>
-    <div class="col">
+    <div class="col-12 col-sm-6">
         <?= $this->Form->control('student_data.address', [
             'label' => __('Dirección'),
             'required' => true,
@@ -56,7 +56,7 @@ $this->Form->context(new EntityContext(['entity' => $student]));
 </div>
 
 <div class="row">
-    <div class="col">
+    <div class="col-12 col-sm-6">
         <?= $this->Form->control('student_data.current_semester', [
             'label' => __('{0} actual', StudentLevels::getFormLabel($student->tenant->program)),
             'required' => true,
@@ -64,7 +64,7 @@ $this->Form->context(new EntityContext(['entity' => $student]));
             'empty' => true,
         ]) ?>
     </div>
-    <div class="col">
+    <div class="col-12 col-sm-6">
         <?= $this->Form->control('student_data.uc', [
             'label' => __('Número de unidades de crédito aprobadas'),
             'required' => true,

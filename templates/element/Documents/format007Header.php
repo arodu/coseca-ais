@@ -10,7 +10,7 @@ $institution = $project->institution;
 <table style="width:100%"  class="truncate">
     <tr>
         <td colspan="3" class="text-right">
-            <strong>MFS-007</strong>
+            <strong style="font-size: 1.5em;">MFS-007</strong>
         </td>
     </tr>
     <tr>

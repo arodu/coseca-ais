@@ -23,6 +23,16 @@ class DashboardCell extends Cell
     protected $_validCellOptions = [];
 
     /**
+     * @var \App\Model\Table\TenantsTable
+     */
+    private $Tenants;
+
+    /**
+     * @var \App\Model\Table\StudentsTable
+     */
+    private $Students;
+
+    /**
      * Initialization logic run at the end of object construction.
      *
      * @return void
@@ -39,6 +49,15 @@ class DashboardCell extends Cell
     public function blocks()
     {
         $currentLapses = $this->getCurrentLapses();
+        if ($currentLapses->isEmpty()) {
+            $this->set([
+                'currentLapses' => [],
+                'studentsActives' => 0,
+            ]);
+
+            return;
+        }
+
         $studentsActives = $this->Students->find()
             ->where([
                 'Students.lapse_id IN' => $currentLapses->extract('id')->toArray(),
@@ -56,14 +75,10 @@ class DashboardCell extends Cell
      */
     public function activeTenants()
     {
-        $activeTenants = $this->Tenants->find()
-            ->where([
-                'Tenants.id IN' => $this->getCurrentTenants(),
-            ])
-            ->contain([
-                'CurrentLapse',
-                'Programs',
-            ]);
+        $activeTenants = $this->Tenants
+            ->find('complete')
+            ->where(['Tenants.id IN' => $this->getCurrentTenants()])
+            ->contain(['CurrentLapse']);
 
         $this->set(compact('activeTenants'));
     }
@@ -76,9 +91,9 @@ class DashboardCell extends Cell
         $events = $this->Tenants->Lapses->LapseDates->find()
             ->contain([
                 'Lapses' => [
-                    'Tenants' => [
-                        'Programs',
-                    ],
+                    'Tenants' => function ($q) {
+                        return $q->find('complete');
+                    },
                 ],
             ])
             ->where([
@@ -105,6 +120,13 @@ class DashboardCell extends Cell
      */
     public function stages()
     {
+        $lapses = $this->getCurrentLapses();
+        if ($lapses->isEmpty()) {
+            $this->set(['stages' => [], 'statuses' => [], 'reports' => []]);
+
+            return;
+        }
+
         $students = $this->Students->find()
             ->find('active')
             ->where([

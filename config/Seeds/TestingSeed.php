@@ -37,6 +37,8 @@ class TestingSeed extends AbstractSeed
      */
     public function run(): void
     {
+        $this->runCall('InitialDataSeed');
+
         $this->AppUsers = $this->fetchTable('AppUsers');
         $this->Institutions = $this->fetchTable('Institutions');
         $this->Tutors = $this->fetchTable('Tutors');
@@ -57,6 +59,15 @@ class TestingSeed extends AbstractSeed
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
             'role' => UserRole::ROOT->value,
+            'active' => true,
+        ]);
+
+        $users[] = $this->setupUser([
+            'email' => 'manager@example.com',
+            'password' => '1234',
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'role' => UserRole::MANAGER->value,
             'active' => true,
         ]);
 

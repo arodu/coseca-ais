@@ -16,12 +16,14 @@ enum UserRole: string implements ListInterface
     case ADMIN = 'admin';
     case ASSISTANT = 'assistant';
     case TUTOR = 'tutor';
+    case MANAGER = 'manager';
     case ROOT = 'root';
 
     public const GROUP_STUDENT = 'group_student';
     public const GROUP_ADMIN = 'group_admin';
     public const GROUP_STAFF = 'group_staff';
     public const GROUP_TUTOR = 'group_tutor';
+    public const GROUP_MANAGER = 'group_manager';
     public const GROUP_ROOT = 'group_root';
 
     /**
@@ -35,6 +37,7 @@ enum UserRole: string implements ListInterface
             static::TUTOR => __('Tutor Académico'),
             static::ADMIN => __('Admin'),
             static::ROOT => __('Root'),
+            static::MANAGER => __('Manager'),
             default => __('NaN'),
         };
     }
@@ -53,16 +56,25 @@ enum UserRole: string implements ListInterface
                 static::ASSISTANT,
                 static::ADMIN,
                 static::ROOT,
+                static::MANAGER,
             ],
             static::GROUP_ADMIN => [
                 static::ADMIN,
-                static::ROOT,
-            ],
-            static::GROUP_ROOT => [
+                static::MANAGER,
                 static::ROOT,
             ],
             static::GROUP_TUTOR => [
                 static::TUTOR,
+                static::ADMIN,
+                static::MANAGER,
+                static::ROOT,
+            ],
+            static::GROUP_MANAGER => [
+                static::MANAGER,
+                static::ROOT,
+            ],
+            static::GROUP_ROOT => [
+                static::ROOT,
             ],
         ];
 
@@ -79,38 +91,6 @@ enum UserRole: string implements ListInterface
     }
 
     /**
-     * @return bool
-     */
-    public function isAdminGroup(): bool
-    {
-        return $this->isGroup(static::GROUP_ADMIN);
-    }
-
-    /**
-     * @return bool
-     */
-    public function isStudentGroup(): bool
-    {
-        return $this->isGroup(static::GROUP_STUDENT);
-    }
-
-    /**
-     * @return bool
-     */
-    public function isStaffGroup(): bool
-    {
-        return $this->isGroup(static::GROUP_STAFF);
-    }
-
-    /**
-     * @return bool
-     */
-    public function isRootGroup(): bool
-    {
-        return $this->isGroup(static::GROUP_ROOT);
-    }
-
-    /**
      * @param string $group_name
      * @return array
      */
@@ -120,26 +100,23 @@ enum UserRole: string implements ListInterface
     }
 
     /**
+     * @param self $currentRole
      * @return array
      */
-    public static function getAdminGroup(): array
+    public static function newUserList(self $currentRole): array
     {
-        return static::getGroup(static::GROUP_ADMIN);
-    }
+        $output = [
+            self::ADMIN,
+            self::ASSISTANT,
+            self::MANAGER,
+            //self::TUTOR,
+            self::STUDENT,
+        ];
 
-    /**
-     * @return array
-     */
-    public static function getStudentGroup(): array
-    {
-        return static::getGroup(static::GROUP_STUDENT);
-    }
+        if ($currentRole->isGroup(self::GROUP_ROOT)) {
+            $output[] = self::ROOT;
+        }
 
-    /**
-     * @return array
-     */
-    public static function getStaffGroup(): array
-    {
-        return static::getGroup(static::GROUP_STAFF);
+        return self::toListLabel($output);
     }
 }

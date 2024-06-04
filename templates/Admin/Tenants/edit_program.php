@@ -25,7 +25,7 @@ $this->Breadcrumbs->add([
         <?php
         echo $this->Form->control('name');
         echo $this->Form->control('abbr');
-        echo $this->Form->control('area', ['options' => ProgramArea::toListLabel(), 'empty' => true]);
+        //echo $this->Form->control('area', ['options' => ProgramArea::toListLabel(), 'empty' => true]);
         echo $this->Form->control('regime', ['options' => ProgramRegime::toListLabel(), 'empty' => true]);
         ?>
     </div>

@@ -50,7 +50,12 @@ class StudentsController extends AppAdminController
 
         $query = $this->Students
             ->find()
-            ->contain(['AppUsers', 'Tenants', 'LastStage', 'Lapses']);
+            ->contain([
+                'AppUsers',
+                'Tenants' => ['Programs', 'Locations'],
+                'LastStage',
+                'Lapses',
+            ]);
 
         $filterKey = 'f';
 
