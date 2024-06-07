@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -56,6 +57,7 @@ class StudentStagesTable extends Table
 
         $this->addBehavior('Timestamp');
         $this->addBehavior('Muffin/Footprint.Footprint');
+        $this->addBehavior('QueryFilter.QueryFilter');
 
         $this->addBehavior('LastElement', [
             'fieldGroup' => 'student_id',
@@ -65,6 +67,8 @@ class StudentStagesTable extends Table
             'foreignKey' => 'student_id',
             'joinType' => 'INNER',
         ]);
+
+        $this->loadQueryFilters();
     }
 
     /**
@@ -107,6 +111,54 @@ class StudentStagesTable extends Table
         $rules->add($rules->existsIn('student_id', 'Students'), ['errorField' => 'student_id']);
 
         return $rules;
+    }
+
+    /**
+     * @return void
+     */
+    public function loadQueryFilters()
+    {
+        $this->addFilterField('area_id', [
+            'finder' => function (Query $query, array $options) {
+                $students = $this->Students
+                    ->find()
+                    ->select(['id'])
+                    ->contain([
+                        'Tenants' => [
+                            'Programs' => function (Query $query) use ($options) {
+                                return $query->where(['area_id' => $options['value']]);
+                            },
+                        ],
+                    ]);
+
+                return $query->where(['student_id IN' => $students]);
+            },
+        ]);
+
+        $this->addFilterField('program_id', [
+            'finder' => function (Query $query, array $options) {
+                $students = $this->Students
+                    ->find()
+                    ->select(['id'])
+                    ->contain([
+                        'Tenants' => function (Query $query) use ($options) {
+                            return $query->where(['program_id' => $options['value']]);
+                        },
+                    ]);
+
+                return $query->where(['student_id IN' => $students]);
+            },
+        ]);
+
+        $this->addFilterField('dni_order', [
+            'finder' => function (Query $query, array $options) {
+                if ($options['value'] === 'asc') {
+                    return $query->orderAsc('AppUsers.dni');
+                }
+                
+                return $query->orderDesc('AppUsers.dni');
+            },
+        ]);
     }
 
     /**
