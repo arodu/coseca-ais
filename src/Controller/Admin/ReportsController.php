@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Admin;
@@ -22,6 +23,59 @@ class ReportsController extends AppAdminController
     {
         parent::initialize();
         $this->Tenants = $this->fetchTable('Tenants');
+        $this->Students = $this->fetchTable('Students');
+
+        $this->MenuLte->activeItem('reports');
+    }
+
+    /**
+     * @return void
+     */
+    public function index()
+    {
+        if ($this->getRequest()->getQuery('action') === 'search') {
+            $data = $this->getRequest()->getQuery();
+
+            $query = $this->Students->StudentStages
+                ->find()
+                ->contain([
+                    'Students' => [
+                        
+                        'AppUsers',
+                        'StudentAdscriptions'=>[
+                            'Tutors'
+                        ],
+                        'Tenants' => [
+                            'Locations',
+                        ],
+                    ],
+                ]);
+
+            $formData = $this->getRequest()->getQuery() ?? $this->getRequest()->getData() ?? [];
+            $results = $this->Students->StudentStages->queryFilter($query, $data ?? []);
+
+            $this->set(compact('results', 'formData'));
+        }
+
+        $areas = $this->Tenants->Programs->Areas->find('list', [
+            'keyField' => 'id',
+            'valueField' => 'name',
+        ]);
+        $programs = $this->Tenants->Programs->find('list', [
+            'keyField' => 'id',
+            'valueField' => 'name',
+        ]);
+        $tenants = $this->Tenants
+            ->find('list', [
+                'keyField' => 'id',
+                'valueField' => 'label',
+            ])
+            ->contain([
+                'Programs' => ['Areas'],
+                'Locations',
+            ]);
+
+        $this->set(compact('areas', 'programs', 'tenants'));
     }
 
     /**

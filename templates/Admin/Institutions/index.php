@@ -5,6 +5,7 @@
  */
 
 use App\Enum\ActionColor;
+use Cake\Utility\Hash;
 use CakeLteTools\Utility\FaIcon;
 
 ?>
@@ -95,7 +96,7 @@ $this->Breadcrumbs->add([
                         <td><?= h($institution->contact_phone) ?></td>
                         <td><?= h($institution->contact_email) ?></td>
                         <td><?= h($institution->tenant->label) ?></td>
-                        <td><?= $institution->institution_projects[0]->count ?></td>
+                        <td><?= Hash::get($institution, 'institution_projects.0.count', 0) ?></td>
                         <td class="actions">
                             <?= $this->Button->view(['url' => ['action' => 'view', $institution->id, 'prefix' => 'Admin'], 'class' => 'btn-xs']) ?>
                         </td>

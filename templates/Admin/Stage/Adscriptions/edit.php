@@ -27,10 +27,10 @@ $this->Breadcrumbs->add([
     <div class="card-title"><?= __('Editar Proyecto') ?></div>
     <div class="ml-auto">
         <?= $this->ModalForm->Link(
-            __('Eliminar proyecto'),
-            ['action' => 'delete', $adscription->id],
+            __('Cancelar proyecto'),
+            ['action' => 'cancel', $adscription->id],
             [
-                'confirm' => __('Are you sure you want to delete # {0}?', $adscription->id),
+                'confirm' => __('Are you sure you want to cancel # {0}?', $adscription->id),
                 'class' => ActionColor::DELETE->btn('btn-sm'),
                 'target' => 'deleteAdscription',
             ]
