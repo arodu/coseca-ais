@@ -37,6 +37,7 @@ if (in_array($this->Identity->get('role'), UserRole::getGroup(UserRole::GROUP_ST
 
     $menu['reports'] = [
         'label' => __('Reportes'),
+        'icon' => 'fas fa-file-alt',
         'uri' => ['controller' => 'Reports', 'action' => 'index', 'prefix' => 'Admin'],
     ];
 }
