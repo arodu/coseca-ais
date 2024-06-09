@@ -117,6 +117,7 @@ class StudentStagesTable extends Table
      * @return void
      */
     public function loadQueryFilters()
+    // area ---> buscar estudiantes de esa area
     {
         $this->addFilterField('area_id', [
             'finder' => function (Query $query, array $options) {
@@ -124,11 +125,9 @@ class StudentStagesTable extends Table
                     ->find()
                     ->select(['id'])
                     ->contain([
-                        'Tenants' => [
-                            'Programs' => function (Query $query) use ($options) {
-                                return $query->where(['area_id' => $options['value']]);
-                            },
-                        ],
+                        'Tenants' => function (Query $query) use ($options) {
+                            return $query->where(['area_id' => $options['value']]);
+                        },
                     ]);
 
                 return $query->where(['student_id IN' => $students]);
@@ -150,16 +149,78 @@ class StudentStagesTable extends Table
             },
         ]);
 
+        $this->addFilterField('tenant_id', [
+            'finder' => function (Query $query, array $options) {
+
+                $tenants = $this
+                    ->find()
+                    ->contain([
+                        'Students' => function (Query $query) use ($options) {
+                            return $query->where(['tenant_id' => $options['value']]);
+                        },
+                    ]);
+
+                return $query->where(['student_id IN' => $tenants->extract('id')->toArray()]);
+            },
+        ]);
+
+        $this->addFilterField('lapse_id', [
+            'finder' => function (Query $query, array $options = []) {
+                $lapses_ids = $this
+                    ->find()
+                    ->select(['id'])
+                    ->contain([
+                        'Students' => function (Query $query) use ($options) {
+                            return $query->where(['lapse_id' => $options['value']]);
+                        },
+                    ]);
+
+                return $query->where(['student_id IN' => $lapses_ids->extract('id')->toArray()] );
+            },
+        ]);
+
+
+
         $this->addFilterField('dni_order', [
             'finder' => function (Query $query, array $options) {
                 if ($options['value'] === 'asc') {
                     return $query->orderAsc('AppUsers.dni');
                 }
-                
                 return $query->orderDesc('AppUsers.dni');
             },
         ]);
+
+        $this->addFilterField('stage', [
+            'tableField' => 'stage',
+            'finder' => 'stageFilter',
+        ]);
+
+        $this->addFilterField('status', [
+            'tableField' => 'status',
+            'finder' => 'stageFilter',
+        ]);
     }
+
+
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
+    public function findStageFilter(Query $query, array $options = []): Query
+    {
+        if (empty($options['tableField'])) {
+            throw new InvalidArgumentException('param tableField is necessary on options');
+        }
+
+        $subQuery = $this->find()
+            ->select([$this->aliasField('student_id')])
+            ->where([$options['tableField'] => $options['value']]);
+
+        return $query->where([$this->aliasField('student_id') . ' IN' => $subQuery]);
+    }
+
+
 
     /**
      * @param \Cake\ORM\Query $query

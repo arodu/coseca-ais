@@ -1,3 +1,14 @@
+<?php
+/**
+ * @var \App\View\AppView $this
+ */
+
+use App\Model\Field\StageField;
+use App\Model\Field\StageStatus;
+use CakeLteTools\Utility\FaIcon;
+
+?>
+
 <div class="row">
 
     <!-- Collapses -->
@@ -18,32 +29,32 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
-                                <?= $this->Form->control('area_id', ['label' => __('Area'), 'empty' => true]) ?>
+                                <?= $this->Form->control('area_id', ['label' => __('Area'), 'empty' => __('--Todos--')]) ?>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
-                                <?= $this->Form->control('program_id', ['label' => __('Programas'), 'empty' => true]) ?>
+                                <?= $this->Form->control('program_id', ['label' => __('Programas'), 'empty' => __('--Todos--')]) ?>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
-                                <?= $this->Form->control('tenant_id', ['label' => __('Sede'), 'empty' => true]) ?>
+                                <?= $this->Form->control('tenant_id', ['label' => __('Sede'), 'empty' => __('--Todos--')]) ?>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
-                                <?= $this->Form->control('status', ['label' => __('Estado')]) ?>
+                                <?= $this->Form->control('status', ['label' => __('Estado'), 'empty' => __('--Todos--'), 'options' => StageField::toListLabel()]) ?>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
-                                <?= $this->Form->control('state', ['label' => __('Fase')]) ?>
+                                <?= $this->Form->control('stage', ['label' => __('Fase'), 'empty' => __('--Todos--'), 'options' => StageStatus::toListLabel()]) ?>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
-                                <?= $this->Form->control('lapse', ['label' => __('Lapso')]) ?>
+                                <?= $this->Form->control('lapse_id', ['label' => __('Lapso'), 'empty' => __('--Todos--')]) ?>
                             </div>
                         </div>
 
@@ -125,31 +136,25 @@
 
                         <?php
                             //Debug | Remove on deployed
-                            /* dd($results->toArray()); */ 
+                           //dd($results->toArray());  
                         ?>
                         <?php foreach ($results as $result) : ?>
                             <tr>                                
-                                <td><?= $result->student->tenant->program->area_label ?></td>
+                                <td><?= h($result->student->tenant->program->area_label) ?? $this->App->nan() ?></td>
                                 <td><?= $result->student->tenant->program->name ?></td>
                                 <td><?= $result->student->dni ?></td>
                                 <td><?= $result->student->first_name ?></td>
                                 <td><?= $result->student->last_name ?></td>
-
-                                <!-- Lapses not found -->
-                                <td><?= /* $result->student */ _("LAPSO") ?></td>
-
-                                <td><?= $result->status ?></td>
-                                <td><?= $result->stage ?></td>
-
-                                <!-- Institutions and Project not founds -->
-                                <td><?= /* $result->student */ _('Institucion') ?></td>
-                                <td><?= /* $result->student */ _('Proyecto') ?></td>
-
+                                <td><?=  $result->student->lapse->label  ?></td>
+                                <td><?= $result->status_label ?></td>
+                                <td><?= $result->stage_label ?></td>
+                                <td><?=  $result->student->tenant->label ?></td>
+                                
                                 <!-- The adscriptions is an Array Object -->
-                                <td><?php foreach ($result->student->student_adscriptions as $adscription) : ?> 
-                                    <?= $adscription->tutor->name ?>
-                                    <?php endforeach; ?>
-                                </td>
+                                <?php foreach ($result->student->student_adscriptions as $adscription) : ?> 
+                                <td><?= $adscription->institution_project->name ?></td>
+                                <td><?= $adscription->tutor->name ?></td>
+                                <?php endforeach; ?>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

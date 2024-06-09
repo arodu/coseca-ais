@@ -34,18 +34,21 @@ class ReportsController extends AppAdminController
     public function index()
     {
         if ($this->getRequest()->getQuery('action') === 'search') {
+
             $data = $this->getRequest()->getQuery();
 
             $query = $this->Students->StudentStages
                 ->find()
                 ->contain([
                     'Students' => [
-                        
+                        'Lapses',
                         'AppUsers',
-                        'StudentAdscriptions'=>[
-                            'Tutors'
+                        'StudentAdscriptions' => [
+                            'Tutors',
+                            'InstitutionProjects',
                         ],
                         'Tenants' => [
+                            'Programs',
                             'Locations',
                         ],
                     ],
@@ -65,6 +68,7 @@ class ReportsController extends AppAdminController
             'keyField' => 'id',
             'valueField' => 'name',
         ]);
+
         $tenants = $this->Tenants
             ->find('list', [
                 'keyField' => 'id',
@@ -75,7 +79,23 @@ class ReportsController extends AppAdminController
                 'Locations',
             ]);
 
-        $this->set(compact('areas', 'programs', 'tenants'));
+        $status = $this->Tenants
+            ->find('list', [
+                'keyField' => 'id',
+                'valueField' => 'label',
+            ])
+            ->contain([
+                'Programs' => ['Areas'],
+                'Locations',
+            ]);
+
+        $lapses = $this->Tenants->Lapses
+            ->find('list', [
+                'keyField' => 'id',
+                'valueField' => 'name',
+            ]);
+
+        $this->set(compact('areas', 'programs', 'tenants', 'lapses'));
     }
 
     /**
