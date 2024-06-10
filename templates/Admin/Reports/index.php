@@ -44,12 +44,12 @@ use CakeLteTools\Utility\FaIcon;
                         </div>
                         <div class="row">
                             <div class="col">
-                                <?= $this->Form->control('status', ['label' => __('Estado'), 'empty' => __('--Todos--'), 'options' => StageField::toListLabel()]) ?>
+                                <?= $this->Form->control('status', ['label' => __('Estado'), 'empty' => __('--Todos--'), 'options' => StageStatus::toListLabel()]) ?>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
-                                <?= $this->Form->control('stage', ['label' => __('Fase'), 'empty' => __('--Todos--'), 'options' => StageStatus::toListLabel()]) ?>
+                                <?= $this->Form->control('stage', ['label' => __('Etapa'), 'empty' => __('--Todos--'), 'options' => StageField::toListLabel()]) ?>
                             </div>
                         </div>
                         <div class="row">
@@ -136,25 +136,35 @@ use CakeLteTools\Utility\FaIcon;
 
                         <?php
                             //Debug | Remove on deployed
-                           //dd($results->toArray());  
+                           //dd($results->toArray());                                                       
                         ?>
                         <?php foreach ($results as $result) : ?>
                             <tr>                                
                                 <td><?= h($result->student->tenant->program->area_label) ?? $this->App->nan() ?></td>
-                                <td><?= $result->student->tenant->program->name ?></td>
-                                <td><?= $result->student->dni ?></td>
-                                <td><?= $result->student->first_name ?></td>
-                                <td><?= $result->student->last_name ?></td>
-                                <td><?=  $result->student->lapse->label  ?></td>
-                                <td><?= $result->status_label ?></td>
-                                <td><?= $result->stage_label ?></td>
-                                <td><?=  $result->student->tenant->label ?></td>
+                                <td><?= h($result->student->tenant->program->name) ?></td>
+                                <td><?= h($result->student->dni) ?></td>
+                                <td><?= h($result->student->first_name) ?></td>
+                                <td><?= h($result->student->last_name) ?></td>
+                                <td><?= h($result->student->lapse->label) ?? $this->App->nan()  ?></td>
+                                <td><?= $this->App->badge($result->student->last_stage->enum('status')) ?></td>
+                                <td><?= h($result->stage_label) ?></td>
+                                <td><?= h($result->student->tenant->label) ?></td>
                                 
                                 <!-- The adscriptions is an Array Object -->
-                                <?php foreach ($result->student->student_adscriptions as $adscription) : ?> 
-                                <td><?= $adscription->institution_project->name ?></td>
-                                <td><?= $adscription->tutor->name ?></td>
-                                <?php endforeach; ?>
+                                <?php if(!empty($result->student->student_adscriptions)) {                                    
+                                   foreach ($result->student->student_adscriptions as $adscription) { ?>
+                                    <!-- Only Main Project -->
+                                    <?php if ($adscription->principal) { ?>
+                                    <td><?= h($adscription->institution_project->name) ?></td>
+                                    <td><?= h($adscription->tutor->name) ?></td>
+
+                                <?php       }
+                                        }
+                                    }else{ ?>
+                                    <!-- No Project -->
+                                    <td><?=$this->App->nan(); ?></td>
+                                    <td><?= $this->App->nan(); ?></td>
+                                <?php } ?>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

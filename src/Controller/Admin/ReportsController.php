@@ -41,6 +41,7 @@ class ReportsController extends AppAdminController
                 ->find()
                 ->contain([
                     'Students' => [
+                        'LastStage',
                         'Lapses',
                         'AppUsers',
                         'StudentAdscriptions' => [
