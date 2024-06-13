@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Admin;
@@ -34,7 +33,6 @@ class ReportsController extends AppAdminController
     public function index()
     {
         if ($this->getRequest()->getQuery('action') === 'search') {
-
             $data = $this->getRequest()->getQuery();
 
             $query = $this->Students->StudentStages

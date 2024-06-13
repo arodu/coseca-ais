@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  */
@@ -13,12 +14,12 @@ use CakeLteTools\Utility\FaIcon;
 
     <!-- Collapses -->
     <div class="col-lg-3">
-        <div class="row" >
+        <div class="row">
             <!-- Collapse Filters -->
             <div class="card text-black w-100" style="max-width: 18rem;">
                 <div class="card-header card-primary card-outline">
-                    <h4> 
-                        <span class="d-flex w-100" data-toggle="collapse" href="#collapse-filters">                    
+                    <h4>
+                        <span class="d-flex w-100" data-toggle="collapse" href="#collapse-filters">
                             <?= __('Filtros') ?>
                             <i class="icon-caret fas fa-caret-up ml-auto fa-fw"></i>
                         </span>
@@ -71,40 +72,39 @@ use CakeLteTools\Utility\FaIcon;
         <div class="row">
             <!-- Collapse Show Fields -->
             <div class="card text-black w-100" style="max-width: 18rem;">
-                    <div class="card-header card-warning card-outline ">
-                        <h4> 
-                            <span class="d-flex w-100" data-toggle="collapse" href="#collapse-fields">                    
-                                <?= __('Campos') ?>
-                                <i class="icon-caret fas fa-caret-up ml-auto fa-fw"></i>
-                            </span>
-                        </h4>
-                    </div>
-                    <div class="card-body collapse hidden" id="collapse-fields">
-                        <h4><?= _("TEST 1") ?></h4>
-                    </div>
+                <div class="card-header card-warning card-outline ">
+                    <h4>
+                        <span class="d-flex w-100" data-toggle="collapse" href="#collapse-fields">
+                            <?= __('Campos') ?>
+                            <i class="icon-caret fas fa-caret-up ml-auto fa-fw"></i>
+                        </span>
+                    </h4>
+                </div>
+                <div class="card-body collapse hidden" id="collapse-fields">
+                    <h4><?= _("TEST 1") ?></h4>
+                </div>
             </div>
             <!-- End Collapse Show Fields -->
         </div>
-
         <div class="row">
             <!-- Collapse Wrap -->
             <div class="card text-black w-100" style="max-width: 18rem;">
-                    <div class="card-header card-success card-outline ">
-                        <h4> 
-                            <span class="d-flex w-100" data-toggle="collapse" href="#collapse-wrap">                    
-                                <?= __('Agrupar') ?>
-                                <i class="icon-caret fas fa-caret-up ml-auto fa-fw"></i>
-                            </span>
-                        </h4>
-                    </div>
-                    <div class="card-body collapse hidden" id="collapse-wrap">
-                        <h4><?= _("TEST 2") ?></h4>
-                    </div>
+                <div class="card-header card-success card-outline ">
+                    <h4>
+                        <span class="d-flex w-100" data-toggle="collapse" href="#collapse-wrap">
+                            <?= __('Agrupar') ?>
+                            <i class="icon-caret fas fa-caret-up ml-auto fa-fw"></i>
+                        </span>
+                    </h4>
+                </div>
+                <div class="card-body collapse hidden" id="collapse-wrap">
+                    <h4><?= _("TEST 2") ?></h4>
+                </div>
             </div>
-            <!-- End Collapse Wrap -->  
+            <!-- End Collapse Wrap -->
         </div>
     </div>
-    
+
     <!-- Table of Reports -->
     <div class="col-lg-9">
         <div class="card card-primary card-outline table-responsive p-0 overflow-scroll" style="max-height: 1110px;">
@@ -116,61 +116,53 @@ use CakeLteTools\Utility\FaIcon;
                 </div>
             </div>
             <table class="table table-hover text-nowrap">
-                    <thead>
+                <thead>
+                    <tr>
+                        <th><?= _('Área') ?></th>
+                        <th><?= _('Programa') ?></th>
+                        <th><?= _('Cédula') ?></th>
+                        <th><?= _('Nombre') ?></th>
+                        <th><?= _('Apellido') ?></th>
+                        <th><?= _('Lapso') ?></th>
+                        <th><?= _('Estatus') ?></th>
+                        <th><?= _('Etapa') ?></th>
+                        <th><?= _('Institución') ?></th>
+                        <th><?= _('Proyecto') ?></th>
+                        <th><?= _('Tutor') ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($results as $result) : ?>
                         <tr>
-                            <th><?= _('Área') ?></th>
-                            <th><?= _('Programa')?></th>
-                            <th><?= _('Cédula')?></th>
-                            <th><?= _('Nombre')?></th>
-                            <th><?= _('Apellido')?></th>
-                            <th><?= _('Lapso')?></th> 
-                            <th><?= _('Estatus')?></th> 
-                            <th><?= _('Etapa')?></th>
-                            <th><?= _('Institución')?></th> 
-                            <th><?= _('Proyecto')?></th> 
-                            <th><?= _('Tutor')?></th> 
+                            <td><?= h($result->student->tenant->program->area_label) ?? $this->App->nan() ?></td>
+                            <td><?= h($result->student->tenant->program->name) ?></td>
+                            <td><?= h($result->student->dni) ?></td>
+                            <td><?= h($result->student->first_name) ?></td>
+                            <td><?= h($result->student->last_name) ?></td>
+                            <td><?= h($result->student->lapse->label) ?? $this->App->nan()  ?></td>
+                            <td><?= $this->App->badge($result->student->last_stage->enum('status')) ?></td>
+                            <td><?= h($result->stage_label) ?></td>
+                            <td><?= h($result->student->tenant->label) ?></td>
 
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        <?php
-                            //Debug | Remove on deployed
-                           //dd($results->toArray());                                                       
-                        ?>
-                        <?php foreach ($results as $result) : ?>
-                            <tr>                                
-                                <td><?= h($result->student->tenant->program->area_label) ?? $this->App->nan() ?></td>
-                                <td><?= h($result->student->tenant->program->name) ?></td>
-                                <td><?= h($result->student->dni) ?></td>
-                                <td><?= h($result->student->first_name) ?></td>
-                                <td><?= h($result->student->last_name) ?></td>
-                                <td><?= h($result->student->lapse->label) ?? $this->App->nan()  ?></td>
-                                <td><?= $this->App->badge($result->student->last_stage->enum('status')) ?></td>
-                                <td><?= h($result->stage_label) ?></td>
-                                <td><?= h($result->student->tenant->label) ?></td>
-                                
-                                <!-- The adscriptions is an Array Object -->
-                                <?php if(!empty($result->student->student_adscriptions)) {                                    
-                                   foreach ($result->student->student_adscriptions as $adscription) { ?>
+                            <!-- The adscriptions is an Array Object -->
+                            <?php if (!empty($result->student->student_adscriptions)) {
+                                foreach ($result->student->student_adscriptions as $adscription) { ?>
                                     <!-- Only Main Project -->
                                     <?php if ($adscription->principal) { ?>
-                                    <td><?= h($adscription->institution_project->name) ?></td>
-                                    <td><?= h($adscription->tutor->name) ?></td>
-
+                                        <td><?= h($adscription->institution_project->name) ?></td>
+                                        <td><?= h($adscription->tutor->name) ?></td>
                                 <?php       }
-                                        }
-                                    }else{ ?>
-                                    <!-- No Project -->
-                                    <td><?=$this->App->nan(); ?></td>
-                                    <td><?= $this->App->nan(); ?></td>
-                                <?php } ?>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+                                }
+                            } else { ?>
+                                <!-- No Project -->
+                                <td><?= $this->App->nan(); ?></td>
+                                <td><?= $this->App->nan(); ?></td>
+                            <?php } ?>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
         </div>
     </div>
     <!-- End Table of Reports -->
-
 </div>

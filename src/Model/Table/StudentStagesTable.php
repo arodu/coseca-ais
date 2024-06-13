@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -175,17 +174,16 @@ class StudentStagesTable extends Table
                         },
                     ]);
 
-                return $query->where(['student_id IN' => $lapses_ids->extract('id')->toArray()] );
+                return $query->where(['student_id IN' => $lapses_ids->extract('id')->toArray()]);
             },
         ]);
-
-
 
         $this->addFilterField('dni_order', [
             'finder' => function (Query $query, array $options) {
                 if ($options['value'] === 'asc') {
                     return $query->orderAsc('AppUsers.dni');
                 }
+
                 return $query->orderDesc('AppUsers.dni');
             },
         ]);
@@ -200,7 +198,6 @@ class StudentStagesTable extends Table
             'finder' => 'stageFilter',
         ]);
     }
-
 
     /**
      * @param \Cake\ORM\Query $query
@@ -219,8 +216,6 @@ class StudentStagesTable extends Table
 
         return $query->where([$this->aliasField('student_id') . ' IN' => $subQuery]);
     }
-
-
 
     /**
      * @param \Cake\ORM\Query $query
