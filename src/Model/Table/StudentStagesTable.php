@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -117,7 +116,6 @@ class StudentStagesTable extends Table
      * @return void
      */
     public function loadQueryFilters()
-    // area ---> buscar estudiantes de esa area
     {
         $this->addFilterField('area_id', [
             'finder' => function (Query $query, array $options) {
@@ -175,18 +173,7 @@ class StudentStagesTable extends Table
                         },
                     ]);
 
-                return $query->where(['student_id IN' => $lapses_ids->extract('id')->toArray()] );
-            },
-        ]);
-
-
-
-        $this->addFilterField('dni_order', [
-            'finder' => function (Query $query, array $options) {
-                if ($options['value'] === 'asc') {
-                    return $query->orderAsc('AppUsers.dni');
-                }
-                return $query->orderDesc('AppUsers.dni');
+                return $query->where(['student_id IN' => $lapses_ids->extract('id')->toArray()]);
             },
         ]);
 
@@ -199,8 +186,32 @@ class StudentStagesTable extends Table
             'tableField' => 'status',
             'finder' => 'stageFilter',
         ]);
-    }
 
+        $this->addFilterField('dni_order', [
+            'tableField' => 'dni_order',
+            'finder' => 'order',
+        ]);
+
+        $this->addFilterField('area_order', [
+            'tableField' => 'area_order',
+            'finder' => 'order',
+        ]);
+
+        $this->addFilterField('program_order', [
+            'tableField' => 'program_order',
+            'finder' => 'order',
+        ]);
+
+        $this->addFilterField('firstname_order', [
+            'tableField' => 'firstname_order',
+            'finder' => 'order',
+        ]);
+
+        $this->addFilterField('lastname_order', [
+            'tableField' => 'lastname_order',
+            'finder' => 'order',
+        ]);
+    }
 
     /**
      * @param \Cake\ORM\Query $query
@@ -220,7 +231,31 @@ class StudentStagesTable extends Table
         return $query->where([$this->aliasField('student_id') . ' IN' => $subQuery]);
     }
 
+    /**
+     * @param \Cake\ORM\Query $query
+     * @param array $options
+     * @return \Cake\ORM\Query
+     */
+    public function findOrder(Query $query, array $options = []): Query
+    {
+         $tableField = match ($options['key']) {
+             'dni_order' => 'AppUsers.dni',
+             'area_order' => 'Areas.name',
+             'program_order' => 'Programs.name',
+             'firstname_order' => 'AppUsers.first_name',
+             'lastname_order' => 'AppUsers.last_name',
+             default => null
+         };
 
+        //  debug($order_val);
+        //  exit();
+
+        if ($options['value'] === 'asc') {
+            return $query->orderAsc($tableField);
+        }
+
+        return $query->orderDesc($tableField);
+    }
 
     /**
      * @param \Cake\ORM\Query $query
