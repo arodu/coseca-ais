@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Admin;
@@ -34,7 +33,6 @@ class ReportsController extends AppAdminController
     public function index()
     {
         if ($this->getRequest()->getQuery('action') === 'search') {
-
             $data = $this->getRequest()->getQuery();
 
             $query = $this->Students->StudentStages
@@ -89,13 +87,13 @@ class ReportsController extends AppAdminController
                 'Locations',
             ]);
 
-        $lapses = $this->Tenants->Lapses
+         $lapses = $this->Tenants->Lapses
             ->find('list', [
                 'keyField' => 'id',
                 'valueField' => 'name',
             ]);
 
-        $this->set(compact('areas', 'programs', 'tenants', 'lapses'));
+            $this->set(compact('areas', 'programs', 'tenants', 'lapses'));
     }
 
     /**
