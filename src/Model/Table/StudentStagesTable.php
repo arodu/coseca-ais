@@ -1,5 +1,6 @@
 <?php
 
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -58,6 +59,7 @@ class StudentStagesTable extends Table
         $this->addBehavior('Timestamp');
         $this->addBehavior('Muffin/Footprint.Footprint');
         $this->addBehavior('QueryFilter.QueryFilter');
+        $this->addBehavior('QueryFilter.QueryFilter');
 
         $this->addBehavior('LastElement', [
             'fieldGroup' => 'student_id',
@@ -67,6 +69,8 @@ class StudentStagesTable extends Table
             'foreignKey' => 'student_id',
             'joinType' => 'INNER',
         ]);
+
+        $this->loadQueryFilters();
 
         $this->loadQueryFilters();
     }
