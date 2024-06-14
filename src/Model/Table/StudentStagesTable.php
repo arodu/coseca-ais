@@ -196,7 +196,7 @@ class StudentStagesTable extends Table
             'tableField' => 'status',
             'finder' => 'stageFilter',
         ]);
-        
+
         $this->addFilterField('dni_order', [
             'tableField' => 'dni_order',
             'finder' => 'order',
