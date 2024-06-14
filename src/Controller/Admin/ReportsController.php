@@ -1,6 +1,4 @@
 <?php
-
-
 declare(strict_types=1);
 
 namespace App\Controller\Admin;
@@ -71,16 +69,6 @@ class ReportsController extends AppAdminController
         ]);
 
         $tenants = $this->Tenants
-            ->find('list', [
-                'keyField' => 'id',
-                'valueField' => 'label',
-            ])
-            ->contain([
-                'Programs' => ['Areas'],
-                'Locations',
-            ]);
-
-        $status = $this->Tenants
             ->find('list', [
                 'keyField' => 'id',
                 'valueField' => 'label',
