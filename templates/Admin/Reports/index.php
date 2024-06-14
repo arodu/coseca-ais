@@ -50,7 +50,7 @@ use CakeLteTools\Utility\FaIcon;
                         </div>
                         <div class="row">
                             <div class="col">
-                                <?= $this->Form->control('stage', ['label' => __('Etapa'), 'empty' => __('--Todos--'), 'options' => StageField::toListLabel()]) ?>
+                                <?= $this->Form->control('stage', ['label' => __('Fase'), 'empty' => __('--Todos--'), 'options' => StageField::toListLabel()]) ?>
                             </div>
                         </div>
                         <div class="row">
@@ -58,16 +58,44 @@ use CakeLteTools\Utility\FaIcon;
                                 <?= $this->Form->control('lapse_id', ['label' => __('Lapso'), 'empty' => __('--Todos--')]) ?>
                             </div>
                         </div>
-
-                        <?= $this->Form->control('dni_order', ['label' => __('Ordenar por DNI'), 'options' => ['asc' => 'ASC', 'desc' => 'DESC'], 'empty' => true]) ?>
-
-                        <?= $this->Button->search() ?>
+                        <div class="row">
+                            <div class="col">
+                                <?= $this->Button->search() ?>
+                            </div>
+                        </div>
+                        
                     </div>
                     <?= $this->Form->end() ?>
                 </div>
             </div>
             <!-- End Collapse Filters -->
         </div>
+
+        <div class="row">
+            <!-- Collapse Order -->
+            <div class="card text-black w-100" style="max-width: 18rem;">
+                <?= $this->Form->create(null, ['type' => 'GET', 'valueSources' => ['query', 'context']]) ?>
+                <div class="card-header card-warning card-outline ">
+                    <h4>
+                        <span class="d-flex w-100" data-toggle="collapse" href="#collapse-fields">
+                            <?= __('Ordenar') ?>
+                            <i class="icon-caret fas fa-caret-up ml-auto fa-fw"></i>
+                        </span>
+                    </h4>
+                </div>
+                <div class="card-body collapse hidden" id="collapse-fields">
+                        <?= $this->Form->control('dni_order', ['label' => __('Cedula'), 'options' => ['asc' => 'ASC', 'desc' => 'DESC'], 'empty' => _('--Seleccionar--')]) ?>
+                        <?= $this->Form->control('area_order', ['label' => __('Area'), 'options' => ['asc' => 'ASC', 'desc' => 'DESC'], 'empty' => _('--Seleccionar--')]) ?>
+                        <?= $this->Form->control('program_order', ['label' => __('Programa'), 'options' => ['asc' => 'ASC', 'desc' => 'DESC'], 'empty' => _('--Seleccionar--')]) ?>
+                        <?= $this->Form->control('firstname_order', ['label' => __('Nombre'), 'options' => ['asc' => 'ASC', 'desc' => 'DESC'], 'empty' => _('--Seleccionar--')]) ?>
+                        <?= $this->Form->control('lastname_order', ['label' => __('Apellido'), 'options' => ['asc' => 'ASC', 'desc' => 'DESC'], 'empty' => _('--Seleccionar--')]) ?>
+                        <?= $this->Button->search() ?>
+                    </div>
+                    <?= $this->Form->end() ?>
+                </div>
+            <!-- End Collapse Order -->
+        </div>
+
 
         <div class="row">
             <!-- Collapse Show Fields -->

@@ -88,13 +88,13 @@ class ReportsController extends AppAdminController
                 'Locations',
             ]);
 
-        $lapses = $this->Tenants->Lapses
+         $lapses = $this->Tenants->Lapses
             ->find('list', [
                 'keyField' => 'id',
                 'valueField' => 'name',
             ]);
 
-        $this->set(compact('areas', 'programs', 'tenants', 'lapses'));
+            $this->set(compact('areas', 'programs', 'tenants', 'lapses'));
     }
 
     /**
