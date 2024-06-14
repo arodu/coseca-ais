@@ -77,13 +77,13 @@ use CakeLteTools\Utility\FaIcon;
                 <?= $this->Form->create(null, ['type' => 'GET', 'valueSources' => ['query', 'context']]) ?>
                 <div class="card-header card-warning card-outline ">
                     <h4>
-                        <span class="d-flex w-100" data-toggle="collapse" href="#collapse-fields">
+                        <span class="d-flex w-100" data-toggle="collapse" href="#collapse-order">
                             <?= __('Ordenar') ?>
                             <i class="icon-caret fas fa-caret-up ml-auto fa-fw"></i>
                         </span>
                     </h4>
                 </div>
-                <div class="card-body collapse hidden" id="collapse-fields">
+                <div class="card-body collapse hidden" id="collapse-order">
                         <?= $this->Form->control('dni_order', ['label' => __('Cedula'), 'options' => ['asc' => 'ASC', 'desc' => 'DESC'], 'empty' => _('--Seleccionar--')]) ?>
                         <?= $this->Form->control('area_order', ['label' => __('Area'), 'options' => ['asc' => 'ASC', 'desc' => 'DESC'], 'empty' => _('--Seleccionar--')]) ?>
                         <?= $this->Form->control('program_order', ['label' => __('Programa'), 'options' => ['asc' => 'ASC', 'desc' => 'DESC'], 'empty' => _('--Seleccionar--')]) ?>
