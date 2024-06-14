@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Admin;
@@ -40,8 +39,15 @@ class ReportsController extends AppAdminController
                 ->find()
                 ->contain([
                     'Students' => [
+                        'LastStage',
+                        'Lapses',
                         'AppUsers',
+                        'StudentAdscriptions' => [
+                            'Tutors',
+                            'InstitutionProjects',
+                        ],
                         'Tenants' => [
+                            'Programs',
                             'Locations',
                         ],
                     ],
@@ -61,6 +67,7 @@ class ReportsController extends AppAdminController
             'keyField' => 'id',
             'valueField' => 'name',
         ]);
+
         $tenants = $this->Tenants
             ->find('list', [
                 'keyField' => 'id',
@@ -71,7 +78,13 @@ class ReportsController extends AppAdminController
                 'Locations',
             ]);
 
-        $this->set(compact('areas', 'programs', 'tenants'));
+         $lapses = $this->Tenants->Lapses
+            ->find('list', [
+                'keyField' => 'id',
+                'valueField' => 'name',
+            ]);
+
+            $this->set(compact('areas', 'programs', 'tenants', 'lapses'));
     }
 
     /**
