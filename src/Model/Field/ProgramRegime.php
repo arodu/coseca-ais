@@ -58,4 +58,16 @@ enum ProgramRegime: string implements ListInterface
             default => 0,
         };
     }
+
+    /**
+     * @return array
+     */
+    public function creditTypeLabel(): array
+    {
+        return match ($this) {
+            static::BIANNUAL, static::QUARTERLY => ['render' => 'render', 'label' => 'Numero de Unidades de Credito Aprobadas'],
+            static::ANNUALIZED_5, static::ANNUALIZED_6 => [],
+            default => __('NaN'),
+        };
+    }
 }
