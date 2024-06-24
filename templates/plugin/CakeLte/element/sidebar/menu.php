@@ -34,6 +34,12 @@ if (in_array($this->Identity->get('role'), UserRole::getGroup(UserRole::GROUP_ST
         'icon' => 'fas fa-user-tie',
         'uri' => ['controller' => 'Tutors', 'action' => 'index', 'prefix' => 'Admin'],
     ];
+
+    $menu['reports'] = [
+        'label' => __('Reportes'),
+        'icon' => 'fas fa-file-alt',
+        'uri' => ['controller' => 'Reports', 'action' => 'index', 'prefix' => 'Admin'],
+    ];
 }
 
 if (in_array($this->Identity->get('role'), UserRole::getGroup(UserRole::GROUP_ADMIN))) {

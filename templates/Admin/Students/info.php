@@ -7,6 +7,7 @@
 $this->student_id = $student->id;
 $this->active = 'info';
 $this->extend('/Admin/Common/view_student');
+$regime = $student->tenant?->program->regime;
 
 $this->assign('title', __('Estudiante'));
 $this->Breadcrumbs->add([
@@ -43,11 +44,15 @@ $this->Breadcrumbs->add([
         <dt class="col-sm-4"><?= __('Dirección') ?></dt>
         <dd class="col-sm-8 text-right mb-4"><?= h($student->student_data?->address) ?? $this->App->nan() ?></dd>
 
+        <?php if (!($regime === 'annualized_5' || $regime === 'annualized_6')) : ?>
+
         <dt class="col-sm-4"><?= __('Semestre Actual') ?></dt>
         <dd class="col-sm-8 text-right mb-4"><?= h($student->student_data?->current_semester) ?? $this->App->nan() ?></dd>
-
+        
         <dt class="col-sm-4"><?= __('Número de unidades de crédito aprobadas') ?></dt>
         <dd class="col-sm-8 text-right mb-4"><?= h($student->student_data?->uc) ?? $this->App->nan() ?></dd>
+
+        <?php endif ?>
 
         <dt class="col-sm-4"><?= __('Área de interés') ?></dt>
         <dd class="col-sm-8 text-right mb-4"><?= h($student->student_data?->interest_area->name) ?? $this->App->nan() ?></dd>
