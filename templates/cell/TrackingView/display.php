@@ -167,6 +167,8 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
                                 <?= $this->Form->control('description', [
                                     'label' => __('Actividad'),
                                     'required' => true,
+                                    'maxlength' => 255,
+                                    'type' => 'textarea',
                                 ]) ?>
                             </div>
                         </div>
