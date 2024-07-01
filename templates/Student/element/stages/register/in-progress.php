@@ -8,7 +8,13 @@ use App\Enum\ActionColor;
 use App\Enum\StatusDate;
 use App\Model\Field\StageField;
 
-$dates = $student->getCurrentLapse()->getDates(StageField::REGISTER);
+//  Import Exceptions of CakePHP
+use Cake\Http\Exception\NotFoundException;
+try{ 
+    $dates = $student->getCurrentLapse()->getDates(StageField::REGISTER);
+}catch(Exception $e){
+    throw new NotFoundException(__("Actualmente no se encuentra un período activo, contacte la Coordinación de Servicio Comunitario. /logout")); //logout for student no lapses
+}
 
 ?>
 
