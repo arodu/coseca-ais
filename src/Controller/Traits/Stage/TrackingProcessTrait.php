@@ -9,6 +9,7 @@ use App\Model\Field\StageStatus;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\Log\Log;
+use Exception;
 
 trait TrackingProcessTrait
 {
@@ -29,11 +30,13 @@ trait TrackingProcessTrait
 
         $tracking = $tackingTable->newEntity($data);
 
-        if ($tackingTable->save($tracking)) {
+        try {
+            $tackingTable->saveOrFail($tracking);
             $success = true;
             $this->Flash->success(__('The student tracking has been saved.'));
-        } else {
+        } catch (Exception $e) {
             $this->Flash->error(__('The student tracking could not be saved. Please, try again.'));
+            Log::error($e->getMessage());
         }
 
         return [
