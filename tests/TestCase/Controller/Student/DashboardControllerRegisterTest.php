@@ -71,7 +71,6 @@ class DashboardControllerRegisterTest extends TestCase
 
     public function testRegisterCardStatusReview(): void
     {
-
         $this->createStudentStage([
         'user_id' => $this->user->id,
         'student_id' => $this->student->id,
@@ -87,7 +86,6 @@ class DashboardControllerRegisterTest extends TestCase
 
     public function testRegisterCardStatusWaiting(): void
     {
-
         $this->createStudentStage([
         'user_id' => $this->user->id,
         'student_id' => $this->student->id,
@@ -103,7 +101,6 @@ class DashboardControllerRegisterTest extends TestCase
 
     public function testRegisterCardStatusSuccess(): void
     {
-
         $this->createStudentStage([
         'user_id' => $this->user->id,
         'student_id' => $this->student->id,
