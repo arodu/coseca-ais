@@ -82,6 +82,11 @@ class ProgramsTable extends Table
             ->requirePresence('abbr', 'create')
             ->notEmptyString('abbr');
 
+        $validator
+            ->scalar('uc')
+            ->requirePresence('uc', 'create')
+            ->integer('int');
+
         return $validator;
     }
 
