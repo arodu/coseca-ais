@@ -27,6 +27,8 @@ class FilterTenantUtility
                 ->all()
                 ->extract('id')
                 ->toList();
+        } elseif ($user->enumRole()->isGroup(UserRole::GROUP_STUDENT)) {
+            $output = [$user->current_student->tenant_id];
         } else {
             $output = $tenantsTable->TenantFilters
                 ->find()
