@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller\Student;
 
-use App\Test\Traits\CommonTestTrait;
 use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
+use App\Test\Traits\CommonTestTrait;
+use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 use Cake\Utility\Hash;
-use Cake\TestSuite\IntegrationTestTrait;
 
 /**
  * App\Controller\Student\DashboardController Test Case
@@ -18,7 +18,6 @@ use Cake\TestSuite\IntegrationTestTrait;
  */
 class DashboardControllerAdscriptionTest extends TestCase
 {
-
     use IntegrationTestTrait;
     use CommonTestTrait;
 
@@ -61,7 +60,6 @@ class DashboardControllerAdscriptionTest extends TestCase
             'stage' => StageField::ADSCRIPTION,
             'status' => StageStatus::WAITING,
         ])->persist();
-        
 
         $this->get('/student');
         $this->assertResponseOk();
@@ -77,7 +75,6 @@ class DashboardControllerAdscriptionTest extends TestCase
             'stage' => StageField::ADSCRIPTION,
             'status' => StageStatus::IN_PROGRESS,
         ])->persist();
-        
 
         $this->get('/student');
         $this->assertResponseOk();
@@ -96,7 +93,6 @@ class DashboardControllerAdscriptionTest extends TestCase
             'status' => StageStatus::IN_PROGRESS,
         ])->persist();
 
-        
         $this->createAdscription([
             'student_id' => $this->student->id,
             'institution_project_id' => $project->id,
@@ -104,7 +100,6 @@ class DashboardControllerAdscriptionTest extends TestCase
             'status' => AdscriptionStatus::PENDING,
         ])->persist();
 
-        
         $project_label_name = __('{0}: {1}', $this->institution->name, $project->name);
 
         $this->get('/student');
@@ -118,8 +113,7 @@ class DashboardControllerAdscriptionTest extends TestCase
         $this->assertResponseContains('<dd class="col-sm-8">' . $project->name . '</dd>');
         $this->assertResponseContains('<dd class="col-sm-8">' . $this->tutor->name . '</dd>');
         $this->assertResponseContains('<dd class="col-sm-8">' . $this->tutor->phone . '</dd>');
-        $this->assertResponseContains('<dd class="col-sm-8">' . $this->tutor->email . '</dd>'); 
-
+        $this->assertResponseContains('<dd class="col-sm-8">' . $this->tutor->email . '</dd>');
     }
 
     public function testAdscriptionCardStatusClosed()
@@ -131,7 +125,7 @@ class DashboardControllerAdscriptionTest extends TestCase
             'stage' => StageField::ADSCRIPTION,
             'status' => StageStatus::REVIEW,
         ])->persist();
-        
+
         $this->createAdscription([
             'student_id' => $this->student->id,
             'institution_project_id' => $project->id,
@@ -150,7 +144,6 @@ class DashboardControllerAdscriptionTest extends TestCase
         $this->assertResponseContains($project_label_name);
         $this->assertResponseContains('<span class="badge badge-danger">Cerrado</span>');
         $this->assertResponseNotContains('Planilla de adscripción');
-
     }
 
     public function testAdscriptionCardStatusOpen()
@@ -162,7 +155,7 @@ class DashboardControllerAdscriptionTest extends TestCase
             'stage' => StageField::ADSCRIPTION,
             'status' => StageStatus::IN_PROGRESS,
         ])->persist();
-        
+
         $this->createAdscription([
             'student_id' => $this->student->id,
             'institution_project_id' => $project->id,
@@ -171,7 +164,7 @@ class DashboardControllerAdscriptionTest extends TestCase
         ])->persist();
 
         $project = Hash::get($this->institution, 'institution_projects.0');
-        
+
         $project_label_name = __('{0}: {1}', $this->institution->name, $project->name);
 
         $this->get('/student');
@@ -179,7 +172,6 @@ class DashboardControllerAdscriptionTest extends TestCase
         $this->assertResponseContains($project_label_name);
         $this->assertResponseContains('<span class="badge badge-success">Abierto</span>');
         $this->assertResponseNotContains('Planilla de adscripción');
-
     }
 
     public function testAdscriptionCardStatusValidated()
@@ -192,7 +184,7 @@ class DashboardControllerAdscriptionTest extends TestCase
             'stage' => StageField::ADSCRIPTION,
             'status' => StageStatus::SUCCESS,
         ])->persist();
-        
+
         $this->createAdscription([
             'student_id' => $this->student->id,
             'institution_project_id' => $project->id,
@@ -207,7 +199,6 @@ class DashboardControllerAdscriptionTest extends TestCase
         $this->assertResponseContains($project_label_name);
         $this->assertResponseContains('<span class="badge badge-primary">Validado</span>');
         $this->assertResponseNotContains('Planilla de adscripción');
-        
     }
 
     public function testAdscriptionCardStatusCancelled()
@@ -220,7 +211,7 @@ class DashboardControllerAdscriptionTest extends TestCase
             'stage' => StageField::ADSCRIPTION,
             'status' => StageStatus::FAILED,
         ])->persist();
-        
+
         $this->createAdscription([
             'student_id' => $this->student->id,
             'institution_project_id' => $project->id,
