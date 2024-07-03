@@ -5,6 +5,8 @@ namespace App\Test\TestCase\Controller\Student;
 
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
+use App\Test\Factory\LapseDateFactory;
+use App\Test\Factory\LapseFactory;
 use App\Test\Traits\CommonTestTrait;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
@@ -33,7 +35,13 @@ class DashboardControllerRegisterTest extends TestCase
     {
         parent::setUp();
 
-        $this->program = $this->createProgram()->persist();
+        //$lapse = LapseFactory::make()
+        //    ->with('LapseDates');
+        //;
+
+        $this->program = $this->createProgram([
+            //'lapses' => $lapse,
+        ])->persist();
         $this->tenant = Hash::get($this->program, 'tenants.0');
         $this->institution = $this->createInstitution(['tenant_id' => $this->tenant->id])->persist();
         $this->tutor = $this->createTutor(['tenant_id' => $this->tenant->id])->persist();
@@ -59,6 +67,14 @@ class DashboardControllerRegisterTest extends TestCase
 
     public function testRegisterNoLapseActive(): void
     {
+        //$lapseDate = LapseDateFactory::make([
+        //    'lapse_id' => $this->lapse_id,
+        //    'title' => 'Registro',
+        //    'stage' => StageField::REGISTER->value,
+        //    'start_date' => date('Y-m-d', strtotime('+1 day')),
+        //    'end_date' => date('Y-m-d', strtotime('+1 day')),
+        //])->persist();
+
         $this->createStudentStage([
         'student_id' => $this->student->id,
         'stage' => StageField::REGISTER,
@@ -66,11 +82,24 @@ class DashboardControllerRegisterTest extends TestCase
         ])->persist();
 
         $this->get('/student');
-        $this->assertResponseCode(404, 'Actualmente no se encuentra un período activo, contacte la Coordinación de Servicio Comunitario. /logout');
+
+        //$this->debugResponse();
+
+        $this->assertResponseContains('Ya pasó el período de registro');
+        $this->assertResponseContains('Comuniquese con la coordinación de servicio comunitario para mas información');
     }
 
     public function testRegisterCardStatusReview(): void
     {
+
+        //$lapseDate = LapseDateFactory::make([
+        //    'lapse_id' => $this->lapse_id,
+        //    'title' => 'Registro',
+        //    'stage' => StageField::REGISTER->value,
+        //    'start_date' => date('Y-m-d', strtotime('+1 day')),
+        //    'end_date' => date('Y-m-d', strtotime('+1 day')),
+        //])->persist();
+
         $this->createStudentStage([
         'user_id' => $this->user->id,
         'student_id' => $this->student->id,
