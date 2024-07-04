@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller\Student;
@@ -76,6 +75,7 @@ class DashboardControllerRegisterTest extends TestCase
 
     /// Status: En proceso  ///
     //Sin lapso o periodo no activo
+
     public function testRegisterNoLapseActive(): void
     {
         $this->createStudentStage([
@@ -89,6 +89,7 @@ class DashboardControllerRegisterTest extends TestCase
     }
 
     //No existe fecha para el registro
+
     public function testRegisterNotExistLapseDate(): void
     {
 
@@ -107,6 +108,7 @@ class DashboardControllerRegisterTest extends TestCase
     }
 
     //Ya pasó la fecha de registro
+
     public function testRegisterSubLapseDate(): void
     {
         $this->createStudentStage([
@@ -127,6 +129,7 @@ class DashboardControllerRegisterTest extends TestCase
     }
 
     //Fecha para el registro mostrada
+
     public function testRegisterShowLapseDate(): void
     {
         $this->createStudentStage([
@@ -147,6 +150,7 @@ class DashboardControllerRegisterTest extends TestCase
     }
 
     //Fecha para el registro mostrada con más tiempo
+
     public function testRegisterLapse2(): void
     {
         $this->createStudentStage([
@@ -166,9 +170,11 @@ class DashboardControllerRegisterTest extends TestCase
         $this->assertResponseContains('<a href="/student/register" type="button"');
         $this->assertResponseContains('Formulario de registro');
     }
+
     ///  ---  ///
 
     /// Status: En revisión  ///
+
     public function testRegisterCardStatusReview(): void
     {
 
@@ -186,6 +192,7 @@ class DashboardControllerRegisterTest extends TestCase
     }
 
     /// Status: En espera  ///
+
     public function testRegisterCardStatusWaiting(): void
     {
         $this->createStudentStage([
@@ -211,7 +218,7 @@ class DashboardControllerRegisterTest extends TestCase
             'status' => StageStatus::SUCCESS,
         ])->persist();
 
-        /*  @FIXME  
+        /*  @FIXME
         *   warning: 2 :: Attempt to read property "name" on null on line 27 of /var/www/html/templates/Student/element/stages/*   register/success.php
         */
         $this->get('/student');
