@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller\Student;
@@ -31,6 +30,7 @@ class DashboardControllerRegisterTest extends TestCase
     protected $user;
     protected $lapse;
     protected $lapse_id;
+    protected $lapseDate;
 
     protected function setUp(): void
     {
@@ -48,6 +48,12 @@ class DashboardControllerRegisterTest extends TestCase
         $this->tutor = $this->createTutor(['tenant_id' => $this->tenant->id])->persist();
         $this->lapse = Hash::get($this->program, 'tenants.0.lapses.0');
         $this->lapse_id = $this->lapse->id;
+        // fecha de registro no activa
+        $this->lapseDate = LapseDateFactory::make([
+            'lapse_id' => $this->lapse_id,
+            'title' => 'Registro',
+            'stage' => StageField::REGISTER->value,
+        ]);
         $this->student = $this->createStudent(['tenant_id' => $this->tenant->id])->persist();
         $this->user = $this->setAuthSession(Hash::get($this->student, 'app_user'));
     }
@@ -61,10 +67,14 @@ class DashboardControllerRegisterTest extends TestCase
         unset($this->student);
         unset($this->lapse);
         unset($this->lapse_id);
+        unset($this->lapseDate);
         unset($this->institution);
         unset($this->tutor);
         unset($this->user);
     }
+
+    /// Status: En proceso  ///
+    //Sin lapso o periodo no activo
 
     public function testRegisterNoLapseActive(): void
     {
@@ -74,53 +84,99 @@ class DashboardControllerRegisterTest extends TestCase
             'status' => StageStatus::IN_PROGRESS,
         ])->persist();
 
-        // fecha de registro no activa
+        $this->get('/student');
+        $this->assertResponseCode(404, 'Actualmente no se encuentra un período activo, contacte la Coordinación de Servicio Comunitario. /logout');
+    }
 
-        $lapseDate = LapseDateFactory::make([
-            'lapse_id' => $this->lapse_id,
-            'title' => 'Registro',
-            'stage' => StageField::REGISTER->value,
-            'start_date' => FrozenDate::now()->subDays(1),
-            'end_date' => FrozenDate::now()->subDays(1),
-        ]);
-        $lapseDateEntity = $lapseDate->persist();
+    //No existe fecha para el registro
+
+    public function testRegisterNotExistLapseDate(): void
+    {
+
+        $this->createStudentStage([
+            'student_id' => $this->student->id,
+            'stage' => StageField::REGISTER,
+            'status' => StageStatus::IN_PROGRESS,
+        ])->persist();
+
+        $this->lapseDate->persist();
 
         $this->get('/student');
-        $this->assertResponseContains('Ya pasó el período de registro');
-        $this->assertResponseContains('Comuniquese con la coordinación de servicio comunitario para mas información');
+        $this->assertResponseOk();
+        $this->assertResponseContains('No existe fecha de registro');
+        $this->assertResponseContains($this->alertMessage);
+    }
 
-        // fecha de registro no activa
+    //Ya pasó la fecha de registro
+
+    public function testRegisterSubLapseDate(): void
+    {
+        $this->createStudentStage([
+            'student_id' => $this->student->id,
+            'stage' => StageField::REGISTER,
+            'status' => StageStatus::IN_PROGRESS,
+        ])->persist();
+
+        $lapseDateEntity = $this->lapseDate->persist();
+        $lapseDateEntity->start_date = FrozenDate::now()->subDays(1);
+        $lapseDateEntity->end_date = FrozenDate::now()->subDays(1);
+        $this->lapseDate->getTable()->saveOrFail($lapseDateEntity);
+
+        $this->get('/student');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Ya pasó el período de registro');
+        $this->assertResponseContains($this->alertMessage);
+    }
+
+    //Fecha para el registro mostrada
+
+    public function testRegisterShowLapseDate(): void
+    {
+        $this->createStudentStage([
+            'student_id' => $this->student->id,
+            'stage' => StageField::REGISTER,
+            'status' => StageStatus::IN_PROGRESS,
+        ])->persist();
+
+        $lapseDateEntity = $this->lapseDate->persist();
         $lapseDateEntity->start_date = FrozenDate::now()->addDays(1);
         $lapseDateEntity->end_date = FrozenDate::now()->addDays(1);
-        $lapseDate->getTable()->saveOrFail($lapseDateEntity);
+        $this->lapseDate->getTable()->saveOrFail($lapseDateEntity);
 
         $this->get('/student');
-
+        $this->assertResponseOk();
         $this->assertResponseContains(__('Fecha de registro: {0}', $lapseDateEntity->show_dates));
-        $this->assertResponseContains('Comuniquese con la coordinación de servicio comunitario para mas información');
+        $this->assertResponseContains($this->alertMessage);
+    }
 
-        // fecha de registro activa
+    //Fecha para el registro mostrada con más tiempo
+
+    public function testRegisterLapse2(): void
+    {
+        $this->createStudentStage([
+            'student_id' => $this->student->id,
+            'stage' => StageField::REGISTER,
+            'status' => StageStatus::IN_PROGRESS,
+        ])->persist();
+
+        $lapseDateEntity = $this->lapseDate->persist();
         $lapseDateEntity->start_date = FrozenDate::now()->subDays(1);
         $lapseDateEntity->end_date = FrozenDate::now()->addDays(1);
-        $lapseDate->getTable()->saveOrFail($lapseDateEntity);
+        $this->lapseDate->getTable()->saveOrFail($lapseDateEntity);
 
         $this->get('/student');
-
+        $this->assertResponseOk();
         $this->assertResponseContains(__('Fecha de registro: {0}', $lapseDateEntity->show_dates));
         $this->assertResponseContains('<a href="/student/register" type="button"');
         $this->assertResponseContains('Formulario de registro');
     }
 
+    ///  ---  ///
+
+    /// Status: En revisión  ///
+
     public function testRegisterCardStatusReview(): void
     {
-
-        //$lapseDate = LapseDateFactory::make([
-        //    'lapse_id' => $this->lapse_id,
-        //    'title' => 'Registro',
-        //    'stage' => StageField::REGISTER->value,
-        //    'start_date' => date('Y-m-d', strtotime('+1 day')),
-        //    'end_date' => date('Y-m-d', strtotime('+1 day')),
-        //])->persist();
 
         $this->createStudentStage([
             'user_id' => $this->user->id,
@@ -134,6 +190,8 @@ class DashboardControllerRegisterTest extends TestCase
         $this->assertResponseOk();
         $this->assertResponseContains('En espera de revisión de documentos.');
     }
+
+    /// Status: En espera  ///
 
     public function testRegisterCardStatusWaiting(): void
     {
@@ -150,16 +208,19 @@ class DashboardControllerRegisterTest extends TestCase
         $this->assertResponseContains('Sin información a mostrar');
     }
 
+    /// Status: En realizado  ///
     public function testRegisterCardStatusSuccess(): void
     {
         $this->createStudentStage([
             'user_id' => $this->user->id,
             'student_id' => $this->student->id,
-            'lapse_id' => $this->lapse_id,
             'stage' => StageField::REGISTER,
             'status' => StageStatus::SUCCESS,
         ])->persist();
 
+        /*  @FIXME
+        *   warning: 2 :: Attempt to read property "name" on null on line 27 of /var/www/html/templates/Student/element/stages/*   register/success.php
+        */
         $this->get('/student');
         $this->assertResponseOk();
         $this->assertResponseContains(Hash::get($this->user, 'dni'));
