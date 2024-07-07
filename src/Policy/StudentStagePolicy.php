@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Policy;
@@ -278,8 +277,8 @@ class StudentStagePolicy
     }
 
     /**
-     * @param string|integer $studentId
-     * @return integer
+     * @param string|int $studentId
+     * @return int
      */
     protected function openAdscriptions(string|int $studentId): int
     {
