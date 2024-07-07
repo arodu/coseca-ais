@@ -142,7 +142,43 @@ class DashboardControllerTrackingTest extends TestCase
         $this->assertResponseNotContains('Planilla de actividades');
     }
 
-    public function testTrackingCardStatusReview(): void
+    public function testTrackingCardStatusReviewWithAdscriptionOpen(): void
+    {
+
+        $this->createStudentStage([
+            'student_id' => $this->student->id,
+            'stage' => StageField::TRACKING,
+            'status' => StageStatus::REVIEW,
+        ])->persist();
+
+        $adscription = $this->createAdscription([
+            'student_id' => $this->student->id,
+            'institution_project_id' => $this->institution->institution_projects[0]->id,
+            'tutor_id' => $this->tutor->id,
+            'status' => AdscriptionStatus::OPEN->value,
+        ])->persist();
+
+        $first_date = FrozenDate::now();
+        $last_date = FrozenDate::now();
+
+        StudentTrackingFactory::make([
+            'student_adscription_id' => $adscription->id,
+            'date' => $last_date,
+            'hours' => 120,
+            'description' => 'test',
+        ])->persist();
+
+        $this->get('/student');
+        $this->assertResponseOk();
+        $this->assertResponseContains('<h5 class="tracking-count description-header">' . 1 . '</h5>');
+        $this->assertResponseContains('<h5 class="tracking-first-date description-header">' . $first_date . '</h5>');
+        $this->assertResponseContains('<h5 class="tracking-last-date description-header">' . $last_date . '</h5>');
+        $this->assertResponseContains('<h5 class="total-hours description-header">' . 120 . '</h5>');
+        $this->assertResponseContains('Registro de actividades');
+        $this->assertResponseNotContains('Planilla 007');
+    }
+
+    public function testTrackingCardStatusWithAdscriptionClosed(): void
     {
 
         $this->createStudentStage([
