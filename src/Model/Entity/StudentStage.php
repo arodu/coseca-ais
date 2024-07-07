@@ -6,7 +6,9 @@ namespace App\Model\Entity;
 use App\Model\Entity\Traits\EnumFieldTrait;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
+use App\Utility\CacheRequest;
 use Cake\ORM\Entity;
+use Cake\ORM\Locator\LocatorAwareTrait;
 
 /**
  * StudentStage Entity
@@ -28,6 +30,7 @@ use Cake\ORM\Entity;
 class StudentStage extends Entity
 {
     use EnumFieldTrait;
+    use LocatorAwareTrait;
 
     /**
      * Fields that are enum fields.
@@ -88,5 +91,19 @@ class StudentStage extends Entity
     protected function _getStatusLabel(): string
     {
         return $this->enum('status')?->label() ?? '';
+    }
+
+    /**
+     * @return \App\Model\Entity\Student
+     */
+    public function getStudentEntity(): Student
+    {
+        if (!empty($this->student) && $this->student instanceof Student) {
+            return $this->student;
+        }
+
+        return CacheRequest::remember('student' . $this->student_id, function () {
+            return $this->fetchTable('Students')->get($this->student_id);
+        });
     }
 }

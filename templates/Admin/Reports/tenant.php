@@ -38,7 +38,7 @@ $this->Breadcrumbs->add([
                     ]) ?>
                 </div>
             </div><!-- /.card-header -->
-            <div class="card-body">
+            <div class="card-body" style="overflow: auto;">
                 <?= $this->cell('ReportTenant::' . $currentTab, [
                     'tenant' => $tenant,
                     'lapseSelected' => $lapseSelected,
