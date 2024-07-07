@@ -155,7 +155,7 @@ class DashboardControllerTrackingTest extends TestCase
             'student_id' => $this->student->id,
             'institution_project_id' => $this->institution->institution_projects[0]->id,
             'tutor_id' => $this->tutor->id,
-            'status' => AdscriptionStatus::OPEN->value,
+            'status' => AdscriptionStatus::CLOSED->value,
         ])->persist();
 
         $first_date = FrozenDate::now();
