@@ -4,8 +4,10 @@ declare(strict_types=1);
 namespace App\Policy;
 
 use App\Model\Entity\StudentStage;
+use App\Model\Field\AdscriptionStatus;
 use App\Model\Field\StageField;
 use App\Model\Field\StageStatus;
+use App\Utility\CacheRequest;
 use App\Utility\Calc;
 use Authentication\IdentityInterface;
 use Authorization\Policy\Result;
@@ -103,19 +105,18 @@ class StudentStagePolicy
             return new Result(false, __('You are not the owner of this stage'));
         }
 
-        if ($this->stageIs($studentStage, StageField::TRACKING, StageStatus::IN_PROGRESS)) {
-            if (!empty($studentStage->student)) {
-                $totalHours = $studentStage->student?->total_hours ?? 0;
-            } else {
-                $student = $this->fetchTable('Students')->get($studentStage->student_id);
-                $totalHours = $student?->total_hours ?? 0;
-            }
+        if ($this->stageIs($studentStage, StageField::TRACKING)) {
+            $student = $studentStage->getStudentEntity();
+            $totalHours = $student?->total_hours ?? 0;
 
             if (($totalHours ?? 0) < Calc::getTotalHours()) {
                 return new Result(false, __('The student has not completed the required hours ({0}h)', Calc::getTotalHours()));
             }
 
-            // @todo verificar que tiene un proyecto por defecto
+            $openAdscriptions = $this->openAdscriptions($studentStage->student_id);
+            if ($openAdscriptions <= 0) {
+                return new Result(false, __('The student has {0} open adscriptions', $openAdscriptions));
+            }
 
             return new Result(true);
         }
@@ -139,6 +140,11 @@ class StudentStagePolicy
         }
 
         if ($this->stageIs($studentStage, StageField::TRACKING, StageStatus::REVIEW)) {
+            $openAdscriptions = $this->openAdscriptions($studentStage->student_id);
+            if ($openAdscriptions > 0) {
+                return new Result(false, __('The student has {0} open adscriptions', $openAdscriptions));
+            }
+
             return new Result(true);
         }
 
@@ -176,6 +182,12 @@ class StudentStagePolicy
 
             if ($this->stageIs($studentStage, StageField::TRACKING, StageStatus::REVIEW)) {
                 // print 007
+
+                $openAdscriptions = $this->openAdscriptions($studentStage->student_id);
+                if ($openAdscriptions > 0) {
+                    return new Result(false, __('The student has {0} open adscriptions', $openAdscriptions));
+                }
+
                 return new Result(true);
             }
 
@@ -201,6 +213,12 @@ class StudentStagePolicy
 
             if ($this->stageIs($studentStage, StageField::TRACKING, [StageStatus::REVIEW, StageStatus::SUCCESS])) {
                 // print 007
+
+                $openAdscriptions = $this->openAdscriptions($studentStage->student_id);
+                if ($openAdscriptions > 0) {
+                    return new Result(false, __('The student has {0} open adscriptions', $openAdscriptions));
+                }
+
                 return new Result(true);
             }
 
@@ -256,5 +274,25 @@ class StudentStagePolicy
     protected function stageStatusIs(StudentStage $studentStage, StageStatus|array $stageStatus): bool
     {
         return $studentStage->enum('status')?->is($stageStatus) ?? false;
+    }
+
+    /**
+     * @param string|int $studentId
+     * @return int
+     */
+    protected function openAdscriptions(string|int $studentId): int
+    {
+        return CacheRequest::remember('openAdscriptions' . $studentId, function () use ($studentId) {
+            return $this->fetchTable('StudentAdscriptions')
+                ->find()
+                ->where([
+                    'StudentAdscriptions.student_id' => $studentId,
+                    'StudentAdscriptions.status IN' => [
+                        AdscriptionStatus::PENDING->value,
+                        AdscriptionStatus::OPEN->value,
+                    ],
+                ])
+                ->count();
+        });
     }
 }
