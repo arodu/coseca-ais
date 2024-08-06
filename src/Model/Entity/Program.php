@@ -44,12 +44,14 @@ class Program extends Entity
         'abbr' => true,
         'tenants' => true,
         'area_id' => true,
+        'uc' => true,
     ];
 
     protected $_virtual = [
         'label',
         'area_label',
         'regime_label',
+        'uc_num',
     ];
 
     /**
@@ -78,5 +80,15 @@ class Program extends Entity
         }
 
         return $this->area->abbr . ' - ' . $this->name;
+    }
+
+    /**
+     * @return int
+     */
+    protected function _getUcNum(): ?array
+    {
+        $ucMin = ceil(($this->uc ?? 0) / 2);
+
+        return ['max' => $this->uc, 'min' => $ucMin ];
     }
 }

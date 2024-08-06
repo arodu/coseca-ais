@@ -30,7 +30,7 @@ $this->Breadcrumbs->add([
                 <div class="card-header">
                     <h4 class="card-title w-100">
                         <a class="d-flex w-100" data-toggle="collapse" href="<?= '#collapse-' . $itemStage->value ?>">
-                            <?= $studentStageStatus->icon()->withExtraCssClass('fa-fw mr-1')->render() ?>
+                            <?= $studentStageStatus->icon()->withExtraCssClass('fa-fw mr-1 ' . $itemStage->value)->render() ?>
                             <?= $itemStage->label() ?>
                             <div class="ml-auto">
                                 <?php if ($studentStage?->enum('status') && $studentStage?->enum('status') != StageStatus::SUCCESS) : ?>

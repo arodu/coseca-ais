@@ -24,6 +24,7 @@ $this->Breadcrumbs->add([
         echo $this->Form->control('name');
         echo $this->Form->control('regime');
         echo $this->Form->control('abbr');
+        echo $this->Form->control('uc', ['type'=> 'number','label' => 'Unidades de Credito', 'required' => true]);
         ?>
     </div>
 
