@@ -62,11 +62,11 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th><?= __('Fecha') ?></th>
-                        <th><?= __('Actividad') ?></th>
-                        <th><?= __('Horas') ?></th>
-                        <th class="actions"></th>
+                        <th scope="col">#</th>
+                        <th scope="col"><?= __('Fecha') ?></th>
+                        <th scope="col"><?= __('Actividad') ?></th>
+                        <th scope="col"><?= __('Horas') ?></th>
+                        <th scope="col" class="actions"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -85,7 +85,7 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
                             <tr>
                                 <td><?= $count ?></td>
                                 <td><?= h($tracking->date) ?></td>
-                                <td><?= h($tracking->description) ?></td>
+                                <td class="col" style="max-width: 180px;"><?= h($tracking->description) ?></td>
                                 <td><?= h($tracking->hours) ?></td>
                                 <td class="actions">
                                     <?php if ($canDeleteTracking) : ?>
@@ -110,7 +110,6 @@ $trackingDates = $student?->lapse?->getDates(StageField::TRACKING);
                         <td>
                             <strong><?= $sumHours ?></strong>
                         </td>
-                        <td></td>
                     </tr>
                 </tfoot>
             </table>

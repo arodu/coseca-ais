@@ -55,6 +55,10 @@ class AreasController extends AppController
      */
     public function index()
     {
+        $this->paginate = [
+            'order' => ['Areas.created' => 'desc'],
+        ];
+
         $areas = $this->paginate($this->Areas);
 
         $this->set(compact('areas'));
