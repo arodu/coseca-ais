@@ -46,4 +46,16 @@ class Institution extends Entity
         'parish_id' => true,
         'parish' => true,
     ];
+
+    /**
+     * @return boolean
+     */
+    public function hasAddress(): bool
+    {
+        if (empty($this->state_id) || empty($this->municipality_id) || empty($this->parish_id)) {
+            return false;
+        }
+
+        return true;
+    }
 }
