@@ -5,7 +5,7 @@ $this->program = $student->tenant->program;
 $date = $student->student_course->date;
 $today = FrozenDate::now();
 
-$this->assign('contentHeader', $this->element('Documents/format002Header'));
+$this->assign('contentHeader', $this->element('Documents/formatHeader', ['code' => 'MFS-002']));
 $this->assign('contentFooter', $this->element('Documents/format002Footer'));
 ?>
 
