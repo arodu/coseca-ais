@@ -30,7 +30,7 @@ $actions = trim($this->fetch('actions'));
 
         <div class="timeline-footer d-flex">
             <?php if ($actions) : ?>
-                <div><?= $actions ?></div>
+                <div class=""><?= $actions ?></div>
             <?php endif; ?>
             <div class="ml-auto">
                 <?= $this->Html->link(
