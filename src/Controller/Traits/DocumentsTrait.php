@@ -102,6 +102,45 @@ trait DocumentsTrait
      * @param int|string|null $student_id
      * @return void
      */
+    public function format008(?string $student_id = null)
+    {
+        $this->Students = $this->fetchTable('Students');
+        $this->StudentStages = $this->fetchTable('StudentStages');
+
+        $student = $this->Students->find()
+            ->find('withAppUsers')
+            ->find('withTenants')
+            ->find('withLapses')
+            ->where(['Students.id' => $student_id])
+            ->contain([
+                'PrincipalAdscription' => [
+                    'Tutors',
+                    'InstitutionProjects' => [
+                        'Institutions' => [
+                            'States',
+                            'Municipalities',
+                            'Parishes',
+                        ],
+                    ],
+                ],
+            ])
+            ->firstOrFail();
+
+        $stage = $this->StudentStages->find('byStudentStage', [
+            'student_id' => $student->id,
+            'stage' => StageField::TRACKING,
+        ])->firstOrFail();
+
+        $this->viewBuilder()->setClassName('CakePdf.Pdf');
+
+        $this->set(compact('student', 'stage'));
+        $this->render('/Documents/format008');
+    }
+
+    /**
+     * @param int|string|null $student_id
+     * @return void
+     */
     public function format009(?string $student_id = null)
     {
         $this->Students = $this->fetchTable('Students');
