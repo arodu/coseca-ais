@@ -162,6 +162,8 @@ class StudentStagePolicy
      */
     public function canPrint(IdentityInterface $user, StudentStage $studentStage): Result
     {
+        $format = $studentStage->format ?? null;
+
         if ($this->userIsStudent($user)) {
             if (!$this->studentIsOwner($user, $studentStage->student_id)) {
                 return new Result(false, __('You are not the owner of this stage'));

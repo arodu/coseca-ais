@@ -128,7 +128,7 @@ trait DocumentsTrait
 
         $stage = $this->StudentStages->find('byStudentStage', [
             'student_id' => $student->id,
-            'stage' => StageField::RESULTS,
+            'stage' => StageField::TRACKING,
         ])->firstOrFail();
 
         $this->viewBuilder()->setClassName('CakePdf.Pdf');

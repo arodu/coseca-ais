@@ -4,9 +4,6 @@
 /** @var \App\Model\Entity\Student $student */
 /** @var \App\View\AppView $this */
 
-use App\Model\Field\StageStatus;
-use App\Utility\FilePrint;
-
 $status = $studentStage->enum('status');
 $color = $status->color();
 $icon = $status->icon();
