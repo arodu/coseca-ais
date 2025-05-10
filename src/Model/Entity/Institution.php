@@ -48,7 +48,7 @@ class Institution extends Entity
     ];
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function hasAddress(): bool
     {
