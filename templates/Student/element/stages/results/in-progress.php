@@ -1,1 +1,0 @@
-<?= $this->element('stages/results/base', ['student' => $student, 'studentStage' => $studentStage]) ?>
