@@ -181,7 +181,7 @@ class StudentStagePolicy
             }
 
             if ($this->stageIs($studentStage, StageField::TRACKING, StageStatus::REVIEW)) {
-                // print 007
+                // print 007, 008
 
                 $openAdscriptions = $this->openAdscriptions($studentStage->student_id);
                 if ($openAdscriptions > 0) {
@@ -212,7 +212,7 @@ class StudentStagePolicy
             }
 
             if ($this->stageIs($studentStage, StageField::TRACKING, [StageStatus::REVIEW, StageStatus::SUCCESS])) {
-                // print 007
+                // print 007, 008
 
                 $openAdscriptions = $this->openAdscriptions($studentStage->student_id);
                 if ($openAdscriptions > 0) {

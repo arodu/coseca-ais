@@ -15,19 +15,7 @@ $this->set('studentStage', $studentStage);
 $this->extend('/Admin/Common/timeline_item');
 
 $this->start('actions');
-if ($studentStage->statusIs([StageStatus::WAITING, StageStatus::IN_PROGRESS])) {
-    echo $this->Button->report([
-        'label' => __('Planilla 008'),
-        'url' => [
-            'prefix' => 'Admin',
-            'controller' => 'Documents',
-            'action' => 'format008',
-            $studentStage->student_id,
-            FilePrint::format008($student),
-        ],
-        'class' => 'btn-sm mr-2',
-    ]);
-}
+
 echo $this->Button->confirm([
     'label' => __('Cerrar Resultados'),
     'url' => [

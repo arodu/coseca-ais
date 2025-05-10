@@ -34,6 +34,25 @@ echo $this->Button->report([
     ],
     'class' => 'btn-sm mr-2',
     'displayCondition' => function () use ($studentStage) {
+        $studentStage->format = '007';
+
+        return $this->getIdentity()->can('print', $studentStage);
+    },
+]);
+
+echo $this->Button->report([
+    'label' => __('Planilla 008'),
+    'url' => [
+        'prefix' => 'Admin',
+        'controller' => 'Documents',
+        'action' => 'format008',
+        $studentStage->student_id,
+        FilePrint::format008($student),
+    ],
+    'class' => 'btn-sm mr-2',
+    'displayCondition' => function () use ($studentStage) {
+        $studentStage->format = '008';
+
         return $this->getIdentity()->can('print', $studentStage);
     },
 ]);
