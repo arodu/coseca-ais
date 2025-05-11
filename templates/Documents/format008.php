@@ -1,12 +1,19 @@
 <?php
+/**
+ * @var \App\Model\Entity\Student $student
+ * @var \App\View\AppView $this
+ */
 
 use App\Model\Field\StageField;
+use Cake\I18n\FrozenDate;
 
 $project = $student->principal_adscription->institution_project;
 $institution = $project->institution;
 $tutor = $student->principal_adscription->tutor;
 $this->program = $student->tenant->program;
 $dates = $student->lapse->getDates(StageField::TRACKING);
+$today = FrozenDate::now();
+$totalHours = 120;
 
 $this->assign('contentHeader', $this->element('Documents/formatHeader', ['code' => 'MFS-008']));
 ?>
@@ -14,8 +21,8 @@ $this->assign('contentHeader', $this->element('Documents/formatHeader', ['code' 
 <h2>ACTA DE CONCLUSIÓN DEL SERVICIO COMUNITARIO</h2>
 
 <p>
-    Hoy, a los <?= $stage->created->day ?> días del mes de <?= $this->App->month($stage->created->month) ?> del año
-    <?= $stage->created->year ?>, los miembros de la Comunidad Universitaria y Comunidad Beneficiaria
+    Hoy, a los <?= $today->day ?> días del mes de <?= $this->App->month($today->month) ?> del año
+    <?= $today->year ?>, los miembros de la Comunidad Universitaria y Comunidad Beneficiaria
     involucrados en la ejecución del Proyecto de <?= h($project->name) ?>, desarrollado en la institución
     <?= h($institution->name) ?>, 
 
@@ -25,7 +32,7 @@ $this->assign('contentHeader', $this->element('Documents/formatHeader', ['code' 
     <?php endif; ?>
 
     en acto público de reflexión, y acompañando a (el/la) Bachiller: <?= $student->full_name ?>, C.I.: <?= $student->dni ?>,
-    adscrito al Proyecto antes mencionado, damos fe de: “haber cumplido plena y satisfactoriamente las <?= '120' ?>
+    adscrito al Proyecto antes mencionado, damos fe de: “haber cumplido plena y satisfactoriamente las <?= $totalHours ?>
     horas mínimas de la prestación del Servicio Comunitario de conformidad con la Ley de Servicio Comunitario del
     Estudiante de Educación Superior, y demás reglamentos que regulan la materia en nuestra Casa de Estudios, en el
     periodo desde el <?= $dates->start_date->format('d/m/Y') ?> hasta el <?= $dates->end_date->format('d/m/Y') ?>. Para los efectos legales pertinentes,
