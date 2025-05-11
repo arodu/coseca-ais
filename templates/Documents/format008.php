@@ -13,7 +13,7 @@ $tutor = $student->principal_adscription->tutor;
 $this->program = $student->tenant->program;
 $dates = $student->lapse->getDates(StageField::TRACKING);
 $today = FrozenDate::now();
-$totalHours = '120';
+$totalHours = 120;
 
 $this->assign('contentHeader', $this->element('Documents/formatHeader', ['code' => 'MFS-008']));
 ?>
