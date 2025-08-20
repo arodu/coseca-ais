@@ -28,7 +28,7 @@
     "require-dev": {
         "cakedc/cakephp-phpstan": "^2.0",
         "cakephp/bake": "^2.6",
-        "cakephp/cakephp-codesniffer": "^4.4",
+        "cakephp/cakephp-codesniffer": "^5.2",
         "cakephp/debug_kit": "^4.5",
         "fakerphp/faker": "^1.20",
         "josegonzalez/dotenv": "^4.0",
