@@ -123,7 +123,7 @@ class LapseDatesTable extends Table
                 'is_single_date' => false,
             ],
             [
-                'title' => __('Exporeria'),
+                'title' => __('Expoferia'),
                 'stage' => StageField::ENDING,
                 'is_single_date' => true,
             ],
