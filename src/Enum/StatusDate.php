@@ -23,7 +23,7 @@ enum StatusDate implements BadgeInterface
     {
         return match ($this) {
             static::PENDING => __('Pendiente'),
-            static::IN_PROGRESS => __('En Progreso'),
+            static::IN_PROGRESS => __('En proceso'),
             static::TIMED_OUT => __('Caducado'),
         };
     }

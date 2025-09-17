@@ -162,9 +162,9 @@ class LapsesControllerTest extends AdminTestCase
 
         $lapseDateStatus = $this->getLapsesDatesStatus($lapses_date); //Obtenemos el status del LapseDate
 
-        // Si el Status es `En Progreso` y tiene `Fecha unica` verificamos que exista `En Porgreso` en la vista
+        // Si el Status es `En proceso` y tiene `Fecha unica` verificamos que exista `En proceso` en la vista
         if ($this->assertEquals(StatusDate::IN_PROGRESS, $lapseDateStatus) && $lapses_date->is_single_date) {
-            $this->getResponseContainsForUrl('/admin/tenants/view/', $this->tenant_id, 'En Porgreso');
+            $this->getResponseContainsForUrl('/admin/tenants/view/', $this->tenant_id, 'En proceso');
         }
 
         // Escenario fecha unica Pendiente
@@ -195,18 +195,18 @@ class LapsesControllerTest extends AdminTestCase
             $this->assertResponseCode(200);
         }
 
-        // Escenario En Progreso de fecha inicio con fecha fin sin fecha unica
+        // Escenario En proceso de fecha inicio con fecha fin sin fecha unica
         $this->post('/admin/lapses/edit-dates/' . $lapses_date->id, [
             'is_single_date' => false,
             'start_date' => $this->today->subDays(5),
             'end_date' => $this->today->addDays(25),
-        ]); //Enviamos el formulario con fechas En progreso y sin fecha unica
+        ]); //Enviamos el formulario con fechas En proceso y sin fecha unica
 
         $lapseDateStatus = $this->getLapsesDatesStatus($lapses_date); //Obtenemos el status del LapseDate
 
-        // Si el Status es `En Progreso` y no tiene `Fecha unica` verificamos que exista `En Porgreso` en la vista
+        // Si el Status es `En proceso` y no tiene `Fecha unica` verificamos que exista `En proceso` en la vista
         if ($this->assertEquals(StatusDate::IN_PROGRESS, $lapseDateStatus) && !$lapses_date->is_single_date) {
-            $this->getResponseContainsForUrl('/admin/tenants/view/', $this->tenant_id, 'En Porgreso');
+            $this->getResponseContainsForUrl('/admin/tenants/view/', $this->tenant_id, 'En proceso');
             $this->assertResponseCode(200);
         }
 
