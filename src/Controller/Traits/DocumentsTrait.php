@@ -92,6 +92,8 @@ trait DocumentsTrait
 
         $this->viewBuilder()->setClassName('CakePdf.Pdf');
 
+        // @todo Generate token and pass to view
+        // So the link to validate the adscription can be generated
         //$validationToken = $this->StudentAdscriptions->createValidationToken($adscription->id);
 
         $this->set(compact('adscriptions', 'student'));
