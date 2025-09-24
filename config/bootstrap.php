@@ -248,7 +248,7 @@ Configure::write('CakePdf', [
         'right' => 30,
         'top' => 45
     ],
-    'pageSize' => 'letter',
+    'pageSize' => 'Letter',
     'setPrintHeader' => false,
     'setPrintFooter' => false,
 ]);
