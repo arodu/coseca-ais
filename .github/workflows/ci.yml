@@ -28,7 +28,7 @@ jobs:
         if: matrix.db-type == 'mysql'
         run: docker run --rm --name=mysqld -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=cakephp -p 3306:3306 -d mysql:8.0 --default-authentication-plugin=mysql_native_password --disable-log-bin
 
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Setup PHP 8.1
         uses: shivammathur/setup-php@v2
