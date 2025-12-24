@@ -144,7 +144,6 @@ class DashboardControllerTrackingTest extends TestCase
 
     public function testTrackingCardStatusReviewWithAdscriptionOpen(): void
     {
-
         $this->createStudentStage([
             'student_id' => $this->student->id,
             'stage' => StageField::TRACKING,
@@ -180,7 +179,6 @@ class DashboardControllerTrackingTest extends TestCase
 
     public function testTrackingCardStatusWithAdscriptionClosed(): void
     {
-
         $this->createStudentStage([
             'student_id' => $this->student->id,
             'stage' => StageField::TRACKING,

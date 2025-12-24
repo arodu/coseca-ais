@@ -92,7 +92,6 @@ class DashboardControllerRegisterTest extends TestCase
 
     public function testRegisterNotExistLapseDate(): void
     {
-
         $this->createStudentStage([
             'student_id' => $this->student->id,
             'stage' => StageField::REGISTER,
@@ -177,7 +176,6 @@ class DashboardControllerRegisterTest extends TestCase
 
     public function testRegisterCardStatusReview(): void
     {
-
         $this->createStudentStage([
             'user_id' => $this->user->id,
             'student_id' => $this->student->id,
