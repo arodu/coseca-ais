@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-version: ["8.1"]
+        php-version: ["8.2"]
         db-type: [mysql]
     name: PHP ${{ matrix.php-version }}
     env:
@@ -30,7 +30,7 @@ jobs:
 
       - uses: actions/checkout@v5
 
-      - name: Setup PHP 8.1
+      - name: Setup PHP 8.2
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}

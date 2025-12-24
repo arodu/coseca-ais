@@ -8523,8 +8523,7 @@
         "arodu/cakephp-modal-form": 20,
         "arodu/cakephp-query-filter": 20,
         "google/recaptcha": 0,
-        "league/oauth2-facebook": 0,
-        "league/oauth2-google": 0
+        "league/oauth2-facebook": 0
     },
     "prefer-stable": true,
     "prefer-lowest": false,
