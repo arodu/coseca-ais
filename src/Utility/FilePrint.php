@@ -29,6 +29,15 @@ class FilePrint
      * @param \App\Model\Entity\Student $student
      * @return string
      */
+    public static function format008(Student $student): string
+    {
+        return static::format('planilla008', $student);
+    }
+
+    /**
+     * @param \App\Model\Entity\Student $student
+     * @return string
+     */
     public static function format009(Student $student): string
     {
         return static::format('planilla009', $student);

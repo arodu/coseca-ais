@@ -16,6 +16,7 @@ class DocumentsController extends AppStudentController
     use DocumentsTrait {
         format002 as protected traitFormat002;
         format007 as protected traitFormat007;
+        format008 as protected traitFormat008;
         format009 as protected traitFormat009;
     }
 
@@ -33,6 +34,14 @@ class DocumentsController extends AppStudentController
     public function format007()
     {
         $this->traitFormat007((string)$this->getCurrentStudent()->id);
+    }
+
+    /**
+     * @return \Cake\Http\Response|null|void Renders view
+     */
+    public function format008()
+    {
+        $this->traitFormat008((string)$this->getCurrentStudent()->id);
     }
 
     /**

@@ -288,7 +288,7 @@ return [
     'Email' => [
         'default' => [
             'transport' => 'default',
-            'from' => ['info@coseca.top' => 'COSECA'],
+            'from' => [env('EMAIL_USERNAME', 'info@coseca.top') => 'COSECA'],
             /*
              * Will by default be set to config value of App.encoding, if that exists otherwise to UTF-8.
              */
