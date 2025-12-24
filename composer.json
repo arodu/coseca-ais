@@ -5,10 +5,10 @@
     "type": "project",
     "license": "MIT",
     "require": {
-        "php": ">=8.1",
+        "php": ">=8.2",
         "admad/cakephp-glide": "^5.1",
-        "arodu/cakelte": "dev-2.next",
-        "arodu/cakelte-tools": "dev-develop",
+        "arodu/cakelte": "dev-2.next-cake4 as 2.1",
+        "arodu/cakelte-tools": "dev-develop as 1.0",
         "arodu/cakephp-admin-tools": "dev-1.next-cake4",
         "arodu/cakephp-modal-form": "dev-main",
         "arodu/cakephp-query-filter": "dev-develop",
