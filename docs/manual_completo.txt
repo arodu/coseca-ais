@@ -1,0 +1,155 @@
+﻿**## Guía rápida para el uso de la plataforma**
+
+
+**### Asignar proyecto a un estudiante**
+
+
+1. Ingresar al módulo estudiantes de la parte lateral izquierda
+
+
+```markdown
+   ![Modulo_Estudiantes_1]
+(https://drive.google.com/file/d/1WPWxHUoHTS50-0-vGjb0on9hCbVB8nUt/view?usp=drivesdk)
+
+
+```
+
+
+2. Seleccionamos al estudiante y en el botón de acciones seleccionamos “Proyectos”
+
+
+```markdown
+   ![Modulo_Estudiantes_2]
+(https://drive.google.com/file/d/1rrl1jE6LlSOH24liZdTKZ_NOVBZZbftO/view?usp=drivesdk)
+```
+
+
+3. Seleccionamos el botón de “agregar proyecto”
+```markdown
+   ![Modulo_Estudiantes_3]
+(https://drive.google.com/file/d/1uszYqlZS5yeImCnMEUv2EGGWjXvy2l1L/view?usp=drivesdk)
+
+
+```
+
+
+4. Rellenamos todos los campos y presionamos el botón guardar.
+```markdown
+   ![Modulo_Estudiantes_4]
+(https://drive.google.com/file/d/16Ts_2q3Fw_sKWDiyj9T804R7JgTZDNz5/view?usp=drivesdk)
+
+
+```
+
+
+
+
+**### Otras configuraciones**
+1. Dentro del módulo de Configuración, podemos realizar cambios en el programa o sede al que se encuentre adscrito el estudiante, así como desactivar o eliminar su usuario. 
+
+
+
+
+```markdown
+   ![Otras_configuraciones]
+(https://drive.google.com/file/d/1KBIb2-5f6qiO8aGNtu-OAaXGSDjNZEK6/view?usp=drivesdk)
+
+
+```
+
+
+**### Módulo de programas - Crear nuevo programa**
+1.Ingresamos al módulo de programas
+  
+
+
+
+2. Para crear un nuevo programa, seleccionamos el botón y rellenamos los campos. 
+  
+
+3. Presionamos el botón de guardar y podremos visualizarlo en la lista de programas existentes.
+**### Crear nuevas sedes y áreas de interés desde un programa.**
+1. Damos clic en el programa al que queremos acceder.
+  
+
+2. Seleccionamos la opción de “nueva sede” o “Nueva área de interés” según corresponda.
+  
+
+3. Rellenamos los campos y seleccionamos guardar.
+  
+  
+
+4. Ahora, podremos visualizarlo en la vista detallada del programa.
+  
+
+
+
+**### Módulo de programas . Crear nueva sede**
+1. Accedemos al apartado de programas que se encuentra en el menú lateral izquierdo, y seleccionamos el botón de “Nueva sede”.
+  
+
+2. Rellenamos los campos requeridos y presionamos “guardar”  
+**### Módulo de instituciones . Crear nueva institución**
+   1. Accedemos al apartado de instituciones que se encuentra en el menú lateral izquierdo, y seleccionamos el botón de “Agregar”.
+  
+
+
+
+
+
+
+
+
+
+   2. Rellenamos el formulario y presionamos “guardar”  
+   3. Una vez guardado el registro de la nueva institución, se nos muestra la siguiente vista. A partir de acá podemos modificar el registro y agregarle proyectos asociados.  
+**### Módulo de instituciones . Agregar proyectos a instituciones**
+      4. Seleccionamos la institución del listado al que queremos asignarle el proyecto.  
+      5. Presionamos el botón de “Agregar Proyecto”  
+      6. Rellenamos los campos y presionamos “Guardar”  
+**### Módulo de Tutores . Crear nuevo tutor**
+         1. Ingresamos al módulo de Tutores ubicado en el costado lateral izquierdo de la pantalla.
+  
+
+         2. Seleccionamos el botón de “Nuevo tutor”  
+
+
+            3. Rellenamos los campos y presionamos guardar. Una vez completado el proceso, el sistema debe mostrar el siguiente mensaje:
+  
+
+**### Módulo de Tutores - Adscribir estudiante a un tutor**
+            1. Ingresamos al módulo de Tutores y seleccionamos el botón de “Ver”
+  
+
+            2. Al final de la vista, encontraremos la sección de Estudiantes Adscritos, presionamos el botón “Nuevo”
+  
+
+            3. Rellenamos los campos del formulario y presionamos “Guardar”
+  
+
+
+
+
+
+
+
+
+
+
+
+**### Editar o eliminar un tutor**
+            4. Ingresamos al módulo de Tutores y seleccionamos el botón de “Editar” o “Eliminar” según corresponda.
+
+
+  
+
+2. En el caso de editar: Realizamos los cambios pertinentes y presionamos “guardar”
+  
+
+**### Modulo de usuarios - Crear nuevo usuario** (Detenido)
+            1. Ingresamos al módulo de usuarios y seleccionamos el botón de “Nuevo usuario”
+  
+
+
+
+            2. Rellenamos los campos que solicitan
