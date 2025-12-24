@@ -248,11 +248,9 @@ Configure::write('CakePdf', [
         'right' => 30,
         'top' => 45
     ],
+    'pageSize' => 'Letter',
     'setPrintHeader' => false,
     'setPrintFooter' => false,
-    'header' => [
-        'right' => '123123123',
-    ],
 ]);
 
 FaIcon::setIcon([

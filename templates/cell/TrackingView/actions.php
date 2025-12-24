@@ -20,6 +20,25 @@ use App\Utility\FilePrint;
     ],
     'class' => 'btn-sm',
     'displayCondition' => function () use ($trackingStage) {
+        $trackingStage->format = '007';
+
+        return $this->getIdentity()->can('print', $trackingStage);
+    },
+]) ?>
+
+<?= $this->Button->report([
+    'label' => __('Planilla 008'),
+    'url' => [
+        'controller' => 'Documents',
+        'action' => 'format008',
+        $trackingStage->student_id,
+        FilePrint::format008($trackingStage->student),
+        'prefix' => $this->getPrefix(),
+    ],
+    'class' => 'btn-sm',
+    'displayCondition' => function () use ($trackingStage) {
+        $trackingStage->format = '008';
+
         return $this->getIdentity()->can('print', $trackingStage);
     },
 ]) ?>

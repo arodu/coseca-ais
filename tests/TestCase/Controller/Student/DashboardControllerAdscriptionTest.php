@@ -54,7 +54,6 @@ class DashboardControllerAdscriptionTest extends TestCase
 
     public function testAdscriptionCardStatusWaiting(): void
     {
-
         $this->createStudentStage([
             'student_id' => $this->student->id,
             'stage' => StageField::ADSCRIPTION,
@@ -176,7 +175,6 @@ class DashboardControllerAdscriptionTest extends TestCase
 
     public function testAdscriptionCardStatusValidated()
     {
-
         $project = Hash::get($this->institution, 'institution_projects.0');
 
         $this->createStudentStage([
@@ -203,7 +201,6 @@ class DashboardControllerAdscriptionTest extends TestCase
 
     public function testAdscriptionCardStatusCancelled()
     {
-
         $project = Hash::get($this->institution, 'institution_projects.0');
 
         $this->createStudentStage([

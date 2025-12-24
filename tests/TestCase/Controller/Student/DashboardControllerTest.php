@@ -202,7 +202,7 @@ class DashboardControllerTest extends StudentTestCase
         $this->updateRecord($lapseDate, compact('start_date'));
         $this->get('/student');
         $this->assertResponseOk();
-        $this->assertResponseContains('Fecha del taller de servicio comunitario: ' . $start_date . ' <small>(En Progreso)</small>');
+        $this->assertResponseContains('Fecha del taller de servicio comunitario: ' . $start_date . ' <small>(En proceso)</small>');
         $this->assertResponseContains($this->alertMessage);
     }
 

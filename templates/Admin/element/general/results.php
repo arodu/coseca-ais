@@ -4,8 +4,6 @@
 /** @var \App\Model\Entity\Student $student */
 /** @var \App\View\AppView $this */
 
-use App\Enum\ActionColor;
-
 $status = $studentStage->enum('status');
 $color = $status->color();
 $icon = $status->icon();
@@ -14,6 +12,7 @@ $this->set('studentStage', $studentStage);
 $this->extend('/Admin/Common/timeline_item');
 
 $this->start('actions');
+
 echo $this->Button->confirm([
     'label' => __('Cerrar Resultados'),
     'url' => [
@@ -27,4 +26,3 @@ echo $this->Button->confirm([
 ]);
 $this->end();
 
-// results
