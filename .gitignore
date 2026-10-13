@@ -57,3 +57,5 @@ webroot/adminlte
 webroot/coverage
 
 files/*
+
+opencode.json
