@@ -58,4 +58,5 @@ webroot/coverage
 
 files/*
 
+workbench/
 opencode.json
