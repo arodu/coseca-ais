@@ -63,12 +63,11 @@ return [
     'EmailTransport' => [
         'default' => [
             'className' => env('EMAIL_CLASSNAME', 'Smtp'),
-            'host' => env('EMAIL_HOST', 'sandbox.smtp.mailtrap.io'),
-            'port' => env('EMAIL_PORT', 2525),
-            'username' => env('EMAIL_USERNAME', 'xxxxxxxxxxx'),
-            'password' => env('EMAIL_PASSWORD', 'xxxxxxxxxxx'),
+            'host' => env('EMAIL_HOST', 'localhost'),
+            'port' => env('EMAIL_PORT', 1025),
+            'username' => env('EMAIL_USERNAME'),
+            'password' => env('EMAIL_PASSWORD'),
             'client' => null,
-            //'url' => env('EMAIL_TRANSPORT_DEFAULT_URL', null),
         ],
     ],
 ];
