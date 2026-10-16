@@ -15,7 +15,7 @@ class Lists
      * @param integer|string|null $reference
      * @return array
      */
-    public static function get(string $repository, string $field = null, int|string $reference = null): array
+    public static function get(string $repository, ?string $field = null, int|string|null $reference = null): array
     {
         $cacheKey = 'sys_actions_' . $repository . '_' . $field . '_' . $reference;
         return Cache::remember($cacheKey, function () use ($repository, $field, $reference) {
@@ -41,7 +41,7 @@ class Lists
      * @param integer|string|null $state_id
      * @return array
      */
-    public static function citites(int|string $state_id = null): array
+    public static function citites(int|string|null $state_id = null): array
     {
         return static::get('System.cities', 'state_id', $state_id);
     }
@@ -50,7 +50,7 @@ class Lists
      * @param integer|string|null $state_id
      * @return array
      */
-    public static function municipalities(int|string $state_id = null): array
+    public static function municipalities(int|string|null $state_id = null): array
     {
         return static::get('System.Municipalities', 'state_id', $state_id);
     }
@@ -59,7 +59,7 @@ class Lists
      * @param integer|string|null $municipalitiy_id
      * @return array
      */
-    public static function parishes(int|string $municipalitiy_id = null): array
+    public static function parishes(int|string|null $municipalitiy_id = null): array
     {
         return static::get('System.Parishes', 'municipality_id', $municipalitiy_id);
     }
