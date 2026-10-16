@@ -2,7 +2,7 @@
 
 ## Project
 
-COSECA AIS: CakePHP 4.5 app (PHP 8.1) tracking community-service (servicio comunitario)
+COSECA AIS: CakePHP 4.6 app (PHP 8.4) tracking community-service (servicio comunitario)
 workflow at UNERG. Spanish-language domain. MySQL 8.0. Runs via **DDEV** (Docker), docroot `webroot/`.
 
 ## Commands
@@ -22,7 +22,7 @@ All PHP/composer/cake commands run **inside the DDEV container** (`ddev ssh`, or
 
 ## CI
 
-`.github/workflows/ci.yml` runs on push to `main`/`develop`: PHP 8.1 + MySQL 8.0,
+`.github/workflows/ci.yml` runs on push to `main`/`develop`: PHP 8.4 + MySQL 8.0,
 then `vendor/bin/phpunit` and `composer cs-check`. PHPStan is present but commented out in CI.
 
 ## Testing notes
