@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "45a2e31e6324f97b2ba8e19cb38a54c6",
+    "content-hash": "cc53b31927b6ea0e2992cf1e11923bbf",
     "packages": [
         {
             "name": "admad/cakephp-glide",
@@ -109,25 +109,27 @@
         },
         {
             "name": "arodu/cakelte",
-            "version": "dev-2.next-cake4",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/arodu/cakelte.git",
-                "reference": "9ee454438e2812cfbc52a034a8d6fbe50312b282"
+                "reference": "19bbcf101e7b3ed1cd0e611b03e1f3c708d27e89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/arodu/cakelte/zipball/9ee454438e2812cfbc52a034a8d6fbe50312b282",
-                "reference": "9ee454438e2812cfbc52a034a8d6fbe50312b282",
+                "url": "https://api.github.com/repos/arodu/cakelte/zipball/19bbcf101e7b3ed1cd0e611b03e1f3c708d27e89",
+                "reference": "19bbcf101e7b3ed1cd0e611b03e1f3c708d27e89",
                 "shasum": ""
             },
             "require": {
                 "almasaeed2010/adminlte": "~3.2",
                 "cakephp/cakephp": "^4.0",
-                "friendsofcake/bootstrap-ui": "^3.0"
+                "friendsofcake/bootstrap-ui": "^3.0",
+                "php": ">=8.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^8.0"
+                "cakephp/cakephp-codesniffer": "^4.4",
+                "phpunit/phpunit": "^9.6"
             },
             "type": "cakephp-plugin",
             "autoload": {
@@ -142,31 +144,32 @@
             "description": "CakeLTE: AdminLTE plugin for CakePHP 4.x",
             "support": {
                 "issues": "https://github.com/arodu/cakelte/issues",
-                "source": "https://github.com/arodu/cakelte/tree/2.next-cake4"
+                "source": "https://github.com/arodu/cakelte/tree/v1.2.0"
             },
-            "time": "2025-12-24T21:24:15+00:00"
+            "time": "2026-10-16T20:30:59+00:00"
         },
         {
             "name": "arodu/cakelte-tools",
-            "version": "dev-develop",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/arodu/cakelte-tools.git",
-                "reference": "4ea3fa42069a7323ff491a34ce5f475cd961ef71"
+                "reference": "4a46c81c7f66d57c63ad5bad06c4ff8166ca10b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/arodu/cakelte-tools/zipball/4ea3fa42069a7323ff491a34ce5f475cd961ef71",
-                "reference": "4ea3fa42069a7323ff491a34ce5f475cd961ef71",
+                "url": "https://api.github.com/repos/arodu/cakelte-tools/zipball/4a46c81c7f66d57c63ad5bad06c4ff8166ca10b5",
+                "reference": "4a46c81c7f66d57c63ad5bad06c4ff8166ca10b5",
                 "shasum": ""
             },
             "require": {
-                "arodu/cakelte": "dev-2.next-cake4 as 2.1",
+                "arodu/cakelte": "^1.2",
                 "cakephp/cakephp": "^4.0",
-                "php": ">=7.2"
+                "php": ">=8.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^8.5 || ^9.3"
+                "cakephp/cakephp-codesniffer": "^4.4",
+                "phpunit/phpunit": "^9.6"
             },
             "type": "cakephp-plugin",
             "autoload": {
@@ -181,32 +184,32 @@
             "description": "CakeLteTools plugin for CakePHP",
             "support": {
                 "issues": "https://github.com/arodu/cakelte-tools/issues",
-                "source": "https://github.com/arodu/cakelte-tools/tree/develop"
+                "source": "https://github.com/arodu/cakelte-tools/tree/v1.0.0"
             },
-            "time": "2025-12-24T21:00:39+00:00"
+            "time": "2026-10-16T20:46:36+00:00"
         },
         {
             "name": "arodu/cakephp-admin-tools",
-            "version": "dev-1.next-cake4",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/arodu/cakephp-admin-tools.git",
-                "reference": "71b63bb3e1687728a1694b30ea06ea1124523c8a"
+                "reference": "7c4a6991be3923be0444dc09d924d9138d9baf6c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/arodu/cakephp-admin-tools/zipball/71b63bb3e1687728a1694b30ea06ea1124523c8a",
-                "reference": "71b63bb3e1687728a1694b30ea06ea1124523c8a",
+                "url": "https://api.github.com/repos/arodu/cakephp-admin-tools/zipball/7c4a6991be3923be0444dc09d924d9138d9baf6c",
+                "reference": "7c4a6991be3923be0444dc09d924d9138d9baf6c",
                 "shasum": ""
             },
             "require": {
                 "cakephp/cakephp": "^4.5",
-                "php": ">=7.2"
+                "php": ">=8.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^8.5 || ^9.3"
+                "cakephp/cakephp-codesniffer": "^4.4",
+                "phpunit/phpunit": "^9.6"
             },
-            "default-branch": true,
             "type": "cakephp-plugin",
             "autoload": {
                 "psr-4": {
@@ -220,32 +223,33 @@
             "description": "AdminTools plugin for CakePHP",
             "support": {
                 "issues": "https://github.com/arodu/cakephp-admin-tools/issues",
-                "source": "https://github.com/arodu/cakephp-admin-tools/tree/1.next-cake4"
+                "source": "https://github.com/arodu/cakephp-admin-tools/tree/v1.0.0"
             },
-            "time": "2025-07-09T01:21:22+00:00"
+            "time": "2026-10-16T21:37:41+00:00"
         },
         {
             "name": "arodu/cakephp-modal-form",
-            "version": "dev-main",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/arodu/cakephp-modal-form.git",
-                "reference": "a9abdd6380e1b325459f843678cde8a8d7c374d9"
+                "reference": "18fb028f968f721709895116ea2acbbfb86111a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/arodu/cakephp-modal-form/zipball/a9abdd6380e1b325459f843678cde8a8d7c374d9",
-                "reference": "a9abdd6380e1b325459f843678cde8a8d7c374d9",
+                "url": "https://api.github.com/repos/arodu/cakephp-modal-form/zipball/18fb028f968f721709895116ea2acbbfb86111a0",
+                "reference": "18fb028f968f721709895116ea2acbbfb86111a0",
                 "shasum": ""
             },
             "require": {
                 "cakephp/cakephp": "^4.4",
-                "php": ">=7.2"
+                "php": ">=8.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^8.5 || ^9.3"
+                "cakephp/authentication": "^2.0",
+                "cakephp/cakephp-codesniffer": "^4.4",
+                "phpunit/phpunit": "^9.6"
             },
-            "default-branch": true,
             "type": "cakephp-plugin",
             "autoload": {
                 "psr-4": {
@@ -259,30 +263,31 @@
             "description": "ModalForm plugin for CakePHP",
             "support": {
                 "issues": "https://github.com/arodu/cakephp-modal-form/issues",
-                "source": "https://github.com/arodu/cakephp-modal-form/tree/main"
+                "source": "https://github.com/arodu/cakephp-modal-form/tree/v1.0.0"
             },
-            "time": "2024-02-13T12:45:50+00:00"
+            "time": "2026-10-16T21:58:37+00:00"
         },
         {
             "name": "arodu/cakephp-query-filter",
-            "version": "dev-develop",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/arodu/cakephp-query-filter.git",
-                "reference": "d897713d59bd2f7252bd27d90c63a173972097f4"
+                "reference": "7640768fe901fa1f751e3dcdd0288b80685a4941"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/arodu/cakephp-query-filter/zipball/d897713d59bd2f7252bd27d90c63a173972097f4",
-                "reference": "d897713d59bd2f7252bd27d90c63a173972097f4",
+                "url": "https://api.github.com/repos/arodu/cakephp-query-filter/zipball/7640768fe901fa1f751e3dcdd0288b80685a4941",
+                "reference": "7640768fe901fa1f751e3dcdd0288b80685a4941",
                 "shasum": ""
             },
             "require": {
                 "cakephp/cakephp": "^4.4",
-                "php": ">=7.2"
+                "php": ">=8.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^8.5 || ^9.3"
+                "cakephp/cakephp-codesniffer": "^4.4",
+                "phpunit/phpunit": "^9.6"
             },
             "type": "cakephp-plugin",
             "autoload": {
@@ -294,12 +299,12 @@
             "license": [
                 "MIT"
             ],
-            "description": "QueryFilter plugin for CakePHP 4.x",
+            "description": "Declarative query filtering for CakePHP index actions",
             "support": {
                 "issues": "https://github.com/arodu/cakephp-query-filter/issues",
-                "source": "https://github.com/arodu/cakephp-query-filter/tree/develop"
+                "source": "https://github.com/arodu/cakephp-query-filter/tree/v2.0.0"
             },
-            "time": "2024-02-13T12:47:14+00:00"
+            "time": "2026-10-16T22:53:17+00:00"
         },
         {
             "name": "cakedc/auth",
@@ -1211,30 +1216,31 @@
         },
         {
             "name": "google/recaptcha",
-            "version": "1.3.1",
+            "version": "1.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/google/recaptcha.git",
-                "reference": "56522c261d2e8c58ba416c90f81a4cd9f2ed89b9"
+                "reference": "ee4352ff2fe5ee23f2a8fbd165375dab3a1bad17"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/google/recaptcha/zipball/56522c261d2e8c58ba416c90f81a4cd9f2ed89b9",
-                "reference": "56522c261d2e8c58ba416c90f81a4cd9f2ed89b9",
+                "url": "https://api.github.com/repos/google/recaptcha/zipball/ee4352ff2fe5ee23f2a8fbd165375dab3a1bad17",
+                "reference": "ee4352ff2fe5ee23f2a8fbd165375dab3a1bad17",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8"
+                "php": ">=8.4"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.14",
-                "php-coveralls/php-coveralls": "^2.5",
-                "phpunit/phpunit": "^10"
+                "friendsofphp/php-cs-fixer": "^3.95",
+                "php-coveralls/php-coveralls": "^2.9.1",
+                "phpstan/phpstan": "^2.1.51",
+                "phpunit/phpunit": "^13.1"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.3.x-dev"
+                    "dev-main": "1.5.x-dev"
                 }
             },
             "autoload": {
@@ -1259,7 +1265,7 @@
                 "issues": "https://github.com/google/recaptcha/issues",
                 "source": "https://github.com/google/recaptcha"
             },
-            "time": "2025-06-26T22:21:57+00:00"
+            "time": "2026-09-22T09:50:41+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -1722,20 +1728,20 @@
         },
         {
             "name": "laminas/laminas-httphandlerrunner",
-            "version": "2.13.0",
+            "version": "2.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-httphandlerrunner.git",
-                "reference": "181eaeeb838ad3d80fbbcfb0657a46bc212bbd4e"
+                "reference": "14d5182a4ba180c998dfbba9d19f9a70337c02b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-httphandlerrunner/zipball/181eaeeb838ad3d80fbbcfb0657a46bc212bbd4e",
-                "reference": "181eaeeb838ad3d80fbbcfb0657a46bc212bbd4e",
+                "url": "https://api.github.com/repos/laminas/laminas-httphandlerrunner/zipball/14d5182a4ba180c998dfbba9d19f9a70337c02b4",
+                "reference": "14d5182a4ba180c998dfbba9d19f9a70337c02b4",
                 "shasum": ""
             },
             "require": {
-                "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
+                "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
                 "psr/http-message": "^1.0 || ^2.0",
                 "psr/http-message-implementation": "^1.0 || ^2.0",
                 "psr/http-server-handler": "^1.0"
@@ -1781,11 +1787,11 @@
             },
             "funding": [
                 {
-                    "url": "https://funding.communitybridge.org/projects/laminas-project",
-                    "type": "community_bridge"
+                    "url": "https://crowdfunding.linuxfoundation.org/initiatives/laminas-project",
+                    "type": "custom"
                 }
             ],
-            "time": "2025-10-12T20:58:29+00:00"
+            "time": "2026-09-21T10:14:52+00:00"
         },
         {
             "name": "league/container",
@@ -2368,28 +2374,28 @@
         },
         {
             "name": "mobiledetect/mobiledetectlib",
-            "version": "4.8.07",
+            "version": "4.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/serbanghita/Mobile-Detect.git",
-                "reference": "b555b54200fc0416d1fdd43bc61fb40aec7dd493"
+                "reference": "ab39168b7556f44c11c80be1222b44b239f5c2e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/serbanghita/Mobile-Detect/zipball/b555b54200fc0416d1fdd43bc61fb40aec7dd493",
-                "reference": "b555b54200fc0416d1fdd43bc61fb40aec7dd493",
+                "url": "https://api.github.com/repos/serbanghita/Mobile-Detect/zipball/ab39168b7556f44c11c80be1222b44b239f5c2e4",
+                "reference": "ab39168b7556f44c11c80be1222b44b239f5c2e4",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.0",
-                "psr/simple-cache": "^2 || ^3"
+                "php": ">=8.2",
+                "psr/simple-cache": "^1.0 || ^2.0 || ^3.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^v3.65.0",
-                "phpbench/phpbench": "^1.2",
-                "phpstan/phpstan": "^1.12.x-dev",
-                "phpunit/phpunit": "^9.6.18",
-                "squizlabs/php_codesniffer": "^3.11.1"
+                "friendsofphp/php-cs-fixer": "3.95.1",
+                "phpbench/phpbench": "1.6.1",
+                "phpstan/phpstan": "2.1.47",
+                "phpunit/phpunit": "9.6.34",
+                "squizlabs/php_codesniffer": "3.13.5"
             },
             "type": "library",
             "autoload": {
@@ -2420,7 +2426,7 @@
             ],
             "support": {
                 "issues": "https://github.com/serbanghita/Mobile-Detect/issues",
-                "source": "https://github.com/serbanghita/Mobile-Detect/tree/4.8.07"
+                "source": "https://github.com/serbanghita/Mobile-Detect/tree/4.11.0"
             },
             "funding": [
                 {
@@ -2428,7 +2434,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-12-09T22:06:06+00:00"
+            "time": "2026-05-24T12:32:40+00:00"
         },
         {
             "name": "muffin/footprint",
@@ -3439,25 +3445,25 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v6.4.48",
+            "version": "v7.4.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "e3ff48b19ac71ee79f89021122211710b892ae0b"
+                "reference": "fd0e3462be6d32a0d130e8423e4940a7688162d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/e3ff48b19ac71ee79f89021122211710b892ae0b",
-                "reference": "e3ff48b19ac71ee79f89021122211710b892ae0b",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/fd0e3462be6d32a0d130e8423e4940a7688162d8",
+                "reference": "fd0e3462be6d32a0d130e8423e4940a7688162d8",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.1",
+                "php": ">=8.2",
                 "symfony/polyfill-ctype": "~1.8",
                 "symfony/polyfill-mbstring": "~1.8"
             },
             "require-dev": {
-                "symfony/process": "^5.4|^6.4|^7.0"
+                "symfony/process": "^6.4|^7.0|^8.0"
             },
             "type": "library",
             "autoload": {
@@ -3485,7 +3491,7 @@
             "description": "Provides basic utilities for the filesystem",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/filesystem/tree/v6.4.48"
+                "source": "https://github.com/symfony/filesystem/tree/v7.4.21"
             },
             "funding": [
                 {
@@ -3505,7 +3511,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-06T17:30:58+00:00"
+            "time": "2026-10-06T20:05:19+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -4015,22 +4021,23 @@
         },
         {
             "name": "symfony/string",
-            "version": "v6.4.48",
+            "version": "v7.4.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "9459a27a00b1f0fec1954e9eb362d00aedcfe048"
+                "reference": "9bc35d074ad16a58c21cd52b18c5cacc4f4c3981"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/9459a27a00b1f0fec1954e9eb362d00aedcfe048",
-                "reference": "9459a27a00b1f0fec1954e9eb362d00aedcfe048",
+                "url": "https://api.github.com/repos/symfony/string/zipball/9bc35d074ad16a58c21cd52b18c5cacc4f4c3981",
+                "reference": "9bc35d074ad16a58c21cd52b18c5cacc4f4c3981",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.1",
+                "php": ">=8.2",
+                "symfony/deprecation-contracts": "^2.5|^3.0",
                 "symfony/polyfill-ctype": "~1.8",
-                "symfony/polyfill-intl-grapheme": "~1.0",
+                "symfony/polyfill-intl-grapheme": "~1.33",
                 "symfony/polyfill-intl-normalizer": "~1.0",
                 "symfony/polyfill-mbstring": "~1.0"
             },
@@ -4038,10 +4045,11 @@
                 "symfony/translation-contracts": "<2.5"
             },
             "require-dev": {
-                "symfony/http-client": "^5.4|^6.0|^7.0",
-                "symfony/intl": "^6.2|^7.0",
+                "symfony/emoji": "^7.1|^8.0",
+                "symfony/http-client": "^6.4|^7.0|^8.0",
+                "symfony/intl": "^6.4|^7.0|^8.0",
                 "symfony/translation-contracts": "^2.5|^3.0",
-                "symfony/var-exporter": "^5.4|^6.0|^7.0"
+                "symfony/var-exporter": "^6.4|^7.0|^8.0"
             },
             "type": "library",
             "autoload": {
@@ -4080,7 +4088,7 @@
                 "utf8"
             ],
             "support": {
-                "source": "https://github.com/symfony/string/tree/v6.4.48"
+                "source": "https://github.com/symfony/string/tree/v7.4.21"
             },
             "funding": [
                 {
@@ -4100,7 +4108,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-03T14:51:46+00:00"
+            "time": "2026-10-03T15:15:30+00:00"
         }
     ],
     "packages-dev": [
@@ -5091,30 +5099,29 @@
         },
         {
             "name": "doctrine/instantiator",
-            "version": "2.0.0",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/instantiator.git",
-                "reference": "c6222283fa3f4ac679f8b9ced9a4e23f163e80d0"
+                "reference": "23da848e1a2308728fe5fdddabf4be17ff9720c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/c6222283fa3f4ac679f8b9ced9a4e23f163e80d0",
-                "reference": "c6222283fa3f4ac679f8b9ced9a4e23f163e80d0",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/23da848e1a2308728fe5fdddabf4be17ff9720c7",
+                "reference": "23da848e1a2308728fe5fdddabf4be17ff9720c7",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.1"
+                "php": "^8.4"
             },
             "require-dev": {
-                "doctrine/coding-standard": "^11",
+                "doctrine/coding-standard": "^14",
                 "ext-pdo": "*",
                 "ext-phar": "*",
                 "phpbench/phpbench": "^1.2",
-                "phpstan/phpstan": "^1.9.4",
-                "phpstan/phpstan-phpunit": "^1.3",
-                "phpunit/phpunit": "^9.5.27",
-                "vimeo/psalm": "^5.4"
+                "phpstan/phpstan": "^2.1",
+                "phpstan/phpstan-phpunit": "^2.0",
+                "phpunit/phpunit": "^10.5.58"
             },
             "type": "library",
             "autoload": {
@@ -5141,7 +5148,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/instantiator/issues",
-                "source": "https://github.com/doctrine/instantiator/tree/2.0.0"
+                "source": "https://github.com/doctrine/instantiator/tree/2.1.0"
             },
             "funding": [
                 {
@@ -5157,7 +5164,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-12-30T00:23:10+00:00"
+            "time": "2026-01-05T06:47:08+00:00"
         },
         {
             "name": "doctrine/sql-formatter",
@@ -7746,23 +7753,23 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v6.4.47",
+            "version": "v8.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "c8d1b2a09bb820175d1f2f9a3cf30303200b10a7"
+                "reference": "bd4fed193a3132c91c5c93595cbfc78988915822"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/c8d1b2a09bb820175d1f2f9a3cf30303200b10a7",
-                "reference": "c8d1b2a09bb820175d1f2f9a3cf30303200b10a7",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/bd4fed193a3132c91c5c93595cbfc78988915822",
+                "reference": "bd4fed193a3132c91c5c93595cbfc78988915822",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.1"
+                "php": ">=8.4.1"
             },
             "require-dev": {
-                "symfony/filesystem": "^6.0|^7.0"
+                "symfony/filesystem": "^7.4|^8.0"
             },
             "type": "library",
             "autoload": {
@@ -7790,7 +7797,7 @@
             "description": "Finds files and directories via an intuitive fluent interface",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/finder/tree/v6.4.47"
+                "source": "https://github.com/symfony/finder/tree/v8.1.8"
             },
             "funding": [
                 {
@@ -7810,7 +7817,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-09-25T09:03:59+00:00"
+            "time": "2026-09-26T06:33:49+00:00"
         },
         {
             "name": "symfony/polyfill-php73",
@@ -8054,20 +8061,20 @@
         },
         {
             "name": "symfony/process",
-            "version": "v6.4.48",
+            "version": "v8.1.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "2a0cb83994a4b8a5f92fc91b8b4527e6e227c6f5"
+                "reference": "59a682fd049b2d4d37c444f5ac21b7d01b8c7189"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/2a0cb83994a4b8a5f92fc91b8b4527e6e227c6f5",
-                "reference": "2a0cb83994a4b8a5f92fc91b8b4527e6e227c6f5",
+                "url": "https://api.github.com/repos/symfony/process/zipball/59a682fd049b2d4d37c444f5ac21b7d01b8c7189",
+                "reference": "59a682fd049b2d4d37c444f5ac21b7d01b8c7189",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.1"
+                "php": ">=8.4.1"
             },
             "type": "library",
             "autoload": {
@@ -8095,7 +8102,7 @@
             "description": "Executes commands in sub-processes",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/process/tree/v6.4.48"
+                "source": "https://github.com/symfony/process/tree/v8.1.9"
             },
             "funding": [
                 {
@@ -8115,7 +8122,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-08T05:06:07+00:00"
+            "time": "2026-10-08T16:57:43+00:00"
         },
         {
             "name": "theseer/tokenizer",
@@ -8442,12 +8449,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "arodu/cakelte": 20,
-        "arodu/cakelte-tools": 20,
-        "arodu/cakephp-admin-tools": 20,
-        "arodu/cakephp-modal-form": 20,
-        "arodu/cakephp-query-filter": 20,
-        "google/recaptcha": 0,
         "league/oauth2-facebook": 0,
         "league/oauth2-google": 0
     },

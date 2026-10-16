@@ -8,7 +8,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use QueryFilter\QueryFilterPlugin;
+use QueryFilter\QueryFilter;
 
 /**
  * Tenants Model
@@ -142,17 +142,17 @@ class TenantsTable extends Table
     {
         $this->addFilterField('name', [
             'tableField' => $this->aliasField('name'),
-            'finder' => QueryFilterPlugin::FINDER_SELECT,
+            'finder' => QueryFilter::FINDER_SELECT,
         ]);
 
         $this->addFilterField('program_id', [
             'tableField' => $this->aliasField('program_id'),
-            'finder' => QueryFilterPlugin::FINDER_SELECT,
+            'finder' => QueryFilter::FINDER_SELECT,
         ]);
 
         $this->addFilterField('active', [
             'tableField' => $this->aliasField('active'),
-            'finder' => QueryFilterPlugin::FINDER_SELECT,
+            'finder' => QueryFilter::FINDER_SELECT,
         ]);
     }
 }

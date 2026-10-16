@@ -21,7 +21,7 @@ use Cake\ORM\Table;
 use Cake\Utility\Hash;
 use Cake\Validation\Validator;
 use InvalidArgumentException;
-use QueryFilter\QueryFilterPlugin;
+use QueryFilter\QueryFilter;
 
 /**
  * Students Model
@@ -167,15 +167,15 @@ class StudentsTable extends Table
     {
         $this->addFilterField('tenant_id', [
             'tableField' => $this->aliasField('tenant_id'),
-            'finder' => QueryFilterPlugin::FINDER_SELECT,
+            'finder' => QueryFilter::FINDER_SELECT,
         ]);
         $this->addFilterField('dni', [
             'tableField' => $this->AppUsers->aliasField('dni'),
-            'finder' => QueryFilterPlugin::FINDER_EQUAL,
+            'finder' => QueryFilter::FINDER_EQUAL,
         ]);
         $this->addFilterField('names', [
             'tableField' => [$this->AppUsers->aliasField('first_name'), $this->AppUsers->aliasField('last_name')],
-            'finder' => QueryFilterPlugin::FINDER_STRING,
+            'finder' => QueryFilter::FINDER_STRING,
         ]);
         $this->addFilterField('stage', [
             'tableField' => 'stage',
