@@ -129,7 +129,7 @@ return static function (RouteBuilder $routes) {
             'server' => [
                 'source' => ROOT . DS . 'files',
                 'cache' => ROOT . DS . 'tmp' . DS . 'cache' . DS . 'glide',
-                'base_url' => '/uploads/',
+                'base_url' => env('APP_BASE', '') . '/uploads/',
                 'response' => null,
             ],
             'security' => [
