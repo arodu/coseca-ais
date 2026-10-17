@@ -7,6 +7,7 @@ use Cake\Command\Command;
 use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
+use Cake\Core\Configure;
 use Cake\ORM\Locator\LocatorAwareTrait;
 
 /**
@@ -76,12 +77,14 @@ class DemoValidateCommand extends Command
         $withArea = $this->fetchTable('InstitutionProjects')->find()->where(['interest_area_id IS' => null])->count();
         $add('proyectos con área (ratio)', ($projects - $withArea) / max($projects, 1), $targets['projects_with_interest_area_ratio']);
 
-        // Estados de adscripción
-        $byStatus = $this->groupCount('student_adscriptions', 'status');
-        $totalStatus = array_sum($byStatus) ?: 1;
-        foreach ($targets['adscription_status_ratio'] as $name => $ratio) {
-            $add("adscription {$name} (ratio)", ($byStatus[$name] ?? 0) / $totalStatus, $ratio);
-        }
+        // Coherencia: ninguna adscripción cerrada con horas por debajo del mínimo.
+        $hoursMin = (float)Configure::read('coseca.hours-min');
+        $closedBelowMin = $this->fetchTable('StudentAdscriptions')
+            ->find()
+            ->innerJoinWith('Students')
+            ->where(['StudentAdscriptions.status' => 'closed', 'Students.total_hours <' => $hoursMin])
+            ->count();
+        $add('closed con horas < min', $closedBelowMin, 0.0);
 
         // Seguimiento: horas
         $hours = $this->fetchTable('StudentTracking')
@@ -105,7 +108,7 @@ class DemoValidateCommand extends Command
             ->find()
             ->where(['type' => $doc['type'], 'model' => $doc['model']])
             ->count();
-        $add('documentos válidos (ratio)', $validDocuments / max($documents, 1), 1.0);
+        $add('documentos válidos (ratio)', $documents === 0 ? 1.0 : $validDocuments / $documents, 1.0);
 
         $io->helper('Table')->output(array_merge([['Métrica', 'Objetivo', 'Real', 'Estado']], $rows));
 

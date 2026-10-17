@@ -15,20 +15,17 @@ class TutorSeed extends DemoSeedBase
     public function run(): void
     {
         $targets = $this->profile()['targets'];
-        $lexicon = $this->data('people');
         $used = [];
+        $usedNames = [];
 
         foreach ($targets['tutors_per_tenant'] as $tenantId => $count) {
             for ($i = 0; $i < $count; $i++) {
-                $gender = $this->faker->boolean(60) ? 'm' : 'f';
-                $first = $this->faker->randomElement($lexicon[$gender === 'm' ? 'first_names_m' : 'first_names_f']);
-                $last = $this->faker->randomElement($lexicon['last_names']);
-                $name = $first . ' ' . $last;
+                [$first, $last, $name] = $this->uniqueName($usedNames);
 
                 $this->fetchTable('Tutors')->saveOrFail(
                     $this->fetchTable('Tutors')->newEntity([
                         'name' => $name,
-                        'dni' => (string)$this->faker->numberBetween(10000000, 33000000),
+                        'dni' => (string)$this->rng->intBetween(10000000, 33000000),
                         'phone' => $this->phone(),
                         'email' => $this->emailFor($first, $last, $used),
                         'tenant_id' => $tenantId,
@@ -36,6 +33,30 @@ class TutorSeed extends DemoSeedBase
                 );
             }
         }
+    }
+
+    /**
+     * Nombre y apellido únicos dentro del demo.
+     *
+     * @param array<string, bool> $usedNames Nombres ya usados (por referencia).
+     * @return array{0: string, 1: string, 2: string} [nombre, apellido, nombre completo]
+     */
+    private function uniqueName(array &$usedNames): array
+    {
+        for ($attempt = 0; $attempt < 50; $attempt++) {
+            $first = $this->firstName();
+            $last = $this->lastName();
+            $name = $first . ' ' . $last;
+            if (!isset($usedNames[$name])) {
+                $usedNames[$name] = true;
+
+                return [$first, $last, $name];
+            }
+        }
+
+        $usedNames[$name] = true;
+
+        return [$first, $last, $name];
     }
 
     /**
@@ -68,6 +89,6 @@ class TutorSeed extends DemoSeedBase
      */
     private function phone(): string
     {
-        return '04' . $this->faker->numerify('#########');
+        return '04' . $this->rng->digits(9);
     }
 }

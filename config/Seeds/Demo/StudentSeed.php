@@ -37,6 +37,7 @@ class StudentSeed extends DemoSeedBase
 
         $usedDni = [];
         $usedEmail = [];
+        $usedNames = [];
 
         foreach ($targets['students_per_tenant'] as $tenantId => $count) {
             $lapseId = (int)$this->fetchTable('Lapses')
@@ -47,7 +48,7 @@ class StudentSeed extends DemoSeedBase
                 ->id;
 
             for ($i = 0; $i < $count; $i++) {
-                $user = $this->createUser($tenantId, $lexicon, $usedDni, $usedEmail);
+                $user = $this->createUser($tenantId, $lexicon, $usedDni, $usedEmail, $usedNames);
                 $student = $this->fetchTable('Students')
                     ->find()
                     ->where(['user_id' => $user->id])
@@ -60,16 +61,16 @@ class StudentSeed extends DemoSeedBase
                     $this->fetchTable('StudentData')->newEntity([
                         'student_id' => $student->id,
                         'gender' => $this->weighted($targets['gender_ratio']),
-                        'phone' => '04' . $this->faker->numerify('#########'),
-                        'address' => $this->faker->randomElement($lexicon['addresses']),
+                        'phone' => '04' . $this->rng->digits(9),
+                        'address' => $this->rng->pick($lexicon['addresses']),
                         'current_semester' => (int)$this->weighted(
                             array_map(
                                 fn ($w) => $w * 100,
                                 $targets['semester']['weights'],
                             ),
                         ),
-                        'uc' => $this->faker->numberBetween($targets['uc']['min'], $targets['uc']['max']),
-                        'interest_area_id' => $this->faker->randomElement($areaIds),
+                        'uc' => $this->rng->intBetween($targets['uc']['min'], $targets['uc']['max']),
+                        'interest_area_id' => $this->rng->pick($areaIds),
                         'observations' => null,
                     ]),
                 );
@@ -84,19 +85,22 @@ class StudentSeed extends DemoSeedBase
      * @param array $lexicon Léxico de personas.
      * @param array<int, bool> $usedDni DNI usados (por referencia).
      * @param array<string, bool> $usedEmail Emails usados (por referencia).
+     * @param array<string, bool> $usedNames Nombres completos usados (por referencia).
      * @return \App\Model\Entity\AppUser
      */
-    private function createUser(int $tenantId, array $lexicon, array &$usedDni, array &$usedEmail): AppUser
+    private function createUser(int $tenantId, array $lexicon, array &$usedDni, array &$usedEmail, array &$usedNames): AppUser
     {
         do {
-            $dni = $this->faker->numberBetween(20000000, 33708425);
+            $dni = $this->rng->intBetween(20000000, 33708425);
         } while (isset($usedDni[$dni]));
         $usedDni[$dni] = true;
 
-        $first = $this->faker->randomElement(
-            $this->faker->boolean(78) ? $lexicon['first_names_m'] : $lexicon['first_names_f'],
-        );
-        $last = $this->faker->randomElement($lexicon['last_names']);
+        do {
+            $first = $this->rng->pick($this->rng->chance(78) ? $lexicon['first_names_m'] : $lexicon['first_names_f']);
+            $last = $this->rng->pick($lexicon['last_names']);
+            $fullName = $first . ' ' . $last;
+        } while (isset($usedNames[$fullName]));
+        $usedNames[$fullName] = true;
 
         $data = [
             'email' => $this->emailFor($first, $last, $usedEmail),
@@ -129,10 +133,10 @@ class StudentSeed extends DemoSeedBase
         $base = Text::slug(strtolower($first . '.' . $last), '');
         $domain = $this->weighted(['gmail.com' => 97, 'hotmail.com' => 2, 'unerg.edu.ve' => 1]);
 
-        $email = $base . $this->faker->numberBetween(1, 99) . '@' . $domain;
+        $email = $base . $this->rng->intBetween(1, 99) . '@' . $domain;
         $suffix = 1;
         while (isset($used[$email])) {
-            $email = $base . $this->faker->numberBetween(100, 9999) . $suffix++ . '@' . $domain;
+            $email = $base . $this->rng->intBetween(100, 9999) . $suffix++ . '@' . $domain;
         }
         $used[$email] = true;
 

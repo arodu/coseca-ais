@@ -7,8 +7,8 @@ use Cake\Command\Command;
 use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
+use Cake\I18n\FrozenDate;
 use Cake\ORM\Locator\LocatorAwareTrait;
-use Faker\Factory;
 
 /**
  * TrackingTest command.
@@ -53,7 +53,6 @@ class TrackingTestCommand extends Command
      */
     public function execute(Arguments $args, ConsoleIo $io)
     {
-        $faker = Factory::create();
         $adscriptionId = $args->getOption('adscription_id');
         $records = (int)$args->getOption('records') ?? 30;
 
@@ -62,9 +61,9 @@ class TrackingTestCommand extends Command
         for ($i = 0; $i < $records; $i++) {
             $tracking = $trackingTable->newEmptyEntity();
             $tracking->student_adscription_id = $adscriptionId;
-            $tracking->description = $faker->text(100);
-            $tracking->hours = $faker->numberBetween(1, 10);
-            $tracking->date = $faker->dateTimeBetween('-1 month', 'now');
+            $tracking->description = sprintf('Actividad de prueba %d para el seguimiento.', $i + 1);
+            $tracking->hours = random_int(4, 40) / 4;
+            $tracking->date = FrozenDate::now()->subDays(random_int(0, 30));
 
             $trackingTable->saveOrFail($tracking);
         }

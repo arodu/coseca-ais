@@ -33,6 +33,18 @@ class InstitutionSeed extends DemoSeedBase
         $used = [];
         $usedProjectNames = [];
 
+        // Cuántos proyectos tendrá cada institución (determinista) y bolsa global
+        // de "tiene área de interés", para acercarse a la proporción de la huella.
+        $range = $targets['projects_per_institution'];
+        $projectCounts = [];
+        foreach ($targets['institutions_per_tenant'] as $count) {
+            for ($i = 0; $i < $count; $i++) {
+                $projectCounts[] = $this->rng->intBetween($range['min'], $range['max']);
+            }
+        }
+        $areaBag = $this->areaBag(array_sum($projectCounts), $targets['projects_with_interest_area_ratio']);
+
+        $index = 0;
         foreach ($targets['institutions_per_tenant'] as $tenantId => $count) {
             for ($i = 0; $i < $count; $i++) {
                 $name = $this->institutionName($lexicon, $used);
@@ -41,8 +53,8 @@ class InstitutionSeed extends DemoSeedBase
                     $this->fetchTable('Institutions')->newEntity([
                         'name' => $name,
                         'active' => true,
-                        'contact_person' => $this->faker->firstName() . ' ' . $this->faker->lastName()
-                            . ' (' . $this->faker->randomElement($lexicon['contact_roles']) . ')',
+                        'contact_person' => $this->firstName() . ' ' . $this->lastName()
+                            . ' (' . $this->rng->pick($lexicon['contact_roles']) . ')',
                         'contact_phone' => $this->phone(),
                         'contact_email' => $this->emailFor($name),
                         'tenant_id' => $tenantId,
@@ -52,36 +64,63 @@ class InstitutionSeed extends DemoSeedBase
                     ]),
                 );
 
-                $this->projects($institution->id, $targets, $projectTemplates, $areaIds, $areaNameById, $usedProjectNames);
+                $this->projects(
+                    $institution->id,
+                    $projectCounts[$index++],
+                    $projectTemplates,
+                    $areaIds,
+                    $areaNameById,
+                    $usedProjectNames,
+                    $areaBag,
+                );
             }
         }
     }
 
     /**
-     * Crea los proyectos de una institución (~91% con `interest_area_id`).
+     * Bolsa global de booleanos "tiene área de interés" con la proporción
+     * objetivo, mezclada de forma determinista.
+     *
+     * @param int $total Cantidad de proyectos.
+     * @param float $ratio Proporción con área.
+     * @return array<int, bool>
+     */
+    private function areaBag(int $total, float $ratio): array
+    {
+        $withoutArea = (int)round($total * (1 - $ratio));
+        $bag = array_merge(
+            array_fill(0, max($total - $withoutArea, 0), true),
+            array_fill(0, $withoutArea, false),
+        );
+
+        return $this->rng->shuffle($bag);
+    }
+
+    /**
+     * Crea los proyectos de una institución, tomando de `$areaBag` si cada uno
+     * lleva `interest_area_id`.
      *
      * @param int $institutionId Institución.
-     * @param array $targets Targets del profile.
+     * @param int $count Cantidad de proyectos.
      * @param array $templates Plantillas por área.
      * @param array<int, int> $areaIds Ids de área válidos.
      * @param array<int, string> $areaNameById Mapa id => nombre.
      * @param array<string, bool> $usedProjectNames Nombres ya usados (por referencia).
+     * @param array<int, bool> $areaBag Bolsa "tiene área" (por referencia).
      * @return void
      */
     private function projects(
         int $institutionId,
-        array $targets,
+        int $count,
         array $templates,
         array $areaIds,
         array $areaNameById,
         array &$usedProjectNames,
+        array &$areaBag,
     ): void {
-        $range = $targets['projects_per_institution'];
-        $count = $this->faker->numberBetween($range['min'], $range['max']);
-
         for ($p = 0; $p < $count; $p++) {
-            $hasArea = $this->faker->randomFloat(4, 0, 1) <= $targets['projects_with_interest_area_ratio'];
-            $areaId = $hasArea ? $this->faker->randomElement($areaIds) : null;
+            $hasArea = (bool)array_pop($areaBag);
+            $areaId = $hasArea ? $this->rng->pick($areaIds) : null;
             $areaName = $areaId !== null ? $areaNameById[$areaId] : null;
 
             $this->fetchTable('InstitutionProjects')->saveOrFail(
@@ -113,7 +152,7 @@ class InstitutionSeed extends DemoSeedBase
         }
 
         if ($candidates === []) {
-            $base = $this->faker->randomElement($pool);
+            $base = $this->rng->pick($pool);
             $n = 2;
             $name = $base . ' (' . $n . ')';
             while (isset($used[$name])) {
@@ -125,7 +164,7 @@ class InstitutionSeed extends DemoSeedBase
             return $name;
         }
 
-        $name = $this->faker->randomElement($candidates);
+        $name = $this->rng->pick($candidates);
         $used[$name] = true;
 
         return $name;
@@ -141,10 +180,10 @@ class InstitutionSeed extends DemoSeedBase
     private function institutionName(array $lexicon, array &$used): string
     {
         for ($attempt = 0; $attempt < 30; $attempt++) {
-            $suffix = $this->faker->boolean(60)
-                ? $this->faker->randomElement($lexicon['eponyms'])
-                : $this->faker->randomElement($lexicon['toponyms']);
-            $name = $this->faker->randomElement($lexicon['prefixes']) . ' ' . $suffix;
+            $suffix = $this->rng->chance(60)
+                ? $this->rng->pick($lexicon['eponyms'])
+                : $this->rng->pick($lexicon['toponyms']);
+            $name = $this->rng->pick($lexicon['prefixes']) . ' ' . $suffix;
             if (!isset($used[$name])) {
                 $used[$name] = true;
 
@@ -179,7 +218,7 @@ class InstitutionSeed extends DemoSeedBase
             'id',
         );
 
-        $parish = $this->faker->randomElement($parishes);
+        $parish = $this->rng->pick($parishes);
 
         return [
             'state_id' => (int)$stateByMunicipality[$parish['municipality_id']],
@@ -195,7 +234,7 @@ class InstitutionSeed extends DemoSeedBase
      */
     private function phone(): string
     {
-        return '04' . $this->faker->numerify('#########');
+        return '04' . $this->rng->digits(9);
     }
 
     /**

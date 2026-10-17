@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Seeds;
 
+use Cake\Core\Configure;
 use Cake\Datasource\ConnectionManager;
 use Cake\I18n\FrozenDate;
 use Cake\ORM\Locator\LocatorAwareTrait;
@@ -184,10 +185,9 @@ class DemoSeedTest extends TestCase
      */
     public function testDocumentos(): void
     {
-        $documents = $this->fetchTable('StudentDocuments')->find()->all();
-        $this->assertGreaterThan(0, $documents->count());
+        $hoursMin = (float)Configure::read('coseca.hours-min');
 
-        foreach ($documents as $document) {
+        foreach ($this->fetchTable('StudentDocuments')->find()->all() as $document) {
             $this->assertSame('adscription_project', $document->type);
             $this->assertSame('StudentAdscriptions', $document->model);
             $this->assertTrue(
@@ -195,6 +195,14 @@ class DemoSeedTest extends TestCase
                 'foreign_key no referencia una adscripción existente',
             );
         }
+
+        // Regla de negocio: solo se cierra la adscripción con el mínimo de horas.
+        $closedBelowMin = $this->fetchTable('StudentAdscriptions')
+            ->find()
+            ->innerJoinWith('Students')
+            ->where(['StudentAdscriptions.status' => 'closed', 'Students.total_hours <' => $hoursMin])
+            ->count();
+        $this->assertSame(0, $closedBelowMin, 'Hay adscripciones cerradas con menos horas que el mínimo');
     }
 
     /**

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Cake\Core\Configure;
 use Cake\I18n\FrozenDate;
 use Cake\I18n\FrozenTime;
 
@@ -38,6 +39,18 @@ class WorkflowSeed extends DemoSeedBase
     ];
 
     /**
+     * Comentarios posibles del taller.
+     *
+     * @var array<int, string>
+     */
+    private const COMMENTS = [
+        'Aprobado según la evaluación del facilitador.',
+        'Cumplió con las actividades programadas del taller.',
+        'Participación destacada durante el taller.',
+        'Asistió y completó las prácticas del taller.',
+    ];
+
+    /**
      * @return void
      */
     public function run(): void
@@ -59,14 +72,11 @@ class WorkflowSeed extends DemoSeedBase
             ->all()
             ->toArray();
 
-        // Nivel de avance por estudiante (determinista) y bolsa de estados de
-        // adscripción, para que los ratios cuadren con la huella.
+        // Nivel de avance por estudiante (determinista).
         $levels = [];
         foreach ($students as $student) {
             $levels[] = (int)$this->weighted($this->levelWeights());
         }
-        $adscriptionCount = count(array_filter($levels, fn (int $level): bool => $level >= 2));
-        $statusBag = $this->shuffledStatuses($adscriptionCount, $targets['adscription_status_ratio']);
 
         foreach ($students as $index => $student) {
             $level = $levels[$index];
@@ -81,10 +91,10 @@ class WorkflowSeed extends DemoSeedBase
                     $student,
                     $level,
                     $windowStart,
+                    $targets,
                     $trackingTemplates,
                     $projectsByTenant[$student['tenant_id']] ?? [],
                     $tutorByProject,
-                    array_pop($statusBag),
                 );
             }
         }
@@ -131,28 +141,6 @@ class WorkflowSeed extends DemoSeedBase
     }
 
     /**
-     * Bolsa de estados de adscripción con la proporción objetivo (cuotas por
-     * redondeo), mezclada de forma determinista con el Faker sembrado.
-     *
-     * @param int $count Cantidad de adscripciones.
-     * @param array<string, float> $ratios Estado => proporción.
-     * @return array<int, string>
-     */
-    private function shuffledStatuses(int $count, array $ratios): array
-    {
-        $bag = [];
-        foreach ($ratios as $status => $ratio) {
-            $bag = array_merge($bag, array_fill(0, (int)round($count * $ratio), $status));
-        }
-        while (count($bag) < $count) {
-            $bag[] = (string)array_key_first($ratios);
-        }
-        $bag = array_slice($bag, 0, $count);
-
-        return $this->faker->shuffle($bag);
-    }
-
-    /**
      * Encadena las etapas hasta `$level` (success las pasadas, abierta la actual).
      *
      * @param array $student Fila de estudiante.
@@ -163,7 +151,7 @@ class WorkflowSeed extends DemoSeedBase
     private function stages(array $student, int $level, FrozenTime $windowStart): void
     {
         $StudentStages = $this->fetchTable('StudentStages');
-        $cursor = $windowStart->subDays($this->faker->numberBetween(0, 15));
+        $cursor = $windowStart->subDays($this->rng->intBetween(0, 15));
         $parentId = null;
 
         foreach (self::STAGES as $index => $stage) {
@@ -173,7 +161,7 @@ class WorkflowSeed extends DemoSeedBase
 
             $status = $index < $level ? 'success' : self::CURRENT_STATUS[$stage];
             $created = $cursor;
-            $modified = $index < $level ? $created->addDays($this->faker->numberBetween(10, 40)) : $created;
+            $modified = $index < $level ? $created->addDays($this->rng->intBetween(10, 40)) : $created;
 
             if ($stage === 'register') {
                 $entity = $StudentStages->find()
@@ -190,7 +178,7 @@ class WorkflowSeed extends DemoSeedBase
             $StudentStages->saveOrFail($entity);
 
             $parentId = $entity->id;
-            $cursor = $modified->addDays($this->faker->numberBetween(1, 10));
+            $cursor = $modified->addDays($this->rng->intBetween(1, 10));
         }
     }
 
@@ -209,9 +197,9 @@ class WorkflowSeed extends DemoSeedBase
             $this->fetchTable('StudentCourses')->saveOrFail(
                 $this->fetchTable('StudentCourses')->newEntity([
                     'student_id' => $student['id'],
-                    'date' => $windowStart->addDays($this->faker->numberBetween(20, 60)),
-                    'exonerated' => $this->faker->randomFloat(4, 0, 1) <= 0.01,
-                    'comment' => $this->faker->boolean(30) ? $this->faker->sentence(6) : null,
+                    'date' => $windowStart->addDays($this->rng->intBetween(20, 60)),
+                    'exonerated' => $this->rng->float(0, 1) <= 0.01,
+                    'comment' => $this->rng->chance(30) ? $this->rng->pick(self::COMMENTS) : null,
                 ]),
             );
         }
@@ -224,41 +212,41 @@ class WorkflowSeed extends DemoSeedBase
      * @param int $level Nivel de avance (para saber si llegó a seguimiento).
      * @param \Cake\I18n\FrozenTime $windowStart Inicio del lapso.
      * @param array $targets Targets del profile.
+     * @param array $targets Targets del profile.
      * @param array<int, string> $trackingTemplates Plantillas de seguimiento.
      * @param array<int, int> $projectIds Proyectos del tenant.
      * @param array<int, int> $tutorByProject Mapa institution_project_id => tutor_id.
-     * @param string $status Estado de la adscripción (de la bolsa por proporción).
      * @return void
      */
     private function adscriptions(
         array $student,
         int $level,
         FrozenTime $windowStart,
+        array $targets,
         array $trackingTemplates,
         array $projectIds,
         array $tutorByProject,
-        string $status,
     ): void {
         if ($projectIds === []) {
             return;
         }
 
         // El demo usa una única adscripción por estudiante, marcada como principal.
-        $projectId = $this->faker->randomElement($projectIds);
+        $projectId = $this->rng->pick($projectIds);
         $tutorId = $tutorByProject[$projectId] ?? null;
         if ($tutorId === null) {
             return;
         }
 
-        $created = $windowStart->addDays($this->faker->numberBetween(35, 90));
-        $modified = $created->addDays($this->faker->numberBetween(0, 60));
+        $created = $windowStart->addDays($this->rng->intBetween(35, 90));
+        $modified = $created->addDays($this->rng->intBetween(0, 60));
 
         $adscription = $this->fetchTable('StudentAdscriptions')->saveOrFail(
             $this->fetchTable('StudentAdscriptions')->newEntity([
                 'student_id' => $student['id'],
                 'institution_project_id' => $projectId,
                 'tutor_id' => $tutorId,
-                'status' => $status,
+                'status' => 'open',
                 'principal' => true,
             ]),
         );
@@ -267,11 +255,14 @@ class WorkflowSeed extends DemoSeedBase
             ['id' => $adscription->id],
         );
 
-        if ($level >= 3 && $status !== 'cancelled') {
-            $this->tracking($adscription->id, $student['id'], $created, $targets, $trackingTemplates);
+        // Solo se cierra la adscripción si el seguimiento acumula las horas mínimas.
+        $totalHours = 0.0;
+        if ($level >= 3) {
+            $totalHours = $this->tracking($adscription->id, $created, $targets, $trackingTemplates);
         }
 
-        if ($status === 'closed') {
+        if ($totalHours >= (float)Configure::read('coseca.hours-min')) {
+            $this->fetchTable('StudentAdscriptions')->updateAll(['status' => 'closed'], ['id' => $adscription->id]);
             $this->document($adscription, $student['id']);
         }
     }
@@ -280,34 +271,37 @@ class WorkflowSeed extends DemoSeedBase
      * Entradas de seguimiento de una adscripción.
      *
      * @param int $adscriptionId Adscripción.
-     * @param int $studentId Estudiante.
      * @param \Cake\I18n\FrozenTime $start Inicio de la adscripción.
      * @param array $targets Targets del profile.
      * @param array<int, string> $templates Plantillas de descripción.
-     * @return void
+     * @return float Total de horas registradas.
      */
     private function tracking(
         int $adscriptionId,
-        int $studentId,
         FrozenTime $start,
         array $targets,
         array $templates,
-    ): void {
+    ): float {
         $range = $targets['tracking_per_adscription'];
-        $count = $this->faker->numberBetween($range['min'], $range['max']);
+        $count = $this->rng->intBetween($range['min'], $range['max']);
         $cursor = $start;
+        $total = 0.0;
 
         for ($i = 0; $i < $count; $i++) {
-            $cursor = $cursor->addDays($this->faker->numberBetween(1, 7));
+            $cursor = $cursor->addDays($this->rng->intBetween(1, 7));
+            $hours = $this->hours($targets['tracking_hours']);
+            $total += $hours;
             $this->fetchTable('StudentTracking')->saveOrFail(
                 $this->fetchTable('StudentTracking')->newEntity([
                     'student_adscription_id' => $adscriptionId,
                     'date' => $cursor,
-                    'hours' => $this->hours($targets['tracking_hours']),
-                    'description' => $this->faker->randomElement($templates),
+                    'hours' => $hours,
+                    'description' => $this->rng->pick($templates),
                 ]),
             );
         }
+
+        return $total;
     }
 
     /**
@@ -320,7 +314,7 @@ class WorkflowSeed extends DemoSeedBase
      */
     private function hours(array $range): float
     {
-        $u = $this->faker->randomFloat(6, 0, 1);
+        $u = $this->rng->float(0, 1);
         $minQuarters = (int)round($range['min'] * 4);
         $maxQuarters = (int)round($range['max'] * 4);
         // Sesgo a la baja para acercarse a la media real, en bloques de 15 min.
@@ -344,7 +338,7 @@ class WorkflowSeed extends DemoSeedBase
             $this->fetchTable('StudentDocuments')->newEntity([
                 'student_id' => $studentId,
                 'type' => $document['type'],
-                'token' => $this->faker->uuid(),
+                'token' => $this->rng->uuid(),
                 'model' => $document['model'],
                 'foreign_key' => $adscription->id,
             ]),

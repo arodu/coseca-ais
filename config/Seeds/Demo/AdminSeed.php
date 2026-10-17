@@ -19,13 +19,13 @@ class AdminSeed extends DemoSeedBase
     public function run(): void
     {
         $users = [
-            $this->user('root@example.com', UserRole::ROOT, []),
-            $this->user('manager@example.com', UserRole::MANAGER, []),
-            $this->user('admin@example.com', UserRole::ADMIN, [1, 2, 3, 4]),
-            $this->user('sanjuan@example.com', UserRole::ADMIN, [1]),
-            $this->user('mellado@example.com', UserRole::ADMIN, [2]),
-            $this->user('ortiz@example.com', UserRole::ADMIN, [3]),
-            $this->user('calabozo@example.com', UserRole::ADMIN, [4]),
+            $this->user('root@example.com', 'Usuario', 'Root', UserRole::ROOT, []),
+            $this->user('manager@example.com', 'Usuario', 'Manager', UserRole::MANAGER, []),
+            $this->user('admin@example.com', 'Usuario', 'Admin', UserRole::MANAGER, [1, 2, 3, 4]),
+            $this->user('sanjuan@example.com', 'Demo', 'San Juan', UserRole::ADMIN, [1]),
+            $this->user('mellado@example.com', 'Demo', 'Mellado', UserRole::ADMIN, [2]),
+            $this->user('ortiz@example.com', 'Demo', 'Ortíz', UserRole::ADMIN, [3]),
+            $this->user('calabozo@example.com', 'Demo', 'Calabozo', UserRole::ADMIN, [4]),
         ];
 
         $this->fetchTable('AppUsers')->saveManyOrFail($users);
@@ -35,17 +35,19 @@ class AdminSeed extends DemoSeedBase
      * Construye un usuario de staff.
      *
      * @param string $email Email (y username).
+     * @param string $firstName Nombre visible.
+     * @param string $lastName Apellido visible.
      * @param \App\Model\Field\UserRole $role Rol.
      * @param array<int, int> $tenants Ids de tenant para `tenant_filters`.
      * @return \App\Model\Entity\AppUser
      */
-    private function user(string $email, UserRole $role, array $tenants): AppUser
+    private function user(string $email, string $firstName, string $lastName, UserRole $role, array $tenants): AppUser
     {
         $data = [
             'email' => $email,
             'password' => '1234',
-            'first_name' => $this->faker->firstName(),
-            'last_name' => $this->faker->lastName(),
+            'first_name' => $firstName,
+            'last_name' => $lastName,
             'role' => $role->value,
             'active' => true,
         ];

@@ -91,12 +91,8 @@ return [
 
         // student_adscriptions (demo: una única adscripción por estudiante)
         'adscriptions_per_student' => ['min' => 1, 'max' => 1, 'mean' => 1.0],
-        'adscription_status_ratio' => [
-            'closed' => 0.78,
-            'open' => 0.13,
-            'cancelled' => 0.07,
-            'pending' => 0.02,
-        ],
+        // El estado de la adscripción se deriva: `closed` solo si el seguimiento
+        // acumula >= coseca.hours-min (120 h); si no, `open`.
 
         // student_courses
         'courses_per_student' => ['min' => 1, 'max' => 3, 'mean' => 1.04],

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use Faker\Generator;
 use Migrations\AbstractSeed;
 
+require_once __DIR__ . '/Demo/Rng.php';
 require_once __DIR__ . '/Demo/DemoSeedBase.php';
 require_once __DIR__ . '/Demo/CatalogSeed.php';
 require_once __DIR__ . '/Demo/AdminSeed.php';
@@ -47,27 +47,26 @@ class DemoSeed extends AbstractSeed
         /** @var array $profile */
         $profile = require __DIR__ . '/Demo/data/profile.php';
 
-        $faker = \Faker\Factory::create('es_VE');
-        $faker->seed($profile['seed']);
+        $rng = new Rng((int)$profile['seed']);
 
         $this->call('InitialDataSeed');
 
         foreach (self::SEEDS as $class) {
-            $this->runSubSeed($class, $faker);
+            $this->runSubSeed($class, $rng);
         }
     }
 
     /**
-     * Ejecuta un sub-seed de `Demo/` inyectando Faker, adapter, input y output.
+     * Ejecuta un sub-seed de `Demo/` inyectando el RNG, adapter, input y output.
      *
      * @param class-string $class Sub-seed.
-     * @param \Faker\Generator $faker Generador determinista compartido.
+     * @param \Rng $rng Generador determinista compartido.
      * @return void
      */
-    private function runSubSeed(string $class, Generator $faker): void
+    private function runSubSeed(string $class, Rng $rng): void
     {
         $seed = new $class();
-        $seed->setFaker($faker);
+        $seed->setRng($rng);
         $seed->setOutput($this->getOutput());
         $seed->setAdapter($this->getAdapter());
         if ($this->input !== null) {

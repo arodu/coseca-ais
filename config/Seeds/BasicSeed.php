@@ -6,12 +6,9 @@ use App\Model\Entity\AppUser;
 use App\Model\Field\UserRole;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Migrations\AbstractSeed;
-use Faker\Factory;
 
 /**
- * @property \Faker\Generator $faker
- * 
- * Testing seed.
+ * Basic seed: catálogos base + un admin.
  */
 class BasicSeed extends AbstractSeed
 {
@@ -41,8 +38,6 @@ class BasicSeed extends AbstractSeed
 
         $this->AppUsers = $this->fetchTable('AppUsers');
 
-        //$this->faker = Factory::create('es_VE');
-        $this->faker = Factory::create();
         $this->createAdmins();
     }
 
@@ -51,8 +46,8 @@ class BasicSeed extends AbstractSeed
         $users[] = $this->setupUser([
             'email' => 'admin@example.com',
             'password' => '1234',
-            'first_name' => $this->faker->firstName(),
-            'last_name' => $this->faker->lastName(),
+            'first_name' => 'Admin',
+            'last_name' => 'Demo',
             'role' => UserRole::ADMIN->value,
             'active' => true,
             'tenant_filters' => [

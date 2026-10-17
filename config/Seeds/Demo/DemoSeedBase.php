@@ -3,33 +3,32 @@
 declare(strict_types=1);
 
 use Cake\ORM\Locator\LocatorAwareTrait;
-use Faker\Generator;
 use Migrations\AbstractSeed;
 
 /**
  * Base para los sub-seeds del demo (`config/Seeds/Demo/`).
  *
  * No son descubiertos por Phinx (glob no recursivo) ni autocargables; el
- * orquestador `DemoSeed` los carga con `require_once` y les inyecta el Faker
+ * orquestador `DemoSeed` los carga con `require_once` y les inyecta el `Rng`
  * (para determinismo) y el adapter (para `$this->table()`/`$this->execute()`).
  */
 abstract class DemoSeedBase extends AbstractSeed
 {
     use LocatorAwareTrait;
 
-    protected Generator $faker;
+    protected Rng $rng;
 
     private ?array $profile = null;
 
     /**
-     * Inyecta el generador Faker compartido (ya sembrado) por el orquestador.
+     * Inyecta el RNG compartido (ya sembrado) por el orquestador.
      *
-     * @param \Faker\Generator $faker Generador.
+     * @param \Rng $rng Generador.
      * @return void
      */
-    public function setFaker(Generator $faker): void
+    public function setRng(Rng $rng): void
     {
-        $this->faker = $faker;
+        $this->rng = $rng;
     }
 
     /**
@@ -62,7 +61,7 @@ abstract class DemoSeedBase extends AbstractSeed
     protected function weighted(array $weights): mixed
     {
         $total = array_sum($weights);
-        $roll = $this->faker->randomFloat(6, 0, $total);
+        $roll = $this->rng->float(0, (float)$total);
         $acc = 0.0;
         foreach ($weights as $value => $weight) {
             $acc += $weight;
@@ -72,5 +71,27 @@ abstract class DemoSeedBase extends AbstractSeed
         }
 
         return array_key_first($weights);
+    }
+
+    /**
+     * Nombre de pila verosímil.
+     *
+     * @return string
+     */
+    protected function firstName(): string
+    {
+        $people = $this->data('people');
+
+        return $this->rng->pick($this->rng->chance(60) ? $people['first_names_m'] : $people['first_names_f']);
+    }
+
+    /**
+     * Apellido verosímil.
+     *
+     * @return string
+     */
+    protected function lastName(): string
+    {
+        return $this->rng->pick($this->data('people')['last_names']);
     }
 }
