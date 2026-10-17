@@ -51,7 +51,7 @@ return [
         'encoding' => env('APP_ENCODING', 'UTF-8'),
         'defaultLocale' => env('APP_DEFAULT_LOCALE', 'es_VE'),
         'defaultTimezone' => env('APP_DEFAULT_TIMEZONE', 'America/Caracas'),
-        'base' => false,
+        'base' => env('APP_BASE', false),
         'dir' => 'src',
         'webroot' => 'webroot',
         'wwwRoot' => WWW_ROOT,
@@ -288,7 +288,7 @@ return [
     'Email' => [
         'default' => [
             'transport' => 'default',
-            'from' => [env('EMAIL_USERNAME', 'info@coseca.top') => 'COSECA'],
+            'from' => [env('EMAIL_FROM', env('EMAIL_USERNAME', 'info@coseca.top')) => 'COSECA'],
             /*
              * Will by default be set to config value of App.encoding, if that exists otherwise to UTF-8.
              */

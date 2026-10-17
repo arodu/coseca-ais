@@ -2,7 +2,7 @@
 
 ## Project
 
-COSECA AIS: CakePHP 4.5 app (PHP 8.1) tracking community-service (servicio comunitario)
+COSECA AIS: CakePHP 4.6 app (PHP 8.4) tracking community-service (servicio comunitario)
 workflow at UNERG. Spanish-language domain. MySQL 8.0. Runs via **DDEV** (Docker), docroot `webroot/`.
 
 ## Commands
@@ -13,7 +13,8 @@ All PHP/composer/cake commands run **inside the DDEV container** (`ddev ssh`, or
 - Install deps: `composer install` (post-install hook auto-runs `cache clear_all`, `backup_db`, migrations)
 - AdminLTE frontend assets: `bin/cake cakelte install` (copies to `webroot/adminlte`, gitignored)
 - Apply DB schema: `bin/cake migrations migrate`
-- Full reset + test data: `composer reset-factory-faker` (rollback all, migrate, seed `TestingSeed`)
+- Full reset + demo data: `composer reset-demo` (rollback all, migrate, seed `DemoSeed`)
+- Full reset (schema only): `composer reset-factory` (rollback all, migrate)
 - Tests: `composer test` (full phpunit). Single test / filter:
   `vendor/bin/phpunit tests/TestCase/Controller/Admin/StudentsControllerTest.php` or `--filter testName`
 - Lint: `composer cs-check` (phpcs); auto-fix `composer cs-fix`
@@ -22,7 +23,7 @@ All PHP/composer/cake commands run **inside the DDEV container** (`ddev ssh`, or
 
 ## CI
 
-`.github/workflows/ci.yml` runs on push to `main`/`develop`: PHP 8.1 + MySQL 8.0,
+`.github/workflows/ci.yml` runs on push to `main`/`develop`: PHP 8.4 + MySQL 8.0,
 then `vendor/bin/phpunit` and `composer cs-check`. PHPStan is present but commented out in CI.
 
 ## Testing notes

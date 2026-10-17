@@ -4,21 +4,70 @@
     "homepage": "https://cakephp.org",
     "type": "project",
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "laminas/laminas-diactoros",
+                "version": "2.26.0",
+                "type": "library",
+                "license": "BSD-3-Clause",
+                "dist": {
+                    "url": "https://api.github.com/repos/laminas/laminas-diactoros/zipball/6584d44eb8e477e89d453313b858daac6183cddc",
+                    "type": "zip"
+                },
+                "require": {
+                    "php": ">=8.0",
+                    "psr/http-factory": "^1.0",
+                    "psr/http-message": "^1.1"
+                },
+                "provide": {
+                    "psr/http-factory-implementation": "1.0",
+                    "psr/http-message-implementation": "1.0"
+                },
+                "autoload": {
+                    "files": [
+                        "src/functions/create_uploaded_file.php",
+                        "src/functions/marshal_headers_from_sapi.php",
+                        "src/functions/marshal_method_from_sapi.php",
+                        "src/functions/marshal_protocol_version_from_sapi.php",
+                        "src/functions/marshal_uri_from_sapi.php",
+                        "src/functions/normalize_server.php",
+                        "src/functions/normalize_uploaded_files.php",
+                        "src/functions/parse_cookie_header.php",
+                        "src/functions/create_uploaded_file.legacy.php",
+                        "src/functions/marshal_headers_from_sapi.legacy.php",
+                        "src/functions/marshal_method_from_sapi.legacy.php",
+                        "src/functions/marshal_protocol_version_from_sapi.legacy.php",
+                        "src/functions/marshal_uri_from_sapi.legacy.php",
+                        "src/functions/normalize_server.legacy.php",
+                        "src/functions/normalize_uploaded_files.legacy.php",
+                        "src/functions/parse_cookie_header.legacy.php"
+                    ],
+                    "psr-4": {
+                        "Laminas\\Diactoros\\": "src/"
+                    }
+                }
+            }
+        }
+    ],
     "require": {
-        "php": ">=8.1",
+        "php": ">=8.4",
+        "laminas/laminas-diactoros": "2.26.0",
         "admad/cakephp-glide": "^5.1",
-        "arodu/cakelte": "dev-2.next-cake4",
-        "arodu/cakelte-tools": "dev-develop",
-        "arodu/cakephp-admin-tools": "dev-1.next-cake4",
-        "arodu/cakephp-modal-form": "dev-main",
-        "arodu/cakephp-query-filter": "dev-develop",
+        "arodu/cakelte": "^1.2",
+        "arodu/cakelte-tools": "^1.0",
+        "arodu/cakephp-admin-tools": "^1.0",
+        "arodu/cakephp-modal-form": "^1.0",
+        "arodu/cakephp-query-filter": "^2.0",
         "cakedc/users": "^13.0",
         "cakephp/cakephp": "^4.5",
+        "cakephp/chronos": "^2.5.2",
         "cakephp/migrations": "^3.2",
         "cakephp/plugin-installer": "^2.0",
         "dompdf/dompdf": "^3.0",
         "friendsofcake/cakepdf": "^4.1",
-        "google/recaptcha": "@stable",
+        "google/recaptcha": "^1.3",
         "league/oauth2-facebook": "@stable",
         "league/oauth2-google": "@stable",
         "mobiledetect/mobiledetectlib": "^4.8",
@@ -30,7 +79,6 @@
         "cakephp/bake": "^2.6",
         "cakephp/cakephp-codesniffer": "^4.4",
         "cakephp/debug_kit": "^4.5",
-        "fakerphp/faker": "^1.20",
         "josegonzalez/dotenv": "^4.0",
         "phpstan/phpstan": "^1.10",
         "phpunit/phpunit": "^9.6",
@@ -76,8 +124,9 @@
         "stan": "phpstan analyse",
         "test": "phpunit --colors=always",
         "test-coverage": "XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-html webroot/coverage --colors=always",
+        "test:coverage": "XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-text --coverage-html webroot/coverage --colors=always",
         "reset-factory": "bin/cake migrations rollback -t 0; bin/cake migrations migrate",
-        "reset-factory-faker": "bin/cake migrations rollback -t 0; bin/cake migrations migrate; bin/cake migrations seed --seed TestingSeed"
+        "reset-demo": "bin/cake migrations rollback -t 0; bin/cake migrations migrate; bin/cake migrations seed --seed DemoSeed; bin/cake demo_validate"
     },
     "prefer-stable": true,
     "config": {

@@ -6,7 +6,7 @@ namespace App\Model\Table;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use QueryFilter\QueryFilterPlugin;
+use QueryFilter\QueryFilter;
 
 /**
  * Institutions Model
@@ -125,15 +125,15 @@ class InstitutionsTable extends Table
     {
         $this->addFilterField('tenant_id', [
             'tableField' => $this->aliasField('tenant_id'),
-            'finder' => QueryFilterPlugin::FINDER_SELECT,
+            'finder' => QueryFilter::FINDER_SELECT,
         ]);
         $this->addFilterField('contact_person', [
             'tableField' => $this->aliasField('contact_person'),
-            'finder' => QueryFilterPlugin::FINDER_STRING,
+            'finder' => QueryFilter::FINDER_STRING,
         ]);
         $this->addFilterField('name', [
             'tableField' => $this->aliasField('name'),
-            'finder' => QueryFilterPlugin::FINDER_STRING,
+            'finder' => QueryFilter::FINDER_STRING,
         ]);
     }
 

@@ -20,7 +20,7 @@ return [
     'debug' => filter_var(env('DEBUG', false), FILTER_VALIDATE_BOOLEAN),
 
     'App' => [
-        'base' => false,
+        'base' => env('APP_BASE', false),
     ],
 
     /*
@@ -68,6 +68,7 @@ return [
             'username' => env('EMAIL_USERNAME'),
             'password' => env('EMAIL_PASSWORD'),
             'client' => null,
+            'tls' => filter_var(env('EMAIL_TLS', false), FILTER_VALIDATE_BOOLEAN),
         ],
     ],
 ];

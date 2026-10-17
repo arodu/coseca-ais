@@ -6,7 +6,7 @@ namespace App\Model\Table;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use QueryFilter\QueryFilterPlugin;
+use QueryFilter\QueryFilter;
 
 /**
  * Tutors Model
@@ -104,15 +104,15 @@ class TutorsTable extends Table
     {
         $this->addFilterField('tenant_id', [
             'tableField' => $this->aliasField('tenant_id'),
-            'finder' => QueryFilterPlugin::FINDER_SELECT,
+            'finder' => QueryFilter::FINDER_SELECT,
         ]);
         $this->addFilterField('dni', [
             'tableField' => $this->aliasField('dni'),
-            'finder' => QueryFilterPlugin::FINDER_EQUAL,
+            'finder' => QueryFilter::FINDER_EQUAL,
         ]);
         $this->addFilterField('name', [
             'tableField' => $this->aliasField('name'),
-            'finder' => QueryFilterPlugin::FINDER_STRING,
+            'finder' => QueryFilter::FINDER_STRING,
         ]);
     }
 
