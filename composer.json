@@ -127,7 +127,7 @@
         "test-coverage": "XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-html webroot/coverage --colors=always",
         "test:coverage": "XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-text --coverage-html webroot/coverage --colors=always",
         "reset-factory": "bin/cake migrations rollback -t 0; bin/cake migrations migrate",
-        "reset-factory-faker": "bin/cake migrations rollback -t 0; bin/cake migrations migrate; bin/cake migrations seed --seed TestingSeed"
+        "reset-demo": "bin/cake migrations rollback -t 0; bin/cake migrations migrate; bin/cake migrations seed --seed DemoSeed"
     },
     "prefer-stable": true,
     "config": {

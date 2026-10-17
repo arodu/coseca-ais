@@ -84,6 +84,12 @@ La emisión de documentos se realiza en formatos PDF:
 | 008     | Seguimiento y adscripción        | Adscripción principal con datos de institución |
 | 009     | Conclusión                       | Etapa de Conclusión                            |
 
+La emisión de **007** y **008** requiere que la etapa de Seguimiento esté en
+`review` o `success` (cerrada) y que el estudiante no tenga adscripciones
+abiertas; ver `StudentStagePolicy::canPrint()`
+(`src/Policy/StudentStagePolicy.php:163`). Por eso no se activan mientras el
+seguimiento esté en curso.
+
 ## Relaciones con otros dominios
 
 | Dominio     | Relación                                                      |

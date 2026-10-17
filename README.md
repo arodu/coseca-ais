@@ -101,21 +101,25 @@ se versiona. Tome como base `config/app_local.example.php`.
 - **Correo**: en desarrollo, los mensajes se capturan localmente con Mailpit en
   `https://coseca-ais.ddev.site:8026`; no se envían a Internet.
 
-## Datos de prueba
+## Datos de demo
 
-El seed `TestingSeed` genera un conjunto completo de datos para desarrollo
-(ubicaciones, instituciones, tutores y estudiantes):
+El seed `DemoSeed` genera un conjunto realista y coherente de datos para
+desarrollo y demostración: catálogos, instituciones y proyectos, tutores, 60
+estudiantes y el workflow completo (adscripciones, etapas, seguimiento y
+documentos), con nombres verosímiles y fechas relativas a hoy:
 
 ```bash
-composer reset-factory-faker
+composer reset-demo
 ```
 
 > [!NOTE]
-> `reset-factory-faker` elimina los datos existentes, aplica las migraciones y
-> carga los datos de prueba. Úselo solo en entornos de desarrollo.
+> `reset-demo` elimina los datos existentes, aplica las migraciones y carga los
+> datos de demo. Es determinista: cada corrida produce el mismo dataset. Úselo
+> solo en entornos de desarrollo.
 
 Los usuarios de prueba (contraseña `1234`) incluyen `root@example.com`,
-`manager@example.com` y administradores por cada ubicación.
+`manager@example.com`, `admin@example.com` (ve los 4 tenants) y administradores
+por cada ubicación.
 
 ## Desarrollo
 

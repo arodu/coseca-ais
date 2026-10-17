@@ -13,7 +13,8 @@ All PHP/composer/cake commands run **inside the DDEV container** (`ddev ssh`, or
 - Install deps: `composer install` (post-install hook auto-runs `cache clear_all`, `backup_db`, migrations)
 - AdminLTE frontend assets: `bin/cake cakelte install` (copies to `webroot/adminlte`, gitignored)
 - Apply DB schema: `bin/cake migrations migrate`
-- Full reset + test data: `composer reset-factory-faker` (rollback all, migrate, seed `TestingSeed`)
+- Full reset + demo data: `composer reset-demo` (rollback all, migrate, seed `DemoSeed`)
+- Full reset (schema only): `composer reset-factory` (rollback all, migrate)
 - Tests: `composer test` (full phpunit). Single test / filter:
   `vendor/bin/phpunit tests/TestCase/Controller/Admin/StudentsControllerTest.php` or `--filter testName`
 - Lint: `composer cs-check` (phpcs); auto-fix `composer cs-fix`
