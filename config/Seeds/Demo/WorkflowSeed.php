@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use Cake\Core\Configure;
-use Cake\I18n\FrozenDate;
 use Cake\I18n\FrozenTime;
 
 /**
@@ -51,13 +50,22 @@ class WorkflowSeed extends DemoSeedBase
     ];
 
     /**
+     * Anclas temporales del demo, relativas a la fecha de ejecución.
+     */
+    private FrozenTime $registerDate;
+    private FrozenTime $courseDate;
+    private FrozenTime $adscriptionDate;
+    private FrozenTime $trackingEnd;
+    private FrozenTime $expoferiaDate;
+
+    /**
      * @return void
      */
     public function run(): void
     {
+        $this->initTimeline();
         $this->lapseDates();
 
-        $windowStart = FrozenTime::now()->subMonths(10)->startOfMonth();
         $targets = $this->profile()['targets'];
         $trackingTemplates = array_merge(...array_values($this->data('tracking')));
 
@@ -80,17 +88,16 @@ class WorkflowSeed extends DemoSeedBase
 
         foreach ($students as $index => $student) {
             $level = $levels[$index];
-            $this->stages($student, $level, $windowStart);
+            $this->stages($student, $level);
 
             if ($level >= 1) {
-                $this->courses($student, $windowStart);
+                $this->courses($student);
             }
 
             if ($level >= 2) {
                 $this->adscriptions(
                     $student,
                     $level,
-                    $windowStart,
                     $targets,
                     $trackingTemplates,
                     $projectsByTenant[$student['tenant_id']] ?? [],
@@ -98,6 +105,24 @@ class WorkflowSeed extends DemoSeedBase
                 );
             }
         }
+    }
+
+    /**
+     * Ancla la línea temporal del demo a la fecha de ejecución. El seguimiento
+     * dura 12 semanas (8 atrás, 4 adelante) para quedar en curso; el taller una
+     * semana antes de su inicio, el registro unos días antes del taller, y la
+     * expoferia una semana después del fin del seguimiento.
+     *
+     * @return void
+     */
+    private function initTimeline(): void
+    {
+        $today = FrozenTime::now();
+        $this->adscriptionDate = $today->subWeeks(8);
+        $this->trackingEnd = $today->addWeeks(4);
+        $this->courseDate = $this->adscriptionDate->subWeeks(1);
+        $this->registerDate = $this->courseDate->subDays(10);
+        $this->expoferiaDate = $this->trackingEnd->addWeeks(1);
     }
 
     /**
@@ -109,12 +134,19 @@ class WorkflowSeed extends DemoSeedBase
     private function lapseDates(): void
     {
         $LapseDates = $this->fetchTable('LapseDates');
-        $base = FrozenDate::now()->subMonths(10)->startOfMonth();
+
+        $windows = [
+            'register' => [$this->registerDate->subDays(5), $this->courseDate->subDays(1)],
+            'course' => [$this->courseDate, $this->courseDate],
+            'tracking' => [$this->adscriptionDate, $this->trackingEnd],
+            'ending' => [$this->expoferiaDate, $this->expoferiaDate],
+        ];
 
         foreach ($this->fetchTable('Lapses')->find() as $lapse) {
-            foreach ($LapseDates->defaultDatesEntities($lapse->id) as $index => $date) {
-                $date->set('start_date', $base->addDays($index * 20));
-                $date->set('end_date', $base->addDays($index * 20 + 15));
+            foreach ($LapseDates->defaultDatesEntities($lapse->id) as $date) {
+                [$start, $end] = $windows[$date->stage];
+                $date->set('start_date', $start);
+                $date->set('end_date', $end);
                 $LapseDates->saveOrFail($date);
             }
         }
@@ -145,13 +177,19 @@ class WorkflowSeed extends DemoSeedBase
      *
      * @param array $student Fila de estudiante.
      * @param int $level Cantidad de etapas cerradas en `success`.
-     * @param \Cake\I18n\FrozenTime $windowStart Inicio del lapso.
      * @return void
      */
-    private function stages(array $student, int $level, FrozenTime $windowStart): void
+    private function stages(array $student, int $level): void
     {
         $StudentStages = $this->fetchTable('StudentStages');
-        $cursor = $windowStart->subDays($this->rng->intBetween(0, 15));
+        $anchors = [
+            'register' => $this->registerDate,
+            'course' => $this->courseDate,
+            'adscription' => $this->adscriptionDate,
+            'tracking' => $this->adscriptionDate,
+            'results' => $this->trackingEnd,
+            'ending' => $this->expoferiaDate,
+        ];
         $parentId = null;
 
         foreach (self::STAGES as $index => $stage) {
@@ -160,8 +198,8 @@ class WorkflowSeed extends DemoSeedBase
             }
 
             $status = $index < $level ? 'success' : self::CURRENT_STATUS[$stage];
-            $created = $cursor;
-            $modified = $index < $level ? $created->addDays($this->rng->intBetween(10, 40)) : $created;
+            $created = $anchors[$stage]->addDays($this->rng->intBetween(-3, 3));
+            $modified = $index < $level ? $created->addDays($this->rng->intBetween(3, 10)) : $created;
 
             if ($stage === 'register') {
                 $entity = $StudentStages->find()
@@ -178,7 +216,6 @@ class WorkflowSeed extends DemoSeedBase
             $StudentStages->saveOrFail($entity);
 
             $parentId = $entity->id;
-            $cursor = $modified->addDays($this->rng->intBetween(1, 10));
         }
     }
 
@@ -186,10 +223,9 @@ class WorkflowSeed extends DemoSeedBase
      * Cursos (taller) del estudiante.
      *
      * @param array $student Fila de estudiante.
-     * @param \Cake\I18n\FrozenTime $windowStart Inicio del lapso.
      * @return void
      */
-    private function courses(array $student, FrozenTime $windowStart): void
+    private function courses(array $student): void
     {
         $count = (int)$this->weighted([1 => 96, 2 => 4]);
 
@@ -197,7 +233,7 @@ class WorkflowSeed extends DemoSeedBase
             $this->fetchTable('StudentCourses')->saveOrFail(
                 $this->fetchTable('StudentCourses')->newEntity([
                     'student_id' => $student['id'],
-                    'date' => $windowStart->addDays($this->rng->intBetween(20, 60)),
+                    'date' => $this->courseDate->addDays($this->rng->intBetween(-3, 3)),
                     'exonerated' => $this->rng->float(0, 1) <= 0.01,
                     'comment' => $this->rng->chance(30) ? $this->rng->pick(self::COMMENTS) : null,
                 ]),
@@ -210,8 +246,6 @@ class WorkflowSeed extends DemoSeedBase
      *
      * @param array $student Fila de estudiante.
      * @param int $level Nivel de avance (para saber si llegó a seguimiento).
-     * @param \Cake\I18n\FrozenTime $windowStart Inicio del lapso.
-     * @param array $targets Targets del profile.
      * @param array $targets Targets del profile.
      * @param array<int, string> $trackingTemplates Plantillas de seguimiento.
      * @param array<int, int> $projectIds Proyectos del tenant.
@@ -221,7 +255,6 @@ class WorkflowSeed extends DemoSeedBase
     private function adscriptions(
         array $student,
         int $level,
-        FrozenTime $windowStart,
         array $targets,
         array $trackingTemplates,
         array $projectIds,
@@ -238,8 +271,8 @@ class WorkflowSeed extends DemoSeedBase
             return;
         }
 
-        $created = $windowStart->addDays($this->rng->intBetween(35, 90));
-        $modified = $created->addDays($this->rng->intBetween(0, 60));
+        $created = $this->adscriptionDate->addDays($this->rng->intBetween(-3, 3));
+        $modified = $created->addDays($this->rng->intBetween(0, 10));
 
         $adscription = $this->fetchTable('StudentAdscriptions')->saveOrFail(
             $this->fetchTable('StudentAdscriptions')->newEntity([
@@ -258,7 +291,7 @@ class WorkflowSeed extends DemoSeedBase
         // Solo se cierra la adscripción si el seguimiento acumula las horas mínimas.
         $totalHours = 0.0;
         if ($level >= 3) {
-            $totalHours = $this->tracking($adscription->id, $created, $targets, $trackingTemplates);
+            $totalHours = $this->tracking($adscription->id, $trackingTemplates, $targets['tracking_hours']);
         }
 
         if ($totalHours >= (float)Configure::read('coseca.hours-min')) {
@@ -268,28 +301,23 @@ class WorkflowSeed extends DemoSeedBase
     }
 
     /**
-     * Entradas de seguimiento de una adscripción.
+     * Entradas de seguimiento de una adscripción, repartidas desde el inicio del
+     * seguimiento hasta hoy (~8 semanas), dentro de la ventana del lapso.
      *
      * @param int $adscriptionId Adscripción.
-     * @param \Cake\I18n\FrozenTime $start Inicio de la adscripción.
-     * @param array $targets Targets del profile.
      * @param array<int, string> $templates Plantillas de descripción.
+     * @param array $hoursRange Rango de horas ['min' => float, 'max' => float].
      * @return float Total de horas registradas.
      */
-    private function tracking(
-        int $adscriptionId,
-        FrozenTime $start,
-        array $targets,
-        array $templates,
-    ): float {
-        $range = $targets['tracking_per_adscription'];
-        $count = $this->rng->intBetween($range['min'], $range['max']);
-        $cursor = $start;
+    private function tracking(int $adscriptionId, array $templates, array $hoursRange): float
+    {
+        $cursor = $this->adscriptionDate->addDays($this->rng->intBetween(0, 5));
+        $today = FrozenTime::now();
         $total = 0.0;
+        $guard = 0;
 
-        for ($i = 0; $i < $count; $i++) {
-            $cursor = $cursor->addDays($this->rng->intBetween(1, 7));
-            $hours = $this->hours($targets['tracking_hours']);
+        while ($cursor <= $today && $guard < 60) {
+            $hours = $this->hours($hoursRange);
             $total += $hours;
             $this->fetchTable('StudentTracking')->saveOrFail(
                 $this->fetchTable('StudentTracking')->newEntity([
@@ -299,6 +327,8 @@ class WorkflowSeed extends DemoSeedBase
                     'description' => $this->rng->pick($templates),
                 ]),
             );
+            $cursor = $cursor->addDays($this->rng->intBetween(1, 7));
+            $guard++;
         }
 
         return $total;

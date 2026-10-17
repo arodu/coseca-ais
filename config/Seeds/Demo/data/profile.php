@@ -100,7 +100,6 @@ return [
 
         // student_tracking
         'tracking_hours' => ['min' => 0.25, 'max' => 12, 'mean' => 4.66, 'step' => 0.25],
-        'tracking_per_adscription' => ['min' => 1, 'max' => 25, 'mean' => 8],
         'tracking_description_length' => ['min' => 40, 'max' => 180, 'mean' => 84],
 
         // Funnel del demo: se detiene en Seguimiento `in-progress`. No hay

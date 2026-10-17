@@ -113,9 +113,10 @@ composer reset-demo
 ```
 
 > [!NOTE]
-> `reset-demo` elimina los datos existentes, aplica las migraciones y carga los
-> datos de demo. Es determinista: cada corrida produce el mismo dataset. Úselo
-> solo en entornos de desarrollo.
+> `reset-demo` elimina los datos existentes, aplica las migraciones, carga los
+> datos de demo y al final los valida con `bin/cake demo_validate` (falla si
+> alguna métrica queda fuera de tolerancia). Es determinista: cada corrida
+> produce el mismo dataset. Úselo solo en entornos de desarrollo.
 
 Los usuarios de prueba (contraseña `1234`) incluyen `root@example.com`,
 `manager@example.com`, `admin@example.com` (ve los 4 tenants) y administradores
